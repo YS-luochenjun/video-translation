@@ -1,0 +1,79 @@
+{
+  "actual_raw_audio_sha256": "9945e3c47ce703c21d8a4d70d70681ee3552b495a99a795e8a28c80cd81896f8",
+  "excerpt_sha256": "1ea6309c407c8364564eb9325ae47cf54acc65171ada680a58c1ef72f99f275e",
+  "asr_sha256": "4c2ff608d6edb783ebad33761bab85e47b71c02a57e44ad49e176cb42f54245a",
+  "actual_asr_segments": [
+    {
+      "start": 0.0,
+      "end": 0.52,
+      "text": " se-ye-di-re?",
+      "avg_logprob": -1.389014720916748,
+      "no_speech_prob": 0.5479767322540283,
+      "words": [
+        {
+          "text": " se",
+          "start": 0.0,
+          "end": 0.12,
+          "probability": 0.004938107915222645
+        },
+        {
+          "text": "-ye",
+          "start": 0.12,
+          "end": 0.28,
+          "probability": 0.1656259372830391
+        },
+        {
+          "text": "-di",
+          "start": 0.28,
+          "end": 0.42,
+          "probability": 0.3318052142858505
+        },
+        {
+          "text": "-re?",
+          "start": 0.42,
+          "end": 0.52,
+          "probability": 0.664323091506958
+        }
+      ]
+    }
+  ],
+  "candidate_audio_review": {
+    "candidate_sha256": "21fba56c46c2f96ef447d55f5d16762451304e4ded0d32f17660bca4a221e7a8",
+    "review_path": "review/21fba56c46c2/audio-model-review.json",
+    "review_sha256": "e9563699a47e1f2b6247541a2bc89ab50ac958bdd3782a7ee5713485b38602b1",
+    "rows": [
+      {
+        "speech_id": "p021",
+        "observed_model_transcription": {
+          "start": 42.4,
+          "end": 43.4,
+          "source_text": "걔 얘기를?"
+        },
+        "decision": "resolved_by_actual_audio_model",
+        "boundary": "Whisper mismatch remains in original evidence; Gemini transcription and actual source/candidate comparison support the intended utterance. No direct human/native listening claimed."
+      },
+      {
+        "speech_id": "p023",
+        "observed_model_transcription": {
+          "start": 45.8,
+          "end": 47.7,
+          "source_text": "그 애한테서 떨어져."
+        },
+        "decision": "resolved_by_actual_audio_model",
+        "boundary": "Whisper mismatch remains in original evidence; Gemini transcription and actual source/candidate comparison support the intended utterance. No direct human/native listening claimed."
+      },
+      {
+        "speech_id": "p027",
+        "observed_model_transcription": {
+          "start": 52.6,
+          "end": 54.0,
+          "source_text": "그 애한테서 떨어져."
+        },
+        "decision": "resolved_by_actual_audio_model",
+        "boundary": "Whisper mismatch remains in original evidence; Gemini transcription and actual source/candidate comparison support the intended utterance. No direct human/native listening claimed."
+      }
+    ],
+    "semantic_review": "resolved by external actual-audio perception, not expected text matching"
+  },
+  "boundary": "Actual ASR mismatch retained; excerpt is a real TTS recording, not reconstructed text-to-audio."
+}

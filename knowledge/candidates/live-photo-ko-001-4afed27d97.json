@@ -1,0 +1,25 @@
+{
+  "id": "live-photo-ko-001-4afed27d97",
+  "status": "candidate",
+  "created_at": "2026-10-19T09:29:23+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ko-KR"
+  },
+  "outcome": "revise",
+  "hypothesis": "Check clean-master pixels as well as label bounds: inpaint can drag a bright dropdown icon into text background. Separate source-neutral repairs from per-language glyphs.",
+  "evidence": {
+    "run": "live-photo-ko-001",
+    "video_sha256": "4afed27d97111705b67042cf484a600be9404ef6ac1d92e4dff2c6f2d0a94fd5",
+    "quality_sha256": "470bc8b7658b308a9b0498033e40a53dd3a0b84abd4b3efa925a2e1a0bb4f044"
+  },
+  "limitations": [
+    "Same-agent sampled review, not independent full playback.",
+    "Original background stem may attenuate musical vocal samples under narration.",
+    "Target language acceptance by user/native reviewer not supplied."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "0a626ae8770924a2d9fc54f3ebd4703d2a98d9398b98809d26afa78d2890b405"
+}

@@ -1,0 +1,121 @@
+{
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "target_language": "zh-CN",
+  "alpha_channel": true,
+  "texts": {
+    "t001": "想试试这款手势互换\n方块故障滤镜吗？",
+    "t002": "免费教程",
+    "t003": "手动追踪滤镜·模板",
+    "t004": "制作方法",
+    "t005": "手动追踪",
+    "t006": "手势故障特效教程：",
+    "t007": "免费教程",
+    "t008": "使用模板",
+    "t009": "使用模板",
+    "t010": "95.86万次使用",
+    "t011": "潮流｜潮流",
+    "t012": "最近项目",
+    "t013": "全部",
+    "t014": "视频",
+    "t015": "照片",
+    "t016": "实况照片",
+    "t017": "已选1项",
+    "t018": "下一步",
+    "t019": "点击下方",
+    "t024": "滤镜，只需10…",
+    "t025": "免费教程",
+    "t026": "免费教程",
+    "t027": "免费教程",
+    "t028": "免费教程",
+    "t029": "免费教程",
+    "t030": "免费教程",
+    "t031": "选择1项",
+    "t021": "手势翻转棱镜特效怎么做？其实很简单，跟我一起学！",
+    "t022": "点击下方，上传照片，",
+    "t032": "马上试试！"
+  },
+  "instance_bindings": {
+    "t001": "5027262c238034e8f3addb930753bf7a778b7d18d72f93529aea714585512888",
+    "t002": "acdbe3a2f0c46dfc64decd89c70fb2073a6bd1c033a216d42f2fa87184cfae81",
+    "t003": "8f80a7e3888f184117c4cb84945868eff6725ce98efeb60bd47036a37b64e7b7",
+    "t004": "711112f7703237e67687e699f56c11df474fd68c0714525b6392c5cfdebb22ba",
+    "t005": "1ec1d69f6d549ed7b0ead45ed36660e532e43ab07332a051008b103e066507d8",
+    "t006": "25aa0527e567386a9ddc9896b36d2e2d67f274c84a72c4328931ba0be72aca30",
+    "t007": "3da14ebdde6922a18b758023b85f82bd54489ff418e3fba4fe1162c4414fcb2f",
+    "t008": "d587efceb87928a577f199ecc4f7663cb2695e439aa6fe6c8a9be4c4b85e3b3a",
+    "t009": "36cc4b5bdb786a76d4b9e27dc81b903e2c44e64b3ce4810fa0a3a041fdd68b9b",
+    "t010": "f49791516e266ffaef91f08e2cb8a4dbef02c898004557d0b0a87259efb45054",
+    "t011": "878cfa2e66ab6d8f912aa78f95d522e1a6f481006fd5e0b2f4d3317a9d9eec0f",
+    "t012": "9ea76b2e2d487aef7eb7faa015e369e14b51b4093bbbdf34637340c769c10eb1",
+    "t013": "ba1250270aecf113042d7bda08677b977e2f7b5c4789ea435e0fa989ba2cc635",
+    "t014": "78afc88859a5e9f0b18014011bfea12685450c6ba287ae0e97d8e3b59e6f6a8d",
+    "t015": "f204bcb1ba0b1d09223efe45e06ca09e48fcb74b6cf848c743da020e70be7491",
+    "t016": "028181edfbb0608919a3a8ee6345926eecac9e8d5d481f5e4554f366694feb19",
+    "t017": "75e96ba791894705531af4a26405ee34a541aec4a663493f59dff03fbce148ee",
+    "t018": "533b23226beb6a8463eb35d292b7479b18299a426b835569a135555cf0cc6f45",
+    "t019": "0b5971c2c074f2f1d2e566823f2c8aedea58126fa665c32dfca7fffbb286f070",
+    "t024": "0b90962097d8b01b46320e1ae7832677eb271f9eb21dfb23d00ba90fffc29f33",
+    "t025": "3430c1caff99c0202fbf7838ff147cc808a63d49f0a6a582c82b9087b212a226",
+    "t026": "a22a2c9cc5e1eb8003032a85ce390df963b67a13a5fca5fdfea17cfc2d7fd605",
+    "t027": "f233b3c2130cb4909f8fbd885ed555cb725cd5c4454a37aa4f5a4b7cbfeb5d38",
+    "t028": "eb302168859eadb8e9fa015acfed55ec744774b5fdc4311645808436392d952f",
+    "t029": "a325fc940b27810cdcfd1d6d1c216990c5c9969edd9fcb5760e859599beac9e0",
+    "t030": "8f8c4ec60a1bc8f73a44967ef1f3e7cd48c38f727202f91b4b2b29898ca81fc5",
+    "t031": "4536822adfab9e070d7d6e452e9009142255e010b71680c9fe7f673e0061e542",
+    "t021": "63b72e2466e53aa872e12c495a94ed343f2b02c22daa9803670bf6d4b194b89a",
+    "t022": "7d4485b36f9fff88cf9abe62c8b152463d9dc4da38ba174c6dddc4535ca4c4c3",
+    "t032": "d7b7530f500491a8f9b508d74e22d7db9e0bb466f0f53ef15ddaf62306ceed8e"
+  },
+  "inputs": [
+    {
+      "path": "origin:source.mp4",
+      "sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+    },
+    {
+      "path": "origin:previous-neutral.mp4",
+      "sha256": "526b32b764cc8e9c1d955023b5f2e7ad80cdd0b451c6b2be6d9ebdeaea1b5bee"
+    },
+    {
+      "path": "origin:previous-preparation.json",
+      "sha256": "2e3b2d2f2546339b8040128266d43db00f891f1fa6e91a5c3f9a3f9920451831"
+    },
+    {
+      "path": "origin:wan-paid-receipt.json",
+      "sha256": "4c7f536f34ee30e6f9b2be7af5db6fda6dddc2a3145a09d221671b6571e88923"
+    },
+    {
+      "path": "origin:caption-alignment.json",
+      "sha256": "85997d26a92f608cdba68304f3340e7a5d4c0cdc857bca61498457e1e767ce52"
+    },
+    {
+      "path": "origin:actual-voice-word-timestamps.json",
+      "sha256": "0f7986caa5223e7da310e03c01fe49e9f394c179f10918bd98f32b0adff0fcff"
+    },
+    {
+      "path": "origin:source-specific-builder.py",
+      "sha256": "24b3621f3dc274d45a76fc6804b7ac604b1983880fb119d814484feb6a73a6be"
+    },
+    {
+      "path": "origin:arrow-layers.json",
+      "sha256": "0355f7f65ade6669283e5bdd8ce849379f41adf843ad45b88fb36deca2caad47"
+    },
+    {
+      "path": "origin:msyh.ttc",
+      "sha256": "d79c55e68b1131eea0cc1c47be4f572d964f28c682e143db2ad09c1e4cb07a3f"
+    },
+    {
+      "path": "origin:msyhbd.ttc",
+      "sha256": "4508821b3dffe01f0ef5e5326a3e60df705a44633858811f67b6982dce3f6ee6"
+    }
+  ],
+  "output": {
+    "path": "origin:typography.mov",
+    "sha256": "01ed94af9556e91fd3cec2a596ecac01281c4a9c22dfa050f4307321cb6236be"
+  },
+  "layer_order": [
+    "reused neutral/background repair",
+    "translated captions",
+    "single continuous CTA line",
+    "clean source arrow"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-evidence",
+  "identity": "30774e35a7ddd71625b703d3d54679b3f02aaeb1d06d34c4d12e38b41e7b93d9",
+  "created_at": "2026-10-22T03:37:09+00:00",
+  "files": [
+    {
+      "path": "evidence/analysis/final-bottom-opening.jpg",
+      "sha256": "9e66109b426c6100703baeeb72e6572242b178289d98bafe117042a3c71806a8",
+      "bytes": 536584
+    },
+    {
+      "path": "evidence/review/ff1eec75f0b7/final-bottom-first32.png",
+      "sha256": "a94c53a058457d225111ed117a7f4bed39447bc534d49fad8e4109bf9b18472b",
+      "bytes": 878394
+    },
+    {
+      "path": "evidence/review/ff1eec75f0b7/user-overall-feedback-20261022.json",
+      "sha256": "e5546a2740e405becb9ff1cb34962f59db105a7ef03d22acce99b7a25b5ce7c9",
+      "bytes": 834
+    },
+    {
+      "path": "evidence/review/neutral-edge-equivalence.json",
+      "sha256": "2fed59d3bfa2cf4fd54a45d88e70d33ba2c35ee505fddb931a6e847ee7e73008",
+      "bytes": 2910
+    }
+  ],
+  "metadata": {
+    "entry_id": "de2us-watermark-approved-20261022",
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f"
+    },
+    "case_manifest_sha256": "fd0e1913a5610fb08e3d6fa121bdb1930dcb71e3adee2d4c2075316b6741bc11",
+    "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f",
+    "video_sha256": "ff1eec75f0b7242b002c0bc6b8d7b0cacd464f446571c6abc4de90bc35060f92",
+    "references": {
+      "overall-user-feedback": "evidence/review/ff1eec75f0b7/user-overall-feedback-20261022.json",
+      "edge-failure-before": "evidence/analysis/final-bottom-opening.jpg",
+      "edge-fixed-after": "evidence/review/ff1eec75f0b7/final-bottom-first32.png",
+      "edge-binding": "evidence/review/neutral-edge-equivalence.json"
+    },
+    "reviewed_by": "User overall feedback; Codex checked sanitized product-only crops and exact output hashes",
+    "recorded_at": "2026-10-22T03:37:09+00:00",
+    "proof_boundary": "Preserved historical evidence, not a new video review, independent acceptance or wider scope."
+  }
+}

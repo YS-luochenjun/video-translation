@@ -1,0 +1,29 @@
+{
+  "id": "de2us-en-20261021-01-ff1eec75f0",
+  "status": "candidate",
+  "created_at": "2026-10-21T13:23:24+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "en-US",
+    "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f"
+  },
+  "outcome": "revise",
+  "hypothesis": "Source-scoped candidate only: moving/rotating watermark requires tracking beyond visible frame edges and actual encoded-bottom review; removal masks must cover blurred CTA entry and product cuts independently of title changes. Reuse a genuinely clean temporal donor within the same pose/shot and preserve product marker/brand identity. Framewise LaMa on textured bow can flicker or melt folds; rejected masters/finals retain exact-hash quality holds. First neutral approval missed off-screen watermark tips, so a later actual final counterexample invalidated only those bytes. Cache hits reduce UVR/ASR/mix repeat work but do not establish visual/audio acceptance. Generalization requires other source counterexamples and complete audio listening.",
+  "evidence": {
+    "run": "de2us-en-20261021-01",
+    "video_sha256": "ff1eec75f0b7242b002c0bc6b8d7b0cacd464f446571c6abc4de90bc35060f92",
+    "quality_sha256": "fab648f521f93fd351480ba10deb2c6bb768db71f94fba73e876cf3ab0477f5a"
+  },
+  "limitations": [
+    "Same Agent visual inspection; no independent or user acceptance.",
+    "Full perceptual listening for Zira voice naturalness and all music/sound effects remains unverified; quality decision intentionally revise.",
+    "Occluded bow/product pixels are reconstructed; second-pose folds are softer, not original recovery.",
+    "No lip-sync reshaping.",
+    "All new watermark lessons are candidates scoped to this source; no automatic active company rule.",
+    "External KIE/Gemini request blocked by auto-review for missing explicit current export/spend authorization; offline local voice selected; no paid task created."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -1,0 +1,217 @@
+{
+  "checked_at": "2026-10-19T08:16:56+00:00",
+  "scope": "Local journals for this source only; not final provider account reconciliation.",
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "receipt_snapshot": "origin:2026-10-19-live-photo-costs.json",
+  "all_15_journal_hashes_match_previous_snapshot": true,
+  "runs": {
+    "live-photo-zh-001": {
+      "locale": "zh-CN",
+      "confirmed_credits": 32.84,
+      "unconfirmed_reserved_credits": 22.0,
+      "budget_occupancy_credits": 54.84,
+      "final_actual_under_100_verified": false,
+      "final_actual_credits": null,
+      "pending_reason": "Provider billing receipts missing; reservation is not a charge cap."
+    },
+    "live-photo-ja-001": {
+      "locale": "ja-JP",
+      "confirmed_credits": 0.59,
+      "unconfirmed_reserved_credits": 24.0,
+      "budget_occupancy_credits": 24.59,
+      "final_actual_under_100_verified": false,
+      "final_actual_credits": null,
+      "pending_reason": "Provider billing receipts missing; reservation is not a charge cap."
+    }
+  },
+  "confirmed_total_credits": 33.43,
+  "unconfirmed_reserved_total_credits": 46.0,
+  "budget_occupancy_total_credits": 79.43,
+  "unknown_billing_count": 5,
+  "unknown_billing_records": [
+    "origin:46341a41eacbcdfd50eb30cca973bc11c5e00c41ded0723aa3df71642b836222.json",
+    "origin:c21512c95fb17b931bf24a62fd6e732b58cfb45b1165cecd923e8986553f4597.json",
+    "origin:0a905710143f304b29f771b1a0b39dd601a6e9167ede945ecbf83365ce8d4df5.json",
+    "origin:3b1df7658962d23448e95e59d035c315c31bd4350fda3234d23a15efb65d4591.json",
+    "origin:50cc975e3cdda274fb3eb17dfd48785c5dba8410ada25b8b8845eb5f249d13f0.json"
+  ],
+  "new_paid_model_calls_this_learning_turn": 0,
+  "project_check": {
+    "command": "bin/va.ps1 check",
+    "completed_at": "2026-10-19T08:17:59.972976+00:00",
+    "tests": 73,
+    "failures": 0,
+    "errors": 0,
+    "proof_boundary": "Execution contracts and synthetic media checks, not real-video content acceptance."
+  },
+  "final_actual_total_credits": null,
+  "final_actual_under_100_verified": false,
+  "confirmed_subtotal_under_100": true,
+  "estimated_occupancy_under_100": true,
+  "reservation_is_provider_charge_cap": false,
+  "calls": [
+    {
+      "record": "origin:3c5f6a5f5031acb69a83838ab4979d127c44c2916671458507bd10abb044bdf9.json",
+      "record_sha256": "306fcb72c38de854bc9bb43aa2bd869cf0211b150e00626e057cdf3ae0f412e1",
+      "state": "success",
+      "confirmed_credits": 32.0,
+      "unconfirmed_reserved_credits": 0,
+      "model": "wan/2-7-videoedit"
+    },
+    {
+      "record": "origin:3f81cb9f543fb5bd0979f7c478d077be4a28be78d1359c1f0e7f7e4e8a6a68ca.json",
+      "record_sha256": "a883cdd1953b591fc0a995e74b5d27e8d7140c729e7bc47f78c2eec4fca5da24",
+      "state": "success",
+      "confirmed_credits": 0.16,
+      "unconfirmed_reserved_credits": 0,
+      "model": "gemini-3-pro"
+    },
+    {
+      "record": "origin:46341a41eacbcdfd50eb30cca973bc11c5e00c41ded0723aa3df71642b836222.json",
+      "record_sha256": "b7d49c0c0d445e997d02dbb0e5da3a6686e03e322c2454cbbb5d32ad23ce6284",
+      "state": "ambiguous",
+      "confirmed_credits": null,
+      "unconfirmed_reserved_credits": 20.0,
+      "model": "gemini-3-pro"
+    },
+    {
+      "record": "origin:4f5c1e8970ea898a46f87e429656bf29d83f3fc3a1e178d31f8078319d716af8.json",
+      "record_sha256": "e399b148e3a5b9ab689a62a852200be011ad0cbf9fdbb9510b9a3b0b54392b3f",
+      "state": "success",
+      "confirmed_credits": 0.12,
+      "unconfirmed_reserved_credits": 0,
+      "model": "gemini-3-pro"
+    },
+    {
+      "record": "origin:692772ec5599904ba98a07d8d4c3d2e2da2e81d45ea22dc9c132d2c25d96cdcc.json",
+      "record_sha256": "c21755a7e9d9e273adb3a1d97f1c7c4b97c6b1c5ec5e1693f28da26ac7593936",
+      "state": "fail",
+      "confirmed_credits": 0.0,
+      "unconfirmed_reserved_credits": 0,
+      "model": "ai-music-api/separate-vocals"
+    },
+    {
+      "record": "origin:c21512c95fb17b931bf24a62fd6e732b58cfb45b1165cecd923e8986553f4597.json",
+      "record_sha256": "70f30b715dbf030aa14c22699fafd02f3676a5d1f1204ec3b31831c11c1ee7ac",
+      "state": "failed",
+      "confirmed_credits": null,
+      "unconfirmed_reserved_credits": 2.0,
+      "model": "gemini-3-flash"
+    },
+    {
+      "record": "origin:e1150a6f32c3b506d2b23a095be2a5b748d5f8b06ada8c4d1c25a73b83f064ca.json",
+      "record_sha256": "6082f33cb0b4837043491197fd5a584f275c04c6b2cc1ca89edae1c3d2cac73a",
+      "state": "success",
+      "confirmed_credits": 0.16,
+      "unconfirmed_reserved_credits": 0,
+      "model": "google/gemini-2-5-pro-tts"
+    },
+    {
+      "record": "origin:f8c32f7ea48ff85cca807f9b14e4e364b4745f15d63fb1350dd6a426efd193c3.json",
+      "record_sha256": "017f86b5616f9795169f112d554beece6505644318d32780429373b1d37d5aa8",
+      "state": "success",
+      "confirmed_credits": 0.25,
+      "unconfirmed_reserved_credits": 0,
+      "model": "google/gemini-2-5-pro-tts"
+    },
+    {
+      "record": "origin:f90abab67585577c219ae197f06bd15ab72ec95d7149e709e8c281fc086ea395.json",
+      "record_sha256": "85388a4b0256c0c21e3752662aec2af9a38b3fd9cf1217e7aabba6ca8e3a1d2c",
+      "state": "success",
+      "confirmed_credits": 0.15,
+      "unconfirmed_reserved_credits": 0,
+      "model": "google/gemini-2-5-pro-tts"
+    },
+    {
+      "record": "origin:0a905710143f304b29f771b1a0b39dd601a6e9167ede945ecbf83365ce8d4df5.json",
+      "record_sha256": "35a6220ec7f6d34df3c0d163da7b441eca07cd66b86bc8784a60f8e2867f79de",
+      "state": "ambiguous",
+      "confirmed_credits": null,
+      "unconfirmed_reserved_credits": 2.0,
+      "model": "gemini-3-pro"
+    },
+    {
+      "record": "origin:3b1df7658962d23448e95e59d035c315c31bd4350fda3234d23a15efb65d4591.json",
+      "record_sha256": "08d3d2fd6360cbcc9d1e8ea08caf59232a4c55d7810a339afc5ad37de6597597",
+      "state": "failed",
+      "confirmed_credits": null,
+      "unconfirmed_reserved_credits": 2.0,
+      "model": "gemini-3-flash"
+    },
+    {
+      "record": "origin:4afe28721fd558a04903ec8e57f8bf52e180b8b7f7afd15019f72e55dd993d3b.json",
+      "record_sha256": "994bd6e12aef4920dd0425cb9472f16ed829fcb01ad338a2e4e4f0d904b2c578",
+      "state": "success",
+      "confirmed_credits": 0.16,
+      "unconfirmed_reserved_credits": 0,
+      "model": "google/gemini-2-5-pro-tts"
+    },
+    {
+      "record": "origin:4cd0187db64e02df945c79163ed71c0736d5bf26bc44e85e20bc836d280890c4.json",
+      "record_sha256": "f25971a5ffaf8ab0abef7f62d632c006d1bf44581f0fe2e7a75b2e24a9449336",
+      "state": "success",
+      "confirmed_credits": 0.16,
+      "unconfirmed_reserved_credits": 0,
+      "model": "google/gemini-2-5-pro-tts"
+    },
+    {
+      "record": "origin:50cc975e3cdda274fb3eb17dfd48785c5dba8410ada25b8b8845eb5f249d13f0.json",
+      "record_sha256": "5f2923a28476af18c2e8aaed25497ab305d35320a80379093ce27a13ef093777",
+      "state": "ambiguous",
+      "confirmed_credits": null,
+      "unconfirmed_reserved_credits": 20.0,
+      "model": "gemini-3-pro"
+    },
+    {
+      "record": "origin:cacce2ec096c9ec327ff861a1f1e60ec9915a8b0a5ef24129b404f4311e54058.json",
+      "record_sha256": "9e48320101278b60cf363be6f2384d11a32dcaf72d05f2ff4bd6b75acf8932b6",
+      "state": "success",
+      "confirmed_credits": 0.27,
+      "unconfirmed_reserved_credits": 0,
+      "model": "google/gemini-2-5-pro-tts"
+    }
+  ],
+  "historical_evidence_unchanged": {
+    "runs/live-photo-zh-001/plan.json": "37388a1d121f0cc3dc65d99717d0bacedd531925213685bf3763ebe458344e4a",
+    "runs/live-photo-zh-001/inputs/request.json": "c31704bd255cd177e52a2b92a8803909dedab4ce62457cf4e3e915deddba3f9a",
+    "runs/live-photo-zh-001/analysis/inventory.json": "0f4ca1cdcdd9120b953e98b986e23a77d2bf7aaf5add0b5bf8176621009a0bc9",
+    "runs/live-photo-zh-001/outputs/candidate.json": "8034b02fb2138be554ed802a68de986ea8ba7dacc3716065a9a7675f288ef983",
+    "runs/live-photo-zh-001/outputs/quality.json": "eab9f76433376025b1b50888a7e50dbf4c6652480044859a9ec08c7b2616fc7c",
+    "runs/live-photo-zh-001/review/review.json": "84a48843ee8a8ecaa84de01858b105239881309f756eeaa01b5880cd885c7302",
+    "runs/live-photo-ja-001/plan.json": "f95c9752508f96d70e2fb788cf791347d45bded014d61e4470a65a154ece6ee1",
+    "runs/live-photo-ja-001/inputs/request.json": "af27093b75fd72e446284bb2c5969bb89ede1d7b5bde14dc85abc06459641d3c",
+    "runs/live-photo-ja-001/analysis/inventory.json": "1bcf2a03ef46e2973be468e278ef42e7d595f5351c01083ed595cdd9b39774d3",
+    "runs/live-photo-ja-001/outputs/candidate.json": "318ec986d39e1564c7cad5d195ceaf11ab00fb1ea5d739ad1787a4ea56fa4629",
+    "runs/live-photo-ja-001/outputs/quality.json": "cf99da8359ee80df9f10303830ad5d847073b968fc092f71ad5a247909f2b438",
+    "runs/live-photo-ja-001/review/review.json": "b1d5cec6d9ed7dc04eac9ea713206daa6c9b9d8b8a1193b615da1208692dad7b"
+  },
+  "retrieval_checks": {
+    "same_source_zh": [
+      "live-photo-zh-user-approved-reference-20261019",
+      "route-selection-v1",
+      "text-instance-timing-v1",
+      "user-budget-and-accounting-20261019"
+    ],
+    "same_source_ja": [
+      "live-photo-ja-user-approved-reference-20261019",
+      "route-selection-v1",
+      "text-instance-timing-v1",
+      "user-budget-and-accounting-20261019"
+    ],
+    "different_source_zh": [
+      "route-selection-v1",
+      "text-instance-timing-v1",
+      "user-budget-and-accounting-20261019"
+    ],
+    "same_source_ko": [
+      "route-selection-v1",
+      "text-instance-timing-v1",
+      "user-budget-and-accounting-20261019"
+    ]
+  },
+  "previous_index_entries_unchanged": true,
+  "excluded_costs": [
+    "Codex account usage",
+    "Local CPU, storage and model downloads"
+  ]
+}

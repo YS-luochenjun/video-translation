@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "video_sha256": "a2e06ce3f9f6bf76681f34ce656e427410943716c9a2e21ae0e59598055d0f38",
+  "plan_id": "610ac6f36cae54c7",
+  "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+  "inventory_sha256": "4dcb74338bf6deb4dabfb97dd8e6a64fec0ee9fe719e047b2d413e740e682725",
+  "track_sha256": "6bfebc5473504034c6c3398a91eaa79986109603c31e9ced2b2fcd544218df88",
+  "audio": {
+    "path": "review/a2e06ce3f9f6/audio.wav",
+    "sha256": "41a4c9e418993edc19a6b92df78cd00b72bd75972ba1dbee87d55162e6e18210"
+  },
+  "reviewer": "Codex same-Agent visual/AV review, with external KIE actual-audio perception; not independent human/native-speaker or company acceptance",
+  "method": "Native complete phrases read from the actual encoded candidate crops and boundary frames. Actual caption onset/offset measured by decoding all 454 frames, separately from the plan. Actual decoded candidate audio matches the selected full mix at zero offset (correlation >0.99); phrase content independently transcribed by KIE and timing measured on each tempo-adjusted voice signal. No claim of direct human listening or per-word forced alignment.",
+  "decision": "pass",
+  "evidence": [
+    "review/a2e06ce3f9f6/audio.wav",
+    "review/a2e06ce3f9f6/type-board.jpg",
+    "review/a2e06ce3f9f6/pixel-observations.json",
+    "review/a2e06ce3f9f6/audio-model-review.json",
+    "review/a2e06ce3f9f6/visual-assessment.json",
+    "review/a2e06ce3f9f6/phone-transition.jpg"
+  ],
+  "instances": [
+    {
+      "id": "t001",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 0.03333333333333333,
+          "end": 3.533333333333333,
+          "text": "¿Quieres probar el efecto prisma al girar las manos con tu propia foto?"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 0.03333333333333333,
+          "end": 3.533333333333333,
+          "text": "¿Quieres probar el efecto prisma al girar las manos con tu propia foto?"
+        }
+      ],
+      "audio_units": [
+        {
+          "start": 0.05328798185941043,
+          "end": 3.5284807256235826,
+          "text": "¿Quieres probar el efecto prisma al girar las manos con tu propia foto?"
+        }
+      ],
+      "visual_units": [
+        {
+          "start": 0.03333333333333333,
+          "end": 3.533333333333333,
+          "text": "¿Quieres probar el efecto prisma al girar las manos con tu propia foto?"
+        }
+      ],
+      "decision": "pass",
+      "method": "Read native phrase in actual candidate board/boundary frames, cross-check against independent provider transcription; measured pixel interval and actual adjusted voice signal interval. Planned times retained only as a comparison.",
+      "evidence": [
+        "review/a2e06ce3f9f6/audio.wav",
+        "review/a2e06ce3f9f6/type-board.jpg",
+        "review/a2e06ce3f9f6/pixel-observations.json",
+        "review/a2e06ce3f9f6/audio-model-review.json",
+        "review/a2e06ce3f9f6/visual-assessment.json",
+        "review/a2e06ce3f9f6/caption-t001-000-0.jpg",
+        "review/a2e06ce3f9f6/caption-t001-000-1.jpg",
+        "review/a2e06ce3f9f6/caption-t001-000-2.jpg",
+        "review/a2e06ce3f9f6/caption-t001-000-3.jpg",
+        "review/a2e06ce3f9f6/caption-t001-000-4.jpg"
+      ]
+    },
+    {
+      "id": "t002",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 3.7333333333333334,
+          "end": 5.333333333333333,
+          "text": "¡Es más fácil de lo que parece!"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 3.7333333333333334,
+          "end": 5.333333333333333,
+          "text": "¡Es más fácil de lo que parece!"
+        }
+      ],
+      "audio_units": [
+        {
+          "start": 3.7517687074829933,
+          "end": 5.3224943310657595,
+          "text": "¡Es más fácil de lo que parece!"
+        }
+      ],
+      "visual_units": [
+        {
+          "start": 3.7333333333333334,
+          "end": 5.333333333333333,
+          "text": "¡Es más fácil de lo que parece!"
+        }
+      ],
+      "decision": "pass",
+      "method": "Read native phrase in actual candidate board/boundary frames, cross-check against independent provider transcription; measured pixel interval and actual adjusted voice signal interval. Planned times retained only as a comparison.",
+      "evidence": [
+        "review/a2e06ce3f9f6/audio.wav",
+        "review/a2e06ce3f9f6/type-board.jpg",
+        "review/a2e06ce3f9f6/pixel-observations.json",
+        "review/a2e06ce3f9f6/audio-model-review.json",
+        "review/a2e06ce3f9f6/visual-assessment.json",
+        "review/a2e06ce3f9f6/caption-t002-000-0.jpg",
+        "review/a2e06ce3f9f6/caption-t002-000-1.jpg",
+        "review/a2e06ce3f9f6/caption-t002-000-2.jpg",
+        "review/a2e06ce3f9f6/caption-t002-000-3.jpg",
+        "review/a2e06ce3f9f6/caption-t002-000-4.jpg"
+      ]
+    },
+    {
+      "id": "t003",
+      "speech_id": "a003",
+      "units": [
+        {
+          "start": 9.433333333333334,
+          "end": 13.833333333333334,
+          "text": "Toca el enlace de abajo, sube una foto y mira cómo queda la tuya."
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 9.433333333333334,
+          "end": 13.833333333333334,
+          "text": "Toca el enlace de abajo, sube una foto y mira cómo queda la tuya."
+        }
+      ],
+      "audio_units": [
+        {
+          "start": 9.434263038548753,
+          "end": 13.825306122448978,
+          "text": "Toca el enlace de abajo, sube una foto y mira cómo queda la tuya."
+        }
+      ],
+      "visual_units": [
+        {
+          "start": 9.433333333333334,
+          "end": 13.833333333333334,
+          "text": "Toca el enlace de abajo, sube una foto y mira cómo queda la tuya."
+        }
+      ],
+      "decision": "pass",
+      "method": "Read native phrase in actual candidate board/boundary frames, cross-check against independent provider transcription; measured pixel interval and actual adjusted voice signal interval. Planned times retained only as a comparison.",
+      "evidence": [
+        "review/a2e06ce3f9f6/audio.wav",
+        "review/a2e06ce3f9f6/type-board.jpg",
+        "review/a2e06ce3f9f6/pixel-observations.json",
+        "review/a2e06ce3f9f6/audio-model-review.json",
+        "review/a2e06ce3f9f6/visual-assessment.json",
+        "review/a2e06ce3f9f6/caption-t003-000-0.jpg",
+        "review/a2e06ce3f9f6/caption-t003-000-1.jpg",
+        "review/a2e06ce3f9f6/caption-t003-000-2.jpg",
+        "review/a2e06ce3f9f6/caption-t003-000-3.jpg",
+        "review/a2e06ce3f9f6/caption-t003-000-4.jpg"
+      ]
+    }
+  ],
+  "limitation": "Whole-phrase verification and measured boundaries, same-Agent visual review plus external audio-only perception. Not native-speaker acceptance, lip-sync verification, lossless stem separation, or company acceptance."
+}

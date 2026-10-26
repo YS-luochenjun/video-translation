@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+  "video_sha256": "fd94cb073f5527b740057ec3415b5981927eb0a040c17acdf88f97e6b598dab6",
+  "reviewed_by": "Codex same-Agent maintenance review of recorded evidence and selected encoded frames; no new full video or listening acceptance",
+  "authorization": {
+    "source": "User message in current conversation, 2026-10-20",
+    "quote": "目前所有内容都完成了，请你看看还有什么需要沉淀的内容",
+    "meaning": "Authorizes curation; completion is not additional per-instance quality acceptance"
+  },
+  "visual": {
+    "trigger": "Mirrored, rotated, clipped or blurred text during transitions or photo entry",
+    "action": "Count each visible occurrence, including upside-down copies, in inventory; inspect encoded frames around the full transition. Reuse the procedure, not this source geometry.",
+    "observed": "Actual frame 90 has both upright and upside-down Spanish title; dense contact sheet shows subsequent transition and independent upload UI. Original review records a second mirrored occurrence at frame 437.",
+    "evidence": [
+      "dense-f0090.jpg",
+      "dense-contact-02.jpg"
+    ],
+    "boundary": "Selected final frames were inspected in maintenance. No new exhaustive frame review or universal inpainting quality claim."
+  },
+  "audio": {
+    "trigger": "An original-language word remains just after the planned speech window",
+    "action": "Separate source-erasure end from target voice placement. Locate the actual acoustic tail, extend only its removal window, preserve the already checked target take, then inspect the final mux and neighboring music.",
+    "observed": "Prior external report rejected R1 for English away. Revision changed second erasure end from 7.8 to 8.08 seconds. Recorded final tail interval 7.78-8.04 seconds is -70.286 dBFS versus -17.487 previously. These are source-specific measurements, not universal thresholds.",
+    "boundary": "Final local ASR/correlation supports continuity and tail attenuation, not independent listening, word-caption timing or lossless separation. No verbatim speech captions existed."
+  },
+  "review_reuse": {
+    "action": "Bind historical review to its original video. Reuse only findings about verified corresponding intervals; changed intervals need fresh evidence. Keep rejected findings unchanged.",
+    "caution": "High correlation is not byte identity or semantic proof. These recorded correlations lack the previous full WAV in this small supplement; do not claim the comparison can be recomputed from this supplement alone. Current actual WAV, raw ASR, earlier report and measured comparison are retained."
+  },
+  "scope": "Additional evidence for existing animated-text and spoken-audio class methods. Single-source geometry/intervals stay source-specific; no new company policy or blanket pass.",
+  "external_dependencies": [],
+  "historical_paths": "Paths inside copied historical JSON are provenance labels. Usable permanent files are only those declared in the supplement manifest."
+}

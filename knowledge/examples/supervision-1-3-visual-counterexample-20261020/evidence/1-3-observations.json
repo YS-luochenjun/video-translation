@@ -1,0 +1,29 @@
+{
+  "id": "supervision-1-3-visual-feedback-20261020",
+  "recorded_at": "2026-10-20T12:11:34+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+  },
+  "actual_old_videos": [
+    "fd94cb073f5527b740057ec3415b5981927eb0a040c17acdf88f97e6b598dab6"
+  ],
+  "user_quote": "目前本对话中，也有目前“1-1”会话中，正在解决的问题。灰色蒙版太耀眼，且后面的背景没有处理干净。请你判断为什么",
+  "original_feedback_sha256": "49111e572c338806ec4a262ef9400ed450e1e89faf478567f6cbb8399f9e3570",
+  "outcome": "visual_rejected_or_unaccepted",
+  "finding": "Previously passed encoded frame has residual gray English outlines and a repaired color patch. Prior visual pass withdrawn; mirrored-instance and audio-tail observations do not prove whole-video quality.",
+  "current_repair_status": "In progress; no successful repair algorithm promoted by this record",
+  "generalizable_checks": [
+    "Inspect the silent neutral master at native-scale problem regions and as encoded continuous motion before adding translated text.",
+    "Separate full source-letter erasure from reconstruction quality and target typography/animation checks.",
+    "Static-patch selection must respect actual region motion and compatible reference scene/pose; do not transfer a photo-based recipe to moving hands without a new trial.",
+    "Pilot one language before batch expansion; retain exact failed asset identity and carry later rejection into delivery/reuse state."
+  ],
+  "reviewed_by": "Supervising Codex: thread and record review; 1-3 layer comparison and 4-2 neutral contact sheet inspected; no new full-video/audio acceptance",
+  "limits": [
+    "No universal inpainting solution or quality guarantee.",
+    "Multiple languages from one neutral master count as one source observation.",
+    "Historical audio facts remain scoped; visual rejection does not imply new audio rejection.",
+    "Historical paths in copied records are provenance only; permanent dependencies are files in this manifest."
+  ]
+}

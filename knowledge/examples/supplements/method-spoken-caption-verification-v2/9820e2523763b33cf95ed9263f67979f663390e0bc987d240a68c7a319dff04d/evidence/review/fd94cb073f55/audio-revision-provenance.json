@@ -1,0 +1,109 @@
+{
+  "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+  "source_audio_sha256": "7df0a195c9d0f060eee15b13f5bfd8c370909df03a54862bf5f42ed8e6272ac1",
+  "background": {
+    "path": "outputs/local-separation/accompaniment.wav",
+    "sha256": "ecd8558986b696fb65a86142fcb1160f350eaa724a9da917ca5d64c79ec225f4"
+  },
+  "lines": [
+    {
+      "id": "a001",
+      "start": 0,
+      "end": 1.8,
+      "target_text": "¿Quién es tu pareja ideal?",
+      "voice": {
+        "path": "inputs/voice-takes/line-01.wav",
+        "sha256": "142229c23c90c8100d43480a2aa9c73eac215364dab7bb45e8df94e323a53a01"
+      },
+      "trim_seconds": [
+        0.2262358276643991,
+        1.8980045351473922
+      ],
+      "atempo": 1,
+      "aligned": {
+        "path": "outputs/audio-mix/line-01-aligned.wav",
+        "sha256": "cc7a19785a81b7d8c04055137d2f0fd1a70fc5f7105e79a1f58a5a17548d1533"
+      },
+      "voice_gain_db": 0,
+      "voice_offset_seconds": 0,
+      "window_peak_gain": 1
+    },
+    {
+      "id": "a002",
+      "start": 4.7,
+      "end": 7.8,
+      "target_text": "Sube una foto y descubre a tu pareja ideal al instante.",
+      "voice": {
+        "path": "inputs/voice-takes/line-02.wav",
+        "sha256": "0a0d493a845a4397b409c324534e856bd600d149f7ac94048736b1eacb09165d"
+      },
+      "trim_seconds": [
+        0.07614512471655328,
+        4.105442176870748
+      ],
+      "atempo": 1.334204321905363,
+      "aligned": {
+        "path": "outputs/audio-mix/line-02-aligned.wav",
+        "sha256": "7ff36a4a72a5c8f7a5ef89186131f657b94ee6d94c40b4a02b07c963d6f8167b"
+      },
+      "voice_gain_db": 0,
+      "voice_offset_seconds": 0,
+      "window_peak_gain": 1,
+      "source_erasure_end": 8.08
+    },
+    {
+      "id": "a003",
+      "start": 15.9,
+      "end": 17.3,
+      "target_text": "¡Pruébalo gratis ahora!",
+      "voice": {
+        "path": "inputs/voice-takes/line-03.wav",
+        "sha256": "c6fa132d6b70660155d4f3843aada2fa281ba9b82416a31b7052905f9a541322"
+      },
+      "trim_seconds": [
+        0.22458049886621315,
+        1.75
+      ],
+      "atempo": 1.1556208341922625,
+      "aligned": {
+        "path": "outputs/audio-mix/line-03-aligned.wav",
+        "sha256": "e2c966162eaad3e748d98244652f571b1d4ebf229ec08f17356a1296206ad6c1"
+      },
+      "voice_gain_db": 4,
+      "voice_offset_seconds": 0,
+      "window_peak_gain": 0.7947750706159666
+    }
+  ],
+  "outside_windows_seconds": 11.81156462585034,
+  "music_time_scale": 1,
+  "method": "Original mix outside speech windows; local UVR background in speech windows plus native language TTS, 40ms boundary fades. Only isolated narration speed changed.",
+  "output": {
+    "path": "outputs/audio-mix-r2/translated-mix.wav",
+    "sha256": "711ad230a2f51e10710ed9ec7054bf61560028e1cde6e8c1e794876ba6e1f589"
+  },
+  "limitations": [
+    "UVR separation can attenuate musical vocal samples underneath narration.",
+    "No visual lip synchronization applied; source people are retained.",
+    "Under CTA only, peak protection attenuates the background together with the boosted narration; unchanged source mix resumes outside narration windows."
+  ],
+  "previous_mix": {
+    "path": "outputs/audio-mix-r1/translated-mix.wav",
+    "sha256": "dfbbe814324ea47de9acdf9894008edfcf864f381073385c01cd4b08755af460"
+  },
+  "revision_reason": "Actual captured-candidate Gemini review heard the source final word away after the coarse 7.8s erasure end. Extend only the second original-narration removal window through 8.08s, keeping the existing Spanish take, speed and timing. The following sung sample starts after the quiet beat gap and remains original.",
+  "original_mix_outside_windows_max_pcm_difference": 2,
+  "source_speech_erase_windows": [
+    [
+      0,
+      1.8
+    ],
+    [
+      4.7,
+      8.08
+    ],
+    [
+      15.9,
+      17.3
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "live-photo-zh-ui-002-95a95ee3c1",
+  "status": "candidate",
+  "created_at": "2026-10-19T09:00:16+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "Erase source glyphs while preserving button/screen surfaces; separate transparent target glyphs, source geometry and language-neutral master. Inspect partly occluded characters and UI entrance blur.",
+  "evidence": {
+    "run": "live-photo-zh-ui-002",
+    "video_sha256": "95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44",
+    "quality_sha256": "ea94bff6d70266cd06e84cbe70c0ba6b1c67477d9d9e7a0e98be41a7468069ce"
+  },
+  "limitations": [
+    "Same-agent sampled review; source intro blur and tiny surfaces can soften fine details.",
+    "Reuses a real cloud Wan edit from parent; this refinement makes no new paid model requests.",
+    "Original music/FX completeness and fine audio sync not independently verified."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "ea1dffbc7d81a190d5d338bc4343ee863d2d3ad958960e448fe3af9ad429cc4c"
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-19T10:19:08+00:00",
+  "source": "Direct user message in this conversation",
+  "quote": "好的，挺好。目前音频也挺好。请你帮我进行知识总结提纯等。",
+  "source_run": "live-photo-zh-art-004",
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "target_language": "zh-CN",
+  "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+  "candidate_path": "origin:candidate-26799c9192263b12.mp4",
+  "aac_bitstream_sha256": "cf28456485fecbcdebeeb13e9a71e7e10e811696654f3f5c84e0d7da84d8ad71",
+  "user_visual_acceptance": "positive_overall_effect",
+  "user_audio_acceptance": "positive_explicit",
+  "learning_authorized": true,
+  "company_preference": false,
+  "scope": "This exact source, final Chinese version and its actual soundtrack",
+  "not_inferred": [
+    "User performed stem-level lossless comparison",
+    "Independent native-language or frame-exhaustive expert review",
+    "All artistic-font families validated",
+    "Other source or language outputs approved"
+  ],
+  "historical_quality": {
+    "path": "origin:quality.json",
+    "sha256": "5fddcc7420b5df7076fb153cddbf402f3ed2a7a02c2caac8e1e3a43fbc463518",
+    "decision": "revise"
+  },
+  "historical_review": {
+    "path": "origin:review.json",
+    "sha256": "f456061ef55dc0ce3d9bac733fa8e83ab24ecc32a9970a48aba7b7d90019b5d0"
+  },
+  "interpretation": "User has now approved the listening result. Previous reports' no-user-acceptance descriptions are historical; their technical evidence is not rewritten."
+}

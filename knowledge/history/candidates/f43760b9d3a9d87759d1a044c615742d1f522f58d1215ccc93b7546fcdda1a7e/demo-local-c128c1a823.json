@@ -1,0 +1,26 @@
+{
+  "id": "demo-local-c128c1a823",
+  "status": "candidate",
+  "created_at": "2026-10-16T09:51:40+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "pass",
+  "hypothesis": "Exact overlay is appropriate for this known flat static layout; do not generalize to moving or complex backgrounds.",
+  "evidence": {
+    "run": "demo-local",
+    "video_sha256": "c128c1a8230e546a2548b69287fbc7f79635ebfaf569cdf913bb72f16a20eb6d",
+    "quality_sha256": "29aaa6bf90f233896fe96a75af3c6afb948ef228e9b080aed5315e4a0a600c5a"
+  },
+  "limitations": [
+    "One 8-second synthetic static example",
+    "No OCR/ASR or dubbing validation",
+    "Same agent authored and reviewed",
+    "No company preference inferred"
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "44c23df67bbc010c5ba2d3601adfe8426d2a69db7745dfb2fddc69940086a3fe"
+}

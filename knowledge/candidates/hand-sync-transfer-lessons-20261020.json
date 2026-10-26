@@ -1,0 +1,50 @@
+{
+  "id": "hand-sync-transfer-lessons-20261020",
+  "status": "candidate",
+  "created_at": "2026-10-20T03:08:13+00:00",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "company_preference": false,
+  "source_evidence": {
+    "run": "hand-zh-sync-002",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "feedback_record": "origin:user-approval-20261020.json",
+    "reference": "origin:hand-zh-sync-user-approved-20261020.md"
+  },
+  "hypotheses": [
+    {
+      "method": "Separate connected icon/text by source object evidence and z-order",
+      "failure_signature": "Preserved letters/outline attached to icon or translated line split around icon",
+      "next_counterexample_test": "Another moving or semi-transparent icon crossing letters; inspect entry, overlap and exit without reusing this source mask."
+    },
+    {
+      "method": "Corroborate ASR word timing with actual speech pauses and encoded caption boundary frames",
+      "failure_signature": "Following phrase appears during silence; ASR has allocated leading silence to its first word",
+      "next_counterexample_test": "New speaker and language with music, low-energy consonants and pauses; energy alone must not trim real speech."
+    },
+    {
+      "method": "Preserve source style per instance instead of applying one global palette",
+      "failure_signature": "Readable translation changes the original intentional color/outline hierarchy",
+      "next_counterexample_test": "Source with moving patterned lettering; check sampled texture, shadows, size and first/last frames."
+    },
+    {
+      "method": "Sanitize fully transparent RGB and export a tight foreground cutout",
+      "failure_signature": "Downstream alpha-insensitive tool sees hidden original letters",
+      "next_counterexample_test": "Another asset with soft alpha edges; verify RGB clearing does not damage visible antialiasing."
+    },
+    {
+      "method": "Reuse hash-verified neutral assets and approved language audio for local text/timing corrections",
+      "failure_signature": "Unnecessary paid re-generation or reuse of a complete foreign-language mix as a neutral stem",
+      "next_counterexample_test": "Same source, different locale and longer copy; measure which preparation is actually reusable and record all incremental charges."
+    }
+  ],
+  "limitations": [
+    "Only one source supports these newly distilled hypotheses here",
+    "User approval concerns the exact Chinese result, not cross-source performance or first-pass generalization"
+  ],
+  "promotion": "Not active or retrieved. Cross-source evidence plus scoped review required before broader activation.",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "7aa2c3e94733f8cd91c41e296ffa8f33dc5ae508070d92c39c40b25417a5c1de"
+}

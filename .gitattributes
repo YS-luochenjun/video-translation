@@ -1,0 +1,4 @@
+# Knowledge, configuration and evidence are bound by their exact SHA-256 bytes.
+# Preserve those bytes across checkouts on Windows and other hosts.
+# Treat CRLF as a line ending when checking whitespace, without rewriting it.
+* -text whitespace=cr-at-eol

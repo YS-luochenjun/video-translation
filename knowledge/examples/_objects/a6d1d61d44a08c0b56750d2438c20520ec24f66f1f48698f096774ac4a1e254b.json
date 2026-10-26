@@ -1,0 +1,36 @@
+{
+  "source_observation_sha256": "be729aeca3df3a620ecb1f7e6c5836989be966d4d0b3757e84f42b1638eb26c3",
+  "operation": "Region extraction from an actual observed source/previous/final comparison, no regenerated pixels",
+  "crops": [
+    {
+      "label": "source",
+      "bbox_in_observed_sheet": [
+        22,
+        129,
+        396,
+        297
+      ],
+      "sha256": "67dfb3355fd6d17252592d800759bcd0106c3c450316db2b3b9a45a32344db12"
+    },
+    {
+      "label": "previous-error",
+      "bbox_in_observed_sheet": [
+        22,
+        459,
+        396,
+        627
+      ],
+      "sha256": "cbb1dfe9b4f452a958204100b27557a41d5732d25cac0ca383bed0c0a11ef217"
+    },
+    {
+      "label": "accepted-final",
+      "bbox_in_observed_sheet": [
+        22,
+        789,
+        396,
+        957
+      ],
+      "sha256": "15263e50d7094a8067cf2d51f85a4a846919b40fad2c89661671e1e3d99e3eb6"
+    }
+  ]
+}

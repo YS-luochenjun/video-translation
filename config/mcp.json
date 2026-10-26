@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "description": "Capability contracts, not a live connection-state cache. Host connectors and permissions must be inspected at use.",
+  "groups": {
+    "local_execution": {
+      "transport": "stdio",
+      "command": ".venv/Scripts/python.exe",
+      "args": [
+        "bin/mcp_server.py"
+      ],
+      "host_installation": "Resolve the installed project Python and register the stdio entry on the target host; verify initialize/tools/list live."
+    },
+    "video_models": {
+      "provider": "kie",
+      "credential_env": "KIE_API_KEY",
+      "transport": "https",
+      "adapter": "src/video_localizer/kie.py"
+    },
+    "material_source": {
+      "provider": "fireplay",
+      "page": "https://fireplay.ai/materials/market",
+      "status": "host_connector_capabilities_must_be_checked_at_use",
+      "required_capabilities": [
+        "search_materials",
+        "get_material",
+        "get_download_url"
+      ],
+      "available_logging_mcp_is_material_reader": false,
+      "fallback": "Import an actual downloaded file or an observed HTTPS video URL through va init/ingest"
+    }
+  }
+}

@@ -1,0 +1,445 @@
+{
+  "schema_version": 1,
+  "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+  "plan_id": "f5795d9a4e6deb8e",
+  "checked_at": "2026-10-20T02:56:21+00:00",
+  "decision": "pass",
+  "score": 91.3,
+  "review_sha256": "0f5c9a7d52e1c43fb156d6c97851acefd44c96e686c33c363f225c45bb6c3674",
+  "audio_check": {
+    "schema_version": 1,
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "strategy": "replace",
+    "source": {
+      "has_track": true,
+      "codec": "aac",
+      "channels": 2,
+      "sample_rate": "44100",
+      "duration": 15.2091,
+      "rms_dbfs": -14.04,
+      "peak_dbfs": 0.0,
+      "audible_signal": true,
+      "silence_fraction": 0.0137,
+      "clipped_fraction": 8e-06,
+      "windows": [
+        {
+          "start": 0.0,
+          "end": 0.5,
+          "rms_dbfs": -13.88
+        },
+        {
+          "start": 0.5,
+          "end": 1.0,
+          "rms_dbfs": -11.33
+        },
+        {
+          "start": 1.0,
+          "end": 1.5,
+          "rms_dbfs": -11.31
+        },
+        {
+          "start": 1.5,
+          "end": 2.0,
+          "rms_dbfs": -12.25
+        },
+        {
+          "start": 2.0,
+          "end": 2.5,
+          "rms_dbfs": -16.34
+        },
+        {
+          "start": 2.5,
+          "end": 3.0,
+          "rms_dbfs": -16.19
+        },
+        {
+          "start": 3.0,
+          "end": 3.5,
+          "rms_dbfs": -11.93
+        },
+        {
+          "start": 3.5,
+          "end": 4.0,
+          "rms_dbfs": -10.51
+        },
+        {
+          "start": 4.0,
+          "end": 4.5,
+          "rms_dbfs": -13.16
+        },
+        {
+          "start": 4.5,
+          "end": 5.0,
+          "rms_dbfs": -10.07
+        },
+        {
+          "start": 5.0,
+          "end": 5.5,
+          "rms_dbfs": -17.3
+        },
+        {
+          "start": 5.5,
+          "end": 6.0,
+          "rms_dbfs": -16.84
+        },
+        {
+          "start": 6.0,
+          "end": 6.5,
+          "rms_dbfs": -17.33
+        },
+        {
+          "start": 6.5,
+          "end": 7.0,
+          "rms_dbfs": -17.76
+        },
+        {
+          "start": 7.0,
+          "end": 7.5,
+          "rms_dbfs": -15.93
+        },
+        {
+          "start": 7.5,
+          "end": 8.0,
+          "rms_dbfs": -18.69
+        },
+        {
+          "start": 8.0,
+          "end": 8.5,
+          "rms_dbfs": -18.71
+        },
+        {
+          "start": 8.5,
+          "end": 9.0,
+          "rms_dbfs": -18.57
+        },
+        {
+          "start": 9.0,
+          "end": 9.5,
+          "rms_dbfs": -16.1
+        },
+        {
+          "start": 9.5,
+          "end": 10.0,
+          "rms_dbfs": -17.94
+        },
+        {
+          "start": 10.0,
+          "end": 10.5,
+          "rms_dbfs": -18.37
+        },
+        {
+          "start": 10.5,
+          "end": 11.0,
+          "rms_dbfs": -20.9
+        },
+        {
+          "start": 11.0,
+          "end": 11.5,
+          "rms_dbfs": -13.9
+        },
+        {
+          "start": 11.5,
+          "end": 12.0,
+          "rms_dbfs": -10.55
+        },
+        {
+          "start": 12.0,
+          "end": 12.5,
+          "rms_dbfs": -12.1
+        },
+        {
+          "start": 12.5,
+          "end": 13.0,
+          "rms_dbfs": -12.46
+        },
+        {
+          "start": 13.0,
+          "end": 13.5,
+          "rms_dbfs": -23.5
+        },
+        {
+          "start": 13.5,
+          "end": 14.0,
+          "rms_dbfs": -9.79
+        },
+        {
+          "start": 14.0,
+          "end": 14.5,
+          "rms_dbfs": -13.97
+        },
+        {
+          "start": 14.5,
+          "end": 15.0,
+          "rms_dbfs": -25.12
+        },
+        {
+          "start": 15.0,
+          "end": 15.209,
+          "rms_dbfs": -90.31
+        }
+      ]
+    },
+    "candidate": {
+      "has_track": true,
+      "codec": "aac",
+      "channels": 2,
+      "sample_rate": "44100",
+      "duration": 15.2091,
+      "rms_dbfs": -17.9,
+      "peak_dbfs": -1.69,
+      "audible_signal": true,
+      "silence_fraction": 0.0137,
+      "clipped_fraction": 0.0,
+      "windows": [
+        {
+          "start": 0.0,
+          "end": 0.5,
+          "rms_dbfs": -16.95
+        },
+        {
+          "start": 0.5,
+          "end": 1.0,
+          "rms_dbfs": -15.46
+        },
+        {
+          "start": 1.0,
+          "end": 1.5,
+          "rms_dbfs": -17.84
+        },
+        {
+          "start": 1.5,
+          "end": 2.0,
+          "rms_dbfs": -15.94
+        },
+        {
+          "start": 2.0,
+          "end": 2.5,
+          "rms_dbfs": -18.12
+        },
+        {
+          "start": 2.5,
+          "end": 3.0,
+          "rms_dbfs": -16.53
+        },
+        {
+          "start": 3.0,
+          "end": 3.5,
+          "rms_dbfs": -14.16
+        },
+        {
+          "start": 3.5,
+          "end": 4.0,
+          "rms_dbfs": -14.71
+        },
+        {
+          "start": 4.0,
+          "end": 4.5,
+          "rms_dbfs": -18.72
+        },
+        {
+          "start": 4.5,
+          "end": 5.0,
+          "rms_dbfs": -21.11
+        },
+        {
+          "start": 5.0,
+          "end": 5.5,
+          "rms_dbfs": -18.16
+        },
+        {
+          "start": 5.5,
+          "end": 6.0,
+          "rms_dbfs": -17.0
+        },
+        {
+          "start": 6.0,
+          "end": 6.5,
+          "rms_dbfs": -17.4
+        },
+        {
+          "start": 6.5,
+          "end": 7.0,
+          "rms_dbfs": -17.83
+        },
+        {
+          "start": 7.0,
+          "end": 7.5,
+          "rms_dbfs": -15.94
+        },
+        {
+          "start": 7.5,
+          "end": 8.0,
+          "rms_dbfs": -18.77
+        },
+        {
+          "start": 8.0,
+          "end": 8.5,
+          "rms_dbfs": -18.82
+        },
+        {
+          "start": 8.5,
+          "end": 9.0,
+          "rms_dbfs": -18.61
+        },
+        {
+          "start": 9.0,
+          "end": 9.5,
+          "rms_dbfs": -16.12
+        },
+        {
+          "start": 9.5,
+          "end": 10.0,
+          "rms_dbfs": -17.97
+        },
+        {
+          "start": 10.0,
+          "end": 10.5,
+          "rms_dbfs": -18.43
+        },
+        {
+          "start": 10.5,
+          "end": 11.0,
+          "rms_dbfs": -20.53
+        },
+        {
+          "start": 11.0,
+          "end": 11.5,
+          "rms_dbfs": -17.34
+        },
+        {
+          "start": 11.5,
+          "end": 12.0,
+          "rms_dbfs": -23.59
+        },
+        {
+          "start": 12.0,
+          "end": 12.5,
+          "rms_dbfs": -17.29
+        },
+        {
+          "start": 12.5,
+          "end": 13.0,
+          "rms_dbfs": -20.5
+        },
+        {
+          "start": 13.0,
+          "end": 13.5,
+          "rms_dbfs": -19.02
+        },
+        {
+          "start": 13.5,
+          "end": 14.0,
+          "rms_dbfs": -26.33
+        },
+        {
+          "start": 14.0,
+          "end": 14.5,
+          "rms_dbfs": -23.25
+        },
+        {
+          "start": 14.5,
+          "end": 15.0,
+          "rms_dbfs": -25.41
+        },
+        {
+          "start": 15.0,
+          "end": 15.209,
+          "rms_dbfs": -75.91
+        }
+      ]
+    },
+    "waveform_match": null,
+    "failures": [],
+    "proof_boundary": "Signal, duration and retained-waveform checks; not listening, ASR, dialogue translation or lip-sync proof"
+  },
+  "caption_check": {
+    "decision": "pass",
+    "failures": [],
+    "metrics": [
+      {
+        "id": "t021",
+        "unit": 0,
+        "start_error_seconds": 0.0,
+        "end_error_seconds": 0.02
+      },
+      {
+        "id": "t021",
+        "unit": 1,
+        "start_error_seconds": 0.02,
+        "end_error_seconds": 0.0067
+      },
+      {
+        "id": "t021",
+        "unit": 2,
+        "start_error_seconds": 0.0067,
+        "end_error_seconds": 0.02
+      },
+      {
+        "id": "t021",
+        "unit": 3,
+        "start_error_seconds": 0.02,
+        "end_error_seconds": 0.0133
+      },
+      {
+        "id": "t021",
+        "unit": 4,
+        "start_error_seconds": 0.0133,
+        "end_error_seconds": 0.0133
+      },
+      {
+        "id": "t021",
+        "unit": 5,
+        "start_error_seconds": 0.0,
+        "end_error_seconds": 0.0
+      },
+      {
+        "id": "t021",
+        "unit": 6,
+        "start_error_seconds": 0.02,
+        "end_error_seconds": 0.0
+      },
+      {
+        "id": "t022",
+        "unit": 0,
+        "start_error_seconds": 0.0167,
+        "end_error_seconds": 0.0033
+      },
+      {
+        "id": "t022",
+        "unit": 1,
+        "start_error_seconds": 0.0033,
+        "end_error_seconds": 0.0267
+      },
+      {
+        "id": "t022",
+        "unit": 2,
+        "start_error_seconds": 0.0,
+        "end_error_seconds": 0.0133
+      },
+      {
+        "id": "t022",
+        "unit": 3,
+        "start_error_seconds": 0.0133,
+        "end_error_seconds": 0.02
+      },
+      {
+        "id": "t032",
+        "unit": 0,
+        "start_error_seconds": 0.0083,
+        "end_error_seconds": 0.0
+      },
+      {
+        "id": "t032",
+        "unit": 1,
+        "start_error_seconds": 0.0,
+        "end_error_seconds": 0.0033
+      }
+    ],
+    "review_sha256": "ff723f5ca2b40958daecb3d34612d3b4772b2d9e631dc65753cb12c39fc2976a",
+    "proof_boundary": "Bound, attributed AV observations plus deterministic copy/timing checks; no automatic listening/OCR or lip-sync claim"
+  },
+  "failures": [],
+  "proof_boundary": "Technical checks plus attributed agent review; no business or company preference approval",
+  "record_path": "origin:6c7c6db523150cab4906a30d.json"
+}

@@ -1,0 +1,70 @@
+{
+  "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed",
+  "video_sha256": "f5b1a0abd0836908f141091e67d1a0c7241e34ae224e9f67af7b2eed3ff3c1b2",
+  "audio_path": "review/f5b1a0abd083/audio.wav",
+  "audio_sha256": "daad0b75e70edd0b4aeb1d098d63ec36221dd655c6a3c4176dca201f6491a417",
+  "engine": "faster-whisper 1.2.1, base multilingual, CPU int8",
+  "model_sha256": "d01c3014881c9c6f3133c182f3d2887eb6ca1c789a7538c5c007196857a0a6a9",
+  "language": "zh",
+  "language_probability": 0.9939194917678833,
+  "decoder": "FFmpeg, mono 16000 Hz signed PCM to float32 ndarray",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.04,
+      "text": "等等 您忍心拒絕",
+      "avg_logprob": -0.29005093241142016,
+      "no_speech_prob": 0.08489315211772919
+    },
+    {
+      "start": 2.04,
+      "end": 4.72,
+      "text": "一群年人又可愛的狼女兒嗎?",
+      "avg_logprob": -0.29005093241142016,
+      "no_speech_prob": 0.08489315211772919
+    },
+    {
+      "start": 5.44,
+      "end": 7.48,
+      "text": "點擊唱完家庭時光",
+      "avg_logprob": -0.29005093241142016,
+      "no_speech_prob": 0.08489315211772919
+    },
+    {
+      "start": 7.48,
+      "end": 9.96,
+      "text": "隨時與狼媽媽親密互動",
+      "avg_logprob": -0.29005093241142016,
+      "no_speech_prob": 0.08489315211772919
+    },
+    {
+      "start": 10.44,
+      "end": 14.88,
+      "text": "組建家庭體驗養育小狼女孩的溫馨日常",
+      "avg_logprob": -0.29005093241142016,
+      "no_speech_prob": 0.08489315211772919
+    },
+    {
+      "start": 15.44,
+      "end": 18.56,
+      "text": "別滑走 狼族美人和小狼女孩",
+      "avg_logprob": -0.29005093241142016,
+      "no_speech_prob": 0.08489315211772919
+    },
+    {
+      "start": 18.56,
+      "end": 20.6,
+      "text": "都在等你點擊下方鏈接",
+      "avg_logprob": -0.29005093241142016,
+      "no_speech_prob": 0.08489315211772919
+    },
+    {
+      "start": 20.6,
+      "end": 21.64,
+      "text": "馬上開玩",
+      "avg_logprob": -0.29005093241142016,
+      "no_speech_prob": 0.08489315211772919
+    }
+  ],
+  "proof_boundary": "Local model transcription in actual detected language, no target script supplied. It is not direct listening or proof of background music/FX completeness."
+}

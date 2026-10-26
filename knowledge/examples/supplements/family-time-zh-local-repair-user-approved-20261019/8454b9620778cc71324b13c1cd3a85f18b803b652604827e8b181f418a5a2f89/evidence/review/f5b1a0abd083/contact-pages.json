@@ -1,0 +1,12 @@
+[
+  {
+    "file": "contact-sheet.jpg",
+    "first_frame": 1,
+    "last_frame": 32
+  },
+  {
+    "file": "contact-sheet-02.jpg",
+    "first_frame": 33,
+    "last_frame": 46
+  }
+]

@@ -1,0 +1,42 @@
+{
+  "method": "Viewed uploaded screenshot and legacy neutral frame, inspected archived composition code and picture-stream provenance. Edited screenshot with built-in image_gen; one call, original panel retained, only English title requested removed. No production code/video/inventory changed.",
+  "limitations": [
+    "Single still-image same-agent inspection only; no video temporal validation or independent acceptance.",
+    "Generated dimensions differ from input; do not replace complete source frames with this screenshot.",
+    "Original font name cannot be established from raster screenshot alone.",
+    "This diagnosis does not revise historical quality records or authorize batch reprocessing."
+  ],
+  "actor": "Codex",
+  "knowledge_read": [
+    "AGENTS.md",
+    "agent/contracts/workflow.md",
+    "agent/contracts/quality.md",
+    "agent/contracts/model-routing.md",
+    "agent/workflows/video-localization.md",
+    "knowledge/rules/user-caption-audio-sync-20261019.md",
+    "knowledge/rules/codex-visual-model-policy-20261022.md",
+    "knowledge/rules/neutral-visual-and-animation-gate-v3.md",
+    "knowledge/rules/short-drama-character-voices-20261023.md",
+    "knowledge/rules/natural-removal-blur-last-resort-20261023.md",
+    "knowledge/rules/user-no-solid-text-panels-20261022.md",
+    "knowledge/rules/user-request-budget-20261021.md",
+    "knowledge/rules/method-animated-text-occlusion-v5.md",
+    "knowledge/rules/method-spoken-caption-verification-v3.md",
+    "knowledge/rules/method-source-neutral-preparation-v3.md",
+    "knowledge/rules/route-selection-v2.md",
+    "knowledge/rules/text-instance-timing-v1.md",
+    ".agents/skills/video-localization/SKILL.md",
+    "config/model-routing.json",
+    "config/quality.json",
+    "config/profiles/company-default/profile.json"
+  ],
+  "outputs": [
+    "inputs/title-diagnosis-20261026/clean-title-host-v1.png"
+  ],
+  "observations": [
+    {
+      "image": "inputs/title-diagnosis-20261026/source-screenshot.jpg",
+      "observation": "Source screenshot shows heavy condensed oblique white two-line English lettering with dark outlines on an existing translucent dark rounded panel. Shushing emojis flank the second line. Output removes both English lines without the legacy row-fill horizontal streaks; panel and emojis remain visually recognizable. Output is resized and generatively re-rendered: pixel identity, exact alpha and hidden background are not verified. This screenshot lacks exact source PTS."
+    }
+  ]
+}

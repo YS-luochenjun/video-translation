@@ -1,0 +1,16 @@
+{
+  "source": {"path": "knowledge/candidates/actual-candidate.json", "sha256": "actual-source-sha256"},
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Actual reviewer; distinguish same-agent review from independent review",
+  "origin": "Actual request, feedback or evidence-backed development review",
+  "resolution": "pending",
+  "reason": "Which conclusions are justified, and what is still missing",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": ["Historical observations and limitations remain unchanged"],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "A concrete validation or publication step, not another identical summary",
+  "retrieval_features": []
+}

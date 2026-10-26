@@ -1,0 +1,11 @@
+{
+  "plan_id": "actual-frozen-plan-id",
+  "video_sha256": "actual-current-candidate-video-sha256",
+  "reviewed_by": "Actual observer",
+  "review_type": "same_agent",
+  "uses": [
+    {"path": "knowledge/rules/actual-selected-method.md", "sha256": "actual-selected-revision-sha256",
+      "outcome": "counterexample", "observation": "What was actually tried or not used, and the observed effect and limits"}
+  ],
+  "evidence": [{"path": "review/actual-observation.json", "sha256": "actual-evidence-sha256"}]
+}

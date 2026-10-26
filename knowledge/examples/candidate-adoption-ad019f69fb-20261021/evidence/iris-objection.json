@@ -1,0 +1,10 @@
+{
+  "video_sha256": "32e58bec01e552d01dc1ebbc85fa9d0c54f2dfbd764787e1ae43029ff2449563",
+  "reviewer": "Codex same-Agent visual review",
+  "decision": "revise",
+  "observation": "One-frame disappearance of poster typography at frame 529, reappearing at frame 530. Center-strip blue detection confuses photo pixels with iris glow.",
+  "evidence": [
+    "review/32e58bec01e5/iris-boundaries.png"
+  ],
+  "bounded_action": "Final encoded typography revision: source poster-reference pixel match in two dimensions, monotonic circle radius."
+}

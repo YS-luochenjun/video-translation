@@ -1,0 +1,38 @@
+{
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "video_sha256": "fef944392903e3410185a53718e707829c203f983ddbf477c52d5dc5d3c4bad0",
+  "original_reviewed_video": {
+    "path": "outputs/candidate-b1238e072368860f.mp4",
+    "sha256": "3d5c2bd0f6ad35310e68c28f2e129e5f6373696850d949ea940abd15d28b21c3",
+    "plan_id": "b1238e072368860f",
+    "inventory_sha256": "e6d57a972a7b8f1d72e2c932f722a2522157cf0143b1d269182a527ab90ab693",
+    "audio_selection": {
+      "path": "outputs/audio-selection-b1238e072368860f.json",
+      "sha256": "a359c3850f05dac169ca2b5b603912b78eff2e71f46b9288bd96c67b2b63ef07"
+    }
+  },
+  "current_candidate": {
+    "path": "outputs/candidate-cba27c88d6133c1b.mp4",
+    "sha256": "fef944392903e3410185a53718e707829c203f983ddbf477c52d5dc5d3c4bad0",
+    "plan_id": "cba27c88d6133c1b",
+    "inventory_sha256": "193f6302b5444928212e2a851a72c2bedecea71a95dd834b4b878c10258eab09",
+    "audio_selection": {
+      "path": "outputs/audio-selection-cba27c88d6133c1b.json",
+      "sha256": "a359c3850f05dac169ca2b5b603912b78eff2e71f46b9288bd96c67b2b63ef07"
+    }
+  },
+  "pcm_sha256": "a3a7c17053cefd552c49bcab3c83d893cd7d1ccc091f740efe5876ec3ea1f09e",
+  "old_pcm_sha256": "a3a7c17053cefd552c49bcab3c83d893cd7d1ccc091f740efe5876ec3ea1f09e",
+  "aac_sha256": "382e9ddde7770bdd06f1d044aa1ffdb46dd38e5bf357a3304860767285303408",
+  "old_aac_sha256": "382e9ddde7770bdd06f1d044aa1ffdb46dd38e5bf357a3304860767285303408",
+  "identical_pcm": true,
+  "identical_aac": true,
+  "source_music_window": [
+    5.65,
+    10.7
+  ],
+  "music_window_waveform_correlation": 0.9968035421291213,
+  "meaning": "Only pictures changed; the complete actual encoded audio and decoded review WAV are identical to the semantically reviewed first candidate. Music correlation only verifies this actual speech-free window, not general source separation.",
+  "new_paid_calls": 0,
+  "new_credits": 0
+}

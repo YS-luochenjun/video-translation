@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ad-localizer-agent"
+version = "0.1.0"
+description = "An evidence-driven video localization workspace operated by an AI agent"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+layout = ["Pillow"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

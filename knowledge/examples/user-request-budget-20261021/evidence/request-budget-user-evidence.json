@@ -1,0 +1,7 @@
+{
+  "date": "2026-10-21",
+  "source": "Direct user messages in the current project development conversation",
+  "budget_quote": "可以，请你按这个顺序优化。先把所有调用统一纳入总预算，首版最多60credits、复用最多40credits，不允许通过新建run或拆分任务扩大额度。",
+  "authorization_quote": "我允许本项目在现有预算内自动使用 KIE。",
+  "review": "Explicit project-owner policy; no claim of new video quality, remote billing guarantees, or authorization for another owner/provider. Supersedes the prior per-run/per-language interpretation; preserves existing visual requirements."
+}

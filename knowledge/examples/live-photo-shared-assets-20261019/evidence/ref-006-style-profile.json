@@ -1,0 +1,80 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "target_language": "zh-CN",
+  "texts": {
+    "t006": "开始",
+    "t007": "最近项目",
+    "t008": "照片",
+    "t009": "实况照片",
+    "t010": "使用相同素材\n及相同色调…",
+    "t011": "下一步"
+  },
+  "styles": {
+    "t006": {
+      "font_size": 38,
+      "bold": true,
+      "color": [
+        8,
+        8,
+        8
+      ]
+    },
+    "t007": {
+      "font_size": 16,
+      "bold": true,
+      "color": [
+        240,
+        240,
+        240
+      ]
+    },
+    "t008": {
+      "font_size": 18,
+      "bold": false,
+      "color": [
+        180,
+        213,
+        240
+      ]
+    },
+    "t009": {
+      "font_size": 17,
+      "bold": false,
+      "color": [
+        236,
+        236,
+        236
+      ]
+    },
+    "t010": {
+      "font_size": 13,
+      "bold": false,
+      "color": [
+        227,
+        227,
+        227
+      ]
+    },
+    "t011": {
+      "font_size": 16,
+      "bold": false,
+      "color": [
+        24,
+        38,
+        49
+      ]
+    }
+  },
+  "method": "Glyph-only source cleanup; supersampled transparent glyphs at source-observed centers, source screen blur and button foreground clipping.",
+  "font_assets": [
+    {
+      "path": "origin:msyh.ttc",
+      "sha256": "d79c55e68b1131eea0cc1c47be4f572d964f28c682e143db2ad09c1e4cb07a3f"
+    },
+    {
+      "path": "origin:msyhbd.ttc",
+      "sha256": "4508821b3dffe01f0ef5e5326a3e60df705a44633858811f67b6982dce3f6ee6"
+    }
+  ],
+  "artistic_font_support": "RGBA glyph rasters can be authored from a supplied font or artwork; geometry and erasure do not depend on the font family."
+}

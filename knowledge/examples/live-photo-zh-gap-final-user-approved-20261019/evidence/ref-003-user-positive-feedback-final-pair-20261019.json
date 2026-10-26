@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-19T09:41:07+00:00",
+  "source": "Direct user message in this conversation",
+  "quote": "目前挺好，请你学习相关知识内容，做出知识积累。目前效果不错。\n\n且目前艺术字方面是否合格呢",
+  "binding": "Latest presented corrected Chinese/Korean pair; overall effect approval",
+  "source_run": "live-photo-zh-ui-gap-003",
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "target_language": "zh-CN",
+  "candidate_path": "origin:candidate-2417ef57298b7ad9.mp4",
+  "video_sha256": "06881b0383858f0a86ccc75945adda4f0fcec85efd32c91db28199799dbfcc36",
+  "acceptance": "positive_overall_effect_feedback",
+  "scope": [
+    "Overall effect of latest presented pair",
+    "Source- and language-specific example reference"
+  ],
+  "not_inferred": [
+    "Exact artistic font reproduction approved",
+    "Native Korean speaker approval",
+    "Company-wide default style",
+    "Lossless music/FX fidelity",
+    "Every frame without defects"
+  ],
+  "frozen_technical_review": {
+    "path": "origin:review.json",
+    "sha256": "fca58a698d830fb1196ae5a97ec6489bacf068c1b17f769be44efbdc0fc959aa"
+  },
+  "frozen_quality": {
+    "path": "origin:quality.json",
+    "sha256": "7e5cc8cdb63be9eeae77819cc0c0912e53c9882e3651875697ee318e94dad6e1",
+    "decision": "revise"
+  },
+  "separate_supplementary_assessment": "origin:2026-10-19-final-pair-learning-and-artistic-type.json",
+  "supplementary_defect": "t020 CTA English remnants at decoded frames 478 and 479; artwork texture and pop-in motion not reproduced",
+  "company_preference": false
+}

@@ -1,0 +1,27 @@
+{
+  "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+  "video_sha256": "30cf240458a7368349f1b2927006b9f71044c510f817cda45e40c3f92293ae15",
+  "origin_run_id": "2-1-es-20261020",
+  "technical_decision": "pass",
+  "reviewer": "Codex, same-Agent self review; Gemini 3 Pro audio perception as supplementary evidence",
+  "method": "Inspected the actual per-language final title/CTA crops, common full-timeline contact sheets and boundary frames, source-preserved body, native script layout, source/voice/mix provenance, and separately labeled external final-audio transcription/comparison. No independent human/native-speaker business acceptance claimed.",
+  "lesson": "One source-neutral preparation can serve multiple locales while all translated copy, native glyph layers, narration and actual output reviews remain per language. ASS alpha must be rendered explicitly; inspect actual first candidate before accepting. Multi-clip montage perception can over-report a missing ending, so retain local duration/ASR counterevidence and review separately labeled final WAVs.",
+  "limitations": [
+    "Source temporal plates approximate motion only behind the former headline bands. Source people, hands, nails, bottles, keys and scene timing otherwise remain source-based.",
+    "Same-Agent visual review plus external audio model; no independent native human or company acceptance.",
+    "Two pre-task KIE creation rejections have no itemized billing receipt; costs remain explicitly pending rather than assumed zero."
+  ],
+  "critical_defects": [],
+  "scores": {
+    "translation": 4.6,
+    "visual_fidelity": 4.3,
+    "temporal_alignment": 4.6,
+    "audio": 4.5,
+    "ad_style": 4.4
+  },
+  "original_record_hashes": {
+    "quality": "0ba24568891658be7e8d875aac42ef912b7852bfa07910c1428d24a453edc256",
+    "review": "2213206db0dc47dd5b320cf0afa86fd5f5222d7c6753bd607dc6c9318c96d684"
+  },
+  "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+}

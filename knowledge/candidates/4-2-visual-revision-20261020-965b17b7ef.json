@@ -1,0 +1,22 @@
+{
+  "id": "4-2-visual-revision-20261020-965b17b7ef",
+  "status": "candidate",
+  "created_at": "2026-10-20T11:53:11+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+    "target_language": "shared-neutral"
+  },
+  "outcome": "revise",
+  "hypothesis": "Shared-master visual failures must block language plans and rendering. Static line captions are not preservation of source animation. This source-frame repair experiment remains revise due to hand/wrist geometry and colour drift; it is a counterexample, not a successful repair recipe.",
+  "evidence": {
+    "video_sha256": "965b17b7eff59242e4ffac0fed66fe0c4c9ec43248398798f7aa8e2484118fbe",
+    "observations_sha256": "6bf77783a00522cdff2951ebe83d6513f3ee3f0a6959e859ea500fa254e2a75e"
+  },
+  "limitations": [
+    "No accepted full repair; no new six-language render."
+  ],
+  "company_preference": false,
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

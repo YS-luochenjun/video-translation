@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "repair-learning-2-1-20261021",
+  "created_at": "2026-10-21T02:18:34+00:00",
+  "files": [
+    {
+      "path": "evidence/2-1-dynamic-de-technical-20261020-bb7797d563.json",
+      "sha256": "7faabb6e7229abc6ae658d560544582a1b5683eb3599d2bb385e810250d1fdc0",
+      "bytes": 3739
+    },
+    {
+      "path": "evidence/motion-opening.jpg",
+      "sha256": "e610d0b2e7f43e59845919f21a4f98f86a25120060623d23b148d95b4fe601be",
+      "bytes": 956497
+    },
+    {
+      "path": "evidence/review.json",
+      "sha256": "b4e1afaf931c89c638c63e0a92d90c64f5d47c2b1eff1d141f21e90a6699349f",
+      "bytes": 9474
+    },
+    {
+      "path": "evidence/timeline-observations.json",
+      "sha256": "b1fa760f1450bfa161d6a95764bc4a538016dfc119cf4dd1cb559a9c2a4326b1",
+      "bytes": 11161
+    },
+    {
+      "path": "evidence/visual-review.json",
+      "sha256": "5bb4302a2ce70fe602f02c9037e06e508ec040f04b96a753fe6e6e01e97f5237",
+      "bytes": 12576
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+      "target_language": "de"
+    },
+    "status": "single_language_self_review_pass_with_limits",
+    "lesson": "Dynamic model donor restricted to the required region avoids a frozen-head plate. Retiming requires exact frame/PTS checks. German pilot is self-reviewed, hair/trails approximate and icons omitted.",
+    "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+    "video_sha256": "bb7797d5637f1826957018e7c8319e46e060a965bafef117a4af8e2c7995dbc9",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

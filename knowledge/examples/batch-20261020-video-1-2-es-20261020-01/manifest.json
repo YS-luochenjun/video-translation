@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "batch-20261020-video-1-2-es-20261020-01",
+  "created_at": "2026-10-20T10:36:20+00:00",
+  "files": [
+    {
+      "path": "evidence/audio.wav",
+      "sha256": "dce6a2304aaab99a1184baa9d01e6ac62465abce866dd55378b56544af667f96",
+      "bytes": 549926
+    },
+    {
+      "path": "evidence/caption-boundary-panel.jpg",
+      "sha256": "0c5ba10204bd206a79b058176ef39c3f6533fabf5283e41b591a6ddf06cbbd21",
+      "bytes": 236775
+    },
+    {
+      "path": "evidence/caption-sync.json",
+      "sha256": "e9f8538b564eb58d4c21fa5e97ee137b5c52aa70e06818944b7e8453e5f8765d",
+      "bytes": 4175
+    },
+    {
+      "path": "evidence/contact-sheet.jpg",
+      "sha256": "a77396eac43181dc446bd019e2967645d91448fba4861359a605631a1a6a7894",
+      "bytes": 304022
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "6e9c9e1d28d96bdfdd27807edcd72ec5355f67faa2da3f0aa5d3f16e98747e4a",
+      "bytes": 2115
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680"
+    },
+    "status": "reviewed_reference",
+    "lesson": "Use integer frame intervals at scene boundaries; do not copy rounded seconds directly into end-exclusive video text comparisons. Resolve ambiguous very short TTS ASR by a second local model and actual final-mix checks before another paid synthesis.",
+    "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680",
+    "video_sha256": "46af5daaa4acb765b3f2cf81d92dd9177dbe6a492d0f0b536bb5a0cfe8a66dbb",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "live-photo-ja-001-566413b211",
+  "status": "candidate",
+  "created_at": "2026-10-19T08:00:10+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ja-JP"
+  },
+  "outcome": "revise",
+  "hypothesis": "Reuse neutral source-bound master, source analysis and local AI separation across languages; keep per-language voice/typography/review separate. Track all moving title instances. Instrumental-model primary stem differs from vocal models. Preserve unknown charges after sync timeouts.",
+  "evidence": {
+    "run": "live-photo-ja-001",
+    "video_sha256": "566413b2115e35d55df0c33f9c9a35b2c4e3633326e2b6518ce5a24079965689",
+    "quality_sha256": "cf99da8359ee80df9f10303830ad5d847073b968fc092f71ad5a247909f2b438"
+  },
+  "limitations": [
+    "Same-agent sampled visual review; not independent full playback.",
+    "Cloud video contributes only opening headline pixels. Other erasure and native layout are local.",
+    "Local fill may soften hair/wall or garment detail beneath old lettering.",
+    "No final user acceptance for this new source.",
+    "Unknown billing requests remain reserved, not assumed free."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "8bbae44792c04affe11ab521fae94d03562fc29f580bd26abbdfce55decc9969"
+}

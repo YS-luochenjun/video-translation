@@ -1,0 +1,24 @@
+{
+  "id": "user-visual-correction-YYYYMMDD",
+  "source": {
+    "path": "runs/actual-run/inputs/source.mp4",
+    "sha256": "REPLACE_WITH_ACTUAL_FULL_SOURCE_SHA256"
+  },
+  "asset": {
+    "path": "outputs/source/locale/version/final.mp4",
+    "sha256": "REPLACE_WITH_ACTUAL_FULL_ASSET_SHA256"
+  },
+  "asset_kind": "video",
+  "reason": "Describe the observed defect, affected interval and uncertainty",
+  "reported_by": "Attribute the user's correction and the actual reviewer",
+  "origin": {
+    "thread_id": "actual-origin-thread",
+    "scope": "Exact identified version; do not automatically reject future repaired versions"
+  },
+  "evidence": [
+    {
+      "path": "knowledge/local/feedback/actual-event/feedback.json",
+      "sha256": "REPLACE_WITH_ACTUAL_EVIDENCE_SHA256"
+    }
+  ]
+}

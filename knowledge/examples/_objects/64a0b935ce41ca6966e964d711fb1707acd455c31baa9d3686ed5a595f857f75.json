@@ -1,0 +1,10 @@
+{
+  "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+  "reviewed_ancestor_video_sha256": "b286840d648ad18584e63b6c6aaf23b44409082c617426ab921e3cc0f7b87035",
+  "aac_hashes": [
+    "SHA256=cf28456485fecbcdebeeb13e9a71e7e10e811696654f3f5c84e0d7da84d8ad71",
+    "SHA256=cf28456485fecbcdebeeb13e9a71e7e10e811696654f3f5c84e0d7da84d8ad71"
+  ],
+  "equal": true,
+  "proof_boundary": "The old external transcript applies to the same compressed soundtrack, including its uncertain1.0-1.5s interval. Equality does not establish original source music/FX fidelity."
+}

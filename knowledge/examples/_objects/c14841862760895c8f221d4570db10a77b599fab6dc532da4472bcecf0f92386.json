@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-21",
+  "authorization": "User requested review and consolidation of verified candidates for future new videos.",
+  "review": "Existing independent manifests and source-bound records verified; selected artistic/UI comparison images inspected. No fresh full-video or audio acceptance.",
+  "adopted": [
+    {
+      "lesson": "Diagnose ASR-assigned leading silence using placement, speech evidence and encoded caption boundaries",
+      "candidate": "hand-sync-transfer-lessons-20261020",
+      "evidence": {
+        "path": "knowledge/examples/candidate-adoption-hand-20261021",
+        "manifest_sha256": "27834eba04a4f7715f8f45fd7b69587ad00de6186155a8c366ddeb175b0940fc",
+        "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+      },
+      "boundaries": "One demonstrated pause repair; multi-language disagreement evidence inherited separately. No universal energy threshold."
+    },
+    {
+      "lesson": "Inspect artistic type as shape, fill, stroke, directional depth; preserve UI objects and exclude them from inpaint context",
+      "candidate": "ad-localization-distilled-methods-20261019",
+      "evidence": {
+        "path": "knowledge/examples/candidate-adoption-art-ui-20261021",
+        "manifest_sha256": "9cccf97cb4adfb771b460242880660f6e06f0991e21471cc8c9514d1d0aa5919",
+        "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+      },
+      "boundaries": "Single-source texture improvement; cross-source layering and native UI observations support the checking procedure. No transferable font/texture guarantee."
+    }
+  ],
+  "retained_candidates": [
+    "Hidden RGB sanitation across alpha-insensitive tools",
+    "Source masks, coordinates, HSV thresholds",
+    "Fixed Korean gain and offset",
+    "Retimed model submission as a universal cost saving recipe",
+    "Provider accent/review-envelope handling without a reproducible general executor regression"
+  ],
+  "policy_change": false,
+  "quality_holds_changed": false
+}

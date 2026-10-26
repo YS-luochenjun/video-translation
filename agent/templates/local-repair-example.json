@@ -1,0 +1,13 @@
+{
+  "source_sha256": "REPLACE_WITH_ACTUAL_SOURCE_SHA256",
+  "shots": [{"id": "pose-one", "start": 0, "end": 1.2}],
+  "operations": [{
+    "shot": "pose-one", "start": 0.1, "end": 1.1,
+    "method": "temporal_frame", "donor_time": 0,
+    "bbox": [10, 15, 80, 20],
+    "trajectory": [{"time": 0.1, "bbox": [10, 15, 80, 20], "angle": 0},
+                   {"time": 1, "bbox": [45, 25, 80, 20], "angle": 10}],
+    "protected_regions": [[5, 55, 20, 20]],
+    "reason": "Replace with observed same-pose donor, mask and protection rationale"
+  }]
+}

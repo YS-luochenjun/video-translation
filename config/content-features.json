@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "aliases": {
+    "moving_text": "animated_text",
+    "artistic_text": "artistic_typography",
+    "multi_shot": "multiple_shots",
+    "voiceover": "speech",
+    "human_speech": "speech",
+    "caption_audio_sync": "speech_captions",
+    "music_with_singing": "sung_background_music",
+    "same_source_multilingual": "multilingual_batch",
+    "multi_language_reuse": "multilingual_batch",
+    "multi_speaker": "multi_character_dialogue",
+    "multiple_speakers": "multi_character_dialogue",
+    "multi_character": "multi_character_dialogue"
+  },
+  "note": "Normalize synonymous observed features only. Story settings are descriptions, not algorithm triggers. Unknown features remain available and require explanation; aliases do not infer identity, gender or unobserved motion.",
+  "definitions": {
+    "speech": "Actual identifiable dialogue, monologue, narration or spoken CTA; ASR blank alone is not absence.",
+    "multi_character_dialogue": "At least two actual speaking roles supported by source audio/context; shot count or ASR segments is not speaker count.",
+    "short_drama": "Observed dramatic dialogue/narrative, not inferred only from family/hospital/school labels.",
+    "short_utterance": "A brief actual reply/interjection requiring independent coverage; no universal duration threshold.",
+    "long_speech": "An actual turn whose translated duration strains its observed source window.",
+    "overlapping_speech": "Audible simultaneous turns, not merely adjacent ASR segments.",
+    "static_text_surface": "Stable observed surface/container, separately protect dynamic fingers/numbers/icons.",
+    "animated_text": "Text itself changes position/scale/rotation/opacity/shape, not camera motion alone.",
+    "foreground_occlusion": "Actual object passes in front of text/repair area and needs time-dependent layering.",
+    "moving_watermark": "Observed publisher mark changes position/rotation or enters/leaves frame.",
+    "speech_captions": "Text actually representing spoken content, distinct from independent title/UI.",
+    "artistic_typography": "Observed decorative, textured, outlined or expressive letterforms requiring style judgment, not any large font.",
+    "filmed_phone_ui": "A physical phone screen seen in the source scene, including its perspective and foreground interaction.",
+    "surface_typography": "Target text must follow an observed surface's geometry, texture, transparency or motion instead of a plain screen overlay.",
+    "multiple_shots": "Observed cuts or scene changes; this alone does not prove animated text or multiple speakers.",
+    "sung_background_music": "Actual sung musical material whose retention/replacement needs a role decision, separate from spoken dialogue.",
+    "multilingual_batch": "The real user request contains multiple target locales; never increases source count or request credit allowance.",
+    "repeated_character": "Evidence links the same speaking role across turns/shots; keep its identity and voice stable.",
+    "onscreen_text": "Actual non-preserved onscreen text instances; includes captions, does not establish text-led type.",
+    "audio_led": "Agent observed core information is carried primarily by intelligible speech; all onscreen copy still covered.",
+    "onscreen_text_led": "Agent observed core information in independent onscreen copy; all narration/dialogue still translated.",
+    "mixed": "Agent observed speech and independent onscreen copy each carry essential information; subtitles alone do not establish mixed type."
+  }
+}

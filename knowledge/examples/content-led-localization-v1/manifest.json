@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "content-led-localization-v1",
+  "created_at": "2026-10-26T03:50:57+00:00",
+  "files": [
+    {
+      "path": "evidence/content-led-routing-review-20261026.json",
+      "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618",
+      "bytes": 1874
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 按信息载体选择制作重点\n\n适用所有新广告本地化。Agent 看实际源帧，并通过真实音频/专用模型确认语言内容后判断；程序只检查分类、清单、知识与依据是否完整一致，不替代理解。音频主导、画面文案主导和混合型决定制作顺序，全部可辨对白、独白、旁白、片尾口播及需翻译画面文字都处理，背景音乐和非语言音效默认保留。\n\n| 类型与适用条件 | 首选顺序 | 备选/切换条件 | 完成与停止 |\n| --- | --- | --- | --- |\n| audio_led：核心卖点或情节主要通过讲话传达；画面独立文案少或辅助；大量逐句对白字幕仍可能属于此类 | 全部人声及角色/旁白职责→定稿→固定角色声音或旁白声音→按源轮次对齐→处理画面文字及字幕 | 发现重要独立UI/报价/标题也承载核心信息，改 mixed；声音局部异常按实际缺句/身份/供应商原因处理 | 所有需译人声和少量文字完整，角色/旁白及句尾可核验；边界后按用户音频条件收口 |\n| onscreen_text_led：主要信息在画面中的标题、产品文案、UI、操作提示或报价；声音可为音乐，也可含辅助旁白 | 画面文字与时间清单→底面修复/透明译字及运动→独立翻译并配制旁白/对白→最终同步 | 发现讲话携带独立关键卖点或情节，改 mixed；自然修复不可行按底面政策切换局部方法 | 每处文字与全部人声均覆盖，音乐音效保留；不能因视觉优先漏旁白 |\n| mixed：讲话和独立画面文案均携带不可省略的重要信息，双方都不能从另一方完整恢复 | 同时建两份清单，共同术语/数字/主张→各自制作→依源事件和实际声音合成 | 某段只有单一信息载体，可记录该片段例外并局部调整顺序 | 两条链路各自完整且合成同步，单条成功不代表整片完成 |\n\n不存在固定字数、秒数或百分比阈值。Agent 解释主要信息来自哪里，并指出实际源证据。音乐多不等于音频语言主导；有旁白不自动等于音频主导；镜头里多人不证明多人讲话；医院/校园等地点不决定算法。字幕与独立文案分开，字幕密度不直接决定类型。\n\n没有需翻译的语言内容时记录 preserve_only 和证据，保留源内容，不制造配音/字幕。疑似讲话未确认时继续 pending 补证，不能写成无人声。全片先给主类型；确有类型切换的片段可在 routing_assessment.segments 记录区间、类型和理由，无须强迫每个镜头重新分类。\n\n## 记录及防漏\n\n新请求 routing_contract_version=1，inventory.routing_assessment 记录 version=1、primary_type、reason、evidence，以及 method_choices。每个实际需要处理的 speech/visual 域至少一项：domain、实际命中的 method_id、reason、alternative、switch_when、stop_when。备选是方法方向，不要求先付费试验；切换须来自实际观察。记录齐全不证明判断正确。\n\n每句人声记录 speech_role（dialogue/narration/monologue/spoken_cta/unknown）和稳定 character_id；不确定可写 unknown 并补证。两个以上已记录且非 unknown 的角色自动补 multi_character_dialogue 检索特征；程序不根据性别、ASR段数或画面人数造身份，也不自动标短剧。画面实际待译文字自动补 onscreen_text，包括对白字幕；剧情及其余复杂度特征仍由 Agent 观察。\n\n## 必要知识与快速模式\n\n检索先满足源、语种、特征和模式条件；retrieval_role=required 的已适用方法与政策完整返回，六条上限只限制额外可选方法。必要方法是必须读到的能力指导，是否调用模型及如何组合由 Agent 决定。条件不符、历史或范围外条目仍不能进入选择。\n\n普通与快速计划都冻结实际知识版本、分类及选择记录。fast-register 同时保存独立 plans 快照和方法正文，work-packet 返回冻结知识与 knowledge_followup，knowledge-use 可以如实记录使用或未用。旧快速计划缺少记录时标 legacy_missing_re_register；重新登记现有配方/产物可补新记录，不编造过去采用事实、不新增付费或继承质量。\n\n长音轨技术检查覆盖完整解码声音和各时间窗；解码失败/超时明确失败，不把前181秒检查称为全片通过。实际语义、配音完整性及旁白/对白覆盖仍靠实际音频证据，波形不能证明翻译。新参数、定稿、角色、资产或时轴变化重建相应绑定。\n\n依据：evidence:review。本版是有来源的要求与开发者方法审阅，不代表任何新视频已经通过。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/content-led-routing-review-20261026.json"
+    }
+  }
+}

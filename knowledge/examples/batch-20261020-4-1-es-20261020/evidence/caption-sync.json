@@ -1,0 +1,570 @@
+{
+  "schema_version": 1,
+  "video_sha256": "cb572273392457cc56115eb4b9e987291559fbc9f76b72b4410cd0b73e6aa70b",
+  "plan_id": "bd21e9116ff85937",
+  "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+  "inventory_sha256": "41f7e413146d3160c5eb2343db6a1ae16181bc336644c0c7a0b0c8a9f86cd6f1",
+  "track_sha256": "e8a5d59cc9bebcb5ebfbe7bc16cdf1c5e8abd3cc41dfb88078f7f3d82203a41e",
+  "audio": {
+    "path": "review/cb5722733924/audio.wav",
+    "sha256": "91768d5356e0531d2012af09b7ac6e63ea2777d4635af49136a84d57bc2a2784"
+  },
+  "reviewer": "Codex same-Agent AV review with external audio perception and local actual-word ASR",
+  "method": "Actual decoded candidate glyph reading plus every-frame pixel matching; actual final-mix ASR word boundaries transferred only after measured AAC/PCM correlation and mux offset. No source-English or uniform timing reuse.",
+  "decision": "pass",
+  "evidence": [
+    "review/cb5722733924/audio.wav",
+    "review/cb5722733924/caption-contact.jpg",
+    "review/cb5722733924/visual-observations.json",
+    "review/cb5722733924/mix-to-candidate-audio.json"
+  ],
+  "instances": [
+    {
+      "id": "t001",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 0,
+          "end": 0.62,
+          "text": "Cierra la"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 0,
+          "end": 0.62,
+          "text": "Cierra la"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "Cierra la",
+          "start": 0,
+          "end": 0.62
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "Cierra la",
+          "start": 0.0,
+          "end": 0.6333333333333333
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t001-000-0.jpg",
+        "review/cb5722733924/caption-t001-000-2.jpg",
+        "review/cb5722733924/caption-t001-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t002",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 0.62,
+          "end": 1.56,
+          "text": "puerta antes de"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 0.62,
+          "end": 1.56,
+          "text": "puerta antes de"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "puerta antes de",
+          "start": 0.62,
+          "end": 1.56
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "puerta antes de",
+          "start": 0.6333333333333333,
+          "end": 1.5666666666666667
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t002-000-0.jpg",
+        "review/cb5722733924/caption-t002-000-2.jpg",
+        "review/cb5722733924/caption-t002-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t003",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 1.56,
+          "end": 1.96,
+          "text": "ver esto."
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 1.56,
+          "end": 1.96,
+          "text": "ver esto."
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "ver esto.",
+          "start": 1.56,
+          "end": 1.96
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "ver esto.",
+          "start": 1.5666666666666667,
+          "end": 1.9666666666666666
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t003-000-0.jpg",
+        "review/cb5722733924/caption-t003-000-2.jpg",
+        "review/cb5722733924/caption-t003-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t004",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 2.56,
+          "end": 3.1,
+          "text": "Cuando estés"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 2.56,
+          "end": 3.1,
+          "text": "Cuando estés"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "Cuando estés",
+          "start": 2.56,
+          "end": 3.1
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "Cuando estés",
+          "start": 2.566666666666667,
+          "end": 3.1
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t004-000-0.jpg",
+        "review/cb5722733924/caption-t004-000-2.jpg",
+        "review/cb5722733924/caption-t004-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t005",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 3.1,
+          "end": 4.4,
+          "text": "a solas, desliza"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 3.1,
+          "end": 4.4,
+          "text": "a solas, desliza"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "a solas, desliza",
+          "start": 3.1,
+          "end": 4.4
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "a solas, desliza",
+          "start": 3.1,
+          "end": 4.4
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t005-000-0.jpg",
+        "review/cb5722733924/caption-t005-000-2.jpg",
+        "review/cb5722733924/caption-t005-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t006",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 4.4,
+          "end": 5.38,
+          "text": "a la izquierda"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 4.4,
+          "end": 5.38,
+          "text": "a la izquierda"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "a la izquierda",
+          "start": 4.4,
+          "end": 5.38
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "a la izquierda",
+          "start": 4.4,
+          "end": 5.4
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t006-000-0.jpg",
+        "review/cb5722733924/caption-t006-000-2.jpg",
+        "review/cb5722733924/caption-t006-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t007",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 5.38,
+          "end": 5.82,
+          "text": "y elige"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 5.38,
+          "end": 5.82,
+          "text": "y elige"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "y elige",
+          "start": 5.38,
+          "end": 5.82
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "y elige",
+          "start": 5.4,
+          "end": 5.833333333333333
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t007-000-0.jpg",
+        "review/cb5722733924/caption-t007-000-2.jpg",
+        "review/cb5722733924/caption-t007-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t008",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 5.82,
+          "end": 6.82,
+          "text": "la primera opción."
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 5.82,
+          "end": 6.82,
+          "text": "la primera opción."
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "la primera opción.",
+          "start": 5.82,
+          "end": 6.82
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "la primera opción.",
+          "start": 5.833333333333333,
+          "end": 6.833333333333333
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t008-000-0.jpg",
+        "review/cb5722733924/caption-t008-000-2.jpg",
+        "review/cb5722733924/caption-t008-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t009",
+      "speech_id": "a003",
+      "units": [
+        {
+          "start": 7.32,
+          "end": 7.48,
+          "text": "Todo"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 7.32,
+          "end": 7.48,
+          "text": "Todo"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "Todo",
+          "start": 7.32,
+          "end": 7.48
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "Todo",
+          "start": 7.333333333333333,
+          "end": 7.5
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t009-000-0.jpg",
+        "review/cb5722733924/caption-t009-000-2.jpg",
+        "review/cb5722733924/caption-t009-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t010",
+      "speech_id": "a003",
+      "units": [
+        {
+          "start": 7.48,
+          "end": 8.56,
+          "text": "se te explicará"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 7.48,
+          "end": 8.56,
+          "text": "se te explicará"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "se te explicará",
+          "start": 7.48,
+          "end": 8.56
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "se te explicará",
+          "start": 7.5,
+          "end": 8.566666666666666
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t010-000-0.jpg",
+        "review/cb5722733924/caption-t010-000-2.jpg",
+        "review/cb5722733924/caption-t010-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t011",
+      "speech_id": "a003",
+      "units": [
+        {
+          "start": 8.56,
+          "end": 8.84,
+          "text": "en la"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 8.56,
+          "end": 8.84,
+          "text": "en la"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "en la",
+          "start": 8.56,
+          "end": 8.84
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "en la",
+          "start": 8.566666666666666,
+          "end": 8.866666666666667
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t011-000-0.jpg",
+        "review/cb5722733924/caption-t011-000-2.jpg",
+        "review/cb5722733924/caption-t011-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t012",
+      "speech_id": "a003",
+      "units": [
+        {
+          "start": 8.84,
+          "end": 9.12,
+          "text": "siguiente"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 8.84,
+          "end": 9.12,
+          "text": "siguiente"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "siguiente",
+          "start": 8.84,
+          "end": 9.12
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "siguiente",
+          "start": 8.866666666666667,
+          "end": 9.133333333333333
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t012-000-0.jpg",
+        "review/cb5722733924/caption-t012-000-2.jpg",
+        "review/cb5722733924/caption-t012-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    },
+    {
+      "id": "t013",
+      "speech_id": "a003",
+      "units": [
+        {
+          "start": 9.12,
+          "end": 9.58,
+          "text": "página."
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 9.12,
+          "end": 9.58,
+          "text": "página."
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "página.",
+          "start": 9.12,
+          "end": 9.58
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "página.",
+          "start": 9.133333333333333,
+          "end": 9.6
+        }
+      ],
+      "decision": "pass",
+      "method": "Read actual midpoint glyphs; first/last matching decoded frames give visual interval. Actual ASR words on correlated final mix give audio interval.",
+      "evidence": [
+        "review/cb5722733924/audio.wav",
+        "review/cb5722733924/caption-t013-000-0.jpg",
+        "review/cb5722733924/caption-t013-000-2.jpg",
+        "review/cb5722733924/caption-t013-000-4.jpg",
+        "review/cb5722733924/visual-observations.json",
+        "review/cb5722733924/alignment-asr-evidence.json"
+      ]
+    }
+  ],
+  "limitation": "Planned units are instructions, not observations. Review actual WAV and caption boundary frames/full playback."
+}

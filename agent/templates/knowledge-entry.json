@@ -1,0 +1,13 @@
+{
+  "id": "example-scoped-rule-v1",
+  "path": "knowledge/local/verified/example.md",
+  "status": "candidate",
+  "scope": {"workflow": "video-localization", "target_language": "zh-CN", "profile": "company-default"},
+  "tags": ["text", "timing"],
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "evidence_runs": [],
+  "valid_until": null,
+  "superseded_by": null,
+  "note": "Example only; copy into a private index after review, do not auto-promote"
+}

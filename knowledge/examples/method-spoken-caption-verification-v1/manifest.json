@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "method-spoken-caption-verification-v1",
+  "created_at": "2026-10-20T06:48:04+00:00",
+  "files": [
+    {
+      "path": "evidence/method-spoken-caption-verification-v1-observations.json",
+      "sha256": "58095db34fe7cea9b3790ad6063dfe1409e434ecca88f40f07de337299cf0458",
+      "bytes": 1528
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 有人口播：共享定稿，用实际声音和成片边界核验字幕\n\n适用于含人声的广告。这是核验程序，来自三个源素材的声音、混音与同步观察；不是跨素材声学精度或口型同步保证。\n\n1. 区分口播字幕和场景标题/UI。口播及对应字幕共用已确认的目标文本，配音、裁切、变速和回混完成后再建立实际音频时间。\n2. 对照声音语义、转写与停顿检查时间；识别器可能把前导静音分配给下一词。能量和ASR都只是证据，低能量真实发音不可直接裁掉；无法可靠逐词对齐时采用经检查的短句。\n3. 用实际成片声音、字幕出现/消失帧和定稿共同核验，保存可独立复查的边界图、音频及同步记录。计划时间、请求文本和音频单独送审结果不能替代视听同步。\n4. 后续仅修改画面时，可复用经核验的同语言声音，并比较实际音轨身份。新语言仍需新配音、时间轴和成片审查。\n\n证据索引：evidence:observations。总体用户认可、字幕同步、背景音乐保留和无损分轨分别判断；历史revise保持原结论。停顿修正的具体收益主要来自手势素材，新说话人、语速、语言、音乐和辅音情况需再次验证。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/method-spoken-caption-verification-v1-observations.json"
+    }
+  }
+}

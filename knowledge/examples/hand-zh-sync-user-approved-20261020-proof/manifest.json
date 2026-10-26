@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "hand-zh-sync-user-approved-20261020-proof",
+  "created_at": "2026-10-20T04:23:45+00:00",
+  "files": [
+    {
+      "path": "evidence/0355f7f65a-arrow-layers.json",
+      "sha256": "0355f7f65ade6669283e5bdd8ce849379f41adf843ad45b88fb36deca2caad47",
+      "bytes": 1678
+    },
+    {
+      "path": "evidence/3ac551bc80-typography-record.json",
+      "sha256": "03476c60783beb36a4fde408f55122d2e5333885d3e27578cc2de5f3b5f32a51",
+      "bytes": 5280
+    },
+    {
+      "path": "evidence/60917137ea-preparation.json",
+      "sha256": "f7917a5426af6e2a3c5526a54da9aead795e728334b28782535bda247892b952",
+      "bytes": 2028
+    },
+    {
+      "path": "evidence/85997d26a9-caption-alignment.json",
+      "sha256": "4c389616d18864ec0052454a25b48fc1e4cbe314790c2cbbf74716ca591bd9ec",
+      "bytes": 2667
+    },
+    {
+      "path": "evidence/arrow-accepted-final.png",
+      "sha256": "15263e50d7094a8067cf2d51f85a4a846919b40fad2c89661671e1e3d99e3eb6",
+      "bytes": 71552
+    },
+    {
+      "path": "evidence/arrow-observation-crops.json",
+      "sha256": "a6d1d61d44a08c0b56750d2438c20520ec24f66f1f48698f096774ac4a1e254b",
+      "bytes": 893
+    },
+    {
+      "path": "evidence/arrow-previous-error.png",
+      "sha256": "cbb1dfe9b4f452a958204100b27557a41d5732d25cac0ca383bed0c0a11ef217",
+      "bytes": 70643
+    },
+    {
+      "path": "evidence/arrow-source.png",
+      "sha256": "67dfb3355fd6d17252592d800759bcd0106c3c450316db2b3b9a45a32344db12",
+      "bytes": 78318
+    },
+    {
+      "path": "evidence/observation.json",
+      "sha256": "35de8cb93867e64bd86869126067a1252a8d159204de815399e7d4682a183f1b",
+      "bytes": 36953
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "333f1e30a80f3463eb7b36a1d2d7c567a5b2b7d46ec0f78b004bab6b43b56b34",
+      "bytes": 4757
+    },
+    {
+      "path": "evidence/ref-001-user-approval-20261020.json",
+      "sha256": "a47fb8ab7501f8eb43159868c322c84a50618180014975fe2f7d45252c95a63f",
+      "bytes": 1534
+    },
+    {
+      "path": "evidence/ref-004-review.json",
+      "sha256": "b0773525d433a809ca714fc014dda891b88363d7797167fbbe7ad80ef3539002",
+      "bytes": 16034
+    },
+    {
+      "path": "evidence/ref-005-6c7c6db523150cab4906a30d.json",
+      "sha256": "dbbb831140948022b2088c2912340a64a8b59be0980512e5f308ea0d5a4b0937",
+      "bytes": 9591
+    },
+    {
+      "path": "evidence/ref-006-hand-shared-sync-assets-20261020.json",
+      "sha256": "65a9fa044c38cd99990e846655935da4c9d7942c57b3c4f469707065fff31a6a",
+      "bytes": 3623
+    },
+    {
+      "path": "evidence/ref-007-reuse-assets.json",
+      "sha256": "bdadf97f3240441c51085510cc96ee7eda2ec77ea27918704a4f87c8248b42d1",
+      "bytes": 1488
+    },
+    {
+      "path": "evidence/ref-008-actual-costs.json",
+      "sha256": "4a41ff198edd639fdbc92b8825299e3b8a7e1606ab481ac23ab195f1fcd8ed9a",
+      "bytes": 545
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+      "target_language": "zh-CN"
+    },
+    "status": "active",
+    "lesson": "# 用户认可样例：手势广告中文修订版\n\n## 确认与范围\n\n用户原话：“很好，效果很好。请你帮我进行知识积累”。确认时间 2026-10-20T03:08:13+00:00，原话与绑定记录见 `evidence:ref-001`。\n仅适用于源 SHA256 `f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe`、目标 `zh-CN`、最终视频 SHA256 `57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858`；成片在 `evidence:ref-002`。\n这是用户对最新整体效果的认可，可以作为同源中文参考。公司通用偏好、其他语种验收、独立专家评审和无损音轨分离均未由这句话证明。\n\n## 提纯后的做法\n\n1. **先确定对象关系，再分割。** 原片 Click below 是连续整行，运动箭头覆盖在前。颜色相连不等于同一对象：先取没有字母污染的源箭头轮廓，擦掉原字及描边/阴影，再以“连续点击下方 → 前景箭头”重建。不能把 be 的边缘留在箭头里，也不能把中文分放箭头左右。\n2. **字幕与口播共用定稿，以实际声音定时。** 已接受口播为“手势翻转棱镜特效怎么做？其实很简单，跟我一起学！”和“点击下方，上传照片，马上试试！”。标题/UI另行翻译。先分析实际配音，再排字幕；最后把成片声音和真实字幕出现/消失帧一起检查，不能把音频模型的 sync 当作字幕通过。\n3. **停顿需要单独核实。** 本次 ASR 把句间静音计入下一词，导致“其实”“跟我”“马上”提前出现。用原采样率音频、25ms能量观察和语义短句核对，无法可靠分词时合并为短句。英文擦除窗口与中文显示窗口分别保存，中文说完后也不能让旧英文露回。\n4. **保留原风格，不统一套色。** 保留源文字的霓虹配色、大小、描边、运动与遮挡关系；边界、入场和出场都检查。透明箭头导出时清空 alpha=0 区域的 RGB 并裁到真实轮廓，避免下游工具错误读取隐藏英文。\n5. **修字和时轴时先复用已审资产。** 本次保留原已审中文声音；记录显示新旧完整 AAC 和解码 PCM 一致。底片、干净箭头、运动和语言字层分开保存，不因局部修字重新调用整段视频模型。\n\n## 失败与验证证据\n\n本轮实际有3个成片候选、2轮本地画面返工。第一版统一配色偏离原风格；第二版已还原色彩，但实际停顿检查发现字幕提前；最终版修正后通过。不能把这次记为一次成功，失败成片和评审保留。\n\n| 核对项 | 实际证据 |\n| --- | --- |\n| 箭头、残字和连续中文 | `evidence:ref-003` |\n| 字幕内容与边界 | 同目录 `caption-sync.json`、`caption-ocr-observations.json`、`caption-observed-sheet-01.jpg`/`02.jpg` |\n| 声音与上一版一致 | 同目录 `audio-equivalence.json`；一致性不等于无损分离证明 |\n| 逐实例和转场 | 同目录实例对照图、边界图；`evidence:ref-004` 为同一Agent自审 |\n| 冻结交付门禁 | `evidence:ref-005`，pass / 91.3分；原文件不改写 |\n\n13个字幕单元经过实际边界核对；相对本次审过的音频时间标注，最大起止偏差0.0267秒。这不是普遍声学精度或口型同步保证。部分OCR边界漏检已保留原输出，再用真实帧补充人工观测。\n\n## 复用入口与费用\n\n资产目录和哈希见 `evidence:ref-006`；原始清单 `evidence:ref-007`。再次处理此源时先核对文件哈希；无字底片与独立箭头/运动可服务其他语言，中文配音、字形和同步时间不能直接当作日文或韩文成品使用。只保存索引引用，没有为学习另复制原视频；清理 runs 前必须先保留所需资产。\n\n实际账本 `evidence:ref-008`：本次修订新增0 KIE credits；该素材中文含共享准备累计32.85，既有日文增量0.78，两语言合计33.63。该数值是这一素材的记录，不是全项目历史累计或新素材报价。本次知识整理新增0付费调用。\n\n## 后续使用边界\n\n同源中文通过 context/plan 命中此样例；其他语种只命中适用的同源对象关系和资产引用，仍需新稿、配音、时轴与实际视频检查。不同素材需要重新解析。跨素材的ASR停顿、连通对象、透明RGB和风格迁移经验作为 `knowledge/candidates/hand-sync-transfer-lessons-20261020.json` 待复验候选保存，不自动变为公司默认规则。\n\n局限仍保留：背景修复及箭头入场透明度存在近似，原声音分离局限未因整体认可消失；本次未做口型同步。样例使用了源视频专用构建脚本，尚不能证明对新素材无人值守一次成功。\n",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

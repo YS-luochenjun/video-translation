@@ -1,0 +1,22 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "video_sha256": null,
+  "audio_path": "outputs/audio-mix/line-03-trimmed.wav",
+  "audio_sha256": "b1d20f206e970fc39d3ce812bb26fb4eb7daa39f81e10308de6ed946f94bf515",
+  "engine": "faster-whisper 1.2.1, base multilingual, CPU int8",
+  "model_sha256": "d01c3014881c9c6f3133c182f3d2887eb6ca1c789a7538c5c007196857a0a6a9",
+  "language": "ko",
+  "language_probability": 0.9970319271087646,
+  "vad_filter": false,
+  "decoder": "FFmpeg, mono 16000 Hz signed PCM to float32 ndarray",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.0,
+      "text": " 지금 무료로 체험하세요.",
+      "avg_logprob": -0.40530796100695926,
+      "no_speech_prob": 0.0014393283054232597
+    }
+  ],
+  "proof_boundary": "Local model transcription in actual detected language, no target script supplied. It is not direct listening or proof of background music/FX completeness."
+}

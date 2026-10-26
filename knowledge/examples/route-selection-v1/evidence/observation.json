@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "route-selection-v1",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "status": "active",
+  "origin": "developer default, not company preference",
+  "reviewed_by": null,
+  "reference_video_sha256": null,
+  "company_preference": false,
+  "references": [],
+  "original_method_sha256": "993a6bfe0de419e4c44b988e349607f766daea4a245c9a673e443c4967eb7a29",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

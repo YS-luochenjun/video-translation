@@ -1,0 +1,38 @@
+{
+  "id": "supervision-2-1-visual-feedback-20261020",
+  "recorded_at": "2026-10-20T12:11:34+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+  },
+  "actual_old_videos": [
+    "30cf240458a7368349f1b2927006b9f71044c510f817cda45e40c3f92293ae15",
+    "ec0cab574d635b98432d980e5017edf281c19146551cc97f63ab0c1da031b29f",
+    "27a793567c47941d040e5dcb0fdcee2950b1a92d27005a8fcb3d59d292eb6092",
+    "0baed7469262dd4b5bda909a5f78af8ef10bb709dc2d202789e4c06cecce4ea4",
+    "237f7ca1f656b6203151a4cfc8b409211338ccfd5bac37ded76b2bb6b56638bd",
+    "a1d312e43a9c07d9e281cc2adae65c7c0a03f300723b5f39ed16a3d4b9482532",
+    "047febcdf7d9444be01e71b2b61da0d72da219227650f5c10a87bf378f9d1460",
+    "1fd7dd017e1edff825cc252423d66701b7343603f5d0e9a42716ed6777b1eb67",
+    "c8b2f88a13aac5081d7cc893dc195ca0fb1cdca65584ecd3cbb6b6b1410be08f",
+    "5f4509913bae319c1b48e355e2d41fbf14651387bce1accf5efe64f0336c2aac"
+  ],
+  "user_quote": "目前有点问题，如图，各种语言都有一点问题。文字的进入和原视频不一样，且，上面固定住了，很奇怪。小孩的头顶都是静止的",
+  "original_feedback_sha256": "65a6ca5cf88b6efeb05a4938c43a3447936c86e0152c04d84d85b8e9c82de24d",
+  "outcome": "visual_rejected_or_unaccepted",
+  "finding": "A shared fixed first-frame top strip froze moving hair across ten languages. Static cleanliness and low cost did not justify destroying motion; animation was simplified.",
+  "current_repair_status": "In progress; no successful repair algorithm promoted by this record",
+  "generalizable_checks": [
+    "Inspect the silent neutral master at native-scale problem regions and as encoded continuous motion before adding translated text.",
+    "Separate full source-letter erasure from reconstruction quality and target typography/animation checks.",
+    "Static-patch selection must respect actual region motion and compatible reference scene/pose; do not transfer a photo-based recipe to moving hands without a new trial.",
+    "Pilot one language before batch expansion; retain exact failed asset identity and carry later rejection into delivery/reuse state."
+  ],
+  "reviewed_by": "Supervising Codex: thread and record review; 1-3 layer comparison and 4-2 neutral contact sheet inspected; no new full-video/audio acceptance",
+  "limits": [
+    "No universal inpainting solution or quality guarantee.",
+    "Multiple languages from one neutral master count as one source observation.",
+    "Historical audio facts remain scoped; visual rejection does not imply new audio rejection.",
+    "Historical paths in copied records are provenance only; permanent dependencies are files in this manifest."
+  ]
+}

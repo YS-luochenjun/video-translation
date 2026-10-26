@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-19T12:01:04+00:00",
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "quote_exact": "好的，先进行Agent项目的修改，吧这部分内容（字幕音频同步）加入。除了这个内容，目前视频还可以，知识还可以",
+  "interpretation": "Current Chinese/Japanese preview context; positive overall feedback excludes subtitle/audio consistency and synchronization.",
+  "references": [
+    {
+      "run": "hand-zh-001",
+      "target_language": "zh-CN",
+      "video": "origin:candidate-c2cc1070cfb922f1.mp4",
+      "video_sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c",
+      "plan_id": "c2cc1070cfb922f1",
+      "quality_sha256": "3bfdffc782cc46b84f0d3a2f7ea7f0317876a9322e5f43b875b036f701f9a7ec",
+      "historical_technical_decision": "revise",
+      "historical_failures": [
+        "instance_failed_or_unverified:t001",
+        "instance_failed_or_unverified:t002",
+        "instance_failed_or_unverified:t008",
+        "critical_defect_or_revision_required"
+      ],
+      "user_feedback": "Overall current previews acceptable apart from spoken-caption consistency/sync",
+      "scope_limit": "No new language-specific pronunciation, lossless separation, independent review, or full technical acceptance claim",
+      "confirmed_prior_credits": 32.85,
+      "paid_job_hashes": {
+        "runs/hand-zh-001/jobs/cd1f10803f22dd36c2ac228c2c8a8baf26f0ebbe6b1969f442b47dee05c8f21d.json": "9d6c80c7596fcfdaa6d8eaade2679624f6ce8b73de43a89831a5f85bdc036080",
+        "runs/hand-zh-001/jobs/cda9bd52613377268e201f644add4ed05800e4782eb5e1b137ec104f0936d852.json": "e7f23e7f3e4be75ff4959cd21ce0d4bb8372dbacf5de91a9330bafd1f533baa8",
+        "runs/hand-zh-001/jobs/ec8ac939605eaebc8258d74d36c025fba78c618df8b6137c31c31ad0badc8a00.json": "4c7f536f34ee30e6f9b2be7af5db6fda6dddc2a3145a09d221671b6571e88923",
+        "runs/hand-zh-001/jobs/f4ddef630e60a4886f5eeaaac9b38875759e1cbcf7422fed84939b7abd3043cd.json": "d6b65e76187ac68a0c152c2301b1675c65b6e3f5785175d741d530777940a205",
+        "runs/hand-zh-001/jobs/fc94cf86524ee8754bc887654d74ecc0d0d97973f78453c044bdfbbb283cba55.json": "fd9fd7324c6fc9edf7c7c630c909ba4699226b490898ebe44280f90cd6de5765"
+      }
+    },
+    {
+      "run": "hand-ja-001",
+      "target_language": "ja-JP",
+      "video": "origin:candidate-cba27c88d6133c1b.mp4",
+      "video_sha256": "fef944392903e3410185a53718e707829c203f983ddbf477c52d5dc5d3c4bad0",
+      "plan_id": "cba27c88d6133c1b",
+      "quality_sha256": "79437943c76ace00ca5a5a05f2f29c7ecc8be663e99ecf324118be197b8f93ae",
+      "historical_technical_decision": "revise",
+      "historical_failures": [
+        "instance_failed_or_unverified:t001",
+        "instance_failed_or_unverified:t002",
+        "instance_failed_or_unverified:t008",
+        "critical_defect_or_revision_required"
+      ],
+      "user_feedback": "Overall current previews acceptable apart from spoken-caption consistency/sync",
+      "scope_limit": "No new language-specific pronunciation, lossless separation, independent review, or full technical acceptance claim",
+      "confirmed_prior_credits": 0.78,
+      "paid_job_hashes": {
+        "runs/hand-ja-001/jobs/9b716bd8b285278cf187f864c211fd441dbeb8fdcf2233f313ffef9d4a4f2fd5.json": "b8452181b9e71297d7ad81cbc4c8ce20f61618664463fa3879590ca76db09fc7",
+        "runs/hand-ja-001/jobs/a15d212e1624d581e154fcc3a3ad1dc3fa2ccf64da384a307fb892d786a610e5.json": "1fac836799aefd809d338f55d53988db2968a008da02dc3b81764b4549d0231e",
+        "runs/hand-ja-001/jobs/fa7c807685e4a009a77f0ce6922c5ddc3797a7985fa172d45c9808998378117c.json": "6bb3c5e3606703c312cead282e553f86723de1b250af3b93851893cb6df57d9c"
+      }
+    }
+  ],
+  "new_paid_calls_this_change": 0,
+  "new_credits_this_change": 0,
+  "prior_pair_credits": 33.63,
+  "proof_boundary": "Direct user feedback plus current hash/receipt checks; historical quality remains unchanged; no regenerated customer video"
+}

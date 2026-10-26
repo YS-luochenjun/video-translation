@@ -1,0 +1,104 @@
+{
+  "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+  "video_sha256": "fd94cb073f5527b740057ec3415b5981927eb0a040c17acdf88f97e6b598dab6",
+  "actual_audio_sha256": "f50b0ce5cfb04f7d160e1063ed68875ca66540ca3f11b8b7afd6a60090445a35",
+  "actual_audio_path": "review/fd94cb073f55/audio.wav",
+  "prior_rejected_video_sha256": "5845988f471d0ac0d36941ef9bab4d886903d01416096dd291b98db789782aeb",
+  "prior_external_review": {
+    "path": "review/fd94cb073f55/prior-audio-model-review.json",
+    "sha256": "63a482ab640bac4cad5ba5af99185ffa18c5b3457075f02b74f15bb4411f60df",
+    "finding": "All three actual Spanish narration lines, original music and effects were confirmed. The candidate was rejected for the remaining source word away; that rejection is preserved."
+  },
+  "method": "Local actual-WAV correlation and source-bound revision provenance; prior external semantic observations are reused only for acoustically unchanged narration/music intervals. Not a new external listening review.",
+  "voice_intervals_vs_prior_candidate": [
+    {
+      "start": 0,
+      "end": 1.75,
+      "correlation": 1.0,
+      "rms_dbfs_a": -19.240880157607908,
+      "rms_dbfs_b": -19.240880157607908,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "start": 4.75,
+      "end": 7.7,
+      "correlation": 0.9992145017331872,
+      "rms_dbfs_a": -17.97770507820903,
+      "rms_dbfs_b": -17.987395847777762,
+      "max_absolute_difference": 0.104156494140625
+    },
+    {
+      "start": 15.95,
+      "end": 17.25,
+      "correlation": 0.9993945117894277,
+      "rms_dbfs_a": -12.771448598444161,
+      "rms_dbfs_b": -12.791753473716433,
+      "max_absolute_difference": 0.052825927734375
+    }
+  ],
+  "original_music_intervals_vs_prior_candidate": [
+    {
+      "start": 1.9,
+      "end": 4.5,
+      "correlation": 1.0,
+      "rms_dbfs_a": -9.438892589467041,
+      "rms_dbfs_b": -9.438892589467041,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "start": 8.4,
+      "end": 11.4,
+      "correlation": 0.9996118662644085,
+      "rms_dbfs_a": -9.776005824668237,
+      "rms_dbfs_b": -9.774908510214066,
+      "max_absolute_difference": 0.149932861328125
+    },
+    {
+      "start": 12,
+      "end": 15.5,
+      "correlation": 0.9998077873021509,
+      "rms_dbfs_a": -11.232350769059657,
+      "rms_dbfs_b": -11.227987419260506,
+      "max_absolute_difference": 0.08782958984375
+    },
+    {
+      "start": 17.45,
+      "end": 18.05,
+      "correlation": 0.9998922262267146,
+      "rms_dbfs_a": -8.877574249203526,
+      "rms_dbfs_b": -8.875198670493663,
+      "max_absolute_difference": 0.044708251953125
+    }
+  ],
+  "revised_tail_interval": {
+    "start": 7.78,
+    "end": 8.04,
+    "correlation": 0.04761682414130677,
+    "rms_dbfs_a": -70.28594633516038,
+    "rms_dbfs_b": -17.48703218102124,
+    "max_absolute_difference": 0.703033447265625
+  },
+  "actual_audio_vs_selected_replacement": {
+    "start": 0,
+    "end": 18.1,
+    "correlation": 0.9986672351755969,
+    "rms_dbfs_a": -11.870704725780914,
+    "rms_dbfs_b": -11.79345924267706,
+    "max_absolute_difference": 0.199951171875
+  },
+  "source_erasure_extended": [
+    4.7,
+    8.08
+  ],
+  "tail_clip": {
+    "path": "review/fd94cb073f55/english-tail-rechecked.wav",
+    "sha256": "070cdc1ef28dbffd4c9c2d57fb5cd75b96bc77d1395b7ee92ddbc1a000c6120e"
+  },
+  "all_three_confirmed_spanish_takes_unchanged": true,
+  "preserved_music_intervals_unchanged": true,
+  "tail_level_reduction_db": -52.79891415413913,
+  "limitations": [
+    "The revised audio was not uploaded for an external listening review because automatic approval rejected that new payload.",
+    "Local correlation proves acoustic continuity in the tested intervals; it is not human pronunciation or lossless separation acceptance."
+  ]
+}

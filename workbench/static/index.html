@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>译制工作台 · 视频本地化</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到内容</a>
+  <aside class="rail" aria-label="主导航">
+    <a class="brand" href="#tasks"><span class="brand-mark" aria-hidden="true">译</span><span>译制工作台<small>视频本地化</small></span></a>
+    <nav>
+      <a href="#tasks" data-nav="tasks"><span aria-hidden="true">▤</span>任务与视频<span id="nav-count" class="nav-count">—</span></a>
+      <a href="#knowledge" data-nav="knowledge"><span aria-hidden="true">⌘</span>知识与调用</a>
+      <a href="#system" data-nav="system"><span aria-hidden="true">◷</span>运行概况</a>
+    </nav>
+    <div class="rail-note"><span class="read-dot"></span>本机 · 只读连接<p>沿用项目记录与制作流程</p></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <span class="breadcrumb">广告视频本地化<span>/</span><strong id="page-label">任务与视频</strong></span>
+      <div class="refresh-controls"><span id="connection" role="status">连接中</span><label class="auto"><input id="auto" type="checkbox" checked>自动更新</label><button id="refresh" class="icon-button" title="立即更新" aria-label="立即更新">↻</button></div>
+    </header>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <main id="main" tabindex="-1">
+      <section class="page-heading"><div><h1 id="page-title">任务与视频</h1><p id="page-description">查看制作进展、实际产物和仍需处理的问题。</p></div><span id="read-time" class="quiet">读取项目记录…</span></section>
+      <div id="content"><div class="empty">正在读取本地任务…</div></div>
+    </main>
+    <footer>记录自动刷新 · 质量结论来自对应版本的审核记录<span>页面不启动模型，不改写任务与账本</span></footer>
+  </div>
+  <dialog id="document"><div class="dialog-head"><h2 id="document-title">知识正文</h2><button id="close-document">关闭</button></div><p id="document-hash" class="mono quiet"></p><pre id="document-text"></pre></dialog>
+</body>
+</html>

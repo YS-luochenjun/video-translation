@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-structure-maintenance",
+  "date": "2026-10-22",
+  "authorization": "User requested project cleanup and explicitly included similar rules/cases.",
+  "scope": "Structure and canonical links; route-selection-v2 separately published through knowledge-promote to align with the existing no-solid-panel policy. No broadened video-quality claims.",
+  "duplicates_removed": [
+    {
+      "path": "knowledge/rules/family-time-zh-user-approved-reference-20261019.md",
+      "canonical": "knowledge/cases/family-time-zh-user-approved-reference-20261019.md",
+      "sha256": "6c39a6eddacc96174c94de9e0004069dc34e22edd908564c2945132870702de6"
+    },
+    {
+      "path": "knowledge/rules/family-time-zh-local-repair-user-approved-20261019.md",
+      "canonical": "knowledge/cases/family-time-zh-local-repair-user-approved-20261019.md",
+      "sha256": "c2ab10690a9a4e977cd750bbb593be962bdb31e70b82621545185936f6be92a3"
+    },
+    {
+      "path": "knowledge/rules/live-photo-zh-user-approved-reference-20261019.md",
+      "canonical": "knowledge/cases/live-photo-zh-user-approved-reference-20261019.md",
+      "sha256": "80f3cc04b9ca3ae1a2b7ea39718f1a61adceade52c1629def096414041f82dd5"
+    },
+    {
+      "path": "knowledge/rules/live-photo-ja-user-approved-reference-20261019.md",
+      "canonical": "knowledge/cases/live-photo-ja-user-approved-reference-20261019.md",
+      "sha256": "ccb4657f366fbcc861dec2f2ac40caaecfd0385cd67236f1356a5daac8668c4c"
+    },
+    {
+      "path": "knowledge/rules/live-photo-shared-assets-20261019.md",
+      "canonical": "knowledge/cases/live-photo-shared-assets-20261019.md",
+      "sha256": "912ad6e58d3c197973c3744bb95f4548229e46d8ac87dd383748c7e035502b17"
+    },
+    {
+      "path": "knowledge/rules/live-photo-zh-ui-user-approved-20261019.md",
+      "canonical": "knowledge/cases/live-photo-zh-ui-user-approved-20261019.md",
+      "sha256": "434a0797dedd15eed4884e0d80e5ac9a24d3d4707ee7a4daa7b5532da6a9a4db"
+    },
+    {
+      "path": "knowledge/rules/live-photo-zh-gap-final-user-approved-20261019.md",
+      "canonical": "knowledge/cases/live-photo-zh-gap-final-user-approved-20261019.md",
+      "sha256": "85ffac1abf0fa58e1be6bda1791412aca4f2a2466c960ab2d48329a9a437033b"
+    },
+    {
+      "path": "knowledge/rules/live-photo-ko-final-user-approved-20261019.md",
+      "canonical": "knowledge/cases/live-photo-ko-final-user-approved-20261019.md",
+      "sha256": "86277b95050f44b1331d0f0f511499ffd4376085f95e68e1c843f9b3519a2e73"
+    },
+    {
+      "path": "knowledge/rules/live-photo-zh-art-user-approved-20261019.md",
+      "canonical": "knowledge/cases/live-photo-zh-art-user-approved-20261019.md",
+      "sha256": "1e090ecc5c60c82f400371c1beab9453cf932bc330941aac153f1b1efc4d92c3"
+    },
+    {
+      "path": "knowledge/rules/live-photo-shared-art-assets-20261019.md",
+      "canonical": "knowledge/cases/live-photo-shared-art-assets-20261019.md",
+      "sha256": "911d25d80c1f58e9a613d014da1b201ce1ac73f964b1b54d47029a840b01d378"
+    },
+    {
+      "path": "knowledge/rules/hand-zh-CN-visual-feedback-20261019.md",
+      "canonical": "knowledge/cases/hand-zh-CN-visual-feedback-20261019.md",
+      "sha256": "c204675aeff314c6b20dfdc6f62d40cf33d97bc2340e200312700baca63a8d26"
+    },
+    {
+      "path": "knowledge/rules/hand-ja-JP-visual-feedback-20261019.md",
+      "canonical": "knowledge/cases/hand-ja-JP-visual-feedback-20261019.md",
+      "sha256": "4af966223ffba04f46251c44fd5fb04b051f9fd1dcc1e70412e64c25f33709e7"
+    },
+    {
+      "path": "knowledge/rules/hand-arrow-layering-user-correction-20261020.md",
+      "canonical": "knowledge/cases/hand-arrow-layering-user-correction-20261020.md",
+      "sha256": "f402cdf38a6c88056b0d7d49c760c020c164a0d4a6b52344022fc5d1152a11a8"
+    },
+    {
+      "path": "knowledge/rules/hand-zh-sync-user-approved-20261020.md",
+      "canonical": "knowledge/cases/hand-zh-sync-user-approved-20261020.md",
+      "sha256": "333f1e30a80f3463eb7b36a1d2d7c567a5b2b7d46ec0f78b004bab6b43b56b34"
+    }
+  ],
+  "history_moves": [
+    {
+      "path": "knowledge/rules/user-budget-and-accounting-20261019.md",
+      "destination": "knowledge/history/rules/user-budget-and-accounting-20261019.md",
+      "id": "user-budget-and-accounting-20261019",
+      "superseded_by": "user-budget-60-and-native-ui-20261019",
+      "sha256": "4056194d0e3e6da7f3fe528f5d3c64c5c0b0a97c8f3e6a6ff63c8dc206728c2c"
+    },
+    {
+      "path": "knowledge/rules/user-budget-60-and-native-ui-20261019.md",
+      "destination": "knowledge/history/rules/user-budget-60-and-native-ui-20261019.md",
+      "id": "user-budget-60-and-native-ui-20261019",
+      "superseded_by": "user-budget-60-reuse-40-20261019",
+      "sha256": "1f1b3b91991ba6d72e0f007f9628156040364fd61617f4dcc54f4dfd264c9a38"
+    },
+    {
+      "path": "knowledge/rules/user-budget-60-reuse-40-20261019.md",
+      "destination": "knowledge/history/rules/user-budget-60-reuse-40-20261019.md",
+      "id": "user-budget-60-reuse-40-20261019",
+      "superseded_by": "user-request-budget-20261021",
+      "sha256": "a92fbb3f30beba646985c6b0a8dd561b3275c115c9f31900801e8c501b6ac358"
+    },
+    {
+      "path": "knowledge/rules/method-source-neutral-preparation-v1.md",
+      "destination": "knowledge/history/rules/method-source-neutral-preparation-v1.md",
+      "id": "method-source-neutral-preparation-v1",
+      "superseded_by": "method-source-neutral-preparation-v2",
+      "sha256": "d891dbcbe3ba0eba99378fc030b79e9d96b139dd752c14cfd3943f3e6290e0ee"
+    },
+    {
+      "path": "knowledge/rules/method-animated-text-occlusion-v1.md",
+      "destination": "knowledge/history/rules/method-animated-text-occlusion-v1.md",
+      "id": "method-animated-text-occlusion-v1",
+      "superseded_by": "method-animated-text-occlusion-v2",
+      "sha256": "7f67b4afd2f9384ff9e6a5dc76330e505383dfa582341357f7028c368351fa9c"
+    },
+    {
+      "path": "knowledge/rules/method-spoken-caption-verification-v1.md",
+      "destination": "knowledge/history/rules/method-spoken-caption-verification-v1.md",
+      "id": "method-spoken-caption-verification-v1",
+      "superseded_by": "method-spoken-caption-verification-v2",
+      "sha256": "7cd01ff27cb9c6417b1b8ffbe76ed972b68bef9b63488cbcd40952e04b60dfcb"
+    },
+    {
+      "path": "knowledge/rules/method-source-neutral-preparation-v2.md",
+      "destination": "knowledge/history/rules/method-source-neutral-preparation-v2.md",
+      "id": "method-source-neutral-preparation-v2",
+      "superseded_by": "method-source-neutral-preparation-v3",
+      "sha256": "0ab5ab345826b5922e3160f869ca39f6b73245f88d17a0da201793ecd38ff076"
+    },
+    {
+      "path": "knowledge/rules/method-animated-text-occlusion-v2.md",
+      "destination": "knowledge/history/rules/method-animated-text-occlusion-v2.md",
+      "id": "method-animated-text-occlusion-v2",
+      "superseded_by": "method-animated-text-occlusion-v3",
+      "sha256": "d6770c5f7f9c5cd24b64e679b0ab0ebd1d980f1966ed95de0e4227d4ad5ad551"
+    },
+    {
+      "path": "knowledge/rules/method-spoken-caption-verification-v2.md",
+      "destination": "knowledge/history/rules/method-spoken-caption-verification-v2.md",
+      "id": "method-spoken-caption-verification-v2",
+      "superseded_by": "method-spoken-caption-verification-v3",
+      "sha256": "0260106a584c2bccf8bc18f86a0c5494d224ff1265d6f2a28adaa4799ce17d04"
+    },
+    {
+      "path": "knowledge/rules/neutral-visual-and-animation-gate-v1.md",
+      "destination": "knowledge/history/rules/neutral-visual-and-animation-gate-v1.md",
+      "id": "neutral-visual-and-animation-gate-v1",
+      "superseded_by": "neutral-visual-and-animation-gate-v2",
+      "sha256": "c32e59eb76169f7bd91b7192d12eec6b4134de67c3ee4058d5b7743f05f80687"
+    },
+    {
+      "path": "knowledge/rules/method-animated-text-occlusion-v3.md",
+      "destination": "knowledge/history/rules/method-animated-text-occlusion-v3.md",
+      "id": "method-animated-text-occlusion-v3",
+      "superseded_by": "method-animated-text-occlusion-v4",
+      "sha256": "77aa8956bd453230077a75d254aa7c32a5ec8f49e4503e42a7ac66922c980474"
+    },
+    {
+      "path": "knowledge/rules/method-animated-text-occlusion-v4.md",
+      "destination": "knowledge/history/rules/method-animated-text-occlusion-v4.md",
+      "id": "method-animated-text-occlusion-v4",
+      "superseded_by": "method-animated-text-occlusion-v5",
+      "sha256": "fd4e12fc6caeccb5f6484040d2a9cd65ee548fcfae2ecfea1338334364ce606e"
+    },
+    {
+      "path": "knowledge/rules/neutral-visual-and-animation-gate-v2.md",
+      "destination": "knowledge/history/rules/neutral-visual-and-animation-gate-v2.md",
+      "id": "neutral-visual-and-animation-gate-v2",
+      "superseded_by": "neutral-visual-and-animation-gate-v3",
+      "sha256": "01e2d821e30d30a3291871386e19be2b408badcdef94ecdd8f2c043e9de23465"
+    },
+    {
+      "path": "knowledge/cases/family-time-zh-user-approved-reference-20261019.md",
+      "destination": "knowledge/history/cases/family-time-zh-user-approved-reference-20261019.md",
+      "id": "family-time-zh-user-approved-reference-20261019",
+      "superseded_by": "family-time-zh-local-repair-user-approved-20261019",
+      "sha256": "6c39a6eddacc96174c94de9e0004069dc34e22edd908564c2945132870702de6"
+    },
+    {
+      "path": "knowledge/cases/live-photo-zh-user-approved-reference-20261019.md",
+      "destination": "knowledge/history/cases/live-photo-zh-user-approved-reference-20261019.md",
+      "id": "live-photo-zh-user-approved-reference-20261019",
+      "superseded_by": "live-photo-zh-ui-user-approved-20261019",
+      "sha256": "80f3cc04b9ca3ae1a2b7ea39718f1a61adceade52c1629def096414041f82dd5"
+    },
+    {
+      "path": "knowledge/cases/live-photo-shared-assets-20261019.md",
+      "destination": "knowledge/history/cases/live-photo-shared-assets-20261019.md",
+      "id": "live-photo-shared-assets-20261019",
+      "superseded_by": "live-photo-shared-art-assets-20261019",
+      "sha256": "912ad6e58d3c197973c3744bb95f4548229e46d8ac87dd383748c7e035502b17"
+    },
+    {
+      "path": "knowledge/cases/live-photo-zh-ui-user-approved-20261019.md",
+      "destination": "knowledge/history/cases/live-photo-zh-ui-user-approved-20261019.md",
+      "id": "live-photo-zh-ui-user-approved-20261019",
+      "superseded_by": "live-photo-zh-gap-final-user-approved-20261019",
+      "sha256": "434a0797dedd15eed4884e0d80e5ac9a24d3d4707ee7a4daa7b5532da6a9a4db"
+    },
+    {
+      "path": "knowledge/cases/live-photo-zh-gap-final-user-approved-20261019.md",
+      "destination": "knowledge/history/cases/live-photo-zh-gap-final-user-approved-20261019.md",
+      "id": "live-photo-zh-gap-final-user-approved-20261019",
+      "superseded_by": "live-photo-zh-art-user-approved-20261019",
+      "sha256": "85ffac1abf0fa58e1be6bda1791412aca4f2a2466c960ab2d48329a9a437033b"
+    },
+    {
+      "path": "knowledge/cases/hand-zh-CN-visual-feedback-20261019.md",
+      "destination": "knowledge/history/cases/hand-zh-CN-visual-feedback-20261019.md",
+      "id": "hand-zh-CN-visual-feedback-20261019",
+      "superseded_by": "hand-zh-sync-user-approved-20261020",
+      "sha256": "c204675aeff314c6b20dfdc6f62d40cf33d97bc2340e200312700baca63a8d26"
+    },
+    {
+      "path": "knowledge/rules/route-selection-v1.md",
+      "destination": "knowledge/history/rules/route-selection-v1.md",
+      "id": "route-selection-v1",
+      "superseded_by": "route-selection-v2",
+      "sha256": "b736470266552334bf525467cbed60665abe22e9f564978cdb308739dd0f0a84"
+    }
+  ],
+  "canonical_link_changes": [
+    {
+      "path": "knowledge/cases/live-photo-zh-art-user-approved-20261019.md",
+      "before_sha256": "1e090ecc5c60c82f400371c1beab9453cf932bc330941aac153f1b1efc4d92c3",
+      "after_sha256": "dae6d2f5b974d53116e9357965d6315c3b22264e3c07fc9819d5d69ad1aab047",
+      "change": "Canonical reference paths only; scope and observations unchanged."
+    },
+    {
+      "path": "knowledge/cases/hand-arrow-layering-user-correction-20261020.md",
+      "before_sha256": "f402cdf38a6c88056b0d7d49c760c020c164a0d4a6b52344022fc5d1152a11a8",
+      "after_sha256": "a36dc845b0b84e3997c2423087b3fb2505460c0a7e8c125298d11e3d28548c17",
+      "change": "Canonical reference paths only; scope and observations unchanged."
+    }
+  ],
+  "preexisting_history_hash_reconciliations": [
+    {
+      "id": "user-budget-and-accounting-20261019",
+      "previous_index_sha256": "b46187c8ce5486baa34bd753931a28333ec7ba7cea62933d0fcdcd7858e1ed9a",
+      "archived_sha256": "4056194d0e3e6da7f3fe528f5d3c64c5c0b0a97c8f3e6a6ff63c8dc206728c2c",
+      "note": "Existing superseded body already carried a later historical-policy warning before this cleanup. Archived bytes are unchanged; this is not policy activation."
+    }
+  ]
+}

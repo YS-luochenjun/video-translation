@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "path": "outputs/old-repair/visual-master.mkv",
+      "sha256": "REPLACE_WITH_ACTUAL_VIDEO_SHA256",
+      "decision": "failed",
+      "reason": "Describe the actually observed defect and the revised variable.",
+      "evidence": ["review/old-version/failure.png"],
+      "records": ["outputs/old-repair/recipe.json", "review/old-version/observation.json"],
+      "evidence_scope": "State exactly which defect is preserved. Keep a continuous clip or original version when isolated images cannot explain motion/audio."
+    }
+  ]
+}

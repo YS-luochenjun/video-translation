@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "source_sha256": "COPY_FROM_RUN_RECORD",
+  "content_features": [
+    "static_text_surface"
+  ],
+  "coverage": {
+    "visual": {
+      "status": "pending",
+      "method": "",
+      "evidence": []
+    },
+    "speech": {
+      "status": "pending",
+      "method": "",
+      "evidence": []
+    },
+    "timeline": {
+      "status": "pending",
+      "method": "",
+      "evidence": []
+    }
+  },
+  "shots": [
+    {
+      "id": "s001",
+      "start": 0,
+      "end": 8,
+      "description": "Agent describes the actual shot",
+      "keyframe": "analysis/shot-001.jpg"
+    }
+  ],
+  "text_instances": [
+    {
+      "id": "t001",
+      "source_text": "Try it today",
+      "target_text": "现在就试试",
+      "start": 1.2,
+      "end": 4.6,
+      "bbox": [
+        80,
+        600,
+        400,
+        100
+      ],
+      "action": "model_edit",
+      "text_role": "scene_text",
+      "background_is_static": true,
+      "reason": "Replace with actual observations/evidence and method version: this static card supports a clean same-source donor plus transparent target text. Backup: host reconstruction if donor lighting/edges fail. Switch only on observed mismatch; stop when current-mode checks pass or bounded trials end. Record protected motion, actual check and unresolved scope.",
+      "evidence": [
+        "analysis/shot-001.jpg"
+      ]
+    }
+  ],
+  "speech_segments": [],
+  "audio": {
+    "has_speech": null,
+    "strategy": "unknown",
+    "reason": ""
+  },
+  "routing_assessment": {
+    "version": 1,
+    "primary_type": null,
+    "reason": "Fill from actual information carriers, not word count",
+    "evidence": [],
+    "method_choices": [
+      {
+        "domain": "visual",
+        "method_id": "route-selection-v3",
+        "reason": "",
+        "alternative": "",
+        "switch_when": "",
+        "stop_when": ""
+      }
+    ]
+  }
+}

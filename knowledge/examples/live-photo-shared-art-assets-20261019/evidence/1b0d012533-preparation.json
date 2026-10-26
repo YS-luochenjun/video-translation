@@ -1,0 +1,34 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "target_language": null,
+  "contains_target_typography": false,
+  "method": "Reuse neutral master through frame476. From frame477, replace source CTA colored glyph silhouettes including shifted edges with the same original frozen-photo clean frame476. Source emoji and arrow protected and retained.",
+  "inputs": [
+    {
+      "path": "origin:source.mp4",
+      "sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+    },
+    {
+      "path": "origin:master.mp4",
+      "sha256": "5e70ae287ac1bbf62869640a065cae3bb803f66552072b1e4e893001bcba3c46"
+    },
+    {
+      "path": "origin:source-clean-before-entry.png",
+      "sha256": "416b88cf39008c05db09f9a4317dad2796825669eb17caccb1d161b6210c8b25"
+    },
+    {
+      "path": "origin:animation.json",
+      "sha256": "b83c59ef54b3e058dc27696284ac3dc34961769238750e68b0c25f907c018824"
+    }
+  ],
+  "output": {
+    "path": "origin:master.mp4",
+    "sha256": "6ad8c745c2303343cc7fb88ea21a7bdb2509d7441c4b791117de8285b811d8e4"
+  },
+  "model_proposals": [],
+  "new_model_credits": 0,
+  "limitations": [
+    "Source background is a sampled frozen photograph; source glyph boundary masks need actual output review",
+    "No new video model editing claimed"
+  ]
+}

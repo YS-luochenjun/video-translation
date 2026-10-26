@@ -1,0 +1,274 @@
+{
+  "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+  "video_sha256": "13850f894b730e7bfc2ca0d7b1e585d83cfbdde01c6fe0f457040ea26b1decf6",
+  "reviewer": "Codex same-Agent visual inspection",
+  "decision": "pass",
+  "checks": {
+    "source_text_removal": "pass",
+    "texture_and_color": "pass",
+    "foreground_motion": "pass",
+    "temporal_boundaries": "pass"
+  },
+  "observations": {
+    "source_text_removal": "Inspected actual encoded frames at every entrance frame 0-16 and 509-525, later opening poses and end-card. No readable English title, CTA or original colored trails remain.",
+    "texture_and_color": "Hair is reconstructed with strand texture and consistent pink-room color, rather than the rejected static patch or smeared flow transport. Hair shape is approximate. The original lower head/face/body and subsequent scenes remain source pixels before normal encoding. End-card restoration has reduced sparkle variation inside the old CTA band.",
+    "foreground_motion": "Actual encoded opening samples across frames0-111 show bun movement following the head, with no fixed top rectangle. Adjacent-frame ROI differences are supporting evidence only. Moving end-card arrow and black outline are restored from each source frame; feathered boundary checked.",
+    "temporal_boundaries": "The explicit2s model edit was restored to112frames at30fps, startPTS0,duration3.733333. Source cut at112 and CTA start509 are retained. Full source has583video frames; audio duration19.481542 slightly exceeds video19.433333."
+  },
+  "evidence": [
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0000.jpg",
+      "sha256": "6fb9a7b9cb825a1a982806d03a9618e884f0782075a2e52eecaa3d2594bd163e"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0001.jpg",
+      "sha256": "d60c99f1b8ebf7baf42763edb1ed0ffaaa30f50bd2908544c2237f740e344d6b"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0002.jpg",
+      "sha256": "1311b4ce75487858c32376806adef5d1553f75989cb8ff92157d3c4efe0f9342"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0003.jpg",
+      "sha256": "70c8a1668b8a3fbdb192a74292042aa0297c52ffb12491b2057871d42f63fbf4"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0004.jpg",
+      "sha256": "5cb98d87cf042d9220bb67fc529aecd990b50a39459bd1717cdda6279e987f82"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0005.jpg",
+      "sha256": "d5be5badca07dcd5c9b9dc81e56f69c3334043f3a39f80f20986e8753de23481"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0006.jpg",
+      "sha256": "74207224fd000f89a6452bbb4983f86cad037ffaeb566966770cd3311f33e6e7"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0007.jpg",
+      "sha256": "bcfb4a73b79df95bc48051d1f991230ac5615c3b6404823647f629162930e665"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0008.jpg",
+      "sha256": "cd0e262675a40923befed6244e59ef033ac37fed31fa17317370ac388f4585af"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0009.jpg",
+      "sha256": "d7cc238531edf54e64f7cd831d352d1822973a1001e31a04e051035665819063"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0010.jpg",
+      "sha256": "a9cbe18bf9d76352c7f8f6a514e5b9f75c229aad62b1557069101b1797201530"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0011.jpg",
+      "sha256": "17fa9827e6ce2cdddf103899e20747ce87e2dd9359320c3def81580a63d6da76"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0012.jpg",
+      "sha256": "507753df5d46e7cbcbb57a8ed05e342cd55095fa1e02d3bf815429aaed00b8d1"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0013.jpg",
+      "sha256": "28641755361c36226b7cff9b11ac856c3dcac90b314984c0cdc8a9f13167d82f"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0014.jpg",
+      "sha256": "1ac315c897f2597d9215b10a5948983bc4d1df0ca85bda8240a5d68c28a4aa78"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0015.jpg",
+      "sha256": "273b3fc2207300baae7e30449652de767a5e9277d4396dc60fbbc150974c78c3"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0016.jpg",
+      "sha256": "7964600eb8ed18ee1c4fc474417ac86759ebadb56d66fb7baa3ecc72d3b2782c"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0024.jpg",
+      "sha256": "79afab2514b297924f2d39661d077278305afd284b1475749034b416e21a3dd8"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0036.jpg",
+      "sha256": "5da50e02e7ddbb86be60e4399309ed30c42c34dfc7db96330e2edb81095c0458"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0048.jpg",
+      "sha256": "bcfcdee1c1c06d6758480f2600c7da5992e5c93cb7350719fa577c042ef2eb31"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0060.jpg",
+      "sha256": "61321f90197ab1b7e45c9ab6dfc5af0a78757782b5fff8afda587d0f0dd83433"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0072.jpg",
+      "sha256": "d234477ac6be3d74288a1d1177b042935a5c56d08e9cab875c52cb5687c82455"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0084.jpg",
+      "sha256": "7aa32457d0167882bceb0e790279b5317e02da5d7151c19992c889971834299b"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0096.jpg",
+      "sha256": "c39b9da13051fed35117ab289446d9327c4358677922517daad1243d6b54cc92"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0108.jpg",
+      "sha256": "b9e5db16db9677e04111fc97a308b5542094267b307efb1c4a4389041de79be6"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0110.jpg",
+      "sha256": "41f34880d5a83d15e5bc118a8a16ea310b7949ff35d6a043b7fea614d3a356e6"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0111.jpg",
+      "sha256": "fe49cedc78486b44e37b7e2e932e944bc2b6f50e9b82a280e96f873dd38f5720"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0112.jpg",
+      "sha256": "d25f6e9d4eee76c676f6c740580d5039b672326448e61f1081837c825da48182"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0113.jpg",
+      "sha256": "36d0d25a79c14753583f493ef65730d9204dfc5a26cb2a58ec5d3f9870ee3720"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0130.jpg",
+      "sha256": "d562307107515c4855d84dda9988b70349306b8f8accc40d776e9a26a7c99ca6"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0200.jpg",
+      "sha256": "7fdd581e3cbd3e8a3d494ddff44839136c29f972ef27f0078a289bddd7e410c5"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0300.jpg",
+      "sha256": "da92550210c95dd896de1dca285423f2d916c5316482790a1a8c7a3963dd63de"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0400.jpg",
+      "sha256": "678d2358b45ac11d457f9cd8149fc6fcfa256a1f95a511c7ad66acd5148e2dc2"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0480.jpg",
+      "sha256": "332d950913147ae6f445f3cc4dec6565fa93fbe7a635bbb8d2609385e119a56f"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0506.jpg",
+      "sha256": "b07d0ea6581c5c1bd0e8ff2c06e4efbdac5bbe4aa2e8fff381795c65bd26b5dd"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0507.jpg",
+      "sha256": "a9bfc2bc1cdcc80342206d73c47d29d17b4161e89654350a131c2b4f83f739bb"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0508.jpg",
+      "sha256": "2ea44d88415150cb1093044fe7736709c9e2fdf3702382dd6d76aff07f2e5d5f"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0509.jpg",
+      "sha256": "3daee02755b50fce9ef09ff35e9d1ea3c5e0cc63530a7695a039efb312334503"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0510.jpg",
+      "sha256": "99a4d68989119bd208e35881090d97bb85b8966ad63fbfc7896e5d7fd9aa5fd6"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0511.jpg",
+      "sha256": "90ad8b812d235289560987703faf3a8537a688203fca13edd5d25f9d5d85c6d1"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0512.jpg",
+      "sha256": "124baf97ca43787e9d7e597baf50636a29820a161e1693f5b061d3c7ec807370"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0513.jpg",
+      "sha256": "64b5a75cc3db93778cc3ce6772d3861f46bd0fa1c7a25e799babad1c11a0bc1a"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0514.jpg",
+      "sha256": "08ded5efd0f0b4b63420eae6d7d130a033dfd026eea1deb8d9e35753d1b84571"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0515.jpg",
+      "sha256": "b06a0b983fa754a23b772d75cce91f7bf831546d379e0b202d3048d09192d62a"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0516.jpg",
+      "sha256": "7d9010a21eb8637389eea35790dac00f9b9ac7c640b07f98972f7d5ad4206d96"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0517.jpg",
+      "sha256": "cab4bea2a65b50102b5818c2ccfb825251df85c5d539f2012afd6f2c475e7f69"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0518.jpg",
+      "sha256": "6e428c29e82ad61a7994c0070cee0782e265e3c3dac0a579e2d92ee30072f182"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0519.jpg",
+      "sha256": "8a1b530d917a5b1ba986c59b16ce49143d39b57f8793d1af6681a2fd14e7279e"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0520.jpg",
+      "sha256": "265fef6ffc86dc34d5d21574fbd75d48aab1510cd307f503f5d93dc20b425341"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0521.jpg",
+      "sha256": "27f131ab7400ec3c31da417983a0a06474cbe8c148e0dc6633247a4596b4b188"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0522.jpg",
+      "sha256": "0d8c37b3075596d84fd52a581fdf2b4cab9be04d5ceddd7550180d3d330ee59d"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0523.jpg",
+      "sha256": "50e528bb33e887515554dc0d6d989622c4ea365b960e1055eb7cf3d2943cbaf6"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0524.jpg",
+      "sha256": "fafb8389575a954f3b4878dba902937655d54675d37284d0744951b18266db38"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0525.jpg",
+      "sha256": "069a32cae675f8737dc0cb1af3efc09c2d9d10f27c729cf2cf3bdda16d25aeda"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0530.jpg",
+      "sha256": "3d830f947bc257b074f98637bfb438fb7140f857c4f3b25fda322b9acdd847c1"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0550.jpg",
+      "sha256": "58e4ccac6a920612c258752f0c94a619d682f6d3e861d4167b4e11c8cd950f17"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0570.jpg",
+      "sha256": "c3375e641fd9a44c580546c090df0557c58ccfbc366bb4cd94371d0258110a33"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0581.jpg",
+      "sha256": "d8685a4878d5060716550a557da5868a2ed7de5f453b23d606957ecf3345bb6a"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/frame-0582.jpg",
+      "sha256": "fc82fce5ec18e3ba2867b3c4ae907e9070bae2b1c68182dff688606f1de7e716"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/opening.jpg",
+      "sha256": "7be95e7d7bb3091deb8ed011bcb0e0887789ced3505054b67decf4330c6b266a"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/ending.jpg",
+      "sha256": "d6aa6996872e8fbef8108435e1fe9407b91f6d8dc006a01ebcc49ce22d6dadf1"
+    },
+    {
+      "path": "outputs/dynamic-neutral-r4/actual-review/evidence.json",
+      "sha256": "0b2eb08012ff3ef400ccaf51a0b4fc1dd67de75c0aa990c2428f42ed758ae70a"
+    }
+  ],
+  "scope": "Approved for producing this ONE German user-review pilot only. User approval is still required before other languages.",
+  "limitations": [
+    "Model-reconstructed bun differs in individual strand shapes; original hidden pixels cannot be recovered exactly.",
+    "Two-second input is an explicit budget-driven time mapping, not an original-speed model edit.",
+    "End-card sparkle variation is reduced within the locally restored CTA surface. Same-Agent review, no independent or user acceptance."
+  ]
+}

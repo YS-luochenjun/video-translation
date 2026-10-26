@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "text-instance-timing-v1",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "status": "active",
+  "origin": "developer design rule; needs ongoing empirical evaluation",
+  "reviewed_by": null,
+  "reference_video_sha256": null,
+  "company_preference": false,
+  "references": [],
+  "original_method_sha256": "5a67eb6f7e8216cc92a965650fb1437541e675deb0e77c05f9ff3ad0d193016e",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

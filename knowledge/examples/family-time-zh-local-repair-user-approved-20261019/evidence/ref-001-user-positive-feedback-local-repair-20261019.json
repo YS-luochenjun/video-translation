@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-19T06:57:56+00:00",
+  "source": "Direct human user message in this chat",
+  "quote": "目前后面这个，效果很好。请你继续知识学习。且目前用到了多少花费",
+  "referent": "The latest linked Chinese local-repair control, not the rejected Wan raw clip",
+  "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed",
+  "target_language": "zh-CN",
+  "video": "origin:candidate-4ee085a315e4b564.mp4",
+  "video_sha256": "f5b1a0abd0836908f141091e67d1a0c7241e34ae224e9f67af7b2eed3ff3c1b2",
+  "user_assessment": "效果很好",
+  "user_accepted_overall_result": true,
+  "technical_quality_decision": "revise",
+  "technical_quality_sha256": "5ad5a4f043dadae696bb39a435f841e926804d439fa362861f672adc41d7ff41",
+  "technical_review_unchanged": true,
+  "company_preference": false,
+  "knowledge_id": "family-time-zh-local-repair-user-approved-20261019",
+  "new_model_tasks_this_feedback_turn": 0
+}

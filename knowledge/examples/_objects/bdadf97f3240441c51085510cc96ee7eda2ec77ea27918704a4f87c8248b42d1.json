@@ -1,0 +1,42 @@
+{
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "assets": [
+    {
+      "role": "source-neutral plate",
+      "path": "origin:visual-master.mp4",
+      "sha256": "6efda7aae177a240740df686faf0eca610b1ca11d0e9680646dafabdfba82666"
+    },
+    {
+      "role": "source-arrow RGBA cutout",
+      "path": "origin:arrow-cutout-clean.png",
+      "sha256": "5d72577a7179c1e37c83e7cb6fb273fe5863f2587cd40f80b8465e0faf9e5be3"
+    },
+    {
+      "role": "source-arrow motion/layer order",
+      "path": "origin:arrow-layers.json",
+      "sha256": "0355f7f65ade6669283e5bdd8ce849379f41adf843ad45b88fb36deca2caad47"
+    },
+    {
+      "role": "unchanged reviewed Chinese mix",
+      "path": "origin:translated-mix.wav",
+      "sha256": "53245fb252e39e6c3b3a83ad926797e2823b43237c843293901eebe2e469056a"
+    },
+    {
+      "role": "Chinese-specific typography, rebuild for another locale",
+      "path": "origin:typography.mov",
+      "sha256": "01ed94af9556e91fd3cec2a596ecac01281c4a9c22dfa050f4307321cb6236be"
+    },
+    {
+      "role": "Chinese audio-specific alignment",
+      "path": "origin:caption-alignment.json",
+      "sha256": "85997d26a92f608cdba68304f3340e7a5d4c0cdc857bca61498457e1e767ce52"
+    }
+  ],
+  "arrow_reference_bbox": [
+    306,
+    1074,
+    420,
+    1236
+  ],
+  "rule": "Reuse neutral plate/arrow geometry for the same source. Other languages need their own final text, voice, timing, fonts, typography and actual-candidate review."
+}

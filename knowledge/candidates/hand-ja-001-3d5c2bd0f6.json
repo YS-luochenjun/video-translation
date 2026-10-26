@@ -1,0 +1,25 @@
+{
+  "id": "hand-ja-001-3d5c2bd0f6",
+  "status": "candidate",
+  "created_at": "2026-10-19T11:10:56+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ja-JP"
+  },
+  "outcome": "revise",
+  "hypothesis": "Negative OCR on large headings is insufficient. Audit nested screen thumbnails and every text mode/style, then inspect original visibility gates on actual30fps boundaries. Shared receipts must live outside the reuse run paid-task ledger.",
+  "evidence": {
+    "run": "hand-ja-001",
+    "video_sha256": "3d5c2bd0f6ad35310e68c28f2e129e5f6373696850d949ea940abd15d28b21c3",
+    "quality_sha256": "b314934d0fb0082fdef782463191ea05b0b09e083abf182e281bee3bbfb5f59b"
+  },
+  "limitations": [
+    "New-source bespoke executable repair/layout was required.",
+    "Raw Wan2.7 proposal left UI English and changed scene detail; only external heading pixels adopted.",
+    "Same-agent review, no independent whole-video or user acceptance."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "b5a12848f2f4d39b7a01d70ae5cc1c0f6254ac92714c82e9df22c7116af8475c"
+}

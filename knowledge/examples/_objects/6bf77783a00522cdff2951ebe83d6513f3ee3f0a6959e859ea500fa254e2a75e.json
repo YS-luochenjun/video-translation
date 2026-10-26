@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-20",
+  "user_request": "先把灰色块和英文残留处理干净，还原原视频的文字动画、表情和箭头效果。短片段验证通过后，把六种语言的整片都做好，给我看前后对比。目前不是这样做的吗。我需要以后不出现相同的问题，如果你修复好了，请你进行经验与知识的积累",
+  "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+  "short_video_sha256": "965b17b7eff59242e4ffac0fed66fe0c4c9ec43248398798f7aa8e2484118fbe",
+  "short_frames": 104,
+  "short_duration_seconds": 3.466666666666667,
+  "reviewer": "Codex same-Agent inspection of decoded comparison frames and source-bound probe frames",
+  "decision": "revise",
+  "approved_for_reuse": false,
+  "checks": {
+    "source_text_removal": "improved_in_sampled_frames_not_whole_video_pass",
+    "texture_and_color": "revise",
+    "foreground_motion": "revise",
+    "temporal_boundaries": "revise"
+  },
+  "observed_failures": [
+    "Prior uniform green phrase captions omitted original animation style.",
+    "Old shared neutral master contained colour bands and foreground ghosts affecting all six locales.",
+    "Direct source-frame restoration removes most sampled lettering but changes finger/wrist and garment geometry.",
+    "Sequential propagation can reintroduce boundary letters when OCR has no detection; complete temporal erase envelope is necessary.",
+    "A later clean frame containing a newly appearing object must not be propagated into an earlier frame.",
+    "Gradient blending removes some seams but does not establish correct foreground geometry."
+  ],
+  "comparison_columns": [
+    "original source",
+    "previous shared neutral master",
+    "new source-frame repair test"
+  ],
+  "proof_boundary": "Single source, bounded local experiments; no successful whole-video repair method, independent native review or accepted six-language output claimed.",
+  "rendered_six_languages": false,
+  "animation_rebuild_status": "Source animation inventory saved; full language animation rebuild held behind failed neutral-master gate.",
+  "costs": {
+    "new_kie_tasks": 0,
+    "new_kie_credits": 0,
+    "builtin_image_edit": "rejected before any result; no billing receipt available"
+  },
+  "software_validation": {
+    "full_check_tests": 191,
+    "full_check_failures": 0,
+    "full_check_errors": 0,
+    "check_log_sha256": "bb0eb6ab380f018129b6b625090ebdc7f52bb39e02155cb9f7077865b77ae14f",
+    "gate_tests": 7,
+    "all_six_old_masters_blocked": true,
+    "historical_integrity_preserved": true
+  },
+  "next_required": "A clean original/editor project, or a separately validated foreground-aware video reconstruction route. Do not batch render these failed patches."
+}

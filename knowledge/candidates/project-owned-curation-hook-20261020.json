@@ -1,0 +1,33 @@
+{
+  "id": "project-owned-curation-hook-20261020",
+  "status": "candidate",
+  "created_at": "2026-10-20T05:16:28+00:00",
+  "knowledge_class": "project_training_candidate",
+  "company_preference": false,
+  "scope": {
+    "workflow": "video-localization",
+    "component": "knowledge-curation",
+    "deployment": "windows-current-user"
+  },
+  "hypothesis": "Project-owned knowledge curation uses repository trigger configuration, a data-only reasoning interface and a validating writer. An OS timer invokes the project entry; the AI provider is replaceable and does not own scheduling or the checkpoint.",
+  "source_evidence": {
+    "kind": "developer_requirement_and_local_execution",
+    "quote_exact": "我希望的是，hook是放在本项目中的，他也是一个Agent。而不是放在codex中的。\n目前我在优化项目，也就是Agent项目",
+    "observations": {
+      "execution_tests_passed": 132,
+      "active_knowledge_entries_audited": 12,
+      "system_timer_run": "idle, knowledge audit pass, no model request",
+      "text_probe": "Real CLI inference connected; 2 synthetic observations retained as pending",
+      "original_files_unchanged": 1440,
+      "media_model_credits": 0
+    }
+  },
+  "failure_signature": "Knowledge maintenance exists only as a scheduler item attached to a host chat, so the project does not carry its own trigger, state and write controls.",
+  "limitations": [
+    "Current Windows trigger requires the computer awake and the current user logged in; no desktop app required.",
+    "Alternative providers can use prepare/apply; automatic alternative-provider transport is not yet implemented.",
+    "Synthetic reasoning probe validates connectivity and conservative output only, not the general quality of semantic deduplication for real video lessons.",
+    "Candidate only; no validated translation methods or company preferences changed."
+  ],
+  "next_counterexample_test": "Observe the next scheduled run on a newly completed, scoped real localization lesson and inspect whether source-specific limits and contradictory feedback survive merging."
+}

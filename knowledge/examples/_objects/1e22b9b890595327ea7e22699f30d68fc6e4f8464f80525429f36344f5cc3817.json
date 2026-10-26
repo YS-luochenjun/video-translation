@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-21",
+  "user_feedback": {
+    "date": "2026-10-21",
+    "attribution": "Direct user message in project curation chat",
+    "quote": "我看到磁盘已经清理了，目前我看四个会话都已经完成了，且都输出了不差的视频内容。请你帮我解析与知识沉淀，推广知识等，目前解决了那么多问题，解决方式和知识应该是有的",
+    "interpretation": "Positive overall feedback and authorization to curate and generalize procedures; no exact-version acceptance or waiver of documented defects."
+  },
+  "observations": [
+    {
+      "label": "1-1",
+      "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3",
+      "video_sha256": "9ea9a3cd1e397a5b6d311d0267ee1a8003af8eb5070b76c744c6440e290203f3",
+      "case": {
+        "path": "knowledge/examples/supervision-1-1-repair-observation-20261020",
+        "manifest_sha256": "b3c9c6e5dd980e0db7972cc4ef8a0a88ade1176a0ddb9b4ddc08b6ee7172aec2",
+        "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+      },
+      "status": "visual_self_review_pass_overall_revise",
+      "lesson": "Scene-specific registered references and foreground layers improved the full visual preview; copied masks and continuous odd/even encoded checks prevented periodic leakage. Prior audio fidelity limitation remains."
+    },
+    {
+      "label": "1-3",
+      "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+      "video_sha256": "e1ebd909cce700bcfcb0fb37f07db2cb748ee60b37e4673130bb260d200f7433",
+      "status": "failed_second_neutral_revision",
+      "lesson": "Failure counterexample: pose and mirror mismatch, clipped icons and OCR-negative residual lettering. Native encoded frames override thumbnail/OCR impressions.",
+      "case": {
+        "path": "knowledge/examples/repair-learning-1-3-20261021",
+        "manifest_sha256": "87f57d8f03f7f2aab3bc2ed184005e2d1133e4b2f946a1dfba3838c361197573",
+        "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+      },
+      "source_manifest_sha256": "cc78c1ea0db14972ae56bcffdc69672d8b7fa46ae65cf39eb457df47240992b4",
+      "boundary": "Existing same-Agent records and selected images reviewed; no new complete audiovisual acceptance."
+    },
+    {
+      "label": "2-1",
+      "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+      "video_sha256": "bb7797d5637f1826957018e7c8319e46e060a965bafef117a4af8e2c7995dbc9",
+      "status": "single_language_self_review_pass_with_limits",
+      "lesson": "Dynamic model donor restricted to the required region avoids a frozen-head plate. Retiming requires exact frame/PTS checks. German pilot is self-reviewed, hair/trails approximate and icons omitted.",
+      "case": {
+        "path": "knowledge/examples/repair-learning-2-1-20261021",
+        "manifest_sha256": "0f12b203ead8a3fae9b1e9329dab27104cce7e2e566f35fd57b207aaa299cc86",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+      },
+      "source_manifest_sha256": "e26a38d90d6e3a3077feed09c64ed4c051d9c099532e708f2b851a05136716ae",
+      "boundary": "Existing same-Agent records and selected images reviewed; no new complete audiovisual acceptance."
+    },
+    {
+      "label": "4-2",
+      "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+      "video_sha256": "0942091da76390e13aa50615bdf6b20a291462af35a9533c3285f8d133e5bdfc",
+      "status": "improved_short_pending_review",
+      "lesson": "Two-second local video-donor composite improves erasure. Include colored halo in boundary and preserve semi-transparent icons geometrically; reconstructed fingers remain approximate and target animation is not yet validated.",
+      "case": {
+        "path": "knowledge/examples/repair-learning-4-2-20261021",
+        "manifest_sha256": "84c74d1440128991906ea9ee3f98815ceca46e52e751f2bd615cde03f59df635",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+      },
+      "source_manifest_sha256": "e0c930e1ce2b76f8a8acbd1de6db928a9e98aa239a26c9024295970c05790aae",
+      "boundary": "Existing same-Agent records and selected images reviewed; no new complete audiovisual acceptance."
+    }
+  ],
+  "generalization": "Conditional route selection, layered masks/foreground/target typography, continuous encoded review, and bounded asset reuse; not a universal inpainting recipe.",
+  "not_promoted": [
+    "Source coordinates and thresholds",
+    "Retimed model input as a default saving strategy",
+    "Omission of icons or approximate fingers as general acceptance",
+    "Whole-video success from short clips"
+  ],
+  "proof_boundary": "Integrity verification of independent cases and packages, selected-frame visual inspection, existing attributed reviews; no new paid task or full-video test."
+}

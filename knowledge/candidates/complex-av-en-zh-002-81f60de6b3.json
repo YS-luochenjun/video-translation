@@ -1,0 +1,27 @@
+{
+  "id": "complex-av-en-zh-002-81f60de6b3",
+  "status": "candidate",
+  "created_at": "2026-10-19T04:58:09+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "Use a low-cost single-instance probe to test locality and audio separately. Higher-priced reference-video generation did not provide accurate text erasure. Preserve source pixels outside glyph masks, but do not promote incomplete inpainting to a successful localization route.",
+  "evidence": {
+    "run": "complex-av-en-zh-002",
+    "video_sha256": "81f60de6b34b7de2eb15550d108e83848d507e65bcdd9c2b4b78ddfa1323e618",
+    "quality_sha256": "ef0fc6efe9ef597562a6b918bef938582fed45272347ba127add355a2b9d0c6b"
+  },
+  "limitations": [
+    "Same-agent self-review; no independent reviewer or company acceptance.",
+    "Chinese dialogue content is supported by offline ASR, not direct listening; homophone recognition errors remain.",
+    "Paid Gemini audio review returned unusable structure; old receipt was lost before parser fix and its fee is unknown.",
+    "No further paid video generation after user cost steering; Seedance 2.0 and above blocked.",
+    "Two free local repair rounds exhausted; this candidate is a test preview, not a final accepted asset."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "9034c95c6d1cc448921705fdcfa6c462fb57e61dae5634f0116e5151fcc85efa"
+}

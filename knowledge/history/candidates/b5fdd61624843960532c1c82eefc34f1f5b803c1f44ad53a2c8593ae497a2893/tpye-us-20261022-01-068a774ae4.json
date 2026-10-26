@@ -1,0 +1,27 @@
+{
+  "id": "tpye-us-20261022-01-068a774ae4",
+  "status": "candidate",
+  "created_at": "2026-10-22T09:51:49+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "en",
+    "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f"
+  },
+  "outcome": "pass",
+  "hypothesis": "Current Flash endpoint succeeded after obsolete route failure. Preserve unknown fees and raw errors; do not repeat ambiguous paid calls. Native continuous review caught alpha strike-through and flash seams missed by overview frames.",
+  "evidence": {
+    "run": "tpye-us-20261022-01",
+    "video_sha256": "068a774ae442f673b1b3555c2af27b2643cffad79586c302a18319854a1390a6",
+    "quality_sha256": "7fdad4c976142502d504a9c8b8df4f59eeb813028e0ab927344d5b0b890c0ffb"
+  },
+  "limitations": [
+    "Same-agent visual review plus external model audio perception; no human, independent visual or company acceptance.",
+    "Typeface/glow and occluded bow texture are approximations; product content, choice gestures and brand assets are preserved.",
+    "Source13.1s padded by three endpoint frames to13.2s for audio; no content cut.",
+    "Failed Pro and old Flash retain22credits reserved as unknown, not zero-cost."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

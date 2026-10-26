@@ -1,0 +1,23 @@
+{
+  "id": "reviewed-method-new-revision",
+  "path": "knowledge/rules/reviewed-method-new-revision.md",
+  "scope": {"workflow": "video-localization"},
+  "tags": ["text", "timing", "ads"],
+  "origin": "Describe the direct feedback or repeatable verification and its limits",
+  "approval_type": "explicit_user_feedback",
+  "evidence_review": "sanitized_project_evidence",
+  "reviewed_by": "Actual reviewer and scope of review",
+  "company_preference": false,
+  "source_run": "actual-run-id",
+  "reference_video_sha256": "actual-video-sha256",
+  "evidence_files": ["work/reviewed-project-evidence.json"],
+  "evidence_references": {"observation": "evidence/reviewed-project-evidence.json"},
+  "knowledge_type": "method",
+  "validation_level": "developer_reviewed_guidance",
+  "topic": "visual",
+  "requires_features": [],
+  "candidate_sources": [],
+  "requires_any_features": [],
+  "delivery_modes": ["fast", "strict"],
+  "language_match": "exact"
+}

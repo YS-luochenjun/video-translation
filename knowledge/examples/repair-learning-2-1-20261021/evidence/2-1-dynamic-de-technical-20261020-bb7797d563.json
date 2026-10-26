@@ -1,0 +1,52 @@
+{
+  "id": "2-1-dynamic-de-technical-20261020-bb7797d563",
+  "created_at": "2026-10-20T12:26:23+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+    "target_language": "de"
+  },
+  "outcome": "same_agent_pass_user_preview_pending",
+  "company_preference": false,
+  "hypothesis": "For this one occluded moving-hair advertisement, actual dynamic video erasure followed by source-region compositing removed the frozen-head failure. A low-budget retimed input can yield a reviewable pilot, but exact frame mapping and new visual review are essential; it is not a generally validated cost-saving recipe.",
+  "trigger": [
+    "Text overlaps moving hair",
+    "Prior static clean plate freezes foreground motion",
+    "Existing narration has already been reviewed"
+  ],
+  "actions": [
+    "Inspect source frame boundaries before defining model interval.",
+    "Journal one paid model task and preserve provider receipt and original output.",
+    "If explicitly authorized to map time, record both source and submitted hashes, restore exact frame count/fps/startPTS, inspect motion.",
+    "Restrict model contribution to necessary region; inspect neutral result before target glyphs.",
+    "Measure entrance scale, overshoot and settling frame by frame; declare approximate optical effects.",
+    "Reuse prior audio perception only after actual complete decoded WAV hash equality.",
+    "Pilot one language and wait for user confirmation before batch rollout."
+  ],
+  "failure_signatures": [
+    "Prior fixed plate froze hair. Prior local per-frame inpainting blurred hair. Prior masked-flow propagation stretched hair.",
+    "Interpolation initially introduced100ms PTS offset: pad endpoints, trim mapping interval and reset PTS, then verify112frames/30fps.",
+    "Arrow red-only segmentation lost its black/white upper edge; feathered component bounds restore the complete moving arrow.",
+    "End-card blur exceeded the stable text box: dense entrance frames exposed a residual red streak above the original mask."
+  ],
+  "limitations": [
+    "Same-Agent visual review; user approval of this pilot is pending. Other nine languages remain untouched.",
+    "Reconstructed bun moves but differs in individual strands and shape from the partly occluded source.",
+    "Entrance recreates zoom, overshoot and settling; blur trails are approximate and decorative nail-polish emoji icons are omitted.",
+    "Original face, hands, keyboard and middle scenes are source-based. Sparkle variation is reduced within the locally reconstructed end-card text band.",
+    "Budget experiment compressed112opening frames to2seconds for the model and restored112frames afterward. Not proof that retiming is safe on other videos."
+  ],
+  "evidence": {
+    "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+    "video_sha256": "bb7797d5637f1826957018e7c8319e46e060a965bafef117a4af8e2c7995dbc9",
+    "neutral_sha256": "13850f894b730e7bfc2ca0d7b1e585d83cfbdde01c6fe0f457040ea26b1decf6",
+    "observations_sha256": "dde95927c9bbc613385a646c3209e8f53129af60dee120deb7651446b42b61c8",
+    "quality_sha256": "e2c6e62b927f380c34a6076037e24f2db088c816143a26e558aa1edc8c92b14a",
+    "paid_tasks": 1,
+    "provider_receipt_credits": 32
+  },
+  "next_falsification": "User review of this pilot, then independent sources with different foreground motion before any class-method activation.",
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

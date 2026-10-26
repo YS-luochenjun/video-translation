@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "user-caption-audio-sync-20261019",
+  "created_at": "2026-10-20T04:21:30+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "5f5990d862b89f4dbacfcaa2386209274cf96bd666cacc7684ccd9c100ed3cda",
+      "bytes": 5081
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "e42209c30089959657f69c43e4efd4857162807840652eb65b2356f1fc087b66",
+      "bytes": 1396
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "active",
+    "lesson": "# 用户确认：口播与对应字幕统一\n\n来源：用户2026-10-19原话“目前音频和字幕不统一，是否是可以修改的。先判断，告诉我”；随后“好的，先进行Agent项目的修改，吧这部分内容（字幕音频同步）加入。除了这个内容，目前视频还可以，知识还可以”。完整范围记录在 `evidence:ref-001`。\n\n项目执行规则见 `core/captions.md`。口播和对应字幕来自一份最终稿，按实际译后混音时间排字，最终同时审查成片声音与画面。独立标题、按钮、UI按自己的语义和画面时间翻译。背景音乐/音效继续保持，不能为追字幕而拉伸整条音乐。原语言文字的擦除与译文出现是两条时间约束。\n\n已观察到的失败：中文口播“手势翻转棱镜特效怎么做……跟我一起学”与字幕“如何制作……跟我学”不一致；字幕沿用英文节奏，晚于中文声音结束。音频单独评审无法发现字幕问题。以上作为失败签名保留；新门禁的合成回归不证明该真实样片已经修好。\n\n这是用户明确要求的项目行为，不是公司跨项目审美偏好；当前默认同步阈值是开发参数，仍需后续真实视频和用户反馈校准。当前新视频没有重测，自动强制对齐引擎尚未集成。继续使用已确认的预算与复用规则。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-20T03:08:13+00:00",
+  "source": "Direct user message in this conversation",
+  "quote": "很好，效果很好。请你帮我进行知识积累",
+  "source_run": "hand-zh-sync-002",
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "target_language": "zh-CN",
+  "video": "origin:final.mp4",
+  "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+  "plan_id": "f5795d9a4e6deb8e",
+  "user_acceptance": "positive_overall_effect",
+  "learning_authorized": true,
+  "company_preference": false,
+  "scope": "Latest delivered Chinese revision of this exact source; overall effect including the corrected result",
+  "historical_quality": {
+    "path": "origin:6c7c6db523150cab4906a30d.json",
+    "sha256": "7a18106b5f6487f7e21c09ac57a7214e6ae3f10aafdc3037bebf9bf8d65d6a48",
+    "decision": "pass",
+    "score": 91.3
+  },
+  "historical_review": {
+    "path": "origin:review.json",
+    "sha256": "0f5c9a7d52e1c43fb156d6c97851acefd44c96e686c33c363f225c45bb6c3674",
+    "type": "same-Agent self-review"
+  },
+  "not_inferred": [
+    "Independent audiovisual review",
+    "Lossless music/effect stem separation",
+    "Frame-exhaustive defect-free output",
+    "Japanese or other-source output accepted",
+    "Company-wide preference",
+    "Unattended first-pass success"
+  ],
+  "interpretation": "Approval happened after delivery. Earlier no-user-acceptance statements remain accurate historical records; do not rewrite them."
+}

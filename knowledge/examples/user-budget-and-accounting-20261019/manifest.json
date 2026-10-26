@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "user-budget-and-accounting-20261019",
+  "created_at": "2026-10-20T04:21:29+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "777c434420bd41292be04a701c91ce44657c5ad6bcdc082b1f99d0803e0f5091",
+      "bytes": 1275
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "b46187c8ce5486baa34bd753931a28333ec7ba7cea62933d0fcdcd7858e1ed9a",
+      "bytes": 1955
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "superseded",
+    "lesson": "# 用户确认的预算与逐笔费用口径\n\n适用于本项目广告视频本地化。来源是2026-10-19本对话用户的直接要求“每一次调用花费credits都要统计”，及澄清“中文版本输出，最好不超过100credits，实在没办法可以稍微增加。日文是再基础上做的，有额外的额度允许使用”。原文见 `evidence:ref-001`。\n\n中文首版先按100 credits目标组织任务和执行器预算；确需小幅增加时说明原因及新增金额，保留用户授权来源。后续语种共享源解析、适用的无目标语文字底片和背景分轨，只报告自己的新增模型费用。共享准备费用归首版，不重复分摊成新的扣费。\n\n每笔真实调用保存源绑定、模型、参数摘要、任务或响应ID、状态、实际计费值与证据。失败同样计数。缺少计费回执时保留unknown和预算预留，不将它当零，也不把“已确认费用”称作最终账单；当前预算占用与供应商最终实扣分别报告。同步接口超时先对账，不重发相同请求。\n\n2026-10-19用户再次询问是否低于100 credits、是否多个版本更便宜。比较时先区分多语种与画面文字数量：同源多语种的平均费用为“（共享准备＋各语种新增费用之和）÷语种数”；仅当共享资产仍适用、后续语种新增费用较低时，平均值才会下降。文字更多、不同源片或新的口型/遮挡要求不保证降价。任一待确认收费不得从平均值中无声剔除，配音的已确认小计也不得冒充整个新增语种的完整价格。本次中日实例与待对账边界见 `evidence:ref-002`，不作为未来素材固定报价。\n\n这是项目运行约束，不是对某个设计风格的公司偏好。当前执行器仍须为真实运行写 `evidence:ref-003`；历史运行的冻结预算不回写。未实现全库自动素材去重或后台账单对账。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

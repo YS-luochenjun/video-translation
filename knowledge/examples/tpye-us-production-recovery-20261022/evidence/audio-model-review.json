@@ -1,0 +1,43 @@
+{
+  "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f",
+  "audio_sha256": "85dbdd865e7762c12e78570b0d825ab185d00fcce4ab1febd51d3c340cebc390",
+  "video_sha256": "068a774ae442f673b1b3555c2af27b2643cffad79586c302a18319854a1390a6",
+  "model": "gemini-3-8-flash-openai",
+  "response_id": "chatcmpl-270f9d7d04ed4b9b8af82cb87b3b82a2",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "en",
+    "speech_segments": [
+      {
+        "start": 0.0,
+        "end": 2.0,
+        "source_text": "What's your campus girl style?"
+      },
+      {
+        "start": 10.0,
+        "end": 11.2,
+        "source_text": "Take the quiz."
+      }
+    ],
+    "background_music": {
+      "same_track": true,
+      "reason": "The background music is the exact same track, tempo, and arrangement as in the original."
+    },
+    "sound_effects": {
+      "preserved": true,
+      "reason": "The ending chime sound effect is preserved at the same timing."
+    },
+    "dialogue_translation": {
+      "complete": true,
+      "reason": "The German lines 'Welcher Typ Campus Girl bist du?' and 'Jetzt testen!' are faithfully and completely translated into English without omissions or additions."
+    },
+    "foreign_speech_remaining": [],
+    "sync": {
+      "acceptable": true,
+      "reason": "The English dialogue matches the timing and pacing of the original German voiceover."
+    },
+    "uncertain_intervals": [],
+    "summary": "Audio B is a complete and faithful English localization of Audio A, retaining the original background music, timing, and sound effects."
+  },
+  "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "source": "Project owner instruction, 2026-10-22: Codex performs text recognition and image work; retain necessary audio models and unify video editing.",
+  "text_recognition": "codex",
+  "image_editing": "codex",
+  "asr": "small",
+  "audio_analysis": "gemini-3-8-flash-openai",
+  "separation": "uvr-inst-hq3",
+  "tts": "google/gemini-2-5-pro-tts",
+  "video": "wan/2-7-videoedit",
+  "automatic_model_fallback": false,
+  "codex_cost_gate": false,
+  "note": "Codex includes host image editing tools. No separate project OCR or image inference model. Historical results stay readable; new paid requests retain the existing KIE ledger and limits."
+}

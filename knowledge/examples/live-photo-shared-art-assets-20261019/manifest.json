@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "live-photo-shared-art-assets-20261019",
+  "created_at": "2026-10-20T04:21:30+00:00",
+  "files": [
+    {
+      "path": "evidence/1b0d012533-preparation.json",
+      "sha256": "e9da74c85b42c858b56445eaaf181e93d669db0b50412b9cedf6cc738435e1a9",
+      "bytes": 1318
+    },
+    {
+      "path": "evidence/22896d3616-style-profile.json",
+      "sha256": "71b9fbd7a853d1a298d183542fc9034020866ca85a20a651a2bf2093646d9dfb",
+      "bytes": 998
+    },
+    {
+      "path": "evidence/4c6d55bbe6-protection-policy.json",
+      "sha256": "600074980d754787193831a102417322378221d4149ef072b81042225c6c50f7",
+      "bytes": 547
+    },
+    {
+      "path": "evidence/7a7462e1c7-typography-record.json",
+      "sha256": "074eafd9d54fceaba6a1077741e08ee08d3c66b8df782d41799608d9b91ff871",
+      "bytes": 2236
+    },
+    {
+      "path": "evidence/b83c59ef54-animation.json",
+      "sha256": "b83c59ef54b3e058dc27696284ac3dc34961769238750e68b0c25f907c018824",
+      "bytes": 29405
+    },
+    {
+      "path": "evidence/observation.json",
+      "sha256": "6d3f76e9322ef138d9a05e78d28e10f496a96b0a2f384942f0025fc333acbdd4",
+      "bytes": 7139
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "911d25d80c1f58e9a613d014da1b201ce1ac73f964b1b54d47029a840b01d378",
+      "bytes": 1836
+    },
+    {
+      "path": "evidence/ref-001-user-visual-audio-approval-20261019.json",
+      "sha256": "fd9e51cf09667a80ceddf34e004cdc11712432033629835ebc006e72c99a67f9",
+      "bytes": 1605
+    },
+    {
+      "path": "evidence/ref-002-live-photo-shared-art-assets-20261019.json",
+      "sha256": "fc6553d1a17637febea920d9330585ca750221ffb3e94d47b510df5b73b478eb",
+      "bytes": 3481
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+    },
+    "status": "active",
+    "lesson": "# 同一真人广告的最新复用入口\n\n仅匹配源 `410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475`，可供不同目标语种读取。新版中文画面与音频已获得用户认可，原话绑定见 `evidence:ref-001`；对其他语种的批准仍按其独立样例记录。文件、用途、语言范围和SHA-256的唯一资产清单：`evidence:ref-002`。\n\n当前去字底片改用 `evidence:ref-003`，它保留已修好的下拉图标与手机表面，并修复片尾进场残英文字。读取同目录preparation.json，校验原素材、输入与母版哈希后复用。旧neutral-dropdown版母版留档，其CTA残字问题已知。\n\n艺术字可共享源纹理、偏移描边参数、64个源CTA帧的运动测量与表情/箭头遮挡方法。字体文件、译文长度及字形要按目标语种重做；`art-typography-r2a/zh-transparent.mov`同时含中文UI和中文CTA，限定同源中文同译稿。它应替代未修正的r2层，避免保护背景分支挖掉“即”字。\n\n中文已认可混音在该运行 `evidence:ref-004`，AAC哈希 `cf28456485fecbcdebeeb13e9a71e7e10e811696654f3f5c84e0d7da84d8ad71` 绑定实际成片。跨语种共享的是源音乐/FX分轨与时序，原分轨仍在 `evidence:ref-005`；日韩配音和混音保存在各自运行，按语种检查。中文完整混音不作为其他语言的配音。\n\n此片尾是静态模糊照片，原片第476帧恰好没有字，故能本地恢复背景；运动背景需要另选路线。蓝色轮廓与红色内填的去字阈值、偏移方向、亮度门槛均为该素材参数。费用为共享准备加每语种新增：本次艺术字修订新增KIE为0，并非其他视频制作免费。文件保存在项目本地、跨对话可读；复用前校验，尚未实现自动清理或全库去重。\n",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "storage-foundation-20261020",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "verified_capabilities": [
+    "Source-independent method catalog and exact-source reference catalog are retrieved separately",
+    "Exact-source analysis restores source observations and resets target copy and review",
+    "Guarded deletion requires preserved observations, unchanged contents, settled tasks and verified independent evidence",
+    "An external public workspace retains knowledge without runtime or private data"
+  ],
+  "tests": {
+    "count": 159,
+    "failures": 0,
+    "errors": 0,
+    "record_sha256": "96a55b359657f66d8cffa6b04b2538abf35c8a8cc97954ab0fc4aca3f8cf6925"
+  },
+  "integration": {
+    "paid_model_calls": 0,
+    "deleted_customer_runs": 0,
+    "proof_boundary": "Synthetic rendered Chinese fixture and lifecycle verification; no real-ad or Japanese-output quality acceptance.",
+    "doctor": "Local readiness; no model generation proof",
+    "unreviewed_quality": "revise",
+    "preserved": "preserved",
+    "delete_preview": "ready",
+    "synthetic_run_deleted": "deleted",
+    "knowledge_case_survived": true,
+    "new_locale_reused_source": true,
+    "locale_text_and_review_reset": true,
+    "new_source_class_methods": [
+      "method-animated-text-occlusion-v1",
+      "method-spoken-caption-verification-v1",
+      "method-source-neutral-preparation-v1"
+    ],
+    "after_all_runtime_data_removed": {
+      "decision": "pass",
+      "active_entries": 15,
+      "active_methods_and_policies": 7,
+      "active_source_references": 8
+    }
+  },
+  "limits": [
+    "Synthetic lifecycle and local Windows verification, not new customer-video or Linux deployment acceptance",
+    "Direct filesystem deletion bypasses command gates",
+    "Exact SHA256 reuse does not match re-encoded videos",
+    "Single-source artistic/font/segmentation parameters do not become defaults"
+  ]
+}

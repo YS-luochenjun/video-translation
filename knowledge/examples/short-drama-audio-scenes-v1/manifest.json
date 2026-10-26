@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "short-drama-audio-scenes-v1",
+  "created_at": "2026-10-23T11:49:31+00:00",
+  "files": [
+    {
+      "path": "evidence/evidence-summary.json",
+      "sha256": "21449794a1dd2f7c55cc9a1a88a0ae3ecbf68533b38964e1583e3cc70f12cc6a",
+      "bytes": 15791
+    },
+    {
+      "path": "evidence/ja-doctor-after.wav",
+      "sha256": "3e393f3952df43e861049cc0a2d1c54f05b30989c95e3cf579a19a92fc654c2b",
+      "bytes": 43278
+    },
+    {
+      "path": "evidence/ja-doctor-before.wav",
+      "sha256": "e94e088b70ea3bc77b3e2763600857017dd30e884c51251285506341fb26bd6f",
+      "bytes": 43278
+    },
+    {
+      "path": "evidence/ko-short-reply-asr.json",
+      "sha256": "4b4fd8bcca76250b6f7119e5cc0a5a0c7b9b9b7a5cabba275f0cee27c1b8985f",
+      "bytes": 2925
+    },
+    {
+      "path": "evidence/ko-short-reply.wav",
+      "sha256": "1ea6309c407c8364564eb9325ae47cf54acc65171ada680a58c1ef72f99f275e",
+      "bytes": 19630
+    },
+    {
+      "path": "evidence/ko-short-warning-asr.json",
+      "sha256": "a5733235c66435399edd3f7cec15202e7d6b054c313b3c38113acae65967a012",
+      "bytes": 2825
+    },
+    {
+      "path": "evidence/ko-short-warning.wav",
+      "sha256": "05051cc17af735f902ebce1bc2af2d788470c570282895f1c3b255fedc52b5a1",
+      "bytes": 47790
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 多人小短剧的分场景配音方法\n\n这是开发者审阅的制作方法，供含 `multi_character_dialogue` 或 `short_drama` 的视频参考。用户的角色独立声线、同角色一致和男女声保底要求按“多人小短剧：固定角色声线，保底区分男女”执行。以下实例来自同一段约七十五秒、三十四句对白、九个声音角色的短剧及六个语言版本；六语不代表跨六个源视频验证。实际观察与音频模型结论见 evidence:observations。\n\n## 按剧情场景准备\n\n| 场景 | 本次实际范围 | 处理方法 | 完成时检查 |\n| --- | --- | --- | --- |\n| 家庭、医院的多人轮换 | 约 0–18 秒；母亲、医生、女主 | 先绑定人物身份，再为各人分配固定声线。医生等只说两句的人也独立分配，不能因台词少并入旁白。 | 男女声、年龄感、轮次、同角色前后两句是否同声线。 |\n| 校园群像、同伴议论 | 约 18–29 秒；姐姐及两名学生 | 结合实际说话画面和源音频分组；同一个人的连续两句归同角色。人数不能照 ASR 分段数推断。 | 人数与画面依据一致；背景角色能区分；没有额外捏造说话人。 |\n| 男女主短句交流 | 约 29–40 秒；男主、女主 | 单独保留“真的吗”等短回复，给每句留出完整发音与停顿。 | 很短的问答没有遗漏、互相覆盖、句尾被截或声线串位。 |\n| 传话与插话反应 | 约 40–46 秒；朋友、姐姐、朋友 | 按每次开口动作和上下文标角色；听到反应问句时不默认仍是前一句的人。 | 交替三句回到原角色时复用同一声线。 |\n| 对峙、反复警告 | 约 46–59 秒；姐姐、女主 | 台词重复仍是独立时间实例；同角色重复句保持声线，可分别调整情绪。 | 台词逐实例出现、短句清楚、情绪变化没有变成另一个人的音色。 |\n| 内心独白、转折长句 | 约 59–71 秒；女主 | 沿用女主对白声线。根据实际时长使用自然停顿、有限变速；过长时精简译法或同声线补录。 | 独白没有换人；数字、年龄、转折和结尾完整；语速可理解。 |\n| 片尾引导与画面文案 | 约 72.6–74.5 秒；独立引导声 | 明确区分剧情台词、旁白和场景文字。单独核对片尾真实音频；不能因全片 ASR 漏掉它就当作没有。 | 最后一句有目标语音频、完整听完；画面文案时间与配音大致配合。 |\n\n## 按制作异常处理\n\n| 触发场景 | 实际观察 | 处理方法及验收条件 |\n| --- | --- | --- |\n| 设置了男声，实际声音却偏女声 | 本次日语医生的旧候选被实际音频模型指出性别不符，虽然整体 distinct/consistent 为真。 | 读逐项观察；保存旧失败证据，同一角色两句重录，再检查最终成片。真实前后片段见 evidence:ja_before、evidence:ja_after。预设名称不能当作性别验收。 |\n| TTS 成功，但一组台词只读了首句或少了后句 | 本次多语言的角色任务发生过部分输出。 | 保留任务、原始声音及实际识别证据；仅接纳确认完整的句子，缺句用同声线单独补录。不要盲目重做已经有效的角色。 |\n| 极短回复被 ASR 误读或识别成其他文字 | 韩语约 0.6 秒的反问及两次短警告出现转写疑点。 | 先保留原始声音和 ASR，可做真实上下文拼接；仍不清楚时用实际音频理解核对。若为单句，可按波形静音边界暂编候选并标待审，最终由成片音频的实际观察解除疑点。见 evidence:ko_reply、evidence:ko_reply_asr、evidence:ko_warning、evidence:ko_warning_asr。禁止替换成预期转写。 |\n| 语言变长，台词可能跨到下一人 | 实际配音时长随语言和角色变化。 | 使用源轮次作为可用区间，测量实际时长；小范围处理停顿与语速，必要时简化译文并补录。保留画面原时轴，核对所有句尾和下一人开头，不靠大幅加速声音或拉长画面过关。 |\n| 分角色后背景音乐、音效变弱或混入旧对白 | 对白替换需要从混合源音轨分离伴奏。 | 复用已核验的伴奏与原时间轴，逐项比较音乐、音效和残留外语。分离是近似处理；不声称无损。 |\n| 已有合格画面，只需换声音 | 本次六版画面沿用对应保底版本。 | 可复制原编码画面流，验证画面包哈希相同；新编码音频重新审查。原画面小瑕疵继续保留说明，旧声音审核不能继承给新声音。 |\n| 供应商失败、超时、HTTP 520 或无任务 ID | KIE 可能出现连接、建任务和执行等不同失败。 | 区分状态：已知失败、费用已确认时限次重试；状态不明先查任务与日志，保留未知费用，避免重复扣费。沿用整个请求的授权与账本，不换任务重置次数。 |\n| 六语并行但完成程度不同 | 某些语言的短句补录晚于其他语言。 | 按真实完成状态逐语言输出并更新索引；不把未审核候选列为已交付。已有完整保底始终保留，新版使用独立路径和实际哈希。 |\n\n## 复用起点与证据边界\n\n本次的九角色预设示例：母亲 Aoede、医生 Charon、女主 Kore、姐姐 Leda、橙衣学生 Fenrir、绿衣学生 Iapetus、男主 Puck、朋友 Zephyr、片尾 Orus。它是本次映射，不是以后固定的性别表或强制配音表。以后先按新素材选人、选声线，再听审实际结果。\n\n逐句保留源区间、目标定稿、角色、声线、原始声音任务、实际裁切与变速、混音位置和成片哈希。模型配置只证明计划，实际音频观察证明的范围仍应逐项写清。自审、外部音频模型、母语人工听审和用户验收分开记录；本次未取得后两项，也未进行逐字嘴型重建。新的短剧和新语言均需重新验证发音、声线与时间配合。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/evidence-summary.json",
+      "ja_before": "evidence/ja-doctor-before.wav",
+      "ja_after": "evidence/ja-doctor-after.wav",
+      "ko_reply": "evidence/ko-short-reply.wav",
+      "ko_reply_asr": "evidence/ko-short-reply-asr.json",
+      "ko_warning": "evidence/ko-short-warning.wav",
+      "ko_warning_asr": "evidence/ko-short-warning-asr.json"
+    }
+  }
+}

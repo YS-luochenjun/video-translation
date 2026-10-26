@@ -1,0 +1,8 @@
+{
+  "revision": "whole-video-rework-1",
+  "method": "For emoji foreground protection, retain only the large warm component with V>135, fill its holes and dilate3px. Exclude original blue glyph pixels. Preserve original arrow protection. The old V>55 component included a background branch.",
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "parent_video_sha256": "e505dbe9453ddf0b026b8e0235f3203053cbb41502f2f58b55b28e47416cf970",
+  "neutral_master_unchanged": "origin:master.mp4",
+  "new_paid_calls": 0
+}

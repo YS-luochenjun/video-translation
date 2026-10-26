@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "mode": "preview_only",
+  "minimum_free_gib": 5,
+  "runs": {
+    "max_count": 20,
+    "max_gib": 8
+  },
+  "outputs": {
+    "max_count": 100,
+    "max_gib": 20
+  },
+  "media": {
+    "max_count": 50,
+    "max_gib": 5
+  },
+  "pinned_runs": [],
+  "pinned_sources": [],
+  "note": "Advisory limits, never automatic deletion. 0 disables that limit. Runs count per language task; outputs count indexed delivery/reuse packages; media counts source hashes. Knowledge, accounting and active work are protected. Review unindexed ZIPs and loose exports separately."
+}

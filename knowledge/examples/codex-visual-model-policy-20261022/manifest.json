@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "codex-visual-model-policy-20261022",
+  "created_at": "2026-10-22T13:22:04+00:00",
+  "files": [
+    {
+      "path": "evidence/owner-instruction.json",
+      "sha256": "10d26485d92b32e0d77d2bd2a2dba7d6fe8f9814fffed4062bf00cc98edf3e73",
+      "bytes": 648
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# Codex 直接处理文字与图片\n\n来源：2026-10-22 项目拥有者在当前开发对话中的明确要求，见 evidence:instruction。这是执行分工政策，不是任何模型已通过真实广告验收的结论。\n\n文字识别、翻译与图片直接处理由 Codex 完成。图片编辑可以使用 Codex 宿主的图像工具，方法由 Codex 根据实际画面自主选择；读取项目规则、偏好、命中的方法及适用案例，保留产品、音乐/音效、运动与广告含义。图片任务无需预先归入多套模型类别。\n\n真实音频的转写、分轨、理解和配音保留专用模型；必要的视频模型编辑统一入口。当前可执行模型清单以项目配置与 `model-routing` 输出为准，不将历史模型建议当作新任务调用清单。Codex 不受模型费用优化门槛限制；对外 KIE 调用继续使用既有预算、笔数和错误恢复约束。\n\n实际识字和图片产物通过 `codex-packet` / `codex-result` 与源图、任务和所读知识绑定。逐实例补齐区域、时间、译文和证据，模糊内容保留 pending。登记产物不自动放行底片；静态图片不证明连续运动；实际成片仍通过视觉、字幕、音频和质量门禁。同一 Codex 自审如实署名。\n\n此政策替代旧的 RapidOCR 默认、可选 GLM 补查、LaMa 图片推理和多视频模型轮换建议。旧记录、已付费任务、模型文件和用户素材保留，查询/下载/复用不新发任务。宿主图像工具缺失时保留待处理，不暗中启用另一个图片或 OCR 服务。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "instruction": "evidence/owner-instruction.json"
+    }
+  }
+}

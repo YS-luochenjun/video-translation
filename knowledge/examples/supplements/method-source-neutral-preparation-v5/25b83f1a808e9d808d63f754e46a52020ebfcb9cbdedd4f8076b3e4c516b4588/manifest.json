@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-evidence",
+  "identity": "25b83f1a808e9d808d63f754e46a52020ebfcb9cbdedd4f8076b3e4c516b4588",
+  "created_at": "2026-10-26T03:47:28+00:00",
+  "files": [
+    {
+      "path": "evidence/review/user-positive-feedback-20261026.json",
+      "sha256": "5d9a735f5dc2dafe08ded63fc1c0fde3a083261cf2f7ba1d186d75fc0e62ee3c",
+      "bytes": 1161
+    }
+  ],
+  "metadata": {
+    "entry_id": "method-source-neutral-preparation-v5",
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "case_manifest_sha256": "d81f7d644c9d7d5547d8675d6b26720063323097aefa493577f060fc9e6ec872",
+    "source_sha256": "f0e4254e46ba8247934fe7a38928cbf82e242f8764877b2ef26ed4cf2ca38159",
+    "video_sha256": "b505032092b66a86e46042d0c892cc1c195235ac55c684776af705ec1fcff6be",
+    "references": {
+      "user-positive-feedback.json": "evidence/review/user-positive-feedback-20261026.json"
+    },
+    "reviewed_by": "User overall-effect feedback, scoped by Codex to this exact French corrected video; not a technical quality pass",
+    "recorded_at": "2026-10-26T03:47:28+00:00",
+    "proof_boundary": "Preserved historical evidence, not a new video review, independent acceptance or wider scope."
+  }
+}

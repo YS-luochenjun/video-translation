@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "ad-localization-distilled-methods-20261019",
+      "path": "knowledge/candidates/ad-localization-distilled-methods-20261019.json",
+      "original_sha256": "0341fd2abd0ba7fa2ed7ab02a087febb3e5ae81f186eebebfa5531e51ee68895",
+      "status": "candidate"
+    },
+    {
+      "id": "artistic-cta-transition-failure-20261019",
+      "path": "knowledge/candidates/artistic-cta-transition-failure-20261019.json",
+      "original_sha256": "013f130b46d6c04227d2b6a8eb1499b2c6231f0936938a9a29dc2f07b66290f3",
+      "status": "candidate"
+    },
+    {
+      "id": "complex-av-en-zh-001-466519b59f",
+      "path": "knowledge/candidates/complex-av-en-zh-001-466519b59f.json",
+      "original_sha256": "b4e9c42a61eb54bbc83394a6828c033e4f5d3f7e7041d2f8d2ee813c5655b455",
+      "status": "candidate"
+    },
+    {
+      "id": "complex-av-en-zh-001-capture-tail-followup",
+      "path": "knowledge/candidates/complex-av-en-zh-001-capture-tail-followup.json",
+      "original_sha256": "40ce7783647a6b1bf7d3d74d839f00cdf4272c16ee946566dfa8a382fca5f6ab",
+      "status": "candidate"
+    },
+    {
+      "id": "complex-av-en-zh-002-81f60de6b3",
+      "path": "knowledge/candidates/complex-av-en-zh-002-81f60de6b3.json",
+      "original_sha256": "9034c95c6d1cc448921705fdcfa6c462fb57e61dae5634f0116e5151fcc85efa",
+      "status": "candidate"
+    },
+    {
+      "id": "complex-av-en-zh-lowcost-003-f5b1a0abd0",
+      "path": "knowledge/candidates/complex-av-en-zh-lowcost-003-f5b1a0abd0.json",
+      "original_sha256": "6dfda32226e138460d78d025eb1b2657d07439179c5eb424393c4d763ae0d881",
+      "status": "candidate"
+    },
+    {
+      "id": "demo-30s-399ce909ce",
+      "path": "knowledge/candidates/demo-30s-399ce909ce.json",
+      "original_sha256": "fada47af2ceb4539645aa314664f18a6bdd0de5558378afecce04ec9c4eb5a4d",
+      "status": "candidate"
+    },
+    {
+      "id": "demo-kling-9d7679cdf1",
+      "path": "knowledge/candidates/demo-kling-9d7679cdf1.json",
+      "original_sha256": "0c52bf306f0c6b83aa63f359a35aa51ebc305952683aaf33928485db14d0f811",
+      "status": "candidate"
+    },
+    {
+      "id": "demo-local-c128c1a823",
+      "path": "knowledge/candidates/demo-local-c128c1a823.json",
+      "original_sha256": "44c23df67bbc010c5ba2d3601adfe8426d2a69db7745dfb2fddc69940086a3fe",
+      "status": "candidate"
+    },
+    {
+      "id": "demo-veo-970c76f485",
+      "path": "knowledge/candidates/demo-veo-970c76f485.json",
+      "original_sha256": "724136238a58dec6ad235a1f501d30d97f46a21ad77708136534eed8d6bf933d",
+      "status": "candidate"
+    },
+    {
+      "id": "dropdown-neutral-bleed-korean-reuse-20261019",
+      "path": "knowledge/candidates/dropdown-neutral-bleed-korean-reuse-20261019.json",
+      "original_sha256": "82408f5475d8573ac9ef6a694e937f3dad4e32aa93f34e10e8a13fe64ca81628",
+      "status": "candidate"
+    },
+    {
+      "id": "fireplay-range-and-title",
+      "path": "knowledge/candidates/fireplay-range-and-title.json",
+      "original_sha256": "68a70571632ec9efbe757ea13b190fc70f2db1c339bc3054e230e850f8feeb11",
+      "status": "candidate"
+    },
+    {
+      "id": "hand-ja-001-3d5c2bd0f6",
+      "path": "knowledge/candidates/hand-ja-001-3d5c2bd0f6.json",
+      "original_sha256": "b5a12848f2f4d39b7a01d70ae5cc1c0f6254ac92714c82e9df22c7116af8475c",
+      "status": "candidate"
+    },
+    {
+      "id": "hand-ja-001-fef9443929",
+      "path": "knowledge/candidates/hand-ja-001-fef9443929.json",
+      "original_sha256": "1f7a96ad3a21c55c50395f947267347a76f85ae9bd263dcc7075513f9382408c",
+      "status": "candidate"
+    },
+    {
+      "id": "hand-sync-transfer-lessons-20261020",
+      "path": "knowledge/candidates/hand-sync-transfer-lessons-20261020.json",
+      "original_sha256": "7aa2c3e94733f8cd91c41e296ffa8f33dc5ae508070d92c39c40b25417a5c1de",
+      "status": "candidate"
+    },
+    {
+      "id": "hand-zh-001-8126fe0a8a",
+      "path": "knowledge/candidates/hand-zh-001-8126fe0a8a.json",
+      "original_sha256": "f84f5185fadb3da1f42203f0e4c8e150f632eeec2690609b1efb67e2f469b7c5",
+      "status": "candidate"
+    },
+    {
+      "id": "hand-zh-001-f43da11ef4",
+      "path": "knowledge/candidates/hand-zh-001-f43da11ef4.json",
+      "original_sha256": "8145cd465161f605a17b134870c943289b72fe289347fa9291c73edef6790d14",
+      "status": "candidate"
+    },
+    {
+      "id": "hand-zh-sync-002-16b884019c",
+      "path": "knowledge/candidates/hand-zh-sync-002-16b884019c.json",
+      "original_sha256": "337567b1c433647698981b28693e60b3234d780e810d123bc891ede6e231e79b",
+      "status": "candidate"
+    },
+    {
+      "id": "hand-zh-sync-002-57257dc8c7",
+      "path": "knowledge/candidates/hand-zh-sync-002-57257dc8c7.json",
+      "original_sha256": "5dbd8366a82826ffa3cae6cc135caa75d1393e3c205dae739448c7773dcdfedb",
+      "status": "candidate"
+    },
+    {
+      "id": "hand-zh-sync-002-d2cced3bb1",
+      "path": "knowledge/candidates/hand-zh-sync-002-d2cced3bb1.json",
+      "original_sha256": "340cc98aaec065bc22d0681a604fc477c98b3bc184e9bd87e96c1d258c947d94",
+      "status": "candidate"
+    },
+    {
+      "id": "live-photo-ja-001-566413b211",
+      "path": "knowledge/candidates/live-photo-ja-001-566413b211.json",
+      "original_sha256": "8bbae44792c04affe11ab521fae94d03562fc29f580bd26abbdfce55decc9969",
+      "status": "candidate"
+    },
+    {
+      "id": "live-photo-ko-001-4afed27d97",
+      "path": "knowledge/candidates/live-photo-ko-001-4afed27d97.json",
+      "original_sha256": "0a626ae8770924a2d9fc54f3ebd4703d2a98d9398b98809d26afa78d2890b405",
+      "status": "candidate"
+    },
+    {
+      "id": "live-photo-multilingual-method-20261019",
+      "path": "knowledge/candidates/live-photo-multilingual-method-20261019.json",
+      "original_sha256": "80e72a2c0e861bba0100c4b3891c2ac66d666f93c53ad7c9b8966685db795765",
+      "status": "candidate"
+    },
+    {
+      "id": "live-photo-zh-001-b286840d64",
+      "path": "knowledge/candidates/live-photo-zh-001-b286840d64.json",
+      "original_sha256": "f095ce9d6d0736c1eb667a7e2eb285b2bb61e5e32fb857e72bc4b5febf732243",
+      "status": "candidate"
+    },
+    {
+      "id": "live-photo-zh-art-004-96d77d9f27",
+      "path": "knowledge/candidates/live-photo-zh-art-004-96d77d9f27.json",
+      "original_sha256": "81c40dfb4efd677252612ded2ac42c870cccdad260057aea07367cc6ff0e86e6",
+      "status": "candidate"
+    },
+    {
+      "id": "live-photo-zh-art-004-e505dbe945",
+      "path": "knowledge/candidates/live-photo-zh-art-004-e505dbe945.json",
+      "original_sha256": "60a5b862b084733de34939e07de84d8e7d062de92b6b80ad8a28c4296a8e68f0",
+      "status": "candidate"
+    },
+    {
+      "id": "live-photo-zh-ui-002-95a95ee3c1",
+      "path": "knowledge/candidates/live-photo-zh-ui-002-95a95ee3c1.json",
+      "original_sha256": "ea1dffbc7d81a190d5d338bc4343ee863d2d3ad958960e448fe3af9ad429cc4c",
+      "status": "candidate"
+    },
+    {
+      "id": "live-photo-zh-ui-gap-003-06881b0383",
+      "path": "knowledge/candidates/live-photo-zh-ui-gap-003-06881b0383.json",
+      "original_sha256": "999db949fabeb98d2a9cf64ce18f656781750515ba9499f2b6a87765cb7025d5",
+      "status": "candidate"
+    },
+    {
+      "id": "static-veo-lite-001-6bd69f43ba",
+      "path": "knowledge/candidates/static-veo-lite-001-6bd69f43ba.json",
+      "original_sha256": "f560d1e539fd6a9b94f6311258d882367248fff402016c5c26fa45f35a8ddabe",
+      "status": "candidate"
+    },
+    {
+      "id": "static-wan26-probe-001-3a80a9ae63",
+      "path": "knowledge/candidates/static-wan26-probe-001-3a80a9ae63.json",
+      "original_sha256": "1d4084e7ec7bde78dad586e4469cb51f83ff77e8b77de373c5b41b4ac9d1cb5f",
+      "status": "candidate"
+    },
+    {
+      "id": "static-wan27-edit-001-9b6563eacd",
+      "path": "knowledge/candidates/static-wan27-edit-001-9b6563eacd.json",
+      "original_sha256": "2826f9db408364a7cc95e87f9f8f4d30152c60e6a79160a095f17970824391e6",
+      "status": "candidate"
+    },
+    {
+      "id": "storage-foundation-20261020",
+      "path": "knowledge/candidates/storage-foundation-20261020.json",
+      "status": "candidate",
+      "sha256": "7aea7e535efeddb1e482c64837dc3e20898055171a7dd029969bccb35dae4a1a"
+    }
+  ]
+}

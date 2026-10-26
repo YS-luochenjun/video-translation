@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "mode": "source_duration",
+  "max_credits_per_source_second": 3,
+  "scope": "whole_request_all_locales_models_and_retries",
+  "rounding": "floor_to_millicredit",
+  "authorization": "Project owner instruction 2026-10-26: long videos may have larger budgets, at most about 3 credits per source second.",
+  "historical_ledgers": "Keep original limits, spending, reservations and attributed amendments. Apply a new limit to an existing request only through an attributed host amendment."
+}

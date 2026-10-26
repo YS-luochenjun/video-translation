@@ -1,0 +1,83 @@
+{
+  "reviewer": "Codex",
+  "review_type": "same_agent",
+  "video_sha256": "b505032092b66a86e46042d0c892cc1c195235ac55c684776af705ec1fcff6be",
+  "source_sha256": "f0e4254e46ba8247934fe7a38928cbf82e242f8764877b2ef26ed4cf2ca38159",
+  "method": "Native source and encoded stills plus native crop sequences at critical original frame boundaries. Not a normal-speed human playback/listening review.",
+  "text": {
+    "t001-t004": "All four title occurrences translated in original white container; generated black/red French design; original grain onset and final blur reconstructed.",
+    "t005": "French two-line white/black caption; old English absent in sampled torso sequences; corresponding original emoji and skull retained. Wider same-time Wan context reduced prior hard clothing edge.",
+    "t006": "French small white caption; reduced to17px to leave room for original emoji.",
+    "t007": "French two-line CTA, red check pattern, white/blue/yellow contour; source arrow restored from same frame; source start and word pop approximated.",
+    "t008-t012": "Original AI marks, tattoo graphics preserved outside adoption regions."
+  },
+  "actual_viewed_frames": [
+    0,
+    15,
+    139,
+    150,
+    199,
+    200,
+    210,
+    219,
+    226,
+    227,
+    239,
+    250,
+    257,
+    259,
+    260,
+    275,
+    295,
+    325,
+    355,
+    356,
+    357,
+    380,
+    389,
+    504,
+    510,
+    541,
+    504,
+    510,
+    541
+  ],
+  "audio": {
+    "tts_task_id": "4276520bca31d030ca2111f2a89b99d0",
+    "tts_credits": 0.54,
+    "language_detected_by_whisper": "fr",
+    "observed_mix_segments": [
+      {
+        "start": 0.0,
+        "end": 5.5,
+        "text": " Attention, n'ouvrez pas cet appui pour rencontrer votre partenaire idéal en 10 secondes."
+      },
+      {
+        "start": 16.64,
+        "end": 18.1,
+        "text": " Essayez maintenant !"
+      }
+    ],
+    "mix_wav_v2_v3_identical": true,
+    "comparison": "Gemini comparison request timed out; no listening or music/effects quality pass inferred. Opening ASR includes lexical disagreements, not resolved by another listening source.",
+    "mix_wav_v2_v4_identical": true
+  },
+  "limitations": [
+    "Source faces/wipe remain original; repairs inside caption envelope are generative and locally softer. Exact typography not recovered.",
+    "CTA reveal is a French word pop, not original Latin letter-by-letter animation.",
+    "Grain/blur effects in original white header are approximated.",
+    "No complete normal-speed human playback; independent audio comparison timed out. No full quality pass."
+  ],
+  "decision": "best_available_complete_translation_with_issues",
+  "user_feedback": {
+    "quote": "目前我发现图一比图二好。因为图二有一个透明的遮罩在后面，是吗",
+    "finding": "v3 CTA repair rectangle had mismatched blur and exposure; source fit finds sigma7 and roughly +3 pixel levels, compared with old sigma10 and no correction. No separate gray text panel was drawn.",
+    "correction": "Use same-source text-free frame501, blur/exposure matching, actual old glyph-difference envelope with soft contour instead of rectangular-strip replacement. Preserve corresponding source arrow.",
+    "reviewed_frames": [
+      504,
+      510,
+      541
+    ],
+    "scope": "User compared two v3 stills; neither full v3 nor new v4 video is user-approved."
+  }
+}

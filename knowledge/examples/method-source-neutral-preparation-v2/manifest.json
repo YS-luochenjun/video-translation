@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "method-source-neutral-preparation-v2",
+  "created_at": "2026-10-20T10:36:20+00:00",
+  "files": [
+    {
+      "path": "evidence/batch-observations.json",
+      "sha256": "661cb73244fcaca1e7ca839773092633f665c56cea2ccd87abbcf082e7750abc",
+      "bytes": 26810
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 同源多语言：先验证共享准备，再扩展到各语言\n\n适用于同一源素材再次翻译或批量多语言制作。继承 v1 的分层和哈希核验程序，结合本批六个独立源的结果记录；同源多语言不重复计作独立源验证。\n\n1. 分开保存源解析、与语言无关的底片/背景轨，以及目标语言的译稿、配音、字层和实际评审。先核验完整源哈希、准备参数与依赖是否可用。历史坐标、遮罩和已批准音轨只按其原源及语言范围使用。\n2. 在批量合成前检查共享底片的进出场、放大、遮挡和转场。底片缺陷会复制到每个语言；先做一个代表语言的实际编码样片，检查字形、透明通道、边界和声音，再扩展批次。样片通过不能替代其他语言的检查。\n3. 新语言重新定稿、配音、排版、对齐和审核；按目标字形测量文本，不把源语言框宽、字体、标点和行数直接套用。只有局部画面修改时，已核验的同语言配音可以保留，仍核对实际音轨哈希与最终同步。\n4. 每个语言有独立状态、账本和可恢复进度；共享准备成本只计一次。一个语言失败不重做已完成的其他语言，也不把状态不明的付费提交当作未发生。\n5. 结案后先形成独立的最终成片、可复用准备依赖、知识证据和账本，再讨论工作目录清理。检索命中一个索引或旧哈希不代表实际素材仍在。ZIP 和便捷下载副本不是唯一的复用来源。\n\n失败签名：旧语言残留；所有语言同一位置出现修补重影；长译文压住按钮；归档复制耗尽磁盘；只修一个字却重新支付整段制作费用。\n\n证据：evidence:observations。本批包含通过与 revise 候选；用户“效果不错”为整体反馈，未改写各版本技术结论。方法提高复用与检查的一致性，不保证任意背景修补、无损分轨或口型同步。仍需用不同运动背景、不同文字系统的新源检验。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/batch-observations.json"
+    }
+  }
+}

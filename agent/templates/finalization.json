@@ -1,0 +1,14 @@
+{
+  "source_sha256": "ACTUAL_SOURCE_SHA256",
+  "inventory_sha256": "ACTUAL_INVENTORY_SHA256",
+  "request_sha256": "ACTUAL_REQUEST_SHA256",
+  "video": {"path": "outputs/translated-candidate.mp4", "sha256": "ACTUAL_VIDEO_SHA256"},
+  "reviewer": "Codex (same_agent)",
+  "reason": "Describe the selected best complete result and why further retries have ended",
+  "text_ids": [],
+  "speech_ids": [],
+  "speech_mode": "dubbed",
+  "evidence": [{"path": "review/actual-result-observations.json", "sha256": "ACTUAL_EVIDENCE_SHA256"}],
+  "assets": [],
+  "limitations": ["Describe actual known defects and unverified review scope; never invent a pass"]
+}

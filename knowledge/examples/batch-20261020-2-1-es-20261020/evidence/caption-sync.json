@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "video_sha256": "30cf240458a7368349f1b2927006b9f71044c510f817cda45e40c3f92293ae15",
+  "plan_id": "0d2190c8b21e10b5",
+  "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+  "inventory_sha256": "c9b84dedcce3a79fce98137d90643d0d20d216444b4bb7817499d19976f85746",
+  "track_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "audio": {
+    "path": "review/30cf240458a7/audio.wav",
+    "sha256": "1a667a06537ea44c2658b0e88db058644713644d6f06d864cb287e88c6090c43"
+  },
+  "reviewer": "Codex same-Agent visual inspection, external Gemini audio perception",
+  "method": "Source and actual final frames show independent persistent decorative headline and end-card CTA, not timed speech captions. Exact same finalized copy is used in narration. No per-word caption or lip-sync claim. Candidate WAV was compared externally with original source; actual visible copy and scene boundaries were inspected separately.",
+  "decision": "pass",
+  "evidence": [
+    "review/30cf240458a7/audio.wav",
+    "review/30cf240458a7/frame-00002.jpg",
+    "review/30cf240458a7/frame-00037.jpg"
+  ],
+  "instances": [],
+  "limitation": "Planned units are instructions, not observations. Review actual WAV and caption boundary frames/full playback."
+}

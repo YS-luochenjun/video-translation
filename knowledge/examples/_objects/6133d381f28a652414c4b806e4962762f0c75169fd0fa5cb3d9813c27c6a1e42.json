@@ -1,0 +1,449 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "source_run": "live-photo-zh-001",
+  "assets": [
+    {
+      "path": "origin:audio-analysis-response.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "98c64bcc161301130bf9c3b11255b136301a45fa04c4a304940ef437fb1c60ac",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:audio-source.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "a4c4e0e7fc23e003674479348dc0b0b2ad6bc0559b580126466b53ffad514d67",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:audio-transcript.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "e531ae0e392ac5b3fc6c64de2e22865afd12ab5d1a97f77fbab22a6b0f147121",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:audio.wav",
+      "from_run": "live-photo-zh-001",
+      "sha256": "a46c47d2ab71596bd695ba665ac57821b6b439fd808277154dbcd40e04499218",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:card-occlusion.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "56a54e43067cb0ca6deeb5ac5e8b3f1ed1dab77f27ca787d083bc08757f9c4dc",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:contact-pages.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "063cdae3bd6959589efddd598575a8828e28c69f38367e5c9a1bde68e39909fe",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:contact-sheet.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "b8ca7da8a3d93ee4a4204174567481c798644f071361911afc44764dff25ffa4",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-index.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "75d98cf32f32293adec6be64662c7a48516a3d4c0f8eb72fdbe08fe7abf02429",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:media.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "fe82f6b8cf9d52a72eeb2716e64379176e3acaf4b441c0b2a011666a2bd6dedf",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:ocr-source-coarse.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "41515d675beb5b35a5c116b250dc00d1a413ace10f761812f1d9e5c3b73f8f2e",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:ocr-source.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "675929cda5e0944fa2edd1d57a966b5a962b682c06bdfbf3456c492ee9154c22",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:offline-asr-audio.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "f80bc8308d89a7cb92ca60b46c4285c182efdc94451125786bc62cc0c7413a10",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:shot-001.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "03844830b89314b3ef72b371806220581b316ee7fc3c17de1f194562bdc117b2",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:shot-002.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "f4f65b593dc16522d5936d609e95d6930654bc7171f0047d0f9d296aac06c9c2",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:shot-003.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "c62bfd8989fa167ca9c1918b2cf9003d7bde1067f81c5305c3c4b46eafdae837",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:shot-004.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "c5d73f7c465b915ac66a017c00d3f75c8e25eb9e00694ab17114b453be6d0de0",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:shot-005.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "f07b0c2f614d72d5a8f76c69a37ca70042f0c9efe1868f62323d1a92b3bd8baa",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:shot-006.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "8d31197acefeb584530078e897ab1289006301cbc0e71addb4d61b195bbaad55",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:source-scenes.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "9345234afd47f03532586da17e3181366b33b0cb3805140d01c77f4f4ed3bc0c",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:source-stereo.wav",
+      "from_run": "live-photo-zh-001",
+      "sha256": "010466fa9e68d16d9b5a22d83ade36f6e6dc734080094b0cba654b95a50f1342",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:0.00.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "e90e5cd64b53112134a64bb0bd3d1caae956b4bb5032a3414632957bc54b2800",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:10.50.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "70f78afa5daa514153014123b367d834871fbeb8f108dce528314e7827ce223e",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:11.70.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "1f86c50704e445f0aea588b6ad5abb581ff356d34a136c80c02d4567c279f115",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:13.40.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "5bf3c841f565cccb9c123bffc11456e1c7927e2745bfd427db9377fd655de551",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:14.50.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "61c7cfe536a51df51c29f779af3e108841842ae5ac7c2c50817e58c1d93eabe9",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:15.60.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "dcfa964e4c133e43a4427b9634bc360e32a423ed502169b117dea50ca72994d6",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:16.20.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "76c249cef3bf553afb3c2a4c9b00d27f550b288de2d59d530e817b366dedc3eb",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:17.80.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "096b09e53d7e389c56273e9feccae945138f1df03755b693e68f5d98b4b896fb",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:4.65.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "484248157a308531d65951469083327f9e1b6ca9d56e6042b5aa1da973989018",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:4.85.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "25a8ef3fdce26184e65e670478be10ea022269ad60e8a0d3e42875a0d7d11405",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:5.15.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "15c880d6d8bdf008a27c44e588ca65b4c9b1fbc9aa4aead39f033485a123c27e",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:5.65.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "2f6f7bd9bf8a1c9afaa280e7a0ef2673450e3d6ffc32dcf19934c9964f0f3f93",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:6.05.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "4d3e32a990797af1e5013e2cfed3cfc769da43c17c02daba1ec43da0b717855e",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:9.85.png",
+      "from_run": "live-photo-zh-001",
+      "sha256": "d7f4415940f1e96fd84a7a0271e9547339f7bc878206184eb41bdce0cdc069f3",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:contact-pages.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:source-details.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "2fd75f049e9dae08cb5d3c171b6c612523c20a992e03e001bcc3aecd7a90fc53",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00001.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "5b2b120855b02f93cf71533001d4a38e1c4288ee1a9a8af852d51cd13433f6f9",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00002.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "bbda0e95df9b582fd7dfacac6e34998abec6d2971cb212be37dc94f315c1ba9a",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00003.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "c0480e757a346c106814dd713dfc93099d2f481832aa366eb7b4fbd18c942be9",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00004.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "70a813241b3bc23c96529708e5d27f8cc9329764f0a07f25f547422e5d15531e",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00005.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "6a95199a70fff9a4fd01686be6d974b414ec70b54ff375278c71aef75b7fb910",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00006.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "47aa4ca40ae50c1d7c5267a3477fa94bba9aa37652bac39014ed40410ab72220",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00007.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "f194d12c83de61482e6803e9b7276082511183da65155fdc75aabd40da2a4fc8",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00008.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "abe6d927427dfeb8c0b3dc2cbd094f7b2afca2b8ca2996a18a45300ebe9aab33",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00009.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "83edefadfde23eeec5d4f1d1b3ea4616b6039db4f41b733aeafc6ac8cc151a3e",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00010.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "e05b56ea1d077cbd7e3cd9a8be5a6e025815f8010df291126ebd6094ea16c65b",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00011.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "1fd67a6d2ed07f5b6378b671d839ce741dc9226e23ff2edfd31f48fde6ea4a5f",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00012.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "e3087b3b6bb0b762ec4071969dc9654dde79d7d949e98faa6451393b53323ee8",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00013.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "13921a69cfcfa1d6c50d0d86f941cd98b141b26da9597bcda43080b56bdbbd2c",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00014.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "0998be586a07ca98a224f1f4f2f412e7d1e97303c1b63d5ebca28e79439011f5",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00015.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "db73a1bb89a42d67a6bcbe2445e977294dd2656fe0d321a16db214bb8498d872",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00016.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "7447af13b6f7b7aa524d22635e8b060798eca0002a8a89b7124888c9f0a0d03a",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00017.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "c7d79c41dde001b071f490f9dcd17795630fd0de068d1b38f22ec5feb559e73b",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:frame-00018.jpg",
+      "from_run": "live-photo-zh-001",
+      "sha256": "358cec380126fa48ecd75f0333e12f671df2cb810f13fb76842a666222173e2e",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:accompaniment.wav",
+      "from_run": "live-photo-zh-001",
+      "sha256": "032debf187556db784b67cfbe121bf69388903099c33cb1291d1d8238ba9e607",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:provenance.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "b80bcde7c0dabea4516bea0dad75f9a5f18793832f14c7367290eaa5f98aad9f",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:vocals.wav",
+      "from_run": "live-photo-zh-001",
+      "sha256": "e898ea285bb808b8b3ba27f167dbbf1db6cd2e958d2abed1901d466c5c84903d",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:input-inventory.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "7601e4df34ec959b54988bda29747915c5f7cb0bdef8e5f70ca561f0d9789557",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "origin:master.mp4",
+      "from_run": "live-photo-zh-001",
+      "sha256": "88e42c506cf28f767faade6aabe0d4fdf53791cd92c2065f3125d15de355439f",
+      "new_kie_credits": 0,
+      "hardlinked": true
+    },
+    {
+      "path": "origin:preparation.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "7f4aca2d0e947f2510028a58e19c30fbdb6e61b280a954851c7cf7b3c857fd33",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "shared-evidence/header-job.json",
+      "from_run": "live-photo-zh-001",
+      "sha256": "306fcb72c38de854bc9bb43aa2bd869cf0211b150e00626e057cdf3ae0f412e1",
+      "new_kie_credits": 0,
+      "hardlinked": false
+    },
+    {
+      "path": "shared-evidence/header-model.mp4",
+      "from_run": "live-photo-zh-001",
+      "sha256": "4ca3347a6e1e84788cf3bc148a28baa5c6f2cc346d40a0c47093147b3c1c2a7e",
+      "new_kie_credits": 0,
+      "hardlinked": true
+    },
+    {
+      "path": "origin:source.mp4",
+      "from_run": "live-photo-zh-001",
+      "sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+      "new_kie_credits": 0,
+      "hardlinked": true
+    }
+  ],
+  "new_credits": 0,
+  "proof_boundary": "Only identical source-bound assets reused. Target text, locale voice takes and per-language reviews are not shared."
+}

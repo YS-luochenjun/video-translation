@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-19T09:10:11+00:00",
+  "source": "Direct user message in this conversation",
+  "quote": "这次效果不错，请进行知识总结学习。只有一个小问题，如图，最近项目和下拉标志有点重叠。目前看看得到这个最终视频的情况下，目前的花费是多少。接下来用同一个素材出一个韩文版，复用已有的去字底片和样式，翻译画面文字和旁白，保留背景音乐和音效，并告诉我新增花费是多少，目前我希望一次的中文控制在60credits以内，如果是有复用等，希望控制在40credits以内。",
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "target_language": "zh-CN",
+  "video_sha256": "95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44",
+  "acceptance": "positive_overall_effect_with_explicit_dropdown_overlap_correction",
+  "known_issue": "t007 最近项目 overlaps original dropdown icon; reserve icon bounds plus visible spacing.",
+  "quality_sha256_unchanged": "ea94bff6d70266cd06e84cbe70c0ba6b1c67477d9d9e7a0e98be41a7468069ce",
+  "review_sha256_unchanged": "6889258cfe849f27b37f8588e18ef06adb566698f38a9cdf4f28cfd53c5e36a6",
+  "company_preference": false,
+  "global_memory_changed": false
+}

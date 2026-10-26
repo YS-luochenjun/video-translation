@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "method-source-neutral-preparation-v3",
+  "created_at": "2026-10-21T02:18:53+00:00",
+  "files": [
+    {
+      "path": "evidence/observations.json",
+      "sha256": "1e22b9b890595327ea7e22699f30d68fc6e4f8464f80525429f36344f5cc3817",
+      "bytes": 4933
+    },
+    {
+      "path": "evidence/user-feedback.json",
+      "sha256": "fe5b1b199c5e6e066a3e32bbf392dbfbc5e429678335ee6159e708f5d7d451ff",
+      "bytes": 512
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 共享底片：按背景运动选路，再验证和复用\n\n适用于文字覆盖照片、人物、物体或需要同源多语言制作的广告。推广的是选路和验证程序；案例的遮罩、像素坐标、参考图、帧率及模型参数仍限定于原素材。\n\n## 按画面条件选修复路线\n\n| 条件 | 优先试验 | 必须验证的反例 |\n| --- | --- | --- |\n| 同一照片的平移、缩放，有可配准干净区域 | 对应姿态的相邻帧或局部干净参考，配准后只合成必要区域 | 镜像/正常姿态误配、照片擦入跨场景、衣领被复制到胸前 |\n| 文字遮住运动头发、手指、物体且没有干净背景 | 获授权后试短视频时序修复；模型帧只作同一时刻的局部供体 | 静态补丁冻结运动；模型重画人物、手指和图标；边界跳动 |\n| 闪白、灰化、模糊或照片切换 | 按转场两侧各建参考，匹配位置及逐帧亮度；无可靠匹配时单独验证转场 | 单张参考跨姿态套用、矩形接缝、末帧拖影 |\n| 小范围文字且背景确实静止简单 | 可对照局部传统修补或背景重建 | “字消失”但纹理被抹平；必须在实际运动中确认静止假设 |\n\n生成的隐藏像素是推断。优先保留区域外原像素，观察脸、头发、手指和物体轮廓；局部供体有效不等于整幅模型输出可替换原片。若必须变速送模，单独记录源/输入/输出映射、PTS、帧数和时长，恢复后检查连续运动；不能把某次省费试验设为默认。没有授权或短片质量不达标时保留失败，不自动改走高价路线。\n\n## 制作与复用顺序\n\n1. 源解析、无目标字形的视觉准备、源背景音、目标译稿/声音/字层分别保存。复用前核验完整源哈希、依赖及当前质量异议；“文件还在”与“允许用于制作”分别判断。\n2. 分别审查无字短片的残字、纹理色彩、前景运动和时间边界；不能用译文覆盖缺陷。然后做一个代表语言的实际编码样片，确认后扩展多语言，各语言仍独立检查字形、长度、同步和品牌。\n3. 纯视觉返工可复用已审同语言声音，但必须比较实际成片解码音轨及时间映射。音轨相同只能继承已有声音结论；不能证明新的文字同步、音乐/音效分离保真，不能解除原有待审项。\n4. 共享准备成本只计一次，各语言新增费用与失败尝试分别记录。调用超时先恢复账本，不重发未知付费任务；已成功的语言不随其他语言重复制作。\n5. 成片/复用包、源解析与永久知识案例分别保全。删除运行或交付文件不会删除独立方法案例，但历史哈希不能恢复已删除的视频。容量预警不等于自动清理，批量复制前先检查可用空间。\n\n## 证据级别与停止条件\n\nevidence:observations 记录四个独立源的修复过程、精选画面及失败。1-1是视觉自审改善且整体音频待审；2-1是动态修复单语自审，发丝与拖影近似且图标有缺失；4-2是两秒局部改善，未验证整片/译文动画；1-3仍为失败反例。用户整体积极反馈单独保存，不改写各版技术状态。\n\n可推广：按内容选路线、局部保护、先底片再单语后批量、哈希与证据复用。未证明：任意背景都能无损恢复、同一模型必然成功、变速输入普遍安全。先以短片反证，不达标按已授权返工边界结束；原质量异议不因新案例或总体认可自动撤销。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/observations.json"
+    }
+  }
+}

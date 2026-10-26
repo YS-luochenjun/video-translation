@@ -1,0 +1,26 @@
+{
+  "id": "demo-kling-9d7679cdf1",
+  "status": "candidate",
+  "created_at": "2026-10-16T10:01:16+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "Time/region-bound instructions were not faithfully executed even on a flat static ad. A later single-instance probe could separate prompt load from editing limitations; internal cause is not established.",
+  "evidence": {
+    "run": "demo-kling",
+    "video_sha256": "9d7679cdf1b69e7e102e3cf5106d6f91eb171ea66800b8410bba9be3d4f06cba",
+    "quality_sha256": "bba11defb13416fa38461494a3ee03068317b19424e84d44abb63ff1047c86c4"
+  },
+  "limitations": [
+    "Synthetic static layout",
+    "Same-agent review",
+    "No company approval or general model ranking",
+    "No ASR/dubbing proof"
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "0c52bf306f0c6b83aa63f359a35aa51ebc305952683aaf33928485db14d0f811"
+}

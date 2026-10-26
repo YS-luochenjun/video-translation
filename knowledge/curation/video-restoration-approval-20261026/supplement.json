@@ -1,0 +1,13 @@
+{
+  "entry_id": "method-source-neutral-preparation-v5",
+  "source_run": "mog021-fr-new-20261026-01",
+  "video_sha256": "b505032092b66a86e46042d0c892cc1c195235ac55c684776af705ec1fcff6be",
+  "reviewed_by": "User overall-effect feedback, scoped by Codex to this exact French corrected video; not a technical quality pass",
+  "evidence_review": "sanitized_project_evidence",
+  "files": {
+    "user-positive-feedback.json": "review/user-positive-feedback-20261026.json"
+  },
+  "required_evidence": [
+    "user-positive-feedback.json"
+  ]
+}

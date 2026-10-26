@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source": "User feedback on 2026-10-19: avoid expensive models; Seedance 2.0 and above billed per second are too expensive.",
+  "block_seedance_major_at_least": 2,
+  "max_new_video_task_estimated_credits": null,
+  "cap_origin": "2026-10-26 direct user instruction: measured original duration times 3 credits, shared by all locales/models/retries; config/budget-policy.json. Existing ledgers and unknown reservations retained. Model prohibitions still apply.",
+  "preferred_video_trials": [
+    "wan/2-7-videoedit"
+  ],
+  "note": "This blocks new submissions only. Poll, download and review already submitted tasks without recreating them. Credit estimates are reservations, not provider billing guarantees."
+}

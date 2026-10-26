@@ -1,0 +1,45 @@
+{
+  "outputs": [
+    "inputs/title-diagnosis-20261026/french-title-host-v1.png"
+  ],
+  "observations": [
+    {
+      "observation": "Blank existing title plate used as edit target. Output has two legible French lines TU NE DEVINERAS JAMAIS / CE REBONDISSEMENT ! in heavy right-slanted condensed white letters with black outline; plate and emojis visually retained, no added rectangular backing. Spacing before the exclamation is tight; exact original typeface and pixel identity not established.",
+      "image": "inputs/title-diagnosis-20261026/clean-title-host-v1.png"
+    },
+    {
+      "observation": "Original two-line heavy condensed oblique white title with black edge, dark translucent existing panel and shushing emojis used as visual style reference. This trial preserves the style category much more closely than upright Arial in the archived video.",
+      "image": "inputs/title-diagnosis-20261026/source-screenshot.jpg"
+    }
+  ],
+  "method": "Built-in image_gen edited the clean screenshot using original screenshot as typography reference; inspected the returned French lettering and composition.",
+  "actor": "Codex",
+  "limitations": [
+    "New translated still has same-agent inspection only; user approved the earlier cleaned still, not this new French still.",
+    "No repaired dynamic video produced in this investigation.",
+    "Generated full screenshot has resolution/detail drift; future video composition must use actual source frames and bounded local assets."
+  ],
+  "knowledge_read": [
+    "AGENTS.md",
+    "agent/contracts/workflow.md",
+    "agent/contracts/quality.md",
+    "agent/contracts/model-routing.md",
+    "agent/workflows/video-localization.md",
+    "knowledge/rules/user-caption-audio-sync-20261019.md",
+    "knowledge/rules/codex-visual-model-policy-20261022.md",
+    "knowledge/rules/neutral-visual-and-animation-gate-v3.md",
+    "knowledge/rules/short-drama-character-voices-20261023.md",
+    "knowledge/rules/natural-removal-blur-last-resort-20261023.md",
+    "knowledge/rules/user-no-solid-text-panels-20261022.md",
+    "knowledge/rules/user-request-budget-20261021.md",
+    "knowledge/rules/method-animated-text-occlusion-v5.md",
+    "knowledge/rules/method-spoken-caption-verification-v3.md",
+    "knowledge/rules/method-source-neutral-preparation-v3.md",
+    "knowledge/rules/route-selection-v2.md",
+    "knowledge/rules/text-instance-timing-v1.md",
+    ".agents/skills/video-localization/SKILL.md",
+    "config/model-routing.json",
+    "config/quality.json",
+    "config/profiles/company-default/profile.json"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-26T03:47:27+00:00",
+  "source": "Direct user message in chat 01a1760c-5cd8-7342-8007-1beb221a1f36 on 2026-10-26",
+  "quote": "目前挺好，请你帮我进行知识储备与流程管理，目前效果很好。[@翻译视频为六种语言] 也在进行知识的管理等",
+  "source_sha256": "f0e4254e46ba8247934fe7a38928cbf82e242f8764877b2ef26ed4cf2ca38159",
+  "target_language": "fr",
+  "video_sha256": "b505032092b66a86e46042d0c892cc1c195235ac55c684776af705ec1fcff6be",
+  "package": "outputs/f0e4254e46ba8247/fr/b505032092b66a86-best-eaca28d8",
+  "user_feedback": {
+    "overall_effect": "positive",
+    "current_corrected_version": true,
+    "knowledge_and_workflow_curation_requested": true
+  },
+  "boundaries": {
+    "technical_quality_passed": false,
+    "independent_audio_review_complete": false,
+    "company_acceptance": false,
+    "prior_quality_holds_released": false,
+    "cross_source_or_language_approval": false
+  },
+  "scope": "Latest corrected French video shown immediately before this message; overall user approval does not create missing technical observations."
+}

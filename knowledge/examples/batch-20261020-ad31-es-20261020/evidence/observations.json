@@ -1,0 +1,29 @@
+{
+  "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+  "video_sha256": "a2e06ce3f9f6bf76681f34ce656e427410943716c9a2e21ae0e59598055d0f38",
+  "origin_run_id": "ad31-es-20261020",
+  "technical_decision": "pass",
+  "reviewer": "Codex same-Agent visual/AV review, with external KIE actual-audio perception; not independent human/native-speaker or company acceptance",
+  "method": "Actual encoded frame crops and contact sheet inspected per occurrence; native copy, required original-letter removal, font shaping, moving phone UI and foreground clipping checked. All caption pixels decoded for timing. External model reviewed actual decoded audio, whose exact PCM identity is retained across visual-only revisions. Self-review is labeled; technical gates do not establish business acceptance.",
+  "lesson": "Source-only repair was reused across eight languages. A bright foreground-hand mask must exclude dim thumbnail-photo skin; a generic rectangle or connected skin patch leaves source letters or clips native letters. Phone UI text must remain below the source-style caption capsule. Inspect the first source capsule/letter by frame index, not only the intended source caption interval. Actual spoken copy and caption are one script; final timing comes from adjusted voice and actual encoded pixels. These are observations on this one source, not cross-source proof.",
+  "limitations": [
+    "Same-Agent visual and AV judgment plus independent provider audio-only analysis; no human/native-speaker or company acceptance.",
+    "Traditional local lettering repair with source-only neutral plates; local softness remains around repaired title areas, reflected in visual-fidelity score.",
+    "Original music and effects are retained, with local separated accompaniment during narration and modest ducking. Separation is not lossless.",
+    "No lip-sync model used. Creator handle, numeric counts/durations and handwritten palm initials are intentionally preserved.",
+    "The one authorized extra local correction contained failed partial implementations; those attempts and their evidence are retained, with no additional paid submission."
+  ],
+  "critical_defects": [],
+  "scores": {
+    "translation": 4.8,
+    "visual_fidelity": 3.8,
+    "temporal_alignment": 4.8,
+    "audio": 4.6,
+    "ad_style": 4.0
+  },
+  "original_record_hashes": {
+    "quality": "b03b4f57ea68dd9a62f6c9c8ce774e10309a6969342f3f0ac4fa54a23a05364c",
+    "review": "ec280ca24ae2481e9631fd2cc3aebfe0de53420c527e6459499eec4bec314599"
+  },
+  "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+}

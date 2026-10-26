@@ -1,0 +1,17 @@
+{
+  "manifest_sha256": "a8fd17ccb5d1db1c93229a33b3805ca1dd63378ec0576780d56e25926bb1d1bf",
+  "reviewer": "Codex current controller",
+  "review_type": "same_agent",
+  "instances": [
+    {
+      "instance_id": "t004",
+      "issue": {
+        "check": "background_and_foreground",
+        "frames": [
+          200
+        ],
+        "observation": "Native source/neutral frame200 shows thin pale vertical streaks below the lamp in the erased header. Columnwise row71 interpolation carries lamp colors into the flat background. The two white short strokes at y64 already exist in source and are not German text residue."
+      }
+    }
+  ]
+}

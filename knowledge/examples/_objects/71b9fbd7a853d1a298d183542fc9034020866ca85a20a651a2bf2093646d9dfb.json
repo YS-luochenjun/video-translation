@@ -1,0 +1,34 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "target_language": "zh-CN",
+  "texts": [
+    "立即",
+    "免费体验"
+  ],
+  "font": "Microsoft YaHei Bold with measured geometric adaptation",
+  "font_file": {
+    "path": "origin:msyhbd.ttc",
+    "sha256": "4508821b3dffe01f0ef5e5326a3e60df705a44633858811f67b6982dce3f6ee6"
+  },
+  "source_font_recovered": false,
+  "source_texture_frame": 492,
+  "source_texture_bbox": [
+    229,
+    497,
+    16,
+    16
+  ],
+  "texture": {
+    "path": "origin:source-red-texture.png",
+    "sha256": "9a1771046488af23ebc202d99fde55725f7b0b471384cfc72c96b8b775a2d727"
+  },
+  "white_stroke_radius": 6,
+  "blue_stroke_radius": 13,
+  "yellow_offset": [
+    5,
+    8
+  ],
+  "blue_edge_texture": "subtle deterministic diagonal engraving",
+  "copy": "Two source-relative lines; no new advertising claim",
+  "animation": "Scale and position measured at every source frame from first-line blue silhouette, reference frame492"
+}

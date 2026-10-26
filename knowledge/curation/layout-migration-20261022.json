@@ -1,0 +1,14 @@
+{
+  "kind": "path-only-migration",
+  "date": "2026-10-22",
+  "authorization": "Project owner requested directory consolidation and all path references updated.",
+  "entry_id": "user-caption-audio-sync-20261019",
+  "current_path": "knowledge/rules/user-caption-audio-sync-20261019.md",
+  "original_path": "knowledge/history/path-migrations/user-caption-audio-sync-20261019.md",
+  "before_sha256": "e42209c30089959657f69c43e4efd4857162807840652eb65b2356f1fc087b66",
+  "after_sha256": "c94e1284381af148006e381dff1df46d1812aacd018920fc490262c52c27445c",
+  "replacements": {
+    "core/captions.md": "docs/contracts/captions.md"
+  },
+  "scope": "Only a document path changed. Rule meaning, status, scope, review facts and evidence are unchanged."
+}

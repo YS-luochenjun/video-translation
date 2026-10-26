@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "video_sha256": "46af5daaa4acb765b3f2cf81d92dd9177dbe6a492d0f0b536bb5a0cfe8a66dbb",
+  "plan_id": "1c35e0d443a65a6c",
+  "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680",
+  "inventory_sha256": "4aa7963a91ea4def5fc80906bdc82cc4aa5e0d1865658ffe0165ef6d7b5de792",
+  "track_sha256": "24265493b940916d2cb267211ada29d7d38af6f962b791526715e4b09b9bad50",
+  "audio": {
+    "path": "review/46af5daaa4ac/audio.wav",
+    "sha256": "dce6a2304aaab99a1184baa9d01e6ac62465abce866dd55378b56544af667f96"
+  },
+  "reviewer": "Codex / same-Agent self-review, 2026-10-20",
+  "method": "Same-Agent: actual decoded output pixel boundaries plus exact final WAV ASR and measured source-bound voice placement, validated against final mux correlation.",
+  "decision": "pass",
+  "evidence": [
+    "review/46af5daaa4ac/audio.wav",
+    "review/46af5daaa4ac/caption-boundary-panel.jpg",
+    "review/46af5daaa4ac/actual-caption-pixel-times.json",
+    "review/46af5daaa4ac/small-asr-audio.json"
+  ],
+  "instances": [
+    {
+      "id": "t001",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 0.033333,
+          "end": 1.566667,
+          "text": "¿Quién es tu\npareja ideal?"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 0.033333,
+          "end": 1.566667,
+          "text": "¿Quién es tu\npareja ideal?"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "¿Quién es tu pareja ideal?",
+          "start": 0.06953514739229025,
+          "end": 1.5123922902494331
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "¿Quién es tu pareja ideal?",
+          "start": 0.03333333333333333,
+          "end": 1.5666666666666669
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final small-model speech content; acoustic endpoints of the same placed voice verified by final mix identity; independently decoded candidate pixel first/last frame. No human hearing claim.",
+      "evidence": [
+        "review/46af5daaa4ac/audio.wav",
+        "review/46af5daaa4ac/small-asr-audio.json",
+        "review/46af5daaa4ac/actual-caption-pixel-times.json",
+        "review/46af5daaa4ac/caption-boundary-panel.jpg",
+        "review/46af5daaa4ac/caption-t001-000-0.jpg",
+        "review/46af5daaa4ac/caption-t001-000-1.jpg",
+        "review/46af5daaa4ac/caption-t001-000-2.jpg",
+        "review/46af5daaa4ac/caption-t001-000-3.jpg",
+        "review/46af5daaa4ac/caption-t001-000-4.jpg"
+      ]
+    },
+    {
+      "id": "t010",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 16.033333,
+          "end": 16.866667,
+          "text": "¡Pruébalo ya!"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 16.033333,
+          "end": 16.866667,
+          "text": "¡Pruébalo ya!"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "¡Pruébalo ya!",
+          "start": 16.044897959183672,
+          "end": 16.83272108843537
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "¡Pruébalo ya!",
+          "start": 16.033333333333335,
+          "end": 16.866666666666667
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final small-model speech content; acoustic endpoints of the same placed voice verified by final mix identity; independently decoded candidate pixel first/last frame. No human hearing claim.",
+      "evidence": [
+        "review/46af5daaa4ac/audio.wav",
+        "review/46af5daaa4ac/small-asr-audio.json",
+        "review/46af5daaa4ac/actual-caption-pixel-times.json",
+        "review/46af5daaa4ac/caption-boundary-panel.jpg",
+        "review/46af5daaa4ac/caption-t010-000-0.jpg",
+        "review/46af5daaa4ac/caption-t010-000-1.jpg",
+        "review/46af5daaa4ac/caption-t010-000-2.jpg",
+        "review/46af5daaa4ac/caption-t010-000-3.jpg",
+        "review/46af5daaa4ac/caption-t010-000-4.jpg"
+      ]
+    }
+  ],
+  "limitation": "Actual output observations, same-Agent with model-assisted perception. Final CTA ASR onset includes pre-speech music; explicit placed-voice onset is used rather than copying that coarse timestamp."
+}

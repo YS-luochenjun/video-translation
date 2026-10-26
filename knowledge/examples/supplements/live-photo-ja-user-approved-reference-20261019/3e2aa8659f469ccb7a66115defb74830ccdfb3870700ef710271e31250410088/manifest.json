@@ -1,0 +1,510 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-evidence",
+  "identity": "3e2aa8659f469ccb7a66115defb74830ccdfb3870700ef710271e31250410088",
+  "created_at": "2026-10-20T06:47:41+00:00",
+  "files": [
+    {
+      "path": "evidence/analysis/audio.wav",
+      "sha256": "a46c47d2ab71596bd695ba665ac57821b6b439fd808277154dbcd40e04499218",
+      "bytes": 579648
+    },
+    {
+      "path": "evidence/analysis/contact-sheet.jpg",
+      "sha256": "b8ca7da8a3d93ee4a4204174567481c798644f071361911afc44764dff25ffa4",
+      "bytes": 117580
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00001.jpg",
+      "sha256": "5b2b120855b02f93cf71533001d4a38e1c4288ee1a9a8af852d51cd13433f6f9",
+      "bytes": 97192
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00002.jpg",
+      "sha256": "bbda0e95df9b582fd7dfacac6e34998abec6d2971cb212be37dc94f315c1ba9a",
+      "bytes": 76180
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00003.jpg",
+      "sha256": "c0480e757a346c106814dd713dfc93099d2f481832aa366eb7b4fbd18c942be9",
+      "bytes": 86093
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00004.jpg",
+      "sha256": "70a813241b3bc23c96529708e5d27f8cc9329764f0a07f25f547422e5d15531e",
+      "bytes": 92950
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00005.jpg",
+      "sha256": "6a95199a70fff9a4fd01686be6d974b414ec70b54ff375278c71aef75b7fb910",
+      "bytes": 86530
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00006.jpg",
+      "sha256": "47aa4ca40ae50c1d7c5267a3477fa94bba9aa37652bac39014ed40410ab72220",
+      "bytes": 72266
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00007.jpg",
+      "sha256": "f194d12c83de61482e6803e9b7276082511183da65155fdc75aabd40da2a4fc8",
+      "bytes": 109441
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00008.jpg",
+      "sha256": "abe6d927427dfeb8c0b3dc2cbd094f7b2afca2b8ca2996a18a45300ebe9aab33",
+      "bytes": 112562
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00009.jpg",
+      "sha256": "83edefadfde23eeec5d4f1d1b3ea4616b6039db4f41b733aeafc6ac8cc151a3e",
+      "bytes": 127180
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00010.jpg",
+      "sha256": "e05b56ea1d077cbd7e3cd9a8be5a6e025815f8010df291126ebd6094ea16c65b",
+      "bytes": 135326
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00011.jpg",
+      "sha256": "1fd67a6d2ed07f5b6378b671d839ce741dc9226e23ff2edfd31f48fde6ea4a5f",
+      "bytes": 86372
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00012.jpg",
+      "sha256": "e3087b3b6bb0b762ec4071969dc9654dde79d7d949e98faa6451393b53323ee8",
+      "bytes": 85924
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00013.jpg",
+      "sha256": "13921a69cfcfa1d6c50d0d86f941cd98b141b26da9597bcda43080b56bdbbd2c",
+      "bytes": 110433
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00014.jpg",
+      "sha256": "0998be586a07ca98a224f1f4f2f412e7d1e97303c1b63d5ebca28e79439011f5",
+      "bytes": 121590
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00015.jpg",
+      "sha256": "db73a1bb89a42d67a6bcbe2445e977294dd2656fe0d321a16db214bb8498d872",
+      "bytes": 38505
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00016.jpg",
+      "sha256": "7447af13b6f7b7aa524d22635e8b060798eca0002a8a89b7124888c9f0a0d03a",
+      "bytes": 121699
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00017.jpg",
+      "sha256": "c7d79c41dde001b071f490f9dcd17795630fd0de068d1b38f22ec5feb559e73b",
+      "bytes": 83426
+    },
+    {
+      "path": "evidence/analysis/frames/frame-00018.jpg",
+      "sha256": "358cec380126fa48ecd75f0333e12f671df2cb810f13fb76842a666222173e2e",
+      "bytes": 83527
+    },
+    {
+      "path": "evidence/analysis/ocr-source.json",
+      "sha256": "675929cda5e0944fa2edd1d57a966b5a962b682c06bdfbf3456c492ee9154c22",
+      "bytes": 309984
+    },
+    {
+      "path": "evidence/analysis/shot-001.jpg",
+      "sha256": "03844830b89314b3ef72b371806220581b316ee7fc3c17de1f194562bdc117b2",
+      "bytes": 95921
+    },
+    {
+      "path": "evidence/analysis/shot-002.jpg",
+      "sha256": "f4f65b593dc16522d5936d609e95d6930654bc7171f0047d0f9d296aac06c9c2",
+      "bytes": 108587
+    },
+    {
+      "path": "evidence/analysis/shot-003.jpg",
+      "sha256": "c62bfd8989fa167ca9c1918b2cf9003d7bde1067f81c5305c3c4b46eafdae837",
+      "bytes": 139592
+    },
+    {
+      "path": "evidence/analysis/shot-004.jpg",
+      "sha256": "c5d73f7c465b915ac66a017c00d3f75c8e25eb9e00694ab17114b453be6d0de0",
+      "bytes": 111489
+    },
+    {
+      "path": "evidence/analysis/shot-005.jpg",
+      "sha256": "f07b0c2f614d72d5a8f76c69a37ca70042f0c9efe1868f62323d1a92b3bd8baa",
+      "bytes": 143559
+    },
+    {
+      "path": "evidence/analysis/shot-006.jpg",
+      "sha256": "8d31197acefeb584530078e897ab1289006301cbc0e71addb4d61b195bbaad55",
+      "bytes": 102210
+    },
+    {
+      "path": "evidence/review/566413b2115e/audio-report.json",
+      "sha256": "8220397a71a77a029cb0aea452d34efd61cfb0e1fc8bc800f57b92199b644404",
+      "bytes": 7394
+    },
+    {
+      "path": "evidence/review/566413b2115e/audio.wav",
+      "sha256": "c4dc8654966d6bc9859ae271e10f6f094c691bb428a6d1370a2b6e37e82fe727",
+      "bytes": 579648
+    },
+    {
+      "path": "evidence/review/566413b2115e/boundary-end.jpg",
+      "sha256": "02a72270d4ca254824fb68b549c8fcc8e7a223234c964a74f7f7bf675ee8205b",
+      "bytes": 104127
+    },
+    {
+      "path": "evidence/review/566413b2115e/boundary-start.jpg",
+      "sha256": "5f2fcca057cd6d5f2a434e7a9edbeb53f20717afd1a0809d45e42e3d4dc054af",
+      "bytes": 134827
+    },
+    {
+      "path": "evidence/review/566413b2115e/contact-pages.json",
+      "sha256": "fe03582f37c9c899c4a5989b2048624f8817f493d5d1bdfb796988fa4f789a98",
+      "bytes": 177
+    },
+    {
+      "path": "evidence/review/566413b2115e/contact-sheet-02.jpg",
+      "sha256": "adb201ae48b598e752e462651d85f8dacaea3e3bc2232e9a816100fb5b74d601",
+      "bytes": 47254
+    },
+    {
+      "path": "evidence/review/566413b2115e/contact-sheet.jpg",
+      "sha256": "a0322c4b1d23b7a7a04ea202289e0c0bdaf3c47807a980379d084e5d0f42c38d",
+      "bytes": 249618
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-0.35.png",
+      "sha256": "ff67838383d2d6a897637dda7a6a0fddb6139b6c90157405459be8e1fc7ffa9b",
+      "bytes": 641486
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-10.5.png",
+      "sha256": "369b1c2b3bcd8d555a2a20137edfead071b3457f09c1a1acd0051d0a66f399fd",
+      "bytes": 582078
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-13.0.png",
+      "sha256": "6430c60a201b20d5a2f07880dfb2342f386f3baff123b40fa266c547154ca9b9",
+      "bytes": 709934
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-15.6.png",
+      "sha256": "e46f9daf22d2b6664eeb9a7d5710da4085b8b1c035669f215bd27aee0f6f01ae",
+      "bytes": 788333
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-16.4.png",
+      "sha256": "e735cb96677686597c1e77e1a5e4b4e79be7afaf54ef4c84fc983e2d0dea435c",
+      "bytes": 478616
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-3.5.png",
+      "sha256": "ae0ba9e509073783bb1bcc2ee6c40d8282c60be097814267e863e27a5a67e86b",
+      "bytes": 637691
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-5.15.png",
+      "sha256": "36c8703940149053b500d9577dcee89e79c628eba2f8a3295b2b9f48c4326c01",
+      "bytes": 272326
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-6.2.png",
+      "sha256": "e83ea9df800588b137cbbe1c4433f5ebf30ecf204900422a0d043718c039f5af",
+      "bytes": 573251
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-7.5.png",
+      "sha256": "1f2f77154a06a7f3f1e7c8aa10eb71778520934757fcab7e5264d2248ec85a5f",
+      "bytes": 697126
+    },
+    {
+      "path": "evidence/review/566413b2115e/detail-gallery.jpg",
+      "sha256": "ae6ce7b5a120486c45bbed4cabcd7add80f57d40f943b9d3eb7e7aaf4edb2cb4",
+      "bytes": 229695
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00001.jpg",
+      "sha256": "9ad63b46e31216755206bc4a3d59bfac3734dea6946675d619015dd0a9385b5b",
+      "bytes": 71224
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00002.jpg",
+      "sha256": "a09403b0aeb8da1f786225d63ddbca42babb231a65eeb33c181884a4a8a38c30",
+      "bytes": 60966
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00003.jpg",
+      "sha256": "0980d5d22fc7ec6730cd1373b0ce2f6e3159f76ea38be66287a65b2257828392",
+      "bytes": 54560
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00004.jpg",
+      "sha256": "47865515b30fa6d8d7b46f5ccf01129044801ec685fa4b9e49fe9fc922b32d86",
+      "bytes": 56817
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00005.jpg",
+      "sha256": "bcec485a8bcda3911c3708643251af0b5f5a55cbf62907d6550543371bb19f73",
+      "bytes": 58958
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00006.jpg",
+      "sha256": "e0e80cdf1e893b940539252e70575769fdb8a3a0c62b97490440e9327874dca7",
+      "bytes": 59145
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00007.jpg",
+      "sha256": "b14cfb87650d2d40baa682aa00a9ae97b6e9515c1ae0b721d5fc3cbbdb99b7cb",
+      "bytes": 58804
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00008.jpg",
+      "sha256": "2dbb0ef22dbbd989bb5439cb837fba43e21eaffbab760fd6db6a6bdaa1be30ed",
+      "bytes": 58324
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00009.jpg",
+      "sha256": "b15f894d4701e6b8dcf095014f5b06774ab900d5c0c9b3ce5beda4c1d98ab59a",
+      "bytes": 58481
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00010.jpg",
+      "sha256": "7f41b7a9725d8f807085afcc3e8f1388d8fca4626be88807ecd50d183e682bf5",
+      "bytes": 25281
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00011.jpg",
+      "sha256": "a0efe51a29042f0ecada97fda857b787bdf185b586ecf1920a439cef45832bdc",
+      "bytes": 44935
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00012.jpg",
+      "sha256": "83dd5950e4f9569c0e408fc812e6ed2977e30b6bd3aaaec4a33e79ce2e0fa10b",
+      "bytes": 52747
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00013.jpg",
+      "sha256": "0c2649fc6582054f6663e4dbb890a4613975b261fffed4a98214c56dfd4d15f7",
+      "bytes": 68097
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00014.jpg",
+      "sha256": "2e45c29e4b8fdd5df41535982664f9d7e1ba22a981d272db54ac496b67fb8ce4",
+      "bytes": 77306
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00015.jpg",
+      "sha256": "d7172fb566558b18a5ce1a5e36cceda11a561c8c2344c2de0be102d5a15134ef",
+      "bytes": 76187
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00016.jpg",
+      "sha256": "acdc30b47a78cd34d4184b3166f7040b322c90f3819fbb8dd096c5f5ab631143",
+      "bytes": 78816
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00017.jpg",
+      "sha256": "7c5c0cd108c9c40620fa1a4480aeb6af65b86b3c15b875eedb4c2eb92ff05f8e",
+      "bytes": 84199
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00018.jpg",
+      "sha256": "cd211a68c01629e76ae5ae3a7d6319bbb3ec2c765d534ceb5dc2dcc444866a95",
+      "bytes": 87654
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00019.jpg",
+      "sha256": "570cf5b20fa004600cbbb5cab7123aa3e21342beed5c9a12e52b7da32ec8e5a2",
+      "bytes": 91604
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00020.jpg",
+      "sha256": "1e388eb36b5ab34eb165e49b29770e566635f118883196af0ad98b8e9124f004",
+      "bytes": 88684
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00021.jpg",
+      "sha256": "44f071250ec118b2beed9fcf52ed5a752ce963d876dd5662b980793745a80f52",
+      "bytes": 57895
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00022.jpg",
+      "sha256": "ee1b12ff24c23c61b3b624ec5cdd6785078ba12be23665528312a900c162c487",
+      "bytes": 61823
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00023.jpg",
+      "sha256": "b5b128dc22c97699417411752c4ae12baa7dc6f4c78dc3469c75319ae43957d3",
+      "bytes": 61430
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00024.jpg",
+      "sha256": "7e6be6cfc764c3bbc0b31abdbbb6bd24f7e50bdce82d82eb6252759bfe3d8366",
+      "bytes": 71906
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00025.jpg",
+      "sha256": "9e2b957e2cca8d0b897b008a5ef00c843b7a22e1d6d7963ea553cbdacee59761",
+      "bytes": 73867
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00026.jpg",
+      "sha256": "07b1136138be353607b24306bd9418b893213c6b643dc4f5ba8ad4b848116b92",
+      "bytes": 74207
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00027.jpg",
+      "sha256": "c5883d3bf44cd210d27fdaa4a63ca18d85e56b2ca491c987c86193914bf766de",
+      "bytes": 79689
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00028.jpg",
+      "sha256": "9669c6c220a887c53f243b6d8846df2039b1cfac0e25ea678801bbcc5301c21a",
+      "bytes": 81167
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00029.jpg",
+      "sha256": "dd53194b3938957a08a80f36b7eebbe8e93b726b764237db4871c130dac4cf4e",
+      "bytes": 81842
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00030.jpg",
+      "sha256": "1bde328f74dcf76e2215387093117c7e6f92171945ebc71e4c4627c9e1028d19",
+      "bytes": 82406
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00031.jpg",
+      "sha256": "63c344225ad0b0ccf43457a8fe327e41b2260526e959b9e5da94d12b0a43cc2e",
+      "bytes": 83170
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00032.jpg",
+      "sha256": "e3813a8e533d3693dd5dc99d38fb5a427e7f4ec3e254fa986a063b5e51d25c26",
+      "bytes": 44601
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00033.jpg",
+      "sha256": "cd753aa808837d13f9d096590fa9cf22958e6281cb2207e58ba129462ac602ea",
+      "bytes": 57152
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00034.jpg",
+      "sha256": "8b8aa866f08f17498a15e30ca043f2491bf35277a7b0825abc57b4e4e8d983af",
+      "bytes": 57109
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00035.jpg",
+      "sha256": "e96c18c90ed3f67dd7119e5ad4cc59ea864ab9f7a2c51332003d8ddba04e4b7c",
+      "bytes": 57098
+    },
+    {
+      "path": "evidence/review/566413b2115e/frame-00036.jpg",
+      "sha256": "046219b3d5e1280c50f74896d34a5736bc07948a2cc07a842f0a9a86a518a4f4",
+      "bytes": 57137
+    },
+    {
+      "path": "evidence/review/566413b2115e/offline-asr-audio.json",
+      "sha256": "101520bf5e4b7f505e801ad3efceacfe72d12ea920c8faf103098c5e27b9dc3c",
+      "bytes": 1930
+    }
+  ],
+  "metadata": {
+    "entry_id": "live-photo-ja-user-approved-reference-20261019",
+    "scope": {
+      "workflow": "video-localization",
+      "target_language": "ja-JP",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+    },
+    "case_manifest_sha256": "54ad16264a14d608384039f188f63d97b84815102de40d6aab397d03a352d4d4",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "video_sha256": "566413b2115e35d55df0c33f9c9a35b2c4e3633326e2b6518ce5a24079965689",
+    "references": {
+      "source-audio.wav": "evidence/analysis/audio.wav",
+      "source-contact-sheet.jpg": "evidence/analysis/contact-sheet.jpg",
+      "source-frames/frame-00001.jpg": "evidence/analysis/frames/frame-00001.jpg",
+      "source-frames/frame-00002.jpg": "evidence/analysis/frames/frame-00002.jpg",
+      "source-frames/frame-00003.jpg": "evidence/analysis/frames/frame-00003.jpg",
+      "source-frames/frame-00004.jpg": "evidence/analysis/frames/frame-00004.jpg",
+      "source-frames/frame-00005.jpg": "evidence/analysis/frames/frame-00005.jpg",
+      "source-frames/frame-00006.jpg": "evidence/analysis/frames/frame-00006.jpg",
+      "source-frames/frame-00007.jpg": "evidence/analysis/frames/frame-00007.jpg",
+      "source-frames/frame-00008.jpg": "evidence/analysis/frames/frame-00008.jpg",
+      "source-frames/frame-00009.jpg": "evidence/analysis/frames/frame-00009.jpg",
+      "source-frames/frame-00010.jpg": "evidence/analysis/frames/frame-00010.jpg",
+      "source-frames/frame-00011.jpg": "evidence/analysis/frames/frame-00011.jpg",
+      "source-frames/frame-00012.jpg": "evidence/analysis/frames/frame-00012.jpg",
+      "source-frames/frame-00013.jpg": "evidence/analysis/frames/frame-00013.jpg",
+      "source-frames/frame-00014.jpg": "evidence/analysis/frames/frame-00014.jpg",
+      "source-frames/frame-00015.jpg": "evidence/analysis/frames/frame-00015.jpg",
+      "source-frames/frame-00016.jpg": "evidence/analysis/frames/frame-00016.jpg",
+      "source-frames/frame-00017.jpg": "evidence/analysis/frames/frame-00017.jpg",
+      "source-frames/frame-00018.jpg": "evidence/analysis/frames/frame-00018.jpg",
+      "source-ocr-source.json": "evidence/analysis/ocr-source.json",
+      "source-shot-001.jpg": "evidence/analysis/shot-001.jpg",
+      "source-shot-002.jpg": "evidence/analysis/shot-002.jpg",
+      "source-shot-003.jpg": "evidence/analysis/shot-003.jpg",
+      "source-shot-004.jpg": "evidence/analysis/shot-004.jpg",
+      "source-shot-005.jpg": "evidence/analysis/shot-005.jpg",
+      "source-shot-006.jpg": "evidence/analysis/shot-006.jpg",
+      "audio-report.json": "evidence/review/566413b2115e/audio-report.json",
+      "audio.wav": "evidence/review/566413b2115e/audio.wav",
+      "boundary-end.jpg": "evidence/review/566413b2115e/boundary-end.jpg",
+      "boundary-start.jpg": "evidence/review/566413b2115e/boundary-start.jpg",
+      "contact-pages.json": "evidence/review/566413b2115e/contact-pages.json",
+      "contact-sheet-02.jpg": "evidence/review/566413b2115e/contact-sheet-02.jpg",
+      "contact-sheet.jpg": "evidence/review/566413b2115e/contact-sheet.jpg",
+      "detail-0.35.png": "evidence/review/566413b2115e/detail-0.35.png",
+      "detail-10.5.png": "evidence/review/566413b2115e/detail-10.5.png",
+      "detail-13.0.png": "evidence/review/566413b2115e/detail-13.0.png",
+      "detail-15.6.png": "evidence/review/566413b2115e/detail-15.6.png",
+      "detail-16.4.png": "evidence/review/566413b2115e/detail-16.4.png",
+      "detail-3.5.png": "evidence/review/566413b2115e/detail-3.5.png",
+      "detail-5.15.png": "evidence/review/566413b2115e/detail-5.15.png",
+      "detail-6.2.png": "evidence/review/566413b2115e/detail-6.2.png",
+      "detail-7.5.png": "evidence/review/566413b2115e/detail-7.5.png",
+      "detail-gallery.jpg": "evidence/review/566413b2115e/detail-gallery.jpg",
+      "frame-00001.jpg": "evidence/review/566413b2115e/frame-00001.jpg",
+      "frame-00002.jpg": "evidence/review/566413b2115e/frame-00002.jpg",
+      "frame-00003.jpg": "evidence/review/566413b2115e/frame-00003.jpg",
+      "frame-00004.jpg": "evidence/review/566413b2115e/frame-00004.jpg",
+      "frame-00005.jpg": "evidence/review/566413b2115e/frame-00005.jpg",
+      "frame-00006.jpg": "evidence/review/566413b2115e/frame-00006.jpg",
+      "frame-00007.jpg": "evidence/review/566413b2115e/frame-00007.jpg",
+      "frame-00008.jpg": "evidence/review/566413b2115e/frame-00008.jpg",
+      "frame-00009.jpg": "evidence/review/566413b2115e/frame-00009.jpg",
+      "frame-00010.jpg": "evidence/review/566413b2115e/frame-00010.jpg",
+      "frame-00011.jpg": "evidence/review/566413b2115e/frame-00011.jpg",
+      "frame-00012.jpg": "evidence/review/566413b2115e/frame-00012.jpg",
+      "frame-00013.jpg": "evidence/review/566413b2115e/frame-00013.jpg",
+      "frame-00014.jpg": "evidence/review/566413b2115e/frame-00014.jpg",
+      "frame-00015.jpg": "evidence/review/566413b2115e/frame-00015.jpg",
+      "frame-00016.jpg": "evidence/review/566413b2115e/frame-00016.jpg",
+      "frame-00017.jpg": "evidence/review/566413b2115e/frame-00017.jpg",
+      "frame-00018.jpg": "evidence/review/566413b2115e/frame-00018.jpg",
+      "frame-00019.jpg": "evidence/review/566413b2115e/frame-00019.jpg",
+      "frame-00020.jpg": "evidence/review/566413b2115e/frame-00020.jpg",
+      "frame-00021.jpg": "evidence/review/566413b2115e/frame-00021.jpg",
+      "frame-00022.jpg": "evidence/review/566413b2115e/frame-00022.jpg",
+      "frame-00023.jpg": "evidence/review/566413b2115e/frame-00023.jpg",
+      "frame-00024.jpg": "evidence/review/566413b2115e/frame-00024.jpg",
+      "frame-00025.jpg": "evidence/review/566413b2115e/frame-00025.jpg",
+      "frame-00026.jpg": "evidence/review/566413b2115e/frame-00026.jpg",
+      "frame-00027.jpg": "evidence/review/566413b2115e/frame-00027.jpg",
+      "frame-00028.jpg": "evidence/review/566413b2115e/frame-00028.jpg",
+      "frame-00029.jpg": "evidence/review/566413b2115e/frame-00029.jpg",
+      "frame-00030.jpg": "evidence/review/566413b2115e/frame-00030.jpg",
+      "frame-00031.jpg": "evidence/review/566413b2115e/frame-00031.jpg",
+      "frame-00032.jpg": "evidence/review/566413b2115e/frame-00032.jpg",
+      "frame-00033.jpg": "evidence/review/566413b2115e/frame-00033.jpg",
+      "frame-00034.jpg": "evidence/review/566413b2115e/frame-00034.jpg",
+      "frame-00035.jpg": "evidence/review/566413b2115e/frame-00035.jpg",
+      "frame-00036.jpg": "evidence/review/566413b2115e/frame-00036.jpg",
+      "offline-asr-audio.json": "evidence/review/566413b2115e/offline-asr-audio.json"
+    },
+    "reviewed_by": "Codex same-Agent development evidence preservation; historical technical decisions unchanged",
+    "recorded_at": "2026-10-20T06:47:40+00:00",
+    "proof_boundary": "Preserved historical evidence, not a new video review, independent acceptance or wider scope."
+  }
+}

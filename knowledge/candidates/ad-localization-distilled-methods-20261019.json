@@ -1,0 +1,69 @@
+{
+  "id": "ad-localization-distilled-methods-20261019",
+  "status": "candidate",
+  "created_at": "2026-10-19T10:19:08+00:00",
+  "source_runs": [
+    "live-photo-zh-ui-002",
+    "live-photo-zh-ui-gap-003",
+    "live-photo-ko-001",
+    "live-photo-zh-art-004"
+  ],
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "methods": [
+    {
+      "principle": "Separate source-neutral preparation from target glyphs and speech",
+      "when": "Same source with multiple locales or small visual refinements",
+      "action": "Verify source and asset hashes, reuse clean master/music/geometry, rebuild only locale/copy-dependent glyphs and speech",
+      "done": "Each asset has source, locale/copy scope and input/output hashes; every actual final locale is checked",
+      "failure_signature": "Old-language glyphs or full narration leak into another language"
+    },
+    {
+      "principle": "Remove text over its full animated extent",
+      "when": "Text pops in, zooms or is clipped by the frame",
+      "action": "Inspect first/last visible frames at source fps; include glyph interiors, outline, shifted backing and shadow; review neutral plate before adding target",
+      "done": "Actual final continuous frames show no source lettering; OCR is supporting evidence",
+      "failure_signature": "Static bbox misses a one-frame enlargement; open blue contour leaves a clipped W"
+    },
+    {
+      "principle": "Rebuild artistic lettering as shape, fill, outline, depth and motion",
+      "when": "Source uses decorative rather than ordinary UI lettering",
+      "action": "Choose a legible target font, sample source texture when feasible, separate stroke widths/colors and offset layers, follow measured motion and retain a frame-safe target footprint",
+      "done": "Actual source/final comparisons assess glyph readability, texture scale, edge proportions, position, timing and foreground occlusion",
+      "failure_signature": "Plain red letters mimic colors but omit texture/offset; a concentric ring replaces a directional shadow"
+    },
+    {
+      "principle": "Verify protected objects in the composite",
+      "when": "Dropdown icons, foreground photos, emoji or arrows touch translated text",
+      "action": "Inspect both neutral pixels and alpha masks; keep original objects, exclude background branches from foreground protection, correct only the implicated layer",
+      "done": "No icon collision, bright fill contamination, damaged object edge or glyph cutout on actual encoded output",
+      "failure_signature": "Inpainting drags white icon color into text; protection contour absorbs dark background and cuts into a glyph"
+    },
+    {
+      "principle": "Bind user-approved audio to actual soundtrack identity",
+      "when": "User approves audio and a later edit changes only visuals",
+      "action": "Save direct approval, locale, video and soundtrack hash; verify identical audio on reuse and preserve its meaning/timing. Resolve recognizer uncertainty with stronger evidence before unnecessary re-dubbing",
+      "done": "New output soundtrack equals approved one, or changed speech has fresh checks; user acceptance and technical objective checks are separately attributed",
+      "failure_signature": "A noisy/homophonic ASR transcript overrides a confirmed listening result or is presented as proof of lossless music"
+    }
+  ],
+  "evidence": {
+    "feedback": "origin:user-visual-audio-approval-20261019.json",
+    "accepted_video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+    "verification": "origin:2026-10-19-chinese-art-cta-revision.md"
+  },
+  "limits": [
+    "One source family; cross-source defaults not enabled",
+    "Clean frame476 works for the frozen-photo CTA, not arbitrary moving backgrounds",
+    "Source HSV thresholds and font/texture dimensions are example-specific",
+    "Original font recovery and arbitrary brush/3D lettering are not demonstrated",
+    "User-approved sound is not a new stem-level lossless measurement"
+  ],
+  "next_falsification": "On another authorized source, separately test a moving-background CTA and an object touching the text. Re-measure masks, font coverage and motion; record actual final frames, sound and cost before broad promotion.",
+  "company_preference": false,
+  "promotion": "Generalized methods remain candidate; source-scoped approved sample and verified assets are the active entries",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "0341fd2abd0ba7fa2ed7ab02a087febb3e5ae81f186eebebfa5531e51ee68895"
+}

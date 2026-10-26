@@ -1,0 +1,375 @@
+{
+  "schema_version": 1,
+  "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+  "plan_id": "f5795d9a4e6deb8e",
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "inventory_sha256": "d738933c0a1bdeca74a99dfe3532c8f599c715a44bb9875678026939df2f0868",
+  "track_sha256": "20ad18131d3e83f555d0c3e1d0d94d35884625cffabfa8ff9c43cdd332550094",
+  "audio": {
+    "path": "review/57257dc8c746/audio.wav",
+    "sha256": "fc8608b642553bc70f8c2002837899c6af7fc313f5299c6f2eebf056a781391f"
+  },
+  "reviewer": "Codex same-Agent audiovisual evidence review",
+  "method": "Actual encoded-caption boundary sheets and independent OCR; actual native voice word timestamps, 25ms isolated-speech pause checks, and byte-identical final PCM to the model-transcribed original review. No direct human listening or independent reviewer claimed.",
+  "decision": "pass",
+  "evidence": [
+    "review/57257dc8c746/audio.wav",
+    "review/57257dc8c746/caption-observed-sheet-01.jpg",
+    "review/57257dc8c746/caption-observed-sheet-02.jpg",
+    "review/57257dc8c746/speech-pause-energy.json"
+  ],
+  "instances": [
+    {
+      "id": "t021",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 0,
+          "end": 0.48,
+          "text": "手势"
+        },
+        {
+          "start": 0.48,
+          "end": 0.96,
+          "text": "翻转"
+        },
+        {
+          "start": 0.96,
+          "end": 1.28,
+          "text": "棱镜"
+        },
+        {
+          "start": 1.28,
+          "end": 1.62,
+          "text": "特效"
+        },
+        {
+          "start": 1.62,
+          "end": 2.12,
+          "text": "怎么做？"
+        },
+        {
+          "start": 2.4,
+          "end": 3.2,
+          "text": "其实很简单，"
+        },
+        {
+          "start": 3.38,
+          "end": 4.0,
+          "text": "跟我一起学！"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 0,
+          "end": 0.48,
+          "text": "手势"
+        },
+        {
+          "start": 0.48,
+          "end": 0.96,
+          "text": "翻转"
+        },
+        {
+          "start": 0.96,
+          "end": 1.28,
+          "text": "棱镜"
+        },
+        {
+          "start": 1.28,
+          "end": 1.62,
+          "text": "特效"
+        },
+        {
+          "start": 1.62,
+          "end": 2.12,
+          "text": "怎么做？"
+        },
+        {
+          "start": 2.4,
+          "end": 3.2,
+          "text": "其实很简单，"
+        },
+        {
+          "start": 3.38,
+          "end": 4.0,
+          "text": "跟我一起学！"
+        }
+      ],
+      "audio_units": [
+        {
+          "start": 0,
+          "end": 0.48,
+          "text": "手势"
+        },
+        {
+          "start": 0.48,
+          "end": 0.96,
+          "text": "翻转"
+        },
+        {
+          "start": 0.96,
+          "end": 1.28,
+          "text": "棱镜"
+        },
+        {
+          "start": 1.28,
+          "end": 1.62,
+          "text": "特效"
+        },
+        {
+          "start": 1.62,
+          "end": 2.12,
+          "text": "怎么做？"
+        },
+        {
+          "start": 2.4,
+          "end": 3.2,
+          "text": "其实很简单，"
+        },
+        {
+          "start": 3.38,
+          "end": 4.0,
+          "text": "跟我一起学！"
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "手势",
+          "start": 0.0,
+          "end": 0.5
+        },
+        {
+          "text": "翻转",
+          "start": 0.5,
+          "end": 0.9666666666666667
+        },
+        {
+          "text": "棱镜",
+          "start": 0.9666666666666667,
+          "end": 1.3
+        },
+        {
+          "text": "特效",
+          "start": 1.3,
+          "end": 1.6333333333333333
+        },
+        {
+          "text": "怎么做？",
+          "start": 1.6333333333333333,
+          "end": 2.1333333333333333
+        },
+        {
+          "text": "其实很简单，",
+          "start": 2.4,
+          "end": 3.2
+        },
+        {
+          "text": "跟我一起学！",
+          "start": 3.4,
+          "end": 4.0
+        }
+      ],
+      "decision": "pass",
+      "method": "Observed decoded frames/OCR, with explicitly recorded Agent pixel reading for two OCR misses. Compare to actual ASR and pause-audited native-audio intervals.",
+      "evidence": [
+        "review/57257dc8c746/audio.wav",
+        "review/57257dc8c746/speech-word-timestamps.json",
+        "review/57257dc8c746/speech-pause-energy.json",
+        "review/57257dc8c746/caption-t021-000-observed.jpg",
+        "review/57257dc8c746/caption-t021-001-observed.jpg",
+        "review/57257dc8c746/caption-t021-002-observed.jpg",
+        "review/57257dc8c746/caption-t021-003-observed.jpg",
+        "review/57257dc8c746/caption-t021-004-observed.jpg",
+        "review/57257dc8c746/caption-t021-005-observed.jpg",
+        "review/57257dc8c746/caption-t021-006-observed.jpg"
+      ]
+    },
+    {
+      "id": "t022",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 10.75,
+          "end": 11.03,
+          "text": "点击"
+        },
+        {
+          "start": 11.03,
+          "end": 11.44,
+          "text": "下方，"
+        },
+        {
+          "start": 11.6,
+          "end": 11.92,
+          "text": "上传"
+        },
+        {
+          "start": 11.92,
+          "end": 12.38,
+          "text": "照片，"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 10.75,
+          "end": 11.03,
+          "text": "点击"
+        },
+        {
+          "start": 11.03,
+          "end": 11.44,
+          "text": "下方，"
+        },
+        {
+          "start": 11.6,
+          "end": 11.92,
+          "text": "上传"
+        },
+        {
+          "start": 11.92,
+          "end": 12.38,
+          "text": "照片，"
+        }
+      ],
+      "audio_units": [
+        {
+          "start": 10.75,
+          "end": 11.03,
+          "text": "点击"
+        },
+        {
+          "start": 11.03,
+          "end": 11.44,
+          "text": "下方，"
+        },
+        {
+          "start": 11.6,
+          "end": 11.92,
+          "text": "上传"
+        },
+        {
+          "start": 11.92,
+          "end": 12.38,
+          "text": "照片，"
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "点击",
+          "start": 10.766666666666667,
+          "end": 11.033333333333333
+        },
+        {
+          "text": "下方，",
+          "start": 11.033333333333333,
+          "end": 11.466666666666667
+        },
+        {
+          "text": "上传",
+          "start": 11.6,
+          "end": 11.933333333333334
+        },
+        {
+          "text": "照片，",
+          "start": 11.933333333333334,
+          "end": 12.4
+        }
+      ],
+      "decision": "pass",
+      "method": "Observed decoded frames/OCR, with explicitly recorded Agent pixel reading for two OCR misses. Compare to actual ASR and pause-audited native-audio intervals.",
+      "evidence": [
+        "review/57257dc8c746/audio.wav",
+        "review/57257dc8c746/speech-word-timestamps.json",
+        "review/57257dc8c746/speech-pause-energy.json",
+        "review/57257dc8c746/caption-t022-000-observed.jpg",
+        "review/57257dc8c746/caption-t022-001-observed.jpg",
+        "review/57257dc8c746/caption-t022-002-observed.jpg",
+        "review/57257dc8c746/caption-t022-003-observed.jpg"
+      ]
+    },
+    {
+      "id": "t032",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 12.625,
+          "end": 13.0,
+          "text": "马上"
+        },
+        {
+          "start": 13.0,
+          "end": 13.43,
+          "text": "试试！"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 12.625,
+          "end": 13.0,
+          "text": "马上"
+        },
+        {
+          "start": 13.0,
+          "end": 13.43,
+          "text": "试试！"
+        }
+      ],
+      "audio_units": [
+        {
+          "start": 12.625,
+          "end": 13.0,
+          "text": "马上"
+        },
+        {
+          "start": 13.0,
+          "end": 13.43,
+          "text": "试试！"
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "马上",
+          "start": 12.633333333333333,
+          "end": 13.0
+        },
+        {
+          "text": "试试！",
+          "start": 13.0,
+          "end": 13.433333333333334
+        }
+      ],
+      "decision": "pass",
+      "method": "Observed decoded frames/OCR, with explicitly recorded Agent pixel reading for two OCR misses. Compare to actual ASR and pause-audited native-audio intervals.",
+      "evidence": [
+        "review/57257dc8c746/audio.wav",
+        "review/57257dc8c746/speech-word-timestamps.json",
+        "review/57257dc8c746/speech-pause-energy.json",
+        "review/57257dc8c746/caption-t032-000-observed.jpg",
+        "review/57257dc8c746/caption-t032-001-observed.jpg"
+      ]
+    }
+  ],
+  "limitation": "Planned units are instructions, not observations. Review actual WAV and caption boundary frames/full playback.",
+  "manual_observations": [
+    {
+      "id": "t021",
+      "unit": 6,
+      "start": 3.4,
+      "end": 4.0,
+      "note": "Actual frames101/102 and119/120 show absence/presence/absence. OCR misses the yellow first frame but Agent reads 跟我一起学！ in the boundary panel."
+    },
+    {
+      "id": "t032",
+      "unit": 1,
+      "start": 13.0,
+      "end": 13.433333333333334,
+      "note": "Actual frames389/390 and402/403 show full 试试！ and disappearance. OCR misses the tail over the moving pink shirt; Agent reads the complete glyphs in the paired boundary panel."
+    }
+  ],
+  "limitations": [
+    "Same-Agent review, not independent or user acceptance.",
+    "ASR gives approximate phonetic boundaries; silence checks refine clause onsets.",
+    "This check concerns voiceover/captions, not lip synchronization."
+  ]
+}

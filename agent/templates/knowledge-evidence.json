@@ -1,0 +1,13 @@
+{
+  "entry_id": "actual-existing-knowledge-id",
+  "source_run": "actual-run-id",
+  "video_sha256": "actual-result-sha256",
+  "reviewed_by": "Actual evidence reviewer and limits",
+  "evidence_review": "sanitized_project_evidence",
+  "files": {
+    "caption-sync.json": "review/actual-hash-prefix/caption-sync.json",
+    "observed-audio": "review/actual-hash-prefix/audio.wav",
+    "caption-boundary": "review/actual-hash-prefix/caption-observed-sheet-01.jpg"
+  },
+  "required_evidence": ["caption-sync.json", "observed-audio", "caption-boundary"]
+}

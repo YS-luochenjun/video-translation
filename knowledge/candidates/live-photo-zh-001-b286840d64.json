@@ -1,0 +1,27 @@
+{
+  "id": "live-photo-zh-001-b286840d64",
+  "status": "candidate",
+  "created_at": "2026-10-19T08:00:07+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "Reuse neutral source-bound master, source analysis and local AI separation across languages; keep per-language voice/typography/review separate. Track all moving title instances. Instrumental-model primary stem differs from vocal models. Preserve unknown charges after sync timeouts.",
+  "evidence": {
+    "run": "live-photo-zh-001",
+    "video_sha256": "b286840d648ad18584e63b6c6aaf23b44409082c617426ab921e3cc0f7b87035",
+    "quality_sha256": "eab9f76433376025b1b50888a7e50dbf4c6652480044859a9ec08c7b2616fc7c"
+  },
+  "limitations": [
+    "Same-agent sampled visual review; not independent full playback.",
+    "Cloud video contributes only opening headline pixels. Other erasure and native layout are local.",
+    "Local fill may soften hair/wall or garment detail beneath old lettering.",
+    "No final user acceptance for this new source.",
+    "Unknown billing requests remain reserved, not assumed free."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "f095ce9d6d0736c1eb667a7e2eb285b2bb61e5e32fb857e72bc4b5febf732243"
+}

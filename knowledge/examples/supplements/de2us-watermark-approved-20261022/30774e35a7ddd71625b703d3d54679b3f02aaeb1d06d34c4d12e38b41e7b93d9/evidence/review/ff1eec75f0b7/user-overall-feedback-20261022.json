@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "kind": "user-feedback",
+  "recorded_at": "2026-10-22T03:37:09+00:00",
+  "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f",
+  "video_sha256": "ff1eec75f0b7242b002c0bc6b8d7b0cacd464f446571c6abc4de90bc35060f92",
+  "origin": "Direct user feedback in thread 01a15d75-c0bd-7fd3-bbba-6a5268b13f10",
+  "quote": "整个片都还可以，但是应该没有特别有价值的内容进行知识总结是吗。",
+  "acceptance_scope": "User considers the overall English clip acceptable. No new general production rule inferred.",
+  "proof_boundary": "Does not claim independent review, lossless music/effects or rewrite historical technical revise decisions.",
+  "knowledge_decision": "Keep existing moving watermark guidance and bounded counterexample; append this feedback only."
+}

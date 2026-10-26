@@ -1,0 +1,10 @@
+{
+  "parent_video_sha256": "06881b0383858f0a86ccc75945adda4f0fcec85efd32c91db28199799dbfcc36",
+  "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+  "aac_stream_hashes": [
+    "SHA256=cf28456485fecbcdebeeb13e9a71e7e10e811696654f3f5c84e0d7da84d8ad71",
+    "SHA256=cf28456485fecbcdebeeb13e9a71e7e10e811696654f3f5c84e0d7da84d8ad71"
+  ],
+  "equal": true,
+  "proof_boundary": "Equality to the prior user-liked Chinese soundtrack; complete original source music/FX fidelity remains separate"
+}

@@ -1,0 +1,477 @@
+{
+  "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "frames": [
+    {
+      "frame": 474,
+      "time": 15.8,
+      "path": "review/96d77d9f2771/cta-frame-474.png",
+      "sha256": "eefa814bb7ebddc67fcc16721d131f4091c933390b8cfe3719cc67141bae9398"
+    },
+    {
+      "frame": 475,
+      "time": 15.833333,
+      "path": "review/96d77d9f2771/cta-frame-475.png",
+      "sha256": "26807f9cca591cbad8d841f98c6ba0430cfecf79c3e0b1d480b64d9c396f6e5a"
+    },
+    {
+      "frame": 476,
+      "time": 15.866667,
+      "path": "review/96d77d9f2771/cta-frame-476.png",
+      "sha256": "6f965d7f55505cf3f38246072373a51f8756315d7d4755782c538ca2f87199e4"
+    },
+    {
+      "frame": 477,
+      "time": 15.9,
+      "path": "review/96d77d9f2771/cta-frame-477.png",
+      "sha256": "bd22d099f8916f22a0fa946e4160eceaa3bf3753401e68d445faa925c22f5871"
+    },
+    {
+      "frame": 478,
+      "time": 15.933333,
+      "path": "review/96d77d9f2771/cta-frame-478.png",
+      "sha256": "60ad75575148415db6e58df355ce911b367a171032c3db57d1d75b54fd6c6bb6"
+    },
+    {
+      "frame": 479,
+      "time": 15.966667,
+      "path": "review/96d77d9f2771/cta-frame-479.png",
+      "sha256": "bd67b1d6cd9fd12e79c5b3912ba8fd716fe8cb8a5d4035b183d6d0c8d25ce1cd"
+    },
+    {
+      "frame": 480,
+      "time": 16.0,
+      "path": "review/96d77d9f2771/cta-frame-480.png",
+      "sha256": "69ca3cdf56d669014ee553a362474266bf0082e528067504268f2839f039c2a7"
+    },
+    {
+      "frame": 481,
+      "time": 16.033333,
+      "path": "review/96d77d9f2771/cta-frame-481.png",
+      "sha256": "e4a957aa9988124c2f56fa891d00c613634c4a93fa74addf0c33d4f0ea3a6061"
+    },
+    {
+      "frame": 482,
+      "time": 16.066667,
+      "path": "review/96d77d9f2771/cta-frame-482.png",
+      "sha256": "1f7203a17f79f0d8f3034b94d7a6ca22633d704869435556c6514f0c87e2047a"
+    },
+    {
+      "frame": 483,
+      "time": 16.1,
+      "path": "review/96d77d9f2771/cta-frame-483.png",
+      "sha256": "9b406806ebcca50d1203113c264a24a924e32a67aaeba65a1a001d98e33120b2"
+    },
+    {
+      "frame": 484,
+      "time": 16.133333,
+      "path": "review/96d77d9f2771/cta-frame-484.png",
+      "sha256": "24eb49dd1f4014979bc9e32db3421d1734c903d2e2c6722a676726115a126448"
+    },
+    {
+      "frame": 485,
+      "time": 16.166667,
+      "path": "review/96d77d9f2771/cta-frame-485.png",
+      "sha256": "e509ed8762ed3b13ce004e9c3a6383fc84510224b609ef2ea0157edb8bb2b14f"
+    },
+    {
+      "frame": 486,
+      "time": 16.2,
+      "path": "review/96d77d9f2771/cta-frame-486.png",
+      "sha256": "79b0fa5aa01456d7a7330a5f9b483fda3e5f01d4d16f1db92848b94ab4254f5d"
+    },
+    {
+      "frame": 487,
+      "time": 16.233333,
+      "path": "review/96d77d9f2771/cta-frame-487.png",
+      "sha256": "6aa4891849304d572036fea7e6f07d79a50c3582702faafbbd608c65d40329fa"
+    },
+    {
+      "frame": 488,
+      "time": 16.266667,
+      "path": "review/96d77d9f2771/cta-frame-488.png",
+      "sha256": "3258089487118ab6050b773863bea074481482cc4758218fd27d8fa5443e83dc"
+    },
+    {
+      "frame": 489,
+      "time": 16.3,
+      "path": "review/96d77d9f2771/cta-frame-489.png",
+      "sha256": "88cbf53b0d7474f45e74eb3233b907162605b3b033679c5dfb351a9ac4e7ce27"
+    },
+    {
+      "frame": 490,
+      "time": 16.333333,
+      "path": "review/96d77d9f2771/cta-frame-490.png",
+      "sha256": "708dfaf58cd2af71a8e86dead920d08b67657841ef0546423bd0bb5779e00de4"
+    },
+    {
+      "frame": 491,
+      "time": 16.366667,
+      "path": "review/96d77d9f2771/cta-frame-491.png",
+      "sha256": "29b8cdb5634e3279f94deb2cf73c9e944a2a071c40f01a404fa930d4c329410c"
+    },
+    {
+      "frame": 492,
+      "time": 16.4,
+      "path": "review/96d77d9f2771/cta-frame-492.png",
+      "sha256": "651879bf8bab319f38fb700ba0620827ff07a1b6cf25cb2b0322013a055057dc"
+    },
+    {
+      "frame": 493,
+      "time": 16.433333,
+      "path": "review/96d77d9f2771/cta-frame-493.png",
+      "sha256": "3c5b9eef78231e5bbd33906e7ba84680655a6d8f55412e6e04c76d2682cd918c"
+    },
+    {
+      "frame": 494,
+      "time": 16.466667,
+      "path": "review/96d77d9f2771/cta-frame-494.png",
+      "sha256": "a6068db28be1a6df6767f0811cf76aeb36f7788dd691b3ced953dc9d162261c2"
+    },
+    {
+      "frame": 495,
+      "time": 16.5,
+      "path": "review/96d77d9f2771/cta-frame-495.png",
+      "sha256": "91e97eb776e335fbee53ac2aa06cd3def15395efa992675660f509d41cffe92b"
+    },
+    {
+      "frame": 496,
+      "time": 16.533333,
+      "path": "review/96d77d9f2771/cta-frame-496.png",
+      "sha256": "e91c1c55393a14d4553ad200f1b960fe634f2db60841a9b23bcfa6821efdad3b"
+    },
+    {
+      "frame": 497,
+      "time": 16.566667,
+      "path": "review/96d77d9f2771/cta-frame-497.png",
+      "sha256": "11ec7721b10a9e43f3aa09a71f10f50c3d019e91d1f2e483d6d95a5fae3b73b1"
+    },
+    {
+      "frame": 498,
+      "time": 16.6,
+      "path": "review/96d77d9f2771/cta-frame-498.png",
+      "sha256": "50711fcba35990b285d03bdf7d2405267949dbcc8361dd98f39ecf177128a4cc"
+    },
+    {
+      "frame": 499,
+      "time": 16.633333,
+      "path": "review/96d77d9f2771/cta-frame-499.png",
+      "sha256": "8e445e1f78a663992b75572e79127856612837b635ab13d48b3666eda6c86215"
+    },
+    {
+      "frame": 500,
+      "time": 16.666667,
+      "path": "review/96d77d9f2771/cta-frame-500.png",
+      "sha256": "ab2629fe673f478451601c58bfa084388ba04324630c0634311d3d4e77cc9c38"
+    },
+    {
+      "frame": 501,
+      "time": 16.7,
+      "path": "review/96d77d9f2771/cta-frame-501.png",
+      "sha256": "7d142e2fe72433741c97cef70dd80cd4df049ab8d125469d64f608134e692ead"
+    },
+    {
+      "frame": 502,
+      "time": 16.733333,
+      "path": "review/96d77d9f2771/cta-frame-502.png",
+      "sha256": "e9b1b65fb2bb89a7f0deff19acb7a7c3b6d98a36d833cc7627f3a21656eda572"
+    },
+    {
+      "frame": 503,
+      "time": 16.766667,
+      "path": "review/96d77d9f2771/cta-frame-503.png",
+      "sha256": "ba924d2c69f8c58b08941ac71ce452d1c4aef63e819ca34ffe0e7c255aa743c6"
+    },
+    {
+      "frame": 504,
+      "time": 16.8,
+      "path": "review/96d77d9f2771/cta-frame-504.png",
+      "sha256": "6890ee0f6be93f0a925aa8507431a91a6547b105ae8eec9411c95e97a83c62af"
+    },
+    {
+      "frame": 505,
+      "time": 16.833333,
+      "path": "review/96d77d9f2771/cta-frame-505.png",
+      "sha256": "504686d79a1a9487a650718444931d0a6116a59681660ec2c79a5a8daf30ae0c"
+    },
+    {
+      "frame": 506,
+      "time": 16.866667,
+      "path": "review/96d77d9f2771/cta-frame-506.png",
+      "sha256": "a9ad0fc679de62a288125c54849d69a548b219fbdc8f8cd3ad837593eebb1fb7"
+    },
+    {
+      "frame": 507,
+      "time": 16.9,
+      "path": "review/96d77d9f2771/cta-frame-507.png",
+      "sha256": "ef0d17761f8530a11f282e5bfd0dd86b9f205a7e35240c9eb4e0933083374b55"
+    },
+    {
+      "frame": 508,
+      "time": 16.933333,
+      "path": "review/96d77d9f2771/cta-frame-508.png",
+      "sha256": "7f4cdf33d707ef252e49a1d62aa114b639fe7fa0174dbe1d8bf498e82317e620"
+    },
+    {
+      "frame": 509,
+      "time": 16.966667,
+      "path": "review/96d77d9f2771/cta-frame-509.png",
+      "sha256": "10f672b55c71a87f8fc722c7a27ff1ce4be21b3bc6f3682136d4fa02dba0ce9e"
+    },
+    {
+      "frame": 510,
+      "time": 17.0,
+      "path": "review/96d77d9f2771/cta-frame-510.png",
+      "sha256": "aa385471bdc9ea47d27656a8b954294398904aa3dfa0eaf50680c56f67043bb7"
+    },
+    {
+      "frame": 511,
+      "time": 17.033333,
+      "path": "review/96d77d9f2771/cta-frame-511.png",
+      "sha256": "472b3149ede033a337b22b41e58dcf462ac0caa12338aca5e02403a9a7db218d"
+    },
+    {
+      "frame": 512,
+      "time": 17.066667,
+      "path": "review/96d77d9f2771/cta-frame-512.png",
+      "sha256": "bc8dbdb92aaffd59014132f9e4bad578839630f421c71bcaab9d36f961880502"
+    },
+    {
+      "frame": 513,
+      "time": 17.1,
+      "path": "review/96d77d9f2771/cta-frame-513.png",
+      "sha256": "07d665bb7b2c722ac93e8f4ef7340432d3bd48054a7d48e171a8c85a963e791b"
+    },
+    {
+      "frame": 514,
+      "time": 17.133333,
+      "path": "review/96d77d9f2771/cta-frame-514.png",
+      "sha256": "43ba09fb33af39ad68f362d0fcccbf9865548fe0701dd00a202a75cb00ca5818"
+    },
+    {
+      "frame": 515,
+      "time": 17.166667,
+      "path": "review/96d77d9f2771/cta-frame-515.png",
+      "sha256": "c81c1c809bad8ccd3b8d2726cfb7c914592372b573d015037a8fdd776e787b35"
+    },
+    {
+      "frame": 516,
+      "time": 17.2,
+      "path": "review/96d77d9f2771/cta-frame-516.png",
+      "sha256": "7f9e200082483df20c48aeaaac91e930848d789b5bd48bc731a12ddc1cf22aeb"
+    },
+    {
+      "frame": 517,
+      "time": 17.233333,
+      "path": "review/96d77d9f2771/cta-frame-517.png",
+      "sha256": "2e51a687c19a1a114fd69e169a302fb0ca7900cf4518457f627227d7ba1f1355"
+    },
+    {
+      "frame": 518,
+      "time": 17.266667,
+      "path": "review/96d77d9f2771/cta-frame-518.png",
+      "sha256": "b6b70f78985809bb04a5b710ba554c288d5ec74446c5ca577068cd03b47a5b56"
+    },
+    {
+      "frame": 519,
+      "time": 17.3,
+      "path": "review/96d77d9f2771/cta-frame-519.png",
+      "sha256": "d376b904374d626be07da33c42c38607c4b281e2734e6f17ea919641181b7457"
+    },
+    {
+      "frame": 520,
+      "time": 17.333333,
+      "path": "review/96d77d9f2771/cta-frame-520.png",
+      "sha256": "2456a85ad5c33d0863516c08db8a3e0b2dc68bf24d68463a73a66c01aea9d884"
+    },
+    {
+      "frame": 521,
+      "time": 17.366667,
+      "path": "review/96d77d9f2771/cta-frame-521.png",
+      "sha256": "fe27a7e1a1fc98aecac74c75491c5e2e013cc5419dd422c80c3777c0de50ecd3"
+    },
+    {
+      "frame": 522,
+      "time": 17.4,
+      "path": "review/96d77d9f2771/cta-frame-522.png",
+      "sha256": "a56b73ebad3730ab8005526bb110f9f83ff4e5ed0ecc52cbf77605d244c7953c"
+    },
+    {
+      "frame": 523,
+      "time": 17.433333,
+      "path": "review/96d77d9f2771/cta-frame-523.png",
+      "sha256": "ebb6ba82a715379fbae673b01908557ba1db60d734e6c770e914131274b21344"
+    },
+    {
+      "frame": 524,
+      "time": 17.466667,
+      "path": "review/96d77d9f2771/cta-frame-524.png",
+      "sha256": "359bd401aa4c03cc507d52ac9257c706ac0233f549dafd9a923ad2b0f601e569"
+    },
+    {
+      "frame": 525,
+      "time": 17.5,
+      "path": "review/96d77d9f2771/cta-frame-525.png",
+      "sha256": "b7bdd419e5b680478b106069aeb277c719b8029d633bf1abfa809001b28625f2"
+    },
+    {
+      "frame": 526,
+      "time": 17.533333,
+      "path": "review/96d77d9f2771/cta-frame-526.png",
+      "sha256": "4d81b677ec75958f8c87b077a7d25428500a0b35073b108c44051212e094e689"
+    },
+    {
+      "frame": 527,
+      "time": 17.566667,
+      "path": "review/96d77d9f2771/cta-frame-527.png",
+      "sha256": "a95e20dcb2c3b2d8bff8182a52b5c5672520145930a0317ca49b0256a36a11fb"
+    },
+    {
+      "frame": 528,
+      "time": 17.6,
+      "path": "review/96d77d9f2771/cta-frame-528.png",
+      "sha256": "5c210be3156ce5c4ff950565abebdf9448f8ce80b523b360606fc5e3cbaaa416"
+    },
+    {
+      "frame": 529,
+      "time": 17.633333,
+      "path": "review/96d77d9f2771/cta-frame-529.png",
+      "sha256": "17f4bdfdc13b13e0d87f9dc630e9d0c794e8c219d6fa5ea22af3c7e59e755055"
+    },
+    {
+      "frame": 530,
+      "time": 17.666667,
+      "path": "review/96d77d9f2771/cta-frame-530.png",
+      "sha256": "37a68586bcdb5401570ffd129767047ee5c725ecef09772d9ece8ed6c0802c2c"
+    },
+    {
+      "frame": 531,
+      "time": 17.7,
+      "path": "review/96d77d9f2771/cta-frame-531.png",
+      "sha256": "e107e6dc8f6a0ca776e96737171bb73acf08008a02b4953533d1f05e85f3aca5"
+    },
+    {
+      "frame": 532,
+      "time": 17.733333,
+      "path": "review/96d77d9f2771/cta-frame-532.png",
+      "sha256": "ff00508f21345adf3e41b78091df9a9a5aceb7c4e8e028966b61a835cbe16744"
+    },
+    {
+      "frame": 533,
+      "time": 17.766667,
+      "path": "review/96d77d9f2771/cta-frame-533.png",
+      "sha256": "54b2d5e79f34cdc0b810d1ca748120112da5f9594b6a6fd8de1f9b88b8c17353"
+    },
+    {
+      "frame": 534,
+      "time": 17.8,
+      "path": "review/96d77d9f2771/cta-frame-534.png",
+      "sha256": "302733718cbf5513174ee3495bd76e1790cd5322dac9b9496b3e23797e69fe3a"
+    },
+    {
+      "frame": 535,
+      "time": 17.833333,
+      "path": "review/96d77d9f2771/cta-frame-535.png",
+      "sha256": "670112cc640f2506a18594779c385c6643e6ee8eb6da9a7b078945980a1ee0fd"
+    },
+    {
+      "frame": 536,
+      "time": 17.866667,
+      "path": "review/96d77d9f2771/cta-frame-536.png",
+      "sha256": "d54361830ef9c25029e4b5582a324ecd3e5d14ab33481fc8e2342638464b47cb"
+    },
+    {
+      "frame": 537,
+      "time": 17.9,
+      "path": "review/96d77d9f2771/cta-frame-537.png",
+      "sha256": "4c5a47729208165ecce48cb8d97388685981ff7e49e277fdb92889bb2a873e87"
+    },
+    {
+      "frame": 538,
+      "time": 17.933333,
+      "path": "review/96d77d9f2771/cta-frame-538.png",
+      "sha256": "dead058b4a2c38a76bb4001d1d79916d63978b8c79c6ef63660e5d8a011df950"
+    },
+    {
+      "frame": 539,
+      "time": 17.966667,
+      "path": "review/96d77d9f2771/cta-frame-539.png",
+      "sha256": "3dad715ddcd682970d41d5fb6594c3f26b98c042a83d508ae17a66270b7f30f5"
+    },
+    {
+      "frame": 540,
+      "time": 18.0,
+      "path": "review/96d77d9f2771/cta-frame-540.png",
+      "sha256": "d23e624fb059e25007a493d34bdbce1093f4aa5d8f7522694131ea8d61d0af6f"
+    },
+    {
+      "frame": 541,
+      "time": 18.033333,
+      "path": "review/96d77d9f2771/cta-frame-541.png",
+      "sha256": "5592047088b11eb73deaafa601fe8f3f8c9ad7adfef6b52659af2b7a9c5abc1c"
+    },
+    {
+      "frame": 542,
+      "time": 18.066667,
+      "path": "review/96d77d9f2771/cta-frame-542.png",
+      "sha256": "675447968dbb5f996fc7da6040543255292653064cc0548d27fd71de417e6082"
+    },
+    {
+      "frame": 543,
+      "time": 18.1,
+      "path": "review/96d77d9f2771/cta-frame-543.png",
+      "sha256": "e51dc19d43fd179f233b0de8630cce8fd4182643e192f55551aa7403a0bbb716"
+    }
+  ],
+  "continuous_frame_count": 70,
+  "neutral_ocr_english_hits": 0,
+  "audio_bitstream_equal_to_parent": true,
+  "pre_cta_sample_psnr": [
+    {
+      "frame": 10,
+      "psnr_db": 39.3579
+    },
+    {
+      "frame": 105,
+      "psnr_db": 38.4788
+    },
+    {
+      "frame": 150,
+      "psnr_db": 43.1363
+    },
+    {
+      "frame": 154,
+      "psnr_db": 42.2393
+    },
+    {
+      "frame": 174,
+      "psnr_db": 40.566
+    },
+    {
+      "frame": 225,
+      "psnr_db": 38.7047
+    },
+    {
+      "frame": 298,
+      "psnr_db": 38.5794
+    },
+    {
+      "frame": 315,
+      "psnr_db": 38.8425
+    },
+    {
+      "frame": 342,
+      "psnr_db": 38.8329
+    },
+    {
+      "frame": 390,
+      "psnr_db": 39.0361
+    },
+    {
+      "frame": 468,
+      "psnr_db": 38.0007
+    }
+  ],
+  "new_paid_calls": 0,
+  "not_a_review_decision": "Actual evidence only; Codex must inspect the captured images before assigning pass/fail"
+}

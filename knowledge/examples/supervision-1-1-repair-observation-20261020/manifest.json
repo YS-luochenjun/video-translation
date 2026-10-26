@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "supervision-1-1-repair-observation-20261020",
+  "created_at": "2026-10-20T12:56:42+00:00",
+  "files": [
+    {
+      "path": "evidence/1-1-es-visual-fix-20261020-9ea9a3cd1e.json",
+      "sha256": "aacb767dcc6542ea6dc515b14f5aba44b3009b60125ffee4f772824de894b622",
+      "bytes": 1950
+    },
+    {
+      "path": "evidence/1-1-es-visual-fix-20261020-method.md",
+      "sha256": "798b92f545e648a4ae13a278bade886f9e01030fba2a31cf2c2b9dfed39f0c2f",
+      "bytes": 3358
+    },
+    {
+      "path": "evidence/comparison-main.jpg",
+      "sha256": "d9e415980611696c72786894fc72da2187ed020cb5b006b8f35621a52839d51f",
+      "bytes": 450549
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3",
+      "target_language": "es"
+    },
+    "status": "visual_self_review_pass_overall_revise",
+    "lesson": "Fixed-stride frame sampling may miss periodic regressions: at 30fps, 0.2s samples inspect only one parity. Inspect contiguous encoded frames and phase offsets; reported visual repair remains same-Agent review with unresolved audio fidelity.",
+    "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3",
+    "video_sha256": "9ea9a3cd1e397a5b6d311d0267ee1a8003af8eb5070b76c744c6440e290203f3",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "decision": "pending",
+  "neutral_sha256": "0942091da76390e13aa50615bdf6b20a291462af35a9533c3285f8d133e5bdfc",
+  "comparison_sha256": "c3601199515c752fbefc9d3af2dd90a79e3e269c1a4aba06b43e16f183a74215",
+  "frames": 60,
+  "duration": 2,
+  "comparison_duration": 6,
+  "comparison_speed_sequence": [
+    1,
+    0.5
+  ],
+  "evidence": [
+    {
+      "path": "regional-final/evidence/all-frames-1.jpg",
+      "sha256": "bca7f212d63f804309e33a1407db7d372263ce83f532c1eb047c5ab6469530fa"
+    },
+    {
+      "path": "regional-final/evidence/all-frames-2.jpg",
+      "sha256": "d0cffa4c5d222f3dd6cce95b10b32ac1296ddfda42b090973fc0c3d46cbfcc45"
+    },
+    {
+      "path": "regional-final/evidence/all-frames-3.jpg",
+      "sha256": "888558ac969eca1da364caf1d5451254a39051e83537b0a76a031f394e82a9de"
+    },
+    {
+      "path": "regional-final/evidence/all-frames-4.jpg",
+      "sha256": "3445a994094d87002b5a36f418f0ea2cd5a08b3d749284cd0c99ee4a5350ae24"
+    },
+    {
+      "path": "regional-final/evidence/all-frames-5.jpg",
+      "sha256": "4f517438087b7b815a15b664d4b7f60543851a6bd7e5bb9cd6fe1bad67074e9f"
+    },
+    {
+      "path": "regional-final/evidence/all-frames-6.jpg",
+      "sha256": "1ef114eefaa619d7c31736c45c1800a151a98d2c0a24af2efa40b211d180ce9e"
+    },
+    {
+      "path": "regional-final/evidence/encoded-comparison-006.png",
+      "sha256": "b66fb29f2639ac1d4177559d3ba349598480d16b942a88a41fc832c2b8397445"
+    },
+    {
+      "path": "regional-final/evidence/encoded-comparison-020.png",
+      "sha256": "33a07a27fba33b0db2e732cf10e7a634ea09fbe2cb618f128aa701bbfe229014"
+    },
+    {
+      "path": "regional-final/evidence/encoded-comparison-028.png",
+      "sha256": "8659ff3ed9f18d7fef57a9589d8943d4e40cbb51d1c2009960209238cbb228f3"
+    },
+    {
+      "path": "regional-final/evidence/encoded-comparison-039.png",
+      "sha256": "7a8f44a06c817bed2d0c13af571054f668d2fdb2997b72c3c36b7b58ecb0992d"
+    },
+    {
+      "path": "regional-final/evidence/encoded-comparison-048.png",
+      "sha256": "799d2e30f404e4b9dd5385712adf84af6ffd19252019f3226b4c86ab795cf56e"
+    },
+    {
+      "path": "regional-final/evidence/encoded-comparison-058.png",
+      "sha256": "1443b8e14927d6a13a832eb120ab740e686492c873597931a847f3c7dfaab761"
+    }
+  ]
+}

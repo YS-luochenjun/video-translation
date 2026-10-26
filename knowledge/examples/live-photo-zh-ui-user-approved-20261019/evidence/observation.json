@@ -1,0 +1,805 @@
+{
+  "schema_version": 1,
+  "id": "live-photo-zh-ui-user-approved-20261019",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "target_language": "zh-CN"
+  },
+  "status": "superseded",
+  "origin": "User explicit overall approval with dropdown correction, 2026-10-19",
+  "reviewed_by": "User direct feedback; Codex scope and hash review",
+  "reference_video_sha256": "95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44",
+  "company_preference": false,
+  "references": [
+    {
+      "id": "ref-001",
+      "name": "live-photo-zh-ui-002",
+      "kind": "historical_origin_label",
+      "sha256": null
+    },
+    {
+      "id": "ref-002",
+      "name": "user-positive-feedback-ui-20261019.json",
+      "kind": "historical_origin_label",
+      "sha256": "44fe388178c21a0604f2341ec56588390ac7d261d079b8768ea625b8daea5523"
+    }
+  ],
+  "feedback_record": {
+    "recorded_at": "2026-10-19T09:10:11+00:00",
+    "source": "Direct user message in this conversation",
+    "quote": "这次效果不错，请进行知识总结学习。只有一个小问题，如图，最近项目和下拉标志有点重叠。目前看看得到这个最终视频的情况下，目前的花费是多少。接下来用同一个素材出一个韩文版，复用已有的去字底片和样式，翻译画面文字和旁白，保留背景音乐和音效，并告诉我新增花费是多少，目前我希望一次的中文控制在60credits以内，如果是有复用等，希望控制在40credits以内。",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "target_language": "zh-CN",
+    "video_sha256": "95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44",
+    "acceptance": "positive_overall_effect_with_explicit_dropdown_overlap_correction",
+    "known_issue": "t007 最近项目 overlaps original dropdown icon; reserve icon bounds plus visible spacing.",
+    "quality_sha256_unchanged": "ea94bff6d70266cd06e84cbe70c0ba6b1c67477d9d9e7a0e98be41a7468069ce",
+    "review_sha256_unchanged": "6889258cfe849f27b37f8588e18ef06adb566698f38a9cdf4f28cfd53c5e36a6",
+    "company_preference": false,
+    "global_memory_changed": false
+  },
+  "quality": {
+    "schema_version": 1,
+    "video_sha256": "95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44",
+    "plan_id": "2c22440edd44c33b",
+    "checked_at": "2026-10-19T09:00:16+00:00",
+    "decision": "revise",
+    "score": 87.0,
+    "review_sha256": "6889258cfe849f27b37f8588e18ef06adb566698f38a9cdf4f28cfd53c5e36a6",
+    "audio_check": {
+      "schema_version": 1,
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+      "video_sha256": "95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44",
+      "strategy": "replace",
+      "source": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 18.1116,
+        "rms_dbfs": -10.63,
+        "peak_dbfs": 0.0,
+        "audible_signal": true,
+        "silence_fraction": 0.0,
+        "clipped_fraction": 1.7e-05,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -11.32
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -11.24
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -14.28
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -13.96
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -11.62
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -11.9
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -6.94
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -7.3
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -9.65
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -13.27
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -10.97
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -12.24
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -10.75
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -13.56
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -11.65
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -11.83
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -39.99
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -12.75
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -12.3
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -8.16
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -8.33
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -7.43
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -10.24
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -23.21
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -21.16
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -26.9
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -15.89
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -11.63
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -12.37
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -6.87
+          },
+          {
+            "start": 15.0,
+            "end": 15.5,
+            "rms_dbfs": -7.23
+          },
+          {
+            "start": 15.5,
+            "end": 16.0,
+            "rms_dbfs": -9.52
+          },
+          {
+            "start": 16.0,
+            "end": 16.5,
+            "rms_dbfs": -9.25
+          },
+          {
+            "start": 16.5,
+            "end": 17.0,
+            "rms_dbfs": -9.97
+          },
+          {
+            "start": 17.0,
+            "end": 17.5,
+            "rms_dbfs": -9.69
+          },
+          {
+            "start": 17.5,
+            "end": 18.0,
+            "rms_dbfs": -8.6
+          },
+          {
+            "start": 18.0,
+            "end": 18.112,
+            "rms_dbfs": -27.65
+          }
+        ]
+      },
+      "candidate": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 18.1116,
+        "rms_dbfs": -11.94,
+        "peak_dbfs": -0.75,
+        "audible_signal": true,
+        "silence_fraction": 0.0,
+        "clipped_fraction": 0.0,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -19.27
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -19.68
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -19.59
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -15.63
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -11.64
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -11.94
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -6.98
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -7.4
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -9.74
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -15.69
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -18.43
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -22.6
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -20.34
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -19.95
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -19.23
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -29.46
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -43.65
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -12.76
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -12.31
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -8.23
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -8.41
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -7.5
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -10.27
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -23.24
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -21.18
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -26.92
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -15.91
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -11.65
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -12.37
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -6.94
+          },
+          {
+            "start": 15.0,
+            "end": 15.5,
+            "rms_dbfs": -7.4
+          },
+          {
+            "start": 15.5,
+            "end": 16.0,
+            "rms_dbfs": -10.61
+          },
+          {
+            "start": 16.0,
+            "end": 16.5,
+            "rms_dbfs": -13.22
+          },
+          {
+            "start": 16.5,
+            "end": 17.0,
+            "rms_dbfs": -13.95
+          },
+          {
+            "start": 17.0,
+            "end": 17.5,
+            "rms_dbfs": -12.43
+          },
+          {
+            "start": 17.5,
+            "end": 18.0,
+            "rms_dbfs": -10.13
+          },
+          {
+            "start": 18.0,
+            "end": 18.112,
+            "rms_dbfs": -27.76
+          }
+        ]
+      },
+      "waveform_match": null,
+      "failures": [],
+      "proof_boundary": "Signal, duration and retained-waveform checks; not listening, ASR, dialogue translation or lip-sync proof"
+    },
+    "failures": [
+      "instance_failed_or_unverified:a001",
+      "unverified_audio",
+      "audio_semantics_unverified:background_music",
+      "audio_semantics_unverified:dialogue_translation",
+      "audio_semantics_unverified:sync",
+      "dialogue_translation_unverified",
+      "critical_defect_or_revision_required"
+    ],
+    "proof_boundary": "Technical checks plus attributed agent review; no business or company preference approval",
+    "record_path": "origin:7bff05e5c01e7b71cc2173a0.json"
+  },
+  "review": {
+    "schema_version": 1,
+    "reviewer": "Codex same controlling agent self-review",
+    "method": "Actual UI/button source-old-new dense comparison; actual full contact pages for final only. Audio stream SHA256 compared with parent; inherited transcription uncertainty retained. No independent review.",
+    "video_sha256": "95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44",
+    "plan_id": "2c22440edd44c33b",
+    "inventory_sha256": "34bd748f006755ef84ed70ddd06e2cdb84be9882e7a212910679bcbd4691bf2c",
+    "decision": "revise",
+    "scores": {
+      "translation": 4.5,
+      "visual_fidelity": 4.4,
+      "temporal_alignment": 4.4,
+      "audio": 3.8,
+      "ad_style": 4.5
+    },
+    "critical_defects": [
+      "Full background music preservation and detailed sync remain unverified",
+      "Chinese first-line interval retains parent transcription uncertainty"
+    ],
+    "instances": [
+      {
+        "id": "t001",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t002",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t003",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t004",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t005",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t006",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone-top.jpg",
+          "origin:comparison-phone-bottom.jpg",
+          "origin:comparison-button.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t007",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone-top.jpg",
+          "origin:comparison-phone-bottom.jpg",
+          "origin:comparison-button.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t008",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone-top.jpg",
+          "origin:comparison-phone-bottom.jpg",
+          "origin:comparison-button.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t009",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone-top.jpg",
+          "origin:comparison-phone-bottom.jpg",
+          "origin:comparison-button.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t010",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone-top.jpg",
+          "origin:comparison-phone-bottom.jpg",
+          "origin:comparison-button.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t011",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone-top.jpg",
+          "origin:comparison-phone-bottom.jpg",
+          "origin:comparison-button.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t012",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t013",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t014",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t015",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t016",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t017",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t018",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t019",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t020",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t021",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "t022",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final comparison and full contact pages inspected. Original button/screen contours retained; transparent native text follows source positions. Sampled visual check, not every frame."
+      },
+      {
+        "id": "a001",
+        "decision": "pending",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-lineage.json",
+          "origin:parent-transcript.json"
+        ],
+        "note": "Actual output AAC stream matches previous Chinese mix; parent transcription supports Chinese with first-line uncertainty. No new speech generation."
+      },
+      {
+        "id": "a002",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-lineage.json",
+          "origin:parent-transcript.json"
+        ],
+        "note": "Actual output AAC stream matches previous Chinese mix; parent transcription supports Chinese with first-line uncertainty. No new speech generation."
+      },
+      {
+        "id": "a003",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-lineage.json",
+          "origin:parent-transcript.json"
+        ],
+        "note": "Actual output AAC stream matches previous Chinese mix; parent transcription supports Chinese with first-line uncertainty. No new speech generation."
+      }
+    ],
+    "coverage": {
+      "visual": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:comparison-phone-top.jpg",
+          "origin:comparison-phone-bottom.jpg",
+          "origin:comparison-button.jpg",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ]
+      },
+      "timing": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:comparison-phone-top.jpg",
+          "origin:comparison-phone-bottom.jpg",
+          "origin:comparison-button.jpg",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ]
+      },
+      "audio": {
+        "status": "pending",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-lineage.json",
+          "origin:parent-transcript.json"
+        ]
+      }
+    },
+    "audio_checks": {
+      "background_music": {
+        "decision": "pending",
+        "method": "Reused original Chinese mix; actual encoded-audio equality checked, parent audio limitations retained.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-lineage.json",
+          "origin:parent-transcript.json"
+        ],
+        "note": "No new paid audio call. Equality to parent is not independent source music/sync acceptance."
+      },
+      "sound_effects": {
+        "decision": "not_applicable",
+        "method": "Reused original Chinese mix; actual encoded-audio equality checked, parent audio limitations retained.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-lineage.json",
+          "origin:parent-transcript.json"
+        ],
+        "note": "No new paid audio call. Equality to parent is not independent source music/sync acceptance."
+      },
+      "dialogue_translation": {
+        "decision": "pending",
+        "method": "Reused original Chinese mix; actual encoded-audio equality checked, parent audio limitations retained.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-lineage.json",
+          "origin:parent-transcript.json"
+        ],
+        "note": "No new paid audio call. Equality to parent is not independent source music/sync acceptance."
+      },
+      "sync": {
+        "decision": "pending",
+        "method": "Reused original Chinese mix; actual encoded-audio equality checked, parent audio limitations retained.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-lineage.json",
+          "origin:parent-transcript.json"
+        ],
+        "note": "No new paid audio call. Equality to parent is not independent source music/sync acceptance."
+      }
+    },
+    "lesson": "Erase source glyphs while preserving button/screen surfaces; separate transparent target glyphs, source geometry and language-neutral master. Inspect partly occluded characters and UI entrance blur.",
+    "limitations": [
+      "Same-agent sampled review; source intro blur and tiny surfaces can soften fine details.",
+      "Reuses a real cloud Wan edit from parent; this refinement makes no new paid model requests.",
+      "Original music/FX completeness and fine audio sync not independently verified."
+    ]
+  },
+  "original_method_sha256": "ea9152ab5757172cf7fd199e92b417d3b82ab49d0c0572ed17cc5e8d05aaa196",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

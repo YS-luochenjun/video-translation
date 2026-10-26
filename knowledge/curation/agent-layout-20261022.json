@@ -1,0 +1,61 @@
+{
+  "kind": "path-only-migration",
+  "date": "2026-10-22",
+  "authorization": "Project owner requested separating Agent execution material from developer documentation.",
+  "entries": [
+    {
+      "entry_id": "user-caption-audio-sync-20261019",
+      "current_path": "knowledge/rules/user-caption-audio-sync-20261019.md",
+      "original_path": "knowledge/history/path-migrations/agent-layout-20261022/user-caption-audio-sync-20261019.md",
+      "before_sha256": "c94e1284381af148006e381dff1df46d1812aacd018920fc490262c52c27445c",
+      "after_sha256": "bb087b59848d665624792db71740ff71e16be38a79067132d3787b373dadb460",
+      "previous_path_migration": "knowledge/curation/layout-migration-20261022.json"
+    },
+    {
+      "entry_id": "neutral-visual-and-animation-gate-v3",
+      "current_path": "knowledge/rules/neutral-visual-and-animation-gate-v3.md",
+      "original_path": "knowledge/history/path-migrations/agent-layout-20261022/neutral-visual-and-animation-gate-v3.md",
+      "before_sha256": "240063304edf49d1046907352fd08abb7ae1a6d1400e044ef19819de19f9f17c",
+      "after_sha256": "b6c9443d1ea6d1a7244d234a10c5616c0a89962a106610d6652e7a3e2fe6a8f3",
+      "previous_path_migration": null
+    }
+  ],
+  "replacements": {
+    "docs/contracts/audio.md": "agent/contracts/audio.md",
+    "docs/contracts/captions.md": "agent/contracts/captions.md",
+    "docs/contracts/knowledge.md": "agent/contracts/knowledge.md",
+    "docs/contracts/quality.md": "agent/contracts/quality.md",
+    "docs/contracts/validation.md": "agent/contracts/validation.md",
+    "docs/contracts/workflow.md": "agent/contracts/workflow.md",
+    "docs/integrations/editors.md": "agent/integrations/editors.md",
+    "docs/integrations/kie.md": "agent/integrations/kie.md",
+    "docs/integrations/mcp.md": "agent/integrations/mcp.md",
+    "docs/templates/budget-request.json": "agent/templates/budget-request.json",
+    "docs/templates/caption-alignment-example.json": "agent/templates/caption-alignment-example.json",
+    "docs/templates/codex-visual-report.json": "agent/templates/codex-visual-report.json",
+    "docs/templates/codex-visual-task.json": "agent/templates/codex-visual-task.json",
+    "docs/templates/experiment.md": "agent/templates/experiment.md",
+    "docs/templates/inventory-example.json": "agent/templates/inventory-example.json",
+    "docs/templates/knowledge-entry.json": "agent/templates/knowledge-entry.json",
+    "docs/templates/knowledge-evidence.json": "agent/templates/knowledge-evidence.json",
+    "docs/templates/knowledge-promotion.json": "agent/templates/knowledge-promotion.json",
+    "docs/templates/local-repair-example.json": "agent/templates/local-repair-example.json",
+    "docs/templates/preproduction-failure.json": "agent/templates/preproduction-failure.json",
+    "docs/templates/prune-versions-example.json": "agent/templates/prune-versions-example.json",
+    "docs/templates/quality-hold.json": "agent/templates/quality-hold.json",
+    "docs/templates/README.md": "agent/templates/README.md",
+    "docs/templates/source-reference.json": "agent/templates/source-reference.json",
+    "docs/templates/legacy/local-tts.json": "agent/templates/legacy/local-tts.json",
+    "docs/workflows/video-localization/playbook.md": "agent/workflows/video-localization.md",
+    "docs/batch-production.md": "agent/workflows/batch-production.md",
+    "docs/local-production.md": "agent/workflows/local-production.md",
+    "docs/ocr.md": "agent/workflows/ocr.md",
+    "docs/production-completion.md": "agent/workflows/production-completion.md",
+    "docs/quality-feedback.md": "agent/workflows/quality-feedback.md",
+    "docs/repair-recipes.md": "agent/workflows/repair-recipes.md",
+    "docs/visual-review.md": "agent/workflows/visual-review.md",
+    "docs/model-routing.md": "agent/contracts/model-routing.md",
+    "docs/storage-layout.md": "agent/contracts/storage.md"
+  },
+  "scope": "Document pointers only. Rule meaning, status, scope, reviews and evidence are unchanged."
+}

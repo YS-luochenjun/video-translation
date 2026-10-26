@@ -1,0 +1,421 @@
+{
+  "recorded_at": "2026-10-23T11:47:29+00:00",
+  "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+  "independent_source_count": 1,
+  "locale_count": 6,
+  "voices": {
+    "mother": "Aoede",
+    "doctor": "Charon",
+    "heroine": "Kore",
+    "sister": "Leda",
+    "orange_student": "Fenrir",
+    "green_student": "Iapetus",
+    "boyfriend": "Puck",
+    "friend": "Zephyr",
+    "cta": "Orus"
+  },
+  "versions": [
+    {
+      "locale": "es",
+      "video_sha256": "9b6a5ce59b17e727bc02590f5df9d20ca539d9dc5f5331deef112a64d6a3142c",
+      "actual_audio_report_sha256": "dd59247393c615c450e84a4bbb41d50467de7f1d0fd5205143bd29080e120574",
+      "dialogue_count": 34,
+      "voice_count": 9,
+      "character_voices": {
+        "distinct": true,
+        "consistent": true,
+        "observations": [
+          {
+            "character": "mother",
+            "observation": "Mature female voice consistent across early cues."
+          },
+          {
+            "character": "doctor",
+            "observation": "Adult male voice delivering clinical lines."
+          },
+          {
+            "character": "heroine",
+            "observation": "Youthful female delivery maintained across all monologue and dialogue segments."
+          },
+          {
+            "character": "sister",
+            "observation": "Sharp, distinct young female timbre."
+          },
+          {
+            "character": "boyfriend",
+            "observation": "Consistent teen male voice."
+          },
+          {
+            "character": "cta",
+            "observation": "Standard promotional male voice at close."
+          }
+        ],
+        "confusable_pairs": [],
+        "uncertain_intervals": [],
+        "reason": "Roles have clearly separable timbres and maintain continuity throughout."
+      },
+      "translation": {
+        "complete": true,
+        "reason": "All dialogue turns from the source are translated accurately without missing lines or embellishments."
+      },
+      "timing": {
+        "acceptable": true,
+        "reason": "Turn boundaries closely track the original timing across all conversational sections."
+      },
+      "maximum_atempo": 1.5751041666666648
+    },
+    {
+      "locale": "fr",
+      "video_sha256": "5aca28b77178037ed04c60c1244361dc8b1de9f2793902bddf0fa0e102e3c19b",
+      "actual_audio_report_sha256": "f050436f8adcc5667350c4f712ae7ea9e8038006a4f4d9451b035faaec12d64c",
+      "dialogue_count": 34,
+      "voice_count": 9,
+      "character_voices": {
+        "distinct": true,
+        "consistent": true,
+        "observations": [
+          {
+            "character": "mother",
+            "observation": "Mature female voice, consistent tone across entries."
+          },
+          {
+            "character": "doctor",
+            "observation": "Deeper male register suited for the role."
+          },
+          {
+            "character": "heroine",
+            "observation": "Youthful, soft female delivery maintained across all lines."
+          },
+          {
+            "character": "sister",
+            "observation": "Higher-pitched, expressive female voice clearly distinct from the heroine."
+          },
+          {
+            "character": "students and boyfriend",
+            "observation": "Differentiated male voices with natural teen inflection."
+          },
+          {
+            "character": "cta",
+            "observation": "Clear male promotional voice at the end."
+          }
+        ],
+        "confusable_pairs": [],
+        "uncertain_intervals": [],
+        "reason": "Each character displays an identifiable timbre and keeps a stable persona."
+      },
+      "translation": {
+        "complete": true,
+        "reason": "All dialogue turns and the final call-to-action are fully adapted into French."
+      },
+      "timing": {
+        "acceptable": true,
+        "reason": "Turn pacing matches the original timing closely throughout."
+      },
+      "maximum_atempo": 1.5719004065040538
+    },
+    {
+      "locale": "pt",
+      "video_sha256": "a6f6ae95aa08bf05e522c1fbe0984b198b0c2ce71797c39d3bc4e4dd8c7c1be8",
+      "actual_audio_report_sha256": "b7e8620d34d2c34ac99d22ea3b21c64628c543d71e26d077dc019b804247acbf",
+      "dialogue_count": 34,
+      "voice_count": 9,
+      "character_voices": {
+        "distinct": true,
+        "consistent": true,
+        "observations": [
+          {
+            "character": "mother",
+            "observation": "Adult female voice, steady delivery."
+          },
+          {
+            "character": "doctor",
+            "observation": "Deeper male voice, appropriately cast."
+          },
+          {
+            "character": "heroine",
+            "observation": "Consistent youthful female timbre throughout."
+          },
+          {
+            "character": "sister",
+            "observation": "Slightly sharper female tone, consistent."
+          },
+          {
+            "character": "boyfriend",
+            "observation": "Natural male teen voice."
+          },
+          {
+            "character": "cta",
+            "observation": "Clear, promotional male voice."
+          }
+        ],
+        "confusable_pairs": [],
+        "uncertain_intervals": [],
+        "reason": "Timbral separation across characters is maintained consistently."
+      },
+      "translation": {
+        "complete": true,
+        "reason": "Accurate, full Portuguese translation of source dialogue."
+      },
+      "timing": {
+        "acceptable": true,
+        "reason": "Pacing closely tracks the original dialogue events."
+      },
+      "maximum_atempo": 1.5736635220125772
+    },
+    {
+      "locale": "de",
+      "video_sha256": "8894dfc20569bca56117ed06887763372fc30a1fe670ea848077b00f81bd69f1",
+      "actual_audio_report_sha256": "1f0171866ff6ee8083c3585711e75a5ea3d66c67989120c5a07d041880322c53",
+      "dialogue_count": 34,
+      "voice_count": 9,
+      "character_voices": {
+        "distinct": true,
+        "consistent": true,
+        "observations": [
+          {
+            "character": "mother",
+            "observation": "Adult female voice with consistent timbre across scenes."
+          },
+          {
+            "character": "doctor",
+            "observation": "Deep adult male tone, stable throughout."
+          },
+          {
+            "character": "heroine",
+            "observation": "Young female voice, clearly identifiable and distinct from the sister."
+          },
+          {
+            "character": "sister",
+            "observation": "Brighter, higher-pitched female voice, properly sustained."
+          },
+          {
+            "character": "orange_student",
+            "observation": "Casual teenage male voice."
+          },
+          {
+            "character": "green_student",
+            "observation": "Distinct deeper male peer voice."
+          },
+          {
+            "character": "boyfriend",
+            "observation": "Warm young male voice consistent across lines."
+          },
+          {
+            "character": "friend",
+            "observation": "Distinct supporting female voice."
+          },
+          {
+            "character": "cta",
+            "observation": "Clear, professional male voice for the concluding call to action."
+          }
+        ],
+        "confusable_pairs": [],
+        "uncertain_intervals": [],
+        "reason": "Characters have distinct timbres appropriate to age and gender, maintaining vocal continuity."
+      },
+      "translation": {
+        "complete": true,
+        "reason": "All spoken lines are completely localized without missing turns or omissions."
+      },
+      "timing": {
+        "acceptable": true,
+        "reason": "Pacing and conversational timing align closely with the original audio."
+      },
+      "maximum_atempo": 1.454115853658526
+    },
+    {
+      "locale": "ja",
+      "video_sha256": "7ca8dd46c801d16077666d502ffb8c79b558b8af9dc007778973e9a2cae7f08e",
+      "actual_audio_report_sha256": "e843533f0b454af408d2adff5d24c853c9d969d16c375943d6be9b34ed2ed2df",
+      "dialogue_count": 34,
+      "voice_count": 9,
+      "character_voices": {
+        "distinct": true,
+        "consistent": true,
+        "observations": [
+          {
+            "character": "mother",
+            "observation": "Mature feminine vocal tone maintained across all scenes."
+          },
+          {
+            "character": "doctor",
+            "observation": "Calm, adult male voice consistent in early lines."
+          },
+          {
+            "character": "heroine",
+            "observation": "Insecure, soft female delivery sustained across recurring lines."
+          },
+          {
+            "character": "sister",
+            "observation": "Sharper, assertive female timbre distinct from the heroine."
+          },
+          {
+            "character": "boyfriend",
+            "observation": "Friendly, young male voice consistent across interaction segments."
+          },
+          {
+            "character": "cta",
+            "observation": "Clear, energetic closing delivery."
+          }
+        ],
+        "confusable_pairs": [],
+        "uncertain_intervals": [],
+        "reason": "All characters exhibit distinct acoustic profiles and remain consistent."
+      },
+      "translation": {
+        "complete": true,
+        "reason": "All dialogues and call-to-action are faithfully translated without omission."
+      },
+      "timing": {
+        "acceptable": true,
+        "reason": "Segment timings align closely with original pacing."
+      },
+      "maximum_atempo": 1.4747459349593388
+    },
+    {
+      "locale": "ko",
+      "video_sha256": "21fba56c46c2f96ef447d55f5d16762451304e4ded0d32f17660bca4a221e7a8",
+      "actual_audio_report_sha256": "e9563699a47e1f2b6247541a2bc89ab50ac958bdd3782a7ee5713485b38602b1",
+      "dialogue_count": 34,
+      "voice_count": 9,
+      "character_voices": {
+        "distinct": true,
+        "consistent": true,
+        "observations": [
+          {
+            "character": "mother",
+            "observation": "Mature female voice, consistent tone across entries."
+          },
+          {
+            "character": "doctor",
+            "observation": "Adult male voice, clinical delivery."
+          },
+          {
+            "character": "heroine",
+            "observation": "Youthful female lead voice maintained throughout monologue and exchanges."
+          },
+          {
+            "character": "sister",
+            "observation": "Sharper, slightly higher female voice distinct from heroine."
+          },
+          {
+            "character": "orange_student",
+            "observation": "Brief male vocal appearance, distinguishable timbre."
+          },
+          {
+            "character": "green_student",
+            "observation": "Deeper male delivery complementing the prior student."
+          },
+          {
+            "character": "boyfriend",
+            "observation": "Warm young male tone across dialogue turns."
+          },
+          {
+            "character": "friend",
+            "observation": "Distinct secondary female voice."
+          },
+          {
+            "character": "cta",
+            "observation": "Clear promotional male voiceover at closing."
+          }
+        ],
+        "confusable_pairs": [],
+        "uncertain_intervals": [],
+        "reason": "Each character role is cast with distinct timbres and maintains continuity throughout."
+      },
+      "translation": {
+        "complete": true,
+        "reason": "Dialogue lines and meaning faithfully render the source script without material omissions."
+      },
+      "timing": {
+        "acceptable": true,
+        "reason": "Character turn timings consistently match corresponding video actions and source cuts."
+      },
+      "maximum_atempo": 1.6119429241594985
+    }
+  ],
+  "failure_cases": [
+    {
+      "case": "preset_name_does_not_prove_actual_voice_gender",
+      "locale": "ja",
+      "rejected_candidate_sha256": "4cc1e6637a3610195350d9b670abc6e1e3e8cdcaa1b68eb0d322996a0c659f3e",
+      "actual_model_observations": {
+        "distinct": true,
+        "consistent": true,
+        "observations": [
+          {
+            "character": "doctor",
+            "observation": "Voiced by a female speaker in B, unlike the male voice in A."
+          },
+          {
+            "character": "heroine",
+            "observation": "Maintains consistent vocal timbre throughout."
+          },
+          {
+            "character": "sister",
+            "observation": "Clearly distinguished from heroine and mother."
+          }
+        ],
+        "confusable_pairs": [],
+        "uncertain_intervals": [],
+        "reason": "Characters remain recognizable, though the doctor cast gender changed."
+      },
+      "remedy": "Regenerated the two doctor utterances with the same male Charon assignment and reviewed the new final encoded audio."
+    },
+    {
+      "case": "short_utterance_asr_disagreement",
+      "locale": "ko",
+      "evaluation": {
+        "candidate_sha256": "21fba56c46c2f96ef447d55f5d16762451304e4ded0d32f17660bca4a221e7a8",
+        "review_path": "review/21fba56c46c2/audio-model-review.json",
+        "review_sha256": "e9563699a47e1f2b6247541a2bc89ab50ac958bdd3782a7ee5713485b38602b1",
+        "rows": [
+          {
+            "speech_id": "p021",
+            "observed_model_transcription": {
+              "start": 42.4,
+              "end": 43.4,
+              "source_text": "걔 얘기를?"
+            },
+            "decision": "resolved_by_actual_audio_model",
+            "boundary": "Whisper mismatch remains in original evidence; Gemini transcription and actual source/candidate comparison support the intended utterance. No direct human/native listening claimed."
+          },
+          {
+            "speech_id": "p023",
+            "observed_model_transcription": {
+              "start": 45.8,
+              "end": 47.7,
+              "source_text": "그 애한테서 떨어져."
+            },
+            "decision": "resolved_by_actual_audio_model",
+            "boundary": "Whisper mismatch remains in original evidence; Gemini transcription and actual source/candidate comparison support the intended utterance. No direct human/native listening claimed."
+          },
+          {
+            "speech_id": "p027",
+            "observed_model_transcription": {
+              "start": 52.6,
+              "end": 54.0,
+              "source_text": "그 애한테서 떨어져."
+            },
+            "decision": "resolved_by_actual_audio_model",
+            "boundary": "Whisper mismatch remains in original evidence; Gemini transcription and actual source/candidate comparison support the intended utterance. No direct human/native listening claimed."
+          }
+        ],
+        "semantic_review": "resolved by external actual-audio perception, not expected text matching"
+      },
+      "remedy": "Kept original ASR/raw audio evidence; whole single-utterance audio trimmed by measured silence in provisional mix, then resolved semantics through actual final-audio model transcription and source comparison."
+    },
+    {
+      "case": "successful_tts_with_missing_turns",
+      "locales": [
+        "ko",
+        "pt",
+        "de",
+        "ja"
+      ],
+      "observation": "Several successful role tasks returned only the first supplied line or omitted a later short turn. Accepted observed complete utterances only and regenerated missing lines in the same assigned voice.",
+      "limit": "Model task success is transport/execution evidence, not dialogue completeness."
+    }
+  ],
+  "review_boundary": "Same-agent judgement plus external Gemini actual-audio perception. No independent human/native speaker acceptance; not multi-source empirical validation; no exact visual lip-sync or lossless separation claim."
+}

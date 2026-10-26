@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "route-selection-v1",
+  "created_at": "2026-10-20T04:21:28+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "3b6d999874040c9f26e7b17cfd4f3d2fe197cbd73871516e2129e0897c487b6a",
+      "bytes": 614
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "b736470266552334bf525467cbed60665abe22e9f564978cdb308739dd0f0a84",
+      "bytes": 703
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "active",
+    "lesson": "# 路线选择\n\n开发者初始方法，后续用对照实验更新。\n\n1. 固定位置、平坦静态背景：用精确覆盖与排版，保留原运动和时长。\n2. 复杂背景、遮挡、运动文字：先做一个片段的模型编辑实验，检查原字清除和非目标区域漂移。静态色块只在背景确实允许时使用。\n3. 允许重做镜头：用翻译后的关键帧重建。记录中间动作、产品与节奏可能变化的风险。首帧约束不等于整段保真。\n\n声音独立决策：保留无语言的音乐，替换外语人声。模型编辑若没有可靠声音能力，使用已审配音轨；缺少人声转写或配音时停在待补证据状态。\n\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

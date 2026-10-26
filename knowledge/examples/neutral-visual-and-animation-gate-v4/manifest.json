@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "neutral-visual-and-animation-gate-v4",
+  "created_at": "2026-10-26T02:49:20+00:00",
+  "files": [
+    {
+      "path": "evidence/agent-selection-review-20261026.json",
+      "sha256": "55ab32c5ab65d89ed4bc31cdf97de913313a2f63589bef3451090b21c772fd82",
+      "bytes": 2214
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 文字、运动与成片检查：共同要求及模式分支\n\n适用所有文字本地化。模式从请求 delivery_mode 读取；旧请求未记录时沿用 strict。切换模式需明确记录，不能改写旧失败或继承旧通过。\n\n## 共同要求\n\n逐实例确认文字/容器边界、时间、语义、保留理由、关键样式与运动/遮挡；口播字幕按共同定稿及实际声音对齐。对照实际源与编码成片，检查翻译完整、旧字残留、可读性、主体/图形/动作、音轨和同步；完整正常播放，补查进出场、切镜、片尾及疑点。概览拼图用于定位。共享底面先实际检查，再制作代表语言，每语言检查实际字形、时轴和声音。缺证据保留 pending，模板不产生真实观察。\n\n## fast：默认基本效果\n\n用 fast-review 合同八项基本检查及 visual_finish，按 quality.md 的正常播放标准判断。所有实例和时间段均须覆盖；风险动态区查看足够的源/成片连续帧支持判断，不强制全片每帧四层审计或完整 strict 证据表。轻微外观差异可记 minor；漏译、残字、主体损坏、明显闪烁、动作拖影、音轨丢失和不同步仍阻断质量通过。新整体视频绑定新哈希，局部返工只重查受影响范围并确认全片衔接。\n\n## strict：完整逐实例保真\n\n严格路线按 visual-review 工作流保存源、无字底片、透明译字和实际编码对照，逐实例记录 erasure、background_and_foreground、typography_fit、motion_occlusion_timing、实际 PTS/帧区间与证据。进出场、切镜、遮挡/变形边界至少包含事件前后各两帧；移动/缩放、交叠、复杂修补与已有异议区检查整个相关连续区间，不以固定抽帧代替。无对应效果可有据记 not_applicable。\n\n中性底片各必需项通过后放行代表语言；目标部分当时保留 pending，成片阶段补齐。所有必需项通过才签整体通过。直接模型编辑无法拆层时记录限制，仍对实际输出逐实例检查，不能虚构底片验收。\n\n## 退出\n\n已满足对应模式即停止外观返工；未满足且有明确改进变量可有界修复，达到尝试/预算/能力边界后按 always-output 输出并如实标注，明确音频必需的任务依用户要求处理。模型成功、证据生成与实际审核分别记录；同一 Agent 自审不称独立验收。\n\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/agent-selection-review-20261026.json"
+    }
+  }
+}

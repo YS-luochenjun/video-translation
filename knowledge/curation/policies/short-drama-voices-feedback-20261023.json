@@ -1,0 +1,14 @@
+{
+  "source": "Direct project user messages in the current conversation on 2026-10-23",
+  "thread_id": "01a16801-3b25-7262-a65d-b51cd0aee5a1",
+  "quotes": [
+    "做好知识的储备，主要是多人小短剧的场景，希望会分多个音色声线来输出，保底需要区别男女。",
+    "那就继续把这六个语言的视频做成不同角色不同声线的版本，同一角色保持同一声线，注意配音和画面的时间配合。保留现有保底视频，新版本也输出到outputs中。",
+    "如果音频不可用直接告诉我，不用出字幕兜底，我需要一定要有音频。",
+    "不要太在乎费用，音频用不了多少。且如果有问题，就先去重试，KIE本身不稳定，重试可能可以解决",
+    "输出完毕后，分场景，总结各种知识"
+  ],
+  "interpretation": "For future multi-character short dramas in this project, prefer a stable distinct voice per character; at minimum differentiate male and female character voices. Translate full dialogue with real audio and fit actual speech to picture. Preserve existing complete backups. Retry known provider failures within the existing authorized request ledger and bounded attempts.",
+  "scope": "Project execution preference for multi-character short dramas. No company-wide policy, blanket future budget expansion, global memory update, native-speaker acceptance or exact lip-sync claim.",
+  "reviewed_by": "Codex, direct-user-source and project-scope review"
+}

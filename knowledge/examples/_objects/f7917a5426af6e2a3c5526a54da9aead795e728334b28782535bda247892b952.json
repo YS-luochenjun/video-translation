@@ -1,0 +1,54 @@
+{
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "target_language": null,
+  "contains_target_typography": false,
+  "method": "Reuse verified source-bound Wan/local neutral master. Only the CTA arrow/residual footprint and phone button receive local repair. Arrow itself moves to a source-derived foreground layer above target text.",
+  "inputs": [
+    {
+      "path": "origin:source.mp4",
+      "sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+    },
+    {
+      "path": "origin:previous-neutral.mp4",
+      "sha256": "526b32b764cc8e9c1d955023b5f2e7ad80cdd0b451c6b2be6d9ebdeaea1b5bee"
+    },
+    {
+      "path": "origin:previous-preparation.json",
+      "sha256": "2e3b2d2f2546339b8040128266d43db00f891f1fa6e91a5c3f9a3f9920451831"
+    },
+    {
+      "path": "origin:wan-paid-receipt.json",
+      "sha256": "4c7f536f34ee30e6f9b2be7af5db6fda6dddc2a3145a09d221671b6571e88923"
+    },
+    {
+      "path": "origin:caption-alignment.json",
+      "sha256": "85997d26a92f608cdba68304f3340e7a5d4c0cdc857bca61498457e1e767ce52"
+    },
+    {
+      "path": "origin:actual-voice-word-timestamps.json",
+      "sha256": "0f7986caa5223e7da310e03c01fe49e9f394c179f10918bd98f32b0adff0fcff"
+    },
+    {
+      "path": "origin:source-specific-builder.py",
+      "sha256": "24b3621f3dc274d45a76fc6804b7ac604b1983880fb119d814484feb6a73a6be"
+    },
+    {
+      "path": "origin:arrow-layers.json",
+      "sha256": "0355f7f65ade6669283e5bdd8ce849379f41adf843ad45b88fb36deca2caad47"
+    }
+  ],
+  "output": {
+    "path": "origin:visual-master.mp4",
+    "sha256": "6efda7aae177a240740df686faf0eca610b1ca11d0e9680646dafabdfba82666"
+  },
+  "new_model_credits": 0,
+  "reused_paid_model": {
+    "model": "wan/2-7-videoedit",
+    "original_charged_run": "hand-zh-001",
+    "original_credits": 32,
+    "receipt": "origin:wan-paid-receipt.json"
+  },
+  "limitations": [
+    "Inpainting approximates the background previously hidden by lettering/arrow. Actual final video must be reviewed."
+  ]
+}

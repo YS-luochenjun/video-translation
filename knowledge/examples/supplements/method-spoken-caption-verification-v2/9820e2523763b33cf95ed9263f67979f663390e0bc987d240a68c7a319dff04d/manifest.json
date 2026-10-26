@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-evidence",
+  "identity": "9820e2523763b33cf95ed9263f67979f663390e0bc987d240a68c7a319dff04d",
+  "created_at": "2026-10-20T10:55:29+00:00",
+  "files": [
+    {
+      "path": "evidence/review/curation-20261020.json",
+      "sha256": "be93b235e882958bca5910ebc8511e6f494a1f72f11b2b52de3056394b9e2355",
+      "bytes": 3114
+    },
+    {
+      "path": "evidence/review/fd94cb073f55/audio-revision-provenance.json",
+      "sha256": "93072b6f09c448c8c35ca90dc692e3af4e8495368bec4914bee6877a670a4748",
+      "bytes": 3840
+    },
+    {
+      "path": "evidence/review/fd94cb073f55/audio-revision-verification.json",
+      "sha256": "5c8b13fc221612d729ccfa4e2888c5000f59ea2e75fb249dbb55dad1983c3bca",
+      "bytes": 3789
+    },
+    {
+      "path": "evidence/review/fd94cb073f55/audio-words.json",
+      "sha256": "5393daedbb471a011278b72aae2cd693d010764399ad3af2c74c9351c71873c5",
+      "bytes": 4990
+    },
+    {
+      "path": "evidence/review/fd94cb073f55/audio.wav",
+      "sha256": "f50b0ce5cfb04f7d160e1063ed68875ca66540ca3f11b8b7afd6a60090445a35",
+      "bytes": 579648
+    },
+    {
+      "path": "evidence/review/fd94cb073f55/caption-sync.json",
+      "sha256": "26a674e4c4774cf43b9558dd401df508e2f3edf4c7630395605a930a55dc488c",
+      "bytes": 1274
+    },
+    {
+      "path": "evidence/review/fd94cb073f55/english-tail-rechecked.wav",
+      "sha256": "070cdc1ef28dbffd4c9c2d57fb5cd75b96bc77d1395b7ee92ddbc1a000c6120e",
+      "bytes": 10958
+    },
+    {
+      "path": "evidence/review/fd94cb073f55/prior-audio-model-review.json",
+      "sha256": "63a482ab640bac4cad5ba5af99185ffa18c5b3457075f02b74f15bb4411f60df",
+      "bytes": 1526
+    }
+  ],
+  "metadata": {
+    "entry_id": "method-spoken-caption-verification-v2",
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "case_manifest_sha256": "4a8fee0fc7020ceaab3226326aa0999a05a9ac23dd6b2403aaef497ba473a0cb",
+    "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+    "video_sha256": "fd94cb073f5527b740057ec3415b5981927eb0a040c17acdf88f97e6b598dab6",
+    "references": {
+      "final-audio-observations": "evidence/review/curation-20261020.json",
+      "final-actual-wav": "evidence/review/fd94cb073f55/audio.wav",
+      "final-tail-sample": "evidence/review/fd94cb073f55/english-tail-rechecked.wav",
+      "final-local-asr": "evidence/review/fd94cb073f55/audio-words.json",
+      "final-audio-revision-check": "evidence/review/fd94cb073f55/audio-revision-verification.json",
+      "audio-window-revision": "evidence/review/fd94cb073f55/audio-revision-provenance.json",
+      "prior-rejected-audio-report": "evidence/review/fd94cb073f55/prior-audio-model-review.json",
+      "final-caption-classification": "evidence/review/fd94cb073f55/caption-sync.json"
+    },
+    "reviewed_by": "Codex same-Agent maintenance review of recorded evidence and selected encoded frames; no new full video or listening acceptance",
+    "recorded_at": "2026-10-20T10:55:29+00:00",
+    "proof_boundary": "Preserved historical evidence, not a new video review, independent acceptance or wider scope."
+  }
+}

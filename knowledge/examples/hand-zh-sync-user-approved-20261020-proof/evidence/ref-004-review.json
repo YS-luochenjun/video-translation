@@ -1,0 +1,391 @@
+{
+  "schema_version": 1,
+  "reviewer": "Codex same-Agent actual-candidate review",
+  "method": "Read all30 source/candidate paired instance crops,32 transition frames,13 spoken-caption before/first/middle/last/after panels, full contact sheets and actual arrow source/previous/final comparison. Audio evidence is byte-identical to the prior Gemini-reviewed soundtrack, cross-checked with actual local ASR and pause energy.",
+  "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+  "plan_id": "f5795d9a4e6deb8e",
+  "inventory_sha256": "d738933c0a1bdeca74a99dfe3532c8f599c715a44bb9875678026939df2f0868",
+  "decision": "pass",
+  "scores": {
+    "translation": 4.7,
+    "visual_fidelity": 4.3,
+    "temporal_alignment": 4.7,
+    "audio": 4.6,
+    "ad_style": 4.5
+  },
+  "critical_defects": [],
+  "instances": [
+    {
+      "id": "t001",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t001.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t002",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t002.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t003",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t003.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t004",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t004.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t005",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t005.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t006",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t006.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t007",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t007.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t008",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t008.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t009",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t009.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t010",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t010.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t011",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t011.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t012",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t012.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t013",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t013.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t014",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t014.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t015",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t015.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t016",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t016.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t017",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t017.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t018",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t018.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t019",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t019.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t020",
+      "decision": "pass",
+      "evidence": [
+        "origin:arrow-source-previous-final.jpg",
+        "origin:frame-00001.jpg"
+      ],
+      "note": "Source arrow contour extracted separately from connected English. Same source people, brands, numeric UI and intended effects retained."
+    },
+    {
+      "id": "t024",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t024.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t025",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t025.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t026",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t026.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t027",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t027.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t028",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t028.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t029",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t029.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t030",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t030.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t031",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t031.jpg"
+      ],
+      "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+    },
+    {
+      "id": "t021",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t021.jpg",
+        "origin:caption-sync.json"
+      ],
+      "note": "Target speech windows differ from the original English visual erase envelope; actual native captions follow voice, including the full final phrase above the CTA."
+    },
+    {
+      "id": "t022",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t022.jpg",
+        "origin:caption-sync.json"
+      ],
+      "note": "Target speech windows differ from the original English visual erase envelope; actual native captions follow voice, including the full final phrase above the CTA."
+    },
+    {
+      "id": "t023",
+      "decision": "pass",
+      "evidence": [
+        "origin:arrow-source-previous-final.jpg",
+        "origin:frame-00001.jpg"
+      ],
+      "note": "Source arrow contour extracted separately from connected English. Same source people, brands, numeric UI and intended effects retained."
+    },
+    {
+      "id": "t032",
+      "decision": "pass",
+      "evidence": [
+        "origin:instance-t032.jpg",
+        "origin:caption-sync.json"
+      ],
+      "note": "Target speech windows differ from the original English visual erase envelope; actual native captions follow voice, including the full final phrase above the CTA."
+    },
+    {
+      "id": "a001",
+      "decision": "pass",
+      "evidence": [
+        "origin:audio.wav",
+        "origin:speech-word-timestamps.json",
+        "origin:caption-sync.json"
+      ],
+      "note": "Shared final copy and actual ASR/model transcription agree at phrase level; onsets trimmed across measured pauses. Existing reviewed audio unchanged."
+    },
+    {
+      "id": "a002",
+      "decision": "pass",
+      "evidence": [
+        "origin:audio.wav",
+        "origin:speech-word-timestamps.json",
+        "origin:caption-sync.json"
+      ],
+      "note": "Shared final copy and actual ASR/model transcription agree at phrase level; onsets trimmed across measured pauses. Existing reviewed audio unchanged."
+    }
+  ],
+  "coverage": {
+    "visual": {
+      "status": "reviewed",
+      "evidence": [
+        "origin:instance-sheet-01.jpg",
+        "origin:instance-sheet-02.jpg",
+        "origin:instance-sheet-03.jpg",
+        "origin:instance-sheet-04.jpg",
+        "origin:instance-sheet-05.jpg",
+        "origin:boundary-sheet-01.jpg",
+        "origin:boundary-sheet-02.jpg",
+        "origin:boundary-sheet-03.jpg",
+        "origin:boundary-sheet-04.jpg"
+      ]
+    },
+    "audio": {
+      "status": "reviewed",
+      "evidence": [
+        "origin:audio.wav",
+        "origin:audio-equivalence.json"
+      ]
+    },
+    "timing": {
+      "status": "reviewed",
+      "evidence": [
+        "origin:instance-sheet-01.jpg",
+        "origin:instance-sheet-02.jpg",
+        "origin:instance-sheet-03.jpg",
+        "origin:instance-sheet-04.jpg",
+        "origin:instance-sheet-05.jpg",
+        "origin:boundary-sheet-01.jpg",
+        "origin:boundary-sheet-02.jpg",
+        "origin:boundary-sheet-03.jpg",
+        "origin:boundary-sheet-04.jpg"
+      ]
+    }
+  },
+  "audio_checks": {
+    "background_music": {
+      "decision": "pass",
+      "method": "Actual entire PCM WAV and AAC are byte-identical to previously model-transcribed/reviewed Chinese version. Source music-only window correlation0.99682. AV captions checked separately.",
+      "evidence": [
+        "origin:audio.wav",
+        "origin:audio-equivalence.json",
+        "origin:audio-model-review.json"
+      ],
+      "note": ""
+    },
+    "sound_effects": {
+      "decision": "pass",
+      "method": "Actual entire PCM WAV and AAC are byte-identical to previously model-transcribed/reviewed Chinese version. Source music-only window correlation0.99682. AV captions checked separately.",
+      "evidence": [
+        "origin:audio.wav",
+        "origin:audio-equivalence.json",
+        "origin:audio-model-review.json"
+      ],
+      "note": ""
+    },
+    "dialogue_translation": {
+      "decision": "pass",
+      "method": "Actual entire PCM WAV and AAC are byte-identical to previously model-transcribed/reviewed Chinese version. Source music-only window correlation0.99682. AV captions checked separately.",
+      "evidence": [
+        "origin:audio.wav",
+        "origin:audio-equivalence.json",
+        "origin:audio-model-review.json"
+      ],
+      "note": ""
+    },
+    "sync": {
+      "decision": "pass",
+      "method": "Actual entire PCM WAV and AAC are byte-identical to previously model-transcribed/reviewed Chinese version. Source music-only window correlation0.99682. AV captions checked separately.",
+      "evidence": [
+        "origin:audio.wav",
+        "origin:audio-equivalence.json",
+        "origin:audio-model-review.json"
+      ],
+      "note": ""
+    }
+  },
+  "caption_sync": {
+    "record": "review/<actual-video-hash-prefix>/caption-sync.json",
+    "note": "Separate audiovisual review; audio-only sync does not verify captions"
+  },
+  "lesson": "Connected icon and letter colors do not define the same object. Use a clean source arrow silhouette and explicit foreground order with one continuous translated phrase. ASR can include clause silence in word timestamps; inspect actual native-audio energy and use short semantic caption units, preserving music speed.",
+  "limitations": [
+    "Same Agent self-review; no independent reviewer or user acceptance claimed.",
+    "Local inpainting approximates hidden background; source arrow entry opacity is approximated.",
+    "Existing UVR soundtrack separation limitations remain; audio is unchanged rather than newly proved lossless.",
+    "No lip-sync processing.",
+    "The script remains source-specific; this is not proof of unattended generalization."
+  ]
+}

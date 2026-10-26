@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-7044a49363c02658d770",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+    "stage": "neutral",
+    "target_language": "es"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "同源静帧修补局部改善仍未消除接缝与色带",
+    "trigger": "该源西语中性阶段的反射填充与数字保护静帧诊断。",
+    "action": "仅保留为失败诊断候选；图像与遮罩采用匹配的反射填充后继续检查残字、发丝接缝和CTA色带，不放行底片。",
+    "failure_signature": "镜像原字伪影有所减少，但仍存在发丝接缝和CTA色带。",
+    "limitations": [
+      "project可见性，不能与private记录合并。",
+      "每轮仅观察同一素材五张原尺寸静帧；数字保护仅有两张采样帧观察。",
+      "没有完整中性视频、时序稳定性、目标语言成片或音频验收，没有最终视频。",
+      "同源返工不构成独立复验，不是生产方法或跨源验证。",
+      "仅为candidate；未修改任何active rule。"
+    ],
+    "next_counterexample_test": "若继续该源实验，检查发丝运动、CTA边界及数字特效的连续原尺寸帧，寻找接缝、色带、残字回闪和数字损伤；未完成前保持未通过。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/mog043-nonopaque-local-probes-20261022.json",
+      "sha256": "d5f7dbc909030fa8eadd6bddb1f576a5d9a081587ca797000d44266311dcc158",
+      "event_id": "7355b9b31841e9e9c4f94dd1ce0b73431f595f0bd9907bc5fb2a219373d58288",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+        "stage": "neutral",
+        "target_language": "es"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "mog043-nonopaque-local-probes-20261022",
+        "created_at": "2026-10-22T12:04:40+00:00",
+        "status": "candidate",
+        "scope": {
+          "workflow": "video-localization",
+          "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+          "stage": "neutral",
+          "target_language": "es"
+        },
+        "outcome": "fail",
+        "hypothesis": "Matching reflected image/mask padding reduced mirrored source-text artifacts in five stills of one video. Precise number protection avoided numeral damage in two sampled frames, but hairline seams and CTA color bands still prevent neutral release. This is a source-specific failed diagnostic, not a production method or multi-source validation.",
+        "evidence": {
+          "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+          "observations_sha256": "c9ef27c5680218adc9f365223746b0c7f1d72db9d27f4d239698648f625f0b00",
+          "sample_pts_seconds": [
+            0,
+            4.6,
+            7,
+            10.8,
+            14.8
+          ]
+        },
+        "limitations": [
+          "Five observed native-size still comparisons per revision. No complete neutral video, temporal stability, language render or audio acceptance. No final video exists.",
+          "No active rule was changed by these diagnostics."
+        ],
+        "company_preference": false,
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": false,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation"
+}

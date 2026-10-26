@@ -1,0 +1,54 @@
+{
+  "id": "opencv-mask-mutation-20261020",
+  "status": "candidate",
+  "scope": {
+    "opencv_version": "5.0.0",
+    "operation": "seamlessClone",
+    "condition": "mask reused across frames or after call"
+  },
+  "trigger": "Alternating residual text or unexpected change to a protected region after gradient compositing",
+  "action": "Pass mask.copy() or construct independent per-call masks; compare mask before and after, then inspect contiguous encoded frames. Newly constructed disposable masks are not automatically faulty.",
+  "evidence": {
+    "case": "knowledge/examples/opencv-mask-mutation-20261020",
+    "manifest_sha256": "11aca67f4b4eeb3c5b620bc277e5573216bfb4d735c0d242802b5088aa35d9aa",
+    "synthetic_probe": {
+      "opencv": "5.0.0",
+      "tests": [
+        {
+          "full_mask": false,
+          "changed_pixels": 1444,
+          "before_sum": 493680,
+          "after_sum": 125460
+        },
+        {
+          "full_mask": true,
+          "changed_pixels": 3388,
+          "before_sum": 1044480,
+          "after_sum": 180540
+        }
+      ],
+      "boundary": "Synthetic mask mutation probe; no claim about real video repair quality",
+      "copy_control": {
+        "calls": 3,
+        "original_mask_changed_pixels": 0
+      },
+      "reproduction": "mask=np.zeros((64,64),np.uint8); mask[10:54,10:54]=255; before=mask.copy(); src=np.full((64,64,3),180,np.uint8); dst=np.full((64,64,3),90,np.uint8); cv2.seamlessClone(src,dst,mask,(32,32),cv2.NORMAL_CLONE); np.count_nonzero(mask!=before)",
+      "observed_call_sites": [
+        {
+          "path": "work/finish_es_opening_v3.py",
+          "sha256": "4f306164b0d1077a48e2712ad42a5a87aeda1a9e382ba9132ac9facecc7ac1de"
+        },
+        {
+          "path": "work/4-2-visual-fix-20261020/video_composite.py",
+          "sha256": "0166f8f5b94e5dd3c96f2e6e0832b143c0869b07a3e6f871c04b989f4fa389cb"
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Observed in installed OpenCV 5.0.0; do not assert every version mutates the mask.",
+    "This establishes buffer mutation and copy isolation, not full-video visual acceptance.",
+    "1-1 and 4-2 video-quality claims remain in their own source-bound reviews."
+  ],
+  "company_preference": false
+}

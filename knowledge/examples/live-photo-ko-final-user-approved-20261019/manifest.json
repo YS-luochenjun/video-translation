@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "live-photo-ko-final-user-approved-20261019",
+  "created_at": "2026-10-20T04:21:30+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "cde5fd5b10b4cafbf2b571693905d3a956368bcef6169cd393730c82a8a8549c",
+      "bytes": 40928
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "86277b95050f44b1331d0f0f511499ffd4376085f95e68e1c843f9b3519a2e73",
+      "bytes": 1826
+    },
+    {
+      "path": "evidence/ref-003-user-positive-feedback-final-pair-20261019.json",
+      "sha256": "5c283e0e03aec43f90d812b5c12b918f1bc67116d01d3e20983617bf53770673",
+      "bytes": 1639
+    },
+    {
+      "path": "evidence/ref-004-2026-10-19-final-pair-learning-and-artistic-type.json",
+      "sha256": "5a037db3c8781950b4f3ac4f6745e4622378d0a58075a68fd8c44d579d2bc03f",
+      "bytes": 11458
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+      "target_language": "ko-KR"
+    },
+    "status": "active",
+    "lesson": "# 用户认可的韩文版本：当前素材样例\n\n适用源SHA-256 `410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475`、目标 `ko-KR`。当前视频 `4afed27d97111705b67042cf484a600be9404ef6ac1d92e4dff2c6f2d0a94fd5`，运行 `evidence:ref-001`。本条启用整体效果和界面排版的样例参考，艺术字专项结论见 `evidence:ref-002`：片尾t020仍有进场英文残留，不能当作完全合格成品。\n\n用户原话：“目前挺好，请你学习相关知识内容，做出知识积累。目前效果不错。”其后询问艺术字是否合格。反馈记录 `evidence:ref-003` 绑定实际视频及未改写的技术评审；问题本身没有构成艺术字验收。\n\n同源任务可沿用已存的去字底片、文字轨迹、透明字形层方法和样式参考。手机文字应融入原界面，保留按钮、前景遮挡和下拉图标。下拉重叠案例提示：除了字形间距，还要检查去字底片是否被图标亮色污染；当前修复使用去字后恢复原图标像素。新语言仍须检查自身字形、实际配音和最终混音。\n\n当前艺术字采用常规字体加红色填充及白/蓝/黄绿多层描边。原片的红色纹理、厚边及偏移立体感尚未完整重建；t020没有进场轨迹，帧478、479在15.933/15.967秒可见英文残留，16.067/16.100秒还可见彩色边缘残片。相关检查必须查看原片、底片和成片的进出场连续帧，稳定中间帧不足以证明通过。\n\n本次整体正反馈没有改变历史quality的revise决定；音乐/音效完整保真和细微同步仍待核实。原样保留旧评审，专项缺陷另记。此样例严格限定源和语言，跨源经验仍处candidate；未改变公司通用偏好。证据与本次0新增credits记录见 `evidence:ref-004`。\n",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "video_sha256": "4afed27d97111705b67042cf484a600be9404ef6ac1d92e4dff2c6f2d0a94fd5",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

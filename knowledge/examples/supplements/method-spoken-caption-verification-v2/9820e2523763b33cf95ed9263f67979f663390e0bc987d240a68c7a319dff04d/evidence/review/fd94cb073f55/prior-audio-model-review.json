@@ -1,0 +1,54 @@
+{
+  "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+  "audio_sha256": "5a9fe7af30e069c457c7a5688038766cdefaa85811fbf281a8b9de776e707802",
+  "video_sha256": "5845988f471d0ac0d36941ef9bab4d886903d01416096dd291b98db789782aeb",
+  "model": "gemini-3-pro",
+  "response_id": "chatcmpl-d7c9775dd514433e8b6954561ff4a6a1",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "es",
+    "speech_segments": [
+      {
+        "start": 0.0,
+        "end": 2.0,
+        "source_text": "¿Quién es tu pareja ideal?"
+      },
+      {
+        "start": 4.5,
+        "end": 7.0,
+        "source_text": "Sube una foto y descubre a tu pareja ideal al instante."
+      },
+      {
+        "start": 16.0,
+        "end": 17.5,
+        "source_text": "Pruébalo gratis ahora."
+      }
+    ],
+    "background_music": {
+      "same_track": true,
+      "reason": "Music matches."
+    },
+    "sound_effects": {
+      "preserved": true,
+      "reason": "Effects kept."
+    },
+    "dialogue_translation": {
+      "complete": false,
+      "reason": "English leftover."
+    },
+    "foreign_speech_remaining": [
+      {
+        "start": 7.5,
+        "end": 8.0,
+        "source_text": "away"
+      }
+    ],
+    "sync": {
+      "acceptable": true,
+      "reason": "Timing fine."
+    },
+    "uncertain_intervals": [],
+    "summary": "ES translation with English leftover."
+  },
+  "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"
+}

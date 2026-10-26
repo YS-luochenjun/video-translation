@@ -1,0 +1,30 @@
+{
+  "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+  "video_sha256": "cb572273392457cc56115eb4b9e987291559fbc9f76b72b4410cd0b73e6aa70b",
+  "origin_run_id": "4-1-es-20261020",
+  "technical_decision": "pass",
+  "reviewer": "Codex same-Agent reviewer; Gemini is an external audio-perception tool, not an independent full-video reviewer",
+  "method": "Source/candidate actual-frame comparison; all target-caption crops read; every-frame glyph identity/timing check; actual WAV model transcription, source-comparative or explicitly shared neutral-music audit; mux-signal verification.",
+  "lesson": "Source-specific six-locale production: cache exact-source extraction and one reviewed neutral plate/background; regenerate spoken copy, actual voice alignment and typography for every locale. Reject unsupported free-form accent parameters before generation; retain all failed attempts and receipts.",
+  "limitations": [
+    "Same-Agent visual/translation review with model-assisted audio evidence; per-language external-audio review is claimed only where a real returned report exists. No independent human or company acceptance.",
+    "Original English lip movement is preserved; this is translated narration and captions, not target-language lip synchronization.",
+    "Neck surface underneath the old lettering was inferred locally; source texture there is approximate.",
+    "UVR background separation is approximate; no lossless separation claim.",
+    "API-rejected/transport-failed attempts without a provider billing receipt remain separately unconfirmed in the ledger.",
+    "Local ASR supports spoken meaning and time boundaries; native-speaker pronunciation acceptance remains outside this self-review."
+  ],
+  "critical_defects": [],
+  "scores": {
+    "translation": 4.8,
+    "visual_fidelity": 4.6,
+    "temporal_alignment": 4.6,
+    "audio": 4.6,
+    "ad_style": 4.5
+  },
+  "original_record_hashes": {
+    "quality": "13a1aa655f3f311a50da644a0c948e7dc9a6c864f2370ae95e6acdf688247268",
+    "review": "906ea7448993cfb8103239949f211bd825dc3566e8f2cb55f82f3cd165852e19"
+  },
+  "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+}

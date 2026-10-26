@@ -1,0 +1,146 @@
+{
+  "id": "method-source-neutral-preparation-v5",
+  "path": "knowledge/rules/method-source-neutral-preparation-v5.md",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "tags": [
+    "reuse",
+    "text",
+    "timing",
+    "ads",
+    "visual",
+    "typography"
+  ],
+  "origin": "Direct user approval of French still, request to extend to video, actual French composition and source-bound user-reported rectangular CTA counterexample. Retains prior multi-source evidence; new video is sampled same-agent review only.",
+  "approval_type": "developer_review",
+  "evidence_review": "sanitized_project_evidence",
+  "reviewed_by": "Codex: method/decomposition and native-frame comparisons; no full normal-speed playback/listening or user video acceptance",
+  "company_preference": false,
+  "evidence_files": [
+    "knowledge/curation/title-restoration-20261026/audit.json",
+    "knowledge/curation/title-restoration-20261026/clean-title-host-v1.png",
+    "knowledge/curation/title-restoration-20261026/feedback.json",
+    "knowledge/curation/title-restoration-20261026/french-report.json",
+    "knowledge/curation/title-restoration-20261026/french-title-host-v1.png",
+    "knowledge/curation/title-restoration-20261026/image-report.json",
+    "knowledge/curation/title-restoration-20261026/KEY-024-comparison.png",
+    "knowledge/curation/title-restoration-20261026/KEY-six-languages.png",
+    "knowledge/curation/title-restoration-20261026/legacy-code-evidence.json",
+    "knowledge/curation/title-restoration-20261026/legacy-review-observations.json",
+    "knowledge/curation/title-restoration-20261026/MOG-021-comparison.png",
+    "knowledge/curation/title-restoration-20261026/MOG-048-comparison.png",
+    "knowledge/curation/title-restoration-20261026/MOG-049-old-comparison.png",
+    "knowledge/curation/title-restoration-20261026/MOG-049-revised-comparison.png",
+    "knowledge/curation/title-restoration-20261026/previous-method.md",
+    "knowledge/curation/title-restoration-20261026/research.json",
+    "knowledge/curation/title-restoration-20261026/source-screenshot.jpg",
+    "knowledge/curation/video-restoration-20261026/counterexample-rectangle.png",
+    "knowledge/curation/video-restoration-20261026/current-feedback.json",
+    "knowledge/curation/video-restoration-20261026/revised-contour.png",
+    "knowledge/curation/video-restoration-20261026/user-patch-frame.png",
+    "knowledge/curation/video-restoration-20261026/user-preferred-frame.png",
+    "knowledge/curation/video-restoration-20261026/video-french-keyframe.png",
+    "knowledge/curation/video-restoration-20261026/video-observations.json"
+  ],
+  "evidence_references": {
+    "feedback": "evidence/feedback.json",
+    "audit": "evidence/audit.json",
+    "previous": "evidence/previous-method.md",
+    "research": "evidence/research.json",
+    "video": "evidence/video-observations.json",
+    "latest_feedback": "evidence/current-feedback.json"
+  },
+  "supersedes": "method-source-neutral-preparation-v4",
+  "knowledge_type": "class_method",
+  "validation_level": "multi_source_observations",
+  "topic": "reuse",
+  "evidence_sources": [
+    {
+      "path": "knowledge/examples/supplements/hand-zh-sync-user-approved-20261020/af4c1a3fad6c8543ba89452b0b29a057251a435bd946cde490205ccd14a8f049",
+      "manifest_sha256": "c57f2ff01f27cdf220f4b2eb227482b65c4ef193570d465325889a3cbf57dfbe",
+      "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+    },
+    {
+      "path": "knowledge/examples/supplements/live-photo-zh-art-user-approved-20261019/dc505053f9eaa92cb524ba5f311558ba16ade538056da5d71df134fc704f8e88",
+      "manifest_sha256": "f2e3c2178a63b1cf17a2e6b099399dbdeea146f7ec2a3e1a3c94b5c3cc0ec3ea",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+    },
+    {
+      "path": "knowledge/examples/supplements/family-time-zh-local-repair-user-approved-20261019/8454b9620778cc71324b13c1cd3a85f18b803b652604827e8b181f418a5a2f89",
+      "manifest_sha256": "cb5e16d3360bea62f01e2127ac169b293acea52940b3ebe9e98983ec429ac059",
+      "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed"
+    },
+    {
+      "path": "knowledge/examples/batch-20261020-1-1-es-20261020",
+      "manifest_sha256": "8b1bda23c3840fc89a3feecb4534bda8d08cba18b9a62976a3b399b94627e242",
+      "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+    },
+    {
+      "path": "knowledge/examples/batch-20261020-video-1-2-es-20261020-01",
+      "manifest_sha256": "ce07584e31d3b86fc4e39cefe1445dfce996b3306a09385df619cb4df6e0cab4",
+      "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680"
+    },
+    {
+      "path": "knowledge/examples/batch-20261020-2-1-es-20261020",
+      "manifest_sha256": "17d4dc09d282f01314e194d259ae0484ce8fa48d8b9cc05451adebd7b9874ebe",
+      "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+    },
+    {
+      "path": "knowledge/examples/batch-20261020-ad31-es-20261020",
+      "manifest_sha256": "e07bbd5f235803fa7ef8aba50df046e3331e19ff883dde3a9ee86070afb27625",
+      "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+    },
+    {
+      "path": "knowledge/examples/batch-20261020-4-1-es-20261020",
+      "manifest_sha256": "683d2db356592d7bb5974d8a71aff5768cbf885712e7bd26892cc6c1a09f76a1",
+      "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131"
+    },
+    {
+      "path": "knowledge/examples/batch-20261020-4-2-es-20261020",
+      "manifest_sha256": "b2a5b613e7007c7be317b1062d163ea621d813f9aa256c227857b3b141596a27",
+      "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+    },
+    {
+      "path": "knowledge/examples/supervision-1-1-visual-counterexample-20261020",
+      "manifest_sha256": "1f140a5653b43231654ea0014929c73b9f72d2d353eb47a95a423c4973ab9903",
+      "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+    },
+    {
+      "path": "knowledge/examples/supervision-1-3-visual-counterexample-20261020",
+      "manifest_sha256": "a346d2423a0e7a215424c2260de87d2ecbeb0a851b470b2f6bdd57180adc317d",
+      "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+    },
+    {
+      "path": "knowledge/examples/supervision-2-1-visual-counterexample-20261020",
+      "manifest_sha256": "9377962858ba11def86ef5ce0f557d688b1ce7130e868d4c053b705ef48633d5",
+      "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+    },
+    {
+      "path": "knowledge/examples/supervision-4-2-visual-counterexample-20261020",
+      "manifest_sha256": "30934df5482e93f00b999d77242f4df5f3c0eaa7ff1a8ebc4870645050dd7ed2",
+      "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+    },
+    {
+      "path": "knowledge/examples/supervision-1-1-repair-observation-20261020",
+      "manifest_sha256": "b3c9c6e5dd980e0db7972cc4ef8a0a88ade1176a0ddb9b4ddc08b6ee7172aec2",
+      "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+    },
+    {
+      "path": "knowledge/examples/repair-learning-1-3-20261021",
+      "manifest_sha256": "87f57d8f03f7f2aab3bc2ed184005e2d1133e4b2f946a1dfba3838c361197573",
+      "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+    },
+    {
+      "path": "knowledge/examples/repair-learning-2-1-20261021",
+      "manifest_sha256": "0f12b203ead8a3fae9b1e9329dab27104cce7e2e566f35fd57b207aaa299cc86",
+      "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+    },
+    {
+      "path": "knowledge/examples/repair-learning-4-2-20261021",
+      "manifest_sha256": "84c74d1440128991906ea9ee3f98815ceca46e52e751f2bd615cde03f59df635",
+      "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+    }
+  ],
+  "evidence_caveat": "Retains prior multi-source evidence. New audit sampled26 frames across4 actual source families and six latest KEY language outputs; static clean image user-approved, French replacement same-agent reviewed only. Dynamic transfer remains to be tested."
+}

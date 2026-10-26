@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-22",
+  "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f",
+  "video_sha256": "ff1eec75f0b7242b002c0bc6b8d7b0cacd464f446571c6abc4de90bc35060f92",
+  "reported_by": "User in current conversation",
+  "quote": "目前对于水印去除，我还是比较满意的，请你归纳为知识等，保留此次的水印去除规范。",
+  "accepted_scope": [
+    "moving Quiztest watermark removal",
+    "outro QUIZTEST.ME removal"
+  ],
+  "not_accepted_by_this_feedback": [
+    "voice naturalness",
+    "all music and sound effects",
+    "whole-video quality",
+    "independent review",
+    "other source videos"
+  ],
+  "thread_id": "01a15d75-c0bd-7fd3-bbba-6a5268b13f10"
+}

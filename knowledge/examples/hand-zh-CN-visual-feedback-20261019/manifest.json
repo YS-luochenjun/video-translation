@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "hand-zh-CN-visual-feedback-20261019",
+  "created_at": "2026-10-20T04:21:30+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "a117e756971edd60b0dc33f388d2be2270f03049fe8e76fde488774901515596",
+      "bytes": 30921
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "c204675aeff314c6b20dfdc6f62d40cf33d97bc2340e200312700baca63a8d26",
+      "bytes": 1179
+    },
+    {
+      "path": "evidence/ref-002-20261019-hand-caption-sync.json",
+      "sha256": "5453c4108e56ed5db6a8b65832a04a831a22c2260832dee242d93973fbc3b7b3",
+      "bytes": 3999
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+      "target_language": "zh-CN"
+    },
+    "status": "superseded",
+    "lesson": "# 当前手势素材的整体正反馈：zh-CN\n\n源哈希 `f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe`；目标语种 `zh-CN`；参考视频 `f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c`；路径 `evidence:ref-001`。仅用于该源和语种。\n\n用户原话：“好的，先进行Agent项目的修改，吧这部分内容（字幕音频同步）加入。除了这个内容，目前视频还可以，知识还可以”。原始反馈及中日预览的上下文绑定见 `evidence:ref-002`。可保留目前画面处理和低成本复用方向。用户未逐项重新验收字体、残字和每帧边界，本条不宣称单独验证该语种的发音。\n\n明确待改进的是口播和字幕共用稿件、按实际声音对齐。原片分析、无字底片、字体样式和背景音轨可按哈希合同复用；字幕译稿、语言字层和时轴要按新规则重建。不得将本次正反馈当成旧字幕已经合格。\n\n历史技术结论仍为 `revise`，旧评审不改。局部模型区域合成能约束画面影响，但不是对所有视频有效的无痕去字证明；跨素材应用仍是待复验假设。\n",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "video_sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

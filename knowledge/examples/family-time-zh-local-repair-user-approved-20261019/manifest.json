@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "family-time-zh-local-repair-user-approved-20261019",
+  "created_at": "2026-10-20T04:21:29+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "19bedf6ddef586e043c70f10bd285204e9de3b5629bc71a6e9903fc175e53002",
+      "bytes": 27842
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "c2ab10690a9a4e977cd750bbb593be962bdb31e70b82621545185936f6be92a3",
+      "bytes": 1617
+    },
+    {
+      "path": "evidence/ref-001-user-positive-feedback-local-repair-20261019.json",
+      "sha256": "ff99af149c818e420a9b4a8db83d612e6ff4369321136a88e1be9110fee6e459",
+      "bytes": 985
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "target_language": "zh-CN",
+      "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed"
+    },
+    "status": "active",
+    "lesson": "# 用户认可的本地修复中文版参考\n\n仅当源SHA-256为 `5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed` 且目标为 `zh-CN` 时采用本参考。用户在本对话明确反馈“目前后面这个，效果很好。请你继续知识学习。”，指向运行 `complex-av-en-zh-lowcost-003` 的最新中文本地修复对照视频，SHA-256 `f5b1a0abd0836908f141091e67d1a0c7241e34ae224e9f67af7b2eed3ff3c1b2`。原话与绑定记录见 `evidence:ref-001`。\n\n后续同源中文版优先参考这一版的实际效果：保留原片构图、动作和切点，文字在原位置按相似大小、描边和角度排中文；沿用“家庭时光”工作译名及现有五句中文旁白的整体方向。保留信息图标，文字在原镜头边界结束。\n\n成功路线是原片局部清字与精确排版，叠加此前AI分轨和中文配音。复用同源解析和已审过的同语种资产，避免重复购买。新Wan Flash试验虽然完成，因横屏重生成而没有采用任何画面，不能算作本参考的成功来源。\n\n用户认可的是本版整体效果。原技术审查仍为待修订；音乐、全部音效和细微同步尚未充分核实，保留修补痕迹记录。此参考不提高其他素材的容错阈值，也不宣称这份修补母版已合格用于日韩版本。\n\n这条用户确认的同源中文样例替代上一版 `family-time-zh-user-approved-reference-20261019` 的首选地位；旧视频、原反馈和技术证据保留。跨源、跨语言的路线结论仍需复验。全公司默认偏好与全局Codex记忆未修改。\n",
+    "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed",
+    "video_sha256": "f5b1a0abd0836908f141091e67d1a0c7241e34ae224e9f67af7b2eed3ff3c1b2",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

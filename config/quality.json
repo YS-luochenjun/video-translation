@@ -1,0 +1,28 @@
+{
+  "version": "2026-10-23.3",
+  "authorization": "Project owner 2026-10-23: relax minor visual imperfections; preserve basic content, motion and audio quality. Historical results are not reapproved.",
+  "caption_sync": {
+    "max_start_error_seconds": 0.2,
+    "max_end_error_seconds": 0.25,
+    "max_visual_plan_error_seconds": 0.034
+  },
+  "minimum_score": 80,
+  "weights": {
+    "translation": 0.3,
+    "visual_fidelity": 0.25,
+    "temporal_alignment": 0.2,
+    "audio": 0.15,
+    "ad_style": 0.1
+  },
+  "critical_defects": [
+    "untranslated_required_instance",
+    "incorrect_claim_or_brand",
+    "premature_or_late_translation",
+    "unreadable_or_flickering_text",
+    "foreign_speech_remaining",
+    "caption_speech_copy_mismatch",
+    "caption_audio_out_of_sync",
+    "caption_sync_unverified",
+    "unintended_product_or_action_change"
+  ]
+}

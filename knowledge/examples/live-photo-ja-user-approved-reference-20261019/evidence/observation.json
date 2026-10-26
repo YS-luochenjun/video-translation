@@ -1,0 +1,809 @@
+{
+  "schema_version": 1,
+  "id": "live-photo-ja-user-approved-reference-20261019",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ja-JP",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+  },
+  "status": "active",
+  "origin": "Explicit user overall positive feedback to the latest Chinese/Japanese pair, 2026-10-19",
+  "reviewed_by": "User direct feedback; Codex scope and hash verification",
+  "reference_video_sha256": "566413b2115e35d55df0c33f9c9a35b2c4e3633326e2b6518ce5a24079965689",
+  "company_preference": false,
+  "references": [
+    {
+      "id": "ref-001",
+      "name": "user-positive-feedback-20261019.json",
+      "kind": "historical_origin_label",
+      "sha256": "fc1cfe8cdebcc92114be8e2b65332a218d13139160ceec59c262f6aaffb976b9"
+    },
+    {
+      "id": "ref-002",
+      "name": "reuse-manifest.json",
+      "kind": "historical_origin_label",
+      "sha256": "0b8740c323dced7f99f9e38b82fd425990fe36fe629da2bc8a3f446f9393a284"
+    },
+    {
+      "id": "ref-003",
+      "name": "2026-10-19-live-photo-feedback-budget-check.json",
+      "kind": "historical_origin_label",
+      "sha256": "6f14237f045335d0919cc3fe47572f506e5bb8deff5363535ccce6e1dab45756"
+    }
+  ],
+  "feedback_record": {
+    "schema_version": 1,
+    "recorded_at": "2026-10-19T08:16:56+00:00",
+    "source": "Direct user message in this conversation",
+    "quote": "目前效果挺不错，可以请你进行知识总结学习。且你说的预算是准的吗。也就是没有超过100credits，且多文字平均每一个视频会更加便宜",
+    "source_run": "live-photo-ja-001",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "target_language": "ja-JP",
+    "video_sha256": "566413b2115e35d55df0c33f9c9a35b2c4e3633326e2b6518ce5a24079965689",
+    "candidate_path": "origin:candidate-dff3d956966b0fe1.mp4",
+    "acceptance": "positive_overall_effect_feedback",
+    "scope_interpretation": "Overall feedback interpreted as referring to the latest Chinese/Japanese pair. No item-by-item or specialist Japanese approval was provided.",
+    "technical_review_unchanged": {
+      "decision": "revise",
+      "score": 82.8,
+      "quality_sha256": "cf99da8359ee80df9f10303830ad5d847073b968fc092f71ad5a247909f2b438",
+      "review_sha256": "b1d5cec6d9ed7dc04eac9ea713206daa6c9b9d8b8a1193b615da1208692dad7b"
+    },
+    "company_preference": false,
+    "global_memory_changed": false,
+    "billing_confirmation_by_user": false,
+    "cost_question_interpretation": "More languages can amortize source-bound shared work; more onscreen text alone does not imply lower cost."
+  },
+  "quality": {
+    "schema_version": 1,
+    "video_sha256": "566413b2115e35d55df0c33f9c9a35b2c4e3633326e2b6518ce5a24079965689",
+    "plan_id": "dff3d956966b0fe1",
+    "checked_at": "2026-10-19T08:00:09+00:00",
+    "decision": "revise",
+    "score": 82.8,
+    "review_sha256": "b1d5cec6d9ed7dc04eac9ea713206daa6c9b9d8b8a1193b615da1208692dad7b",
+    "audio_check": {
+      "schema_version": 1,
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+      "video_sha256": "566413b2115e35d55df0c33f9c9a35b2c4e3633326e2b6518ce5a24079965689",
+      "strategy": "replace",
+      "source": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 18.1116,
+        "rms_dbfs": -10.63,
+        "peak_dbfs": 0.0,
+        "audible_signal": true,
+        "silence_fraction": 0.0,
+        "clipped_fraction": 1.7e-05,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -11.32
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -11.24
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -14.28
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -13.96
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -11.62
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -11.9
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -6.94
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -7.3
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -9.65
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -13.27
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -10.97
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -12.24
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -10.75
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -13.56
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -11.65
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -11.83
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -39.99
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -12.75
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -12.3
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -8.16
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -8.33
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -7.43
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -10.24
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -23.21
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -21.16
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -26.9
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -15.89
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -11.63
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -12.37
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -6.87
+          },
+          {
+            "start": 15.0,
+            "end": 15.5,
+            "rms_dbfs": -7.23
+          },
+          {
+            "start": 15.5,
+            "end": 16.0,
+            "rms_dbfs": -9.52
+          },
+          {
+            "start": 16.0,
+            "end": 16.5,
+            "rms_dbfs": -9.25
+          },
+          {
+            "start": 16.5,
+            "end": 17.0,
+            "rms_dbfs": -9.97
+          },
+          {
+            "start": 17.0,
+            "end": 17.5,
+            "rms_dbfs": -9.69
+          },
+          {
+            "start": 17.5,
+            "end": 18.0,
+            "rms_dbfs": -8.6
+          },
+          {
+            "start": 18.0,
+            "end": 18.112,
+            "rms_dbfs": -27.65
+          }
+        ]
+      },
+      "candidate": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 18.1116,
+        "rms_dbfs": -12.01,
+        "peak_dbfs": -0.51,
+        "audible_signal": true,
+        "silence_fraction": 0.0,
+        "clipped_fraction": 0.0,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -18.49
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -19.15
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -23.52
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -15.42
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -11.66
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -11.96
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -7.02
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -7.41
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -9.75
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -16.06
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -16.75
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -20.36
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -19.03
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -18.41
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -20.24
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -18.76
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -25.28
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -12.76
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -12.32
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -8.27
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -8.38
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -7.47
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -10.29
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -23.23
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -21.18
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -26.91
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -15.92
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -11.65
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -12.38
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -6.94
+          },
+          {
+            "start": 15.0,
+            "end": 15.5,
+            "rms_dbfs": -7.42
+          },
+          {
+            "start": 15.5,
+            "end": 16.0,
+            "rms_dbfs": -11.47
+          },
+          {
+            "start": 16.0,
+            "end": 16.5,
+            "rms_dbfs": -14.03
+          },
+          {
+            "start": 16.5,
+            "end": 17.0,
+            "rms_dbfs": -15.23
+          },
+          {
+            "start": 17.0,
+            "end": 17.5,
+            "rms_dbfs": -13.38
+          },
+          {
+            "start": 17.5,
+            "end": 18.0,
+            "rms_dbfs": -10.97
+          },
+          {
+            "start": 18.0,
+            "end": 18.112,
+            "rms_dbfs": -27.76
+          }
+        ]
+      },
+      "waveform_match": null,
+      "failures": [],
+      "proof_boundary": "Signal, duration and retained-waveform checks; not listening, ASR, dialogue translation or lip-sync proof"
+    },
+    "failures": [
+      "instance_failed_or_unverified:a003",
+      "unverified_audio",
+      "audio_semantics_unverified:background_music",
+      "audio_semantics_unverified:dialogue_translation",
+      "audio_semantics_unverified:sync",
+      "dialogue_translation_unverified",
+      "score_below_threshold",
+      "critical_defect_or_revision_required"
+    ],
+    "proof_boundary": "Technical checks plus attributed agent review; no business or company preference approval",
+    "record_path": "origin:b6d574ab998f3f5b8be502a7.json"
+  },
+  "review": {
+    "schema_version": 1,
+    "reviewer": "Codex same controlling agent self-review",
+    "method": "Viewed actual final full contact pages and nine detail frames in both locales against source overview/details; actual output audio ASR and Chinese single-track model transcription. Not independent or human listening.",
+    "video_sha256": "566413b2115e35d55df0c33f9c9a35b2c4e3633326e2b6518ce5a24079965689",
+    "plan_id": "dff3d956966b0fe1",
+    "inventory_sha256": "1bcf2a03ef46e2973be468e278ef42e7d595f5351c01083ed595cdd9b39774d3",
+    "decision": "revise",
+    "scores": {
+      "translation": 4.4,
+      "visual_fidelity": 4.0,
+      "temporal_alignment": 4.3,
+      "audio": 3.6,
+      "ad_style": 4.2
+    },
+    "critical_defects": [
+      "Full background music preservation during separated narration windows not independently verified",
+      "Japanese mixed CTA intelligibility unverified"
+    ],
+    "instances": [
+      {
+        "id": "t001",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t002",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t003",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t004",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t005",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t006",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t007",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t008",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t009",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t010",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t011",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t012",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t013",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t014",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t015",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t016",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t017",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t018",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t019",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t020",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t021",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "t022",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual source-relative native copy, glyph shapes, approximate size and source people inspected in final contact pages and details. Named marks retained; small reconstruction blur is a visual limitation."
+      },
+      {
+        "id": "a001",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Japanese narration present in actual local ASR; CTA has strong recognition disagreement in final mix and requires listening."
+      },
+      {
+        "id": "a002",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Japanese narration present in actual local ASR; CTA has strong recognition disagreement in final mix and requires listening."
+      },
+      {
+        "id": "a003",
+        "decision": "pending",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Japanese narration present in actual local ASR; CTA has strong recognition disagreement in final mix and requires listening."
+      }
+    ],
+    "coverage": {
+      "visual": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg",
+          "origin:detail-3.5.png",
+          "origin:detail-5.15.png",
+          "origin:detail-10.5.png",
+          "origin:detail-13.0.png",
+          "origin:detail-16.4.png"
+        ]
+      },
+      "timing": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg",
+          "origin:detail-3.5.png",
+          "origin:detail-5.15.png",
+          "origin:detail-10.5.png",
+          "origin:detail-13.0.png",
+          "origin:detail-16.4.png"
+        ]
+      },
+      "audio": {
+        "status": "pending",
+        "evidence": [
+          "origin:audio.wav"
+        ]
+      }
+    },
+    "audio_checks": {
+      "background_music": {
+        "decision": "pending",
+        "method": "Original mix outside 3 spoken windows; source-bound local UVR instrumental inside windows. Music tempo unchanged; paired external review timed out.",
+        "evidence": [
+          "origin:audio.wav"
+        ],
+        "note": "10.3616s directly retain original mix before encoding. Musical vocal samples underneath narration may be attenuated."
+      },
+      "sound_effects": {
+        "decision": "not_applicable",
+        "method": "Source audio model found no separate nonverbal effects; original mixed signal retained outside speech.",
+        "evidence": [
+          "origin:audio.wav"
+        ],
+        "note": "No distinct source effects were identified; music vocal samples are preserved as music outside narration windows."
+      },
+      "dialogue_translation": {
+        "decision": "pending",
+        "method": "Actual Japanese local ASR plus source-bound TTS and mixing records",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "First two lines supported; CTA needs final listening."
+      },
+      "sync": {
+        "decision": "pending",
+        "method": "Voice takes placed at source narration windows; local audio durations checked",
+        "evidence": [
+          "origin:audio.wav"
+        ],
+        "note": "No full paired listening or lip-sync model; sampled timing only."
+      }
+    },
+    "lesson": "Reuse neutral source-bound master, source analysis and local AI separation across languages; keep per-language voice/typography/review separate. Track all moving title instances. Instrumental-model primary stem differs from vocal models. Preserve unknown charges after sync timeouts.",
+    "limitations": [
+      "Same-agent sampled visual review; not independent full playback.",
+      "Cloud video contributes only opening headline pixels. Other erasure and native layout are local.",
+      "Local fill may soften hair/wall or garment detail beneath old lettering.",
+      "No final user acceptance for this new source.",
+      "Unknown billing requests remain reserved, not assumed free."
+    ]
+  },
+  "original_method_sha256": "4b312dfbc40be83cc4e4333e8fd46baa3261345bca65ec6135936d09374c8427",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

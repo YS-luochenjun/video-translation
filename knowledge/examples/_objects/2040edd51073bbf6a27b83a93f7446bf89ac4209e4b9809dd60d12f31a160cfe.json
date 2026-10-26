@@ -1,0 +1,23 @@
+{
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+  "old_pcm": {
+    "path": "inputs/reuse/previous-reviewed-audio.wav",
+    "sha256": "fc8608b642553bc70f8c2002837899c6af7fc313f5299c6f2eebf056a781391f"
+  },
+  "new_pcm": {
+    "path": "review/57257dc8c746/audio.wav",
+    "sha256": "fc8608b642553bc70f8c2002837899c6af7fc313f5299c6f2eebf056a781391f"
+  },
+  "identical_pcm": true,
+  "identical_aac": true,
+  "aac_sha256": "caad519027db2ba1021ab7ce9717a7a6aa495285aceb36016babf60d8c705bb9",
+  "source_music_window": [
+    5.65,
+    10.7
+  ],
+  "music_window_correlation": 0.9968199509786337,
+  "new_paid_calls": 0,
+  "new_credits": 0,
+  "limit": "Audio is identical to the preceding version, including its separation limitations; signal identity is not lossless stem-separation proof."
+}

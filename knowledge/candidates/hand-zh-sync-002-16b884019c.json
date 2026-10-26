@@ -1,0 +1,24 @@
+{
+  "id": "hand-zh-sync-002-16b884019c",
+  "status": "candidate",
+  "created_at": "2026-10-20T02:41:25+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "Separate the letter group from the arrow silhouette and keep source neon palette while retiming to measured native audio. Caption sync review remains pending until actual boundary OCR is complete.",
+  "evidence": {
+    "run": "hand-zh-sync-002",
+    "video_sha256": "16b884019c3358e6fccfd6540b472b8d892b2d4de464ed9647ac1b18f93546c6",
+    "quality_sha256": "c8448ebdc9439032a53fcb174a329c94ff53ff5006c50654a0b8e0a34a151e8a"
+  },
+  "limitations": [
+    "Same Agent self-review, not independent/user acceptance.",
+    "Local background repair approximates hidden pixels."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "337567b1c433647698981b28693e60b3234d780e810d123bc891ede6e231e79b"
+}

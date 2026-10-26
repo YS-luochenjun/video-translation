@@ -1,0 +1,871 @@
+{
+  "date": "2026-10-21",
+  "schema_version": 1,
+  "reviewer": "Codex project candidate audit",
+  "semantics": "Historical candidate files remain candidates; this map records adopted portions. Grouping combines meaning, not proof of successful videos. Not a production prompt or automatic promotion registry.",
+  "groups": {
+    "visual_repair": {
+      "adopted_in": [
+        "method-animated-text-occlusion-v4",
+        "method-source-neutral-preparation-v3",
+        "neutral-visual-and-animation-gate-v1"
+      ],
+      "disposition": "already_used",
+      "used": "Layered neutral restoration, motion fidelity, native/continuous-frame review and rejection before batch reuse.",
+      "retained": "Failed or limited repair routes are counterexamples, not successful general recipes. Single-source timing/masks remain scoped."
+    },
+    "art_ui": {
+      "adopted_in": [
+        "method-animated-text-occlusion-v4",
+        "method-source-neutral-preparation-v3"
+      ],
+      "disposition": "merged_this_review",
+      "used": "Artistic shape/fill/stroke/directional depth and UI-object/donor separation are conditional checking procedures. Static UI/artistic scenes now retrieve them.",
+      "retained": "Source font, texture, masks, gains/offsets and universal reconstruction claims. Candidate has mixed adopted and unpromoted portions."
+    },
+    "hand_pause": {
+      "adopted_in": [
+        "method-spoken-caption-verification-v3",
+        "method-animated-text-occlusion-v4",
+        "method-source-neutral-preparation-v3"
+      ],
+      "disposition": "merged_this_review",
+      "used": "Speech placement/pause/encoded-boundary corroboration; continuous phrases, icon layering and separate language assets.",
+      "retained": "Alpha-insensitive hidden-RGB handling needs separate evidence; source silence thresholds and exact masks are not defaults."
+    },
+    "phone_ui": {
+      "adopted_in": [
+        "method-animated-text-occlusion-v4",
+        "method-spoken-caption-verification-v3",
+        "text-instance-timing-v1"
+      ],
+      "disposition": "merged_this_review",
+      "used": "Bind same-name nested labels to separate objects; preserve foreground/capsule order, complete glyph coverage and actual audio boundaries.",
+      "retained": "Skin thresholds, fixed geometry, budget receipts and metadata-only recipe handling are source/engineering details."
+    },
+    "multilingual": {
+      "adopted_in": [
+        "method-source-neutral-preparation-v3",
+        "method-spoken-caption-verification-v3"
+      ],
+      "disposition": "already_used",
+      "used": "One verified neutral preparation with new copy/voice/timing/review per locale; separately labelled audio avoids montage boundary confusion.",
+      "retained": "ASS alpha renderer detail, unsupported provider accent, singleton review JSON handling need standalone engineering regressions; no claims of generic fixes."
+    },
+    "model_route": {
+      "adopted_in": [
+        "route-selection-v1",
+        "workflows/video-localization/playbook.md",
+        "core/audio.md"
+      ],
+      "disposition": "already_used",
+      "used": "Source edit versus reference generation, locality probes, actual output/frame/audio checks and bounded local finishing are already operational.",
+      "retained": "Model superiority, original-source success, fixed prices and prompt-specific failures are not cross-source defaults."
+    },
+    "timing_audio": {
+      "adopted_in": [
+        "method-spoken-caption-verification-v3",
+        "method-animated-text-occlusion-v4",
+        "method-source-neutral-preparation-v3"
+      ],
+      "disposition": "already_used",
+      "used": "Integer frame boundaries, original narration tails and mixed-audio recognizer disagreement checks.",
+      "retained": "Historical same-Agent passes do not override later quality objections."
+    },
+    "runtime_capture": {
+      "adopted_in": [
+        "src/video_localizer/cli.py",
+        "tests/test_acceptance.py"
+      ],
+      "disposition": "implemented_in_execution",
+      "used": "Video-stream end instead of longer AAC/container end; limited-range input to full-range JPEG regression.",
+      "retained": "Capture correctness is not content acceptance; material titles remain data, per workflow."
+    },
+    "governance": {
+      "adopted_in": [
+        "core/knowledge.md",
+        "docs/daily-knowledge-curation.md",
+        "docs/storage-layout.md"
+      ],
+      "disposition": "implemented_in_governance",
+      "used": "Project-owned candidate processing, independent knowledge/evidence and preservation lifecycle.",
+      "retained": "Do not inject maintenance procedures as repeated video translation prompts."
+    },
+    "synthetic": {
+      "adopted_in": [],
+      "disposition": "synthetic_only",
+      "used": "Development evidence only.",
+      "retained": "No real-advertisement or cross-source success inferred from demo media."
+    },
+    "retained_snapshot": {
+      "adopted_in": [],
+      "disposition": "archive_only",
+      "used": "Preservation snapshot, not a new reviewed method.",
+      "retained": "Needs a concrete lesson and scoped evidence before activation."
+    }
+  },
+  "candidate_count": 61,
+  "counts_by_group": {
+    "visual_repair": 18,
+    "art_ui": 8,
+    "phone_ui": 12,
+    "timing_audio": 2,
+    "model_route": 6,
+    "runtime_capture": 2,
+    "synthetic": 4,
+    "hand_pause": 4,
+    "multilingual": 3,
+    "governance": 2
+  },
+  "records": [
+    {
+      "path": "knowledge/candidates/1-1-es-20261020-a467b5c43d.json",
+      "sha256": "6a2d4454081d79f3f9b3b9a2182f14b24c39b352338da10809597a4efce8d513",
+      "id": "1-1-es-20261020-a467b5c43d",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/1-1-es-visual-fix-20261020-9ea9a3cd1e.json",
+      "sha256": "aacb767dcc6542ea6dc515b14f5aba44b3009b60125ffee4f772824de894b622",
+      "id": "1-1-es-visual-fix-20261020-9ea9a3cd1e",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/1-3-es-20261020-fd94cb073f.json",
+      "sha256": "8f676b6fd06a0d41ada8582534d8317264542cfa5570f6262121037d16d469de",
+      "id": "1-3-es-20261020-fd94cb073f",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/1-3-es-user-visual-feedback-20261020.json",
+      "sha256": "4ddf27a891e4b57ec53c9d07d67c11581c48ed0732a847a2c0835de10ffddae3",
+      "id": "1-3-es-user-visual-feedback-20261020",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/1-3-es-visual-fix-r2-failure-20261020.json",
+      "sha256": "8d8c9abaec90bacaf60ee4c898f1b96a20ca05a4c794f6801c275d4459eab801",
+      "id": "1-3-es-visual-fix-r2-failure-20261020",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/2-1-dynamic-de-technical-20261020-bb7797d563.json",
+      "sha256": "7faabb6e7229abc6ae658d560544582a1b5683eb3599d2bb385e810250d1fdc0",
+      "id": "2-1-dynamic-de-technical-20261020-bb7797d563",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "target_language": "de"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/4-2-de-20261020-cc67e5ec49.json",
+      "sha256": "c8e7f976c018af72553fd2e6f5df4dcd348679cd4f0a1d916aa6ffd89938e28c",
+      "id": "4-2-de-20261020-cc67e5ec49",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "de",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/4-2-es-20261020-07691e6bc6.json",
+      "sha256": "5de46044da856c99d8c2ae84ab130c4c5b62e207445ce9434a2d923acf329012",
+      "id": "4-2-es-20261020-07691e6bc6",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/4-2-hi-20261020-549a3b1a65.json",
+      "sha256": "aae4f9eb9e751108a7261fdf4834cee5929cba4a93f9a9ce3f4e06dd52a62691",
+      "id": "4-2-hi-20261020-549a3b1a65",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "hi",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/4-2-id-20261020-72a235aca8.json",
+      "sha256": "f3341b98005f6367fcc007d70ad8a32bd89962ed840461acb9134024a7ea9462",
+      "id": "4-2-id-20261020-72a235aca8",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "id",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/4-2-motion-repair-20261020-0942091da7.json",
+      "sha256": "0e05dc56e8e0f69a995701fd50c54815104696fa290fb0eb9d2ee8d90f032a14",
+      "id": "4-2-motion-repair-20261020-0942091da7",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/4-2-pt-20261020-02de61607b.json",
+      "sha256": "7ef5fec09d32c0b6b3ca9ced5a9912e3cd16032713d7ab4819fbbe03eb7bfe82",
+      "id": "4-2-pt-20261020-02de61607b",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "pt",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/4-2-tr-20261020-4e5b1f215e.json",
+      "sha256": "26d870e0a2c9cedddede505d5647cbf7c8f6c92f777115552ebe572b96c6390f",
+      "id": "4-2-tr-20261020-4e5b1f215e",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "tr",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/4-2-visual-revision-20261020-965b17b7ef.json",
+      "sha256": "da1bf5060aee1a3bfa206c16e2826428f817c13406cd6c0c5a3f10f8ad7c5d47",
+      "id": "4-2-visual-revision-20261020-965b17b7ef",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+        "target_language": "shared-neutral"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/ad-localization-distilled-methods-20261019.json",
+      "sha256": "06924303fd88a6c7e3c73f4f70d57d1e2a78d809024a289dce710af78d35d1a7",
+      "id": "ad-localization-distilled-methods-20261019",
+      "group": "art_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/ad31-de-20261020-4a1dd9b117.json",
+      "sha256": "304f2c19a61a7cea763529dc09e6d79c4ea12f969f257aedf8f7b0bce3dbc3a7",
+      "id": "ad31-de-20261020-4a1dd9b117",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "de",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/ad31-es-20261020-a2e06ce3f9.json",
+      "sha256": "5ef31cf36e9f998f0561d28060cb0a3c327e4dcdd6593fe44d3d01b6ef49bf97",
+      "id": "ad31-es-20261020-a2e06ce3f9",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/ad31-fr-20261020-9f577c52dd.json",
+      "sha256": "69549b71de73c0ea192442c9b1e9847398e4f2d9f26317c828f5e99dc2ac4592",
+      "id": "ad31-fr-20261020-9f577c52dd",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "fr",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/ad31-in-20261020-83b887bfa1.json",
+      "sha256": "5629c287de4cb1bfd06cb987b7e2b1a6b7ac84ff9b3eeba31f20d094d3b4b5db",
+      "id": "ad31-in-20261020-83b887bfa1",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "hi",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/ad31-jp-20261020-91eed374ba.json",
+      "sha256": "c5efadc2a4404437c01a65dcfe44a06b8a47899232759a4050e22a0be5b92085",
+      "id": "ad31-jp-20261020-91eed374ba",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "ja",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/ad31-kr-20261020-3c98a197e9.json",
+      "sha256": "2355ca5f4555ef06d9faee5ac0cb55faf7f2f4cb3f99fbc166eb33d0b188fdfc",
+      "id": "ad31-kr-20261020-3c98a197e9",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "ko",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/ad31-pt-20261020-136a53dc7e.json",
+      "sha256": "18e986c654778e202af52bbd509b248fca428ac11daab1a9755ee425a90ac32c",
+      "id": "ad31-pt-20261020-136a53dc7e",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "pt",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/ad31-vn-20261020-4be25ec620.json",
+      "sha256": "dcab3373eb3d467985ff95337dd207095e195fcd394513b42a8f12e75a621d36",
+      "id": "ad31-vn-20261020-4be25ec620",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "vi",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/artistic-cta-transition-failure-20261019.json",
+      "sha256": "eabd802f8ec6a72c477f1ece86d6cb903985bc53c9cb84eb2943c2acc1563ce6",
+      "id": "artistic-cta-transition-failure-20261019",
+      "group": "art_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "source_type": "animated_decorative_cta"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/completed-batch-feedback-20261020.json",
+      "sha256": "fe67811fcc851f3edc58314448f7204c1c27211654e229fa26bc616a884783b9",
+      "id": "completed-batch-feedback-20261020",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/completed-final-followup-20261020.json",
+      "sha256": "91e9c7db497d64291e537a01b6d19f0ae8c6b404347dc45c0b249a05569e4d83",
+      "id": "completed-final-followup-20261020",
+      "group": "timing_audio",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+        "target_language": "es"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/complex-av-en-zh-001-466519b59f.json",
+      "sha256": "872efaefb659536368988161a482dded8578b15b0a5bcb7c4ee52e002940c264",
+      "id": "complex-av-en-zh-001-466519b59f",
+      "group": "model_route",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/complex-av-en-zh-001-capture-tail-followup.json",
+      "sha256": "3dadab5706ae9a472046124ede2fb803d62863baaa54a5bf8571dfe6f807887e",
+      "id": "complex-av-en-zh-001-capture-tail-followup",
+      "group": "runtime_capture",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/complex-av-en-zh-002-81f60de6b3.json",
+      "sha256": "2cf81f8965f956f55af145662477939c2c069f2ddc3ba6e96415dc9ad0ec6bf0",
+      "id": "complex-av-en-zh-002-81f60de6b3",
+      "group": "model_route",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/complex-av-en-zh-lowcost-003-f5b1a0abd0.json",
+      "sha256": "c79818f65be9aeb58bcd4758947bfc1d0863214f9037de38c90287513e9cbd14",
+      "id": "complex-av-en-zh-lowcost-003-f5b1a0abd0",
+      "group": "model_route",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/demo-30s-399ce909ce.json",
+      "sha256": "e9abab43da10062d8c14e5b2d96a5c2ae4cccadf51c2260e2168bb84fe38e5af",
+      "id": "demo-30s-399ce909ce",
+      "group": "synthetic",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/demo-kling-9d7679cdf1.json",
+      "sha256": "8348f3921c471354c25cf8f5cf9bc72235f29cae3b9bff4a930e7f3aec914c40",
+      "id": "demo-kling-9d7679cdf1",
+      "group": "synthetic",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/demo-local-c128c1a823.json",
+      "sha256": "f43760b9d3a9d87759d1a044c615742d1f522f58d1215ccc93b7546fcdda1a7e",
+      "id": "demo-local-c128c1a823",
+      "group": "synthetic",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/demo-veo-970c76f485.json",
+      "sha256": "58d53b4e1701fe52d03350867d378a91874b62a8d7aa4e02e500a082a6c69019",
+      "id": "demo-veo-970c76f485",
+      "group": "synthetic",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/dropdown-neutral-bleed-korean-reuse-20261019.json",
+      "sha256": "5c0d95bd33d2f0fdb2a2b733ad0329f32432af1feaac78233e8ded08eba1ad53",
+      "id": "dropdown-neutral-bleed-korean-reuse-20261019",
+      "group": "art_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "source_type": "filmed_phone_ui_ad"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/encoded-frame-sampling-phase-20261020.json",
+      "sha256": "5ec5eadd797ac768c6ecb0c726cf5b9df4fa551e0398877569062f422c0bb313",
+      "id": "encoded-frame-sampling-phase-20261020",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "topic": "temporal-validation"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/fireplay-range-and-title.json",
+      "sha256": "1ff4abf0750793ac7f5700b1b9c1abc52e5e635b98c39c332eea5e3c4228f5e0",
+      "id": "fireplay-range-and-title",
+      "group": "runtime_capture",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {},
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/four-thread-visual-supervision-20261020.json",
+      "sha256": "ebe38c91f60657ab89867df4ccfb11d884392de7cc84d9416b688e89a11eafa6",
+      "id": "four-thread-visual-supervision-20261020",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/hand-ja-001-3d5c2bd0f6.json",
+      "sha256": "3c71b656669237e8ce54e558dc7a2ffbe0050ff543ad57725f151a2b96205878",
+      "id": "hand-ja-001-3d5c2bd0f6",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "ja-JP"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/hand-ja-001-fef9443929.json",
+      "sha256": "b733aaf4d1d0ae978fd8894004f79ebdb7ad4e828d4067a7f89ba9dd443468f0",
+      "id": "hand-ja-001-fef9443929",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "ja-JP"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/hand-sync-transfer-lessons-20261020.json",
+      "sha256": "ce6eaf70dfd3fd4bd7f79b230e5e08adeea025289111d301d20781cf9343422f",
+      "id": "hand-sync-transfer-lessons-20261020",
+      "group": "hand_pause",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/hand-zh-001-8126fe0a8a.json",
+      "sha256": "1249c72a18cc2e0c3fe5e2c7bd82d46299ec520364f65308e44df884d92aeee9",
+      "id": "hand-zh-001-8126fe0a8a",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/hand-zh-001-f43da11ef4.json",
+      "sha256": "bf14dcbc6d9fb73263d7b889a89848335373c9d543d3f5f948998b059554b54c",
+      "id": "hand-zh-001-f43da11ef4",
+      "group": "phone_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/hand-zh-sync-002-16b884019c.json",
+      "sha256": "4b99b44124a8cffb634e47c2dbcbf8ca7d039b20c6731cb5f3d1349a01051c21",
+      "id": "hand-zh-sync-002-16b884019c",
+      "group": "hand_pause",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/hand-zh-sync-002-57257dc8c7.json",
+      "sha256": "747250a536a5472c825e079a5ef1a8635d4c5d2d58a3a7e42c9863fb8df46ded",
+      "id": "hand-zh-sync-002-57257dc8c7",
+      "group": "hand_pause",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/hand-zh-sync-002-d2cced3bb1.json",
+      "sha256": "06f9abf5735d2b5a749b35019707efd34eb6f62d63696e9c23214079e540c0d9",
+      "id": "hand-zh-sync-002-d2cced3bb1",
+      "group": "hand_pause",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/live-photo-ja-001-566413b211.json",
+      "sha256": "eae6bbe33b106477a71c8859fa63f41030cd667bb68b0afe09a1649f36288c34",
+      "id": "live-photo-ja-001-566413b211",
+      "group": "multilingual",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "ja-JP"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/live-photo-ko-001-4afed27d97.json",
+      "sha256": "c4844efc6cc77d9f30ac1f529e99194be75cc33dacf1908520b91780ccf31711",
+      "id": "live-photo-ko-001-4afed27d97",
+      "group": "art_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "ko-KR"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/live-photo-multilingual-method-20261019.json",
+      "sha256": "033aaa7ef40b97acbe49dd209267148723bb8a5fb9cda9936c7152e675cf45dc",
+      "id": "live-photo-multilingual-method-20261019",
+      "group": "multilingual",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "content_type": "live_person_photo_app_ad"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/live-photo-zh-001-b286840d64.json",
+      "sha256": "ca0cf0b78c66f4a62e04d04f03490c94dbc84d7a3d7c0b64e48f345e794d0eec",
+      "id": "live-photo-zh-001-b286840d64",
+      "group": "multilingual",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/live-photo-zh-art-004-96d77d9f27.json",
+      "sha256": "3f7ba6a47cbb4f561cac5347e6cc957a45610e293dcd911c1f408935a7ecbc84",
+      "id": "live-photo-zh-art-004-96d77d9f27",
+      "group": "art_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/live-photo-zh-art-004-e505dbe945.json",
+      "sha256": "04d0fe9f9ac0f9e917ce4d84816163e6b25419f4930c7bd2bfb82b0a8a727c7c",
+      "id": "live-photo-zh-art-004-e505dbe945",
+      "group": "art_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/live-photo-zh-ui-002-95a95ee3c1.json",
+      "sha256": "d05f80eb060c51c6af3fb0f3f512dd8dab783cbee625f379d8f5ff60d4882541",
+      "id": "live-photo-zh-ui-002-95a95ee3c1",
+      "group": "art_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/live-photo-zh-ui-gap-003-06881b0383.json",
+      "sha256": "059734714503b44a75ed1ce31ed4835e297610737763853b323216220ab660cd",
+      "id": "live-photo-zh-ui-gap-003-06881b0383",
+      "group": "art_ui",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/opencv-mask-mutation-20261020.json",
+      "sha256": "e0e34b1f5a3c55ecf08ee060e5717141bef5ba798da890f0ad20f8181c7c820a",
+      "id": "opencv-mask-mutation-20261020",
+      "group": "visual_repair",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "opencv_version": "5.0.0",
+        "operation": "seamlessClone",
+        "condition": "mask reused across frames or after call"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/project-owned-curation-hook-20261020.json",
+      "sha256": "b5d410c679018111dc5d78da3d2e14fdf0b40e40b05a599fd85010e0ee89f2bb",
+      "id": "project-owned-curation-hook-20261020",
+      "group": "governance",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "component": "knowledge-curation",
+        "deployment": "windows-current-user"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/static-veo-lite-001-6bd69f43ba.json",
+      "sha256": "e1114c85adb3500f872ccdd258f3cad6052b2cd78f0110d1c52d5d1d130b5241",
+      "id": "static-veo-lite-001-6bd69f43ba",
+      "group": "model_route",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/static-wan26-probe-001-3a80a9ae63.json",
+      "sha256": "3998bdff743e938a1d12ed2e8aebddaa0255a8689d934cd27672672ecb96a246",
+      "id": "static-wan26-probe-001-3a80a9ae63",
+      "group": "model_route",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/static-wan27-edit-001-9b6563eacd.json",
+      "sha256": "936ff94d07acdf6d84043aa6eac4b80b6cdc746b73227a3a2d87f461998e581a",
+      "id": "static-wan27-edit-001-9b6563eacd",
+      "group": "model_route",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "zh-CN"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/storage-foundation-20261020.json",
+      "sha256": "7aea7e535efeddb1e482c64837dc3e20898055171a7dd029969bccb35dae4a1a",
+      "id": "storage-foundation-20261020",
+      "group": "governance",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    },
+    {
+      "path": "knowledge/candidates/video-1-2-es-20261020-01-46af5daaa4.json",
+      "sha256": "d3a061da70855bd99981533288df153c12b5ccbd267a9dc0b97927561ce3b3b3",
+      "id": "video-1-2-es-20261020-01-46af5daaa4",
+      "group": "timing_audio",
+      "candidate_status_preserved": "candidate",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680"
+      },
+      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "id": "uvr-inst-hq3",
+      "path": ".runtime/models/separation/UVR-MDX-NET-Inst_HQ_3.onnx",
+      "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_HQ_3.onnx",
+      "sha256": "c207b845d51dc1303c543503f6f5a8b596da5d7de97bead77b3e16ec38e8d5b3",
+      "source": "https://k2-fsa.github.io/sherpa/onnx/source-separation/models.html"
+    }
+  ]
+}

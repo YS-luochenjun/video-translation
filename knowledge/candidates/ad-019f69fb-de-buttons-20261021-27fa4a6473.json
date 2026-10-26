@@ -1,0 +1,28 @@
+{
+  "id": "ad-019f69fb-de-buttons-20261021-27fa4a6473",
+  "status": "candidate",
+  "created_at": "2026-10-21T04:33:54+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "de",
+    "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+  },
+  "outcome": "pass",
+  "hypothesis": "Source white/black surface cleanup must include gray anti-alias edges. A watch outline can be mistaken for a moving button border. Measure the actual closed button component, restore spilled background pixels, match source ink bounds, and keep the CTA foreground above the independently localized color word.",
+  "evidence": {
+    "run": "ad-019f69fb-de-buttons-20261021",
+    "video_sha256": "27fa4a64730df0296561c08fdb86dd1e4df5c840a9b66059c4ca61660603020b",
+    "quality_sha256": "c9935ed4c646b471a51efa0d142305c6ec78ad9201d3d592f7a5dc632d5a98b8"
+  },
+  "limitations": [
+    "Same-Agent review, not independent/native-speaker/company acceptance.",
+    "Local restoration infers hidden pixels; small chart-gradient/glow edge texture is an approximation.",
+    "Source facial animation/lips retained; no lip reshaping.",
+    "Raw TTS perception is external; final mix/caption review is same-Agent with actual encoded evidence.",
+    "Failed KIE audio-analysis calls without receipts remain unresolved; no blind retry."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "language-aliases-v2",
+  "created_at": "2026-10-26T02:49:21+00:00",
+  "files": [
+    {
+      "path": "evidence/agent-selection-review-20261026.json",
+      "sha256": "55ab32c5ab65d89ed4bc31cdf97de913313a2f63589bef3451090b21c772fd82",
+      "bytes": 2214
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "phase": "language_resolution"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 语言输入、地区范围与案例检索\n\n适用目标语言解析。输入缩写先查 config/language-aliases.json，保留原输入及明确地区、简繁、口音要求；普通别名自动解析，不重复询问。JP/KR 等业务别名映射语言，完整 BCP47 标签保留其地区/文字系统语义，不把地区转换当同义词。\n\n知识默认 language_match=exact：scope 的目标语言只做不区分大小写的完整匹配，ja 与 ja-JP、pt-BR 与 pt-PT 不自动共享验收。确经审查适用基础语言时才用 language_match=base，scope 只能填 ja/ko 等基础标签，需新版本及独立证据；不能批量放宽旧案例。\n\n同源同基础语言而 scope 不同的案例在 related_source_references 单独提示 requires_language_review；它是发现线索，不进入已批准 source_references 或自动计划。读取其原范围和限制后，可参考方法，但地区词汇、简繁、发音与具体成片仍重建审核。不同源不会因基础语言相同返回同源案例。\n\n无法确定用户实际要的地区且会影响结果时先保留明确的基础语言，记录所采用语言形式及依据；仅在必要歧义时澄清。完成条件为目标标签/原要求一致；检索命中、采用方法和当前成片通过分别记录。\n\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/agent-selection-review-20261026.json"
+    }
+  }
+}

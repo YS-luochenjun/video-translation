@@ -1,0 +1,55 @@
+{
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "audio_sha256": "9557caff0885811cebca952b91015429de1e5ff14f45541be1b5df7acc77818f",
+  "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+  "model": "gemini-3-pro",
+  "response_id": "chatcmpl-b8086680eaa9497dbb0b8be28debf89f",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "zh-CN",
+    "speech_segments": [
+      {
+        "start": 0.0,
+        "end": 2.0,
+        "source_text": "手势翻转棱镜特效怎么做"
+      },
+      {
+        "start": 2.0,
+        "end": 5.0,
+        "source_text": "其实很简单跟我一起学"
+      },
+      {
+        "start": 10.5,
+        "end": 14.0,
+        "source_text": "点击下方上传照片马上试试"
+      }
+    ],
+    "background_music": {
+      "same_track": true,
+      "reason": "BGM identical."
+    },
+    "sound_effects": {
+      "preserved": true,
+      "reason": "SFX retained."
+    },
+    "dialogue_translation": {
+      "complete": true,
+      "reason": "Accurate translation."
+    },
+    "foreign_speech_remaining": [],
+    "sync": {
+      "acceptable": true,
+      "reason": "Sync aligns."
+    },
+    "uncertain_intervals": [],
+    "summary": "Successful localization."
+  },
+  "proof_boundary": "Original paid Gemini audio-only comparison reused after actual complete PCM and encoded AAC were verified byte-identical. It does not verify new caption pixels/timing; that is separately reviewed.",
+  "derived_from": {
+    "parent_run": "hand-zh-001",
+    "path": "inputs/reuse/previous-audio-model-review.json",
+    "sha256": "d680c03357bf3cbab0127791ecda7eafc9db4712853c9d1d4f5192396c286390",
+    "original_reviewed_video_sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c",
+    "equivalence_record": "review/57257dc8c746/audio-equivalence.json"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "target_language": "zh-CN",
+  "timeline": "final_mix_seconds",
+  "audio": {
+    "path": "origin:translated-mix.wav",
+    "sha256": "53245fb252e39e6c3b3a83ad926797e2823b43237c843293901eebe2e469056a"
+  },
+  "status": "reviewed",
+  "reviewer": "Codex using actual cached local-ASR timing and source-bound original Gemini transcript; no direct human listening",
+  "method": "asr_reviewed",
+  "segments": [
+    {
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 0,
+          "end": 0.48,
+          "text": "手势"
+        },
+        {
+          "start": 0.48,
+          "end": 0.96,
+          "text": "翻转"
+        },
+        {
+          "start": 0.96,
+          "end": 1.28,
+          "text": "棱镜"
+        },
+        {
+          "start": 1.28,
+          "end": 1.62,
+          "text": "特效"
+        },
+        {
+          "start": 1.62,
+          "end": 2.12,
+          "text": "怎么做？"
+        },
+        {
+          "start": 2.4,
+          "end": 3.2,
+          "text": "其实很简单，"
+        },
+        {
+          "start": 3.38,
+          "end": 4.0,
+          "text": "跟我一起学！"
+        }
+      ]
+    },
+    {
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 10.75,
+          "end": 11.03,
+          "text": "点击"
+        },
+        {
+          "start": 11.03,
+          "end": 11.44,
+          "text": "下方，"
+        },
+        {
+          "start": 11.6,
+          "end": 11.92,
+          "text": "上传"
+        },
+        {
+          "start": 11.92,
+          "end": 12.38,
+          "text": "照片，"
+        },
+        {
+          "start": 12.625,
+          "end": 13.0,
+          "text": "马上"
+        },
+        {
+          "start": 13.0,
+          "end": 13.43,
+          "text": "试试！"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    "origin:actual-voice-word-timestamps.json",
+    "origin:voice-pause-energy.json",
+    "origin:previous-audio-model-review.json",
+    "origin:provenance.json"
+  ],
+  "timing_review": "Isolated voice offset uses final mix provenance. Mixed-audio ASR repeats the phrases; its first CTA onset10.22s is rejected because native voice cannot precede placement10.75s. Actual isolated-waveform25ms windows show silence2.125-2.40s,3.225-3.375s and12.40-12.625s. Trim leading silence: 其实很简单2.40s,跟我一起学3.38s,马上12.625s. Upload breath starts11.60s. Local 冷静/写 versus 棱镜/学 is resolved using the unchanged, provider-transcribed reviewed audio, not used to silently rewrite the script."
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "live-photo-zh-art-user-approved-20261019",
+  "created_at": "2026-10-20T04:21:30+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "0dbe91590d7b482250686f8a18917c957a8f0033f081de7ce04b46c789754194",
+      "bytes": 30575
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "1e090ecc5c60c82f400371c1beab9453cf932bc330941aac153f1b1efc4d92c3",
+      "bytes": 1612
+    },
+    {
+      "path": "evidence/ref-002-user-visual-audio-approval-20261019.json",
+      "sha256": "fd9e51cf09667a80ceddf34e004cdc11712432033629835ebc006e72c99a67f9",
+      "bytes": 1605
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+      "target_language": "zh-CN"
+    },
+    "status": "active",
+    "lesson": "# 用户认可的中文画面与音频样例\n\n匹配源 `410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475` 和目标 `zh-CN`。当前认可视频 `96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0`，运行 `evidence:ref-001`。用户原话：“好的，挺好。目前音频也挺好。请你帮我进行知识总结提纯等。”原话、视频、音轨哈希及历史技术状态见 `evidence:ref-002`。本条替代旧gap版中文参考；韩日样例保持各自范围。\n\n已确认：用户认可新版整体画面，并明确认可音频效果。以后同源同译稿的中文视觉修改，可复用这份已认可的混音，以音轨哈希证明声音没有改变；不因一次低置信本地ASR同音误识就重配用户已认可的声音。含义变化、换语种或音轨哈希变化时，重新检查相应人声片段。\n\n已认可的视觉做法：手机UI用原位透明字形、原按钮背景和真实遮挡；片尾清除原字后，叠加原片取样红色网点纹理、圆润白/蓝描边、右下黄色偏移，并按源逐帧位置和缩放排字。连续检查文字进场放大、稳定段与结束，避免只看中间帧。原英文字体未知，中文使用适配字体和效果，不宣称取回原字体。\n\n复用入口：`knowledge/rules/live-photo-shared-art-assets-20261019.md` 及其JSON资产清单。用户认可现在已有记录；分轨无损、全部细微同步和独立专家审查没有新增证明，旧evidence:ref-003。本条记录的是用户视听认可，不扩展为跨素材、跨语言或公司通用偏好。\n",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

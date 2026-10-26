@@ -1,0 +1,9 @@
+{
+  "id": "video-localization",
+  "schema_version": 1,
+  "stages": ["intake", "extract", "agent_inventory", "plan", "execute", "capture", "review", "revise_or_deliver", "reflect"],
+  "tools": ["local_execution", "video_models", "material_source"],
+  "routes": ["local_overlay", "model_edit", "reference_composite", "prepared_video"],
+  "historical_routes": ["video_reference", "wan_edit", "regenerate"],
+  "completion": "Delivered MP4 bound to source, request, inventory, plan, per-instance evidence, and passing quality record"
+}

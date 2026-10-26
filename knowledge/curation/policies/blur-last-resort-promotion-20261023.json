@@ -1,0 +1,17 @@
+{
+  "id": "natural-removal-blur-last-resort-20261023",
+  "path": "knowledge/rules/natural-removal-blur-last-resort-20261023.md",
+  "scope": {"workflow":"video-localization"},
+  "tags": ["text","visual","ads","routing"],
+  "origin": "Direct project user correction 2026-10-23: visible blur is overused; static text surfaces should use natural restoration; reuse existing assets.",
+  "approval_type": "explicit_user_feedback",
+  "evidence_review": "sanitized_project_evidence",
+  "reviewed_by": "Codex, user-source and preference-scope review; no new video acceptance",
+  "company_preference": false,
+  "evidence_files": ["knowledge/curation/policies/blur-last-resort-feedback-20261023.json"],
+  "evidence_references": {"feedback":"evidence/blur-last-resort-feedback-20261023.json"},
+  "knowledge_type": "project_policy",
+  "validation_level": "explicit_user_feedback",
+  "topic": "visual",
+  "supersedes": "natural-removal-blur-fallback-20261023"
+}

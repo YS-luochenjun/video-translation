@@ -1,0 +1,42 @@
+{
+  "id": "mog021-fr-restoration-user-approved-20261026",
+  "path": "knowledge/cases/mog021-fr-restoration-user-approved-20261026.md",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f0e4254e46ba8247934fe7a38928cbf82e242f8764877b2ef26ed4cf2ca38159",
+    "target_language": "fr"
+  },
+  "tags": [
+    "ads",
+    "text",
+    "visual",
+    "typography",
+    "timing",
+    "user_feedback"
+  ],
+  "origin": "Direct user positive feedback to the latest corrected French video, followed by explicit request for knowledge and workflow curation.",
+  "approval_type": "explicit_user_feedback",
+  "evidence_review": "sanitized_project_evidence",
+  "reviewed_by": "User overall-effect feedback; Codex exact source/locale/video hash and scope verification",
+  "company_preference": false,
+  "source_run": "mog021-fr-new-20261026-01",
+  "reference_video_sha256": "b505032092b66a86e46042d0c892cc1c195235ac55c684776af705ec1fcff6be",
+  "evidence_files": [
+    "knowledge/curation/video-restoration-approval-20261026/accepted-encoded-frame.png",
+    "knowledge/curation/video-restoration-approval-20261026/prior-rectangle-counterexample.png",
+    "knowledge/curation/video-restoration-approval-20261026/scope-observations.json",
+    "knowledge/curation/video-restoration-approval-20261026/technical-quality.json",
+    "knowledge/curation/video-restoration-approval-20261026/user-positive-feedback.json"
+  ],
+  "evidence_references": {
+    "approval": "evidence/user-positive-feedback.json",
+    "observation": "evidence/scope-observations.json",
+    "before": "evidence/prior-rectangle-counterexample.png",
+    "after": "evidence/accepted-encoded-frame.png",
+    "quality": "evidence/technical-quality.json"
+  },
+  "knowledge_type": "source_reference",
+  "validation_level": "user_positive_feedback_scoped",
+  "topic": "visual",
+  "language_match": "exact"
+}

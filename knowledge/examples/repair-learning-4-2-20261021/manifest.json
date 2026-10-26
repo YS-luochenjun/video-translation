@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "repair-learning-4-2-20261021",
+  "created_at": "2026-10-21T02:18:53+00:00",
+  "files": [
+    {
+      "path": "evidence/4-2-motion-repair-20261020-0942091da7.json",
+      "sha256": "0e05dc56e8e0f69a995701fd50c54815104696fa290fb0eb9d2ee8d90f032a14",
+      "bytes": 1115
+    },
+    {
+      "path": "evidence/candidate-lesson.md",
+      "sha256": "b0762bb4241515204528853b6b4a71f597989b4d5620354b0eb2d692771a80df",
+      "bytes": 3494
+    },
+    {
+      "path": "evidence/encoded-comparison-020.png",
+      "sha256": "33a07a27fba33b0db2e732cf10e7a634ea09fbe2cb618f128aa701bbfe229014",
+      "bytes": 676190
+    },
+    {
+      "path": "evidence/encoded-comparison-028.png",
+      "sha256": "8659ff3ed9f18d7fef57a9589d8943d4e40cbb51d1c2009960209238cbb228f3",
+      "bytes": 674176
+    },
+    {
+      "path": "evidence/review-evidence.json",
+      "sha256": "d828cd2d1bad2e745bbbd60cc07a8baca3ed98dfe98bccb88f02ea082b1f7419",
+      "bytes": 2249
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+    },
+    "status": "improved_short_pending_review",
+    "lesson": "Two-second local video-donor composite improves erasure. Include colored halo in boundary and preserve semi-transparent icons geometrically; reconstructed fingers remain approximate and target animation is not yet validated.",
+    "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+    "video_sha256": "0942091da76390e13aa50615bdf6b20a291462af35a9533c3285f8d133e5bdfc",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

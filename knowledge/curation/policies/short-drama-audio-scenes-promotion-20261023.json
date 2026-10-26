@@ -1,0 +1,35 @@
+{
+  "id": "short-drama-audio-scenes-v1",
+  "path": "knowledge/rules/short-drama-audio-scenes-v1.md",
+  "scope": {"workflow": "video-localization"},
+  "tags": ["speech", "audio", "timing", "ads", "short_drama", "multi_character_dialogue"],
+  "origin": "User explicitly requested scenario-based project knowledge after six multi-character dubbed videos were output, 2026-10-23. This is developer-reviewed procedural guidance with bounded observations from one source video.",
+  "approval_type": "developer_review",
+  "evidence_review": "sanitized_project_evidence",
+  "reviewed_by": "Codex same-agent review of actual role mapping, per-utterance provenance, rejected Japanese doctor, Korean ASR disagreements and final six-language audio model reports; no native-human or cross-source empirical validation",
+  "company_preference": false,
+  "requires_features": ["speech"],
+  "requires_any_features": ["multi_character_dialogue", "short_drama"],
+  "evidence_files": [
+    "knowledge/curation/audio-scene-evidence-20261023/evidence-summary.json",
+    "knowledge/curation/audio-scene-evidence-20261023/ja-doctor-before.wav",
+    "knowledge/curation/audio-scene-evidence-20261023/ja-doctor-after.wav",
+    "knowledge/curation/audio-scene-evidence-20261023/ko-short-reply.wav",
+    "knowledge/curation/audio-scene-evidence-20261023/ko-short-reply-asr.json",
+    "knowledge/curation/audio-scene-evidence-20261023/ko-short-warning.wav",
+    "knowledge/curation/audio-scene-evidence-20261023/ko-short-warning-asr.json"
+  ],
+  "evidence_references": {
+    "observations": "evidence/evidence-summary.json",
+    "ja_before": "evidence/ja-doctor-before.wav",
+    "ja_after": "evidence/ja-doctor-after.wav",
+    "ko_reply": "evidence/ko-short-reply.wav",
+    "ko_reply_asr": "evidence/ko-short-reply-asr.json",
+    "ko_warning": "evidence/ko-short-warning.wav",
+    "ko_warning_asr": "evidence/ko-short-warning-asr.json"
+  },
+  "knowledge_type": "developer_method",
+  "validation_level": "developer_reviewed_guidance",
+  "topic": "audio",
+  "evidence_caveat": "One source video localized into six languages. External model audio perception and same-agent review only; no independent human/native acceptance, multi-source empirical validation, exact lip reconstruction or lossless audio separation."
+}

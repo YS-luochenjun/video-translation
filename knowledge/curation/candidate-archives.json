@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "entries": {
+    "knowledge/candidates/opencv-mask-mutation-20261020.json": {
+      "sha256": "e0e34b1f5a3c55ecf08ee060e5717141bef5ba798da890f0ad20f8181c7c820a",
+      "archive_path": "e0e34b1f5a3c55ecf08ee060e5717141bef5ba798da890f0ad20f8181c7c820a/opencv-mask-mutation-20261020.json",
+      "decision_sha256": "b6d1c7c0ab602034d7550749491d1132bfd1194734ed67eebe740dcf309aa61f"
+    },
+    "knowledge/candidates/tpye-us-20261022-01-068a774ae4.json": {
+      "sha256": "b5fdd61624843960532c1c82eefc34f1f5b803c1f44ad53a2c8593ae497a2893",
+      "archive_path": "b5fdd61624843960532c1c82eefc34f1f5b803c1f44ad53a2c8593ae497a2893/tpye-us-20261022-01-068a774ae4.json",
+      "decision_sha256": "86108a7d635d86f421e85d1c81fe72713e973efaf688c4435c81e64d8d7a038c"
+    },
+    "knowledge/candidates/demo-30s-399ce909ce.json": {
+      "sha256": "e9abab43da10062d8c14e5b2d96a5c2ae4cccadf51c2260e2168bb84fe38e5af",
+      "archive_path": "e9abab43da10062d8c14e5b2d96a5c2ae4cccadf51c2260e2168bb84fe38e5af/demo-30s-399ce909ce.json",
+      "decision_sha256": "7c4c8c95dc63c404ee6da83e53c2db4d19cfe78df635a4e43a2e57787286f6ab"
+    },
+    "knowledge/candidates/demo-kling-9d7679cdf1.json": {
+      "sha256": "8348f3921c471354c25cf8f5cf9bc72235f29cae3b9bff4a930e7f3aec914c40",
+      "archive_path": "8348f3921c471354c25cf8f5cf9bc72235f29cae3b9bff4a930e7f3aec914c40/demo-kling-9d7679cdf1.json",
+      "decision_sha256": "7909a73824345e98db2a89fdbdcf1c29a19d168eedf3ba29a1ec394faa06575f"
+    },
+    "knowledge/candidates/demo-local-c128c1a823.json": {
+      "sha256": "f43760b9d3a9d87759d1a044c615742d1f522f58d1215ccc93b7546fcdda1a7e",
+      "archive_path": "f43760b9d3a9d87759d1a044c615742d1f522f58d1215ccc93b7546fcdda1a7e/demo-local-c128c1a823.json",
+      "decision_sha256": "d3517cf26fef46d2a7f6ab14a60d3e98a54ed5c252e0e65ba8e421e6c709be35"
+    },
+    "knowledge/candidates/demo-veo-970c76f485.json": {
+      "sha256": "58d53b4e1701fe52d03350867d378a91874b62a8d7aa4e02e500a082a6c69019",
+      "archive_path": "58d53b4e1701fe52d03350867d378a91874b62a8d7aa4e02e500a082a6c69019/demo-veo-970c76f485.json",
+      "decision_sha256": "f4f5eebc8d6df1984b84c60804da9451cebb35f02eceeef1b1e70d1b367e737e"
+    }
+  }
+}

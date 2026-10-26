@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "authorization": "2026-10-23 user requested incremental cleanup on every run",
+  "scratch_root": "work/runs",
+  "automatic_empty_directories": true,
+  "automatic_registered_cache_after_delivery": true,
+  "close_run_after_preservation": true,
+  "delivery_packages": "retain; never evict by age, score or duplication alone"
+}

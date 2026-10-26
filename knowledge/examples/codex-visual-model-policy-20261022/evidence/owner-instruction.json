@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-22",
+  "source": "Direct user message in current chat",
+  "quotes": [
+    "能用codex做的，就都用codex直接完成。",
+    "OCR部分，RapidOCR和GLM-OCR都不用，用codex就好",
+    "codex不仅仅是用于判断与流程处理等，对图片的直接处理是可以直接交给codex的。",
+    "就算是使用codex，也要被项目中的各种内容约束，对知识等内容进行参考。才能得到更好的输出。",
+    "先不要考虑codex的花费问题，请你对项目代码进行修改"
+  ],
+  "scope": "Project model responsibilities; no external budget increase or content-quality approval"
+}

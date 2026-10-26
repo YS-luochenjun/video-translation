@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "live-photo-multilingual-method-20261019",
+  "status": "candidate",
+  "created_at": "2026-10-19T08:16:56+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "content_type": "live_person_photo_app_ad"
+  },
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "source_runs": [
+    "live-photo-zh-001",
+    "live-photo-ja-001"
+  ],
+  "company_preference": false,
+  "user_feedback": "目前效果挺不错，可以请你进行知识总结学习。且你说的预算是准的吗。也就是没有超过100credits，且多文字平均每一个视频会更加便宜",
+  "supported_sample_findings": [
+    "Preserve people and cuts; adopt only inspected pixels from a short model edit, then position native text locally.",
+    "A source-bound, language-neutral visual master and background stems were actually reused for Chinese and Japanese.",
+    "Motion-bound erase areas and foreground occlusion prevented the observed English outlines and text overlaps.",
+    "Check actual separated-stem semantics and rendered audio; file names and requested TTS text are insufficient evidence."
+  ],
+  "failed_attempts": [
+    {
+      "failure": "Suno source-separation catalog match 413",
+      "resolution": "No retry; used local UVR inference.",
+      "credits_consumed": 0
+    },
+    {
+      "failure": "Instrumental model outputs were reversed",
+      "resolution": "Actual mix ASR exposed English; corrected stems and remixed locally."
+    },
+    {
+      "failure": "Dark English outlines and moving title escaped static erase rectangle",
+      "resolution": "Expanded erase and followed title trajectory; two local visual revisions."
+    },
+    {
+      "failure": "Audio review timeouts and unsupported Flash channel",
+      "resolution": "Kept five billing records unknown; did not resubmit the same ambiguous request."
+    }
+  ],
+  "limitations": [
+    "Single source and two target languages only.",
+    "User overall acceptance does not settle all music/sync or Japanese CTA checks.",
+    "Five unknown billing items; no final under-100 claim.",
+    "New text density, camera movement and face/lip requirements may increase costs."
+  ],
+  "next_falsification": "On a newly authorized different live-person source, verify original text coverage, neutral-master reuse and actual audio before comparing settled per-language costs.",
+  "promotion": "Only the exact-source, locale-specific sample references are active. This cross-source methodology remains a candidate.",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "80e72a2c0e861bba0100c4b3891c2ac66d666f93c53ad7c9b8966685db795765"
+}

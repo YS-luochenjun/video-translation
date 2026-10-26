@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "method-source-neutral-preparation-v4",
+  "created_at": "2026-10-26T02:50:04+00:00",
+  "files": [
+    {
+      "path": "evidence/KEY-024-comparison.png",
+      "sha256": "555256cf432038340364da6da541b21e42c41dcbefe96dfa8fbb83421dcc9b7a",
+      "bytes": 612186
+    },
+    {
+      "path": "evidence/KEY-six-languages.png",
+      "sha256": "bc00f239c78eb16b0069614bc8166da28316d9451f5354291797865dc660f56d",
+      "bytes": 389735
+    },
+    {
+      "path": "evidence/MOG-021-comparison.png",
+      "sha256": "85000b20399573d77bcccf077d0d3fbd12e76dcea89d75c64b9b5f9d4e64d81c",
+      "bytes": 1588077
+    },
+    {
+      "path": "evidence/MOG-048-comparison.png",
+      "sha256": "f2e90be12d81c1be2013ecf41793cb6172dc652199486f7004e33310449b2935",
+      "bytes": 646421
+    },
+    {
+      "path": "evidence/MOG-049-old-comparison.png",
+      "sha256": "df34923423deb743a7d29b91030ae4d1d33cef960cf3c0940f9b5291da5e8f8d",
+      "bytes": 907135
+    },
+    {
+      "path": "evidence/MOG-049-revised-comparison.png",
+      "sha256": "332e2bf639d2503dc003a839c69c15bb7e19ae41bc2d27e8834a7ff94eecb0be",
+      "bytes": 928040
+    },
+    {
+      "path": "evidence/audit.json",
+      "sha256": "7e05ca4b4e4da4013b2f7850b5411d3f383e44109bf57da625085147def50e7d",
+      "bytes": 14564
+    },
+    {
+      "path": "evidence/clean-title-host-v1.png",
+      "sha256": "757529ebbc7ca9898c8dfe048041c47325978244290c508de2ea346b41f5218d",
+      "bytes": 1508326
+    },
+    {
+      "path": "evidence/feedback.json",
+      "sha256": "42e8121ececb763692a7783816922720ebbb9bc42876930e1af78435db73baf1",
+      "bytes": 921
+    },
+    {
+      "path": "evidence/french-report.json",
+      "sha256": "6d7711966e98052df1cd4493f50740a7ac822ea7789867d1d25102734dbe9514",
+      "bytes": 2612
+    },
+    {
+      "path": "evidence/french-title-host-v1.png",
+      "sha256": "47eb7b10ea458887c838a27b15b7acc1482caa5537df03e8b489010a54e6cb94",
+      "bytes": 1809866
+    },
+    {
+      "path": "evidence/image-report.json",
+      "sha256": "05bf598a8a8897e6707a685fc266fb693b5c352b91c9a33312721c97f8193552",
+      "bytes": 2533
+    },
+    {
+      "path": "evidence/legacy-code-evidence.json",
+      "sha256": "4180c0c634203e030bba5cb9237922359811bfdde2da9b84a3da239b326c0a54",
+      "bytes": 6911
+    },
+    {
+      "path": "evidence/legacy-review-observations.json",
+      "sha256": "b7dd4245209abed0813adf4e53be850d3297420e927bc37115b96c42ad858420",
+      "bytes": 2556
+    },
+    {
+      "path": "evidence/previous-method.md",
+      "sha256": "fd9796c2aecf22443ae2967795acc967e02130b740337e1ae677622a784fdf20",
+      "bytes": 3552
+    },
+    {
+      "path": "evidence/research.json",
+      "sha256": "97ec50632bd767b85a8fa71edda32fec8a10884cd16b990baec0bb6e594b55c5",
+      "bytes": 1132
+    },
+    {
+      "path": "evidence/source-screenshot.jpg",
+      "sha256": "34c303391a45d4c63ee2fddcdbc0d55df9cfd0922fbcabb1ed86685be1601b5a",
+      "bytes": 199295
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 从完整译后画面到连续视频\n\n目标是完成一次画面内翻译：识别原文字和样式，擦字补背景，再按原风格、位置与时机写回目标语。先得到可对照的完整译后关键帧，再把局部修改应用到连续原片。干净底片与目标字层分别保存，方便多语言复用和单独找错；不能把去字成功当作翻译完成。\n\n本版合并既有共享底片方法，并吸收用户于2026-10-26对条纹/补丁的纠正、对干净单帧的认可，以及四个当前源视频的限定抽查。用户认可的是去字图片；本次新法语静帧仅经Codex自审，尚未验证其连续视频。来源和限制见 evidence:feedback、evidence:audit、evidence:previous。\n\n## 1. 先做完整译后关键帧\n\n1. 选真实源帧，记录源哈希、原尺寸与帧号/PTS。浏览器截图可用于沟通样式，制作时回到原视频，避免把网页控件、缩放和生成图整体变化带入成片。\n2. 观察文字、容器与前景的边界；记录字形类别、字重、倾斜、字面高度、颜色、描边、阴影、换行/留白、透明度、进出场。确切字体未知时记录近似，不把通用字体名称当作已还原样式。\n3. 用Codex宿主图像编辑、匹配的干净供体或可验证的背景重建清除字形及边缘。保留原有底板、图标与人物。深色或半透明底板未必是纯色：检查透出的纹理和运动。逐行统计色铺满矩形会丢失横向变化；出现横纹、色块或接缝时更换修复结果，不能凭“原容器重建”的名称放行。\n4. 写回已定稿译文。可用匹配字体生成透明字层，也可由宿主图像工具按源样式生成译后字形/画面。先核对所有目标字、标点，再核对形态和布局；长文案优先合理措辞、换行与字号，不让译文挤占表情或按钮。\n5. 同看原帧、干净底片、完整译后帧。完成条件是原字清除、背景自然、译文正确、样式与构图匹配。单独“没有英文”或“能读出译文”不够。整图生成结果只作候选，采用范围外继续使用对应原像素。\n\n## 2. 根据被修复区域的运动延展\n\n判断文字下方的局部运动，而非只判断镜头是否动。固定屏幕标题也可能覆盖移动人物或半透明背景。\n\n| 实际底面 | 如何使用已编辑关键帧 | 必查反例 |\n| --- | --- | --- |\n| 稳定的不透明卡片、按钮、静态照片局部 | 复用干净底面和固定译文字层；位置改变时做对应几何变换 | 原卡片内部的姓名、数字、手指、图标被冻住 |\n| 同一平面随镜头移动/缩放/透视变化 | 从未被文字遮住的真实纹理估计运动，将局部补片和译字映射到每个对应源帧 | 把屏幕上不动的旧字当跟踪点；贴片滑动、缩放或边缘不一致 |\n| 头发、衣服、脸部、手部等非刚性运动，或半透明容器下有运动 | 按姿态、遮挡和新露出的内容选多个关键帧；可试局部运动传播与前景保护，不能只循环贴一张底图。无法可靠传播时使用当前允许的Wan连续编辑，按实际源时刻只采用有效区域 | 人物冻结、纹理游动、供体重影、遮挡顺序错误、底板透出的动作不连续 |\n| 切镜、闪白、淡入淡出、文字或底板显隐 | 在变化边界重新建立参考和可见区域，分别控制背景、原容器与目标字透明度 | 跨场景复用；退场仍留暗块；旧字或译字突然回闪 |\n\n独立逐帧生成可以作为局部实验，但每帧生成干净不证明跨帧一致。优先约束同一修复区域、同一外观参考、原时刻几何和遮挡，新增关键帧由实际误差/新露出内容决定。两张好图直接淡化相接可能产生重影，也需要检查。关键帧传播方向有公开研究支持，参见 evidence:research；本项目没有因此新增或安装视频模型，执行能力仍以当前模型路由为准。\n\n## 3. 以短片验证，再扩展与复用\n\n先把代表性稳定区和最难的运动/显隐区做成短片，分别查看无字与完整译后效果。按原帧数、PTS和镜头切换合成，按正常速度观看，再检查连续边界帧；源时间轴不靠插帧、拉长短模型结果或静态冻结补齐。\n\n完成条件：底片无明显横纹/色块/残字，人物与纹理运动未被冻结，译字不漂移/闪烁，前景和出入场正确。已经正常可见且被用户指出的条纹或补丁不能继续解释为轻微瑕疵；快速模式的容差不替代实际判断。保持既有预算、任务与返工上限，达到边界仍输出最好完整版本并如实说明瑕疵，不把输出等同质量通过。\n\n通过后扩展完整区间及多语言，共享已验证底片，每语言重建并检查译文字层。纯视觉返工优先保留已经核验的音轨；字幕与配音仍按真实混音对齐。音轨一致不能证明新画面或字幕通过。\n\n同源复用前核验精确源/依赖哈希和后续质量异议。已知有缺陷的底片与明确受影响成片分别登记质量异议；旧评审保留，修复产生新哈希和新观察。同一底片的六语版本是一次缺陷扩散，不计成六次独立方法验证。制作资产、源解析和永久知识证据分别保全，知识不依赖可删除的旧工作目录。\n\n## 已验证内容与边界\n\n- KEY短剧：旧脚本逐行取暗色铺满标题区；六语最新成片的0.5秒抽帧均有横纹。旧自审已观察到纹理却按minor放行，后续音频版复制原画面流。本次宿主去字与法语补字静帧改善了背景与字形；动态应用未验证。\n- MOG-048：所查西语模糊兜底版在0.5和2秒出现宽模糊带，遮住局部人物/背景。不能据算法名或译文可读称为自然修复。\n- MOG-049：所查旧西语版静态界面有矩形色块和按钮补丁；宿主干净参考图加原时刻姓名/数字/手部合成的修订版，在4.5和10.5秒抽帧明显改善。标题字体、CTA运动、整片质量与声音仍按原限制分别记录。\n- MOG-021：抽查与旧记录呈现的是衣服局部接缝和样式/动画差异；没有证据把它也归为KEY逐行填色问题。\n\n推广的是完整画面替换、局部运动分层及审核步骤。隐藏像素、精确字体、任意运动下的传播质量均不保证；本次26张源/成片抽帧不等于37个历史版本的全片审核。既有四源历史方法证据与局部成功/失败范围继续保留，本版不重新批准任何旧视频。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "feedback": "evidence/feedback.json",
+      "audit": "evidence/audit.json",
+      "previous": "evidence/previous-method.md",
+      "research": "evidence/research.json"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "entry_id": "method-source-neutral-preparation-v5",
+  "source_run": "mog021-fr-new-20261026-01",
+  "video_sha256": "b505032092b66a86e46042d0c892cc1c195235ac55c684776af705ec1fcff6be",
+  "reviewed_by": "Codex same-agent; actual encoded native frames504/510/541 inspected after final encode; not full-playback acceptance",
+  "evidence_review": "sanitized_project_evidence",
+  "files": {
+    "encoded-frame-504.png": "review/french-v4/encoded-504.png",
+    "encoded-frame-510.png": "review/french-v4/encoded-510.png",
+    "encoded-frame-541.png": "review/french-v4/encoded-541.png"
+  },
+  "required_evidence": [
+    "encoded-frame-504.png",
+    "encoded-frame-510.png",
+    "encoded-frame-541.png"
+  ]
+}

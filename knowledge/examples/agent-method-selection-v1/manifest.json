@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "agent-method-selection-v1",
+  "created_at": "2026-10-26T02:49:20+00:00",
+  "files": [
+    {
+      "path": "evidence/agent-selection-review-20261026.json",
+      "sha256": "55ab32c5ab65d89ed4bc31cdf97de913313a2f63589bef3451090b21c772fd82",
+      "bytes": 2214
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# Agent 选路：条件、组合与退出\n\n适用全部本地化任务。先读取当前用户要求、请求模式、账本及实际清单，再选择方法。Agent 保留选择权；证据不足时先定位缺口，不把模糊场景强行归入已知方法。\n\n## 冲突与组合\n\n当前用户明确要求优先于项目默认；公司偏好变更仍走独立授权。项目合同约束模型、费用、证据与输出；索引中的现行项目政策约束制作方法；条件方法提供首选/备选；同源同语种案例只支持其原范围；候选和相近语种线索仅提示风险。遇到不可同时满足的要求，记录冲突和待补条件，不能自行扩大权限。新版本须有明确 supersedes；日期、检索排名和文件数量不能自行取代版本关系。\n\n同一实例可组合方法：route-selection 选主修复路线，content-aware 判断底面与兜底，animated-text 约束运动/遮挡，watermark 检查移动标记，spoken-caption 与角色方法处理声音。命中多个方法不等于每个都调用模型；先满足政策，再按观察选主方法和必要辅助项。已失效、被替代、超 scope 的条目退出选择。\n\n## 决策表\n\n| 观察与适用条件 | 首选及依据 | 备选与切换条件 | 停止及完成条件 |\n| --- | --- | --- | --- |\n| 静态卡片/按钮，有匹配干净底面 | 同源供体或 Codex 自然重建，译字独立 | 供体不匹配则宿主图片编辑；连续修复确有必要才 Wan | 实际播放底面自然、文字完整可读即停止；达到试验界限输出瑕疵版 |\n| 文字跨移动头发/人物/遮挡 | 基于连续帧评估局部自然修复，保护主体 | 自然方案已有明显主体风险或候选不佳，可比较最小局部模糊；写清风险证据 | 无有据改进方向或边界到达即停止；缺陷如实标记 |\n| 文字移动/变形/前景交叠 | 主修复叠加 animated-text 方法 | 轨迹或供体失配时局部重新观察/分段，不套静态全片 | 对应模式的动态证据覆盖完整；静态参考不能证明连续运动 |\n| 移动水印/片尾标记 | 独立实例跟踪，调用 watermark 边界检查 | 残留或误伤只修必要时间区域 | 检查完整入出场和片尾；任务成功不能替代实际去净证据 |\n| 单人口播或独立旁白 | 共同定稿、实际目标语音频、最终混音对齐 | ASR 分歧走 spoken-caption 局部补证；仅漏句则补句 | 全部台词及片尾完整，语速和字幕同步可核验 |\n| 多角色对白或短剧 | 确认角色身份并固定每人声线，按轮次对齐 | 按角色方法区分身份疑点/供应商故障/能力限制；最低男女声仅有限降级 | 同角色一致、至少男女区分；达不到则报告具体缺口 |\n| 无可辨识人声 | 保留已确认音乐/音效与画面文案 | 有疑似人声先核对实际源音轨，不直接生成对白 | 不制造对白或声线任务；记录无对白证据 |\n| 超出已知条件或证据冲突 | 补看冲突实例及相邻真实画面/音频 | 只做有明确变量、能验证的新试验 | 保留 pending，边界后按用户音频要求决定可交付状态 |\n\n家庭、医院、校园是剧情背景；决定方法的是轮换、短句、独白、重叠、运动和遮挡等实际特征。标签定义见 config/content-features.json；未知标签可保留，不自动推断人物、性别或方法。\n\n## 选择记录\n\n在现有 inventory 的 reason/evidence 或镜头说明中记录：实例与区间、实际特征及证据、命中方法版本、首选为何适用、备选为何暂不用、触发切换的实际观察、停止理由、实际检查及未审范围。无该特征时写不适用，不为填表捏造试验。选择说明、实际 knowledge-use、质量结论分开；命中检索不算已使用。\n\n快速模式读取 neutral-visual v4 的共同检查和 fast 分支；严格模式读取完整 strict 分支。用户明确要求真实配音时，最终输出政策不得用字幕替代音频。费用与有限任务名额见请求预算政策；模式、语种、角色或路线切换不重置账本与返工轮次。\n\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/agent-selection-review-20261026.json"
+    }
+  }
+}

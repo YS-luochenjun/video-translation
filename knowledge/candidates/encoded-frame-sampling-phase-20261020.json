@@ -1,0 +1,18 @@
+{
+  "id": "encoded-frame-sampling-phase-20261020",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "topic": "temporal-validation"
+  },
+  "trigger": "Periodic artifacts or reusable per-frame state; fixed sampling interval",
+  "action": "For 30fps with stride 6 frames, include odd and even offsets and contiguous encoded frames around defects. Fixed-stride OCR-negative samples do not prove temporal or texture correctness.",
+  "case": "knowledge/examples/supervision-1-1-repair-observation-20261020",
+  "case_manifest_sha256": "b3c9c6e5dd980e0db7972cc4ef8a0a88ade1176a0ddb9b4ddc08b6ee7172aec2",
+  "video_sha256": "9ea9a3cd1e397a5b6d311d0267ee1a8003af8eb5070b76c744c6440e290203f3",
+  "limitations": [
+    "One source visual self-review; overall quality revise because audio fidelity review remains incomplete.",
+    "Sampling coverage improvement does not validate a universal restoration algorithm."
+  ],
+  "company_preference": false
+}

@@ -1,0 +1,41 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "audio_sha256": "a46c47d2ab71596bd695ba665ac57821b6b439fd808277154dbcd40e04499218",
+  "video_sha256": "b286840d648ad18584e63b6c6aaf23b44409082c617426ab921e3cc0f7b87035",
+  "model": "gemini-3-pro",
+  "response_id": "chatcmpl-4087f159c53347aaa0537c26f45abf50",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "zh",
+    "speech_segments": [
+      {
+        "start": 0.0,
+        "end": 1.5,
+        "source_text": "谁是你的理想伴侣"
+      },
+      {
+        "start": 4.5,
+        "end": 7.0,
+        "source_text": "上传照片，马上看看你的理想伴侣"
+      },
+      {
+        "start": 15.0,
+        "end": 17.0,
+        "source_text": "现在就免费试试"
+      }
+    ],
+    "music": {
+      "present": true,
+      "contains_singing": true,
+      "description": "Electronic beat with a frequently repeated Spanish-language vocal sample."
+    },
+    "uncertain_intervals": [
+      {
+        "start": 1.0,
+        "end": 1.5
+      }
+    ],
+    "summary": "A short advertisement encouraging the listener to upload a photo to see their ideal partner, accompanied by an electronic beat featuring a repeated vocal sample."
+  },
+  "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"
+}

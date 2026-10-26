@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "repair-learning-1-3-20261021",
+  "created_at": "2026-10-21T02:18:32+00:00",
+  "files": [
+    {
+      "path": "evidence/1-3-es-visual-fix-r2-failure-20261020.json",
+      "sha256": "8d8c9abaec90bacaf60ee4c898f1b96a20ca05a4c794f6801c275d4459eab801",
+      "bytes": 1461
+    },
+    {
+      "path": "evidence/experience-summary.md",
+      "sha256": "80cfa7f4b2758ae9a85cde452e829fce95acb4f44878578abddcb522195ac108",
+      "bytes": 2593
+    },
+    {
+      "path": "evidence/neutral-native-0440.jpg",
+      "sha256": "4d8da295aea727344615deaaa2656cbb4ca8cc809482eabdc1b8ec536abaeda1",
+      "bytes": 88174
+    },
+    {
+      "path": "evidence/neutral-review-r2.json",
+      "sha256": "946f408eb62bb688b0031362abc2aeda47abfe494519404f77457197dc090112",
+      "bytes": 2741
+    },
+    {
+      "path": "evidence/neutral-whole-0480.jpg",
+      "sha256": "9a58b5db1df3becd15ff6e2242a9c30f4d9c25ab7e82b743d480eb65878f9f34",
+      "bytes": 255076
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "target_language": "es",
+      "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+    },
+    "status": "failed_second_neutral_revision",
+    "lesson": "Failure counterexample: pose and mirror mismatch, clipped icons and OCR-negative residual lettering. Native encoded frames override thumbnail/OCR impressions.",
+    "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+    "video_sha256": "e1ebd909cce700bcfcb0fb37f07db2cb748ee60b37e4673130bb260d200f7433",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

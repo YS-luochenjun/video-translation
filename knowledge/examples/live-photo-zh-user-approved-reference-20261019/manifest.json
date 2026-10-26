@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "live-photo-zh-user-approved-reference-20261019",
+  "created_at": "2026-10-20T04:21:29+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "bce3894a8dc9d21617ef526a98f05e3a0aa753bfbf1ba8b7265a6c75e6cdfcb1",
+      "bytes": 26749
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "80f3cc04b9ca3ae1a2b7ea39718f1a61adceade52c1629def096414041f82dd5",
+      "bytes": 2210
+    },
+    {
+      "path": "evidence/ref-001-user-positive-feedback-20261019.json",
+      "sha256": "133c1576fefa6c1176cb0465bfba3dde2ab491fa13b8c8883991a86a0f646dba",
+      "bytes": 1355
+    },
+    {
+      "path": "evidence/ref-002-reuse-manifest.json",
+      "sha256": "6133d381f28a652414c4b806e4962762f0c75169fd0fa5cb3d9813c27c6a1e42",
+      "bytes": 14739
+    },
+    {
+      "path": "evidence/ref-003-2026-10-19-live-photo-feedback-budget-check.json",
+      "sha256": "6b2b5164118957a4effbb53edd1fb9ce4bffb4bb3892f9ec00aa4cd6515289bd",
+      "bytes": 9588
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "target_language": "zh-CN",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+    },
+    "status": "superseded",
+    "lesson": "# 用户认可的真人照片广告中文样例\n\n仅在源SHA-256为 `410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475`、目标语言为 `zh-CN` 时加载。对应运行 `live-photo-zh-001`，实际视频SHA-256为 `b286840d648ad18584e63b6c6aaf23b44409082c617426ab921e3cc0f7b87035`。用户于2026-10-19直接反馈“目前效果挺不错，可以请你进行知识总结学习”。原话和证据绑定见 `evidence:ref-001`。这句话按最近展示的中日两个版本整体反馈记录，未推断逐项验收。\n\n后续同源同语种修改可参考本版：沿用原真人、动作、构图和切点；广告文字在原位置按相近大小、颜色、描边和层级排版；跟踪上移标题，前景照片卡片遮挡下层文字。三句中文旁白与原位中文字的整体方向得到本次正反馈。外部成片单轨转写支持三句中文，但首句1.0–1.5秒仍有不确定标记。\n\n本次采用真实Wan两秒编辑的局部标题区域、本地逐区修补和精确排版，建立不含目标语文字的共享底片。人物主体沿用原片。共享原片、解析、适用的去字底片和背景分轨；译文、字体、旁白、时长适配与成片检查按语种单独完成。同源复用清单见 `evidence:ref-002`，不能据此复用到不同源片。\n\n音频只在原旁白窗口使用分离伴奏加新配音，其余区间沿用原始混音。逐句生成配音、按源时间放回是本次采用的方法；分离模型主副输出曾选反，已依据实际成片英语残留纠正。全部背景音乐/音效保真与细微同步尚未证实，不能将用户整体认可改写成全音频通过。\n\n保留原技术审查 `revise`、分数 `84.0`，不覆盖评审和质量文件；局部墙面、头发细节可能变软。用户认可样例与技术门禁分别记录。此条不设公司通用默认风格，不改变其他素材或语言的合格阈值。\n\n费用以 `evidence:ref-003` 为准。当前有5笔计费待对账；本样例不承诺最终实扣低于100，也不承诺未来视频或语种的单价。多语种可分摊共享准备，更多画面文字本身不保证更便宜。未修改全局Codex记忆。\n",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "video_sha256": "b286840d648ad18584e63b6c6aaf23b44409082c617426ab921e3cc0f7b87035",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

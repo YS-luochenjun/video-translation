@@ -1,0 +1,25 @@
+{
+  "review": {
+    "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
+    "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
+  },
+  "necessary_method_families": [
+    "text-instance-timing-",
+    "route-selection-",
+    "method-source-neutral-preparation-",
+    "method-spoken-caption-verification-",
+    "short-drama-audio-scenes-",
+    "method-animated-text-occlusion-",
+    "moving-watermark-removal-"
+  ],
+  "required_methods": [
+    "text-instance-timing-v1",
+    "method-animated-text-occlusion-v5",
+    "moving-watermark-removal-v1",
+    "route-selection-v3",
+    "short-drama-audio-scenes-v2",
+    "method-spoken-caption-verification-v4",
+    "method-source-neutral-preparation-v5"
+  ],
+  "scope": "Reviewed retrieval metadata only; original method/evidence bytes and locale/source scopes retained. Historical plans and charges unchanged."
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "content-aware-text-restoration-20261026",
+  "created_at": "2026-10-26T02:49:20+00:00",
+  "files": [
+    {
+      "path": "evidence/agent-selection-review-20261026.json",
+      "sha256": "55ab32c5ab65d89ed4bc31cdf97de913313a2f63589bef3451090b21c772fd82",
+      "bytes": 2214
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 文字修复：按底面、运动和主体风险选路\n\n适用所有必译文字实例。统一此前“模糊必须等自然修复实际失败”和后续“复杂运动可提前比较”的冲突。2026-10-23 用户对复杂/简单画面的差别要求保留，本次明确授权统一冲突；图片方向的认可不等于成片验收。\n\n| 实际条件 | 首选 | 备选、切换依据 |\n| --- | --- | --- |\n| 平色、渐变、稳定卡片、按钮、界面标签 | 核验同源干净供体、Codex 宿主编辑或原容器自然重建；透明译字独立 | 供体不匹配先修底面/接缝；单个传统算法失败不足以使用可见模糊 |\n| 界面稳定但手指、数字、图标变化 | 共用干净静态底面，动态区域按对应源帧保护 | 只针对实际污染区域调整，不冻结动态内容或整张界面模糊 |\n| 文字跨移动人物、头发、强纹理、多次遮挡 | 看真实连续帧，选择有明确改进依据的局部自然修复；必要连续编辑用 Wan 2.7 | 连续帧已显示自然重建明显危及主体，或实际自然候选不佳，可较早比较一个最小局部模糊候选，无须穷尽算法和反复付费 |\n| 移动、旋转、边缘进出的水印 | 建独立实例并跟踪，组合移动水印方法 | 检查所有入出场、裁切、转场、片尾；回贴源帧须防水印复现 |\n\n技术掩模和可见模糊分开记录。每处保留时段、范围、底面、主体保护对象、候选/连续帧风险依据与停止原因。时间紧、连接失败、额度不足不能单独授权模糊；无可行改进时选当前最佳并说明缺陷。\n\n快速选路沿用代表困难片段最多两次有明确变量的试验，初始判断时间盒五分钟；严格路线仍受两轮返工及账本约束。合格即停止；无有据改进方向或边界到达即停止试验并走最终输出。必要时分段处理并核验帧率、帧数、时刻，只采用必要区域；静态修复不证明动态保真。\n\n同源底面可复用经核验资产，各语言字层、配音、时轴与实际成片重新检查。按当前 fast/strict 模式判断质量；路线被允许不代表质量通过。\n\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/agent-selection-review-20261026.json"
+    }
+  }
+}

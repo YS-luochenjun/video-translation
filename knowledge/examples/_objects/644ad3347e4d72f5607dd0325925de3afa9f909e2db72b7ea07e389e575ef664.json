@@ -1,0 +1,73 @@
+{
+  "source": "Direct user messages in the current chat, 2026-10-21",
+  "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87",
+  "original_feedback": "目前很好，目前有两处不太好，还是主要集中在，背景原片文字没有处理干净。和后面加的内容有些没有完整贴近符合",
+  "latest_feedback": "目前修改后很好。但是为什么每一次都需要，我进行提出后，才会有所改善呢。前面的很多次对话都是这样，主要都是类似的问题，原视频内容没有处理干净，后来的字幕等，没有按照规定方式呈现。\n\n是否可以总结一个知识或其他，让后续使用项目进行视频翻译时，可以注意这个问题",
+  "interpretation": "User requests project knowledge and future prevention; positive overall feedback on the repaired set. Not independent, per-language native-speaker, or lossless-background acceptance.",
+  "review_failure": "Existing written requirements and a passing same-Agent review did not prevent residual anti-aliased source letters, erroneous moving button bounds, or insufficient typography fit. Technical record validity cannot establish visual observation quality.",
+  "confirmed_source_specific_causes": [
+    "White CTA cleanup missed gray and anti-aliased source-letter edges; repaired full interior based on source blank surface.",
+    "At frames 246-248 the white-outline detector absorbed the adjacent watch contour and caused black spill outside the rounded button. Repair used the actual black interior and restored original source pixels outside it.",
+    "Target letter height, center, style, and frame-dependent scale needed source measurements; source-specific fonts and coordinates are not universal defaults.",
+    "During repair, background yellow target text covered the foreground button at frames 209-210; final layer order clips it behind the button.",
+    "Poster exit opacity needed the actual source transition rather than a fixed target-text rectangle."
+  ],
+  "results": [
+    {
+      "language": "es",
+      "sha256": "660a0ad13a7b8ac1d186cd1f9cdadad18fccee942d83eaa3ed146894c4fc255b",
+      "technical_decision": "pass",
+      "caption_decision": "pass",
+      "score": 89.7,
+      "same_agent_review": true,
+      "decoded_audio_identical_to_previous": true,
+      "new_paid_calls": 0,
+      "candidate_case_inbox": "present",
+      "old_video_remains_held": "a73fbdf20e76da9c5c244dddb847ca72ee9f286a425dd5b3d824143ab7be33ce"
+    },
+    {
+      "language": "fr",
+      "sha256": "7124cd71a26b49c2d850a7edfb2939d1a08f8d771322b203ecc9b1dfb4a47ed6",
+      "technical_decision": "pass",
+      "caption_decision": "pass",
+      "score": 89.7,
+      "same_agent_review": true,
+      "decoded_audio_identical_to_previous": true,
+      "new_paid_calls": 0,
+      "candidate_case_inbox": "present",
+      "old_video_remains_held": "0493134157f06fb0760d6c9a7094775ef0a4a7c168697c862c4b80ae2e3ec8e9"
+    },
+    {
+      "language": "de",
+      "sha256": "27fa4a64730df0296561c08fdb86dd1e4df5c840a9b66059c4ca61660603020b",
+      "technical_decision": "pass",
+      "caption_decision": "pass",
+      "score": 89.7,
+      "same_agent_review": true,
+      "decoded_audio_identical_to_previous": true,
+      "new_paid_calls": 0,
+      "candidate_case_inbox": "present",
+      "old_video_remains_held": "ad80ac8f3581602e3fd3b1f1365fc97867d67adcb5ceefc963818903b0f870c6"
+    },
+    {
+      "language": "hi",
+      "sha256": "2063e09f001b16511550c697083428edab69cd3e421ece16b66a226efa881024",
+      "technical_decision": "pass",
+      "caption_decision": "pass",
+      "score": 89.7,
+      "same_agent_review": true,
+      "decoded_audio_identical_to_previous": true,
+      "new_paid_calls": 0,
+      "candidate_case_inbox": "present",
+      "old_video_remains_held": "6dfb22cf28e8fb2662ea1640f6023f4fa5d79b60c4f1b7da9402d77130a2efe6"
+    }
+  ],
+  "comparison": {
+    "file": "evidence/before-after.png",
+    "layout": "Left old held Spanish output; right repaired Spanish output. Top moving CTA frame 247; bottom poster CTA frame 360. This is selected local evidence, not whole-video verification."
+  },
+  "review_scope": "This knowledge curation re-read records and inspected selected actual old/new output comparison. It did not re-review every frame or rerun video production.",
+  "procedure_change": "Require source appearance contract and per-instance observations with actual hashes, four-layer evidence, full dynamic-region frame coverage and explicit pending states. Agent procedure; no new machine visual evaluator.",
+  "limits": "Single-source repair. Four languages are derivatives of the same master, not four independent algorithm validations. Original non-CTA approximations and earlier holds remain.",
+  "new_paid_calls": 0
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "text-instance-timing-v1",
+  "created_at": "2026-10-20T04:21:28+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "b2bd843641790c52ab5c201f248bc4eedc97c5d2059567ddb5c5e4d9d4438ee5",
+      "bytes": 635
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "15f78297be95851c1a4ffc031a3069921fd75b95bc5a14a5973f0488da9b5825",
+      "bytes": 650
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "active",
+    "lesson": "# 文字实例与时间绑定\n\n开发者初始规则，非公司偏好。相同单词在不同位置、不同时间出现，按不同实例处理。\n\n每个实例绑定：源文字、像素区域、开始/结束时间、译文、保留理由或修改动作、源帧证据。图标内部、画面边角、游戏 UI 和 CTA 都属于文字覆盖范围。品牌允许保留，但须列入清单。\n\n先按镜头和语义事件定位，再在文字出现/消失附近加密抽帧。概览图只供导航；一秒一帧无法证明没有瞬时文字。任务 `success`、译文出现在 prompt 中、能播放，都不能代替逐实例验收。\n\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

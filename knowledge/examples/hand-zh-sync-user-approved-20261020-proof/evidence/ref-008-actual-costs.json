@@ -1,0 +1,14 @@
+{
+  "currency": "KIE credits",
+  "confirmed_new_credits": 0,
+  "new_paid_calls": 0,
+  "unknown_jobs": 0,
+  "tasks": [],
+  "reused_from": "hand-zh-001",
+  "original_chinese_with_shared_preparation": 32.85,
+  "Chinese_total_through_this_revision": 32.85,
+  "prior_Japanese_increment": 0.78,
+  "source_pair_total": 33.63,
+  "new_video_model_submissions": 0,
+  "explanation": "Reuse original source/Wan-local neutral preparation, paid Chinese TTS and reviewed mix. Local Whisper, pixel repair, typography, rendering and review add no KIE charge."
+}

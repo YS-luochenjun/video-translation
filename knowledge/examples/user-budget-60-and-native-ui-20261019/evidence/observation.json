@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "user-budget-60-and-native-ui-20261019",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "status": "superseded",
+  "origin": "Explicit user latest 60-credit target and native UI request, 2026-10-19",
+  "reviewed_by": "User explicit instruction; Codex scope review",
+  "reference_video_sha256": null,
+  "company_preference": false,
+  "references": [],
+  "original_method_sha256": "b2cfb41270788269a7ec22ce325794004d8e0fe2db422936379169821ef7421a",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

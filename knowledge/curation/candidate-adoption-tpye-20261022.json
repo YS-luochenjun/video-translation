@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "reviewer": "Codex same-agent source-scoped evidence review, 2026-10-22",
+  "candidate": "knowledge/candidates/tpye-us-20261022-01-068a774ae4.json",
+  "candidate_sha256": "b5fdd61624843960532c1c82eefc34f1f5b803c1f44ad53a2c8593ae497a2893",
+  "status": "partially_adopted_source_reference",
+  "adopted_in": [
+    "tpye-us-production-recovery-20261022"
+  ],
+  "used": [
+    "Actual failure signatures and correction variables",
+    "Formal completion gap and source-specific audio evidence"
+  ],
+  "not_generalized": [
+    "Fixed coordinates, masks, fonts and one-off model success",
+    "Publisher watermark retention as a user/company preference",
+    "Cross-source repair quality or independent acceptance"
+  ],
+  "candidate_status_preserved": "candidate",
+  "distinct_source_count": 1,
+  "case_manifest_sha256": "a49b8210f824d1285b4b9fb11fae7bc14e8b54f2f167fe8acc5ee0914c164a6c"
+}

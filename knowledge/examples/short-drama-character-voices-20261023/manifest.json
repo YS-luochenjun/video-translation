@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "short-drama-character-voices-20261023",
+  "created_at": "2026-10-23T11:49:31+00:00",
+  "files": [
+    {
+      "path": "evidence/short-drama-voices-feedback-20261023.json",
+      "sha256": "f93e96b71201a5e63ca0cc8685f754c2d31884403a1023407efbefbe29c55934",
+      "bytes": 1489
+    },
+    {
+      "path": "evidence/short-drama-voices-observations-20261023.json",
+      "sha256": "21449794a1dd2f7c55cc9a1a88a0ae3ecbf68533b38964e1583e3cc70f12cc6a",
+      "bytes": 15791
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 多人小短剧：固定角色声线，保底区分男女\n\n来源：2026-10-23 项目用户明确要求“做好知识的储备，主要是多人小短剧的场景，希望会分多个音色声线来输出，保底需要区别男女”。此前同一请求还明确“不同角色不同声线”“同一角色保持同一声线”及“注意配音和画面的时间配合”。见 evidence:feedback。这是本项目后续多人小短剧的制作要求，不是公司通用政策或用户对任一成片的验收。\n\n## 默认要求\n\n1. 多人小短剧优先为每个可确认的说话角色分配独立声线；同一角色跨镜头、连续对白与补录保持同一声线。至少将男性角色和女性角色的声音区分开。仅当独立角色声线确实不可用时，才明确说明采用了男女声保底；全员同一声线不能声称满足此要求。旁白、片尾引导和画外音单独判断，不能自动并入主角。\n2. 翻译全部可辨认的对白、独白和片尾引导，不能只翻译画面文字。配音必须是真实可播放的目标语音频；该用户明确要求音频时，配音不可用就直说，不以字幕替代其音频需求。\n3. 按实际源音频、说话画面和上下文确认角色身份。为每句记录稳定的 `character_id`，为角色记录 `voice_name`、源对白区间、目标定稿和实际声音证据。已确认多角色对白时，在 `content_features` 记录 `multi_character_dialogue`；小短剧可加 `short_drama`，供条件方法检索。转写分段不等于说话人分离；不同 ASR 段也可能来自同一人。身份或声音性别不能确认时保留疑点，补看画面或用真实音频分析，不编造确定结论。\n\n## 制作与检查\n\n4. 同角色对白可合并生成，但返回后逐句检查。请求成功、多个 `dialogue_turns`、声线名称和预期字数都不证明全部台词已朗读。发现只读首句或漏句时，保存原始任务和声音，只采用有实际证据的句子，以同一声线补录缺句。\n5. 很短的惊讶、反问和回复不能遗漏。短音频 ASR 空白或读错不直接证明配音缺失；保留实际声音及原转写，可用真实上下文音频或 Gemini Flash 核对。禁止把预期译稿填成 ASR 结果。需要先合成候选时，可按单句实际波形的起止静音裁切，但语义仍标待审，直到实际成片音频得到证据。\n6. 以源对白轮次和镜头为时间锚点，按实际配音时长裁切停顿、适度调整语速、使用可用空隙；避免跨角色压话、吞字、抢话及句尾被切断。超长台词优先缩短译法或按同声线补录，不为容纳配音盲目拉长、混帧或变速画面。时间大致配合与逐字嘴型重建分别表述。\n7. 替换对白时沿用已核验的源音乐、音效及原时间轴。未改画面可复用经核验的画面结果；新音频仍须逐语言检查。音轨存在、实际语言、对白完整、角色可区分、同角色一致、声线性别、语速和首尾同步分别核对。\n8. 声线预设名称不证明实际音色、性别或跨次一致性。检查最终编码后的声音，而非只看配置；特别检查医生等短角色、相似的年轻女声、跨次补录和片尾引导。用实际听审或明确归因的外部音频模型证据，并保留混淆角色、错误性别和不确定区间。模型总体“通过”不能掩盖其逐项观察中的问题。\n9. 供应商临时失败沿用当前模型、请求总账和有界重试。明确失败且费用状态已确认后可重试；断线、无任务 ID 或费用不明时先查询原任务。按角色补录和新语言不重置费用或次数。该制作要求本身不授权额外额度。\n10. 保留已有完整保底视频，新版本另存；绑定实际成片、映射、配音任务、时轴和审核哈希。区分“已输出”“基本检查通过”“独立听审”和“用户验收”，不能把同一 Agent 自审称为独立验收。\n\n## 已有经验及适用边界\n\n本次一段短剧的六语言版本使用九个固定角色声线、三十四句对白。实际音频模型复核支持角色区分与一致性；日语医生曾返回女声，补录男声后重新复核；韩语极短对白出现本地 ASR 误读，最终由实际成片音频转写和原音比较补证。见 evidence:observations。\n\n这些是同一源视频的制作观察，六种语言不等于六个独立视频的复验。尚无母语人工听审、逐字嘴型重建或跨新视频普遍成功的证明。角色分配和补录方式可作为下一条短剧的起点，声线、发音、完整性和时间配合仍按新素材实际检查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "feedback": "evidence/short-drama-voices-feedback-20261023.json",
+      "observations": "evidence/short-drama-voices-observations-20261023.json"
+    }
+  }
+}

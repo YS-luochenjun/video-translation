@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "opencv-mask-mutation-20261020",
+  "created_at": "2026-10-20T12:37:31+00:00",
+  "files": [
+    {
+      "path": "evidence/mask-mutation-probe.json",
+      "sha256": "5d4d71b3325ae51506a6c6975826849df651b2cde424a18b37ad64e1ed0c85b1",
+      "bytes": 1048
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "topic": "compositing-mask-ownership"
+    },
+    "status": "synthetic_reproduction",
+    "lesson": "Current OpenCV build mutates seamlessClone mask; pass a fresh copy when retaining the mask across frames or later compositing.",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

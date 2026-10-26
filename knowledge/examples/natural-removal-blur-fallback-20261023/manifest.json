@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "natural-removal-blur-fallback-20261023",
+  "created_at": "2026-10-23T07:03:41+00:00",
+  "files": [
+    {
+      "path": "evidence/instruction.json",
+      "sha256": "f8ee4faf164f80e1805e332749a0fc1b8d325df284c4eb33a74069e00e685c10",
+      "bytes": 1221
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 源文字处理优先级：自然去除，局部模糊兜底\n\n来源：2026-10-23 项目用户明确确认，见 evidence:instruction。适用于后续广告视频本地化选路，是项目执行偏好，不是任意视频效果保证，也不是对已有成片的质量认可。用户另有严格保真或禁止模糊要求时，以该任务要求为准。\n\n## 选路和停止条件\n\n1. 优先自然去除源文字，尽量保持原背景、主体、图形和动作。先复用经核验且没有当前质量异议的同源素材；按画面选择局部参考修复、图片编辑或连续视频编辑，不要求逐项试完所有方法。\n2. 复杂运动、前景遮挡或变化背景需要连续修复时，按模型合同使用 Wan 2.7，先验证代表性的困难短片。观察残字、背景一致性、主体/箭头/爱心和连续运动；模型任务成功或单帧干净不代表效果合格。已有匹配的真实失败证据可用于决策，不为满足顺序重新付费试一次。\n3. 复杂片段的自然修复或 Wan 实际结果不理想，且继续试验没有明确收益时，才考虑局部模糊。记录具体片段、已观察的问题、为何停止原路线，以及模糊是否能在保住关键信息和动作的前提下遮严源文字。仅因制作更快不能把模糊设为首选；Wan 连接失败或任务状态未知也不等同于内容效果差，先按任务恢复规则处理。\n4. 沿用当前工作流的选路时间盒、试验次数、返工轮数及整请求预算上限；这些是上限，不是必须用满的次数。每次试验须有明确变量和预期改善，缺少时即停止。切换到模糊、拆片、换语言或新建 run 均不重置限额；保留最好候选及已合格部分，避免反复生成。\n\n## 局部模糊的执行边界\n\n- 覆盖源文字的完整时间、移动/弹入范围、描边和阴影；中心遮蔽强度足够使源文字不可读，羽化仅用于外缘融合。逐片确认，不能把某段固定坐标或模糊强度推广到其他视频。\n- 只处理必要区域，保留原始时轴、帧率和连续动作，保护主体、产品、箭头、爱心及其他非文字图形。与关键对象无法分离时记录冲突，不为遮字默认扩大成大面积遮挡。\n- 译文单独排版，字号层级一致、完整可读；继续遵守不新增实心文字条的约束。模糊是局部遮蔽，不宣称恢复出无痕或真实干净底片。\n- 复用已核验的声音和未改区域。返工只重查受影响实例、图形、入出场、转场及音画衔接，并绑定新成片哈希；保持覆盖记录，不把旧通过复制为新片通过。\n\n## 结束和交付\n\n按实际正常播放效果评价模糊范围和观看影响。允许采用局部模糊不自动降低质量分数门槛，不自动把明显干扰标成 minor，也不豁免残留源语、漏译、图形损坏、动作卡顿和声音问题。符合基本质量标准时按正常流程交付；达到边界仍有问题时按最终输出工作流提供最佳完整译片，说明模糊位置和其他瑕疵，标记有瑕疵/未通过，停止无收益试验。\n\n本规则的证据是用户对优先级和兜底条件的明确授权；没有把单源试验解释为跨源成功，也不改写历史评审、质量异议或用户验收状态。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "instruction": "evidence/instruction.json"
+    }
+  }
+}

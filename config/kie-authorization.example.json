@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "provider": "KIE",
+  "automatic_use": false,
+  "workspace": "REPLACE_WITH_THIS_OPERATORS_WORKSPACE",
+  "source_quote": "Replace with this operator's explicit authorization before enabling.",
+  "limits": "One human request shares a fixed 60-credit first-version or 40-credit incremental reuse limit across all runs, batches, models and revisions. Run job counts and model-policy.json also apply. Unknown billing stays reserved."
+}

@@ -1,0 +1,26 @@
+{
+  "id": "static-veo-lite-001-6bd69f43ba",
+  "status": "candidate",
+  "created_at": "2026-10-16T11:02:05+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "Already-localized reference images can guide complete Chinese wording in Veo Lite, but the model still changes the room, adds softness/props and delays text. Do not equate reference-mode video generation with faithful timed video localization.",
+  "evidence": {
+    "run": "static-veo-lite-001",
+    "video_sha256": "6bd69f43ba8ac75cda88449a56d786eccc23423d29740d093da6aefbae5c0ebb",
+    "quality_sha256": "9ca22b78fcb190636dcb663295e4b3300ebade53bbfa5c511d783a139d20b877"
+  },
+  "limitations": [
+    "Explicit 8s reconstruction; original is 10.066667s, so this is not full-duration source editing.",
+    "Two image references, one sample; not a general model ranking.",
+    "Generated audio removed to retain source silence.",
+    "Same-agent sampled review, no company preference acceptance."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "f560d1e539fd6a9b94f6311258d882367248fff402016c5c26fa45f35a8ddabe"
+}

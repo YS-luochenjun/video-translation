@@ -1,0 +1,34 @@
+{
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "video_sha256": "fef944392903e3410185a53718e707829c203f983ddbf477c52d5dc5d3c4bad0",
+  "audio_path": "review/fef944392903/audio.wav",
+  "audio_sha256": "a3a7c17053cefd552c49bcab3c83d893cd7d1ccc091f740efe5876ec3ea1f09e",
+  "engine": "faster-whisper 1.2.1, base multilingual, CPU int8",
+  "model_sha256": "d01c3014881c9c6f3133c182f3d2887eb6ca1c789a7538c5c007196857a0a6a9",
+  "language": "ja",
+  "language_probability": 0.9918187856674194,
+  "vad_filter": true,
+  "decoder": "FFmpeg, mono 16000 Hz signed PCM to float32 ndarray",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 10.67,
+      "text": "手で反転するプリズム効果、実は簡単、やり方はこちら。",
+      "avg_logprob": -0.3053970311550384,
+      "no_speech_prob": 0.024967869743704796
+    },
+    {
+      "start": 10.67,
+      "end": 14.95,
+      "text": "下をタップ、写真をアップして食べしてね。",
+      "avg_logprob": -0.3053970311550384,
+      "no_speech_prob": 0.024967869743704796
+    }
+  ],
+  "proof_boundary": "Local model transcription in actual detected language, no target script supplied. It is not direct listening or proof of background music/FX completeness.",
+  "derived_from": {
+    "path": "review/3d5c2bd0f6ad/offline-asr-audio.json",
+    "sha256": "b01bbbffb0a97501faef8abd355a67f923d9f18bc3446505041b424d32e6469b",
+    "reason": "Input WAV byte-identical"
+  }
+}

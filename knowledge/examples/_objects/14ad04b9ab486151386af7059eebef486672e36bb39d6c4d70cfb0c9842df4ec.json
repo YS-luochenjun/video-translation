@@ -1,0 +1,1492 @@
+{
+  "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "method": "Actual candidate boundary frames (before/first/next/middle/last/after/next) for every spoken-caption unit; independent RapidOCR.",
+  "frames": [
+    {
+      "frame": 0,
+      "time": 0.0,
+      "id": "t021",
+      "bbox": [
+        81,
+        1036,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "手势",
+          "confidence": 0.9986249506473541
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "time": 0.03333333333333333,
+      "id": "t021",
+      "bbox": [
+        81,
+        1036,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "手势",
+          "confidence": 0.9986565113067627
+        }
+      ]
+    },
+    {
+      "frame": 7,
+      "time": 0.23333333333333334,
+      "id": "t021",
+      "bbox": [
+        91,
+        1049,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "手势",
+          "confidence": 0.9987666010856628
+        }
+      ]
+    },
+    {
+      "frame": 14,
+      "time": 0.4666666666666667,
+      "id": "t021",
+      "bbox": [
+        112,
+        1068,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "手势",
+          "confidence": 0.9943837523460388
+        }
+      ]
+    },
+    {
+      "frame": 15,
+      "time": 0.5,
+      "id": "t021",
+      "bbox": [
+        112,
+        1068,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "翻转",
+          "confidence": 0.9938480257987976
+        }
+      ]
+    },
+    {
+      "frame": 16,
+      "time": 0.5333333333333333,
+      "id": "t021",
+      "bbox": [
+        112,
+        1068,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "翻转",
+          "confidence": 0.9931486248970032
+        }
+      ]
+    },
+    {
+      "frame": 22,
+      "time": 0.7333333333333333,
+      "id": "t021",
+      "bbox": [
+        119,
+        1074,
+        565,
+        133
+      ],
+      "observations": [
+        {
+          "text": "翻转",
+          "confidence": 0.9963228702545166
+        }
+      ]
+    },
+    {
+      "frame": 28,
+      "time": 0.9333333333333333,
+      "id": "t021",
+      "bbox": [
+        121,
+        1075,
+        565,
+        133
+      ],
+      "observations": [
+        {
+          "text": "翻转",
+          "confidence": 0.9995891451835632
+        }
+      ]
+    },
+    {
+      "frame": 29,
+      "time": 0.9666666666666667,
+      "id": "t021",
+      "bbox": [
+        117,
+        1072,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "棱镜",
+          "confidence": 0.9955562651157379
+        }
+      ]
+    },
+    {
+      "frame": 30,
+      "time": 1.0,
+      "id": "t021",
+      "bbox": [
+        117,
+        1072,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "棱镜",
+          "confidence": 0.9954650104045868
+        }
+      ]
+    },
+    {
+      "frame": 34,
+      "time": 1.1333333333333333,
+      "id": "t021",
+      "bbox": [
+        113,
+        1064,
+        565,
+        133
+      ],
+      "observations": [
+        {
+          "text": "棱镜",
+          "confidence": 0.9965591728687286
+        }
+      ]
+    },
+    {
+      "frame": 38,
+      "time": 1.2666666666666666,
+      "id": "t021",
+      "bbox": [
+        97,
+        1048,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "棱镜",
+          "confidence": 0.9951834380626678
+        }
+      ]
+    },
+    {
+      "frame": 39,
+      "time": 1.3,
+      "id": "t021",
+      "bbox": [
+        97,
+        1048,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "特效",
+          "confidence": 0.9999576210975647
+        }
+      ]
+    },
+    {
+      "frame": 40,
+      "time": 1.3333333333333333,
+      "id": "t021",
+      "bbox": [
+        97,
+        1048,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "特效",
+          "confidence": 0.9999573230743408
+        }
+      ]
+    },
+    {
+      "frame": 44,
+      "time": 1.4666666666666666,
+      "id": "t021",
+      "bbox": [
+        81,
+        1036,
+        565,
+        133
+      ],
+      "observations": [
+        {
+          "text": "特效",
+          "confidence": 0.9999598264694214
+        }
+      ]
+    },
+    {
+      "frame": 48,
+      "time": 1.6,
+      "id": "t021",
+      "bbox": [
+        79,
+        1032,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "特效",
+          "confidence": 0.9999524354934692
+        }
+      ]
+    },
+    {
+      "frame": 49,
+      "time": 1.6333333333333333,
+      "id": "t021",
+      "bbox": [
+        79,
+        1032,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "怎么做？",
+          "confidence": 0.996954470872879
+        }
+      ]
+    },
+    {
+      "frame": 50,
+      "time": 1.6666666666666667,
+      "id": "t021",
+      "bbox": [
+        79,
+        1034,
+        565,
+        133
+      ],
+      "observations": [
+        {
+          "text": "怎么做？",
+          "confidence": 0.9942670464515686
+        }
+      ]
+    },
+    {
+      "frame": 56,
+      "time": 1.8666666666666667,
+      "id": "t021",
+      "bbox": [
+        70,
+        1040,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "怎么做？",
+          "confidence": 0.9979231506586075
+        }
+      ]
+    },
+    {
+      "frame": 63,
+      "time": 2.1,
+      "id": "t021",
+      "bbox": [
+        58,
+        1055,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "怎么做？",
+          "confidence": 0.997329905629158
+        }
+      ]
+    },
+    {
+      "frame": 64,
+      "time": 2.1333333333333333,
+      "id": "t021",
+      "bbox": [
+        58,
+        1055,
+        565,
+        132
+      ],
+      "observations": []
+    },
+    {
+      "frame": 65,
+      "time": 2.1666666666666665,
+      "id": "t021",
+      "bbox": [
+        58,
+        1055,
+        565,
+        132
+      ],
+      "observations": []
+    },
+    {
+      "frame": 71,
+      "time": 2.3666666666666667,
+      "id": "t021",
+      "bbox": [
+        44,
+        1068,
+        564,
+        133
+      ],
+      "observations": []
+    },
+    {
+      "frame": 72,
+      "time": 2.4,
+      "id": "t021",
+      "bbox": [
+        44,
+        1068,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "其实很简单,",
+          "confidence": 0.9368817309538523
+        }
+      ]
+    },
+    {
+      "frame": 73,
+      "time": 2.433333333333333,
+      "id": "t021",
+      "bbox": [
+        44,
+        1068,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "其实很简单,",
+          "confidence": 0.936182697614034
+        }
+      ]
+    },
+    {
+      "frame": 84,
+      "time": 2.8,
+      "id": "t021",
+      "bbox": [
+        82,
+        1032,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "其实很简单，",
+          "confidence": 0.9294440944989523
+        }
+      ]
+    },
+    {
+      "frame": 95,
+      "time": 3.1666666666666665,
+      "id": "t021",
+      "bbox": [
+        107,
+        1063,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "其实很简单，",
+          "confidence": 0.993559310833613
+        }
+      ]
+    },
+    {
+      "frame": 96,
+      "time": 3.2,
+      "id": "t021",
+      "bbox": [
+        107,
+        1063,
+        564,
+        132
+      ],
+      "observations": []
+    },
+    {
+      "frame": 97,
+      "time": 3.2333333333333334,
+      "id": "t021",
+      "bbox": [
+        107,
+        1063,
+        564,
+        132
+      ],
+      "observations": []
+    },
+    {
+      "frame": 101,
+      "time": 3.3666666666666667,
+      "id": "t021",
+      "bbox": [
+        117,
+        1069,
+        564,
+        132
+      ],
+      "observations": []
+    },
+    {
+      "frame": 102,
+      "time": 3.4,
+      "id": "t021",
+      "bbox": [
+        117,
+        1069,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "跟我",
+          "confidence": 0.9986854791641235
+        },
+        {
+          "text": "起学！",
+          "confidence": 0.9952777624130249
+        }
+      ]
+    },
+    {
+      "frame": 103,
+      "time": 3.433333333333333,
+      "id": "t021",
+      "bbox": [
+        117,
+        1069,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "跟我-",
+          "confidence": 0.8175195852915446
+        },
+        {
+          "text": "起学！",
+          "confidence": 0.9948696692784628
+        }
+      ]
+    },
+    {
+      "frame": 111,
+      "time": 3.7,
+      "id": "t021",
+      "bbox": [
+        123,
+        1080,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "跟我",
+          "confidence": 0.9989236295223236
+        },
+        {
+          "text": "一起学！",
+          "confidence": 0.8825195133686066
+        }
+      ]
+    },
+    {
+      "frame": 119,
+      "time": 3.966666666666667,
+      "id": "t021",
+      "bbox": [
+        101,
+        1062,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "跟我",
+          "confidence": 0.9996241629123688
+        },
+        {
+          "text": "一起学！",
+          "confidence": 0.8614472597837448
+        }
+      ]
+    },
+    {
+      "frame": 120,
+      "time": 4.0,
+      "id": "t021",
+      "bbox": [
+        101,
+        1062,
+        565,
+        132
+      ],
+      "observations": []
+    },
+    {
+      "frame": 121,
+      "time": 4.033333333333333,
+      "id": "t021",
+      "bbox": [
+        101,
+        1062,
+        565,
+        132
+      ],
+      "observations": []
+    },
+    {
+      "frame": 322,
+      "time": 10.733333333333333,
+      "id": "t022",
+      "bbox": [
+        133,
+        1034,
+        565,
+        132
+      ],
+      "observations": []
+    },
+    {
+      "frame": 323,
+      "time": 10.766666666666667,
+      "id": "t022",
+      "bbox": [
+        133,
+        1034,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "点击",
+          "confidence": 0.9989080727100372
+        }
+      ]
+    },
+    {
+      "frame": 324,
+      "time": 10.8,
+      "id": "t022",
+      "bbox": [
+        133,
+        1034,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "点击",
+          "confidence": 0.9989784955978394
+        }
+      ]
+    },
+    {
+      "frame": 327,
+      "time": 10.9,
+      "id": "t022",
+      "bbox": [
+        133,
+        1034,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "点击",
+          "confidence": 0.9980804324150085
+        },
+        {
+          "text": "使用模板",
+          "confidence": 0.9962107986211777
+        }
+      ]
+    },
+    {
+      "frame": 330,
+      "time": 11.0,
+      "id": "t022",
+      "bbox": [
+        133,
+        1034,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "点击",
+          "confidence": 0.9968087673187256
+        },
+        {
+          "text": "使用模板",
+          "confidence": 0.8373745679855347
+        }
+      ]
+    },
+    {
+      "frame": 331,
+      "time": 11.033333333333333,
+      "id": "t022",
+      "bbox": [
+        133,
+        1034,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "下方，",
+          "confidence": 0.8692496021588644
+        }
+      ]
+    },
+    {
+      "frame": 332,
+      "time": 11.066666666666666,
+      "id": "t022",
+      "bbox": [
+        122,
+        1041,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "下方，",
+          "confidence": 0.9365628957748413
+        }
+      ]
+    },
+    {
+      "frame": 337,
+      "time": 11.233333333333333,
+      "id": "t022",
+      "bbox": [
+        122,
+        1041,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "下方，",
+          "confidence": 0.8634110887845358
+        }
+      ]
+    },
+    {
+      "frame": 343,
+      "time": 11.433333333333334,
+      "id": "t022",
+      "bbox": [
+        112,
+        1060,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "下方",
+          "confidence": 0.9991908073425293
+        },
+        {
+          "text": "使用",
+          "confidence": 0.943886399269104
+        }
+      ]
+    },
+    {
+      "frame": 344,
+      "time": 11.466666666666667,
+      "id": "t022",
+      "bbox": [
+        112,
+        1060,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "使用模板",
+          "confidence": 0.9954353272914886
+        }
+      ]
+    },
+    {
+      "frame": 345,
+      "time": 11.5,
+      "id": "t022",
+      "bbox": [
+        112,
+        1060,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "使用模板",
+          "confidence": 0.9948331266641617
+        }
+      ]
+    },
+    {
+      "frame": 347,
+      "time": 11.566666666666666,
+      "id": "t022",
+      "bbox": [
+        121,
+        1078,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "使用模板",
+          "confidence": 0.9939247369766235
+        }
+      ]
+    },
+    {
+      "frame": 348,
+      "time": 11.6,
+      "id": "t022",
+      "bbox": [
+        121,
+        1078,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "使用模板",
+          "confidence": 0.9968244582414627
+        },
+        {
+          "text": "上传",
+          "confidence": 0.9973122179508209
+        }
+      ]
+    },
+    {
+      "frame": 349,
+      "time": 11.633333333333333,
+      "id": "t022",
+      "bbox": [
+        121,
+        1078,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "使用模板",
+          "confidence": 0.9971627295017242
+        },
+        {
+          "text": "上传",
+          "confidence": 0.9983711242675781
+        }
+      ]
+    },
+    {
+      "frame": 353,
+      "time": 11.766666666666667,
+      "id": "t022",
+      "bbox": [
+        122,
+        1079,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "上传",
+          "confidence": 0.9976990222930908
+        }
+      ]
+    },
+    {
+      "frame": 357,
+      "time": 11.9,
+      "id": "t022",
+      "bbox": [
+        122,
+        1079,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "上传",
+          "confidence": 0.9976581037044525
+        },
+        {
+          "text": "使用模板",
+          "confidence": 0.9966340214014053
+        }
+      ]
+    },
+    {
+      "frame": 358,
+      "time": 11.933333333333334,
+      "id": "t022",
+      "bbox": [
+        122,
+        1079,
+        565,
+        132
+      ],
+      "observations": [
+        {
+          "text": "照片",
+          "confidence": 0.999559223651886
+        },
+        {
+          "text": "使用模板",
+          "confidence": 0.962875559926033
+        }
+      ]
+    },
+    {
+      "frame": 359,
+      "time": 11.966666666666667,
+      "id": "t022",
+      "bbox": [
+        110,
+        1061,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "照片",
+          "confidence": 0.9998466670513153
+        }
+      ]
+    },
+    {
+      "frame": 364,
+      "time": 12.133333333333333,
+      "id": "t022",
+      "bbox": [
+        110,
+        1061,
+        564,
+        132
+      ],
+      "observations": [
+        {
+          "text": "照",
+          "confidence": 0.9999837875366211
+        },
+        {
+          "text": "片",
+          "confidence": 0.9996309280395508
+        },
+        {
+          "text": "选择1项",
+          "confidence": 0.9801473468542099
+        },
+        {
+          "text": "■",
+          "confidence": 0.6553016304969788
+        }
+      ]
+    },
+    {
+      "frame": 371,
+      "time": 12.366666666666667,
+      "id": "t022",
+      "bbox": [
+        88,
+        1046,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "8.8",
+          "confidence": 0.951775332291921
+        },
+        {
+          "text": "照片，",
+          "confidence": 0.8811935186386108
+        },
+        {
+          "text": "选择1项",
+          "confidence": 0.9852081537246704
+        }
+      ]
+    },
+    {
+      "frame": 372,
+      "time": 12.4,
+      "id": "t022",
+      "bbox": [
+        88,
+        1046,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "已选1项",
+          "confidence": 0.9910352826118469
+        },
+        {
+          "text": "下一步",
+          "confidence": 0.9964493711789449
+        }
+      ]
+    },
+    {
+      "frame": 373,
+      "time": 12.433333333333334,
+      "id": "t022",
+      "bbox": [
+        88,
+        1046,
+        564,
+        133
+      ],
+      "observations": [
+        {
+          "text": "已选1项",
+          "confidence": 0.9931994676589966
+        },
+        {
+          "text": "下一步",
+          "confidence": 0.9921419223149618
+        }
+      ]
+    },
+    {
+      "frame": 378,
+      "time": 12.6,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": [
+        {
+          "text": "60-00",
+          "confidence": 0.5472004830837249
+        },
+        {
+          "text": "00:19",
+          "confidence": 0.9736977696418763
+        },
+        {
+          "text": "00:19",
+          "confidence": 0.9695469856262207
+        }
+      ]
+    },
+    {
+      "frame": 379,
+      "time": 12.633333333333333,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": [
+        {
+          "text": "马.",
+          "confidence": 0.9059766530990601
+        },
+        {
+          "text": "上",
+          "confidence": 0.9991227984428406
+        },
+        {
+          "text": "00-19",
+          "confidence": 0.8802472591400147
+        },
+        {
+          "text": "00:19",
+          "confidence": 0.9435390114784241
+        }
+      ]
+    },
+    {
+      "frame": 380,
+      "time": 12.666666666666666,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": [
+        {
+          "text": "马.",
+          "confidence": 0.7873054444789886
+        },
+        {
+          "text": "上",
+          "confidence": 0.9989815354347229
+        },
+        {
+          "text": "00-19",
+          "confidence": 0.827966856956482
+        },
+        {
+          "text": "00:19",
+          "confidence": 0.929397976398468
+        }
+      ]
+    },
+    {
+      "frame": 384,
+      "time": 12.8,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": [
+        {
+          "text": "马.",
+          "confidence": 0.9203172326087952
+        },
+        {
+          "text": "上",
+          "confidence": 0.9993818998336792
+        },
+        {
+          "text": "00:19",
+          "confidence": 0.9437658309936523
+        },
+        {
+          "text": "00:19",
+          "confidence": 0.9480490565299988
+        }
+      ]
+    },
+    {
+      "frame": 389,
+      "time": 12.966666666666667,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": [
+        {
+          "text": "马上",
+          "confidence": 0.9980235695838928
+        },
+        {
+          "text": "00-19",
+          "confidence": 0.953203022480011
+        },
+        {
+          "text": "00:10",
+          "confidence": 0.8267295002937317
+        }
+      ]
+    },
+    {
+      "frame": 390,
+      "time": 13.0,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": [
+        {
+          "text": "试试！",
+          "confidence": 0.9797837734222412
+        },
+        {
+          "text": "00-",
+          "confidence": 0.8530003627141317
+        },
+        {
+          "text": "00:10",
+          "confidence": 0.8322067737579346
+        }
+      ]
+    },
+    {
+      "frame": 391,
+      "time": 13.033333333333333,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": [
+        {
+          "text": "试试！",
+          "confidence": 0.9795421361923218
+        },
+        {
+          "text": "00-",
+          "confidence": 0.9275321563084921
+        }
+      ]
+    },
+    {
+      "frame": 396,
+      "time": 13.2,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": [
+        {
+          "text": "试试！",
+          "confidence": 0.9576448996861776
+        }
+      ]
+    },
+    {
+      "frame": 402,
+      "time": 13.4,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": []
+    },
+    {
+      "frame": 403,
+      "time": 13.433333333333334,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": []
+    },
+    {
+      "frame": 404,
+      "time": 13.466666666666667,
+      "id": "t032",
+      "bbox": [
+        88,
+        693,
+        544,
+        134
+      ],
+      "observations": []
+    }
+  ],
+  "unit_matches": [
+    {
+      "id": "t021",
+      "unit": 0,
+      "expected_text": "手势",
+      "recognized_frames": [
+        0,
+        1,
+        7,
+        14
+      ],
+      "observed_start": 0.0,
+      "observed_end": 0.5
+    },
+    {
+      "id": "t021",
+      "unit": 1,
+      "expected_text": "翻转",
+      "recognized_frames": [
+        15,
+        16,
+        22,
+        28
+      ],
+      "observed_start": 0.5,
+      "observed_end": 0.9666666666666667
+    },
+    {
+      "id": "t021",
+      "unit": 2,
+      "expected_text": "棱镜",
+      "recognized_frames": [
+        29,
+        30,
+        34,
+        38
+      ],
+      "observed_start": 0.9666666666666667,
+      "observed_end": 1.3
+    },
+    {
+      "id": "t021",
+      "unit": 3,
+      "expected_text": "特效",
+      "recognized_frames": [
+        39,
+        40,
+        44,
+        48
+      ],
+      "observed_start": 1.3,
+      "observed_end": 1.6333333333333333
+    },
+    {
+      "id": "t021",
+      "unit": 4,
+      "expected_text": "怎么做？",
+      "recognized_frames": [
+        49,
+        50,
+        56,
+        63
+      ],
+      "observed_start": 1.6333333333333333,
+      "observed_end": 2.1333333333333333
+    },
+    {
+      "id": "t021",
+      "unit": 5,
+      "expected_text": "其实很简单，",
+      "recognized_frames": [
+        72,
+        73,
+        84,
+        95
+      ],
+      "observed_start": 2.4,
+      "observed_end": 3.2
+    },
+    {
+      "id": "t021",
+      "unit": 6,
+      "expected_text": "跟我一起学！",
+      "recognized_frames": [
+        111,
+        119
+      ],
+      "observed_start": 3.7,
+      "observed_end": 4.0
+    },
+    {
+      "id": "t022",
+      "unit": 0,
+      "expected_text": "点击",
+      "recognized_frames": [
+        323,
+        324,
+        327,
+        330
+      ],
+      "observed_start": 10.766666666666667,
+      "observed_end": 11.033333333333333
+    },
+    {
+      "id": "t022",
+      "unit": 1,
+      "expected_text": "下方，",
+      "recognized_frames": [
+        331,
+        332,
+        337,
+        343
+      ],
+      "observed_start": 11.033333333333333,
+      "observed_end": 11.466666666666667
+    },
+    {
+      "id": "t022",
+      "unit": 2,
+      "expected_text": "上传",
+      "recognized_frames": [
+        348,
+        349,
+        353,
+        357
+      ],
+      "observed_start": 11.6,
+      "observed_end": 11.933333333333334
+    },
+    {
+      "id": "t022",
+      "unit": 3,
+      "expected_text": "照片，",
+      "recognized_frames": [
+        358,
+        359,
+        364,
+        371
+      ],
+      "observed_start": 11.933333333333334,
+      "observed_end": 12.4
+    },
+    {
+      "id": "t032",
+      "unit": 0,
+      "expected_text": "马上",
+      "recognized_frames": [
+        379,
+        380,
+        384,
+        389
+      ],
+      "observed_start": 12.633333333333333,
+      "observed_end": 13.0
+    },
+    {
+      "id": "t032",
+      "unit": 1,
+      "expected_text": "试试！",
+      "recognized_frames": [
+        390,
+        391,
+        396
+      ],
+      "observed_start": 13.0,
+      "observed_end": 13.233333333333333
+    }
+  ],
+  "boundary_evidence": [
+    {
+      "id": "t021",
+      "unit": 0,
+      "path": "review/57257dc8c746/caption-t021-000-observed.jpg"
+    },
+    {
+      "id": "t021",
+      "unit": 1,
+      "path": "review/57257dc8c746/caption-t021-001-observed.jpg"
+    },
+    {
+      "id": "t021",
+      "unit": 2,
+      "path": "review/57257dc8c746/caption-t021-002-observed.jpg"
+    },
+    {
+      "id": "t021",
+      "unit": 3,
+      "path": "review/57257dc8c746/caption-t021-003-observed.jpg"
+    },
+    {
+      "id": "t021",
+      "unit": 4,
+      "path": "review/57257dc8c746/caption-t021-004-observed.jpg"
+    },
+    {
+      "id": "t021",
+      "unit": 5,
+      "path": "review/57257dc8c746/caption-t021-005-observed.jpg"
+    },
+    {
+      "id": "t021",
+      "unit": 6,
+      "path": "review/57257dc8c746/caption-t021-006-observed.jpg"
+    },
+    {
+      "id": "t022",
+      "unit": 0,
+      "path": "review/57257dc8c746/caption-t022-000-observed.jpg"
+    },
+    {
+      "id": "t022",
+      "unit": 1,
+      "path": "review/57257dc8c746/caption-t022-001-observed.jpg"
+    },
+    {
+      "id": "t022",
+      "unit": 2,
+      "path": "review/57257dc8c746/caption-t022-002-observed.jpg"
+    },
+    {
+      "id": "t022",
+      "unit": 3,
+      "path": "review/57257dc8c746/caption-t022-003-observed.jpg"
+    },
+    {
+      "id": "t032",
+      "unit": 0,
+      "path": "review/57257dc8c746/caption-t032-000-observed.jpg"
+    },
+    {
+      "id": "t032",
+      "unit": 1,
+      "path": "review/57257dc8c746/caption-t032-001-observed.jpg"
+    }
+  ],
+  "limit": "OCR can confuse punctuation or low contrast; manual Agent pixel reading of boundary sheets remains necessary. No inferred words filled in OCR output."
+}

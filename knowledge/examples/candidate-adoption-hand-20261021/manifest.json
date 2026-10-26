@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "candidate-adoption-hand-20261021",
+  "created_at": "2026-10-21T02:34:08+00:00",
+  "files": [
+    {
+      "path": "evidence/0355f7f65a-arrow-layers.json",
+      "sha256": "0355f7f65ade6669283e5bdd8ce849379f41adf843ad45b88fb36deca2caad47",
+      "bytes": 1678
+    },
+    {
+      "path": "evidence/85997d26a9-caption-alignment.json",
+      "sha256": "4c389616d18864ec0052454a25b48fc1e4cbe314790c2cbbf74716ca591bd9ec",
+      "bytes": 2667
+    },
+    {
+      "path": "evidence/arrow-accepted-final.png",
+      "sha256": "15263e50d7094a8067cf2d51f85a4a846919b40fad2c89661671e1e3d99e3eb6",
+      "bytes": 71552
+    },
+    {
+      "path": "evidence/arrow-source.png",
+      "sha256": "67dfb3355fd6d17252592d800759bcd0106c3c450316db2b3b9a45a32344db12",
+      "bytes": 78318
+    },
+    {
+      "path": "evidence/caption-sync.json",
+      "sha256": "ff723f5ca2b40958daecb3d34612d3b4772b2d9e631dc65753cb12c39fc2976a",
+      "bytes": 9949
+    },
+    {
+      "path": "evidence/caption-t021-005-observed.jpg",
+      "sha256": "0042e291eace1494215bd16eb204c12f2e79a5e6418d2a48c6723354e2fca520",
+      "bytes": 37355
+    },
+    {
+      "path": "evidence/ref-001-user-approval-20261020.json",
+      "sha256": "a47fb8ab7501f8eb43159868c322c84a50618180014975fe2f7d45252c95a63f",
+      "bytes": 1534
+    },
+    {
+      "path": "evidence/voice-pause-energy.json",
+      "sha256": "46cceb4ff5ed02e20c564d34164d17e22ec088ab9ad68cbc40f409eca12a4a2d",
+      "bytes": 10643
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+      "target_language": "zh-CN"
+    },
+    "status": "reviewed_procedure_evidence_not_new_acceptance",
+    "lesson": "Source-bound pause correction and object layering evidence; use cross-check procedure on new sources, not thresholds or masks.",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

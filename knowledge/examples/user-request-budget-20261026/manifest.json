@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "user-request-budget-20261026",
+  "created_at": "2026-10-26T02:49:20+00:00",
+  "files": [
+    {
+      "path": "evidence/agent-selection-review-20261026.json",
+      "sha256": "55ab32c5ab65d89ed4bc31cdf97de913313a2f63589bef3451090b21c772fd82",
+      "bytes": 2214
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 请求预算：原视频每秒最多 3 credits\n\n本次项目用户明确授权按视频时长增长预算，替代新请求固定 60/复用 40 的默认政策。唯一机器配置是 config/budget-policy.json。原视频实际探测时长乘 3，向下保留三位小数：10 秒 30、60 秒 180、75 秒 225 credits；没有最低 60，也不按语言数乘倍。该限额覆盖本次请求的所有目标语言、模型、分段、角色、补录与重试，Codex 宿主费用不计入 KIE 限额。\n\n主控根据真实用户事件登记一次总账；派生片段继承原请求，改名、换 run/模型/语种/模式不补额度。新配置用于新请求，旧账本保留原限额、已付费和未知占位；需要迁移旧请求时用带用户来源的 budget-amend，不能直接删账、重开或重置花费。复用新额度仍须真实新用户请求及旧账结清。\n\n首选复用核验资产、只补缺失句/局部片段；备选切换须有实际失败依据。动态任务名额按原时长分段/已确认角色数有限规划（执行器计算），替代新请求默认两笔的硬卡点；每个问题两轮返工仍保留，额度是上限而非花费目标。计划不足以覆盖必要输出时先调整粒度与复用，不能因剩余额度而无限试验。\n\n停机条件：下一调用预留将超整请求余额、尝试/能力边界，或任务/扣费状态未知须先恢复。HTTP 520/超时保留真实状态及占位；先查已知 taskId/请求日志，已确认失败和费用后可有界重试。实际供应商费用不是本公式报价保证；账本据实际回执结算。临界预留拒绝后按输出合同收口，用户明确必需音频时如实报告缺口。\n\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/agent-selection-review-20261026.json"
+    }
+  }
+}

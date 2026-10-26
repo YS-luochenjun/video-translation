@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-54aae227c0516b2faff2",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "en",
+    "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "候选：该源英语成片的连续检查发现概览遗漏的缺陷",
+    "trigger": "该源英语制作出现旧端点失败、费用不明及透明字层和闪白转场问题。",
+    "action": "保留原始错误与未知费用占位，先查账再决定调用；检查实际编码的原尺寸连续帧，记录端点成功与内容质量各自的证据。",
+    "failure_signature": "概览帧遗漏透明字层贯穿线和闪白接缝；旧 Pro、Flash 调用失败且费用未结清。",
+    "limitations": [
+      "仅限继承的源哈希、英语及 project 可见性；与 private 记录分组。",
+      "同一 Agent 视觉自审及外部模型音频感知，不代表人工、独立视觉或公司验收。",
+      "字体、光晕及遮挡蝴蝶结纹理仍为近似，不能将整体 pass 改写为逐项无损。",
+      "源片从13.1秒以三个末端帧补至13.2秒以容纳音频，记录称无内容裁切。",
+      "失败 Pro 和旧 Flash 的22 credits 仍为 reserved/unknown，不计作零费用。",
+      "单源返工不算独立复验；仅为 candidate，启用仍需限定范围的证据包和审查。"
+    ],
+    "next_counterexample_test": "在该源新候选的透明字层、闪白和切镜区间逐帧寻找贯穿线及接缝，并核验补帧后的实际声音与字幕边界。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/tpye-us-20261022-01-068a774ae4.json",
+      "sha256": "b5fdd61624843960532c1c82eefc34f1f5b803c1f44ad53a2c8593ae497a2893",
+      "event_id": "7e0c86104b7e1b0cf41f1c6989e6843440fa355af58e54c754c2ed6449a9d689",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "en",
+        "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "tpye-us-20261022-01-068a774ae4",
+        "status": "candidate",
+        "created_at": "2026-10-22T09:51:49+00:00",
+        "scope": {
+          "workflow": "video-localization",
+          "target_language": "en",
+          "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f"
+        },
+        "outcome": "pass",
+        "hypothesis": "Current Flash endpoint succeeded after obsolete route failure. Preserve unknown fees and raw errors; do not repeat ambiguous paid calls. Native continuous review caught alpha strike-through and flash seams missed by overview frames.",
+        "evidence": {
+          "run": "tpye-us-20261022-01",
+          "video_sha256": "068a774ae442f673b1b3555c2af27b2643cffad79586c302a18319854a1390a6",
+          "quality_sha256": "7fdad4c976142502d504a9c8b8df4f59eeb813028e0ab927344d5b0b890c0ffb"
+        },
+        "limitations": [
+          "Same-agent visual review plus external model audio perception; no human, independent visual or company acceptance.",
+          "Typeface/glow and occluded bow texture are approximations; product content, choice gestures and brand assets are preserved.",
+          "Source13.1s padded by three endpoint frames to13.2s for audio; no content cut.",
+          "Failed Pro and old Flash retain22credits reserved as unknown, not zero-cost."
+        ],
+        "company_preference": false,
+        "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": false,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation"
+}

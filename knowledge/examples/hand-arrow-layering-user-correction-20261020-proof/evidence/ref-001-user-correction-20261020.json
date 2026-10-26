@@ -1,0 +1,16 @@
+{
+  "quote_exact": "且目前这里，原视频是，箭头下方重叠“click below”单词。导致你分词时，箭头和be重叠部分，被当作箭头的一部分了，且后续增加“点击下方”时，就变成放在箭头左右了，和原版不太一样了。\n\n请你帮我修改这个内容和上面的音频字幕同步，并出一个新的，中文版本的视频",
+  "references": [
+    {
+      "path": "origin:previous-arrow-error.png",
+      "sha256": "ae5d147cdd5129ea33ac46cc2df4e3a4223202b0a4f03652ae8d87a3cb9a8869"
+    },
+    {
+      "path": "origin:source-arrow-overlap.png",
+      "sha256": "59be393a1926e3e0f2ac8fd08941f5a5fe52972a109fdc10dd56fedb6272c764"
+    }
+  ],
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "target_language": "zh-CN",
+  "scope": "Fix arrow/text layering and spoken-caption sync, preserve prior sound and visual approach; reuse budget40 credits."
+}

@@ -1,0 +1,16 @@
+{
+  "decision": "revise",
+  "scope": "fast-basic",
+  "video_sha256": "b505032092b66a86e46042d0c892cc1c195235ac55c684776af705ec1fcff6be",
+  "plan_id": "510bc0ad26f0fe6f",
+  "failures": [
+    "native_motion_unreviewed",
+    "speech_complete_unreviewed",
+    "music_effects_unreviewed",
+    "visual_finish_below_threshold_or_unreviewed"
+  ],
+  "review_sha256": "c64c34227d46c0bf8f403349b3d431e9d26497c579937b10b53e75beacc4448d",
+  "independent_review": false,
+  "user_acceptance": false,
+  "boundary": "Fast scope is not strict visual-fidelity acceptance or independent human approval. No waiver for untranslated speech, broken graphics, motion retiming or missing evidence."
+}

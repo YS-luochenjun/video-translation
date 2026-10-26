@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "path": "knowledge/distillations/lesson-54aae227c0516b2faff2/6571cf4768f2944bf6d50cf3745e0508270f8bfab326ba423d95f6da703c1a48.json",
+      "sha256": "efbc6aa4b9d76b0bedad746012779fa66f07e4faa5b80f8c44bab46a11e9d1b3",
+      "lesson_id": "lesson-54aae227c0516b2faff2",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-7044a49363c02658d770/fc40de1549dec7b135aee8521586f1a604fdb4b11d8752af471a87f294a03029.json",
+      "sha256": "b1c9e2f20e947f8f26f0720f88ab9a975960100c604b401bce42a3c02429948b",
+      "lesson_id": "lesson-7044a49363c02658d770",
+      "visibility": "project"
+    }
+  ],
+  "authority": "Derived candidate view; never the active knowledge index"
+}

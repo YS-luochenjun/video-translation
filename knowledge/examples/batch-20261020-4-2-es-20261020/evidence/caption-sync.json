@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "video_sha256": "07691e6bc67749d834bf3e0687379859c0b00f7ef0de8ba7008a58c91b8f40f9",
+  "plan_id": "146e8b70ee819e46",
+  "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+  "inventory_sha256": "91ba6b75a57ba7945efa45c8fa62073b6e583762854ec28fe047972725aeb84d",
+  "track_sha256": "abea0c0045f9e2e3abc49ad012e050cddb96c7a872524b122dbdaed5586feb4e",
+  "audio": {
+    "path": "review/07691e6bc677/audio.wav",
+    "sha256": "4ab936cc3e843ad2abae0b4d99fcaf999f8273709510ee15cc7a6d6f8ca6bc9e"
+  },
+  "reviewer": "Codex same-Agent audiovisual evidence review; external Gemini audio perception and local Whisper DTW, no human/native reviewer claimed",
+  "method": "Compare native glyphs in actual encoded caption boundary frames and the per-instance gallery with the shared final copy. Actual visual times are measured from decoded glyph presence; audio times come from the full final-mix acoustic alignment transferred only after measured candidate WAV correlation >0.99 and zero offset. KIE transcribes actual candidate audio independently.",
+  "decision": "pass",
+  "evidence": [
+    "review/07691e6bc677/audio.wav",
+    "review/07691e6bc677/caption-instances.jpg",
+    "review/07691e6bc677/audio-model-review.json",
+    "review/07691e6bc677/actual-glyph-boundaries.json",
+    "review/07691e6bc677/audio-timebase-check.json",
+    "review/07691e6bc677/final-mix-word-alignment.json"
+  ],
+  "instances": [
+    {
+      "id": "t001",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 0.03,
+          "end": 0.84,
+          "text": "Quizá sea mejor "
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 0.03,
+          "end": 0.84,
+          "text": "Quizá sea mejor "
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "Quizá sea mejor ",
+          "start": 0.03,
+          "end": 0.84
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "Quizá sea mejor ",
+          "start": 0.033333,
+          "end": 0.8666666666666667
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual full-mix acoustic DTW + zero-offset candidate WAV identity, native glyph review, and actual decoded glyph onset/offset measurements. No uniform/source-English timing.",
+      "evidence": [
+        "review/07691e6bc677/audio.wav",
+        "review/07691e6bc677/audio-model-review.json",
+        "review/07691e6bc677/final-mix-word-alignment.json",
+        "review/07691e6bc677/audio-timebase-check.json",
+        "review/07691e6bc677/actual-glyph-boundaries.json",
+        "review/07691e6bc677/caption-instances.jpg",
+        "review/07691e6bc677/caption-t001-000-0.jpg",
+        "review/07691e6bc677/caption-t001-000-1.jpg",
+        "review/07691e6bc677/caption-t001-000-2.jpg",
+        "review/07691e6bc677/caption-t001-000-3.jpg",
+        "review/07691e6bc677/caption-t001-000-4.jpg"
+      ]
+    },
+    {
+      "id": "t002",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 0.84,
+          "end": 2.22,
+          "text": "no ver esto con gente cerca. "
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 0.84,
+          "end": 2.22,
+          "text": "no ver esto con gente cerca. "
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "no ver esto con gente cerca. ",
+          "start": 0.84,
+          "end": 2.22
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "no ver esto con gente cerca. ",
+          "start": 0.866667,
+          "end": 2.2333333333333334
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual full-mix acoustic DTW + zero-offset candidate WAV identity, native glyph review, and actual decoded glyph onset/offset measurements. No uniform/source-English timing.",
+      "evidence": [
+        "review/07691e6bc677/audio.wav",
+        "review/07691e6bc677/audio-model-review.json",
+        "review/07691e6bc677/final-mix-word-alignment.json",
+        "review/07691e6bc677/audio-timebase-check.json",
+        "review/07691e6bc677/actual-glyph-boundaries.json",
+        "review/07691e6bc677/caption-instances.jpg",
+        "review/07691e6bc677/caption-t002-000-0.jpg",
+        "review/07691e6bc677/caption-t002-000-1.jpg",
+        "review/07691e6bc677/caption-t002-000-2.jpg",
+        "review/07691e6bc677/caption-t002-000-3.jpg",
+        "review/07691e6bc677/caption-t002-000-4.jpg"
+      ]
+    },
+    {
+      "id": "t003",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 2.7,
+          "end": 3.5,
+          "text": "Cuando tengas un momento "
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 2.7,
+          "end": 3.5,
+          "text": "Cuando tengas un momento "
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "Cuando tengas un momento ",
+          "start": 2.7,
+          "end": 3.5
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "Cuando tengas un momento ",
+          "start": 2.7,
+          "end": 3.5
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual full-mix acoustic DTW + zero-offset candidate WAV identity, native glyph review, and actual decoded glyph onset/offset measurements. No uniform/source-English timing.",
+      "evidence": [
+        "review/07691e6bc677/audio.wav",
+        "review/07691e6bc677/audio-model-review.json",
+        "review/07691e6bc677/final-mix-word-alignment.json",
+        "review/07691e6bc677/audio-timebase-check.json",
+        "review/07691e6bc677/actual-glyph-boundaries.json",
+        "review/07691e6bc677/caption-instances.jpg",
+        "review/07691e6bc677/caption-t003-000-0.jpg",
+        "review/07691e6bc677/caption-t003-000-1.jpg",
+        "review/07691e6bc677/caption-t003-000-2.jpg",
+        "review/07691e6bc677/caption-t003-000-3.jpg",
+        "review/07691e6bc677/caption-t003-000-4.jpg"
+      ]
+    },
+    {
+      "id": "t004",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 3.5,
+          "end": 4.12,
+          "text": "a solas, "
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 3.5,
+          "end": 4.12,
+          "text": "a solas, "
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "a solas, ",
+          "start": 3.5,
+          "end": 4.12
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "a solas, ",
+          "start": 3.5,
+          "end": 4.133333333333334
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual full-mix acoustic DTW + zero-offset candidate WAV identity, native glyph review, and actual decoded glyph onset/offset measurements. No uniform/source-English timing.",
+      "evidence": [
+        "review/07691e6bc677/audio.wav",
+        "review/07691e6bc677/audio-model-review.json",
+        "review/07691e6bc677/final-mix-word-alignment.json",
+        "review/07691e6bc677/audio-timebase-check.json",
+        "review/07691e6bc677/actual-glyph-boundaries.json",
+        "review/07691e6bc677/caption-instances.jpg",
+        "review/07691e6bc677/caption-t004-000-0.jpg",
+        "review/07691e6bc677/caption-t004-000-1.jpg",
+        "review/07691e6bc677/caption-t004-000-2.jpg",
+        "review/07691e6bc677/caption-t004-000-3.jpg",
+        "review/07691e6bc677/caption-t004-000-4.jpg"
+      ]
+    },
+    {
+      "id": "t005",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 4.5,
+          "end": 5.42,
+          "text": "desliza a la izquierda "
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 4.5,
+          "end": 5.42,
+          "text": "desliza a la izquierda "
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "desliza a la izquierda ",
+          "start": 4.5,
+          "end": 5.42
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "desliza a la izquierda ",
+          "start": 4.5,
+          "end": 5.433333333333334
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual full-mix acoustic DTW + zero-offset candidate WAV identity, native glyph review, and actual decoded glyph onset/offset measurements. No uniform/source-English timing.",
+      "evidence": [
+        "review/07691e6bc677/audio.wav",
+        "review/07691e6bc677/audio-model-review.json",
+        "review/07691e6bc677/final-mix-word-alignment.json",
+        "review/07691e6bc677/audio-timebase-check.json",
+        "review/07691e6bc677/actual-glyph-boundaries.json",
+        "review/07691e6bc677/caption-instances.jpg",
+        "review/07691e6bc677/caption-t005-000-0.jpg",
+        "review/07691e6bc677/caption-t005-000-1.jpg",
+        "review/07691e6bc677/caption-t005-000-2.jpg",
+        "review/07691e6bc677/caption-t005-000-3.jpg",
+        "review/07691e6bc677/caption-t005-000-4.jpg"
+      ]
+    },
+    {
+      "id": "t006",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 5.42,
+          "end": 6.38,
+          "text": "y mira la primera opción. "
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 5.42,
+          "end": 6.38,
+          "text": "y mira la primera opción. "
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "y mira la primera opción. ",
+          "start": 5.42,
+          "end": 6.38
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "y mira la primera opción. ",
+          "start": 5.433333,
+          "end": 6.4
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual full-mix acoustic DTW + zero-offset candidate WAV identity, native glyph review, and actual decoded glyph onset/offset measurements. No uniform/source-English timing.",
+      "evidence": [
+        "review/07691e6bc677/audio.wav",
+        "review/07691e6bc677/audio-model-review.json",
+        "review/07691e6bc677/final-mix-word-alignment.json",
+        "review/07691e6bc677/audio-timebase-check.json",
+        "review/07691e6bc677/actual-glyph-boundaries.json",
+        "review/07691e6bc677/caption-instances.jpg",
+        "review/07691e6bc677/caption-t006-000-0.jpg",
+        "review/07691e6bc677/caption-t006-000-1.jpg",
+        "review/07691e6bc677/caption-t006-000-2.jpg",
+        "review/07691e6bc677/caption-t006-000-3.jpg",
+        "review/07691e6bc677/caption-t006-000-4.jpg"
+      ]
+    },
+    {
+      "id": "t007",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 6.8,
+          "end": 7.56,
+          "text": "Podría sorprenderte."
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 6.8,
+          "end": 7.56,
+          "text": "Podría sorprenderte."
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "Podría sorprenderte.",
+          "start": 6.8,
+          "end": 7.56
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "Podría sorprenderte.",
+          "start": 6.8,
+          "end": 7.566666666666666
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual full-mix acoustic DTW + zero-offset candidate WAV identity, native glyph review, and actual decoded glyph onset/offset measurements. No uniform/source-English timing.",
+      "evidence": [
+        "review/07691e6bc677/audio.wav",
+        "review/07691e6bc677/audio-model-review.json",
+        "review/07691e6bc677/final-mix-word-alignment.json",
+        "review/07691e6bc677/audio-timebase-check.json",
+        "review/07691e6bc677/actual-glyph-boundaries.json",
+        "review/07691e6bc677/caption-instances.jpg",
+        "review/07691e6bc677/caption-t007-000-0.jpg",
+        "review/07691e6bc677/caption-t007-000-1.jpg",
+        "review/07691e6bc677/caption-t007-000-2.jpg",
+        "review/07691e6bc677/caption-t007-000-3.jpg",
+        "review/07691e6bc677/caption-t007-000-4.jpg"
+      ]
+    }
+  ],
+  "limitation": "Planned units are instructions, not observations. Review actual WAV and caption boundary frames/full playback."
+}

@@ -1,0 +1,23 @@
+{
+  "id": "short-drama-character-voices-20261023",
+  "path": "knowledge/rules/short-drama-character-voices-20261023.md",
+  "scope": {"workflow": "video-localization"},
+  "tags": ["speech", "audio", "timing", "ads", "short_drama", "multi_character_dialogue"],
+  "origin": "Direct project user request on 2026-10-23: store knowledge for multi-character short dramas, prefer multiple distinct stable character voices and at minimum distinguish male and female voices.",
+  "approval_type": "explicit_user_feedback",
+  "evidence_review": "sanitized_project_evidence",
+  "reviewed_by": "Codex; direct user instruction and source-bound production observations reviewed, no human/native-speaker video acceptance",
+  "company_preference": false,
+  "requires_features": ["speech"],
+  "evidence_files": [
+    "knowledge/curation/policies/short-drama-voices-feedback-20261023.json",
+    "knowledge/curation/policies/short-drama-voices-observations-20261023.json"
+  ],
+  "evidence_references": {
+    "feedback": "evidence/short-drama-voices-feedback-20261023.json",
+    "observations": "evidence/short-drama-voices-observations-20261023.json"
+  },
+  "knowledge_type": "project_policy",
+  "validation_level": "explicit_user_feedback",
+  "topic": "audio"
+}

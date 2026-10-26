@@ -1,0 +1,57 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "video_sha256": "566413b2115e35d55df0c33f9c9a35b2c4e3633326e2b6518ce5a24079965689",
+  "audio_path": "review/566413b2115e/audio.wav",
+  "audio_sha256": "c4dc8654966d6bc9859ae271e10f6f094c691bb428a6d1370a2b6e37e82fe727",
+  "engine": "faster-whisper 1.2.1, base multilingual, CPU int8",
+  "model_sha256": "d01c3014881c9c6f3133c182f3d2887eb6ca1c789a7538c5c007196857a0a6a9",
+  "language": "ja",
+  "language_probability": 0.9913141131401062,
+  "vad_filter": false,
+  "decoder": "FFmpeg, mono 16000 Hz signed PCM to float32 ndarray",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 1.74,
+      "text": "リソーの相手は誰?",
+      "avg_logprob": -0.5703358576847957,
+      "no_speech_prob": 0.023749370127916336
+    },
+    {
+      "start": 1.74,
+      "end": 4.74,
+      "text": "ノエラム",
+      "avg_logprob": -0.5703358576847957,
+      "no_speech_prob": 0.023749370127916336
+    },
+    {
+      "start": 4.74,
+      "end": 8.58,
+      "text": "写真をアップしてリソーの相手を今すぐチェック",
+      "avg_logprob": -0.5703358576847957,
+      "no_speech_prob": 0.023749370127916336
+    },
+    {
+      "start": 8.58,
+      "end": 13.3,
+      "text": "ノエラム",
+      "avg_logprob": -0.5703358576847957,
+      "no_speech_prob": 0.023749370127916336
+    },
+    {
+      "start": 13.3,
+      "end": 15.38,
+      "text": "ノエラム",
+      "avg_logprob": -0.5703358576847957,
+      "no_speech_prob": 0.023749370127916336
+    },
+    {
+      "start": 15.38,
+      "end": 18.12,
+      "text": "今すぐ撮り終わったみそう",
+      "avg_logprob": -0.5703358576847957,
+      "no_speech_prob": 0.023749370127916336
+    }
+  ],
+  "proof_boundary": "Local model transcription in actual detected language, no target script supplied. It is not direct listening or proof of background music/FX completeness."
+}

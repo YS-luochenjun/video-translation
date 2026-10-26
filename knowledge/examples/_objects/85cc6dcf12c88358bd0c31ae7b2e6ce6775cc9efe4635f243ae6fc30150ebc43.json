@@ -1,0 +1,1034 @@
+{
+  "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+  "neutral_sha256": "6ad8c745c2303343cc7fb88ea21a7bdb2509d7441c4b791117de8285b811d8e4",
+  "engine": "RapidOCR 1.4.4 CPU / bundled PP-OCR ONNX",
+  "frame_count": 67,
+  "frames": [
+    {
+      "frame": 477,
+      "time": 15.9,
+      "observations": []
+    },
+    {
+      "frame": 478,
+      "time": 15.933333,
+      "observations": []
+    },
+    {
+      "frame": 479,
+      "time": 15.966667,
+      "observations": []
+    },
+    {
+      "frame": 480,
+      "time": 16.0,
+      "observations": []
+    },
+    {
+      "frame": 481,
+      "time": 16.033333,
+      "observations": []
+    },
+    {
+      "frame": 482,
+      "time": 16.066667,
+      "observations": []
+    },
+    {
+      "frame": 483,
+      "time": 16.1,
+      "observations": []
+    },
+    {
+      "frame": 484,
+      "time": 16.133333,
+      "observations": []
+    },
+    {
+      "frame": 485,
+      "time": 16.166667,
+      "observations": []
+    },
+    {
+      "frame": 486,
+      "time": 16.2,
+      "observations": []
+    },
+    {
+      "frame": 487,
+      "time": 16.233333,
+      "observations": []
+    },
+    {
+      "frame": 488,
+      "time": 16.266667,
+      "observations": []
+    },
+    {
+      "frame": 489,
+      "time": 16.3,
+      "observations": []
+    },
+    {
+      "frame": 490,
+      "time": 16.333333,
+      "observations": []
+    },
+    {
+      "frame": 491,
+      "time": 16.366667,
+      "observations": []
+    },
+    {
+      "frame": 492,
+      "time": 16.4,
+      "observations": []
+    },
+    {
+      "frame": 493,
+      "time": 16.433333,
+      "observations": []
+    },
+    {
+      "frame": 494,
+      "time": 16.466667,
+      "observations": []
+    },
+    {
+      "frame": 495,
+      "time": 16.5,
+      "observations": []
+    },
+    {
+      "frame": 496,
+      "time": 16.533333,
+      "observations": []
+    },
+    {
+      "frame": 497,
+      "time": 16.566667,
+      "observations": []
+    },
+    {
+      "frame": 498,
+      "time": 16.6,
+      "observations": []
+    },
+    {
+      "frame": 499,
+      "time": 16.633333,
+      "observations": []
+    },
+    {
+      "frame": 500,
+      "time": 16.666667,
+      "observations": []
+    },
+    {
+      "frame": 501,
+      "time": 16.7,
+      "observations": []
+    },
+    {
+      "frame": 502,
+      "time": 16.733333,
+      "observations": []
+    },
+    {
+      "frame": 503,
+      "time": 16.766667,
+      "observations": []
+    },
+    {
+      "frame": 504,
+      "time": 16.8,
+      "observations": []
+    },
+    {
+      "frame": 505,
+      "time": 16.833333,
+      "observations": []
+    },
+    {
+      "frame": 506,
+      "time": 16.866667,
+      "observations": []
+    },
+    {
+      "frame": 507,
+      "time": 16.9,
+      "observations": []
+    },
+    {
+      "frame": 508,
+      "time": 16.933333,
+      "observations": []
+    },
+    {
+      "frame": 509,
+      "time": 16.966667,
+      "observations": []
+    },
+    {
+      "frame": 510,
+      "time": 17.0,
+      "observations": []
+    },
+    {
+      "frame": 511,
+      "time": 17.033333,
+      "observations": []
+    },
+    {
+      "frame": 512,
+      "time": 17.066667,
+      "observations": []
+    },
+    {
+      "frame": 513,
+      "time": 17.1,
+      "observations": []
+    },
+    {
+      "frame": 514,
+      "time": 17.133333,
+      "observations": []
+    },
+    {
+      "frame": 515,
+      "time": 17.166667,
+      "observations": []
+    },
+    {
+      "frame": 516,
+      "time": 17.2,
+      "observations": []
+    },
+    {
+      "frame": 517,
+      "time": 17.233333,
+      "observations": []
+    },
+    {
+      "frame": 518,
+      "time": 17.266667,
+      "observations": []
+    },
+    {
+      "frame": 519,
+      "time": 17.3,
+      "observations": []
+    },
+    {
+      "frame": 520,
+      "time": 17.333333,
+      "observations": []
+    },
+    {
+      "frame": 521,
+      "time": 17.366667,
+      "observations": []
+    },
+    {
+      "frame": 522,
+      "time": 17.4,
+      "observations": []
+    },
+    {
+      "frame": 523,
+      "time": 17.433333,
+      "observations": []
+    },
+    {
+      "frame": 524,
+      "time": 17.466667,
+      "observations": []
+    },
+    {
+      "frame": 525,
+      "time": 17.5,
+      "observations": []
+    },
+    {
+      "frame": 526,
+      "time": 17.533333,
+      "observations": []
+    },
+    {
+      "frame": 527,
+      "time": 17.566667,
+      "observations": []
+    },
+    {
+      "frame": 528,
+      "time": 17.6,
+      "observations": []
+    },
+    {
+      "frame": 529,
+      "time": 17.633333,
+      "observations": []
+    },
+    {
+      "frame": 530,
+      "time": 17.666667,
+      "observations": []
+    },
+    {
+      "frame": 531,
+      "time": 17.7,
+      "observations": []
+    },
+    {
+      "frame": 532,
+      "time": 17.733333,
+      "observations": []
+    },
+    {
+      "frame": 533,
+      "time": 17.766667,
+      "observations": []
+    },
+    {
+      "frame": 534,
+      "time": 17.8,
+      "observations": []
+    },
+    {
+      "frame": 535,
+      "time": 17.833333,
+      "observations": []
+    },
+    {
+      "frame": 536,
+      "time": 17.866667,
+      "observations": []
+    },
+    {
+      "frame": 537,
+      "time": 17.9,
+      "observations": []
+    },
+    {
+      "frame": 538,
+      "time": 17.933333,
+      "observations": []
+    },
+    {
+      "frame": 539,
+      "time": 17.966667,
+      "observations": []
+    },
+    {
+      "frame": 540,
+      "time": 18.0,
+      "observations": []
+    },
+    {
+      "frame": 541,
+      "time": 18.033333,
+      "observations": []
+    },
+    {
+      "frame": 542,
+      "time": 18.066667,
+      "observations": []
+    },
+    {
+      "frame": 543,
+      "time": 18.1,
+      "observations": []
+    }
+  ],
+  "source_positive_controls": [
+    {
+      "frame": 477,
+      "observations": [
+        {
+          "text": "it",
+          "confidence": 0.6327,
+          "polygon": [
+            [
+              414.0,
+              480.0
+            ],
+            [
+              514.0,
+              487.0
+            ],
+            [
+              508.0,
+              580.0
+            ],
+            [
+              407.0,
+              573.0
+            ]
+          ]
+        },
+        {
+          "text": "Freel",
+          "confidence": 0.9014,
+          "polygon": [
+            [
+              117.0,
+              595.0
+            ],
+            [
+              386.0,
+              595.0
+            ],
+            [
+              386.0,
+              693.0
+            ],
+            [
+              117.0,
+              693.0
+            ]
+          ]
+        },
+        {
+          "text": "Now",
+          "confidence": 0.9928,
+          "polygon": [
+            [
+              375.0,
+              596.0
+            ],
+            [
+              608.0,
+              601.0
+            ],
+            [
+              606.0,
+              690.0
+            ],
+            [
+              373.0,
+              686.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 478,
+      "observations": [
+        {
+          "text": "Try it",
+          "confidence": 0.8449,
+          "polygon": [
+            [
+              109.0,
+              410.0
+            ],
+            [
+              622.0,
+              403.0
+            ],
+            [
+              624.0,
+              607.0
+            ],
+            [
+              112.0,
+              614.0
+            ]
+          ]
+        },
+        {
+          "text": "Free",
+          "confidence": 0.9912,
+          "polygon": [
+            [
+              0.0,
+              597.0
+            ],
+            [
+              365.0,
+              597.0
+            ],
+            [
+              365.0,
+              752.0
+            ],
+            [
+              0.0,
+              752.0
+            ]
+          ]
+        },
+        {
+          "text": "Now",
+          "confidence": 0.9951,
+          "polygon": [
+            [
+              378.0,
+              593.0
+            ],
+            [
+              719.0,
+              623.0
+            ],
+            [
+              719.0,
+              758.0
+            ],
+            [
+              367.0,
+              729.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 492,
+      "observations": [
+        {
+          "text": "Tcy it",
+          "confidence": 0.8753,
+          "polygon": [
+            [
+              179.0,
+              460.0
+            ],
+            [
+              545.0,
+              453.0
+            ],
+            [
+              548.0,
+              598.0
+            ],
+            [
+              182.0,
+              605.0
+            ]
+          ]
+        },
+        {
+          "text": "Free",
+          "confidence": 0.9829,
+          "polygon": [
+            [
+              88.0,
+              593.0
+            ],
+            [
+              378.0,
+              604.0
+            ],
+            [
+              374.0,
+              714.0
+            ],
+            [
+              84.0,
+              703.0
+            ]
+          ]
+        },
+        {
+          "text": "MON",
+          "confidence": 0.8933,
+          "polygon": [
+            [
+              375.0,
+              596.0
+            ],
+            [
+              639.0,
+              603.0
+            ],
+            [
+              636.0,
+              706.0
+            ],
+            [
+              372.0,
+              698.0
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "target_samples": [
+    {
+      "frame": 477,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.9803,
+          "polygon": [
+            [
+              247.0,
+              484.0
+            ],
+            [
+              479.0,
+              487.0
+            ],
+            [
+              478.0,
+              579.0
+            ],
+            [
+              246.0,
+              575.0
+            ]
+          ]
+        },
+        {
+          "text": "免费体验",
+          "confidence": 0.999,
+          "polygon": [
+            [
+              133.0,
+              585.0
+            ],
+            [
+              590.0,
+              587.0
+            ],
+            [
+              589.0,
+              703.0
+            ],
+            [
+              132.0,
+              701.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 478,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.999,
+          "polygon": [
+            [
+              178.0,
+              426.0
+            ],
+            [
+              552.0,
+              431.0
+            ],
+            [
+              549.0,
+              590.0
+            ],
+            [
+              176.0,
+              585.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 479,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.9866,
+          "polygon": [
+            [
+              212.0,
+              455.0
+            ],
+            [
+              512.0,
+              464.0
+            ],
+            [
+              509.0,
+              582.0
+            ],
+            [
+              208.0,
+              573.0
+            ]
+          ]
+        },
+        {
+          "text": "免费体验",
+          "confidence": 0.9986,
+          "polygon": [
+            [
+              68.0,
+              581.0
+            ],
+            [
+              652.0,
+              583.0
+            ],
+            [
+              651.0,
+              737.0
+            ],
+            [
+              67.0,
+              735.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 480,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.9918,
+          "polygon": [
+            [
+              248.0,
+              484.0
+            ],
+            [
+              477.0,
+              487.0
+            ],
+            [
+              476.0,
+              581.0
+            ],
+            [
+              247.0,
+              578.0
+            ]
+          ]
+        },
+        {
+          "text": "免费体验",
+          "confidence": 0.9989,
+          "polygon": [
+            [
+              136.0,
+              586.0
+            ],
+            [
+              585.0,
+              588.0
+            ],
+            [
+              585.0,
+              700.0
+            ],
+            [
+              136.0,
+              699.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 482,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.963,
+          "polygon": [
+            [
+              227.0,
+              469.0
+            ],
+            [
+              494.0,
+              470.0
+            ],
+            [
+              493.0,
+              575.0
+            ],
+            [
+              226.0,
+              574.0
+            ]
+          ]
+        },
+        {
+          "text": "免费体验",
+          "confidence": 0.999,
+          "polygon": [
+            [
+              96.0,
+              582.0
+            ],
+            [
+              626.0,
+              585.0
+            ],
+            [
+              625.0,
+              721.0
+            ],
+            [
+              95.0,
+              719.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 483,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.8106,
+          "polygon": [
+            [
+              226.0,
+              467.0
+            ],
+            [
+              497.0,
+              472.0
+            ],
+            [
+              496.0,
+              578.0
+            ],
+            [
+              224.0,
+              573.0
+            ]
+          ]
+        },
+        {
+          "text": "免费体验",
+          "confidence": 0.9985,
+          "polygon": [
+            [
+              92.0,
+              581.0
+            ],
+            [
+              629.0,
+              584.0
+            ],
+            [
+              628.0,
+              726.0
+            ],
+            [
+              91.0,
+              723.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 492,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.9869,
+          "polygon": [
+            [
+              229.0,
+              472.0
+            ],
+            [
+              492.0,
+              474.0
+            ],
+            [
+              491.0,
+              577.0
+            ],
+            [
+              228.0,
+              576.0
+            ]
+          ]
+        },
+        {
+          "text": "免费体验",
+          "confidence": 0.9993,
+          "polygon": [
+            [
+              102.0,
+              582.0
+            ],
+            [
+              620.0,
+              586.0
+            ],
+            [
+              620.0,
+              719.0
+            ],
+            [
+              101.0,
+              716.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 537,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.9506,
+          "polygon": [
+            [
+              228.0,
+              472.0
+            ],
+            [
+              492.0,
+              473.0
+            ],
+            [
+              492.0,
+              578.0
+            ],
+            [
+              228.0,
+              576.0
+            ]
+          ]
+        },
+        {
+          "text": "免费体验",
+          "confidence": 0.9993,
+          "polygon": [
+            [
+              102.0,
+              582.0
+            ],
+            [
+              620.0,
+              586.0
+            ],
+            [
+              620.0,
+              719.0
+            ],
+            [
+              101.0,
+              716.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 540,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.9872,
+          "polygon": [
+            [
+              229.0,
+              472.0
+            ],
+            [
+              492.0,
+              474.0
+            ],
+            [
+              491.0,
+              577.0
+            ],
+            [
+              228.0,
+              576.0
+            ]
+          ]
+        },
+        {
+          "text": "免费体验",
+          "confidence": 0.9993,
+          "polygon": [
+            [
+              102.0,
+              582.0
+            ],
+            [
+              620.0,
+              586.0
+            ],
+            [
+              620.0,
+              719.0
+            ],
+            [
+              101.0,
+              716.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 543,
+      "observations": [
+        {
+          "text": "立即",
+          "confidence": 0.9872,
+          "polygon": [
+            [
+              229.0,
+              472.0
+            ],
+            [
+              492.0,
+              474.0
+            ],
+            [
+              491.0,
+              577.0
+            ],
+            [
+              228.0,
+              576.0
+            ]
+          ]
+        },
+        {
+          "text": "免费体验",
+          "confidence": 0.9993,
+          "polygon": [
+            [
+              102.0,
+              582.0
+            ],
+            [
+              620.0,
+              586.0
+            ],
+            [
+              620.0,
+              719.0
+            ],
+            [
+              101.0,
+              716.0
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "english_hits": [],
+  "reused_neutral_ocr": {
+    "path": "review/e505dbe9453d/neutral-ocr-all-cta.json",
+    "sha256": "414ad75088579eaadd10a09a5e7d9baeae3d8987582599a18f6cb717595cb91f"
+  },
+  "proof_boundary": "OCR absence alone is insufficient; continuous final frames separately inspected. If reused_neutral_ocr is present, its identical neutral-video hash was verified; target samples are freshly recognized."
+}

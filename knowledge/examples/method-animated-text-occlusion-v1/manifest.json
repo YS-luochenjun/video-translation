@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "method-animated-text-occlusion-v1",
+  "created_at": "2026-10-20T06:48:03+00:00",
+  "files": [
+    {
+      "path": "evidence/method-animated-text-occlusion-v1-observations.json",
+      "sha256": "58095db34fe7cea9b3790ad6063dfe1409e434ecca88f40f07de337299cf0458",
+      "bytes": 1528
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 动态文字：检查完整运动范围、风格和前景关系\n\n适用于实例清单含文字运动轨迹的广告。该方法归纳三个源素材的开发观察；每个新素材重新测量，不复制示例的阈值、遮罩或字体尺寸。\n\n1. 按实际对象和遮挡关系分开文字、图标、箭头及背景。颜色相连不等于同一对象；先确认前后关系，再选择分割和合成方法。\n2. 在进场、放大、稳定、重叠、出场及末帧检查源文字的完整范围，包括描边、阴影和被裁切字母。源字擦除窗口与目标字显示窗口分别记录。\n3. 在加入目标文字前检查底片和前景边缘，再逐实例重建必要的颜色、层级、尺寸与运动。文字围绕图标被错误拆分、残字跟随前景、统一配色损坏源风格都应触发局部返工。\n4. 查看实际编码后的边界与连续帧，并按既有逐实例质量门禁审查。OCR用于定位和辅助，未识别到文字不等于画面没有残字。\n\n证据索引：evidence:observations。观察包含成功修正和失败评审，并不证明复杂运动背景、任意艺术字或视频模型可以稳定自动完成。半透明素材、软边及新对象关系需单独检查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/method-animated-text-occlusion-v1-observations.json"
+    }
+  }
+}

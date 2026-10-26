@@ -1,0 +1,19 @@
+{
+  "status": "candidate",
+  "outcome": "technical_fix_verified",
+  "observations": [
+    "Full-range JPEG output fixed real AV1 limited-range extraction; a limited-range synthetic regression also passes.",
+    "Material title differs from actual content; build prompts from inspected evidence."
+  ],
+  "evidence": [
+    "origin:observations.json",
+    "tests/test_acceptance.py"
+  ],
+  "company_preference": false,
+  "limitations": [
+    "One real source",
+    "No speech transcription/localization acceptance"
+  ],
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "68a70571632ec9efbe757ea13b190fc70f2db1c339bc3054e230e850f8feeb11"
+}

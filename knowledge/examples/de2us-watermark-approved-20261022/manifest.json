@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "de2us-watermark-approved-20261022",
+  "created_at": "2026-10-22T02:28:14+00:00",
+  "files": [
+    {
+      "path": "evidence/watermark-feedback-reviewed.json",
+      "sha256": "abae199182b170433772321daa304a0a70261c1a785738a6f35dcc53e6316ff2",
+      "bytes": 717
+    },
+    {
+      "path": "evidence/watermark-observations-reviewed.json",
+      "sha256": "aa1fce2f17367a54a721acb708d5580090c5fffdd4a34a8a24f5f9ba0f76ce7d",
+      "bytes": 891
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# de2us 水印去除的用户局部认可\n\n适用范围仅为已绑定源片和英语成片的水印去除。用户原话：“目前对于水印去除，我还是比较满意的，请你归纳为知识等，保留此次的水印去除规范。”见 evidence:feedback。\n\n成片移除了移动、旋转的 Quiztest 水印及结尾 QUIZTEST.ME，保留 A/B/C/D、CHANEL、PRADA。开头水印从底边进入的字尖曾漏检；逐帧补绘曾影响蝴蝶结纹理；产品切镜与标题切换不一致曾导致供体错位；模糊 CTA 早于原清单进入。处理教训和实际哈希见 evidence:observations。\n\n用户认可不清除旧失败资产的质量禁用记录，不更改历史评审。当前修正版的配音自然度、音乐和全部音效仍有未完成的听感验证，不因水印认可改为整片通过。供体、帧号、旋转速度及阈值只用于同源参考。\n",
+    "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f",
+    "video_sha256": "ff1eec75f0b7242b002c0bc6b8d7b0cacd464f446571c6abc4de90bc35060f92",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "feedback": "evidence/watermark-feedback-reviewed.json",
+      "observations": "evidence/watermark-observations-reviewed.json"
+    }
+  }
+}

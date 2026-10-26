@@ -1,0 +1,6 @@
+{
+  "voice": "piper-es-sharvard",
+  "speed": 1.0,
+  "speaker_id": 0,
+  "speech_ids": ["sp001"]
+}

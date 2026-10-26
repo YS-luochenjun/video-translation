@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "short-drama-character-voices-v2",
+  "created_at": "2026-10-26T02:49:20+00:00",
+  "files": [
+    {
+      "path": "evidence/agent-selection-review-20261026.json",
+      "sha256": "55ab32c5ab65d89ed4bc31cdf97de913313a2f63589bef3451090b21c772fd82",
+      "bytes": 2214
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 多角色：固定声线与明确的降级条件\n\n适用已确认的多角色对白或短剧；单人口播读 spoken-caption 方法即可。每个可确认角色首选独立声线，同一角色跨镜头、对白、独白及补录保持一致，最低区分男性与女性角色。旁白和片尾另判，未确认者保留身份疑点。\n\n| 触发情况 | 首选与备选 | 切换/停止条件 |\n| --- | --- | --- |\n| 人物身份不清、看不见开口者 | 联看源音频、画面及上下文；必要时真实音频分析 | 仍不确定记 unknown 和具体区间，不能靠 ASR 分段或音高捏造角色/性别，也不能据此降为男女声并声称角色一致 |\n| 角色任务只读首句/漏句 | 留存有效句和任务，缺句用该角色同声线单独补录 | 逐句实际语义/首尾完整后接纳；一次漏读不证明独立声线不可用 |\n| 实际性别/音色不符、同角色跨次变声 | 先用相同角色设定补录受影响台词，再复核实际编码音频 | 预设名不证明男女或一致；若换声线，更新该角色全部相关台词及映射，不混用两种声音 |\n| 临时网络、建任务或执行故障 | 按 KIE 分类恢复原任务、确认费用后有界重试当前模型 | 临时故障不是合并角色理由；未知任务/费用先恢复与占位，不盲目新建 |\n| 多独立声线实际能力不足，或达到授权尝试/预算边界 | 优先交付已核验的角色版本；只有实际可区分男女的可用声音时才可有限降为男女声 | 说明哪些角色共用、为何无法保持独立；全员同声线不满足保底。用户更严格要求优先，未满足部分不能称完成 |\n\n翻译全部可辨对白、短回复、独白与片尾；每句留稳定 character_id、声线、源区间、定稿、实际任务/裁切/放置与声音证据。音色性别根据角色需求及实际声音核验，不从预设名称直接推定。源角色身份保持与性别疑点可分别记录。\n\n时间处理读 short-drama-audio-scenes-v2：源轮次和画面锚点约束停顿、语速、改稿和补录，不为容纳长译文盲目拉长画面。真实目标语音频必需时，音频不可用就明确报告，不以字幕作为音频交付。\n\n实际成片逐语言核验台词覆盖、音色区分、跨次一致、最低男女声、清晰度及首尾同步；保留原音乐音效并查残留外语。保留旧保底，新版独立路径和哈希；自审、音频模型、母语听审、用户验收分别表述。本政策未承诺克隆原演员声音、逐字嘴型或跨视频识别同一演员。\n\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/agent-selection-review-20261026.json"
+    }
+  }
+}

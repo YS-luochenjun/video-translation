@@ -1,0 +1,26 @@
+{
+  "id": "complex-av-en-zh-lowcost-003-f5b1a0abd0",
+  "status": "candidate",
+  "created_at": "2026-10-19T06:50:34+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "Same-source analysis and Chinese audio can be reused without new charges; the fresh 20-credit Wan reference output failed fidelity and was not adopted. Source-only local repair is a separate control, not video-AI editing success.",
+  "evidence": {
+    "run": "complex-av-en-zh-lowcost-003",
+    "video_sha256": "f5b1a0abd0836908f141091e67d1a0c7241e34ae224e9f67af7b2eed3ff3c1b2",
+    "quality_sha256": "5ad5a4f043dadae696bb39a435f841e926804d439fa362861f672adc41d7ff41"
+  },
+  "limitations": [
+    "Same-agent sampled visual review, not independent full playback.",
+    "No new Japanese or Korean assets generated.",
+    "Original music/FX completeness and fine pronunciation require listening.",
+    "Prior user feedback is a style reference, not a waiver of hard defects."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "6dfda32226e138460d78d025eb1b2657d07439179c5eb424393c4d763ae0d881"
+}

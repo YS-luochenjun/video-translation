@@ -1,0 +1,7 @@
+{
+  "authority": "user",
+  "authorization_ref": "REPLACE_WITH_STABLE_ORIGINATING_HUMAN_MESSAGE_ID",
+  "user_request": "REPLACE_WITH_ACTUAL_USER_VIDEO_TRANSLATION_REQUEST",
+  "source": "C:/media/source.mp4",
+  "mode": "first"
+}

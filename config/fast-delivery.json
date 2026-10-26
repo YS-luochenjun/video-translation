@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "authorization": "Project owner instruction 2026-10-23: default fast delivery, preserve basic quality",
+  "review_checks": ["translation", "source_text_removed", "protected_graphics", "native_motion", "speech_complete", "head_tail_audio", "music_effects", "caption_sync"],
+  "allowed_variations": ["font and decorative styling", "minor background softness within repaired glyph areas", "small local texture, grain or edge differences unobtrusive during normal-speed playback"],
+  "visual_acceptance": {
+    "minimum_score": 3,
+    "scale": 5,
+    "basis": "Normal-speed full-frame playback first; native crops diagnose defects, not pixel-perfect acceptance.",
+    "allowed_severities": ["minor"],
+    "blocking_severities": ["major", "critical"],
+    "authorization": "Direct project owner request 2026-10-23 to lower visual-imperfection strictness. Do not rewrite historical failures."
+  },
+  "preserved_user_constraints": ["No added opaque text strips or solid rectangular text backings; preserve original containers only"],
+  "max_route_trials": 2,
+  "trial_timebox_seconds": 300,
+  "review_policy": "One shared visual review and one actual encoded per-locale review. Recheck changed dependencies only; never inherit another locale or video hash approval.",
+  "defer": ["knowledge_reflection", "source_snapshot", "full_repository_audit"],
+  "boundary": "Fast scope is not strict visual-fidelity acceptance or independent human approval. No waiver for untranslated speech, broken graphics, motion retiming or missing evidence."
+}

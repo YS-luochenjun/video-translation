@@ -1,0 +1,32 @@
+{
+  "source": {
+    "path": "knowledge/distillations/lesson-7044a49363c02658d770/fc40de1549dec7b135aee8521586f1a604fdb4b11d8752af471a87f294a03029.json",
+    "sha256": "b1c9e2f20e947f8f26f0720f88ab9a975960100c604b401bce42a3c02429948b"
+  },
+  "resolution": "pending",
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project maintenance review, 2026-10-23",
+  "origin": "Project owner requested a finite candidate/adoption/use-feedback lifecycle and preservation of original judgments. Review compared candidate text, limits and current target; no new audiovisual acceptance.",
+  "reason": "Five local still comparisons indicate a failed diagnostic. There is no independently packaged complete neutral-video evidence, temporal acceptance or final output; promotion is unsupported.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "Keep all original sample times, observation hash, local improvement and remaining failure judgments. The original and distillation are one source, not independent confirmations."
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "pending_validation",
+  "next_action": "Before proposing a formal repair method, preserve independent native source/result comparisons for the five sampled times and verify a complete encoded neutral video across boundaries. Check remaining hairline seams, CTA bands and protected numerals. If evidence cannot be recovered or rebuilt, retain this as failed source-specific diagnostic history.",
+  "advisory": {
+    "summary": "On this MOG source, matched image/mask padding reduced reflected text artifacts in sampled stills, but hairline seams and CTA color bands remained. Treat this as a failed probe warning, not a production-ready repair.",
+    "limitations": [
+      "Only five still comparisons; no complete neutral video or temporal validation.",
+      "No final language video or audio acceptance; source and language scope remain unchanged."
+    ],
+    "next_check": "Before proposing a formal repair method, preserve independent native source/result comparisons for the five sampled times and verify a complete encoded neutral video across boundaries. Check remaining hairline seams, CTA bands and protected numerals. If evidence cannot be recovered or rebuilt, retain this as failed source-specific diagnostic history."
+  },
+  "schema_version": 1,
+  "closed": false,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-23T03:30:53+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

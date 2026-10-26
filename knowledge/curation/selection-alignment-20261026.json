@@ -1,0 +1,108 @@
+{
+  "review": "knowledge/curation/policies/agent-selection-review-20261026.json",
+  "published": [
+    {
+      "id": "agent-method-selection-v1",
+      "case": "knowledge/examples/agent-method-selection-v1",
+      "status": "active"
+    },
+    {
+      "id": "content-aware-text-restoration-20261026",
+      "case": "knowledge/examples/content-aware-text-restoration-20261026",
+      "status": "active"
+    },
+    {
+      "id": "neutral-visual-and-animation-gate-v4",
+      "case": "knowledge/examples/neutral-visual-and-animation-gate-v4",
+      "status": "active"
+    },
+    {
+      "id": "route-selection-v3",
+      "case": "knowledge/examples/route-selection-v3",
+      "status": "active"
+    },
+    {
+      "id": "short-drama-character-voices-v2",
+      "case": "knowledge/examples/short-drama-character-voices-v2",
+      "status": "active"
+    },
+    {
+      "id": "short-drama-audio-scenes-v2",
+      "case": "knowledge/examples/short-drama-audio-scenes-v2",
+      "status": "active"
+    },
+    {
+      "id": "method-spoken-caption-verification-v4",
+      "case": "knowledge/examples/method-spoken-caption-verification-v4",
+      "status": "active"
+    },
+    {
+      "id": "user-request-budget-20261026",
+      "case": "knowledge/examples/user-request-budget-20261026",
+      "status": "active"
+    },
+    {
+      "id": "language-aliases-v2",
+      "case": "knowledge/examples/language-aliases-v2",
+      "status": "active"
+    }
+  ],
+  "historical_moves": [
+    {
+      "id": "language-aliases-v1",
+      "from": "knowledge/rules/language-aliases-v1.md",
+      "to": "knowledge/history/rules/language-aliases-v1.md",
+      "sha256": "a390913cad88fea99f56ca5d65225902911e6c052cb3d414133841207371a4d1"
+    },
+    {
+      "id": "method-spoken-caption-verification-v3",
+      "from": "knowledge/rules/method-spoken-caption-verification-v3.md",
+      "to": "knowledge/history/rules/method-spoken-caption-verification-v3.md",
+      "sha256": "6be8f50378ca7cdfa4e3c185a93cb610d0c63bd186cd6ecc74dacad359d8c52b"
+    },
+    {
+      "id": "user-request-budget-20261021",
+      "from": "knowledge/rules/user-request-budget-20261021.md",
+      "to": "knowledge/history/rules/user-request-budget-20261021.md",
+      "sha256": "af0d73e49ae592bab9a22128b7be20e780b619ed440b96936beaeeb46175925e"
+    },
+    {
+      "id": "neutral-visual-and-animation-gate-v3",
+      "from": "knowledge/rules/neutral-visual-and-animation-gate-v3.md",
+      "to": "knowledge/history/rules/neutral-visual-and-animation-gate-v3.md",
+      "sha256": "b6c9443d1ea6d1a7244d234a10c5616c0a89962a106610d6652e7a3e2fe6a8f3"
+    },
+    {
+      "id": "route-selection-v2",
+      "from": "knowledge/rules/route-selection-v2.md",
+      "to": "knowledge/history/rules/route-selection-v2.md",
+      "sha256": "f53c0851d3821320a2478684d0724ee59b18bdc321d37415fba271522e1fcb1d"
+    },
+    {
+      "id": "natural-removal-blur-last-resort-20261023",
+      "from": "knowledge/rules/natural-removal-blur-last-resort-20261023.md",
+      "to": "knowledge/history/rules/natural-removal-blur-last-resort-20261023.md",
+      "sha256": "6b26b8bd9a20536d3219661f6fe88946282c924305966f3d9abb0d9f4cd1f5bb"
+    },
+    {
+      "id": "short-drama-character-voices-20261023",
+      "from": "knowledge/rules/short-drama-character-voices-20261023.md",
+      "to": "knowledge/history/rules/short-drama-character-voices-20261023.md",
+      "sha256": "a911e38285f8af118c52e69bd32b246e7a8f8d39be76791bf6421c5d88a27627"
+    },
+    {
+      "id": "short-drama-audio-scenes-v1",
+      "from": "knowledge/rules/short-drama-audio-scenes-v1.md",
+      "to": "knowledge/history/rules/short-drama-audio-scenes-v1.md",
+      "sha256": "03579226ad9c6bba39f5dd8434c4617226d4190618f8d5e1014536e219314377"
+    },
+    {
+      "id": "unindexed-content-aware-draft",
+      "from": "knowledge/rules/content-aware-text-restoration-20261023.md",
+      "to": "knowledge/history/rules/content-aware-text-restoration-20261023.md",
+      "sha256": "3c763a9e5367ddf2efe6b0d845e12ced26e5052b964a45c1fa4e24a0aa0d0e14",
+      "superseded_by": "content-aware-text-restoration-20261026"
+    }
+  ],
+  "boundary": "Old bodies, evidence bundles and quality outcomes unchanged. No old locale scope broadened."
+}

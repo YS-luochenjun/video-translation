@@ -1,0 +1,425 @@
+{
+  "feedback": {
+    "id": "completed-batch-feedback-20261020",
+    "status": "candidate",
+    "created_at": "2026-10-20T10:36:20+00:00",
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "origin": "Direct user message in project maintenance chat on 2026-10-20",
+    "user_quote": "目前效果不错，你可以进行知识的积累与沉淀。",
+    "interpretation": "Overall positive batch feedback; does not approve every defect, settle charges, or replace per-video technical decisions.",
+    "excluded_active_run": "1-3-es-20261020",
+    "versions": [
+      {
+        "origin_run_id": "1-1-es-20261020",
+        "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3",
+        "video_sha256": "a467b5c43d6df552dcebd3321b7f049de92761eb163bac90244c9452f5ddbab4",
+        "technical_decision": "revise"
+      },
+      {
+        "origin_run_id": "2-1-ar-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "a1d312e43a9c07d9e281cc2adae65c7c0a03f300723b5f39ed16a3d4b9482532",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "2-1-de-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "27a793567c47941d040e5dcb0fdcee2950b1a92d27005a8fcb3d59d292eb6092",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "2-1-es-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "30cf240458a7368349f1b2927006b9f71044c510f817cda45e40c3f92293ae15",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "2-1-hi-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "1fd7dd017e1edff825cc252423d66701b7343603f5d0e9a42716ed6777b1eb67",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "2-1-nl-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "0baed7469262dd4b5bda909a5f78af8ef10bb709dc2d202789e4c06cecce4ea4",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "2-1-pl-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "237f7ca1f656b6203151a4cfc8b409211338ccfd5bac37ded76b2bb6b56638bd",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "2-1-pt-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "ec0cab574d635b98432d980e5017edf281c19146551cc97f63ab0c1da031b29f",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "2-1-tr-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "c8b2f88a13aac5081d7cc893dc195ca0fb1cdca65584ecd3cbb6b6b1410be08f",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "2-1-tw-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "5f4509913bae319c1b48e355e2d41fbf14651387bce1accf5efe64f0336c2aac",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "2-1-vn-20261020",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+        "video_sha256": "047febcdf7d9444be01e71b2b61da0d72da219227650f5c10a87bf378f9d1460",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "4-1-de-20261020",
+        "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+        "video_sha256": "bc190693735125916329c4e0974f734c2582935667e70c84b944a10de0236c19",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "4-1-es-20261020",
+        "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+        "video_sha256": "cb572273392457cc56115eb4b9e987291559fbc9f76b72b4410cd0b73e6aa70b",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "4-1-hi-20261020",
+        "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+        "video_sha256": "adb151ac6ae8287ee97644a25c4ecdbb4e4d1073f77384d7432cbf77a362974f",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "4-1-id-20261020",
+        "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+        "video_sha256": "a2279d3f60f305b4c26876b1ea396d64d725e1097d004b0bcdda9e060d38e12c",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "4-1-pt-20261020",
+        "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+        "video_sha256": "e6193f7715b403ce37b17f29103d1dc8be86772043c00abe20406501befa46a9",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "4-1-tr-20261020",
+        "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+        "video_sha256": "e3eabfe6ae7f6bf5cdb4da505caf49934a9d2f4147e5ec4d63adbee373a26154",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "4-2-de-20261020",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+        "video_sha256": "cc67e5ec491bbbed75963098a65f605e4d32840133da8ffeeed1a57c05505e3c",
+        "technical_decision": "revise"
+      },
+      {
+        "origin_run_id": "4-2-es-20261020",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+        "video_sha256": "07691e6bc67749d834bf3e0687379859c0b00f7ef0de8ba7008a58c91b8f40f9",
+        "technical_decision": "revise"
+      },
+      {
+        "origin_run_id": "4-2-hi-20261020",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+        "video_sha256": "549a3b1a65fee48f0ed2e8edd9ad3968c0cc012ce5ca23d4451e0732b0b9d68f",
+        "technical_decision": "revise"
+      },
+      {
+        "origin_run_id": "4-2-id-20261020",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+        "video_sha256": "72a235aca8cb4d97670e29a47ded11d7b6202823b7bcf176c3472f4a1cae70c7",
+        "technical_decision": "revise"
+      },
+      {
+        "origin_run_id": "4-2-pt-20261020",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+        "video_sha256": "02de61607baa0852e9c09a640b575ca69a20a6c86947fb0a8c913ff18c103fc3",
+        "technical_decision": "revise"
+      },
+      {
+        "origin_run_id": "4-2-tr-20261020",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+        "video_sha256": "4e5b1f215e1b10d5a234c3a57a29fde8ed0a7c8e30a441975d4847ea474a456c",
+        "technical_decision": "revise"
+      },
+      {
+        "origin_run_id": "ad31-de-20261020",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+        "video_sha256": "4a1dd9b1172fb06c7547234d4f6193167f3923bc517b2dc967d436fa459f0a67",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "ad31-es-20261020",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+        "video_sha256": "a2e06ce3f9f6bf76681f34ce656e427410943716c9a2e21ae0e59598055d0f38",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "ad31-fr-20261020",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+        "video_sha256": "9f577c52dd8b927922caf7b71275f2e29772c62d238fca22f9d4ba2163fdfe46",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "ad31-in-20261020",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+        "video_sha256": "83b887bfa1d5330a8b21d89deb3d7ead8ca4fedaea5127c889a5886c28b59d45",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "ad31-jp-20261020",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+        "video_sha256": "91eed374bafd5318b404a3d2fc17afce5104a5b70739b8e49185d9bed94d6543",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "ad31-kr-20261020",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+        "video_sha256": "3c98a197e9e6bac7671bda17f13ad1d3d2e21d074485a867ff881a6bdc98e59f",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "ad31-pt-20261020",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+        "video_sha256": "136a53dc7e3d2b09ca8c01dfe22d8502514b7e8fb711e655f45836891932cdee",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "ad31-vn-20261020",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+        "video_sha256": "4be25ec6208824302fca711d70e1af4696007da6221e63c23fc8031dc120d1b4",
+        "technical_decision": "pass"
+      },
+      {
+        "origin_run_id": "video-1-2-es-20261020-01",
+        "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680",
+        "video_sha256": "46af5daaa4acb765b3f2cf81d92dd9177dbe6a492d0f0b536bb5a0cfe8a66dbb",
+        "technical_decision": "pass"
+      }
+    ],
+    "hypothesis": "Review shared preparation before batch expansion; verify each locale independently and preserve negative evidence.",
+    "evidence_sources": [
+      {
+        "path": "knowledge/examples/batch-20261020-1-1-es-20261020",
+        "manifest_sha256": "8b1bda23c3840fc89a3feecb4534bda8d08cba18b9a62976a3b399b94627e242",
+        "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+      },
+      {
+        "path": "knowledge/examples/batch-20261020-video-1-2-es-20261020-01",
+        "manifest_sha256": "ce07584e31d3b86fc4e39cefe1445dfce996b3306a09385df619cb4df6e0cab4",
+        "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680"
+      },
+      {
+        "path": "knowledge/examples/batch-20261020-2-1-es-20261020",
+        "manifest_sha256": "17d4dc09d282f01314e194d259ae0484ce8fa48d8b9cc05451adebd7b9874ebe",
+        "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+      },
+      {
+        "path": "knowledge/examples/batch-20261020-ad31-es-20261020",
+        "manifest_sha256": "e07bbd5f235803fa7ef8aba50df046e3331e19ff883dde3a9ee86070afb27625",
+        "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+      },
+      {
+        "path": "knowledge/examples/batch-20261020-4-1-es-20261020",
+        "manifest_sha256": "683d2db356592d7bb5974d8a71aff5768cbf885712e7bd26892cc6c1a09f76a1",
+        "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131"
+      },
+      {
+        "path": "knowledge/examples/batch-20261020-4-2-es-20261020",
+        "manifest_sha256": "b2a5b613e7007c7be317b1062d163ea621d813f9aa256c227857b3b141596a27",
+        "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+      }
+    ],
+    "limitations": [
+      "No new human/native review",
+      "No new paid media generation",
+      "No changes to historical pass/revise or provider accounting"
+    ],
+    "company_preference": false
+  },
+  "representative_observations": [
+    {
+      "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3",
+      "video_sha256": "a467b5c43d6df552dcebd3321b7f049de92761eb163bac90244c9452f5ddbab4",
+      "origin_run_id": "1-1-es-20261020",
+      "technical_decision": "revise",
+      "reviewer": "Codex same-Agent visual and model-evidence review",
+      "method": "Actual final MP4: full-scene grid, 33 full-resolution sampled/cut/entry frames, local OCR including caption wipe/last/skull frames, actual final WAV ASR and waveform retention. No direct human/native or independent listening claimed.",
+      "lesson": "Broad static text masks missed photo-wipe caption motion and CTA overshoot. Actual final-frame checks caught both. Per-frame source-letter masks remove English while preserving most original texture; remaining repair bands and unverified separated-audio semantics prevent acceptance. Same-source/local Spanish result only; no general capability or company preference change.",
+      "limitations": [
+        "Visible local inpainting texture/bands remain beneath the second title and in some repaired sky regions.",
+        "Full audio semantics, especially music/FX retention under separated voice windows, remain unverified by direct listening.",
+        "Source waveform outside narration is retained with measured correlation about0.99958 over about19.08s; that does not prove lossless separation.",
+        "CTA entrance is a reconstructed six-frame fade; the source arrow is retained.",
+        "The original skull briefly occludes scene text, as in the source.",
+        "ASR renders Spanish haz as homophonic has; raw TTS script and actual isolated-take ASR retain haz. No transcript is silently corrected."
+      ],
+      "critical_defects": [],
+      "scores": {
+        "translation": 4.8,
+        "visual_fidelity": 3.5,
+        "temporal_alignment": 4.3,
+        "audio": 3.5,
+        "ad_style": 4.0
+      },
+      "original_record_hashes": {
+        "quality": "ab65eba7cb04f315f1fce640297b08c0ead04066db7c955e8bf51460906ddfee",
+        "review": "e59a572fecfce61162628a0087141d16efa391be090f1ca0554edb8775276c30"
+      },
+      "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+    },
+    {
+      "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680",
+      "video_sha256": "46af5daaa4acb765b3f2cf81d92dd9177dbe6a492d0f0b536bb5a0cfe8a66dbb",
+      "origin_run_id": "video-1-2-es-20261020-01",
+      "technical_decision": "pass",
+      "reviewer": "Codex / same-Agent self-review, 2026-10-20",
+      "method": "Actual final-video contact sheet, source/candidate frames, exact caption boundary panel, focused frame OCR, decoded-pixel boundary measurements, source/mix provenance and independently worded local Whisper base/small transcription. No direct human/independent listening.",
+      "lesson": "Use integer frame intervals at scene boundaries; do not copy rounded seconds directly into end-exclusive video text comparisons. Resolve ambiguous very short TTS ASR by a second local model and actual final-mix checks before another paid synthesis.",
+      "limitations": [
+        "Same-Agent self-review only; no independent reviewer, direct human listening, user acceptance or company acceptance.",
+        "Local glyph restoration approximates hair, fabric and wall texture in formerly occluded letter regions; subtle repair traces remain. Original faces, identity and source cut/wipe motion are preserved.",
+        "UVR separation inside narration windows is approximate; this is not a claim of lossless music/effect separation or human verification of every effect.",
+        "One KIE audio-understanding request returned business code 500 with no task/response billing receipt. Its final charge remains unknown and reserved; no duplicate model POST was made."
+      ],
+      "critical_defects": [],
+      "scores": {
+        "translation": 4.5,
+        "visual_fidelity": 4.1,
+        "temporal_alignment": 4.7,
+        "audio": 4.1,
+        "ad_style": 4.5
+      },
+      "original_record_hashes": {
+        "quality": "35517e72e84e29b6cef3109481790126c66c2abe114ca1cec8c9caf7218bb23d",
+        "review": "e907a8ad460f2ec51ed05ff936b3c0c92ff884285e3afa2d6fa15b9cdd530405"
+      },
+      "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+    },
+    {
+      "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+      "video_sha256": "30cf240458a7368349f1b2927006b9f71044c510f817cda45e40c3f92293ae15",
+      "origin_run_id": "2-1-es-20261020",
+      "technical_decision": "pass",
+      "reviewer": "Codex, same-Agent self review; Gemini 3 Pro audio perception as supplementary evidence",
+      "method": "Inspected the actual per-language final title/CTA crops, common full-timeline contact sheets and boundary frames, source-preserved body, native script layout, source/voice/mix provenance, and separately labeled external final-audio transcription/comparison. No independent human/native-speaker business acceptance claimed.",
+      "lesson": "One source-neutral preparation can serve multiple locales while all translated copy, native glyph layers, narration and actual output reviews remain per language. ASS alpha must be rendered explicitly; inspect actual first candidate before accepting. Multi-clip montage perception can over-report a missing ending, so retain local duration/ASR counterevidence and review separately labeled final WAVs.",
+      "limitations": [
+        "Source temporal plates approximate motion only behind the former headline bands. Source people, hands, nails, bottles, keys and scene timing otherwise remain source-based.",
+        "Same-Agent visual review plus external audio model; no independent native human or company acceptance.",
+        "Two pre-task KIE creation rejections have no itemized billing receipt; costs remain explicitly pending rather than assumed zero."
+      ],
+      "critical_defects": [],
+      "scores": {
+        "translation": 4.6,
+        "visual_fidelity": 4.3,
+        "temporal_alignment": 4.6,
+        "audio": 4.5,
+        "ad_style": 4.4
+      },
+      "original_record_hashes": {
+        "quality": "0ba24568891658be7e8d875aac42ef912b7852bfa07910c1428d24a453edc256",
+        "review": "2213206db0dc47dd5b320cf0afa86fd5f5222d7c6753bd607dc6c9318c96d684"
+      },
+      "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+    },
+    {
+      "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87",
+      "video_sha256": "a2e06ce3f9f6bf76681f34ce656e427410943716c9a2e21ae0e59598055d0f38",
+      "origin_run_id": "ad31-es-20261020",
+      "technical_decision": "pass",
+      "reviewer": "Codex same-Agent visual/AV review, with external KIE actual-audio perception; not independent human/native-speaker or company acceptance",
+      "method": "Actual encoded frame crops and contact sheet inspected per occurrence; native copy, required original-letter removal, font shaping, moving phone UI and foreground clipping checked. All caption pixels decoded for timing. External model reviewed actual decoded audio, whose exact PCM identity is retained across visual-only revisions. Self-review is labeled; technical gates do not establish business acceptance.",
+      "lesson": "Source-only repair was reused across eight languages. A bright foreground-hand mask must exclude dim thumbnail-photo skin; a generic rectangle or connected skin patch leaves source letters or clips native letters. Phone UI text must remain below the source-style caption capsule. Inspect the first source capsule/letter by frame index, not only the intended source caption interval. Actual spoken copy and caption are one script; final timing comes from adjusted voice and actual encoded pixels. These are observations on this one source, not cross-source proof.",
+      "limitations": [
+        "Same-Agent visual and AV judgment plus independent provider audio-only analysis; no human/native-speaker or company acceptance.",
+        "Traditional local lettering repair with source-only neutral plates; local softness remains around repaired title areas, reflected in visual-fidelity score.",
+        "Original music and effects are retained, with local separated accompaniment during narration and modest ducking. Separation is not lossless.",
+        "No lip-sync model used. Creator handle, numeric counts/durations and handwritten palm initials are intentionally preserved.",
+        "The one authorized extra local correction contained failed partial implementations; those attempts and their evidence are retained, with no additional paid submission."
+      ],
+      "critical_defects": [],
+      "scores": {
+        "translation": 4.8,
+        "visual_fidelity": 3.8,
+        "temporal_alignment": 4.8,
+        "audio": 4.6,
+        "ad_style": 4.0
+      },
+      "original_record_hashes": {
+        "quality": "b03b4f57ea68dd9a62f6c9c8ce774e10309a6969342f3f0ac4fa54a23a05364c",
+        "review": "ec280ca24ae2481e9631fd2cc3aebfe0de53420c527e6459499eec4bec314599"
+      },
+      "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+    },
+    {
+      "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+      "video_sha256": "cb572273392457cc56115eb4b9e987291559fbc9f76b72b4410cd0b73e6aa70b",
+      "origin_run_id": "4-1-es-20261020",
+      "technical_decision": "pass",
+      "reviewer": "Codex same-Agent reviewer; Gemini is an external audio-perception tool, not an independent full-video reviewer",
+      "method": "Source/candidate actual-frame comparison; all target-caption crops read; every-frame glyph identity/timing check; actual WAV model transcription, source-comparative or explicitly shared neutral-music audit; mux-signal verification.",
+      "lesson": "Source-specific six-locale production: cache exact-source extraction and one reviewed neutral plate/background; regenerate spoken copy, actual voice alignment and typography for every locale. Reject unsupported free-form accent parameters before generation; retain all failed attempts and receipts.",
+      "limitations": [
+        "Same-Agent visual/translation review with model-assisted audio evidence; per-language external-audio review is claimed only where a real returned report exists. No independent human or company acceptance.",
+        "Original English lip movement is preserved; this is translated narration and captions, not target-language lip synchronization.",
+        "Neck surface underneath the old lettering was inferred locally; source texture there is approximate.",
+        "UVR background separation is approximate; no lossless separation claim.",
+        "API-rejected/transport-failed attempts without a provider billing receipt remain separately unconfirmed in the ledger.",
+        "Local ASR supports spoken meaning and time boundaries; native-speaker pronunciation acceptance remains outside this self-review."
+      ],
+      "critical_defects": [],
+      "scores": {
+        "translation": 4.8,
+        "visual_fidelity": 4.6,
+        "temporal_alignment": 4.6,
+        "audio": 4.6,
+        "ad_style": 4.5
+      },
+      "original_record_hashes": {
+        "quality": "13a1aa655f3f311a50da644a0c948e7dc9a6c864f2370ae95e6acdf688247268",
+        "review": "906ea7448993cfb8103239949f211bd825dc3566e8f2cb55f82f3cd165852e19"
+      },
+      "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+    },
+    {
+      "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+      "video_sha256": "07691e6bc67749d834bf3e0687379859c0b00f7ef0de8ba7008a58c91b8f40f9",
+      "origin_run_id": "4-2-es-20261020",
+      "technical_decision": "revise",
+      "reviewer": "Codex same-Agent review with attributed external audio-model perception; no independent whole-video or business approval",
+      "method": "Inspected all eight localized caption/CTA instances in actual candidate galleries, original source timeline crops, full-frame candidate evidence and caption boundary frames. Reviewed decoded glyph timing, actual candidate WAV identity and source/candidate external audio comparisons. Findings include visual failures; scores never override them.",
+      "lesson": "Same-source six-language preparation can share source analysis and background separation, but any visual repair defect propagates to every language. Source-local classical inpainting produced obvious patches; local LaMa improved text removal but left soft clothing/hair, apple/hand ghosting and source-colour/glyph fragments at transitions. These candidate videos remain revise. Exact native script, actual mixed-audio DTW, independent transcription, decoded glyph boundary measurements and mux timebase correlation are separate evidence. An invalid optional accent was rejected at createTask; singleton JSON review envelopes were recovered locally from saved receipts without another charge. One source and six locales are not six independent source validations.",
+      "limitations": [
+        "Source-burned captions overlap moving clothing, hair, apple and fingers. Repairs create visible soft regions/ghost edges and occasional source-colour/glyph fragments around text transitions.",
+        "Uniform green native subtitles simplify the original per-word green/red/white highlight animation.",
+        "Native female dubbed audio retains original English mouth movements; no lip synchronization was performed.",
+        "Audio preservation is supported by local source separation, original post-7.8s samples, and external model perception; lossless separation is not claimed.",
+        "Same-Agent review plus external audio model and pixel/ASR measurements is not independent native-speaker, company or business acceptance."
+      ],
+      "critical_defects": [
+        "unintended_product_or_action_change",
+        "untranslated_required_instance"
+      ],
+      "scores": {
+        "translation": 4.6,
+        "visual_fidelity": 2.0,
+        "temporal_alignment": 4.7,
+        "audio": 4.2,
+        "ad_style": 3.4
+      },
+      "original_record_hashes": {
+        "quality": "efffa86e9246dd4d3f893a2dd8803662118f30567001910ab209b1231a19e605",
+        "review": "630c940f58d7586fa3f79ecd2afeff9cdad2e15664d9b7e0227a9eaae576440c"
+      },
+      "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+    }
+  ]
+}

@@ -1,0 +1,888 @@
+{
+  "schema_version": 1,
+  "id": "hand-zh-CN-visual-feedback-20261019",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "target_language": "zh-CN"
+  },
+  "status": "superseded",
+  "origin": "Direct overall positive feedback in current Chinese/Japanese preview context, explicitly excluding caption/audio sync",
+  "reviewed_by": "User overall feedback; Codex source/language/hash scope review",
+  "reference_video_sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c",
+  "company_preference": false,
+  "references": [
+    {
+      "id": "ref-001",
+      "name": "candidate-c2cc1070cfb922f1.mp4",
+      "kind": "historical_origin_label",
+      "sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c"
+    },
+    {
+      "id": "ref-002",
+      "name": "20261019-hand-caption-sync.json",
+      "kind": "historical_origin_label",
+      "sha256": "6f49c23ff9cc16b00aabd36673600ec7593e86bfd23769bc2a7f0b826a380c59"
+    }
+  ],
+  "feedback_record": {
+    "schema_version": 1,
+    "recorded_at": "2026-10-19T12:01:04+00:00",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "quote_exact": "好的，先进行Agent项目的修改，吧这部分内容（字幕音频同步）加入。除了这个内容，目前视频还可以，知识还可以",
+    "interpretation": "Current Chinese/Japanese preview context; positive overall feedback excludes subtitle/audio consistency and synchronization.",
+    "references": [
+      {
+        "run": "hand-zh-001",
+        "target_language": "zh-CN",
+        "video": "origin:candidate-c2cc1070cfb922f1.mp4",
+        "video_sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c",
+        "plan_id": "c2cc1070cfb922f1",
+        "quality_sha256": "3bfdffc782cc46b84f0d3a2f7ea7f0317876a9322e5f43b875b036f701f9a7ec",
+        "historical_technical_decision": "revise",
+        "historical_failures": [
+          "instance_failed_or_unverified:t001",
+          "instance_failed_or_unverified:t002",
+          "instance_failed_or_unverified:t008",
+          "critical_defect_or_revision_required"
+        ],
+        "user_feedback": "Overall current previews acceptable apart from spoken-caption consistency/sync",
+        "scope_limit": "No new language-specific pronunciation, lossless separation, independent review, or full technical acceptance claim",
+        "confirmed_prior_credits": 32.85,
+        "paid_job_hashes": {
+          "runs/hand-zh-001/jobs/cd1f10803f22dd36c2ac228c2c8a8baf26f0ebbe6b1969f442b47dee05c8f21d.json": "9d6c80c7596fcfdaa6d8eaade2679624f6ce8b73de43a89831a5f85bdc036080",
+          "runs/hand-zh-001/jobs/cda9bd52613377268e201f644add4ed05800e4782eb5e1b137ec104f0936d852.json": "e7f23e7f3e4be75ff4959cd21ce0d4bb8372dbacf5de91a9330bafd1f533baa8",
+          "runs/hand-zh-001/jobs/ec8ac939605eaebc8258d74d36c025fba78c618df8b6137c31c31ad0badc8a00.json": "4c7f536f34ee30e6f9b2be7af5db6fda6dddc2a3145a09d221671b6571e88923",
+          "runs/hand-zh-001/jobs/f4ddef630e60a4886f5eeaaac9b38875759e1cbcf7422fed84939b7abd3043cd.json": "d6b65e76187ac68a0c152c2301b1675c65b6e3f5785175d741d530777940a205",
+          "runs/hand-zh-001/jobs/fc94cf86524ee8754bc887654d74ecc0d0d97973f78453c044bdfbbb283cba55.json": "fd9fd7324c6fc9edf7c7c630c909ba4699226b490898ebe44280f90cd6de5765"
+        }
+      },
+      {
+        "run": "hand-ja-001",
+        "target_language": "ja-JP",
+        "video": "origin:candidate-cba27c88d6133c1b.mp4",
+        "video_sha256": "fef944392903e3410185a53718e707829c203f983ddbf477c52d5dc5d3c4bad0",
+        "plan_id": "cba27c88d6133c1b",
+        "quality_sha256": "79437943c76ace00ca5a5a05f2f29c7ecc8be663e99ecf324118be197b8f93ae",
+        "historical_technical_decision": "revise",
+        "historical_failures": [
+          "instance_failed_or_unverified:t001",
+          "instance_failed_or_unverified:t002",
+          "instance_failed_or_unverified:t008",
+          "critical_defect_or_revision_required"
+        ],
+        "user_feedback": "Overall current previews acceptable apart from spoken-caption consistency/sync",
+        "scope_limit": "No new language-specific pronunciation, lossless separation, independent review, or full technical acceptance claim",
+        "confirmed_prior_credits": 0.78,
+        "paid_job_hashes": {
+          "runs/hand-ja-001/jobs/9b716bd8b285278cf187f864c211fd441dbeb8fdcf2233f313ffef9d4a4f2fd5.json": "b8452181b9e71297d7ad81cbc4c8ce20f61618664463fa3879590ca76db09fc7",
+          "runs/hand-ja-001/jobs/a15d212e1624d581e154fcc3a3ad1dc3fa2ccf64da384a307fb892d786a610e5.json": "1fac836799aefd809d338f55d53988db2968a008da02dc3b81764b4549d0231e",
+          "runs/hand-ja-001/jobs/fa7c807685e4a009a77f0ce6922c5ddc3797a7985fa172d45c9808998378117c.json": "6bb3c5e3606703c312cead282e553f86723de1b250af3b93851893cb6df57d9c"
+        }
+      }
+    ],
+    "new_paid_calls_this_change": 0,
+    "new_credits_this_change": 0,
+    "prior_pair_credits": 33.63,
+    "proof_boundary": "Direct user feedback plus current hash/receipt checks; historical quality remains unchanged; no regenerated customer video"
+  },
+  "quality": {
+    "schema_version": 1,
+    "video_sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c",
+    "plan_id": "c2cc1070cfb922f1",
+    "checked_at": "2026-10-19T11:39:07+00:00",
+    "decision": "revise",
+    "score": 86.9,
+    "review_sha256": "7023fcfeee332394291a486fc4e86b0e58ba1f505851d0595e5a859232828d48",
+    "audio_check": {
+      "schema_version": 1,
+      "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+      "video_sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c",
+      "strategy": "replace",
+      "source": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 15.2091,
+        "rms_dbfs": -14.04,
+        "peak_dbfs": 0.0,
+        "audible_signal": true,
+        "silence_fraction": 0.0137,
+        "clipped_fraction": 8e-06,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -13.88
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -11.33
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -11.31
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -12.25
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -16.34
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -16.19
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -11.93
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -10.51
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -13.16
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -10.07
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -17.3
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -16.84
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -17.33
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -17.76
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -15.93
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -18.69
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -18.71
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -18.57
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -16.1
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -17.94
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -18.37
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -20.9
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -13.9
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -10.55
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -12.1
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -12.46
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -23.5
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -9.79
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -13.97
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -25.12
+          },
+          {
+            "start": 15.0,
+            "end": 15.209,
+            "rms_dbfs": -90.31
+          }
+        ]
+      },
+      "candidate": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 15.2091,
+        "rms_dbfs": -17.9,
+        "peak_dbfs": -1.69,
+        "audible_signal": true,
+        "silence_fraction": 0.0137,
+        "clipped_fraction": 0.0,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -16.95
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -15.46
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -17.84
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -15.94
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -18.12
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -16.53
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -14.16
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -14.71
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -18.72
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -21.11
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -18.16
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -17.0
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -17.4
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -17.83
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -15.94
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -18.77
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -18.82
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -18.61
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -16.12
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -17.97
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -18.43
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -20.53
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -17.34
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -23.59
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -17.29
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -20.5
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -19.02
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -26.33
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -23.25
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -25.41
+          },
+          {
+            "start": 15.0,
+            "end": 15.209,
+            "rms_dbfs": -75.91
+          }
+        ]
+      },
+      "waveform_match": null,
+      "failures": [],
+      "proof_boundary": "Signal, duration and retained-waveform checks; not listening, ASR, dialogue translation or lip-sync proof"
+    },
+    "failures": [
+      "instance_failed_or_unverified:t001",
+      "instance_failed_or_unverified:t002",
+      "instance_failed_or_unverified:t008",
+      "critical_defect_or_revision_required"
+    ],
+    "proof_boundary": "Technical checks plus attributed agent review; no business or company preference approval",
+    "record_path": "origin:f4f43bf19fdeb7f9ded23cc0.json"
+  },
+  "review": {
+    "schema_version": 1,
+    "reviewer": "Codex same-agent visual self-review; audio perception attributed to original KIE Gemini3Pro comparison",
+    "method": "Actually inspected30 source/output text-instance crops at first-middle-last samples, full timeline contact,32 source/output boundary frames, actual-candidate OCR every0.2s. External original/candidate audio comparison reused only on byte-identical actual WAV and encoded AAC. No independent whole-video reviewer.",
+    "video_sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c",
+    "plan_id": "c2cc1070cfb922f1",
+    "inventory_sha256": "085c5fee6996a49e8fe962718ea916a4f5141b2a189b5360827841d2602e104e",
+    "decision": "revise",
+    "scores": {
+      "translation": 4.6,
+      "visual_fidelity": 4.2,
+      "temporal_alignment": 3.9,
+      "audio": 4.7,
+      "ad_style": 4.3
+    },
+    "critical_defects": [
+      "t001 main target title remains at source frame74=2.4666667s after original title disappears; rounded floating end allowed an extra frame.",
+      "t002 tiny target Free Tutorial remains at source frames103-104 after original title disappears. Source-color visibility gate also mistakes nearby filter colors for source lettering."
+    ],
+    "instances": [
+      {
+        "id": "t001",
+        "decision": "revise",
+        "evidence": [
+          "origin:instance-t001.jpg",
+          "origin:boundary-sheet-01.jpg"
+        ],
+        "note": "Correct translated headline and hierarchy, but actual source/output boundary frame74 proves one-frame late disappearance."
+      },
+      {
+        "id": "t002",
+        "decision": "revise",
+        "evidence": [
+          "origin:instance-t002.jpg",
+          "origin:boundary-sheet-01.jpg"
+        ],
+        "note": "Correct tiny translated title and curtain/filter reconstruction, but source frames103-104 have no title while target remains."
+      },
+      {
+        "id": "t003",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t003.jpg"
+        ],
+        "note": "Tiny manual-tracking/template line translated; actual crop meaning, footprint and static placement checked."
+      },
+      {
+        "id": "t004",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t004.jpg"
+        ],
+        "note": "White HOW TO MAKE caption now translated on actual frame124–142 with outlined source footprint removed."
+      },
+      {
+        "id": "t005",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t005.jpg"
+        ],
+        "note": "Manual tracking fragment translated with complete white-outline erasure in actual samples."
+      },
+      {
+        "id": "t006",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t006.jpg"
+        ],
+        "note": "Male heading translated and followed through stretched entry approximation; final sampled title/exit clear. Exact source animation typography remains approximate."
+      },
+      {
+        "id": "t007",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t007.jpg"
+        ],
+        "note": "External Free Tutorial track spatially filtered from thumbnail titles. Actual middle12.033s stays above phone; final transition exits without previous ghost on girl scene."
+      },
+      {
+        "id": "t008",
+        "decision": "pending",
+        "evidence": [
+          "origin:instance-t008.jpg"
+        ],
+        "note": "Native template-button copy visible under finger; faint original glyph contours remain near left of target at11.467s, so cleanup not verified."
+      },
+      {
+        "id": "t009",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t009.jpg"
+        ],
+        "note": "Native purple template label fits original small button region; original brand marks retained."
+      },
+      {
+        "id": "t010",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t010.jpg"
+        ],
+        "note": "Usage number remains958.6K =95.86万/95.86万回; normalization before interpolation avoids earlier account-name damage."
+      },
+      {
+        "id": "t011",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t011.jpg"
+        ],
+        "note": "Trend caption translated in the original lower UI line with small transparent glyphs."
+      },
+      {
+        "id": "t012",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t012.jpg"
+        ],
+        "note": "Recents translated with a separate reserved dropdown area; actual native glyphs do not cover the icon. Minor residual UI speckles remain cosmetic."
+      },
+      {
+        "id": "t013",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t013.jpg"
+        ],
+        "note": "All tab translated in the original tab position."
+      },
+      {
+        "id": "t014",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t014.jpg"
+        ],
+        "note": "Videos tab translated and original cyan active underline retained."
+      },
+      {
+        "id": "t015",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t015.jpg"
+        ],
+        "note": "Photos tab translated in original surface position."
+      },
+      {
+        "id": "t016",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t016.jpg"
+        ],
+        "note": "Live Photos tab translated in original surface position."
+      },
+      {
+        "id": "t017",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t017.jpg"
+        ],
+        "note": "Selected state translated separately from the earlier Select1item instruction; source numeric count retained."
+      },
+      {
+        "id": "t018",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t018.jpg"
+        ],
+        "note": "Next translated, clipping at actual foreground finger retained; source button shape and color preserved."
+      },
+      {
+        "id": "t019",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t019.jpg"
+        ],
+        "note": "Left CTA translated with gold/white/black outline; original animated arrow kept separately. Source timing/style approximate."
+      },
+      {
+        "id": "t020",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t020.jpg"
+        ],
+        "note": "Right CTA translated with matching hierarchy; actual stable CTA/frame-end crop clear."
+      },
+      {
+        "id": "t024",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t024.jpg"
+        ],
+        "note": "Short source fragment FILTER IN10 translated with10…; no inferred seconds/unit added to the truncated source claim."
+      },
+      {
+        "id": "t025",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t025.jpg"
+        ],
+        "note": "Nested thumbnail Free Tutorial title translated with small native white glyphs, in its own spatial instance; actual first/middle/last crop checked."
+      },
+      {
+        "id": "t026",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t026.jpg"
+        ],
+        "note": "Nested thumbnail Free Tutorial title translated with small native white glyphs, in its own spatial instance; actual first/middle/last crop checked."
+      },
+      {
+        "id": "t027",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t027.jpg"
+        ],
+        "note": "Nested thumbnail Free Tutorial title translated with small native white glyphs, in its own spatial instance; actual first/middle/last crop checked."
+      },
+      {
+        "id": "t028",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t028.jpg"
+        ],
+        "note": "Nested thumbnail Free Tutorial title translated with small native white glyphs, in its own spatial instance; actual first/middle/last crop checked."
+      },
+      {
+        "id": "t029",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t029.jpg"
+        ],
+        "note": "Nested thumbnail Free Tutorial title translated with small native white glyphs, in its own spatial instance; actual first/middle/last crop checked."
+      },
+      {
+        "id": "t030",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t030.jpg"
+        ],
+        "note": "Nested thumbnail Free Tutorial title translated with small native white glyphs, in its own spatial instance; actual first/middle/last crop checked."
+      },
+      {
+        "id": "t031",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t031.jpg"
+        ],
+        "note": "Select1item instruction translated separately before selected-state label appears."
+      },
+      {
+        "id": "t021",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t021.jpg"
+        ],
+        "note": "Complete first kinetic phrase translated in native fragments with source glow hue and bright core; cleared by end of original caption group."
+      },
+      {
+        "id": "t022",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t022.jpg"
+        ],
+        "note": "Second kinetic phrase translated over source phone/finger; original visibility gate suppresses previous late target tail."
+      },
+      {
+        "id": "t023",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:instance-t010.jpg"
+        ],
+        "note": "Original people/actions/effects, source TikTok/CapCut/account identity, numeric timecodes and arrow kept; actual contact/counter/phone evidence inspected."
+      },
+      {
+        "id": "a001",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-model-review.json",
+          "origin:audio-equivalence.json"
+        ],
+        "note": "Native target narration actually transcribed in original paid comparison; identical current audio verified. Local ASR homophone errors not used as ground truth."
+      },
+      {
+        "id": "a002",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-model-review.json",
+          "origin:audio-equivalence.json"
+        ],
+        "note": "Native target narration actually transcribed in original paid comparison; identical current audio verified. Local ASR homophone errors not used as ground truth."
+      }
+    ],
+    "coverage": {
+      "visual": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:instance-capture.json",
+          "origin:boundary-sheet-01.jpg",
+          "origin:boundary-sheet-04.jpg",
+          "origin:ocr-candidate.json"
+        ]
+      },
+      "audio": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-model-review.json",
+          "origin:audio-equivalence.json"
+        ]
+      },
+      "timing": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:instance-capture.json",
+          "origin:boundary-sheet-01.jpg",
+          "origin:boundary-sheet-04.jpg",
+          "origin:ocr-candidate.json"
+        ]
+      }
+    },
+    "audio_checks": {
+      "background_music": {
+        "decision": "pass",
+        "method": "Original source/candidate external audio comparison, rebound via exact encoded AAC and PCM equivalence; no new fee or direct listening.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-model-review.json",
+          "origin:audio-equivalence.json"
+        ],
+        "note": "BGM identical."
+      },
+      "sound_effects": {
+        "decision": "pass",
+        "method": "Original source/candidate external audio comparison, rebound via exact encoded AAC and PCM equivalence; no new fee or direct listening.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-model-review.json",
+          "origin:audio-equivalence.json"
+        ],
+        "note": "SFX retained."
+      },
+      "dialogue_translation": {
+        "decision": "pass",
+        "method": "Original source/candidate external audio comparison, rebound via exact encoded AAC and PCM equivalence; no new fee or direct listening.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-model-review.json",
+          "origin:audio-equivalence.json"
+        ],
+        "note": "Accurate translation."
+      },
+      "sync": {
+        "decision": "pass",
+        "method": "Original source/candidate external audio comparison, rebound via exact encoded AAC and PCM equivalence; no new fee or direct listening.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-model-review.json",
+          "origin:audio-equivalence.json"
+        ],
+        "note": "Sync aligns."
+      }
+    },
+    "lesson": "New-source text hierarchy and per-instance review caught both initial omissions and nested same-name heading motion contamination. Use explicit first/last source frame indices for visibility; floating endpoints can leave1frame. UI background restoration must exclude all original glyph pixels including antialiasing. Treat OCR-zero as one signal, not acceptance. Shared receipts belong outside the new locale paid ledger. Metadata-only recipe rebinding must retain history without consuming a distinct visual revision.",
+    "limitations": [
+      "Final preview remains unaccepted after the allowed2whole-picture revision rounds.",
+      "t008 button shows faint residual glyph contours near native text; zero OCR does not establish clean source lettering.",
+      "Fonts/glow/zoom are approximations; no lip synchronization feature integrated. Source narration is an off-camera tutorial voice, so no new lip-sync success is claimed.",
+      "Local source separation is approximate. Original external audio comparison said same music/effects, with no remaining foreign narration; this is model perception rather than direct Codex/human listening.",
+      "Codex wrote per-source repair/render helpers and fixed shared revision accounting during this test. This does not establish an already-general autonomous pipeline.",
+      "No user/company acceptance or blind/independent review for this source."
+    ]
+  },
+  "actual-costs": {
+    "currency": "KIE credits",
+    "confirmed_new_credits": 32.85,
+    "unknown_jobs": 0,
+    "new_paid_calls": 5,
+    "shared_preparation_charged_to": "hand-zh-001",
+    "revision_new_credits": 0,
+    "tasks": [
+      {
+        "run": "hand-zh-001",
+        "job": "jobs/cd1f10803f22dd36c2ac228c2c8a8baf26f0ebbe6b1969f442b47dee05c8f21d.json",
+        "job_sha256": "9d6c80c7596fcfdaa6d8eaade2679624f6ce8b73de43a89831a5f85bdc036080",
+        "model": "gemini-3-pro",
+        "task_id": null,
+        "response_id": "chatcmpl-b8086680eaa9497dbb0b8be28debf89f",
+        "state": "success",
+        "actual_credits": 0.16
+      },
+      {
+        "run": "hand-zh-001",
+        "job": "jobs/cda9bd52613377268e201f644add4ed05800e4782eb5e1b137ec104f0936d852.json",
+        "job_sha256": "e7f23e7f3e4be75ff4959cd21ce0d4bb8372dbacf5de91a9330bafd1f533baa8",
+        "model": "google/gemini-2-5-pro-tts",
+        "task_id": "b3f927f274eed6ff8ee13584f53b6715",
+        "response_id": null,
+        "state": "success",
+        "actual_credits": 0.25
+      },
+      {
+        "run": "hand-zh-001",
+        "job": "jobs/ec8ac939605eaebc8258d74d36c025fba78c618df8b6137c31c31ad0badc8a00.json",
+        "job_sha256": "4c7f536f34ee30e6f9b2be7af5db6fda6dddc2a3145a09d221671b6571e88923",
+        "model": "wan/2-7-videoedit",
+        "task_id": "435f751677ed26de45f3ff8f6f99dc15",
+        "response_id": null,
+        "state": "success",
+        "actual_credits": 32.0
+      },
+      {
+        "run": "hand-zh-001",
+        "job": "jobs/f4ddef630e60a4886f5eeaaac9b38875759e1cbcf7422fed84939b7abd3043cd.json",
+        "job_sha256": "d6b65e76187ac68a0c152c2301b1675c65b6e3f5785175d741d530777940a205",
+        "model": "google/gemini-2-5-pro-tts",
+        "task_id": "13f830441df235e9e47b62bf1007f4d2",
+        "response_id": null,
+        "state": "success",
+        "actual_credits": 0.31
+      },
+      {
+        "run": "hand-zh-001",
+        "job": "jobs/fc94cf86524ee8754bc887654d74ecc0d0d97973f78453c044bdfbbb283cba55.json",
+        "job_sha256": "fd9fd7324c6fc9edf7c7c630c909ba4699226b490898ebe44280f90cd6de5765",
+        "model": "gemini-3-pro",
+        "task_id": null,
+        "response_id": "chatcmpl-5e586805c2d24647b27afa29a89b9bc9",
+        "state": "success",
+        "actual_credits": 0.13
+      }
+    ],
+    "scope": "This new hand-video evaluation only. KIE receipts, not account balance subtraction. Codex subscription/API usage and local CPU are excluded."
+  },
+  "original_method_sha256": "9aa053b5532e2434c1145d3b3d7f6f5c0a8513dc58109cd717d798bd3e2dc2a3",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

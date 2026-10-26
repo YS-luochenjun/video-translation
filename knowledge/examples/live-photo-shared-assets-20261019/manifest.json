@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "live-photo-shared-assets-20261019",
+  "created_at": "2026-10-20T04:21:29+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "cdcdfec9d2a9cae147c76de4817ca6e76d1a2ca6818ce776aa836c0d152a7ffb",
+      "bytes": 2501
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "912ad6e58d3c197973c3744bb95f4548229e46d8ac87dd383748c7e035502b17",
+      "bytes": 2394
+    },
+    {
+      "path": "evidence/ref-004-reuse-manifest.json",
+      "sha256": "78819c15cf314f56813acdaa8865377a8787cb4856d4b1b12c92bf70e455861f",
+      "bytes": 12607
+    },
+    {
+      "path": "evidence/ref-005-style-reference.json",
+      "sha256": "be3324ad3c1e6bb0c6a3907c2046d284a85387df9a6b086cbe8811abf90f0ecf",
+      "bytes": 199202
+    },
+    {
+      "path": "evidence/ref-006-style-profile.json",
+      "sha256": "74085b26f7cf4142c2a7ac57c74a5097215b159bbd70a664fbc52277dd9c596f",
+      "bytes": 1680
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+    },
+    "status": "superseded",
+    "lesson": "# 真人照片广告：可复用资产位置\n\n仅用于源SHA-256 `410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475`。这是资产可用性索引，跨语种加载，不是对新优化版或韩文的质量验收。用户对手机UI及开始按钮的最新修正优先于旧整体认可中的这些细节。\n\n透明UI样式最初保存在 `evidence:ref-001`，该版得到用户整体认可，但菜单旁出现亮色重叠。最新共享底片改为 `evidence:ref-002`，同目录 `preparation.json` 记录来源和哈希；相同底片也保存在 `evidence:ref-003`。它修除了旧底片中白色下拉图标被inpaint拖入文字区的亮色残影，再恢复原图标像素。两条新运行的 `evidence:ref-004` 指向当前底片与各自字层；新版本尚待用户验收，不等同于韩文已验收。\n\n`evidence:ref-005` 保存每处原文字的截图、时点、位置、已观察风格以及前版目标样式；原字体文件无法从MP4恢复，未伪造原字体名称。`evidence:ref-006` 保存本次中文字重、大小、颜色和字体资产哈希；`source-trajectories.json` 保存实际位置，`t006-transparent.png` 等是透明中文字形，`zh-transparent.mov` 是中文带alpha字层。\n\n韩文的独立字体/透明字层在 `evidence:ref-007`，使用Malgun Gothic。修正后的中文独立字层在 `evidence:ref-008`。这两者都需要连同新共享底片使用：仅移动字层不能消除旧底片的白色图标残影。字体/字层/保护区域的哈希和布局门禁已执行；其他目标语种仍需重新测量字形和检查成片。\n\n几天后制作韩文时，先校验相同源文件和这些资产的哈希，复用解析、轨迹、适用的去字底片及源音乐分轨。使用韩文译稿、含韩文字形的字体、新透明字层、新配音并逐实例检查；不能直接使用中文/日文字层或中文混音。源音乐分轨仍在 `evidence:ref-009`，本次沿用的中文混音在新运行 `evidence:ref-010`。\n\n文件保存在项目本地，跨对话和日期存在；没有自动清理或全库自动去重。部分复用文件因硬链接权限限制采用校验后的复制，复用不等于所有文件只占一份磁盘。源文件、旧底片和历史评审保持原样。新优化版先供用户比较，全部音乐保真与细微同步仍待核实；跨语种需复验。\n",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

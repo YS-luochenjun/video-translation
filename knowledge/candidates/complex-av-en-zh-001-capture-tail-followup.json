@@ -1,0 +1,25 @@
+{
+  "id": "complex-av-en-zh-001-capture-tail-followup",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "When an AAC track outlasts video, using container duration for the last still frame can seek beyond the final picture. Capture must use the video stream end and verify the file was actually produced. This evidence fix does not change the model-content rejection.",
+  "evidence": {
+    "run": "complex-av-en-zh-001",
+    "video_sha256": "466519b59f283764ee73bb1252bd26cbafe40e870b58eeda98bb1b193f7fa66a",
+    "quality_record": "origin:6e9e58faee6d2068d9b53ed6.json",
+    "regression_case": "test_audio.AudioTests.test_capture_uses_video_end_when_audio_outlasts_picture",
+    "prior_candidate": "complex-av-en-zh-001-466519b59f"
+  },
+  "limitations": [
+    "Video content and audio localization remain rejected",
+    "This is an execution/evidence lesson, not a company aesthetic preference"
+  ],
+  "company_preference": false,
+  "promotion": "Not loaded by active retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "40ce7783647a6b1bf7d3d74d839f00cdf4272c16ee946566dfa8a382fca5f6ab"
+}

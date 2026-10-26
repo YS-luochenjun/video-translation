@@ -1,0 +1,18 @@
+{
+  "id": "storage-foundation-20261020",
+  "status": "candidate",
+  "knowledge_class": "project_technical_candidate",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "case": "knowledge/examples/storage-foundation-20261020",
+  "hypothesis": "Separate reusable procedures from source cases; bind source caches and deletion to independent evidence and immutable fingerprints.",
+  "limitations": [
+    "Synthetic lifecycle and local Windows verification, not new customer-video or Linux deployment acceptance",
+    "Direct filesystem deletion bypasses command gates",
+    "Exact SHA256 reuse does not match re-encoded videos",
+    "Single-source artistic/font/segmentation parameters do not become defaults"
+  ],
+  "company_preference": false,
+  "promotion": "Not active; implementation evidence and limits retained for developer review"
+}

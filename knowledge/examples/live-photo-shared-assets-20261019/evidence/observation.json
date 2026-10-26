@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "id": "live-photo-shared-assets-20261019",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+  },
+  "status": "superseded",
+  "origin": "Verified existing source-bound assets plus user reuse request, 2026-10-19",
+  "reviewed_by": "Codex file/hash verification; asset availability only, not user acceptance of the new revision",
+  "reference_video_sha256": null,
+  "company_preference": false,
+  "references": [
+    {
+      "id": "ref-001",
+      "name": "live-photo-zh-ui-002",
+      "kind": "historical_origin_label",
+      "sha256": null
+    },
+    {
+      "id": "ref-002",
+      "name": "master.mp4",
+      "kind": "historical_origin_label",
+      "sha256": "5e70ae287ac1bbf62869640a065cae3bb803f66552072b1e4e893001bcba3c46"
+    },
+    {
+      "id": "ref-003",
+      "name": "live-photo-zh-ui-gap-003",
+      "kind": "historical_origin_label",
+      "sha256": null
+    },
+    {
+      "id": "ref-004",
+      "name": "reuse-manifest.json",
+      "kind": "historical_origin_label",
+      "sha256": "28cea7115261b9e27c1e2ab1bed5b5c8726c65f22c589eb941c0615f5cc1d284"
+    },
+    {
+      "id": "ref-005",
+      "name": "style-reference.json",
+      "kind": "historical_origin_label",
+      "sha256": "37b6bb0379d280ffbf5631b9a314488ca7f250c6a2499e80080fa15d6430ebe5"
+    },
+    {
+      "id": "ref-006",
+      "name": "style-profile.json",
+      "kind": "historical_origin_label",
+      "sha256": "821c5429e1297d23adcfa2e5be00f946684393f7e53fd3ef2125d57aafeae6bd"
+    },
+    {
+      "id": "ref-007",
+      "name": "korean-typography-r1",
+      "kind": "historical_origin_label",
+      "sha256": null
+    },
+    {
+      "id": "ref-008",
+      "name": "dropdown-gap-r1",
+      "kind": "historical_origin_label",
+      "sha256": null
+    },
+    {
+      "id": "ref-009",
+      "name": "local-separation-r2",
+      "kind": "historical_origin_label",
+      "sha256": null
+    },
+    {
+      "id": "ref-010",
+      "name": "translated-mix.wav",
+      "kind": "historical_origin_label",
+      "sha256": "6172fe46bcee817a27e8376ca13ce2d70417d5c54450b416bd5b00a18278d8cb"
+    }
+  ],
+  "original_method_sha256": "f5c680606c02b056d921b33500716e474aa5874aa6c0295772d9a1ff21967a9e",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

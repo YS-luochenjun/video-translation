@@ -1,0 +1,34 @@
+{
+  "id": "supervision-4-2-visual-feedback-20261020",
+  "recorded_at": "2026-10-20T12:11:34+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+  },
+  "actual_old_videos": [
+    "07691e6bc67749d834bf3e0687379859c0b00f7ef0de8ba7008a58c91b8f40f9",
+    "02de61607baa0852e9c09a640b575ca69a20a6c86947fb0a8c913ff18c103fc3",
+    "4e5b1f215e1b10d5a234c3a57a29fde8ed0a7c8e30a441975d4847ea474a456c",
+    "549a3b1a65fee48f0ed2e8edd9ad3968c0cc012ce5ca23d4451e0732b0b9d68f",
+    "72a235aca8cb4d97670e29a47ded11d7b6202823b7bcf176c3472f4a1cae70c7",
+    "cc67e5ec491bbbed75963098a65f605e4d32840133da8ffeeed1a57c05505e3c"
+  ],
+  "user_quote": "目前所有的语言都有问题，主要是，下方的文字，和原视频的动画不一致，包含各种图片等。且目前还是有一个不好的灰色蒙版或没处理干净原来的内容。请你判断，关于灰色蒙版的问题，目前“1-1”这个对话中也正在解决这个问题。你也去看看",
+  "original_feedback_sha256": "9ba1b615e1f1bcb6be2f10bf95bcea48b4605fc112f06e46b298f9352d401f62",
+  "outcome": "visual_rejected_or_unaccepted",
+  "finding": "All six old previews inherit damaged neutral texture and hand/apple ghosting. Fixed green phrase captions and unchanged graphic timing do not reconstruct original motion/style.",
+  "current_repair_status": "In progress; no successful repair algorithm promoted by this record",
+  "generalizable_checks": [
+    "Inspect the silent neutral master at native-scale problem regions and as encoded continuous motion before adding translated text.",
+    "Separate full source-letter erasure from reconstruction quality and target typography/animation checks.",
+    "Static-patch selection must respect actual region motion and compatible reference scene/pose; do not transfer a photo-based recipe to moving hands without a new trial.",
+    "Pilot one language before batch expansion; retain exact failed asset identity and carry later rejection into delivery/reuse state."
+  ],
+  "reviewed_by": "Supervising Codex: thread and record review; 1-3 layer comparison and 4-2 neutral contact sheet inspected; no new full-video/audio acceptance",
+  "limits": [
+    "No universal inpainting solution or quality guarantee.",
+    "Multiple languages from one neutral master count as one source observation.",
+    "Historical audio facts remain scoped; visual rejection does not imply new audio rejection.",
+    "Historical paths in copied records are provenance only; permanent dependencies are files in this manifest."
+  ]
+}

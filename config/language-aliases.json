@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "groups": {
+    "en": ["en", "us", "us2"],
+    "pt": ["pt", "por", "portuguese", "portugal", "br", "bra", "brazil", "brasil", "ptbr", "pt-br"],
+    "es": ["es", "esp", "spanish", "spain", "mx", "mexico", "cl", "co", "pe"],
+    "ja": ["ja", "jp", "jpn", "japanese", "japan"],
+    "de": ["de", "deu", "ger", "german", "germany"],
+    "fr": ["fr", "fra", "fre", "french", "france"],
+    "it": ["it", "ita", "italian", "italy"],
+    "id": ["id", "ind", "indonesian", "indonesia"],
+    "th": ["th", "tha", "thai", "thailand"],
+    "vi": ["vi", "vie", "vietnamese", "vietnam", "vn"],
+    "ko": ["ko", "kor", "korean", "kr", "korea"],
+    "zh": ["zh", "cn", "chs", "chinese", "china", "hk"],
+    "zh-TW": ["zh-tw", "zhtw", "cht", "traditionalchinese", "tw", "taiwan"],
+    "ru": ["ru", "rus", "russian", "russia"],
+    "tr": ["tr", "tur", "turkish", "turkey"],
+    "ar": ["ar", "ara", "arabic"],
+    "hi": ["hi", "hin", "hindi", "in", "india"],
+    "pl": ["pl", "pol", "polish", "poland"],
+    "nl": ["nl", "dut", "dutch", "netherlands"],
+    "fi": ["fi", "fin", "finnish", "finland"],
+    "sv": ["sv", "swe", "swedish", "sweden", "se"],
+    "da": ["da", "dan", "danish", "denmark", "dk"],
+    "ms": ["ms", "may", "malay", "malaysia"],
+    "ro": ["ro", "ron", "romanian", "romania"],
+    "bn": ["bn", "ben", "bengali", "bd", "bangladesh"],
+    "fil": ["fil", "tl", "tgl", "tagalog", "filipino", "ph", "philippines"],
+    "hu": ["hu", "hun", "hungarian", "hungary"]
+  },
+  "names_zh": {
+    "en": "英语", "pt": "葡萄牙语", "es": "西班牙语", "ja": "日语",
+    "de": "德语", "fr": "法语", "it": "意大利语", "id": "印度尼西亚语",
+    "th": "泰语", "vi": "越南语", "ko": "韩语", "zh": "中文",
+    "zh-TW": "繁体中文", "ru": "俄语", "tr": "土耳其语", "ar": "阿拉伯语",
+    "hi": "印地语", "pl": "波兰语", "nl": "荷兰语", "fi": "芬兰语",
+    "sv": "瑞典语", "da": "丹麦语", "ms": "马来语", "ro": "罗马尼亚语",
+    "bn": "孟加拉语", "fil": "菲律宾语", "hu": "匈牙利语"
+  }
+}

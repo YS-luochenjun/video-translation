@@ -1,0 +1,1679 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "clean_frame": 476,
+  "reference_frame": 492,
+  "reference_first_line_blue_bbox": [
+    194,
+    468,
+    332,
+    114
+  ],
+  "points": [
+    {
+      "frame": 477,
+      "time": 15.9,
+      "source_top_blue_bbox": [
+        212,
+        480,
+        296,
+        104
+      ],
+      "scale": 0.891566,
+      "affine": [
+        [
+          0.891566276550293,
+          0.0,
+          39.0361442565918
+        ],
+        [
+          0.0,
+          0.891566276550293,
+          63.927711486816406
+        ]
+      ],
+      "erase_pixels": 78386,
+      "protected_art_pixels": 61579,
+      "background_border_mean_absolute_error": 1.4398
+    },
+    {
+      "frame": 478,
+      "time": 15.933333,
+      "source_top_blue_bbox": [
+        132,
+        424,
+        456,
+        158
+      ],
+      "scale": 1.373494,
+      "affine": [
+        [
+          1.373494029045105,
+          0.0,
+          -134.45782470703125
+        ],
+        [
+          0.0,
+          1.373494029045105,
+          -218.08433532714844
+        ]
+      ],
+      "erase_pixels": 158547,
+      "protected_art_pixels": 139304,
+      "background_border_mean_absolute_error": 6.6232
+    },
+    {
+      "frame": 479,
+      "time": 15.966667,
+      "source_top_blue_bbox": [
+        174,
+        454,
+        372,
+        128
+      ],
+      "scale": 1.120482,
+      "affine": [
+        [
+          1.1204819679260254,
+          0.0,
+          -43.37349319458008
+        ],
+        [
+          0.0,
+          1.1204819679260254,
+          -70.25301361083984
+        ]
+      ],
+      "erase_pixels": 116373,
+      "protected_art_pixels": 94950,
+      "background_border_mean_absolute_error": 1.5938
+    },
+    {
+      "frame": 480,
+      "time": 16.0,
+      "source_top_blue_bbox": [
+        214,
+        482,
+        292,
+        102
+      ],
+      "scale": 0.879518,
+      "affine": [
+        [
+          0.8795180916786194,
+          0.0,
+          43.37349319458008
+        ],
+        [
+          0.0,
+          0.8795180916786194,
+          71.25301361083984
+        ]
+      ],
+      "erase_pixels": 76649,
+      "protected_art_pixels": 60742,
+      "background_border_mean_absolute_error": 1.5552
+    },
+    {
+      "frame": 481,
+      "time": 16.033333,
+      "source_top_blue_bbox": [
+        206,
+        476,
+        308,
+        108
+      ],
+      "scale": 0.927711,
+      "affine": [
+        [
+          0.9277108311653137,
+          0.0,
+          26.02409553527832
+        ],
+        [
+          0.0,
+          0.9277108311653137,
+          42.95180892944336
+        ]
+      ],
+      "erase_pixels": 83712,
+      "protected_art_pixels": 66253,
+      "background_border_mean_absolute_error": 1.4789
+    },
+    {
+      "frame": 482,
+      "time": 16.066667,
+      "source_top_blue_bbox": [
+        190,
+        464,
+        340,
+        118
+      ],
+      "scale": 1.024096,
+      "affine": [
+        [
+          1.0240963697433472,
+          0.0,
+          -8.674698829650879
+        ],
+        [
+          0.0,
+          1.0240963697433472,
+          -14.650602340698242
+        ]
+      ],
+      "erase_pixels": 100093,
+      "protected_art_pixels": 80846,
+      "background_border_mean_absolute_error": 1.2766
+    },
+    {
+      "frame": 483,
+      "time": 16.1,
+      "source_top_blue_bbox": [
+        188,
+        464,
+        344,
+        118
+      ],
+      "scale": 1.036145,
+      "affine": [
+        [
+          1.0361446142196655,
+          0.0,
+          -13.01204776763916
+        ],
+        [
+          0.0,
+          1.0361446142196655,
+          -20.97590446472168
+        ]
+      ],
+      "erase_pixels": 100750,
+      "protected_art_pixels": 81781,
+      "background_border_mean_absolute_error": 1.2851
+    },
+    {
+      "frame": 484,
+      "time": 16.133333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 94399,
+      "protected_art_pixels": 75886,
+      "background_border_mean_absolute_error": 1.6744
+    },
+    {
+      "frame": 485,
+      "time": 16.166667,
+      "source_top_blue_bbox": [
+        196,
+        470,
+        328,
+        112
+      ],
+      "scale": 0.987952,
+      "affine": [
+        [
+          0.9879518151283264,
+          0.0,
+          4.3373494148254395
+        ],
+        [
+          0.0,
+          0.9879518151283264,
+          7.325301170349121
+        ]
+      ],
+      "erase_pixels": 92697,
+      "protected_art_pixels": 74605,
+      "background_border_mean_absolute_error": 1.692
+    },
+    {
+      "frame": 486,
+      "time": 16.2,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 94735,
+      "protected_art_pixels": 76318,
+      "background_border_mean_absolute_error": 2.1707
+    },
+    {
+      "frame": 487,
+      "time": 16.233333,
+      "source_top_blue_bbox": [
+        194,
+        466,
+        332,
+        116
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          -1.0
+        ]
+      ],
+      "erase_pixels": 95956,
+      "protected_art_pixels": 77488,
+      "background_border_mean_absolute_error": 2.1685
+    },
+    {
+      "frame": 488,
+      "time": 16.266667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95487,
+      "protected_art_pixels": 76928,
+      "background_border_mean_absolute_error": 1.9477
+    },
+    {
+      "frame": 489,
+      "time": 16.3,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 94716,
+      "protected_art_pixels": 76319,
+      "background_border_mean_absolute_error": 1.955
+    },
+    {
+      "frame": 490,
+      "time": 16.333333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 94778,
+      "protected_art_pixels": 76328,
+      "background_border_mean_absolute_error": 2.165
+    },
+    {
+      "frame": 491,
+      "time": 16.366667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95136,
+      "protected_art_pixels": 76476,
+      "background_border_mean_absolute_error": 2.2009
+    },
+    {
+      "frame": 492,
+      "time": 16.4,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95157,
+      "protected_art_pixels": 76543,
+      "background_border_mean_absolute_error": 2.129
+    },
+    {
+      "frame": 493,
+      "time": 16.433333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95157,
+      "protected_art_pixels": 76551,
+      "background_border_mean_absolute_error": 2.1423
+    },
+    {
+      "frame": 494,
+      "time": 16.466667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95159,
+      "protected_art_pixels": 76539,
+      "background_border_mean_absolute_error": 2.1238
+    },
+    {
+      "frame": 495,
+      "time": 16.5,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95158,
+      "protected_art_pixels": 76532,
+      "background_border_mean_absolute_error": 2.1197
+    },
+    {
+      "frame": 496,
+      "time": 16.533333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95158,
+      "protected_art_pixels": 76529,
+      "background_border_mean_absolute_error": 2.13
+    },
+    {
+      "frame": 497,
+      "time": 16.566667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95158,
+      "protected_art_pixels": 76541,
+      "background_border_mean_absolute_error": 2.1298
+    },
+    {
+      "frame": 498,
+      "time": 16.6,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95158,
+      "protected_art_pixels": 76539,
+      "background_border_mean_absolute_error": 2.1085
+    },
+    {
+      "frame": 499,
+      "time": 16.633333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95158,
+      "protected_art_pixels": 76543,
+      "background_border_mean_absolute_error": 2.0315
+    },
+    {
+      "frame": 500,
+      "time": 16.666667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95158,
+      "protected_art_pixels": 76525,
+      "background_border_mean_absolute_error": 2.0283
+    },
+    {
+      "frame": 501,
+      "time": 16.7,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95158,
+      "protected_art_pixels": 76525,
+      "background_border_mean_absolute_error": 2.0663
+    },
+    {
+      "frame": 502,
+      "time": 16.733333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95144,
+      "protected_art_pixels": 76522,
+      "background_border_mean_absolute_error": 2.0613
+    },
+    {
+      "frame": 503,
+      "time": 16.766667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95144,
+      "protected_art_pixels": 76512,
+      "background_border_mean_absolute_error": 2.0149
+    },
+    {
+      "frame": 504,
+      "time": 16.8,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95146,
+      "protected_art_pixels": 76512,
+      "background_border_mean_absolute_error": 2.002
+    },
+    {
+      "frame": 505,
+      "time": 16.833333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95146,
+      "protected_art_pixels": 76512,
+      "background_border_mean_absolute_error": 2.1458
+    },
+    {
+      "frame": 506,
+      "time": 16.866667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95146,
+      "protected_art_pixels": 76497,
+      "background_border_mean_absolute_error": 2.1465
+    },
+    {
+      "frame": 507,
+      "time": 16.9,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95146,
+      "protected_art_pixels": 76497,
+      "background_border_mean_absolute_error": 2.066
+    },
+    {
+      "frame": 508,
+      "time": 16.933333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95145,
+      "protected_art_pixels": 76493,
+      "background_border_mean_absolute_error": 2.0684
+    },
+    {
+      "frame": 509,
+      "time": 16.966667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95145,
+      "protected_art_pixels": 76534,
+      "background_border_mean_absolute_error": 1.9435
+    },
+    {
+      "frame": 510,
+      "time": 17.0,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95145,
+      "protected_art_pixels": 76535,
+      "background_border_mean_absolute_error": 1.93
+    },
+    {
+      "frame": 511,
+      "time": 17.033333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95145,
+      "protected_art_pixels": 76535,
+      "background_border_mean_absolute_error": 1.8271
+    },
+    {
+      "frame": 512,
+      "time": 17.066667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95145,
+      "protected_art_pixels": 76483,
+      "background_border_mean_absolute_error": 1.8157
+    },
+    {
+      "frame": 513,
+      "time": 17.1,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95155,
+      "protected_art_pixels": 76480,
+      "background_border_mean_absolute_error": 1.8412
+    },
+    {
+      "frame": 514,
+      "time": 17.133333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95155,
+      "protected_art_pixels": 76482,
+      "background_border_mean_absolute_error": 1.8532
+    },
+    {
+      "frame": 515,
+      "time": 17.166667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95155,
+      "protected_art_pixels": 76524,
+      "background_border_mean_absolute_error": 1.8327
+    },
+    {
+      "frame": 516,
+      "time": 17.2,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95155,
+      "protected_art_pixels": 76524,
+      "background_border_mean_absolute_error": 1.6516
+    },
+    {
+      "frame": 517,
+      "time": 17.233333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95155,
+      "protected_art_pixels": 76524,
+      "background_border_mean_absolute_error": 1.636
+    },
+    {
+      "frame": 518,
+      "time": 17.266667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95155,
+      "protected_art_pixels": 76529,
+      "background_border_mean_absolute_error": 1.9901
+    },
+    {
+      "frame": 519,
+      "time": 17.3,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95155,
+      "protected_art_pixels": 76527,
+      "background_border_mean_absolute_error": 1.938
+    },
+    {
+      "frame": 520,
+      "time": 17.333333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95121,
+      "protected_art_pixels": 76535,
+      "background_border_mean_absolute_error": 1.5616
+    },
+    {
+      "frame": 521,
+      "time": 17.366667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95121,
+      "protected_art_pixels": 76539,
+      "background_border_mean_absolute_error": 1.5086
+    },
+    {
+      "frame": 522,
+      "time": 17.4,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95121,
+      "protected_art_pixels": 76543,
+      "background_border_mean_absolute_error": 1.0909
+    },
+    {
+      "frame": 523,
+      "time": 17.433333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76543,
+      "background_border_mean_absolute_error": 1.086
+    },
+    {
+      "frame": 524,
+      "time": 17.466667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76549,
+      "background_border_mean_absolute_error": 1.3312
+    },
+    {
+      "frame": 525,
+      "time": 17.5,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76557,
+      "background_border_mean_absolute_error": 1.3529
+    },
+    {
+      "frame": 526,
+      "time": 17.533333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76549,
+      "background_border_mean_absolute_error": 1.7908
+    },
+    {
+      "frame": 527,
+      "time": 17.566667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76555,
+      "background_border_mean_absolute_error": 1.8191
+    },
+    {
+      "frame": 528,
+      "time": 17.6,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76560,
+      "background_border_mean_absolute_error": 1.0305
+    },
+    {
+      "frame": 529,
+      "time": 17.633333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76560,
+      "background_border_mean_absolute_error": 1.038
+    },
+    {
+      "frame": 530,
+      "time": 17.666667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76562,
+      "background_border_mean_absolute_error": 1.4157
+    },
+    {
+      "frame": 531,
+      "time": 17.7,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76558,
+      "background_border_mean_absolute_error": 1.6768
+    },
+    {
+      "frame": 532,
+      "time": 17.733333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76558,
+      "background_border_mean_absolute_error": 1.6697
+    },
+    {
+      "frame": 533,
+      "time": 17.766667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76526,
+      "background_border_mean_absolute_error": 1.6204
+    },
+    {
+      "frame": 534,
+      "time": 17.8,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76524,
+      "background_border_mean_absolute_error": 1.6251
+    },
+    {
+      "frame": 535,
+      "time": 17.833333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76542,
+      "background_border_mean_absolute_error": 1.3885
+    },
+    {
+      "frame": 536,
+      "time": 17.866667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76524,
+      "background_border_mean_absolute_error": 1.3925
+    },
+    {
+      "frame": 537,
+      "time": 17.9,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76530,
+      "background_border_mean_absolute_error": 1.7366
+    },
+    {
+      "frame": 538,
+      "time": 17.933333,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76532,
+      "background_border_mean_absolute_error": 1.7377
+    },
+    {
+      "frame": 539,
+      "time": 17.966667,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76569,
+      "background_border_mean_absolute_error": 2.2334
+    },
+    {
+      "frame": 540,
+      "time": 18.0,
+      "source_top_blue_bbox": [
+        194,
+        468,
+        332,
+        114
+      ],
+      "scale": 1.0,
+      "affine": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "erase_pixels": 95122,
+      "protected_art_pixels": 76563,
+      "background_border_mean_absolute_error": 2.2385
+    }
+  ],
+  "background_border_mean_absolute_error_max": 6.623221397399902,
+  "proof_boundary": "Static-photo background reference plus actual source emoji/arrow. Color-mask removal and measured motion require final continuous-frame review."
+}

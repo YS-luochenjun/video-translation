@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "batch-20261020-2-1-es-20261020",
+  "created_at": "2026-10-20T10:36:20+00:00",
+  "files": [
+    {
+      "path": "evidence/audio.wav",
+      "sha256": "1a667a06537ea44c2658b0e88db058644713644d6f06d864cb287e88c6090c43",
+      "bytes": 623488
+    },
+    {
+      "path": "evidence/caption-sync.json",
+      "sha256": "f238858b15943bb5941354d351ce60a91a37e140a1e872f78090b4b5cb6695d0",
+      "bytes": 1306
+    },
+    {
+      "path": "evidence/contact-sheet.jpg",
+      "sha256": "03707061ada3035becef04aa860c5231f86e57988575d9c8901caed9d47887af",
+      "bytes": 310502
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "d3376ad2e9767c218f2bd7cd5f6b35302f7ac535710e677da7346211e3c70bff",
+      "bytes": 2101
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+    },
+    "status": "reviewed_reference",
+    "lesson": "One source-neutral preparation can serve multiple locales while all translated copy, native glyph layers, narration and actual output reviews remain per language. ASS alpha must be rendered explicitly; inspect actual first candidate before accepting. Multi-clip montage perception can over-report a missing ending, so retain local duration/ASR counterevidence and review separately labeled final WAVs.",
+    "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+    "video_sha256": "30cf240458a7368349f1b2927006b9f71044c510f817cda45e40c3f92293ae15",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

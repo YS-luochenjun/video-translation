@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "live-photo-zh-ui-user-approved-20261019",
+  "created_at": "2026-10-20T04:21:29+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "f70d8de604a657250a0b667e45b1b57d808118fd57d3dea82f7643f5c07a8d8a",
+      "bytes": 26504
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "434a0797dedd15eed4884e0d80e5ac9a24d3d4707ee7a4daa7b5532da6a9a4db",
+      "bytes": 1165
+    },
+    {
+      "path": "evidence/ref-002-user-positive-feedback-ui-20261019.json",
+      "sha256": "44fe388178c21a0604f2341ec56588390ac7d261d079b8768ea625b8daea5523",
+      "bytes": 1282
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+      "target_language": "zh-CN"
+    },
+    "status": "superseded",
+    "lesson": "# 用户认可的透明界面文字中文版\n\n仅匹配源SHA-256 `410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475`、目标zh-CN。用户明确反馈“这次效果不错，请进行知识总结学习”，指向 `evidence:ref-001` 的视频 `95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44`。原话和实际哈希见该运行 `evidence:ref-002`。\n\n本版透明原位字形、原屏幕与按钮背景、前景遮挡和整体风格可作为同源中文参考，替代早期带矩形盖片的样例。用户同时明确指出“最近项目”和下拉图标重叠：这是必须修正的已知问题，不属于认可范围。此后应记录图标的保护区域，文字缩放或左移后仍须留出可见间距，检查运动与模糊边界。\n\n整体正反馈不覆盖原技术门禁：音乐/音效完整保真、首句语音不确定区间及细微同步仍保留待核实。旧review和quality文件不改写。此样例不作为韩文已验收证据；韩文可以参考共享底片与样式，但字形、配音和成片重新检查。跨源方法仍需复验，不修改公司通用风格或全局Codex记忆。\n",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "video_sha256": "95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

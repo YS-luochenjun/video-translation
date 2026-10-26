@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87",
+  "independent_new_source_count": 1,
+  "reviewer": "Codex knowledge curation: existing records, actual file hashes and selected existing comparison images only",
+  "new_media_processing": false,
+  "new_paid_calls": 0,
+  "candidate_bindings": [
+    {
+      "path": "knowledge/candidates/ad-019f69fb-de-20261021-ad80ac8f35.json",
+      "sha256": "180007e362b6237984d4b3b3d1207a1c1b7c16c122e90f85ab3923e56abd85e2",
+      "id": "ad-019f69fb-de-20261021-ad80ac8f35",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "de",
+        "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+      },
+      "candidate_status_preserved": "candidate",
+      "historical_outcome": "pass",
+      "group": "transition_visibility",
+      "video_sha256": "ad80ac8f3581602e3fd3b1f1365fc97867d67adcb5ceefc963818903b0f870c6",
+      "quality_sha256": "156d1a01a2c8deb15acb7b503dc7d1375a278f5b6c17f4752bb1ad75e369e62d",
+      "source_video_quality_hashes_verified": true,
+      "active_quality_holds": [
+        {
+          "id": "user-button-correction-20261021-de",
+          "reason": "User identifies original CTA ink remaining under target text and imperfect fitting to source button. Shared neutral contains incompletely cleared poster CTA and frame-dependent rectangular erasure artifacts on moving black button. All four current finals inherit that same neutral; copy/audio are not rejected.",
+          "manifest_sha256": "9a1464c5f4b5fd5acce03bd05de0016ad4002cddc953e303c9698927c8875853"
+        }
+      ]
+    },
+    {
+      "path": "knowledge/candidates/ad-019f69fb-de-buttons-20261021-27fa4a6473.json",
+      "sha256": "41514af1bee8ba4939533da03da90adec348a652bec90945e465ac3d44c49f33",
+      "id": "ad-019f69fb-de-buttons-20261021-27fa4a6473",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "de",
+        "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+      },
+      "candidate_status_preserved": "candidate",
+      "historical_outcome": "pass",
+      "group": "cta_object_and_surface",
+      "video_sha256": "27fa4a64730df0296561c08fdb86dd1e4df5c840a9b66059c4ca61660603020b",
+      "quality_sha256": "c9935ed4c646b471a51efa0d142305c6ec78ad9201d3d592f7a5dc632d5a98b8",
+      "source_video_quality_hashes_verified": true,
+      "active_quality_holds": []
+    },
+    {
+      "path": "knowledge/candidates/ad-019f69fb-es-20261021-a73fbdf20e.json",
+      "sha256": "d59291a07f8cd05dbf9d19634c653c52c7b2bfe73f7d9a145602b3e14b41b4a6",
+      "id": "ad-019f69fb-es-20261021-a73fbdf20e",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+      },
+      "candidate_status_preserved": "candidate",
+      "historical_outcome": "pass",
+      "group": "transition_visibility",
+      "video_sha256": "a73fbdf20e76da9c5c244dddb847ca72ee9f286a425dd5b3d824143ab7be33ce",
+      "quality_sha256": "609dec267905379ec17a1fff9fd1ae6cf9b29cf21701936b48377055524efbae",
+      "source_video_quality_hashes_verified": true,
+      "active_quality_holds": [
+        {
+          "id": "user-button-correction-20261021-es",
+          "reason": "User identifies original CTA ink remaining under target text and imperfect fitting to source button. Shared neutral contains incompletely cleared poster CTA and frame-dependent rectangular erasure artifacts on moving black button. All four current finals inherit that same neutral; copy/audio are not rejected.",
+          "manifest_sha256": "b3521734774ea6b5bca75724e983c89b7ba105c18d732bc92b634030b1a6fa49"
+        }
+      ]
+    },
+    {
+      "path": "knowledge/candidates/ad-019f69fb-es-buttons-20261021-660a0ad13a.json",
+      "sha256": "14438e4ae7d1a474abf0fa38f1d97a5b767783dddd2a0ab9ed356e4a7d0bad66",
+      "id": "ad-019f69fb-es-buttons-20261021-660a0ad13a",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+      },
+      "candidate_status_preserved": "candidate",
+      "historical_outcome": "pass",
+      "group": "cta_object_and_surface",
+      "video_sha256": "660a0ad13a7b8ac1d186cd1f9cdadad18fccee942d83eaa3ed146894c4fc255b",
+      "quality_sha256": "c34560db4d5f82cf45655d8dbe0f15492cc77f83fa378602e2de2e8f54ef790d",
+      "source_video_quality_hashes_verified": true,
+      "active_quality_holds": []
+    },
+    {
+      "path": "knowledge/candidates/ad-019f69fb-fr-20261021-0493134157.json",
+      "sha256": "57fc7662e01aaab69126cd5ef9c0973c6d0890bc7292edfcd6aa124eeec331a7",
+      "id": "ad-019f69fb-fr-20261021-0493134157",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "fr",
+        "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+      },
+      "candidate_status_preserved": "candidate",
+      "historical_outcome": "pass",
+      "group": "transition_visibility",
+      "video_sha256": "0493134157f06fb0760d6c9a7094775ef0a4a7c168697c862c4b80ae2e3ec8e9",
+      "quality_sha256": "a9bac715f7978b484aaa8af3311e695f8a3ccfb971aa47a65a6f92c34a007223",
+      "source_video_quality_hashes_verified": true,
+      "active_quality_holds": [
+        {
+          "id": "user-button-correction-20261021-fr",
+          "reason": "User identifies original CTA ink remaining under target text and imperfect fitting to source button. Shared neutral contains incompletely cleared poster CTA and frame-dependent rectangular erasure artifacts on moving black button. All four current finals inherit that same neutral; copy/audio are not rejected.",
+          "manifest_sha256": "34a8d26572bf338883722c565b4a45a3102a41a19f315cdc9de5d6a0a601f098"
+        }
+      ]
+    },
+    {
+      "path": "knowledge/candidates/ad-019f69fb-fr-buttons-20261021-7124cd71a2.json",
+      "sha256": "2940c459600815b058949dc8595aaa3e5f77d4e35b7b0489c84fe9f4912516c8",
+      "id": "ad-019f69fb-fr-buttons-20261021-7124cd71a2",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "fr",
+        "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+      },
+      "candidate_status_preserved": "candidate",
+      "historical_outcome": "pass",
+      "group": "cta_object_and_surface",
+      "video_sha256": "7124cd71a26b49c2d850a7edfb2939d1a08f8d771322b203ecc9b1dfb4a47ed6",
+      "quality_sha256": "0fd7550918d4c8c8c5c370f74b695f02088ce729379f4c91e36844cae2cf0857",
+      "source_video_quality_hashes_verified": true,
+      "active_quality_holds": []
+    },
+    {
+      "path": "knowledge/candidates/ad-019f69fb-hi-20261021-6dfb22cf28.json",
+      "sha256": "fe24fe3c67a13c815702cf1cd8f754c86f6fc2f363b524e45c60f602aa8f9915",
+      "id": "ad-019f69fb-hi-20261021-6dfb22cf28",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "hi",
+        "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+      },
+      "candidate_status_preserved": "candidate",
+      "historical_outcome": "pass",
+      "group": "transition_visibility",
+      "video_sha256": "6dfb22cf28e8fb2662ea1640f6023f4fa5d79b60c4f1b7da9402d77130a2efe6",
+      "quality_sha256": "9e11a6fa20aee778380536ed0dcc3a5d8303960aed23a4b807aa259a4c9f1a62",
+      "source_video_quality_hashes_verified": true,
+      "active_quality_holds": [
+        {
+          "id": "user-button-correction-20261021-hi",
+          "reason": "User identifies original CTA ink remaining under target text and imperfect fitting to source button. Shared neutral contains incompletely cleared poster CTA and frame-dependent rectangular erasure artifacts on moving black button. All four current finals inherit that same neutral; copy/audio are not rejected.",
+          "manifest_sha256": "5f5922f98a81828a2596eb14f4128be405c6386b0a032e1e4585087d8fe12366"
+        }
+      ]
+    },
+    {
+      "path": "knowledge/candidates/ad-019f69fb-hi-buttons-20261021-2063e09f00.json",
+      "sha256": "95ea956ece3033ce36fc14baceb430d397a186d3e72d7fe8442c773175c4f03b",
+      "id": "ad-019f69fb-hi-buttons-20261021-2063e09f00",
+      "scope_preserved": {
+        "workflow": "video-localization",
+        "target_language": "hi",
+        "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+      },
+      "candidate_status_preserved": "candidate",
+      "historical_outcome": "pass",
+      "group": "cta_object_and_surface",
+      "video_sha256": "2063e09f001b16511550c697083428edab69cd3e421ece16b66a226efa881024",
+      "quality_sha256": "ec321ba4a699f2be1ed3416ff5fb3e33e8913d1338af8fedca38a49a0e336944",
+      "source_video_quality_hashes_verified": true,
+      "active_quality_holds": []
+    }
+  ],
+  "transition_evidence": {
+    "before_video_sha256": "32e58bec01e552d01dc1ebbc85fa9d0c54f2dfbd764787e1ae43029ff2449563",
+    "after_video_sha256": "a73fbdf20e76da9c5c244dddb847ca72ee9f286a425dd5b3d824143ab7be33ce",
+    "before_observation": "One-frame disappearance of poster typography at frame 529, reappearing at frame 530. Center-strip blue detection confuses photo pixels with iris glow.",
+    "selected_image_observation": "Existing sheet shows poster lettering absent at frame 529 and present again at 530 in the failed intermediate; the later sheet retains lettering at 529. Sheets cover selected boundaries, not a new complete-frame review.",
+    "before_image_binding": "Historical hash-attributed iris-objection record; intermediate video bytes still exist and match. No extraction rerun.",
+    "after_image_binding": "Existing capture manifest hash matches this image and binds the a73fbdf20e76 video.",
+    "whole_video_caveat": "The a73fbdf20e76 version remains held for CTA defects. Local transition evidence does not reinstate its whole-video pass.",
+    "generalizable": "Distinguish object geometry from changing visibility/occlusion before choosing scale versus an alpha mask. Validate temporal continuity and source events.",
+    "not_generalizable": "Stationary poster alone does not imply circular reveal; circle center/radius, monotonic radius, blue threshold, font and frame coordinates are source-specific."
+  },
+  "cta_evidence": {
+    "already_active_in": [
+      "neutral-visual-and-animation-gate-v3",
+      "method-animated-text-occlusion-v4"
+    ],
+    "observations": "Feedback and old/new crop support gray anti-alias residual cleanup, correct button ownership instead of adjacent watch contour, source ink fitting and foreground order.",
+    "adoption": "Merge evidence and provenance only; do not add another CTA/erasure policy.",
+    "limit": "A clean matching surface is required before surface reconstruction; fixed white/black fills and closed-component thresholds are not generic repair defaults."
+  },
+  "audio_and_budget": "Candidate caveats about audio identity, independent caption review and unknown paid receipts are already covered by existing source-neutral, spoken-caption and request-budget methods. No new audio or billing conclusion.",
+  "proof_boundary": "Four locales share one source. Prior same-Agent passes are historical; four old results remain held, absence of holds on four repairs is not new-gate/independent/user acceptance. No real-video test or re-render.",
+  "artifact_hashes": {
+    "iris-before.png": "3616716a98173b2813316e4853448722c3e86d27e5841769645eca98140da1ed",
+    "iris-after.png": "59067c8e26c33e9c047ed3df39a5fd58320ec352205e3507e0000e73ed9d1c6c",
+    "iris-objection.json": "2309b99f59141eafc2bf70857f3cf1dc3f082cfd6cba2ccfe333da07c6cef4a5",
+    "cta-before-after.png": "dfe218438f79ffb88e5bbd4a96a71f46015dd44936863f21ff7221d4560d7b97",
+    "cta-feedback.json": "644ad3347e4d72f5607dd0325925de3afa9f909e2db72b7ea07e389e575ef664"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "actor": "Codex",
+  "method": "填写实际看图或使用宿主图像编辑工具的过程",
+  "knowledge_read": [],
+  "observations": [
+    {"image": "analysis/shot-001.jpg", "observation": "填写该图的实际观察及未解决问题"}
+  ],
+  "outputs": [],
+  "limitations": ["此模板未完成任何审核；image 任务必须填写实际输出文件"]
+}

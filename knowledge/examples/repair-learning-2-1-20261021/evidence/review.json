@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "video_sha256": "bb7797d5637f1826957018e7c8319e46e060a965bafef117a4af8e2c7995dbc9",
+  "plan_id": "b3dd0ac9f63dcbbe",
+  "inventory_sha256": "90716e1fd04c8c308d733da89b1610c4faf1ac52febfbdf5de79a10d8ec61315",
+  "reviewer": "Codex same-Agent visual self-review; external audio perception reused with exact WAV hash verification",
+  "method": "Inspected actual encoded neutral and German opening/ending frame sequences, full contact sheets, exact shot boundaries, and bound model/time mapping evidence. Audio is byte-identical to previously externally reviewed German WAV.",
+  "coverage": {
+    "visual": {
+      "status": "reviewed",
+      "method": "Actual neutral and final dense frames plus full contact sheets",
+      "evidence": [
+        "review/bb7797d5637f/motion-opening.jpg",
+        "review/bb7797d5637f/motion-ending.jpg",
+        "review/bb7797d5637f/motion-evidence.json",
+        "review/bb7797d5637f/contact-sheet.jpg",
+        "review/bb7797d5637f/contact-sheet-02.jpg"
+      ]
+    },
+    "audio": {
+      "status": "reviewed",
+      "method": "Complete actual WAV equality to earlier external audio perception; no new listening claim",
+      "evidence": [
+        "review/bb7797d5637f/audio.wav",
+        "review/bb7797d5637f/audio-model-review.json",
+        "review/bb7797d5637f/mix-provenance.json"
+      ]
+    },
+    "timing": {
+      "status": "reviewed",
+      "method": "Actual frame0-16 and509-525 entrance plus111/112 source cut; exact full audio unchanged",
+      "evidence": [
+        "review/bb7797d5637f/motion-frame-0111.jpg",
+        "review/bb7797d5637f/motion-frame-0112.jpg",
+        "review/bb7797d5637f/motion-frame-0508.jpg",
+        "review/bb7797d5637f/motion-frame-0509.jpg",
+        "review/bb7797d5637f/boundary-end.jpg",
+        "review/bb7797d5637f/motion-opening.jpg",
+        "review/bb7797d5637f/motion-ending.jpg",
+        "review/bb7797d5637f/motion-evidence.json",
+        "review/bb7797d5637f/audio.wav",
+        "review/bb7797d5637f/audio-model-review.json",
+        "review/bb7797d5637f/mix-provenance.json"
+      ]
+    }
+  },
+  "instances": [
+    {
+      "id": "t001",
+      "decision": "pass",
+      "observed_text": "Wie sähe dein Name als Nageldesign aus?",
+      "method": "Actual final glyph/frame inspection and source-preserved names/keyboard. Animated entrance examined frame by frame.",
+      "evidence": [
+        "review/bb7797d5637f/motion-opening.jpg",
+        "review/bb7797d5637f/motion-frame-0111.jpg",
+        "review/bb7797d5637f/motion-frame-0112.jpg"
+      ],
+      "note": "Independent decorative title; recreate observed zoom-in, overshoot and settle. Same exact copy as retained German narration."
+    },
+    {
+      "id": "t002",
+      "decision": "pass",
+      "observed_text": "Jetzt ausprobieren!",
+      "method": "Actual final glyph/frame inspection and source-preserved names/keyboard. Animated entrance examined frame by frame.",
+      "evidence": [
+        "review/bb7797d5637f/motion-ending.jpg",
+        "review/bb7797d5637f/motion-frame-0508.jpg",
+        "review/bb7797d5637f/motion-frame-0509.jpg",
+        "review/bb7797d5637f/boundary-end.jpg"
+      ],
+      "note": "Independent end-card CTA; observed first miniature lettering at frame509, zoom overshoot and settle."
+    },
+    {
+      "id": "t003",
+      "decision": "pass",
+      "observed_text": "A / AN / ANGE / ANGEL / ANGELY",
+      "method": "Actual final glyph/frame inspection and source-preserved names/keyboard. Animated entrance examined frame by frame.",
+      "evidence": [
+        "review/bb7797d5637f/frame-00017.jpg"
+      ],
+      "note": "Typed example personal name and progressive input prefixes; transliteration would change the demonstrated input-to-nail result."
+    },
+    {
+      "id": "t004",
+      "decision": "pass",
+      "observed_text": "W / WE / WEN / WEND / WENDY",
+      "method": "Actual final glyph/frame inspection and source-preserved names/keyboard. Animated entrance examined frame by frame.",
+      "evidence": [
+        "review/bb7797d5637f/frame-00029.jpg"
+      ],
+      "note": "Second example personal name and input prefixes, preserved as demonstrated."
+    },
+    {
+      "id": "t005",
+      "decision": "pass",
+      "observed_text": "WENDY",
+      "method": "Actual final glyph/frame inspection and source-preserved names/keyboard. Animated entrance examined frame by frame.",
+      "evidence": [
+        "review/bb7797d5637f/frame-00037.jpg"
+      ],
+      "note": "Result card repeats the typed example personal name; not an English marketing phrase."
+    },
+    {
+      "id": "t006",
+      "decision": "pass",
+      "observed_text": "QWERTYUIOP ASDFGHJKL ZXCVBNM",
+      "method": "Actual final glyph/frame inspection and source-preserved names/keyboard. Animated entrance examined frame by frame.",
+      "evidence": [
+        "review/bb7797d5637f/frame-00015.jpg",
+        "review/bb7797d5637f/frame-00027.jpg"
+      ],
+      "note": "Literal alphabet keys used to type the preserved Latin example names; input letters remain functional data."
+    },
+    {
+      "id": "t007",
+      "decision": "pass",
+      "observed_text": "OK",
+      "method": "Actual final glyph/frame inspection and source-preserved names/keyboard. Animated entrance examined frame by frame.",
+      "evidence": [
+        "review/bb7797d5637f/frame-00015.jpg",
+        "review/bb7797d5637f/frame-00027.jpg"
+      ],
+      "note": "International OK confirmation token within the literal Latin-keyboard demonstration. Preserve the demonstrated keyboard together with its Latin example-name input, rounded button and backspace icon; it is not a spoken English phrase."
+    },
+    {
+      "id": "a001",
+      "decision": "pass",
+      "method": "External German transcription/comparison reused only because complete actual decoded WAV bytes match exactly.",
+      "evidence": [
+        "review/bb7797d5637f/audio.wav",
+        "review/bb7797d5637f/audio-model-review.json",
+        "review/bb7797d5637f/mix-provenance.json"
+      ],
+      "note": "Offscreen narration. No lip-sync claim."
+    },
+    {
+      "id": "a002",
+      "decision": "pass",
+      "method": "External German transcription/comparison reused only because complete actual decoded WAV bytes match exactly.",
+      "evidence": [
+        "review/bb7797d5637f/audio.wav",
+        "review/bb7797d5637f/audio-model-review.json",
+        "review/bb7797d5637f/mix-provenance.json"
+      ],
+      "note": "Offscreen narration. No lip-sync claim."
+    }
+  ],
+  "audio_checks": {
+    "background_music": {
+      "decision": "pass",
+      "method": "Earlier external comparison, rebound to exact identical final WAV bytes",
+      "evidence": [
+        "review/bb7797d5637f/audio.wav",
+        "review/bb7797d5637f/audio-model-review.json",
+        "review/bb7797d5637f/mix-provenance.json"
+      ],
+      "note": "Matches the original background track."
+    },
+    "sound_effects": {
+      "decision": "pass",
+      "method": "Earlier external comparison, rebound to exact identical final WAV bytes",
+      "evidence": [
+        "review/bb7797d5637f/audio.wav",
+        "review/bb7797d5637f/audio-model-review.json",
+        "review/bb7797d5637f/mix-provenance.json"
+      ],
+      "note": "All expected sound effects are clearly audible."
+    },
+    "dialogue_translation": {
+      "decision": "pass",
+      "method": "Earlier external comparison, rebound to exact identical final WAV bytes",
+      "evidence": [
+        "review/bb7797d5637f/audio.wav",
+        "review/bb7797d5637f/audio-model-review.json",
+        "review/bb7797d5637f/mix-provenance.json"
+      ],
+      "note": "Completes the intended opening question correctly using the loanword 'Nageldesign'."
+    },
+    "sync": {
+      "decision": "pass",
+      "method": "Earlier external comparison, rebound to exact identical final WAV bytes",
+      "evidence": [
+        "review/bb7797d5637f/audio.wav",
+        "review/bb7797d5637f/audio-model-review.json",
+        "review/bb7797d5637f/mix-provenance.json"
+      ],
+      "note": "Appropriate timing without disruptive audio joins."
+    }
+  },
+  "scores": {
+    "translation": 4.6,
+    "visual_fidelity": 4.1,
+    "temporal_alignment": 4.5,
+    "audio": 4.5,
+    "ad_style": 4.2
+  },
+  "critical_defects": [],
+  "decision": "pass",
+  "knowledge_class": "private_customer_case",
+  "lesson": "On this source only, one successful dynamic video erasure plus bounded source-region compositing removed the frozen-head defect. Restore explicit time mapping to exact source frame count and review text-free motion before adding animated native glyphs. Existing audio can be reused only with actual decoded-byte identity. Entrance scale/settle improves source timing but does not prove identical optical effects.",
+  "limitations": [
+    "Same-Agent visual review; user approval of this pilot is pending. Other nine languages remain untouched.",
+    "Reconstructed bun moves but differs in individual strands and shape from the partly occluded source.",
+    "Entrance recreates zoom, overshoot and settling; blur trails are approximate and decorative nail-polish emoji icons are omitted.",
+    "Original face, hands, keyboard and middle scenes are source-based. Sparkle variation is reduced within the locally reconstructed end-card text band.",
+    "Budget experiment compressed112opening frames to2seconds for the model and restored112frames afterward. Not proof that retiming is safe on other videos."
+  ]
+}

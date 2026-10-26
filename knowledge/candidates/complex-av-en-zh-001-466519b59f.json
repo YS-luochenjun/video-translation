@@ -1,0 +1,27 @@
+{
+  "id": "complex-av-en-zh-001-466519b59f",
+  "status": "candidate",
+  "created_at": "2026-10-19T03:36:59+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "Passing audio signal checks and adding preservation/translation instructions did not make Wan native audio translate English or preserve music. Fixed store UI localized correctly; moving captions were mostly retained, removed without replacement, or rendered unclearly. Do not approve a native video-edit output from API success alone.",
+  "evidence": {
+    "run": "complex-av-en-zh-001",
+    "video_sha256": "466519b59f283764ee73bb1252bd26cbafe40e870b58eeda98bb1b193f7fa66a",
+    "quality_sha256": "4afae2fb3d3670551237b139fb19838246f060a7bc13b18b01400b0f9689abd7"
+  },
+  "limitations": [
+    "Same-agent frame review, not independent full-video acceptance.",
+    "External audio reviewer reports uncertainty during seconds 5-10; no human listening was performed.",
+    "Woof source occurrence intervals are conservative sampled bounds, not validated optical tracks.",
+    "Each model segment had a short audio tail; padded within 0.3s to avoid cumulative shift, which does not recover missing music/effects.",
+    "No company/user acceptance and no new generation after the initial three-segment trial."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "b4e9c42a61eb54bbc83394a6828c033e4f5d3f7e7041d2f8d2ee813c5655b455"
+}

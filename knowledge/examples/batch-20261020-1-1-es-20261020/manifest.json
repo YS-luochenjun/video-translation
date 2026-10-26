@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "batch-20261020-1-1-es-20261020",
+  "created_at": "2026-10-20T10:36:20+00:00",
+  "files": [
+    {
+      "path": "evidence/audio.wav",
+      "sha256": "baab940bfe56fccdd9a17748e28744336c7ab7c12602043bc7de806cdb995209",
+      "bytes": 786214
+    },
+    {
+      "path": "evidence/caption-sync.json",
+      "sha256": "5f4ca791e3cf49b3c06bd54058d04b7794e3fd498496de7654baadb4c211bed8",
+      "bytes": 1199
+    },
+    {
+      "path": "evidence/contact-sheet.jpg",
+      "sha256": "6fa2938bca0f12e9fb6e977bbeb7ef1c3ca8dbc09c8d22d5665ca04a6e5e6574",
+      "bytes": 308014
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "7b2e702aeb7e3d545459a02aafdddf3e8de1a860e085923506c19f7cacd19fa5",
+      "bytes": 2218
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+    },
+    "status": "reviewed_reference",
+    "lesson": "Broad static text masks missed photo-wipe caption motion and CTA overshoot. Actual final-frame checks caught both. Per-frame source-letter masks remove English while preserving most original texture; remaining repair bands and unverified separated-audio semantics prevent acceptance. Same-source/local Spanish result only; no general capability or company preference change.",
+    "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3",
+    "video_sha256": "a467b5c43d6df552dcebd3321b7f049de92761eb163bac90244c9452f5ddbab4",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

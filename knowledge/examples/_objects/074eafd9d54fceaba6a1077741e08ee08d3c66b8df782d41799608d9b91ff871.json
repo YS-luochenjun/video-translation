@@ -1,0 +1,61 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "target_language": "zh-CN",
+  "alpha_channel": true,
+  "texts": {
+    "t006": "开始",
+    "t007": "最近项目",
+    "t008": "照片",
+    "t009": "实况照片",
+    "t010": "使用相同素材\n及相同色调…",
+    "t011": "下一步",
+    "t020": "立即\n免费体验"
+  },
+  "instance_bindings": {
+    "t006": "6f79e4073640895cdd29dea219bafb2e979188e3d4ee30fcfa5a01dedaf055c0",
+    "t007": "fc3ba3cbbc07f27b4208b3cff303e91ec766dfc32942b5f030305120cb17db29",
+    "t008": "be5f83310777cc8434efb9892d02a74c80fbf882fc0b6725b47c5922a6d3f944",
+    "t009": "6f2d3d6dc06a1b2e64a14133fbbf604b16f36724516755adf7f55dfb1a695160",
+    "t010": "f3d23997d601ab2196749e95bf518f7465019a4478507be2ad363516576ced8a",
+    "t011": "05d5fe0f480fc5c613586e98a647f2b880541b6b8ab012a333a3838b434c6c60",
+    "t020": "37bf216077638428c568e8dc5c2fcf783dbf8c80177a92a8915002798192ca8d"
+  },
+  "inputs": [
+    {
+      "path": "origin:source.mp4",
+      "sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+    },
+    {
+      "path": "origin:msyhbd.ttc",
+      "sha256": "4508821b3dffe01f0ef5e5326a3e60df705a44633858811f67b6982dce3f6ee6"
+    },
+    {
+      "path": "origin:zh-transparent.mov",
+      "sha256": "a8c0723b1e98720f704600fb5b1d0fa5d885c5b4bfd6bb91c167d9a4abbb4756"
+    },
+    {
+      "path": "origin:cta-reference-transparent.png",
+      "sha256": "73d99de47a19d5ec44b86628664eab6882c68a846c3504402b2492f5bd6a0237"
+    },
+    {
+      "path": "origin:source-red-texture.png",
+      "sha256": "9a1771046488af23ebc202d99fde55725f7b0b471384cfc72c96b8b775a2d727"
+    },
+    {
+      "path": "origin:style-profile.json",
+      "sha256": "22896d36168b8b9ae51f3f36de7ab696f4786d202a980933c7ddefa466104dd6"
+    },
+    {
+      "path": "origin:animation.json",
+      "sha256": "b83c59ef54b3e058dc27696284ac3dc34961769238750e68b0c25f907c018824"
+    },
+    {
+      "path": "origin:protection-policy.json",
+      "sha256": "4c6d55bbe6453ca5054740a3cb2a2b71f00bcb78b16a0c2d9d2db3d6e0936327"
+    }
+  ],
+  "output": {
+    "path": "origin:zh-transparent.mov",
+    "sha256": "2921670e2bbf834c4b2127a644a1fec9f01c91e1006cc56f8f19c51673ffba4f"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "hand-ja-001-fef9443929",
+  "status": "candidate",
+  "created_at": "2026-10-19T11:39:10+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ja-JP"
+  },
+  "outcome": "revise",
+  "hypothesis": "New-source text hierarchy and per-instance review caught both initial omissions and nested same-name heading motion contamination. Use explicit first/last source frame indices for visibility; floating endpoints can leave1frame. UI background restoration must exclude all original glyph pixels including antialiasing. Treat OCR-zero as one signal, not acceptance. Shared receipts belong outside the new locale paid ledger. Metadata-only recipe rebinding must retain history without consuming a distinct visual revision.",
+  "evidence": {
+    "run": "hand-ja-001",
+    "video_sha256": "fef944392903e3410185a53718e707829c203f983ddbf477c52d5dc5d3c4bad0",
+    "quality_sha256": "79437943c76ace00ca5a5a05f2f29c7ecc8be663e99ecf324118be197b8f93ae"
+  },
+  "limitations": [
+    "Final preview remains unaccepted after the allowed2whole-picture revision rounds.",
+    "t008 button shows faint residual glyph contours near native text; zero OCR does not establish clean source lettering.",
+    "Fonts/glow/zoom are approximations; no lip synchronization feature integrated. Source narration is an off-camera tutorial voice, so no new lip-sync success is claimed.",
+    "Local source separation is approximate. Original external audio comparison said same music/effects, with no remaining foreign narration; this is model perception rather than direct Codex/human listening.",
+    "Codex wrote per-source repair/render helpers and fixed shared revision accounting during this test. This does not establish an already-general autonomous pipeline.",
+    "No user/company acceptance or blind/independent review for this source."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "1f7a96ad3a21c55c50395f947267347a76f85ae9bd263dcc7075513f9382408c"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "demo-30s-399ce909ce",
+  "status": "candidate",
+  "created_at": "2026-10-16T10:01:18+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "pass",
+  "hypothesis": "Local composition preserves this static copy across 8+8+8+6s segments. This verifies 30s stitching, not general OCR, moving text, or real advertisement quality.",
+  "evidence": {
+    "run": "demo-30s",
+    "video_sha256": "399ce909ced9158649ebad0b5337f335965226121928e2ab98ea68e6197c8b20",
+    "quality_sha256": "332299242b8f08a9e87db2d01145e3a017953b5f1672c4923d204177cea2d754"
+  },
+  "limitations": [
+    "Synthetic static layout",
+    "Same-agent review",
+    "No company approval or general model ranking",
+    "No ASR/dubbing proof"
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "fada47af2ceb4539645aa314664f18a6bdd0de5558378afecce04ec9c4eb5a4d"
+}

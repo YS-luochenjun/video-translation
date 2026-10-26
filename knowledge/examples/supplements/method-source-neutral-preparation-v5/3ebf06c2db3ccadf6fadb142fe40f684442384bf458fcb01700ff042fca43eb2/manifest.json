@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-evidence",
+  "identity": "3ebf06c2db3ccadf6fadb142fe40f684442384bf458fcb01700ff042fca43eb2",
+  "created_at": "2026-10-26T03:34:25+00:00",
+  "files": [
+    {
+      "path": "evidence/review/french-v4/encoded-504.png",
+      "sha256": "293aca4fd99a9133da6edf617eb35b548861a42d226490b23d96b383852432b7",
+      "bytes": 251464
+    },
+    {
+      "path": "evidence/review/french-v4/encoded-510.png",
+      "sha256": "5d429fdc4f2893453ae65303d0d08a8dceb8c0e5da681466a537cf522b19ff3e",
+      "bytes": 271089
+    },
+    {
+      "path": "evidence/review/french-v4/encoded-541.png",
+      "sha256": "2715bb8af275ecdf3da78469605d316c13aa6b1d352f240972f42c96410bb3cc",
+      "bytes": 271175
+    }
+  ],
+  "metadata": {
+    "entry_id": "method-source-neutral-preparation-v5",
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "case_manifest_sha256": "d81f7d644c9d7d5547d8675d6b26720063323097aefa493577f060fc9e6ec872",
+    "source_sha256": "f0e4254e46ba8247934fe7a38928cbf82e242f8764877b2ef26ed4cf2ca38159",
+    "video_sha256": "b505032092b66a86e46042d0c892cc1c195235ac55c684776af705ec1fcff6be",
+    "references": {
+      "encoded-frame-504.png": "evidence/review/french-v4/encoded-504.png",
+      "encoded-frame-510.png": "evidence/review/french-v4/encoded-510.png",
+      "encoded-frame-541.png": "evidence/review/french-v4/encoded-541.png"
+    },
+    "reviewed_by": "Codex same-agent; actual encoded native frames504/510/541 inspected after final encode; not full-playback acceptance",
+    "recorded_at": "2026-10-26T03:34:25+00:00",
+    "proof_boundary": "Preserved historical evidence, not a new video review, independent acceptance or wider scope."
+  }
+}

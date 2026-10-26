@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "knowledge_daily": {
+    "enabled": true,
+    "time": "09:00",
+    "timezone": "Asia/Shanghai",
+    "max_records": 24,
+    "max_packet_bytes": 180000,
+    "engine": "codex_cli",
+    "timeout_seconds": 240,
+    "prompt": "config/hooks/knowledge-curation/prompt.md"
+  }
+}

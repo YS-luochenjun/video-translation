@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-10-19T10:28:46+00:00",
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "requested_locales": [
+    "zh-CN",
+    "ja-JP"
+  ],
+  "user_request": "我想要验证本项目的实现水平，目前Agent实现水平。我想要进行下一个视频翻译，我希望翻译为中文，和日语。我想要你统计目前花费。我希望按照项目Agent标准，一次成功，就说明目前项目挺好。",
+  "first_pass_definition": "First rendered full candidate for each locale must pass original project quality rules without a later replacement candidate. Media/typography preparation is recorded separately; failed provider calls or discarded proposals are never hidden.",
+  "gates": [
+    "Complete source text/speech inventory",
+    "All required copy translated; brands/protected elements accounted",
+    "Source composition, motion and text style retained within reviewed scope",
+    "Original music/FX preserved and speech translated",
+    "Actual output evidence and per-instance review",
+    "Original quality policy passes",
+    "Budget and task receipts reconciled"
+  ],
+  "no_relaxing_quality_rules": true,
+  "reviewer": "Codex same-agent, attributed; no independent reviewer unless actually supplied",
+  "record_implementation": [
+    "Existing CLI and library functions",
+    "Per-source inventory/configuration",
+    "New per-source executable logic",
+    "Changes to shared runtime, if any"
+  ],
+  "max_whole_candidate_revision_rounds": 2,
+  "report_budgets_separately": {
+    "Chinese_first": 60,
+    "Japanese_reuse_increment": 40
+  },
+  "inference_boundary": "One successful source is evidence for this example, not proof of all ads or an unattended batch service."
+}

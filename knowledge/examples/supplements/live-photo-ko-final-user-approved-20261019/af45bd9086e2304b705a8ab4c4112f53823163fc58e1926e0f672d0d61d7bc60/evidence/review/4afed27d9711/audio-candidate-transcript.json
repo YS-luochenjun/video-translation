@@ -1,0 +1,36 @@
+{
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "audio_sha256": "a46c47d2ab71596bd695ba665ac57821b6b439fd808277154dbcd40e04499218",
+  "video_sha256": "4afed27d97111705b67042cf484a600be9404ef6ac1d92e4dff2c6f2d0a94fd5",
+  "model": "gemini-3-pro",
+  "response_id": "chatcmpl-dfede41dcea34d2698923f5b236a26f7",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "ko",
+    "speech_segments": [
+      {
+        "start": 0.0,
+        "end": 2.0,
+        "source_text": "당신의 이상형은"
+      },
+      {
+        "start": 5.0,
+        "end": 8.0,
+        "source_text": "사진을 올려 이상형을 바로 확인하세요"
+      },
+      {
+        "start": 15.0,
+        "end": 17.0,
+        "source_text": "지금 무료로 체험하세요"
+      }
+    ],
+    "music": {
+      "present": true,
+      "contains_singing": true,
+      "description": "Upbeat background music with a male vocalist singing a repeated phrase, likely in Spanish."
+    },
+    "uncertain_intervals": [],
+    "summary": "An advertisement for an app or service that finds a user's ideal type using uploaded photos, encouraging users to try it for free."
+  },
+  "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"
+}

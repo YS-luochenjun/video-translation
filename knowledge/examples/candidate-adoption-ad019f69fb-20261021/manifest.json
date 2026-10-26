@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "candidate-adoption-ad019f69fb-20261021",
+  "created_at": "2026-10-21T06:54:18+00:00",
+  "files": [
+    {
+      "path": "evidence/cta-before-after.png",
+      "sha256": "dfe218438f79ffb88e5bbd4a96a71f46015dd44936863f21ff7221d4560d7b97",
+      "bytes": 81531
+    },
+    {
+      "path": "evidence/cta-feedback.json",
+      "sha256": "644ad3347e4d72f5607dd0325925de3afa9f909e2db72b7ea07e389e575ef664",
+      "bytes": 4879
+    },
+    {
+      "path": "evidence/cta-transition-observations.json",
+      "sha256": "b69c3f76d1a9c33f32d3826ad95bb67cb5a3398a465763a6849a27cd4a19dc87",
+      "bytes": 12049
+    },
+    {
+      "path": "evidence/iris-after.png",
+      "sha256": "59067c8e26c33e9c047ed3df39a5fd58320ec352205e3507e0000e73ed9d1c6c",
+      "bytes": 2128950
+    },
+    {
+      "path": "evidence/iris-before.png",
+      "sha256": "3616716a98173b2813316e4853448722c3e86d27e5841769645eca98140da1ed",
+      "bytes": 2188564
+    },
+    {
+      "path": "evidence/iris-objection.json",
+      "sha256": "2309b99f59141eafc2bf70857f3cf1dc3f082cfd6cba2ccfe333da07c6cef4a5",
+      "bytes": 537
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+    },
+    "status": "reviewed_partial_adoption",
+    "lesson": "Single-source CTA and transition counterexamples: classify geometry versus visibility, retain old quality holds, and merge already-active edge/object/layer checks. Parameters remain source-specific.",
+    "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "cta-transition-observations": "evidence/cta-transition-observations.json",
+      "iris-before": "evidence/iris-before.png",
+      "iris-after": "evidence/iris-after.png",
+      "iris-objection": "evidence/iris-objection.json",
+      "cta-before-after": "evidence/cta-before-after.png",
+      "cta-feedback": "evidence/cta-feedback.json"
+    }
+  }
+}

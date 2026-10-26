@@ -1,0 +1,16 @@
+{
+  "id": "actual-source-reference-new-revision",
+  "path": "knowledge/cases/actual-source-reference-new-revision.md",
+  "scope": {"workflow": "video-localization", "source_sha256": "actual-source-sha256", "target_language": "zh-CN"},
+  "tags": ["text", "timing"],
+  "knowledge_type": "source_reference",
+  "origin": "Exact-source observation or user approval, preserving its actual limits",
+  "approval_type": "explicit_user_feedback",
+  "evidence_review": "sanitized_project_evidence",
+  "reviewed_by": "Actual reviewer and scope",
+  "company_preference": false,
+  "source_run": "actual-run-id",
+  "reference_video_sha256": "actual-video-sha256",
+  "evidence_files": ["work/reviewed-project-evidence.json"],
+  "evidence_references": {"observation": "evidence/reviewed-project-evidence.json"}
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "batch-20261020-4-1-es-20261020",
+  "created_at": "2026-10-20T10:36:20+00:00",
+  "files": [
+    {
+      "path": "evidence/audio.wav",
+      "sha256": "91768d5356e0531d2012af09b7ac6e63ea2777d4635af49136a84d57bc2a2784",
+      "bytes": 322558
+    },
+    {
+      "path": "evidence/caption-contact.jpg",
+      "sha256": "345a813e74fb18f3181c721177a012e060282e0b077fe00471d7150be42c3ad8",
+      "bytes": 304441
+    },
+    {
+      "path": "evidence/caption-sync.json",
+      "sha256": "ea37900eb23ca7621ac8b9d93e4e4b08d3bd03843f17495c675db0cacc3a0cbc",
+      "bytes": 16057
+    },
+    {
+      "path": "evidence/contact-sheet.jpg",
+      "sha256": "c3684290a998f161363d7084a3a216ca8f63c0860522ab8c5723735688f66597",
+      "bytes": 119659
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "f12cede8355e7f09e7d2fb95d2b4af20a9ebf30068efe339fe6ccc782e1467e2",
+      "bytes": 2302
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131"
+    },
+    "status": "reviewed_reference",
+    "lesson": "Source-specific six-locale production: cache exact-source extraction and one reviewed neutral plate/background; regenerate spoken copy, actual voice alignment and typography for every locale. Reject unsupported free-form accent parameters before generation; retain all failed attempts and receipts.",
+    "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+    "video_sha256": "cb572273392457cc56115eb4b9e987291559fbc9f76b72b4410cd0b73e6aa70b",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

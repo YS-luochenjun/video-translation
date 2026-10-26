@@ -1,0 +1,943 @@
+{
+  "schema_version": 1,
+  "id": "family-time-zh-user-approved-reference-20261019",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN",
+    "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed"
+  },
+  "status": "superseded",
+  "origin": "Explicit user positive feedback, 2026-10-19; source- and locale-scoped",
+  "reviewed_by": "User explicit feedback; Codex scope review",
+  "reference_video_sha256": "81f60de6b34b7de2eb15550d108e83848d507e65bcdd9c2b4b78ddfa1323e618",
+  "company_preference": false,
+  "references": [
+    {
+      "id": "ref-001",
+      "name": "user-positive-feedback.json",
+      "kind": "historical_origin_label",
+      "sha256": "bbe31168671c47d65db518248fcf45be3c5d440a6dec93687d44be9933de3fac"
+    }
+  ],
+  "quality": {
+    "schema_version": 1,
+    "video_sha256": "81f60de6b34b7de2eb15550d108e83848d507e65bcdd9c2b4b78ddfa1323e618",
+    "plan_id": "0f799896a8c5a288",
+    "checked_at": "2026-10-19T04:58:09+00:00",
+    "decision": "revise",
+    "score": 69.2,
+    "review_sha256": "cf3efb830dfdd822129861a0949e6ab21398b6e188bbaba5540a979fa990edad",
+    "audio_check": {
+      "schema_version": 1,
+      "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed",
+      "video_sha256": "81f60de6b34b7de2eb15550d108e83848d507e65bcdd9c2b4b78ddfa1323e618",
+      "strategy": "replace",
+      "source": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 22.9877,
+        "rms_dbfs": -12.5,
+        "peak_dbfs": 0.0,
+        "audible_signal": true,
+        "silence_fraction": 0.0,
+        "clipped_fraction": 1.1e-05,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -12.82
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -18.5
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -8.38
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -9.51
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -13.26
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -16.61
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -16.76
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -11.78
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -11.54
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -10.91
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -19.14
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -14.66
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -13.36
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -11.74
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -15.71
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -12.41
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -12.4
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -13.21
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -11.8
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -11.15
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -17.23
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -11.08
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -10.49
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -10.72
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -13.05
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -10.16
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -9.71
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -12.16
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -10.4
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -12.95
+          },
+          {
+            "start": 15.0,
+            "end": 15.5,
+            "rms_dbfs": -18.94
+          },
+          {
+            "start": 15.5,
+            "end": 16.0,
+            "rms_dbfs": -12.02
+          },
+          {
+            "start": 16.0,
+            "end": 16.5,
+            "rms_dbfs": -14.25
+          },
+          {
+            "start": 16.5,
+            "end": 17.0,
+            "rms_dbfs": -10.82
+          },
+          {
+            "start": 17.0,
+            "end": 17.5,
+            "rms_dbfs": -11.19
+          },
+          {
+            "start": 17.5,
+            "end": 18.0,
+            "rms_dbfs": -10.28
+          },
+          {
+            "start": 18.0,
+            "end": 18.5,
+            "rms_dbfs": -12.03
+          },
+          {
+            "start": 18.5,
+            "end": 19.0,
+            "rms_dbfs": -11.82
+          },
+          {
+            "start": 19.0,
+            "end": 19.5,
+            "rms_dbfs": -19.53
+          },
+          {
+            "start": 19.5,
+            "end": 20.0,
+            "rms_dbfs": -12.57
+          },
+          {
+            "start": 20.0,
+            "end": 20.5,
+            "rms_dbfs": -11.73
+          },
+          {
+            "start": 20.5,
+            "end": 21.0,
+            "rms_dbfs": -11.35
+          },
+          {
+            "start": 21.0,
+            "end": 21.5,
+            "rms_dbfs": -17.33
+          },
+          {
+            "start": 21.5,
+            "end": 22.0,
+            "rms_dbfs": -22.92
+          },
+          {
+            "start": 22.0,
+            "end": 22.5,
+            "rms_dbfs": -21.95
+          },
+          {
+            "start": 22.5,
+            "end": 22.988,
+            "rms_dbfs": -23.94
+          }
+        ]
+      },
+      "candidate": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "48000",
+        "duration": 22.9973,
+        "rms_dbfs": -21.36,
+        "peak_dbfs": -4.46,
+        "audible_signal": true,
+        "silence_fraction": 0.0,
+        "clipped_fraction": 0.0,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -20.87
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -21.25
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -19.69
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -19.74
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -21.76
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -20.08
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -20.01
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -21.13
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -18.51
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -28.73
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -33.83
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -22.47
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -20.38
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -21.35
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -21.25
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -18.99
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -18.28
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -21.1
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -20.83
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -21.87
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -32.08
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -20.92
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -21.54
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -23.32
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -20.02
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -21.9
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -22.04
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -21.17
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -21.63
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -25.71
+          },
+          {
+            "start": 15.0,
+            "end": 15.5,
+            "rms_dbfs": -26.54
+          },
+          {
+            "start": 15.5,
+            "end": 16.0,
+            "rms_dbfs": -17.6
+          },
+          {
+            "start": 16.0,
+            "end": 16.5,
+            "rms_dbfs": -24.54
+          },
+          {
+            "start": 16.5,
+            "end": 17.0,
+            "rms_dbfs": -18.59
+          },
+          {
+            "start": 17.0,
+            "end": 17.5,
+            "rms_dbfs": -22.96
+          },
+          {
+            "start": 17.5,
+            "end": 18.0,
+            "rms_dbfs": -21.97
+          },
+          {
+            "start": 18.0,
+            "end": 18.5,
+            "rms_dbfs": -22.25
+          },
+          {
+            "start": 18.5,
+            "end": 19.0,
+            "rms_dbfs": -20.34
+          },
+          {
+            "start": 19.0,
+            "end": 19.5,
+            "rms_dbfs": -22.59
+          },
+          {
+            "start": 19.5,
+            "end": 20.0,
+            "rms_dbfs": -21.86
+          },
+          {
+            "start": 20.0,
+            "end": 20.5,
+            "rms_dbfs": -20.23
+          },
+          {
+            "start": 20.5,
+            "end": 21.0,
+            "rms_dbfs": -27.9
+          },
+          {
+            "start": 21.0,
+            "end": 21.5,
+            "rms_dbfs": -21.18
+          },
+          {
+            "start": 21.5,
+            "end": 22.0,
+            "rms_dbfs": -22.99
+          },
+          {
+            "start": 22.0,
+            "end": 22.5,
+            "rms_dbfs": -22.06
+          },
+          {
+            "start": 22.5,
+            "end": 22.997,
+            "rms_dbfs": -24.01
+          }
+        ]
+      },
+      "waveform_match": null,
+      "failures": [],
+      "proof_boundary": "Signal, duration and retained-waveform checks; not listening, ASR, dialogue translation or lip-sync proof"
+    },
+    "failures": [
+      "instance_failed_or_unverified:t009",
+      "instance_failed_or_unverified:t011",
+      "instance_failed_or_unverified:t012",
+      "instance_failed_or_unverified:t013",
+      "instance_failed_or_unverified:t014",
+      "instance_failed_or_unverified:t015",
+      "instance_failed_or_unverified:t016",
+      "instance_failed_or_unverified:t017",
+      "instance_failed_or_unverified:t018",
+      "instance_failed_or_unverified:t019",
+      "instance_failed_or_unverified:t020",
+      "instance_failed_or_unverified:t021",
+      "instance_failed_or_unverified:t022",
+      "instance_failed_or_unverified:t023",
+      "instance_failed_or_unverified:t024",
+      "instance_failed_or_unverified:t025",
+      "instance_failed_or_unverified:t026",
+      "unverified_audio",
+      "audio_semantics_unverified:background_music",
+      "audio_semantics_unverified:sound_effects",
+      "audio_semantics_unverified:sync",
+      "score_below_threshold",
+      "critical_defect_or_revision_required"
+    ],
+    "proof_boundary": "Technical checks plus attributed agent review; no business or company preference approval",
+    "record_path": "origin:01de5bc39c45bf19f0398c9d.json"
+  },
+  "review": {
+    "schema_version": 1,
+    "reviewer": "Codex, same controlling agent self-review",
+    "method": "Reviewed both actual contact pages, six detailed source-timed candidate frames and boundary captures. Local multilingual ASR checked captured candidate WAV without expected script; no direct listening or independent video reviewer.",
+    "video_sha256": "81f60de6b34b7de2eb15550d108e83848d507e65bcdd9c2b4b78ddfa1323e618",
+    "plan_id": "0f799896a8c5a288",
+    "inventory_sha256": "e7cc97c44c847af2ce564e636f0a3310c6e21a36000e261dca58df22293faf03",
+    "decision": "revise",
+    "scores": {
+      "translation": 4.0,
+      "visual_fidelity": 3.0,
+      "temporal_alignment": 3.2,
+      "audio": 3.6,
+      "ad_style": 3.3
+    },
+    "critical_defects": [
+      "Original English outline fragments remain behind Wait and Zzz replacements",
+      "Local glyph cleanup creates visible gray/black smears around Mama and Woof; exact font/background fidelity not achieved",
+      "Builders remains into the barn transition; source-to-candidate endpoint requires closer verification",
+      "Original music timbre and all nonverbal FX have not been independently verified after separation"
+    ],
+    "instances": [
+      {
+        "id": "t001",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "t002",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "t003",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "t004",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "t005",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "t006",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "t007",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "t008",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "t009",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t010",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "t011",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t012",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t013",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t014",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t015",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t016",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t017",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t018",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t019",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t020",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t021",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t022",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t023",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t024",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t025",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t026",
+        "decision": "revise",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Chinese copy is present, but residual source outline, reconstructed background smear or endpoint fidelity still requires revision"
+      },
+      {
+        "id": "t027",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Content and approximate original placement reviewed; static icon protection intact"
+      },
+      {
+        "id": "a001",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Actual ASR recovers this Chinese narration sentence; pronunciation and exact alignment require listening."
+      },
+      {
+        "id": "a002",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Actual ASR recovers this Chinese narration sentence; pronunciation and exact alignment require listening."
+      },
+      {
+        "id": "a003",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Actual ASR recovers this Chinese narration sentence; pronunciation and exact alignment require listening."
+      },
+      {
+        "id": "a004",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Actual ASR recovers this Chinese narration sentence; pronunciation and exact alignment require listening."
+      },
+      {
+        "id": "a005",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Actual ASR recovers this Chinese narration sentence; pronunciation and exact alignment require listening."
+      }
+    ],
+    "coverage": {
+      "visual": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg",
+          "origin:detail-0.35.png",
+          "origin:detail-10.75.png",
+          "origin:detail-19.45.png",
+          "origin:detail-21.5.png"
+        ]
+      },
+      "timing": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg",
+          "origin:detail-0.35.png",
+          "origin:detail-10.75.png",
+          "origin:detail-19.45.png",
+          "origin:detail-21.5.png"
+        ]
+      },
+      "audio": {
+        "status": "pending",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ]
+      }
+    },
+    "audio_checks": {
+      "background_music": {
+        "decision": "pending",
+        "method": "Source-derived stem reconstruction and measured sentence windows; no usable independent music/FX judgment",
+        "evidence": [
+          "origin:audio.wav"
+        ],
+        "note": "ASR cannot verify complete original music/effects or fine delivery timing."
+      },
+      "sound_effects": {
+        "decision": "pending",
+        "method": "Source-derived stem reconstruction and measured sentence windows; no usable independent music/FX judgment",
+        "evidence": [
+          "origin:audio.wav"
+        ],
+        "note": "ASR cannot verify complete original music/effects or fine delivery timing."
+      },
+      "sync": {
+        "decision": "pending",
+        "method": "Source-derived stem reconstruction and measured sentence windows; no usable independent music/FX judgment",
+        "evidence": [
+          "origin:audio.wav"
+        ],
+        "note": "ASR cannot verify complete original music/effects or fine delivery timing."
+      },
+      "dialogue_translation": {
+        "decision": "pass",
+        "method": "Actual captured WAV transcribed in detected Chinese by local Whisper-base; compared all five sentences with the source transcript",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Not direct listening; ASR homophone errors are not by themselves proof of TTS mispronunciation."
+      }
+    },
+    "lesson": "Use a low-cost single-instance probe to test locality and audio separately. Higher-priced reference-video generation did not provide accurate text erasure. Preserve source pixels outside glyph masks, but do not promote incomplete inpainting to a successful localization route.",
+    "limitations": [
+      "Same-agent self-review; no independent reviewer or company acceptance.",
+      "Chinese dialogue content is supported by offline ASR, not direct listening; homophone recognition errors remain.",
+      "Paid Gemini audio review returned unusable structure; old receipt was lost before parser fix and its fee is unknown.",
+      "No further paid video generation after user cost steering; Seedance 2.0 and above blocked.",
+      "Two free local repair rounds exhausted; this candidate is a test preview, not a final accepted asset."
+    ]
+  },
+  "original_method_sha256": "73bab5a8ab4a25bee25407d90d1b4a977f73e984e2669f4cc7dc6a4f4547d845",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

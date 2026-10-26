@@ -1,0 +1,300 @@
+{
+  "real_sources": 4,
+  "real_version_packages": 37,
+  "scope": "All current library entries grouped by exact source hash; synthetic demo/regression excluded. Visual inspection samples only, not full-video prevalence estimates.",
+  "groups": [
+    {
+      "source_sha256": "8c968d3a200148ebf60c39dca1b44139e95548c56789c1e93f6be404123d9dde",
+      "packages": 6,
+      "locales": [
+        "de",
+        "es",
+        "pt"
+      ]
+    },
+    {
+      "source_sha256": "f0e4254e46ba8247934fe7a38928cbf82e242f8764877b2ef26ed4cf2ca38159",
+      "packages": 1,
+      "locales": [
+        "ar"
+      ]
+    },
+    {
+      "source_sha256": "565b00c15076adcafb30cca78228a8d0915a66f863babb2e8055e9ba9d9b0059",
+      "packages": 16,
+      "locales": [
+        "de",
+        "es",
+        "fr",
+        "nl",
+        "pl",
+        "pt",
+        "vi",
+        "zh-TW"
+      ]
+    },
+    {
+      "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+      "packages": 14,
+      "locales": [
+        "de",
+        "es",
+        "fr",
+        "ja",
+        "ko",
+        "pt"
+      ]
+    }
+  ],
+  "sampled_frames": [
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-024-source-0.50.png",
+      "video": "outputs\\a78945b55f649d54\\fr\\5aca28b77178037e\\payload\\inputs\\source.mp4",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "ef87ff0bbd510bf8abbfad9a12858370fdb0f93250086c26a095e40548bd3e2a",
+      "video_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-024-output-0.50.png",
+      "video": "outputs\\a78945b55f649d54\\fr\\5aca28b77178037e\\final.mp4",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "e8d9eefc528a0f4cc39e36395f271c6bca1038ef0f7971ed4f223b84680a0bda",
+      "video_sha256": "5aca28b77178037ed04c60c1244361dc8b1de9f2793902bddf0fa0e102e3c19b"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-024-source-6.80.png",
+      "video": "outputs\\a78945b55f649d54\\fr\\5aca28b77178037e\\payload\\inputs\\source.mp4",
+      "frame": 204,
+      "fps": 30.0,
+      "time": 6.8,
+      "frame_sha256": "dc999a34c16a38a1eb9a8e80916838287bbf443e89f6246704128d7612e8166b",
+      "video_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-024-output-6.80.png",
+      "video": "outputs\\a78945b55f649d54\\fr\\5aca28b77178037e\\final.mp4",
+      "frame": 204,
+      "fps": 30.0,
+      "time": 6.8,
+      "frame_sha256": "874b4743da690e7d011f4bfe76865139e9d1917ba0c966ff34698a6f9e0fef8a",
+      "video_sha256": "5aca28b77178037ed04c60c1244361dc8b1de9f2793902bddf0fa0e102e3c19b"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-048-source-0.50.png",
+      "video": "outputs\\8c968d3a200148eb\\es\\3a9bbe52917b2c29-best-096c256f\\payload\\inputs\\source.mp4",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "6b0bf8c70438b39ccbce076a1a288a4518391fac93d0fb625afc286819e1953d",
+      "video_sha256": "8c968d3a200148ebf60c39dca1b44139e95548c56789c1e93f6be404123d9dde"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-048-output-0.50.png",
+      "video": "outputs\\8c968d3a200148eb\\es\\3a9bbe52917b2c29-best-096c256f\\final.mp4",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "de8bb67dce496b2ddde788c1db155f4cc1d6aa37cffffd6270f947d92126b085",
+      "video_sha256": "3a9bbe52917b2c29678b1565f94b003f187702019c35740d652dec6bcfe4da2b"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-048-source-2.00.png",
+      "video": "outputs\\8c968d3a200148eb\\es\\3a9bbe52917b2c29-best-096c256f\\payload\\inputs\\source.mp4",
+      "frame": 60,
+      "fps": 30.0,
+      "time": 2.0,
+      "frame_sha256": "1e79c4707bef4fbbd23ab9032e4f70fa0bf4039b8e5067e180cc39ee00deefff",
+      "video_sha256": "8c968d3a200148ebf60c39dca1b44139e95548c56789c1e93f6be404123d9dde"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-048-output-2.00.png",
+      "video": "outputs\\8c968d3a200148eb\\es\\3a9bbe52917b2c29-best-096c256f\\final.mp4",
+      "frame": 60,
+      "fps": 30.0,
+      "time": 2.0,
+      "frame_sha256": "c539ef6b14e919accf96ef84d435d076da1085b35e2b28d7708d3998aa0bfe7b",
+      "video_sha256": "3a9bbe52917b2c29678b1565f94b003f187702019c35740d652dec6bcfe4da2b"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-049-old-source-4.50.png",
+      "video": "outputs\\565b00c15076adca\\es\\5be0d47e33a9f48f-best-555fab4d\\payload\\inputs\\source.mp4",
+      "frame": 135,
+      "fps": 30.0,
+      "time": 4.5,
+      "frame_sha256": "9d778c34f8fe57583a10ba6279d2d03d64389fdf511b47787b827ecf2fb7c4e3",
+      "video_sha256": "565b00c15076adcafb30cca78228a8d0915a66f863babb2e8055e9ba9d9b0059"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-049-old-output-4.50.png",
+      "video": "outputs\\565b00c15076adca\\es\\5be0d47e33a9f48f-best-555fab4d\\final.mp4",
+      "frame": 135,
+      "fps": 30.0,
+      "time": 4.5,
+      "frame_sha256": "c03143b4a7b17a30ca331638a7a1aa095402c8db5da302609adce1aa501905f1",
+      "video_sha256": "5be0d47e33a9f48f70d6389d36155e92a6a6f2eb01a233eedb98cd015e888138"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-049-old-source-10.50.png",
+      "video": "outputs\\565b00c15076adca\\es\\5be0d47e33a9f48f-best-555fab4d\\payload\\inputs\\source.mp4",
+      "frame": 315,
+      "fps": 30.0,
+      "time": 10.5,
+      "frame_sha256": "bf6a34a348746bbdd97e7d410863c6358a18c9be36ce924fe21dc8d6c28b081e",
+      "video_sha256": "565b00c15076adcafb30cca78228a8d0915a66f863babb2e8055e9ba9d9b0059"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-049-old-output-10.50.png",
+      "video": "outputs\\565b00c15076adca\\es\\5be0d47e33a9f48f-best-555fab4d\\final.mp4",
+      "frame": 315,
+      "fps": 30.0,
+      "time": 10.5,
+      "frame_sha256": "71e12567476efd3f236f9076c346c254f9a82db20e80a88cb162d5e21ef8bda2",
+      "video_sha256": "5be0d47e33a9f48f70d6389d36155e92a6a6f2eb01a233eedb98cd015e888138"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-049-revised-source-4.50.png",
+      "video": "outputs\\565b00c15076adca\\es\\1b91523c5da6e1fe-best-0e147fdd\\payload\\inputs\\source.mp4",
+      "frame": 135,
+      "fps": 30.0,
+      "time": 4.5,
+      "frame_sha256": "9d778c34f8fe57583a10ba6279d2d03d64389fdf511b47787b827ecf2fb7c4e3",
+      "video_sha256": "565b00c15076adcafb30cca78228a8d0915a66f863babb2e8055e9ba9d9b0059"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-049-revised-output-4.50.png",
+      "video": "outputs\\565b00c15076adca\\es\\1b91523c5da6e1fe-best-0e147fdd\\final.mp4",
+      "frame": 135,
+      "fps": 30.0,
+      "time": 4.5,
+      "frame_sha256": "a4ea161624890ca5b123fe80d3e0888275383023e4616ce47aed2d67abe677ca",
+      "video_sha256": "1b91523c5da6e1fe8fb8a44c95187f44d1a8d37b6ba7b823d1a7f0d43587bd51"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-049-revised-source-10.50.png",
+      "video": "outputs\\565b00c15076adca\\es\\1b91523c5da6e1fe-best-0e147fdd\\payload\\inputs\\source.mp4",
+      "frame": 315,
+      "fps": 30.0,
+      "time": 10.5,
+      "frame_sha256": "bf6a34a348746bbdd97e7d410863c6358a18c9be36ce924fe21dc8d6c28b081e",
+      "video_sha256": "565b00c15076adcafb30cca78228a8d0915a66f863babb2e8055e9ba9d9b0059"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-049-revised-output-10.50.png",
+      "video": "outputs\\565b00c15076adca\\es\\1b91523c5da6e1fe-best-0e147fdd\\final.mp4",
+      "frame": 315,
+      "fps": 30.0,
+      "time": 10.5,
+      "frame_sha256": "7b7081e14e941b367830710cc50dbbef1daeff7710d299806ed32ebb3ec8377f",
+      "video_sha256": "1b91523c5da6e1fe8fb8a44c95187f44d1a8d37b6ba7b823d1a7f0d43587bd51"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-021-source-6.30.png",
+      "video": "outputs\\f0e4254e46ba8247\\ar\\2186c73eddc4c7cb-best-3b6939ae\\payload\\inputs\\source.mp4",
+      "frame": 189,
+      "fps": 30.0,
+      "time": 6.3,
+      "frame_sha256": "ae42044190c849ec4b7377226936ba6b6fe540279044635d92f2b34009ba21fd",
+      "video_sha256": "f0e4254e46ba8247934fe7a38928cbf82e242f8764877b2ef26ed4cf2ca38159"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-021-output-6.30.png",
+      "video": "outputs\\f0e4254e46ba8247\\ar\\2186c73eddc4c7cb-best-3b6939ae\\final.mp4",
+      "frame": 189,
+      "fps": 30.00108110445631,
+      "time": 6.299772976245388,
+      "frame_sha256": "3cc55e6766df10969fbed0d0d4e6e56ce9a9bf08faed1a8518f0ff54b5ad6376",
+      "video_sha256": "2186c73eddc4c7cbd273a95fb8d807f6c3c5ffb6a64c21468aba7bf1d31f4005"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-021-source-7.30.png",
+      "video": "outputs\\f0e4254e46ba8247\\ar\\2186c73eddc4c7cb-best-3b6939ae\\payload\\inputs\\source.mp4",
+      "frame": 219,
+      "fps": 30.0,
+      "time": 7.3,
+      "frame_sha256": "1605cee6b6502771cce62d1ab487736cd3ba60e378620f8b051ddc54be0957fc",
+      "video_sha256": "f0e4254e46ba8247934fe7a38928cbf82e242f8764877b2ef26ed4cf2ca38159"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\MOG-021-output-7.30.png",
+      "video": "outputs\\f0e4254e46ba8247\\ar\\2186c73eddc4c7cb-best-3b6939ae\\final.mp4",
+      "frame": 219,
+      "fps": 30.00108110445631,
+      "time": 7.299736940728782,
+      "frame_sha256": "512816a23d5a085f5d5857452b03054f81ce479d7dd1afe838f7b4f041607975",
+      "video_sha256": "2186c73eddc4c7cbd273a95fb8d807f6c3c5ffb6a64c21468aba7bf1d31f4005"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-latest-de-0.50.png",
+      "video": "outputs/a78945b55f649d54/de/8894dfc20569bca5/final.mp4",
+      "video_sha256": "8894dfc20569bca56117ed06887763372fc30a1fe670ea848077b00f81bd69f1",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "5008595d72bfa5a34a8fdccdb733e21467763d2a7aa413db73df0511948d9a38"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-latest-es-0.50.png",
+      "video": "outputs/a78945b55f649d54/es/9b6a5ce59b17e727/final.mp4",
+      "video_sha256": "9b6a5ce59b17e727bc02590f5df9d20ca539d9dc5f5331deef112a64d6a3142c",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "b6ed5edc550347ecbbe314e14f6709e824d3285eb68a3863e5b8a5b6f124cdbf"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-latest-fr-0.50.png",
+      "video": "outputs/a78945b55f649d54/fr/5aca28b77178037e/final.mp4",
+      "video_sha256": "5aca28b77178037ed04c60c1244361dc8b1de9f2793902bddf0fa0e102e3c19b",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "e8d9eefc528a0f4cc39e36395f271c6bca1038ef0f7971ed4f223b84680a0bda"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-latest-ja-0.50.png",
+      "video": "outputs/a78945b55f649d54/ja/7ca8dd46c801d160/final.mp4",
+      "video_sha256": "7ca8dd46c801d16077666d502ffb8c79b558b8af9dc007778973e9a2cae7f08e",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "271c4e96e80323b934507965817aa828ed04803c47d2f936f671eb4462072dae"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-latest-ko-0.50.png",
+      "video": "outputs/a78945b55f649d54/ko/21fba56c46c2f96e/final.mp4",
+      "video_sha256": "21fba56c46c2f96ef447d55f5d16762451304e4ded0d32f17660bca4a221e7a8",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "f9d3d24bbaebbbb95de2fd293644c12ce78b957d736d30b82830092cf61c7555"
+    },
+    {
+      "file": "work\\runs\\KEY-20261023-024-01\\title-audit-20261026\\KEY-latest-pt-0.50.png",
+      "video": "outputs/a78945b55f649d54/pt/a6f6ae95aa08bf05/final.mp4",
+      "video_sha256": "a6f6ae95aa08bf05e522c1fbe0984b198b0c2ce71797c39d3bc4e4dd8c7c1be8",
+      "frame": 15,
+      "fps": 30.0,
+      "time": 0.5,
+      "frame_sha256": "3261384d72ac05578ae83f2798ef280b85a2f5b0ea5308df1c2056c526d474c3"
+    }
+  ],
+  "observations": {
+    "KEY-024": "All six latest language outputs at frame15 have horizontal dark row bands and upright typography. Shared neutral frame15 shows bands without translated lettering.",
+    "MOG-048": "Inspected latest Spanish blur variant frames15/60: broad blur band visibly replaces moving subject/background behind title. Already delivered_with_issues.",
+    "MOG-049-old": "Inspected old Spanish frames135/315: pale rectangular fill behind name prompt, solid pink strip protruding from Calculate diamond, flat repaired card region and changed type.",
+    "MOG-049-revised": "Same timestamps in revised Spanish: prompt/diamond/card patch boundaries visibly improved by host-edited clean references; text style still differs. This is sampled-frame evidence only.",
+    "MOG-021": "Frames189/219 inspected: no broad title blur band like MOG-048; local clothing seam near7.3s and different typography/animation have separate prior disclosure. Do not classify as KEY row-fill."
+  },
+  "cause": {
+    "direct_algorithm_instruction_found": false,
+    "search_scope": "Current rules, source recognition packet knowledge snapshots, archived recipe and original visible tool patch history for KEY-024.",
+    "observed_history": "Original visible tool patch replaced a cv2.inpaint branch with 18th-percentile row filling. No knowledge instruction was found prescribing that formula.",
+    "interpretation": "Natural reconstruction was reduced to a local row-color heuristic. Fast style tolerance and minor-defect allowance were applied too broadly; actual review explicitly noted horizontal texture but passed it. This is a decision/review failure, not a mandatory knowledge algorithm.",
+    "propagation": "A shared neutral and baseline picture stream distributed the same visual defect across languages and later audio-only revisions.",
+    "limits": "Cannot infer full private reasoning or prove absence in all removed historical records."
+  }
+}

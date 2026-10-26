@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "id": "live-photo-shared-art-assets-20261019",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+  },
+  "status": "active",
+  "origin": "Verified newest source-neutral assets and source-scoped user-approved Chinese example",
+  "reviewed_by": "User explicit feedback; Codex hash and scope validation",
+  "reference_video_sha256": null,
+  "company_preference": false,
+  "references": [
+    {
+      "id": "ref-001",
+      "name": "user-visual-audio-approval-20261019.json",
+      "kind": "historical_origin_label",
+      "sha256": "7c4092a3abdfe1003d1a0cb5fbd5118e7d0c36f339b9f4b94a36feb7880c3061"
+    },
+    {
+      "id": "ref-002",
+      "name": "live-photo-shared-art-assets-20261019.json",
+      "kind": "historical_origin_label",
+      "sha256": "14a1edce60eebe5fdf90f23de729920fc8e28cf70dfe63fe2c76835afc72090a"
+    },
+    {
+      "id": "ref-003",
+      "name": "master.mp4",
+      "kind": "historical_origin_label",
+      "sha256": "6ad8c745c2303343cc7fb88ea21a7bdb2509d7441c4b791117de8285b811d8e4"
+    },
+    {
+      "id": "ref-004",
+      "name": "translated-mix.wav",
+      "kind": "historical_origin_label",
+      "sha256": "6172fe46bcee817a27e8376ca13ce2d70417d5c54450b416bd5b00a18278d8cb"
+    },
+    {
+      "id": "ref-005",
+      "name": "local-separation-r2",
+      "kind": "historical_origin_label",
+      "sha256": null
+    }
+  ],
+  "asset_manifest": {
+    "schema_version": 1,
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "recorded_at": "2026-10-19T10:19:08+00:00",
+    "assets": [
+      {
+        "path": "origin:master.mp4",
+        "sha256": "6ad8c745c2303343cc7fb88ea21a7bdb2509d7441c4b791117de8285b811d8e4",
+        "usage": "source-neutral master including repaired CTA entry",
+        "target_language": null
+      },
+      {
+        "path": "origin:preparation.json",
+        "sha256": "1b0d012533bfe1b6a26226b1d3c36c4f11532ab37cde9348ebedfb58c1c2af91",
+        "usage": "neutral-master provenance and input hashes",
+        "target_language": null
+      },
+      {
+        "path": "origin:source-clean-before-entry.png",
+        "sha256": "416b88cf39008c05db09f9a4317dad2796825669eb17caccb1d161b6210c8b25",
+        "usage": "static-photo clean source frame476",
+        "target_language": null
+      },
+      {
+        "path": "origin:animation.json",
+        "sha256": "b83c59ef54b3e058dc27696284ac3dc34961769238750e68b0c25f907c018824",
+        "usage": "per-source-frame scale and position;64 measured visible source CTA frames",
+        "target_language": null
+      },
+      {
+        "path": "origin:source-red-texture.png",
+        "sha256": "9a1771046488af23ebc202d99fde55725f7b0b471384cfc72c96b8b775a2d727",
+        "usage": "original patterned red fill sample",
+        "target_language": null
+      },
+      {
+        "path": "origin:style-profile.json",
+        "sha256": "22896d36168b8b9ae51f3f36de7ab696f4786d202a980933c7ddefa466104dd6",
+        "usage": "source-derived visual effects; embedded Chinese copy is locale-specific",
+        "target_language": "zh-CN"
+      },
+      {
+        "path": "origin:cta-reference-transparent.png",
+        "sha256": "73d99de47a19d5ec44b86628664eab6882c68a846c3504402b2492f5bd6a0237",
+        "usage": "Chinese CTA glyph artwork",
+        "target_language": "zh-CN"
+      },
+      {
+        "path": "origin:zh-transparent.mov",
+        "sha256": "2921670e2bbf834c4b2127a644a1fec9f01c91e1006cc56f8f19c51673ffba4f",
+        "usage": "final combined Chinese UI and CTA alpha layer",
+        "target_language": "zh-CN"
+      },
+      {
+        "path": "origin:typography-record.json",
+        "sha256": "7a7462e1c7856b808cfc9bb917117839f264782674e3ce06cc883f79642c304a",
+        "usage": "Chinese copy, geometry, font and alpha binding",
+        "target_language": "zh-CN"
+      },
+      {
+        "path": "origin:protection-policy.json",
+        "sha256": "4c6d55bbe6453ca5054740a3cb2a2b71f00bcb78b16a0c2d9d2db3d6e0936327",
+        "usage": "source object-occlusion contour policy",
+        "target_language": null
+      },
+      {
+        "path": "origin:translated-mix.wav",
+        "sha256": "6172fe46bcee817a27e8376ca13ce2d70417d5c54450b416bd5b00a18278d8cb",
+        "usage": "accepted Chinese narration plus existing music mix",
+        "target_language": "zh-CN"
+      },
+      {
+        "path": "origin:msyhbd.ttc",
+        "sha256": "4508821b3dffe01f0ef5e5326a3e60df705a44633858811f67b6982dce3f6ee6",
+        "usage": "Chinese glyph font; source English font remains unknown",
+        "target_language": "zh-CN"
+      }
+    ],
+    "accepted_example": {
+      "target_language": "zh-CN",
+      "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+      "feedback": "origin:user-visual-audio-approval-20261019.json"
+    },
+    "reuse_boundary": "Source-neutral assets may serve another locale after hash and fit checks. Chinese glyphs/full soundtrack are Chinese-specific; regenerate the target language glyphs and speech when locale or copy changes."
+  },
+  "feedback_record": {
+    "schema_version": 1,
+    "recorded_at": "2026-10-19T10:19:08+00:00",
+    "source": "Direct user message in this conversation",
+    "quote": "好的，挺好。目前音频也挺好。请你帮我进行知识总结提纯等。",
+    "source_run": "live-photo-zh-art-004",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "target_language": "zh-CN",
+    "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+    "candidate_path": "origin:candidate-26799c9192263b12.mp4",
+    "aac_bitstream_sha256": "cf28456485fecbcdebeeb13e9a71e7e10e811696654f3f5c84e0d7da84d8ad71",
+    "user_visual_acceptance": "positive_overall_effect",
+    "user_audio_acceptance": "positive_explicit",
+    "learning_authorized": true,
+    "company_preference": false,
+    "scope": "This exact source, final Chinese version and its actual soundtrack",
+    "not_inferred": [
+      "User performed stem-level lossless comparison",
+      "Independent native-language or frame-exhaustive expert review",
+      "All artistic-font families validated",
+      "Other source or language outputs approved"
+    ],
+    "historical_quality": {
+      "path": "origin:quality.json",
+      "sha256": "5fddcc7420b5df7076fb153cddbf402f3ed2a7a02c2caac8e1e3a43fbc463518",
+      "decision": "revise"
+    },
+    "historical_review": {
+      "path": "origin:review.json",
+      "sha256": "f456061ef55dc0ce3d9bac733fa8e83ab24ecc32a9970a48aba7b7d90019b5d0"
+    },
+    "interpretation": "User has now approved the listening result. Previous reports' no-user-acceptance descriptions are historical; their technical evidence is not rewritten."
+  },
+  "original_method_sha256": "b7c1788ebde355c4854ad49633ca4c69b69f60ee1af2db7c39eb606eb69997fd",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

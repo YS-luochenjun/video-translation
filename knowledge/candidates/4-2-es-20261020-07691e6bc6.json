@@ -1,0 +1,28 @@
+{
+  "id": "4-2-es-20261020-07691e6bc6",
+  "status": "candidate",
+  "created_at": "2026-10-20T09:28:14+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "es",
+    "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+  },
+  "outcome": "revise",
+  "hypothesis": "Same-source six-language preparation can share source analysis and background separation, but any visual repair defect propagates to every language. Source-local classical inpainting produced obvious patches; local LaMa improved text removal but left soft clothing/hair, apple/hand ghosting and source-colour/glyph fragments at transitions. These candidate videos remain revise. Exact native script, actual mixed-audio DTW, independent transcription, decoded glyph boundary measurements and mux timebase correlation are separate evidence. An invalid optional accent was rejected at createTask; singleton JSON review envelopes were recovered locally from saved receipts without another charge. One source and six locales are not six independent source validations.",
+  "evidence": {
+    "run": "4-2-es-20261020",
+    "video_sha256": "07691e6bc67749d834bf3e0687379859c0b00f7ef0de8ba7008a58c91b8f40f9",
+    "quality_sha256": "efffa86e9246dd4d3f893a2dd8803662118f30567001910ab209b1231a19e605"
+  },
+  "limitations": [
+    "Source-burned captions overlap moving clothing, hair, apple and fingers. Repairs create visible soft regions/ghost edges and occasional source-colour/glyph fragments around text transitions.",
+    "Uniform green native subtitles simplify the original per-word green/red/white highlight animation.",
+    "Native female dubbed audio retains original English mouth movements; no lip synchronization was performed.",
+    "Audio preservation is supported by local source separation, original post-7.8s samples, and external model perception; lossless separation is not claimed.",
+    "Same-Agent review plus external audio model and pixel/ASR measurements is not independent native-speaker, company or business acceptance."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

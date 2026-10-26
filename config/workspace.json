@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "default_workflow": "video-localization",
+  "default_profile": "company-default",
+  "default_delivery_mode": "fast",
+  "output_policy": "best_available_required",
+  "sampling_seconds": 1.0,
+  "max_segment_seconds": 8.0,
+  "max_paid_jobs_per_run": 2,
+  "request_budget_policy": "source_duration",
+  "require_target_audio_for_speech": true,
+  "max_revision_rounds": 2,
+  "note": "New request limit is actual original source seconds times the rate in config/budget-policy.json, shared by all locales, models, runs and retries. Bound historical ledgers keep their original limits and spending. Clips do not create allowance. Duration-based requests derive finite task slots from source segments/known roles with two repair rounds per unit; credit reservations remain the aggregate gate. Unknown charges stay reserved."
+}

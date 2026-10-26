@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-23",
+  "source": "Direct project user messages in current conversation",
+  "instruction": "可以，把这个优先级落实到项目流程和知识规则里：优先自然去除源文字，复杂视频效果不理想时可以考虑用局部模糊兜底，避免反复试验。先不要提交或推送。",
+  "preceding_clarification": "这个不是最优先的使用状态，但是可以是考虑的状态。例如是一个很复杂的视频情况，且wen完成的内容不如人意的时候，可以允许使用局部模糊。",
+  "interpretation": "User clarified conditional fallback, with Wan as the project video-editing route. Natural removal remains preferred; blur is not the fast-mode default.",
+  "scope": "Project workflow policy for future localization tasks, subject to explicit per-task constraints.",
+  "evidence_type": "explicit_user_policy_authorization",
+  "limits": [
+    "No claim that any previous video passed quality or user acceptance.",
+    "No cross-source empirical success claim.",
+    "Existing budget and bounded retry limits remain.",
+    "Local changes only; no Git commit or push."
+  ],
+  "reviewed_by": "Codex; attribution and policy scope review"
+}

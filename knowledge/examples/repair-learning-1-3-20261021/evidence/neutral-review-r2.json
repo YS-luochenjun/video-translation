@@ -1,0 +1,49 @@
+{
+  "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+  "video_sha256": "e1ebd909cce700bcfcb0fb37f07db2cb748ee60b37e4673130bb260d200f7433",
+  "reviewer": "Codex, same Agent visual review of actual encoded neutral frames",
+  "reviewed_at": "2026-10-20T13:00:05+00:00",
+  "decision": "revise",
+  "checks": {
+    "source_text_removal": "revise",
+    "texture_and_color": "revise",
+    "foreground_motion": "revise",
+    "temporal_boundaries": "revise"
+  },
+  "evidence": [
+    {
+      "path": "outputs/visual-revision/neutral-audit-r2/neutral-observations.json",
+      "sha256": "e8858ec3c7cba6631fa3093fa9fa8d59f43ca330124e0815306387cb3d53a65b"
+    },
+    {
+      "path": "outputs/visual-revision/neutral-audit-r2/neutral-native-0315.jpg",
+      "sha256": "96d6736d46f6c81aa1559511a7b236cbfd0af275412460f8c1344577fffe6746"
+    },
+    {
+      "path": "outputs/visual-revision/neutral-audit-r2/neutral-reaction-0380.jpg",
+      "sha256": "031ecca3c7941eef6f35badfe87a67d480ccf014d3904fd007c688a561c24ae8"
+    },
+    {
+      "path": "outputs/visual-revision/neutral-audit-r2/neutral-native-0440.jpg",
+      "sha256": "4d8da295aea727344615deaaa2656cbb4ca8cc809482eabdc1b8ec536abaeda1"
+    },
+    {
+      "path": "outputs/visual-revision/neutral-audit-r2/neutral-contact-08.jpg",
+      "sha256": "242f1d9f8da91624de940a82f4166f81f10cc786787c3185afd18c180a3b8065"
+    },
+    {
+      "path": "outputs/visual-revision/neutral-audit-r2/neutral-whole-0480.jpg",
+      "sha256": "9a58b5db1df3becd15ff6e2242a9c30f4d9c25ab7e82b743d480eb65878f9f34"
+    }
+  ],
+  "observations": [
+    "Frame 315 native title area is improved and the previously reported English P is absent at native scale; this does not establish whole-video success.",
+    "Third-scene sweater donor has a visible neckline rectangle above the actual crying emoji, and later backpack texture is substituted on the wrong region.",
+    "Frame 440 title uses mirrored reference geometry where a normal hat should be, creating a conspicuous rectangular patch.",
+    "Frame 478 transition still contains blurred original title and reaction lettering.",
+    "Frames 479-481 CTA foreground convex hull includes source letter fragments and clips the actual hat/hand at fixed bounds; source arrow white interior is missing.",
+    "Local OCR returned no English candidates despite visible source lettering in the transition."
+  ],
+  "next_action": "No production binding, final rendering or delivery while this neutral is unapproved. Extra local repair round awaits explicit user response to project two-round limit.",
+  "proof_boundary": "Actual native crops and all nine dense-frame contact sheets viewed by the same Agent; not independent or user acceptance."
+}

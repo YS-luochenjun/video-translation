@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "video_sha256": "fd94cb073f5527b740057ec3415b5981927eb0a040c17acdf88f97e6b598dab6",
+  "plan_id": "2d76ef4c0e989bce",
+  "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+  "inventory_sha256": "f4018451cee845316618ce854dbc49adc014d764d6f316b303c4d48c9c1b9a43",
+  "track_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "audio": {
+    "path": "review/fd94cb073f55/audio.wav",
+    "sha256": "f50b0ce5cfb04f7d160e1063ed68875ca66540ca3f11b8b7afd6a60090445a35"
+  },
+  "reviewer": "Codex same-Agent",
+  "method": "Actual encoded scene-text classification and actual-output audio correlation/ASR. All visible titles, buttons, reaction and CTA are independent scene copy; no source verbatim caption track. Narration copy is the finalized speech_segments target_text.",
+  "decision": "pass",
+  "evidence": [
+    "review/fd94cb073f55/audio.wav",
+    "review/fd94cb073f55/dense-contact-01.jpg",
+    "review/fd94cb073f55/dense-contact-04.jpg",
+    "review/fd94cb073f55/dense-contact-07.jpg"
+  ],
+  "instances": [],
+  "limitation": "Empty caption track intentional. No measured word-caption timing or lip-sync claim. Local actual audio is byte-identical to the prior locally verified revision."
+}

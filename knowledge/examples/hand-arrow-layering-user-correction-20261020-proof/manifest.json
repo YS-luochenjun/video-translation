@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "hand-arrow-layering-user-correction-20261020-proof",
+  "created_at": "2026-10-20T04:23:44+00:00",
+  "files": [
+    {
+      "path": "evidence/0355f7f65a-arrow-layers.json",
+      "sha256": "0355f7f65ade6669283e5bdd8ce849379f41adf843ad45b88fb36deca2caad47",
+      "bytes": 1678
+    },
+    {
+      "path": "evidence/3ac551bc80-typography-record.json",
+      "sha256": "03476c60783beb36a4fde408f55122d2e5333885d3e27578cc2de5f3b5f32a51",
+      "bytes": 5280
+    },
+    {
+      "path": "evidence/60917137ea-preparation.json",
+      "sha256": "f7917a5426af6e2a3c5526a54da9aead795e728334b28782535bda247892b952",
+      "bytes": 2028
+    },
+    {
+      "path": "evidence/85997d26a9-caption-alignment.json",
+      "sha256": "4c389616d18864ec0052454a25b48fc1e4cbe314790c2cbbf74716ca591bd9ec",
+      "bytes": 2667
+    },
+    {
+      "path": "evidence/arrow-accepted-final.png",
+      "sha256": "15263e50d7094a8067cf2d51f85a4a846919b40fad2c89661671e1e3d99e3eb6",
+      "bytes": 71552
+    },
+    {
+      "path": "evidence/arrow-observation-crops.json",
+      "sha256": "a6d1d61d44a08c0b56750d2438c20520ec24f66f1f48698f096774ac4a1e254b",
+      "bytes": 893
+    },
+    {
+      "path": "evidence/arrow-previous-error.png",
+      "sha256": "cbb1dfe9b4f452a958204100b27557a41d5732d25cac0ca383bed0c0a11ef217",
+      "bytes": 70643
+    },
+    {
+      "path": "evidence/arrow-source.png",
+      "sha256": "67dfb3355fd6d17252592d800759bcd0106c3c450316db2b3b9a45a32344db12",
+      "bytes": 78318
+    },
+    {
+      "path": "evidence/observation.json",
+      "sha256": "d2cbb18fbcc28802a4929b1204ff3e57ad269da9e37b71e1e84ff90db77917e5",
+      "bytes": 36484
+    },
+    {
+      "path": "evidence/original-method.md",
+      "sha256": "f402cdf38a6c88056b0d7d49c760c020c164a0d4a6b52344022fc5d1152a11a8",
+      "bytes": 2424
+    },
+    {
+      "path": "evidence/ref-001-user-correction-20261020.json",
+      "sha256": "339318b66ad0b03ed424df249f791c0dfb1b9132613cdcba1765974fbb9230f8",
+      "bytes": 947
+    },
+    {
+      "path": "evidence/ref-003-reuse-assets.json",
+      "sha256": "bdadf97f3240441c51085510cc96ee7eda2ec77ea27918704a4f87c8248b42d1",
+      "bytes": 1488
+    },
+    {
+      "path": "evidence/ref-005-user-approval-20261020.json",
+      "sha256": "a47fb8ab7501f8eb43159868c322c84a50618180014975fe2f7d45252c95a63f",
+      "bytes": 1534
+    },
+    {
+      "path": "evidence/ref-006-hand-shared-sync-assets-20261020.json",
+      "sha256": "65a9fa044c38cd99990e846655935da4c9d7942c57b3c4f469707065fff31a6a",
+      "bytes": 3623
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+    },
+    "status": "active",
+    "lesson": "# 用户纠正：箭头是前景，Click below 是连续文字\n\n仅匹配源 `f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe`。用户2026-10-20明确指出：箭头下方重叠的be被误当成箭头保留，中文又放在箭头左右，改变了原版关系。原话和两张图片见 `evidence:ref-001`。该纠正当时确认源画面关系与修正要求；随后用户已对最新中文成片作整体正反馈，见下方新增验收记录。\n\n以后同源处理：箭头和文字分为独立对象，即使颜色或连通区域接在一起。译文作为连续整行放在原位置、在箭头后面，原箭头在前景运动；字母及其白边/阴影不能跟箭头一起保留。实际原片前景半透明可能透出旧文字，需从没有文字污染的源帧提取干净箭头形状，再按原运动组合，检查进场、重叠、稳定和末帧。\n\n本次技术样例：`evidence:ref-002`，哈希 `57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858`；项目门禁与同一Agent自审通过91.3分，经历两轮本地返工，新增KIE0 credits。交付当时只有项目门禁与自审；之后用户已认可该新输出。仍未获得独立审查，不宣称一次成功。\n\n新的同源资产入口：`evidence:ref-003`。目标语言无字底片与干净箭头PNG/运动可复用；中文配音、中文稿/时轴和含中文的alpha视频仅适用于对应中文版本。导出箭头已清空透明区域RGB并裁到真实轮廓，避免后续忽略alpha的工具重新看到隐藏英文。\n\n实际对比图在 `evidence:ref-004`；同步证据在同目录的 `caption-sync.json`、词级OCR边界图和波形记录。完整音轨与上一版逐字节一致，保留原混音局限。新发现的“ASR把停顿分给下一词”经验保留在候选复盘，不能因转写有词就直接相信起点。\n\n## 后续用户认可（追加）\n\n用户原话：“很好，效果很好。请你帮我进行知识积累”。记录 `evidence:ref-005` 将反馈绑定到上方最终视频；已认可的是此源的最新中文版整体效果。提纯后的同源中文样例见 `knowledge/rules/hand-zh-sync-user-approved-20261020.md`；带哈希的资产索引见 `evidence:ref-006`。其他语言可复用中性底片与箭头关系，但不继承中文验收、中文音轨或其时轴。历史交付、失败评审与自动候选均保留原状。\n",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

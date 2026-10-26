@@ -1,0 +1,30 @@
+{
+  "sources": [
+    {
+      "path": "knowledge/examples/supplements/hand-zh-sync-user-approved-20261020/af4c1a3fad6c8543ba89452b0b29a057251a435bd946cde490205ccd14a8f049",
+      "manifest_sha256": "c57f2ff01f27cdf220f4b2eb227482b65c4ef193570d465325889a3cbf57dfbe",
+      "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+    },
+    {
+      "path": "knowledge/examples/supplements/live-photo-zh-art-user-approved-20261019/dc505053f9eaa92cb524ba5f311558ba16ade538056da5d71df134fc704f8e88",
+      "manifest_sha256": "f2e3c2178a63b1cf17a2e6b099399dbdeea146f7ec2a3e1a3c94b5c3cc0ec3ea",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+    },
+    {
+      "path": "knowledge/examples/supplements/family-time-zh-local-repair-user-approved-20261019/8454b9620778cc71324b13c1cd3a85f18b803b652604827e8b181f418a5a2f89",
+      "manifest_sha256": "cb5e16d3360bea62f01e2127ac169b293acea52940b3ebe9e98983ec429ac059",
+      "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed"
+    }
+  ],
+  "observed_source_count": 3,
+  "review": "Same-Agent developer synthesis of preserved multi-source observations; no new production acceptance",
+  "derivation": [
+    "ad-localization-distilled-methods-20261019",
+    "hand-sync-transfer-lessons-20261020"
+  ],
+  "limits": [
+    "Source-specific parameters remain source-specific",
+    "Candidate-only single-source refinements are not activated",
+    "New output must pass actual quality review"
+  ]
+}

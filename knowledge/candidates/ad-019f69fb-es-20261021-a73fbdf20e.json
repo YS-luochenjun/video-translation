@@ -1,0 +1,28 @@
+{
+  "id": "ad-019f69fb-es-20261021-a73fbdf20e",
+  "status": "candidate",
+  "created_at": "2026-10-21T04:00:14+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "es",
+    "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+  },
+  "outcome": "pass",
+  "hypothesis": "A stationary poster needs a circular reveal mask, not affine scaling. Check the encoded iris one frame at a time; source music preservation, translated dialogue and caption timing require separate evidence.",
+  "evidence": {
+    "run": "ad-019f69fb-es-20261021",
+    "video_sha256": "a73fbdf20e76da9c5c244dddb847ca72ee9f286a425dd5b3d824143ab7be33ce",
+    "quality_sha256": "609dec267905379ec17a1fff9fd1ae6cf9b29cf21701936b48377055524efbae"
+  },
+  "limitations": [
+    "Same-Agent review, not independent/native-speaker/company acceptance.",
+    "Local restoration infers hidden pixels; small chart-gradient/glow edge texture is an approximation.",
+    "Source facial animation/lips retained; no lip reshaping.",
+    "Raw TTS perception is external; final mix/caption review is same-Agent with actual encoded evidence.",
+    "Failed KIE audio-analysis calls without receipts remain unresolved; no blind retry."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

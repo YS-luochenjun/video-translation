@@ -1,0 +1,1053 @@
+{
+  "schema_version": 1,
+  "id": "hand-zh-sync-user-approved-20261020",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "target_language": "zh-CN"
+  },
+  "status": "active",
+  "origin": "Direct user approval of the latest delivered Chinese arrow and subtitle-sync revision",
+  "reviewed_by": "User explicit overall approval; Codex evidence/hash/scope review",
+  "reference_video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+  "company_preference": false,
+  "references": [
+    {
+      "id": "ref-001",
+      "name": "user-approval-20261020.json",
+      "kind": "historical_origin_label",
+      "sha256": "5dd20876e89ef3654d48df41078f0ce0aff28ac42877b8c25a3a40d342c2356f"
+    },
+    {
+      "id": "ref-002",
+      "name": "final.mp4",
+      "kind": "historical_origin_label",
+      "sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858"
+    },
+    {
+      "id": "ref-003",
+      "name": "arrow-source-previous-final.jpg",
+      "kind": "historical_origin_label",
+      "sha256": "be729aeca3df3a620ecb1f7e6c5836989be966d4d0b3757e84f42b1638eb26c3"
+    },
+    {
+      "id": "ref-004",
+      "name": "review.json",
+      "kind": "historical_origin_label",
+      "sha256": "0f5c9a7d52e1c43fb156d6c97851acefd44c96e686c33c363f225c45bb6c3674"
+    },
+    {
+      "id": "ref-005",
+      "name": "6c7c6db523150cab4906a30d.json",
+      "kind": "historical_origin_label",
+      "sha256": "7a18106b5f6487f7e21c09ac57a7214e6ae3f10aafdc3037bebf9bf8d65d6a48"
+    },
+    {
+      "id": "ref-006",
+      "name": "hand-shared-sync-assets-20261020.json",
+      "kind": "historical_origin_label",
+      "sha256": "8a17089f961673e5815a69082222dec841f9c3c593232af2a43a54ff2854037b"
+    },
+    {
+      "id": "ref-007",
+      "name": "reuse-assets.json",
+      "kind": "historical_origin_label",
+      "sha256": "c8e4d86d549be25b76fdf594fba15cab3c462580b741a3779cfc32a34755838a"
+    },
+    {
+      "id": "ref-008",
+      "name": "actual-costs.json",
+      "kind": "historical_origin_label",
+      "sha256": "4a41ff198edd639fdbc92b8825299e3b8a7e1606ab481ac23ab195f1fcd8ed9a"
+    }
+  ],
+  "feedback_record": {
+    "schema_version": 1,
+    "recorded_at": "2026-10-20T03:08:13+00:00",
+    "source": "Direct user message in this conversation",
+    "quote": "很好，效果很好。请你帮我进行知识积累",
+    "source_run": "hand-zh-sync-002",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "target_language": "zh-CN",
+    "video": "origin:final.mp4",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "plan_id": "f5795d9a4e6deb8e",
+    "user_acceptance": "positive_overall_effect",
+    "learning_authorized": true,
+    "company_preference": false,
+    "scope": "Latest delivered Chinese revision of this exact source; overall effect including the corrected result",
+    "historical_quality": {
+      "path": "origin:6c7c6db523150cab4906a30d.json",
+      "sha256": "7a18106b5f6487f7e21c09ac57a7214e6ae3f10aafdc3037bebf9bf8d65d6a48",
+      "decision": "pass",
+      "score": 91.3
+    },
+    "historical_review": {
+      "path": "origin:review.json",
+      "sha256": "0f5c9a7d52e1c43fb156d6c97851acefd44c96e686c33c363f225c45bb6c3674",
+      "type": "same-Agent self-review"
+    },
+    "not_inferred": [
+      "Independent audiovisual review",
+      "Lossless music/effect stem separation",
+      "Frame-exhaustive defect-free output",
+      "Japanese or other-source output accepted",
+      "Company-wide preference",
+      "Unattended first-pass success"
+    ],
+    "interpretation": "Approval happened after delivery. Earlier no-user-acceptance statements remain accurate historical records; do not rewrite them."
+  },
+  "asset_manifest": {
+    "schema_version": 1,
+    "recorded_at": "2026-10-20T03:08:13+00:00",
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "original_manifest": {
+      "path": "origin:reuse-assets.json",
+      "sha256": "c8e4d86d549be25b76fdf594fba15cab3c462580b741a3779cfc32a34755838a"
+    },
+    "assets": [
+      {
+        "path": "origin:visual-master.mp4",
+        "sha256": "6efda7aae177a240740df686faf0eca610b1ca11d0e9680646dafabdfba82666",
+        "role": "source-neutral plate",
+        "target_language": null,
+        "reuse_scope": "same_source"
+      },
+      {
+        "path": "origin:arrow-cutout-clean.png",
+        "sha256": "5d72577a7179c1e37c83e7cb6fb273fe5863f2587cd40f80b8465e0faf9e5be3",
+        "role": "source-arrow RGBA cutout",
+        "target_language": null,
+        "reuse_scope": "same_source"
+      },
+      {
+        "path": "origin:arrow-layers.json",
+        "sha256": "0355f7f65ade6669283e5bdd8ce849379f41adf843ad45b88fb36deca2caad47",
+        "role": "source-arrow motion/layer order",
+        "target_language": null,
+        "reuse_scope": "same_source"
+      },
+      {
+        "path": "origin:translated-mix.wav",
+        "sha256": "53245fb252e39e6c3b3a83ad926797e2823b43237c843293901eebe2e469056a",
+        "role": "unchanged reviewed Chinese mix",
+        "target_language": "zh-CN",
+        "reuse_scope": "same_source_same_chinese_copy_and_audio"
+      },
+      {
+        "path": "origin:typography.mov",
+        "sha256": "01ed94af9556e91fd3cec2a596ecac01281c4a9c22dfa050f4307321cb6236be",
+        "role": "Chinese-specific typography, rebuild for another locale",
+        "target_language": "zh-CN",
+        "reuse_scope": "same_source_same_chinese_copy_and_audio"
+      },
+      {
+        "path": "origin:caption-alignment.json",
+        "sha256": "85997d26a92f608cdba68304f3340e7a5d4c0cdc857bca61498457e1e767ce52",
+        "role": "Chinese audio-specific alignment",
+        "target_language": "zh-CN",
+        "reuse_scope": "same_source_same_chinese_copy_and_audio"
+      },
+      {
+        "path": "origin:preparation.json",
+        "sha256": "60917137ea0161bce35295205268e007e03e1b27c73c082fd288d8ce4e38be37",
+        "role": "provenance, not a neutral media layer",
+        "target_language": null,
+        "reuse_scope": "read_for_hash_and_dependency_checks"
+      },
+      {
+        "path": "origin:typography-record.json",
+        "sha256": "3ac551bc80994b3b3f7697fdffab327e9e93f0aaedf08979883dd01b89305be3",
+        "role": "provenance, not a neutral media layer",
+        "target_language": "zh-CN",
+        "reuse_scope": "read_for_hash_and_dependency_checks"
+      }
+    ],
+    "accepted_example": {
+      "target_language": "zh-CN",
+      "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+      "feedback_record": "origin:user-approval-20261020.json"
+    },
+    "reuse_procedure": [
+      "Match the actual source SHA256, then check each asset and provenance hash; fail closed on missing files or changes.",
+      "The neutral plate removes the original arrow too: restore the separate clean arrow cutout plus measured motion above the continuous target CTA.",
+      "For a new locale, rebuild final copy, speech, actual-audio alignment, target glyphs and typography; review the actual encoded result.",
+      "Reuse the Chinese complete mix only for the identical Chinese voice/copy; it is not a language-neutral music stem.",
+      "Store pointers and hashes rather than another copy of the source video; runs assets must remain available."
+    ],
+    "cost_boundary": "Reusing assets can avoid new visual model charges, but any new speech, model work or failed/retried tasks still belongs in its task ledger. No universal per-video cost guaranteed."
+  },
+  "promotion_record": {
+    "schema_version": 1,
+    "recorded_at": "2026-10-20T03:08:13+00:00",
+    "candidate": {
+      "path": "origin:hand-zh-sync-002-57257dc8c7.json",
+      "sha256": "5dbd8366a82826ffa3cae6cc135caa75d1393e3c205dae739448c7773dcdfedb"
+    },
+    "action": "Enable source-and-language-scoped accepted example; retain original reflection and failed candidates",
+    "active_reference": "hand-zh-sync-user-approved-20261020",
+    "reference": "origin:hand-zh-sync-user-approved-20261020.md",
+    "feedback": {
+      "path": "origin:user-approval-20261020.json",
+      "sha256": "5dd20876e89ef3654d48df41078f0ce0aff28ac42877b8c25a3a40d342c2356f"
+    },
+    "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+    "target_language": "zh-CN",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "reviewed_by": "User explicit overall approval; Codex evidence/hash/scope review",
+    "company_preference": false,
+    "unpromoted_transfer_candidate": "origin:hand-sync-transfer-lessons-20261020.json"
+  },
+  "quality": {
+    "schema_version": 1,
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "plan_id": "f5795d9a4e6deb8e",
+    "checked_at": "2026-10-20T02:56:21+00:00",
+    "decision": "pass",
+    "score": 91.3,
+    "review_sha256": "0f5c9a7d52e1c43fb156d6c97851acefd44c96e686c33c363f225c45bb6c3674",
+    "audio_check": {
+      "schema_version": 1,
+      "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+      "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+      "strategy": "replace",
+      "source": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 15.2091,
+        "rms_dbfs": -14.04,
+        "peak_dbfs": 0.0,
+        "audible_signal": true,
+        "silence_fraction": 0.0137,
+        "clipped_fraction": 8e-06,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -13.88
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -11.33
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -11.31
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -12.25
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -16.34
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -16.19
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -11.93
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -10.51
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -13.16
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -10.07
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -17.3
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -16.84
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -17.33
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -17.76
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -15.93
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -18.69
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -18.71
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -18.57
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -16.1
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -17.94
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -18.37
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -20.9
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -13.9
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -10.55
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -12.1
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -12.46
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -23.5
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -9.79
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -13.97
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -25.12
+          },
+          {
+            "start": 15.0,
+            "end": 15.209,
+            "rms_dbfs": -90.31
+          }
+        ]
+      },
+      "candidate": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 15.2091,
+        "rms_dbfs": -17.9,
+        "peak_dbfs": -1.69,
+        "audible_signal": true,
+        "silence_fraction": 0.0137,
+        "clipped_fraction": 0.0,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -16.95
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -15.46
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -17.84
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -15.94
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -18.12
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -16.53
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -14.16
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -14.71
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -18.72
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -21.11
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -18.16
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -17.0
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -17.4
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -17.83
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -15.94
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -18.77
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -18.82
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -18.61
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -16.12
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -17.97
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -18.43
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -20.53
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -17.34
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -23.59
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -17.29
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -20.5
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -19.02
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -26.33
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -23.25
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -25.41
+          },
+          {
+            "start": 15.0,
+            "end": 15.209,
+            "rms_dbfs": -75.91
+          }
+        ]
+      },
+      "waveform_match": null,
+      "failures": [],
+      "proof_boundary": "Signal, duration and retained-waveform checks; not listening, ASR, dialogue translation or lip-sync proof"
+    },
+    "caption_check": {
+      "decision": "pass",
+      "failures": [],
+      "metrics": [
+        {
+          "id": "t021",
+          "unit": 0,
+          "start_error_seconds": 0.0,
+          "end_error_seconds": 0.02
+        },
+        {
+          "id": "t021",
+          "unit": 1,
+          "start_error_seconds": 0.02,
+          "end_error_seconds": 0.0067
+        },
+        {
+          "id": "t021",
+          "unit": 2,
+          "start_error_seconds": 0.0067,
+          "end_error_seconds": 0.02
+        },
+        {
+          "id": "t021",
+          "unit": 3,
+          "start_error_seconds": 0.02,
+          "end_error_seconds": 0.0133
+        },
+        {
+          "id": "t021",
+          "unit": 4,
+          "start_error_seconds": 0.0133,
+          "end_error_seconds": 0.0133
+        },
+        {
+          "id": "t021",
+          "unit": 5,
+          "start_error_seconds": 0.0,
+          "end_error_seconds": 0.0
+        },
+        {
+          "id": "t021",
+          "unit": 6,
+          "start_error_seconds": 0.02,
+          "end_error_seconds": 0.0
+        },
+        {
+          "id": "t022",
+          "unit": 0,
+          "start_error_seconds": 0.0167,
+          "end_error_seconds": 0.0033
+        },
+        {
+          "id": "t022",
+          "unit": 1,
+          "start_error_seconds": 0.0033,
+          "end_error_seconds": 0.0267
+        },
+        {
+          "id": "t022",
+          "unit": 2,
+          "start_error_seconds": 0.0,
+          "end_error_seconds": 0.0133
+        },
+        {
+          "id": "t022",
+          "unit": 3,
+          "start_error_seconds": 0.0133,
+          "end_error_seconds": 0.02
+        },
+        {
+          "id": "t032",
+          "unit": 0,
+          "start_error_seconds": 0.0083,
+          "end_error_seconds": 0.0
+        },
+        {
+          "id": "t032",
+          "unit": 1,
+          "start_error_seconds": 0.0,
+          "end_error_seconds": 0.0033
+        }
+      ],
+      "review_sha256": "ff723f5ca2b40958daecb3d34612d3b4772b2d9e631dc65753cb12c39fc2976a",
+      "proof_boundary": "Bound, attributed AV observations plus deterministic copy/timing checks; no automatic listening/OCR or lip-sync claim"
+    },
+    "failures": [],
+    "proof_boundary": "Technical checks plus attributed agent review; no business or company preference approval",
+    "record_path": "origin:6c7c6db523150cab4906a30d.json"
+  },
+  "review": {
+    "schema_version": 1,
+    "reviewer": "Codex same-Agent actual-candidate review",
+    "method": "Read all30 source/candidate paired instance crops,32 transition frames,13 spoken-caption before/first/middle/last/after panels, full contact sheets and actual arrow source/previous/final comparison. Audio evidence is byte-identical to the prior Gemini-reviewed soundtrack, cross-checked with actual local ASR and pause energy.",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "plan_id": "f5795d9a4e6deb8e",
+    "inventory_sha256": "d738933c0a1bdeca74a99dfe3532c8f599c715a44bb9875678026939df2f0868",
+    "decision": "pass",
+    "scores": {
+      "translation": 4.7,
+      "visual_fidelity": 4.3,
+      "temporal_alignment": 4.7,
+      "audio": 4.6,
+      "ad_style": 4.5
+    },
+    "critical_defects": [],
+    "instances": [
+      {
+        "id": "t001",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t001.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t002",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t002.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t003",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t003.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t004",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t004.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t005",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t005.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t006",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t006.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t007",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t007.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t008",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t008.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t009",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t009.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t010",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t010.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t011",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t011.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t012",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t012.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t013",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t013.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t014",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t014.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t015",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t015.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t016",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t016.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t017",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t017.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t018",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t018.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t019",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t019.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t020",
+        "decision": "pass",
+        "evidence": [
+          "origin:arrow-source-previous-final.jpg",
+          "origin:frame-00001.jpg"
+        ],
+        "note": "Source arrow contour extracted separately from connected English. Same source people, brands, numeric UI and intended effects retained."
+      },
+      {
+        "id": "t024",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t024.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t025",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t025.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t026",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t026.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t027",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t027.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t028",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t028.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t029",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t029.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t030",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t030.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t031",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t031.jpg"
+        ],
+        "note": "Source/output first-middle-last evidence inspected; native lettering is readable with source style/positions and original shot changes. Minor local reconstruction/softening remains a fidelity limit."
+      },
+      {
+        "id": "t021",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t021.jpg",
+          "origin:caption-sync.json"
+        ],
+        "note": "Target speech windows differ from the original English visual erase envelope; actual native captions follow voice, including the full final phrase above the CTA."
+      },
+      {
+        "id": "t022",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t022.jpg",
+          "origin:caption-sync.json"
+        ],
+        "note": "Target speech windows differ from the original English visual erase envelope; actual native captions follow voice, including the full final phrase above the CTA."
+      },
+      {
+        "id": "t023",
+        "decision": "pass",
+        "evidence": [
+          "origin:arrow-source-previous-final.jpg",
+          "origin:frame-00001.jpg"
+        ],
+        "note": "Source arrow contour extracted separately from connected English. Same source people, brands, numeric UI and intended effects retained."
+      },
+      {
+        "id": "t032",
+        "decision": "pass",
+        "evidence": [
+          "origin:instance-t032.jpg",
+          "origin:caption-sync.json"
+        ],
+        "note": "Target speech windows differ from the original English visual erase envelope; actual native captions follow voice, including the full final phrase above the CTA."
+      },
+      {
+        "id": "a001",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:speech-word-timestamps.json",
+          "origin:caption-sync.json"
+        ],
+        "note": "Shared final copy and actual ASR/model transcription agree at phrase level; onsets trimmed across measured pauses. Existing reviewed audio unchanged."
+      },
+      {
+        "id": "a002",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:speech-word-timestamps.json",
+          "origin:caption-sync.json"
+        ],
+        "note": "Shared final copy and actual ASR/model transcription agree at phrase level; onsets trimmed across measured pauses. Existing reviewed audio unchanged."
+      }
+    ],
+    "coverage": {
+      "visual": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:instance-sheet-01.jpg",
+          "origin:instance-sheet-02.jpg",
+          "origin:instance-sheet-03.jpg",
+          "origin:instance-sheet-04.jpg",
+          "origin:instance-sheet-05.jpg",
+          "origin:boundary-sheet-01.jpg",
+          "origin:boundary-sheet-02.jpg",
+          "origin:boundary-sheet-03.jpg",
+          "origin:boundary-sheet-04.jpg"
+        ]
+      },
+      "audio": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equivalence.json"
+        ]
+      },
+      "timing": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:instance-sheet-01.jpg",
+          "origin:instance-sheet-02.jpg",
+          "origin:instance-sheet-03.jpg",
+          "origin:instance-sheet-04.jpg",
+          "origin:instance-sheet-05.jpg",
+          "origin:boundary-sheet-01.jpg",
+          "origin:boundary-sheet-02.jpg",
+          "origin:boundary-sheet-03.jpg",
+          "origin:boundary-sheet-04.jpg"
+        ]
+      }
+    },
+    "audio_checks": {
+      "background_music": {
+        "decision": "pass",
+        "method": "Actual entire PCM WAV and AAC are byte-identical to previously model-transcribed/reviewed Chinese version. Source music-only window correlation0.99682. AV captions checked separately.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equivalence.json",
+          "origin:audio-model-review.json"
+        ],
+        "note": ""
+      },
+      "sound_effects": {
+        "decision": "pass",
+        "method": "Actual entire PCM WAV and AAC are byte-identical to previously model-transcribed/reviewed Chinese version. Source music-only window correlation0.99682. AV captions checked separately.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equivalence.json",
+          "origin:audio-model-review.json"
+        ],
+        "note": ""
+      },
+      "dialogue_translation": {
+        "decision": "pass",
+        "method": "Actual entire PCM WAV and AAC are byte-identical to previously model-transcribed/reviewed Chinese version. Source music-only window correlation0.99682. AV captions checked separately.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equivalence.json",
+          "origin:audio-model-review.json"
+        ],
+        "note": ""
+      },
+      "sync": {
+        "decision": "pass",
+        "method": "Actual entire PCM WAV and AAC are byte-identical to previously model-transcribed/reviewed Chinese version. Source music-only window correlation0.99682. AV captions checked separately.",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equivalence.json",
+          "origin:audio-model-review.json"
+        ],
+        "note": ""
+      }
+    },
+    "caption_sync": {
+      "record": "review/<actual-video-hash-prefix>/caption-sync.json",
+      "note": "Separate audiovisual review; audio-only sync does not verify captions"
+    },
+    "lesson": "Connected icon and letter colors do not define the same object. Use a clean source arrow silhouette and explicit foreground order with one continuous translated phrase. ASR can include clause silence in word timestamps; inspect actual native-audio energy and use short semantic caption units, preserving music speed.",
+    "limitations": [
+      "Same Agent self-review; no independent reviewer or user acceptance claimed.",
+      "Local inpainting approximates hidden background; source arrow entry opacity is approximated.",
+      "Existing UVR soundtrack separation limitations remain; audio is unchanged rather than newly proved lossless.",
+      "No lip-sync processing.",
+      "The script remains source-specific; this is not proof of unattended generalization."
+    ]
+  },
+  "actual-costs": {
+    "currency": "KIE credits",
+    "confirmed_new_credits": 0,
+    "new_paid_calls": 0,
+    "unknown_jobs": 0,
+    "tasks": [],
+    "reused_from": "hand-zh-001",
+    "original_chinese_with_shared_preparation": 32.85,
+    "Chinese_total_through_this_revision": 32.85,
+    "prior_Japanese_increment": 0.78,
+    "source_pair_total": 33.63,
+    "new_video_model_submissions": 0,
+    "explanation": "Reuse original source/Wan-local neutral preparation, paid Chinese TTS and reviewed mix. Local Whisper, pixel repair, typography, rendering and review add no KIE charge."
+  },
+  "original_method_sha256": "7507f9008af1e03672299aa3e360324469009a8df55e8563f3f918437a933d2d",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

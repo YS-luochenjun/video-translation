@@ -1,0 +1,6 @@
+{
+  "enabled": false,
+  "retired": true,
+  "replacement": "codex-packet RUN --stage recognize",
+  "note": "Legacy OCR configuration is ignored. Codex reads actual frames under project knowledge and quality constraints."
+}

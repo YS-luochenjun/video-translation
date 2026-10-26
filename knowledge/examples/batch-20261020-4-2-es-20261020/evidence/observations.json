@@ -1,0 +1,32 @@
+{
+  "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d",
+  "video_sha256": "07691e6bc67749d834bf3e0687379859c0b00f7ef0de8ba7008a58c91b8f40f9",
+  "origin_run_id": "4-2-es-20261020",
+  "technical_decision": "revise",
+  "reviewer": "Codex same-Agent review with attributed external audio-model perception; no independent whole-video or business approval",
+  "method": "Inspected all eight localized caption/CTA instances in actual candidate galleries, original source timeline crops, full-frame candidate evidence and caption boundary frames. Reviewed decoded glyph timing, actual candidate WAV identity and source/candidate external audio comparisons. Findings include visual failures; scores never override them.",
+  "lesson": "Same-source six-language preparation can share source analysis and background separation, but any visual repair defect propagates to every language. Source-local classical inpainting produced obvious patches; local LaMa improved text removal but left soft clothing/hair, apple/hand ghosting and source-colour/glyph fragments at transitions. These candidate videos remain revise. Exact native script, actual mixed-audio DTW, independent transcription, decoded glyph boundary measurements and mux timebase correlation are separate evidence. An invalid optional accent was rejected at createTask; singleton JSON review envelopes were recovered locally from saved receipts without another charge. One source and six locales are not six independent source validations.",
+  "limitations": [
+    "Source-burned captions overlap moving clothing, hair, apple and fingers. Repairs create visible soft regions/ghost edges and occasional source-colour/glyph fragments around text transitions.",
+    "Uniform green native subtitles simplify the original per-word green/red/white highlight animation.",
+    "Native female dubbed audio retains original English mouth movements; no lip synchronization was performed.",
+    "Audio preservation is supported by local source separation, original post-7.8s samples, and external model perception; lossless separation is not claimed.",
+    "Same-Agent review plus external audio model and pixel/ASR measurements is not independent native-speaker, company or business acceptance."
+  ],
+  "critical_defects": [
+    "unintended_product_or_action_change",
+    "untranslated_required_instance"
+  ],
+  "scores": {
+    "translation": 4.6,
+    "visual_fidelity": 2.0,
+    "temporal_alignment": 4.7,
+    "audio": 4.2,
+    "ad_style": 3.4
+  },
+  "original_record_hashes": {
+    "quality": "efffa86e9246dd4d3f893a2dd8803662118f30567001910ab209b1231a19e605",
+    "review": "630c940f58d7586fa3f79ecd2afeff9cdad2e15664d9b7e0227a9eaae576440c"
+  },
+  "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+}

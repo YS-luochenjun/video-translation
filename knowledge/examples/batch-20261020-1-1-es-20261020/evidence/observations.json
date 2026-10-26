@@ -1,0 +1,30 @@
+{
+  "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3",
+  "video_sha256": "a467b5c43d6df552dcebd3321b7f049de92761eb163bac90244c9452f5ddbab4",
+  "origin_run_id": "1-1-es-20261020",
+  "technical_decision": "revise",
+  "reviewer": "Codex same-Agent visual and model-evidence review",
+  "method": "Actual final MP4: full-scene grid, 33 full-resolution sampled/cut/entry frames, local OCR including caption wipe/last/skull frames, actual final WAV ASR and waveform retention. No direct human/native or independent listening claimed.",
+  "lesson": "Broad static text masks missed photo-wipe caption motion and CTA overshoot. Actual final-frame checks caught both. Per-frame source-letter masks remove English while preserving most original texture; remaining repair bands and unverified separated-audio semantics prevent acceptance. Same-source/local Spanish result only; no general capability or company preference change.",
+  "limitations": [
+    "Visible local inpainting texture/bands remain beneath the second title and in some repaired sky regions.",
+    "Full audio semantics, especially music/FX retention under separated voice windows, remain unverified by direct listening.",
+    "Source waveform outside narration is retained with measured correlation about0.99958 over about19.08s; that does not prove lossless separation.",
+    "CTA entrance is a reconstructed six-frame fade; the source arrow is retained.",
+    "The original skull briefly occludes scene text, as in the source.",
+    "ASR renders Spanish haz as homophonic has; raw TTS script and actual isolated-take ASR retain haz. No transcript is silently corrected."
+  ],
+  "critical_defects": [],
+  "scores": {
+    "translation": 4.8,
+    "visual_fidelity": 3.5,
+    "temporal_alignment": 4.3,
+    "audio": 3.5,
+    "ad_style": 4.0
+  },
+  "original_record_hashes": {
+    "quality": "ab65eba7cb04f315f1fce640297b08c0ead04066db7c955e8bf51460906ddfee",
+    "review": "e59a572fecfce61162628a0087141d16efa391be090f1ca0554edb8775276c30"
+  },
+  "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-evidence",
+  "identity": "ff56d11812be27f0b61b5d323abc242f90deef45ed7f6446f6ed790985c56355",
+  "created_at": "2026-10-20T10:55:29+00:00",
+  "files": [
+    {
+      "path": "evidence/review/curation-20261020.json",
+      "sha256": "be93b235e882958bca5910ebc8511e6f494a1f72f11b2b52de3056394b9e2355",
+      "bytes": 3114
+    },
+    {
+      "path": "evidence/review/fd94cb073f55/dense-contact-02.jpg",
+      "sha256": "ee0ee5f497484925650040baeb5635f861aab7c1e33e4ef1064a3a2be2dd447e",
+      "bytes": 478346
+    },
+    {
+      "path": "evidence/review/fd94cb073f55/dense-f0090.jpg",
+      "sha256": "3caf069f539fc6a7cf4bfcf1f599b1a4ae67991416d2d1a3e2ccf3213ed1cf3c",
+      "bytes": 162130
+    }
+  ],
+  "metadata": {
+    "entry_id": "method-animated-text-occlusion-v2",
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "case_manifest_sha256": "6ddfce276cac7128708e183507f51c05416fe1c03ae407fa46518bba6444b5c4",
+    "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572",
+    "video_sha256": "fd94cb073f5527b740057ec3415b5981927eb0a040c17acdf88f97e6b598dab6",
+    "references": {
+      "final-task-observations": "evidence/review/curation-20261020.json",
+      "mirrored-occurrence-frame": "evidence/review/fd94cb073f55/dense-f0090.jpg",
+      "transition-following-frames": "evidence/review/fd94cb073f55/dense-contact-02.jpg"
+    },
+    "reviewed_by": "Codex same-Agent maintenance review of recorded evidence and selected encoded frames; no new full video or listening acceptance",
+    "recorded_at": "2026-10-20T10:55:29+00:00",
+    "proof_boundary": "Preserved historical evidence, not a new video review, independent acceptance or wider scope."
+  }
+}

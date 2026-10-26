@@ -1,0 +1,189 @@
+{
+  "prior_sha256": "754d12d5113460293a63c5ab47c05c9c5c71c96ffb642b4158a6096e180dc326",
+  "new_sha256": "e6f3999415079d4ed1e6f7ce65b3db83401b2cae70562d0c85fbce74807f4fbe",
+  "decoded_frames": 396,
+  "pixel_changes": [
+    {
+      "frame": 2,
+      "pixels": 72,
+      "bounds": [
+        429,
+        835,
+        472,
+        853
+      ]
+    },
+    {
+      "frame": 3,
+      "pixels": 128,
+      "bounds": [
+        416,
+        835,
+        470,
+        853
+      ]
+    },
+    {
+      "frame": 4,
+      "pixels": 199,
+      "bounds": [
+        407,
+        835,
+        468,
+        853
+      ]
+    },
+    {
+      "frame": 5,
+      "pixels": 128,
+      "bounds": [
+        415,
+        834,
+        439,
+        853
+      ]
+    },
+    {
+      "frame": 6,
+      "pixels": 311,
+      "bounds": [
+        419,
+        834,
+        479,
+        853
+      ]
+    },
+    {
+      "frame": 7,
+      "pixels": 452,
+      "bounds": [
+        416,
+        835,
+        479,
+        853
+      ]
+    },
+    {
+      "frame": 8,
+      "pixels": 350,
+      "bounds": [
+        414,
+        843,
+        479,
+        853
+      ]
+    },
+    {
+      "frame": 9,
+      "pixels": 309,
+      "bounds": [
+        412,
+        847,
+        479,
+        853
+      ]
+    },
+    {
+      "frame": 10,
+      "pixels": 365,
+      "bounds": [
+        410,
+        846,
+        479,
+        853
+      ]
+    },
+    {
+      "frame": 11,
+      "pixels": 450,
+      "bounds": [
+        409,
+        843,
+        479,
+        853
+      ]
+    },
+    {
+      "frame": 12,
+      "pixels": 473,
+      "bounds": [
+        407,
+        843,
+        478,
+        853
+      ]
+    },
+    {
+      "frame": 13,
+      "pixels": 434,
+      "bounds": [
+        406,
+        844,
+        476,
+        853
+      ]
+    },
+    {
+      "frame": 14,
+      "pixels": 549,
+      "bounds": [
+        404,
+        843,
+        479,
+        853
+      ]
+    },
+    {
+      "frame": 15,
+      "pixels": 607,
+      "bounds": [
+        403,
+        840,
+        475,
+        853
+      ]
+    },
+    {
+      "frame": 16,
+      "pixels": 368,
+      "bounds": [
+        402,
+        842,
+        454,
+        853
+      ]
+    },
+    {
+      "frame": 17,
+      "pixels": 255,
+      "bounds": [
+        401,
+        843,
+        439,
+        853
+      ]
+    },
+    {
+      "frame": 18,
+      "pixels": 147,
+      "bounds": [
+        401,
+        845,
+        423,
+        853
+      ]
+    },
+    {
+      "frame": 19,
+      "pixels": 110,
+      "bounds": [
+        399,
+        835,
+        431,
+        853
+      ]
+    }
+  ],
+  "conclusion": "All other decoded pixels are exactly equal to the individually inspected prior neutral. All changed opening-bottom frames inspected at native size in actual-bottom-frames.png. Prior t007 entry-erasure conclusion was invalidated by exact-asset quality hold; new conclusion requires the observed correction.",
+  "review_type": "same_agent"
+}

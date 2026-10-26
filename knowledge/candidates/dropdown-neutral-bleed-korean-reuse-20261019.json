@@ -1,0 +1,37 @@
+{
+  "id": "dropdown-neutral-bleed-korean-reuse-20261019",
+  "status": "candidate",
+  "created_at": "2026-10-19T09:30:41+00:00",
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "scope": {
+    "workflow": "video-localization",
+    "source_type": "filmed_phone_ui_ad"
+  },
+  "company_preference": false,
+  "source_runs": [
+    "live-photo-ko-001",
+    "live-photo-zh-ui-gap-003"
+  ],
+  "observations": [
+    "User-approved transparent UI method had an explicit dropdown collision correction. Text gap alone did not resolve it.",
+    "Actual clean-master zoom showed white icon color bleeding into the erased label region. Removing the icon from the fill context, then restoring original icon pixels removed the glow in both languages.",
+    "Protect source icon bounds and a visible gap in per-frame target geometry; separately inspect the neutral surface.",
+    "Raw Korean CTA ASR recovered the intended words, but candidate understanding initially hallucinated an app name. With +4dB voice only free-trial content was recovered; +6dB and +0.2s offset recovered all three Korean lines on the actual final candidate.",
+    "Reuse of master, trajectory and background needs new language fonts/voices/review. Six Korean model receipts total 0.88 credits; this is one source, not a universal fixed price."
+  ],
+  "evidence": {
+    "korean_video_sha256": "4afed27d97111705b67042cf484a600be9404ef6ac1d92e4dff2c6f2d0a94fd5",
+    "chinese_video_sha256": "06881b0383858f0a86ccc75945adda4f0fcec85efd32c91db28199799dbfcc36",
+    "final_audio_model_report": "origin:audio-candidate-transcript.json",
+    "costs": "origin:2026-10-19-korean-reuse-costs.json"
+  },
+  "limitations": [
+    "Single source and same-agent sampled visual review.",
+    "Full music/FX fidelity and fine sync not independently established.",
+    "Background level can change slightly under peak control when foreground narration gain changes; do not call the mix lossless.",
+    "No Korean user/native acceptance yet."
+  ],
+  "next_falsification": "On another authorized filmed-phone source, check icon/surface color contamination and translated-label clearance across motion before general promotion.",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "82408f5475d8573ac9ef6a694e937f3dad4e32aa93f34e10e8a13fe64ca81628"
+}

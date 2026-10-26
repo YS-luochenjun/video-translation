@@ -1,0 +1,28 @@
+/* Hallmark · macrostructure: Catalogue · genre: modern-minimal · theme: Cobalt · audience: project owner · use: inspect production · tone: utilitarian */
+:root {
+  --color-bg: oklch(97.7% .006 255);
+  --color-paper: oklch(100% 0 0);
+  --color-ink: oklch(25% .025 255);
+  --color-muted: oklch(49% .025 255);
+  --color-faint: oklch(61% .024 255);
+  --color-line: oklch(90% .012 255);
+  --color-accent: oklch(48% .2 260);
+  --color-accent-soft: oklch(95% .025 260);
+  --color-good: oklch(39% .09 160);
+  --color-good-bg: oklch(95% .025 160);
+  --color-warn: oklch(43% .1 65);
+  --color-warn-bg: oklch(96% .035 75);
+  --color-bad: oklch(45% .15 25);
+  --color-bad-bg: oklch(96% .025 25);
+  --color-screen: oklch(17% .012 255);
+  --color-screen-ink: oklch(94% .005 255);
+  --color-backdrop: oklch(20% .025 255 / .3);
+  --font-display: 'Segoe UI', 'Microsoft YaHei UI', sans-serif;
+  --font-body: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  --font-mono: Consolas, 'Cascadia Mono', monospace;
+  --space-xs: 4px; --space-sm: 8px; --space-md: 12px; --space-lg: 16px;
+  --space-xl: 24px; --space-2xl: 32px; --space-3xl: 40px;
+  --text-xs: 11px; --text-sm: 12px; --text-md: 13px; --text-body: 14px; --text-lg: 18px; --text-title: 28px;
+  --radius-sm: 4px; --radius-md: 7px; --radius-lg: 10px;
+  --ease-out: cubic-bezier(.2,.8,.2,1); --dur-fast: 120ms;
+}

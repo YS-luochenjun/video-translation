@@ -1,0 +1,41 @@
+{
+  "test_count": 7,
+  "failures": 0,
+  "errors": 0,
+  "actual_six_previous_masters": [
+    {
+      "language": "es",
+      "historical_integrity_valid": true,
+      "production_check": "Neutral visual master is not approved for production; review the text-free video first"
+    },
+    {
+      "language": "pt",
+      "historical_integrity_valid": true,
+      "production_check": "Neutral visual master is not approved for production; review the text-free video first"
+    },
+    {
+      "language": "tr",
+      "historical_integrity_valid": true,
+      "production_check": "Neutral visual master is not approved for production; review the text-free video first"
+    },
+    {
+      "language": "hi",
+      "historical_integrity_valid": true,
+      "production_check": "Neutral visual master is not approved for production; review the text-free video first"
+    },
+    {
+      "language": "id",
+      "historical_integrity_valid": true,
+      "production_check": "Neutral visual master is not approved for production; review the text-free video first"
+    },
+    {
+      "language": "de",
+      "historical_integrity_valid": true,
+      "production_check": "Neutral visual master is not approved for production; review the text-free video first"
+    }
+  ],
+  "implementation_sha256": "2cf22ff07747c6db559ec0b4bab9b7a0013f7049d476809e86ac4c6910be3c64",
+  "planning_code_sha256": "b583a27298f8f633e9c990d1a04a0214bddb7d82a76eef69daf12c55d1410df1",
+  "tests_sha256": "774fb8c3a7aa12e1a2551d01f2f606f2d015c98e78d18791e7b4ce9b4507412a",
+  "scope": "Software gate and historical integrity checks, not proof of repaired video quality"
+}

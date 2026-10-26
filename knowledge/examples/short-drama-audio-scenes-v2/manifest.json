@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "short-drama-audio-scenes-v2",
+  "created_at": "2026-10-26T02:49:20+00:00",
+  "files": [
+    {
+      "path": "evidence/agent-selection-review-20261026.json",
+      "sha256": "55ab32c5ab65d89ed4bc31cdf97de913313a2f63589bef3451090b21c772fd82",
+      "bytes": 2214
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 多人短剧：按声音事件选择方法\n\n适用实际多角色对白或短剧；最低声线要求按 character-voices-v2。家庭、医院、校园等剧情位置只作说明：例如医院两人轮换和校园两人轮换都按轮次处理，不能仅据地点选择声线/算法。旧六语九角色案例仍是同一源的观察，不能扩大为多源验证。\n\n| 技术场景及观察依据 | 首选 | 备选及切换条件 | 完成/停止 |\n| --- | --- | --- | --- |\n| 多人轮换，源音频/说话画面可定位 | 逐轮次绑定稳定角色，短角色也独立 | 身份分歧先局部补证，未知留疑点 | 所有轮次、回到同一角色的声线均可核验 |\n| 极短反问、惊讶、插话 | 独立保留源时段与完整发音 | ASR 误读先接真实相邻上下文，必要时 Gemini 复核；不填入预期转写 | 实际短句语义和首尾已核验，或如实 pending |\n| 重复警告/情绪变化 | 每次重复仍为独立实例，保持角色声线 | 可调整情绪，实际听审防情绪变成另一个人 | 每次出现完整，角色可辨 |\n| 长句/独白、语言膨胀 | 测量真实生成声音，在源轮次内保留自然停顿 | 按下述顺序改停顿、利用确认空隙、有限变速、精简译法及同声线补录 | 意义完整可懂，句尾不跨下一人/画面事件 |\n| 真实重叠说话 | 分别记录说话人、重叠区及语义 | 能分轨才独立对齐；分离/身份不可靠则补证并标限制，不虚构无重叠源 | 对话完整度和可理解性可说明；能力边界如实报告 |\n| 内心独白/旁白/片尾 CTA | 确认与剧情角色关系，独白通常沿角色声线；片尾单独检查 | 源音轨实际无人声才不做配音，不用 ASR 空白判定 | 最后一句和所有引导完整目标语音频 |\n\n## 时间调整的优先顺序\n\n以源轮次、开口/反应、切镜和关键动作确定可用窗口；源本有重叠需记录，不能制造新的压话。测量实际语音发声范围及整句长短，先裁无意义句前/句后静音，保留辅音、气声和必要停顿；再使用已确认没有另一角色/语义事件的空隙；仍超长则尝试有限语速调整并实际检查自然度、音色及可理解性；无法自然容纳时精简等义译法并同声线补录，更新共同定稿和字幕。\n\n每次记录实际时长、窗口、调整、句首/尾与下一人位置。不存在通用变速倍数：吞字、明显机械声、句尾越界或语义损失触发撤回该调整。达到修复/费用边界仍不能配合时保留最好版本及具体区间，不宣称同步通过；不盲目变速/延长画面或截词。\n\n## 识别分歧与供应商异常\n\nASR 与音频理解不一致时先定位词句和成片实际区间，保留两份原始结果；听审可用时听审，否则使用真实上下文及必要独立音频模型补证。模型多数票、预期文本和波形单独不能证明语义。确认为漏句/错读才补录，仍不明保留 pending。资金和尝试有限时停止重复识别，按用户必需音频条件报告结果。\n\n供应商临时失败按 KIE 恢复流程，实际成功的句子优先复用；费用未知先占位。角色变更、语言变更、补录都沿整请求账本。已有画面只换声音时可复用核验画面流，新音频必须重新审；分离伴奏需比较音乐、音效和外语残留，不能声称无损。\n\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/agent-selection-review-20261026.json"
+    }
+  }
+}

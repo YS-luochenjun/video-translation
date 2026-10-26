@@ -1,0 +1,24 @@
+{
+  "id": "hand-zh-sync-002-d2cced3bb1",
+  "status": "candidate",
+  "created_at": "2026-10-20T02:48:06+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "ASR attention can allocate sentence silence to the following word, even when words are recognized. Check isolated speech energy at sentence gaps and retime captions; source music remains untouched.",
+  "evidence": {
+    "run": "hand-zh-sync-002",
+    "video_sha256": "d2cced3bb1b7dcd960056669bea2b78df00ae2a5a2a6955c3954ae405d6c31f2",
+    "quality_sha256": "15aaf2b3da3c634d8e3f42ac577a8e1b7cc44dedd95c3d94697ae4a09e559a74"
+  },
+  "limitations": [
+    "Rejected during focused pause audit; full AV evidence is not approved for this candidate.",
+    "Same Agent review."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "340cc98aaec065bc22d0681a604fc477c98b3bc184e9bd87e96c1d258c947d94"
+}

@@ -1,0 +1,39 @@
+{
+  "recorded_at": "2026-10-26T03:52:39+00:00",
+  "source_case": "knowledge/cases/mog021-fr-restoration-user-approved-20261026.md",
+  "source_case_sha256": "cdfa4696149ce1668d2400031a474a5febafc27943dabba5fcb294b2a0ab16b6",
+  "knowledge_audit": {
+    "decision": "pass",
+    "receipt": "state/visual-investigations/mog021-fr-user-approval-knowledge-audit.json",
+    "boundary": "Point-in-time audit while referenced chat is developing shared core; not its completion or code review."
+  },
+  "retrieval": {
+    "decision": "pass",
+    "receipt": "state/visual-investigations/mog021-fr-user-approval-retrieval.json",
+    "fr": true,
+    "fr_CA": false,
+    "de": false
+  },
+  "delivery_package": {
+    "decision": "pass",
+    "files": 83,
+    "video_sha256": "b505032092b66a86e46042d0c892cc1c195235ac55c684776af705ec1fcff6be"
+  },
+  "repository_check": {
+    "decision": "deferred_other_active_work",
+    "observed_error": "Flowchart source snapshot is stale: src/video_localizer/workflow.py",
+    "reason": "Referenced chat is actively changing workflow and scene/knowledge routing. Do not overwrite its core work or regenerate snapshots against a moving implementation."
+  },
+  "retention": {
+    "decision": "deferred",
+    "reason": "Unsettled audio comparison request and another active run; no assets deleted."
+  },
+  "cross_chat": {
+    "title": "翻译视频为六种语言",
+    "thread_id": "01a16801-3b25-7262-a65d-b51cd0aee5a1",
+    "read": true,
+    "status_at_read": "active",
+    "message_sent": false,
+    "new_commit_created_by_this_task": false
+  }
+}

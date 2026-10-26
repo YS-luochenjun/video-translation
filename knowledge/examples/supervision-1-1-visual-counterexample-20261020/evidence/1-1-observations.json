@@ -1,0 +1,29 @@
+{
+  "id": "supervision-1-1-visual-feedback-20261020",
+  "recorded_at": "2026-10-20T12:11:34+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+  },
+  "actual_old_videos": [
+    "a467b5c43d6df552dcebd3321b7f049de92761eb163bac90244c9452f5ddbab4"
+  ],
+  "user_quote": "目前视频有点小问题。如图有点没有处理干净，且有一层灰色的蒙版。目前有处理这方面问题的知识吗，你认为该怎么办。",
+  "original_feedback_sha256": "5a4f8e6d6ecdd75cb615e515ae8f4447225405fdf5507e453113c906e63be499",
+  "outcome": "visual_rejected_or_unaccepted",
+  "finding": "OCR/threshold mask misses, broad repair patches, foreground occlusion; screenshot binding is conversation-associated and remains limited.",
+  "current_repair_status": "In progress; no successful repair algorithm promoted by this record",
+  "generalizable_checks": [
+    "Inspect the silent neutral master at native-scale problem regions and as encoded continuous motion before adding translated text.",
+    "Separate full source-letter erasure from reconstruction quality and target typography/animation checks.",
+    "Static-patch selection must respect actual region motion and compatible reference scene/pose; do not transfer a photo-based recipe to moving hands without a new trial.",
+    "Pilot one language before batch expansion; retain exact failed asset identity and carry later rejection into delivery/reuse state."
+  ],
+  "reviewed_by": "Supervising Codex: thread and record review; 1-3 layer comparison and 4-2 neutral contact sheet inspected; no new full-video/audio acceptance",
+  "limits": [
+    "No universal inpainting solution or quality guarantee.",
+    "Multiple languages from one neutral master count as one source observation.",
+    "Historical audio facts remain scoped; visual rejection does not imply new audio rejection.",
+    "Historical paths in copied records are provenance only; permanent dependencies are files in this manifest."
+  ]
+}

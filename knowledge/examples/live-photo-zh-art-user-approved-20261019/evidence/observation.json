@@ -1,0 +1,872 @@
+{
+  "schema_version": 1,
+  "id": "live-photo-zh-art-user-approved-20261019",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "target_language": "zh-CN"
+  },
+  "status": "active",
+  "origin": "Direct user approval of the latest Chinese visual result and explicit approval of its audio",
+  "reviewed_by": "User explicit feedback; Codex hash and scope validation",
+  "reference_video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+  "company_preference": false,
+  "references": [
+    {
+      "id": "ref-001",
+      "name": "live-photo-zh-art-004",
+      "kind": "historical_origin_label",
+      "sha256": null
+    },
+    {
+      "id": "ref-002",
+      "name": "user-visual-audio-approval-20261019.json",
+      "kind": "historical_origin_label",
+      "sha256": "7c4092a3abdfe1003d1a0cb5fbd5118e7d0c36f339b9f4b94a36feb7880c3061"
+    },
+    {
+      "id": "ref-003",
+      "name": "quality保留为历史revise",
+      "kind": "historical_origin_label",
+      "sha256": null
+    }
+  ],
+  "feedback_record": {
+    "schema_version": 1,
+    "recorded_at": "2026-10-19T10:19:08+00:00",
+    "source": "Direct user message in this conversation",
+    "quote": "好的，挺好。目前音频也挺好。请你帮我进行知识总结提纯等。",
+    "source_run": "live-photo-zh-art-004",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "target_language": "zh-CN",
+    "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+    "candidate_path": "origin:candidate-26799c9192263b12.mp4",
+    "aac_bitstream_sha256": "cf28456485fecbcdebeeb13e9a71e7e10e811696654f3f5c84e0d7da84d8ad71",
+    "user_visual_acceptance": "positive_overall_effect",
+    "user_audio_acceptance": "positive_explicit",
+    "learning_authorized": true,
+    "company_preference": false,
+    "scope": "This exact source, final Chinese version and its actual soundtrack",
+    "not_inferred": [
+      "User performed stem-level lossless comparison",
+      "Independent native-language or frame-exhaustive expert review",
+      "All artistic-font families validated",
+      "Other source or language outputs approved"
+    ],
+    "historical_quality": {
+      "path": "origin:quality.json",
+      "sha256": "5fddcc7420b5df7076fb153cddbf402f3ed2a7a02c2caac8e1e3a43fbc463518",
+      "decision": "revise"
+    },
+    "historical_review": {
+      "path": "origin:review.json",
+      "sha256": "f456061ef55dc0ce3d9bac733fa8e83ab24ecc32a9970a48aba7b7d90019b5d0"
+    },
+    "interpretation": "User has now approved the listening result. Previous reports' no-user-acceptance descriptions are historical; their technical evidence is not rewritten."
+  },
+  "quality": {
+    "schema_version": 1,
+    "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+    "plan_id": "26799c9192263b12",
+    "checked_at": "2026-10-19T10:07:53+00:00",
+    "decision": "revise",
+    "score": 88.1,
+    "review_sha256": "f456061ef55dc0ce3d9bac733fa8e83ab24ecc32a9970a48aba7b7d90019b5d0",
+    "audio_check": {
+      "schema_version": 1,
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+      "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+      "strategy": "replace",
+      "source": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 18.1116,
+        "rms_dbfs": -10.63,
+        "peak_dbfs": 0.0,
+        "audible_signal": true,
+        "silence_fraction": 0.0,
+        "clipped_fraction": 1.7e-05,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -11.32
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -11.24
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -14.28
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -13.96
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -11.62
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -11.9
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -6.94
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -7.3
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -9.65
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -13.27
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -10.97
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -12.24
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -10.75
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -13.56
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -11.65
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -11.83
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -39.99
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -12.75
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -12.3
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -8.16
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -8.33
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -7.43
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -10.24
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -23.21
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -21.16
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -26.9
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -15.89
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -11.63
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -12.37
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -6.87
+          },
+          {
+            "start": 15.0,
+            "end": 15.5,
+            "rms_dbfs": -7.23
+          },
+          {
+            "start": 15.5,
+            "end": 16.0,
+            "rms_dbfs": -9.52
+          },
+          {
+            "start": 16.0,
+            "end": 16.5,
+            "rms_dbfs": -9.25
+          },
+          {
+            "start": 16.5,
+            "end": 17.0,
+            "rms_dbfs": -9.97
+          },
+          {
+            "start": 17.0,
+            "end": 17.5,
+            "rms_dbfs": -9.69
+          },
+          {
+            "start": 17.5,
+            "end": 18.0,
+            "rms_dbfs": -8.6
+          },
+          {
+            "start": 18.0,
+            "end": 18.112,
+            "rms_dbfs": -27.65
+          }
+        ]
+      },
+      "candidate": {
+        "has_track": true,
+        "codec": "aac",
+        "channels": 2,
+        "sample_rate": "44100",
+        "duration": 18.1116,
+        "rms_dbfs": -11.94,
+        "peak_dbfs": -0.75,
+        "audible_signal": true,
+        "silence_fraction": 0.0,
+        "clipped_fraction": 0.0,
+        "windows": [
+          {
+            "start": 0.0,
+            "end": 0.5,
+            "rms_dbfs": -19.27
+          },
+          {
+            "start": 0.5,
+            "end": 1.0,
+            "rms_dbfs": -19.68
+          },
+          {
+            "start": 1.0,
+            "end": 1.5,
+            "rms_dbfs": -19.59
+          },
+          {
+            "start": 1.5,
+            "end": 2.0,
+            "rms_dbfs": -15.63
+          },
+          {
+            "start": 2.0,
+            "end": 2.5,
+            "rms_dbfs": -11.64
+          },
+          {
+            "start": 2.5,
+            "end": 3.0,
+            "rms_dbfs": -11.94
+          },
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "rms_dbfs": -6.98
+          },
+          {
+            "start": 3.5,
+            "end": 4.0,
+            "rms_dbfs": -7.4
+          },
+          {
+            "start": 4.0,
+            "end": 4.5,
+            "rms_dbfs": -9.74
+          },
+          {
+            "start": 4.5,
+            "end": 5.0,
+            "rms_dbfs": -15.69
+          },
+          {
+            "start": 5.0,
+            "end": 5.5,
+            "rms_dbfs": -18.43
+          },
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "rms_dbfs": -22.6
+          },
+          {
+            "start": 6.0,
+            "end": 6.5,
+            "rms_dbfs": -20.34
+          },
+          {
+            "start": 6.5,
+            "end": 7.0,
+            "rms_dbfs": -19.95
+          },
+          {
+            "start": 7.0,
+            "end": 7.5,
+            "rms_dbfs": -19.23
+          },
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "rms_dbfs": -29.46
+          },
+          {
+            "start": 8.0,
+            "end": 8.5,
+            "rms_dbfs": -43.65
+          },
+          {
+            "start": 8.5,
+            "end": 9.0,
+            "rms_dbfs": -12.76
+          },
+          {
+            "start": 9.0,
+            "end": 9.5,
+            "rms_dbfs": -12.31
+          },
+          {
+            "start": 9.5,
+            "end": 10.0,
+            "rms_dbfs": -8.23
+          },
+          {
+            "start": 10.0,
+            "end": 10.5,
+            "rms_dbfs": -8.41
+          },
+          {
+            "start": 10.5,
+            "end": 11.0,
+            "rms_dbfs": -7.5
+          },
+          {
+            "start": 11.0,
+            "end": 11.5,
+            "rms_dbfs": -10.27
+          },
+          {
+            "start": 11.5,
+            "end": 12.0,
+            "rms_dbfs": -23.24
+          },
+          {
+            "start": 12.0,
+            "end": 12.5,
+            "rms_dbfs": -21.18
+          },
+          {
+            "start": 12.5,
+            "end": 13.0,
+            "rms_dbfs": -26.92
+          },
+          {
+            "start": 13.0,
+            "end": 13.5,
+            "rms_dbfs": -15.91
+          },
+          {
+            "start": 13.5,
+            "end": 14.0,
+            "rms_dbfs": -11.65
+          },
+          {
+            "start": 14.0,
+            "end": 14.5,
+            "rms_dbfs": -12.37
+          },
+          {
+            "start": 14.5,
+            "end": 15.0,
+            "rms_dbfs": -6.94
+          },
+          {
+            "start": 15.0,
+            "end": 15.5,
+            "rms_dbfs": -7.4
+          },
+          {
+            "start": 15.5,
+            "end": 16.0,
+            "rms_dbfs": -10.61
+          },
+          {
+            "start": 16.0,
+            "end": 16.5,
+            "rms_dbfs": -13.22
+          },
+          {
+            "start": 16.5,
+            "end": 17.0,
+            "rms_dbfs": -13.95
+          },
+          {
+            "start": 17.0,
+            "end": 17.5,
+            "rms_dbfs": -12.43
+          },
+          {
+            "start": 17.5,
+            "end": 18.0,
+            "rms_dbfs": -10.13
+          },
+          {
+            "start": 18.0,
+            "end": 18.112,
+            "rms_dbfs": -27.76
+          }
+        ]
+      },
+      "waveform_match": null,
+      "failures": [],
+      "proof_boundary": "Signal, duration and retained-waveform checks; not listening, ASR, dialogue translation or lip-sync proof"
+    },
+    "failures": [
+      "instance_failed_or_unverified:a001",
+      "unverified_audio",
+      "audio_semantics_unverified:background_music",
+      "audio_semantics_unverified:dialogue_translation",
+      "audio_semantics_unverified:sync",
+      "dialogue_translation_unverified",
+      "critical_defect_or_revision_required"
+    ],
+    "proof_boundary": "Technical checks plus attributed agent review; no business or company preference approval",
+    "record_path": "origin:ac2b0f7fe77e72225f27c002.json"
+  },
+  "review": {
+    "schema_version": 1,
+    "reviewer": "Codex same controlling agent self-review",
+    "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+    "plan_id": "26799c9192263b12",
+    "inventory_sha256": "aefd73b270b1d095a8d48a91f243393d044f6af0310766694f9939dddd8c315e",
+    "decision": "revise",
+    "visual_scope_decision": "pass",
+    "method": "Inspected both actual full contact pages, all70 consecutive CTA frames474-543 in four sheets, enlarged frame478/533, source-parent-final phone/button comparisons and full phone/caption details. Actual neutral-video OCR covers67 frames; its unchanged hash permits reuse on the alpha-only revision. Actual compressed audio compared to the parent and externally reviewed ancestor.",
+    "scores": {
+      "translation": 4.5,
+      "visual_fidelity": 4.5,
+      "temporal_alignment": 4.5,
+      "audio": 3.8,
+      "ad_style": 4.6
+    },
+    "critical_defects": [
+      "Inherited first-line audio uncertainty and complete original source music/FX fidelity/fine sync remain unverified; outside this unchanged-audio visual repair"
+    ],
+    "instances": [
+      {
+        "id": "t001",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t002",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t003",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t004",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t005",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t006",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-button.jpg"
+        ],
+        "note": "Compared actual source/parent/final frames150,154,174: 开始 stays in the original button, with source cursor, button outline and photo-card occlusion retained."
+      },
+      {
+        "id": "t007",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone.jpg",
+          "origin:detail-10.500000.png"
+        ],
+        "note": "Compared actual source, parent and final phone crops at298/315/342 plus full frame315; native Chinese labels, original dropdown icon, visible separation, transparent text and retained screen surface inspected."
+      },
+      {
+        "id": "t008",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone.jpg",
+          "origin:detail-10.500000.png"
+        ],
+        "note": "Compared actual source, parent and final phone crops at298/315/342 plus full frame315; native Chinese labels, original dropdown icon, visible separation, transparent text and retained screen surface inspected."
+      },
+      {
+        "id": "t009",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone.jpg",
+          "origin:detail-10.500000.png"
+        ],
+        "note": "Compared actual source, parent and final phone crops at298/315/342 plus full frame315; native Chinese labels, original dropdown icon, visible separation, transparent text and retained screen surface inspected."
+      },
+      {
+        "id": "t010",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone.jpg",
+          "origin:detail-10.500000.png"
+        ],
+        "note": "Compared actual source, parent and final phone crops at298/315/342 plus full frame315; native Chinese labels, original dropdown icon, visible separation, transparent text and retained screen surface inspected."
+      },
+      {
+        "id": "t011",
+        "decision": "pass",
+        "evidence": [
+          "origin:comparison-phone.jpg",
+          "origin:detail-10.500000.png"
+        ],
+        "note": "Compared actual source, parent and final phone crops at298/315/342 plus full frame315; native Chinese labels, original dropdown icon, visible separation, transparent text and retained screen surface inspected."
+      },
+      {
+        "id": "t012",
+        "decision": "pass",
+        "evidence": [
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t013",
+        "decision": "pass",
+        "evidence": [
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t014",
+        "decision": "pass",
+        "evidence": [
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t015",
+        "decision": "pass",
+        "evidence": [
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t016",
+        "decision": "pass",
+        "evidence": [
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t017",
+        "decision": "pass",
+        "evidence": [
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t018",
+        "decision": "pass",
+        "evidence": [
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t019",
+        "decision": "pass",
+        "evidence": [
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t020",
+        "decision": "pass",
+        "evidence": [
+          "origin:cta-continuous-01.jpg",
+          "origin:cta-continuous-02.jpg",
+          "origin:cta-continuous-03.jpg",
+          "origin:cta-continuous-04.jpg",
+          "origin:cta-frame-478.png",
+          "origin:cta-frame-533.png",
+          "origin:artistic-stable-full.jpg",
+          "origin:neutral-ocr-all-cta.json"
+        ],
+        "note": "All70 actual final CTA frames474-543 inspected in four sequential sheets, with enlarged frame478 and frame533 checks. No readable English remains. Patterned red fill, rounded white/blue strokes, offset yellow backing and measured overshoot are present. Emoji/arrow retain foreground priority; the first candidate's protection spur is removed."
+      },
+      {
+        "id": "t021",
+        "decision": "pass",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "t022",
+        "decision": "pass",
+        "evidence": [
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg"
+        ],
+        "note": "Actual final contact pages and enlarged source-timed details inspected. Translation or intentionally preserved brand matches the inherited inventory; earlier glyph geometry unchanged and re-encoding difference measured on11 samples."
+      },
+      {
+        "id": "a001",
+        "decision": "pending",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equality.json",
+          "origin:audio-equality-to-reviewed-ancestor.json",
+          "origin:inherited-chinese-model-transcript.json",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Actual new AAC equals both the user-liked parent and the externally transcribed ancestor. Inherited first-line uncertainty1.0-1.5s remains. New local base-ASR produces homophones and omits the CTA, so it cannot remove that uncertainty. No soundtrack change made."
+      },
+      {
+        "id": "a002",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equality.json",
+          "origin:audio-equality-to-reviewed-ancestor.json",
+          "origin:inherited-chinese-model-transcript.json",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Same compressed audio as the externally transcribed Chinese ancestor supports the planned Mandarin meaning; this is inherited model evidence, not a new human listening approval. Local base-ASR is less reliable over this music."
+      },
+      {
+        "id": "a003",
+        "decision": "pass",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equality.json",
+          "origin:audio-equality-to-reviewed-ancestor.json",
+          "origin:inherited-chinese-model-transcript.json",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Same compressed audio as the externally transcribed Chinese ancestor supports the planned Mandarin meaning; this is inherited model evidence, not a new human listening approval. Local base-ASR is less reliable over this music."
+      }
+    ],
+    "coverage": {
+      "visual": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg",
+          "origin:comparison-phone.jpg",
+          "origin:detail-10.500000.png",
+          "origin:comparison-button.jpg",
+          "origin:detail-13.000000.png",
+          "origin:contact-sheet.jpg",
+          "origin:contact-sheet-02.jpg",
+          "origin:cta-continuous-01.jpg",
+          "origin:cta-continuous-02.jpg",
+          "origin:cta-continuous-03.jpg",
+          "origin:cta-continuous-04.jpg",
+          "origin:cta-frame-478.png",
+          "origin:cta-frame-533.png",
+          "origin:artistic-stable-full.jpg",
+          "origin:neutral-ocr-all-cta.json"
+        ]
+      },
+      "timing": {
+        "status": "reviewed",
+        "evidence": [
+          "origin:cta-continuous-01.jpg",
+          "origin:cta-continuous-02.jpg",
+          "origin:cta-continuous-03.jpg",
+          "origin:cta-continuous-04.jpg",
+          "origin:cta-frame-478.png",
+          "origin:cta-frame-533.png",
+          "origin:artistic-stable-full.jpg",
+          "origin:neutral-ocr-all-cta.json",
+          "origin:comparison-button.jpg",
+          "origin:comparison-phone.jpg",
+          "origin:detail-10.500000.png"
+        ]
+      },
+      "audio": {
+        "status": "pending",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equality.json",
+          "origin:audio-equality-to-reviewed-ancestor.json",
+          "origin:inherited-chinese-model-transcript.json",
+          "origin:offline-asr-audio.json"
+        ]
+      }
+    },
+    "audio_checks": {
+      "background_music": {
+        "decision": "pending",
+        "method": "AAC bitstream identity to the previous Chinese version; not a new comparison proving original source stem fidelity",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equality.json",
+          "origin:audio-equality-to-reviewed-ancestor.json",
+          "origin:inherited-chinese-model-transcript.json",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Music and effects in the previous mix are retained exactly in this revision; old stem-separation fidelity limit remains."
+      },
+      "sound_effects": {
+        "decision": "not_applicable",
+        "method": "Source model analysis identified no distinct nonverbal effects; actual previous soundtrack retained byte-for-byte",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equality.json",
+          "origin:audio-equality-to-reviewed-ancestor.json",
+          "origin:inherited-chinese-model-transcript.json",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "No distinct source effects were separately inventoried."
+      },
+      "dialogue_translation": {
+        "decision": "pending",
+        "method": "External ancestor transcription and exact compressed-audio equality, checked against planned three lines; first interval still uncertain",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equality.json",
+          "origin:audio-equality-to-reviewed-ancestor.json",
+          "origin:inherited-chinese-model-transcript.json",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "No new voice synthesis; do not treat homophonic local-ASR output as a clean native review."
+      },
+      "sync": {
+        "decision": "pending",
+        "method": "Audio timebase and bytes unchanged; independent fine-sync listening not performed",
+        "evidence": [
+          "origin:audio.wav",
+          "origin:audio-equality.json",
+          "origin:audio-equality-to-reviewed-ancestor.json",
+          "origin:inherited-chinese-model-transcript.json",
+          "origin:offline-asr-audio.json"
+        ],
+        "note": "Visual CTA entry follows source frame477; soundtrack kept from previous version."
+      }
+    },
+    "lesson": "Inspect animated source lettering at every entry frame. Remove clipped glyph interiors as well as blue contours, use a true clean source frame when available, and keep object-protection masks from absorbing background branches. Art style can reuse actual source fill texture and measured motion without new video generation.",
+    "limitations": [
+      "Same-agent visual review, not independent user acceptance",
+      "Source original font file unknown; native Chinese font with matched effects is an approximation",
+      "Earlier music-stem fidelity and first narration uncertainty preserved",
+      "Background repair uses the source frozen-photo pre-entry frame; not a general moving-background solution"
+    ]
+  },
+  "original_method_sha256": "a9eaa535a00385b49cfd470f59af588e9a25c976530b4fba32eabb0d01c3e6da",
+  "evidence_boundary": "Actual historical observations with source/result hashes; raw customer media and full task logs are separately retained privately. This project case never requires their continued availability."
+}

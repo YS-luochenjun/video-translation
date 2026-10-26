@@ -1,0 +1,27 @@
+{
+  "id": "hand-zh-sync-002-57257dc8c7",
+  "status": "candidate",
+  "created_at": "2026-10-20T02:56:24+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "pass",
+  "hypothesis": "Connected icon and letter colors do not define the same object. Use a clean source arrow silhouette and explicit foreground order with one continuous translated phrase. ASR can include clause silence in word timestamps; inspect actual native-audio energy and use short semantic caption units, preserving music speed.",
+  "evidence": {
+    "run": "hand-zh-sync-002",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "quality_sha256": "7a18106b5f6487f7e21c09ac57a7214e6ae3f10aafdc3037bebf9bf8d65d6a48"
+  },
+  "limitations": [
+    "Same Agent self-review; no independent reviewer or user acceptance claimed.",
+    "Local inpainting approximates hidden background; source arrow entry opacity is approximated.",
+    "Existing UVR soundtrack separation limitations remain; audio is unchanged rather than newly proved lossless.",
+    "No lip-sync processing.",
+    "The script remains source-specific; this is not proof of unattended generalization."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "5dbd8366a82826ffa3cae6cc135caa75d1393e3c205dae739448c7773dcdfedb"
+}

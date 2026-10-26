@@ -1,0 +1,29 @@
+{
+  "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a",
+  "target_language": null,
+  "contains_target_typography": false,
+  "method": "Source temporal clean-plate composition. Opening first-frame miniature title is replaced with actual nearby hair texture by Poisson cloning before reusing the top strip. CTA uses the same end-card frame immediately before title arrival. No video-model result adopted: KIE rejected creation with code 429 and no taskId.",
+  "inputs": [
+    {
+      "path": "inputs/source.mp4",
+      "sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+    },
+    {
+      "path": "outputs/neutral-master-r3/top-plate.png",
+      "sha256": "b1e63cbe153f81f528bf34560cacadd4cefc214b2af798633d2daf5a582989e9"
+    },
+    {
+      "path": "outputs/neutral-master-r3/end-plate.png",
+      "sha256": "cd55222d7bd387bc7f1cdd5b3cb8bc273b36ae8ac4e82bc790cde71fe7ef071f"
+    }
+  ],
+  "output": {
+    "path": "outputs/neutral-master-r3/visual-master.mp4",
+    "sha256": "f7a08644327da0070acf15e4e6a5272f44e420d376f662469c871f70cf9d4c84"
+  },
+  "limitations": [
+    "Temporal plate replaces motion only inside former title bands; head/hand action elsewhere stays source.",
+    "Tiny first-frame lettering repaired using a nearby source hair patch.",
+    "Same-Agent visual review required; no accepted video-AI edit claimed."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "candidate-adoption-art-ui-20261021",
+  "created_at": "2026-10-21T02:34:09+00:00",
+  "files": [
+    {
+      "path": "evidence/22896d3616-style-profile.json",
+      "sha256": "71b9fbd7a853d1a298d183542fc9034020866ca85a20a651a2bf2093646d9dfb",
+      "bytes": 998
+    },
+    {
+      "path": "evidence/4c6d55bbe6-protection-policy.json",
+      "sha256": "600074980d754787193831a102417322378221d4149ef072b81042225c6c50f7",
+      "bytes": 547
+    },
+    {
+      "path": "evidence/7a7462e1c7-typography-record.json",
+      "sha256": "074eafd9d54fceaba6a1077741e08ee08d3c66b8df782d41799608d9b91ff871",
+      "bytes": 2236
+    },
+    {
+      "path": "evidence/artistic-comparison.jpg",
+      "sha256": "568041967c45dd3e3c7a882c3cd294ca237644e83f301c260101477db9f9e3e4",
+      "bytes": 998362
+    },
+    {
+      "path": "evidence/comparison-button.jpg",
+      "sha256": "ce854afe9ecc5bbfb63b26d8d82c4993dd9cab8a06450e46336873436191c397",
+      "bytes": 178425
+    },
+    {
+      "path": "evidence/comparison-phone.jpg",
+      "sha256": "1ade8b572d01c860f86a76059df3f694601d886847f1cf11e6c4d38c6adbe549",
+      "bytes": 176316
+    },
+    {
+      "path": "evidence/ref-001-user-visual-audio-approval-20261019.json",
+      "sha256": "fd9e51cf09667a80ceddf34e004cdc11712432033629835ebc006e72c99a67f9",
+      "bytes": 1605
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+    },
+    "status": "reviewed_procedure_evidence_not_new_acceptance",
+    "lesson": "Decompose typography and protect UI objects; sampled source/previous/new comparisons support conditional review, not universal texture reconstruction.",
+    "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

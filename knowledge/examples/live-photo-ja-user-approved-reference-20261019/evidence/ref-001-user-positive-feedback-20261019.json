@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-19T08:16:56+00:00",
+  "source": "Direct user message in this conversation",
+  "quote": "目前效果挺不错，可以请你进行知识总结学习。且你说的预算是准的吗。也就是没有超过100credits，且多文字平均每一个视频会更加便宜",
+  "source_run": "live-photo-ja-001",
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "target_language": "ja-JP",
+  "video_sha256": "566413b2115e35d55df0c33f9c9a35b2c4e3633326e2b6518ce5a24079965689",
+  "candidate_path": "origin:candidate-dff3d956966b0fe1.mp4",
+  "acceptance": "positive_overall_effect_feedback",
+  "scope_interpretation": "Overall feedback interpreted as referring to the latest Chinese/Japanese pair. No item-by-item or specialist Japanese approval was provided.",
+  "technical_review_unchanged": {
+    "decision": "revise",
+    "score": 82.8,
+    "quality_sha256": "cf99da8359ee80df9f10303830ad5d847073b968fc092f71ad5a247909f2b438",
+    "review_sha256": "b1d5cec6d9ed7dc04eac9ea713206daa6c9b9d8b8a1193b615da1208692dad7b"
+  },
+  "company_preference": false,
+  "global_memory_changed": false,
+  "billing_confirmation_by_user": false,
+  "cost_question_interpretation": "More languages can amortize source-bound shared work; more onscreen text alone does not imply lower cost."
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "video_sha256": "a467b5c43d6df552dcebd3321b7f049de92761eb163bac90244c9452f5ddbab4",
+  "plan_id": "302d55fc28f13b0d",
+  "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3",
+  "inventory_sha256": "959c986af2913c329cc683eb24299dfdcb5b50c2874a2df8a5670708eaf2c260",
+  "track_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "audio": {
+    "path": "review/a467b5c43d6d/audio.wav",
+    "sha256": "baab940bfe56fccdd9a17748e28744336c7ab7c12602043bc7de806cdb995209"
+  },
+  "reviewer": "Codex same-Agent AV classification review",
+  "method": "Compare actual title/button display frames with actual final WAV ASR and source scene observations. This source has persistent advertising headlines/social copy/CTA, with no separate spoken subtitle track; no word-level subtitle timing acceptance is claimed.",
+  "decision": "pass",
+  "evidence": [
+    "review/a467b5c43d6d/audio.wav",
+    "review/a467b5c43d6d/actual-0015.jpg",
+    "review/a467b5c43d6d/actual-0705.jpg"
+  ],
+  "instances": [],
+  "limitation": "Planned units are instructions, not observations. Review actual WAV and caption boundary frames/full playback."
+}

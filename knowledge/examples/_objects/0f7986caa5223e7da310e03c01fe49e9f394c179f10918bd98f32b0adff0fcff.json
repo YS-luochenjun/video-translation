@@ -1,0 +1,437 @@
+{
+  "engine": "cached faster-whisper-base CPU int8, no initial prompt or expected script",
+  "model_sha256": "d01c3014881c9c6f3133c182f3d2887eb6ca1c789a7538c5c007196857a0a6a9",
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "tracks": [
+    {
+      "id": "a001",
+      "source_audio": "runs\\hand-zh-001\\outputs\\audio-mix\\line-01-aligned.wav",
+      "sha256": "c2e3eac6f388355ca539b44ac419bbf829c38bf27cecf27099d78a044d18a451",
+      "timeline_offset": 0,
+      "duration": 4.072625,
+      "language": "zh",
+      "language_probability": 0.9994206428527832,
+      "segments": [
+        {
+          "start": 0.0,
+          "end": 2.04,
+          "text": "手勢翻转冷静特效怎么做",
+          "avg_logprob": -0.3503773433190805,
+          "words": [
+            {
+              "text": "手",
+              "start": 0.0,
+              "end": 0.24,
+              "probability": 0.8573518991470337
+            },
+            {
+              "text": "勢",
+              "start": 0.24,
+              "end": 0.48,
+              "probability": 0.7748175263404846
+            },
+            {
+              "text": "翻",
+              "start": 0.48,
+              "end": 0.74,
+              "probability": 0.9865289926528931
+            },
+            {
+              "text": "转",
+              "start": 0.74,
+              "end": 0.96,
+              "probability": 0.6361054480075836
+            },
+            {
+              "text": "冷",
+              "start": 0.96,
+              "end": 1.1,
+              "probability": 0.6394191980361938
+            },
+            {
+              "text": "静",
+              "start": 1.1,
+              "end": 1.28,
+              "probability": 0.9046737849712372
+            },
+            {
+              "text": "特",
+              "start": 1.28,
+              "end": 1.46,
+              "probability": 0.9830474257469177
+            },
+            {
+              "text": "效",
+              "start": 1.46,
+              "end": 1.62,
+              "probability": 0.9872666001319885
+            },
+            {
+              "text": "怎么",
+              "start": 1.62,
+              "end": 1.88,
+              "probability": 0.5521872043609619
+            },
+            {
+              "text": "做",
+              "start": 1.88,
+              "end": 2.04,
+              "probability": 0.9936844706535339
+            }
+          ]
+        },
+        {
+          "start": 2.04,
+          "end": 3.98,
+          "text": "其实很简单跟我一起写",
+          "avg_logprob": -0.3503773433190805,
+          "words": [
+            {
+              "text": "其实",
+              "start": 2.04,
+              "end": 2.58,
+              "probability": 0.2682031989097595
+            },
+            {
+              "text": "很",
+              "start": 2.58,
+              "end": 2.76,
+              "probability": 0.993095338344574
+            },
+            {
+              "text": "简",
+              "start": 2.76,
+              "end": 2.92,
+              "probability": 0.9947361052036285
+            },
+            {
+              "text": "单",
+              "start": 2.92,
+              "end": 3.14,
+              "probability": 0.9974144697189331
+            },
+            {
+              "text": "跟我",
+              "start": 3.14,
+              "end": 3.48,
+              "probability": 0.6354309320449829
+            },
+            {
+              "text": "一起",
+              "start": 3.48,
+              "end": 3.76,
+              "probability": 0.988535463809967
+            },
+            {
+              "text": "写",
+              "start": 3.76,
+              "end": 3.98,
+              "probability": 0.7652972638607025
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a002",
+      "source_audio": "runs\\hand-zh-001\\outputs\\audio-mix\\line-02-aligned.wav",
+      "sha256": "46ef5d60a1e8045292921097b61aed91c7d108f41c204d5161ad8cbe0b5402e3",
+      "timeline_offset": 10.75,
+      "duration": 2.81925,
+      "language": "zh",
+      "language_probability": 0.9994624257087708,
+      "segments": [
+        {
+          "start": 10.75,
+          "end": 13.41,
+          "text": "點擊下方上傳照片,馬上試試",
+          "avg_logprob": -0.27135713025927544,
+          "words": [
+            {
+              "text": "點",
+              "start": 10.75,
+              "end": 10.85,
+              "probability": 0.6910099387168884
+            },
+            {
+              "text": "擊",
+              "start": 10.85,
+              "end": 11.03,
+              "probability": 0.991382896900177
+            },
+            {
+              "text": "下",
+              "start": 11.03,
+              "end": 11.19,
+              "probability": 0.929325520992279
+            },
+            {
+              "text": "方",
+              "start": 11.19,
+              "end": 11.37,
+              "probability": 0.9958912134170532
+            },
+            {
+              "text": "上",
+              "start": 11.37,
+              "end": 11.73,
+              "probability": 0.5830091238021851
+            },
+            {
+              "text": "傳",
+              "start": 11.73,
+              "end": 11.91,
+              "probability": 0.9841878414154053
+            },
+            {
+              "text": "照",
+              "start": 11.91,
+              "end": 12.09,
+              "probability": 0.9631596207618713
+            },
+            {
+              "text": "片,",
+              "start": 12.09,
+              "end": 12.31,
+              "probability": 0.9990505576133728
+            },
+            {
+              "text": "馬",
+              "start": 12.49,
+              "end": 12.77,
+              "probability": 0.9790623188018799
+            },
+            {
+              "text": "上",
+              "start": 12.77,
+              "end": 12.99,
+              "probability": 0.9990406632423401
+            },
+            {
+              "text": "試",
+              "start": 12.99,
+              "end": 13.19,
+              "probability": 0.8089442849159241
+            },
+            {
+              "text": "試",
+              "start": 13.19,
+              "end": 13.41,
+              "probability": 0.9685768485069275
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "final-mix",
+      "source_audio": "runs\\hand-zh-001\\outputs\\audio-mix\\translated-mix.wav",
+      "sha256": "53245fb252e39e6c3b3a83ad926797e2823b43237c843293901eebe2e469056a",
+      "timeline_offset": 0,
+      "duration": 15.2090625,
+      "language": "zh",
+      "language_probability": 0.9995753169059753,
+      "segments": [
+        {
+          "start": 0.0,
+          "end": 2.04,
+          "text": "手勢翻转冷静特效怎么做",
+          "avg_logprob": -0.294792868817846,
+          "words": [
+            {
+              "text": "手",
+              "start": 0.0,
+              "end": 0.24,
+              "probability": 0.802561342716217
+            },
+            {
+              "text": "勢",
+              "start": 0.24,
+              "end": 0.46,
+              "probability": 0.6318594366312027
+            },
+            {
+              "text": "翻",
+              "start": 0.46,
+              "end": 0.76,
+              "probability": 0.9875029921531677
+            },
+            {
+              "text": "转",
+              "start": 0.76,
+              "end": 0.92,
+              "probability": 0.8420238196849823
+            },
+            {
+              "text": "冷",
+              "start": 0.92,
+              "end": 1.12,
+              "probability": 0.5029218792915344
+            },
+            {
+              "text": "静",
+              "start": 1.12,
+              "end": 1.26,
+              "probability": 0.9183317124843597
+            },
+            {
+              "text": "特",
+              "start": 1.26,
+              "end": 1.46,
+              "probability": 0.9939579963684082
+            },
+            {
+              "text": "效",
+              "start": 1.46,
+              "end": 1.6,
+              "probability": 0.9870932698249817
+            },
+            {
+              "text": "怎么",
+              "start": 1.6,
+              "end": 1.88,
+              "probability": 0.934820294380188
+            },
+            {
+              "text": "做",
+              "start": 1.88,
+              "end": 2.04,
+              "probability": 0.9885709881782532
+            }
+          ]
+        },
+        {
+          "start": 2.04,
+          "end": 4.0,
+          "text": "其实很简单 跟我一起写",
+          "avg_logprob": -0.294792868817846,
+          "words": [
+            {
+              "text": "其实",
+              "start": 2.04,
+              "end": 2.58,
+              "probability": 0.5133719444274902
+            },
+            {
+              "text": "很",
+              "start": 2.58,
+              "end": 2.78,
+              "probability": 0.9894290566444397
+            },
+            {
+              "text": "简",
+              "start": 2.78,
+              "end": 2.92,
+              "probability": 0.9901317358016968
+            },
+            {
+              "text": "单",
+              "start": 2.92,
+              "end": 3.08,
+              "probability": 0.9965271353721619
+            },
+            {
+              "text": " 跟我",
+              "start": 3.38,
+              "end": 3.48,
+              "probability": 0.9658908843994141
+            },
+            {
+              "text": "一起",
+              "start": 3.48,
+              "end": 3.76,
+              "probability": 0.9967049956321716
+            },
+            {
+              "text": "写",
+              "start": 3.76,
+              "end": 4.0,
+              "probability": 0.8199084997177124
+            }
+          ]
+        },
+        {
+          "start": 10.220000000000002,
+          "end": 13.36,
+          "text": "点击下方 上传照片 马上试试",
+          "avg_logprob": -0.294792868817846,
+          "words": [
+            {
+              "text": "点",
+              "start": 10.220000000000002,
+              "end": 10.620000000000001,
+              "probability": 0.3954085409641266
+            },
+            {
+              "text": "击",
+              "start": 10.620000000000001,
+              "end": 11.02,
+              "probability": 0.9949505031108856
+            },
+            {
+              "text": "下",
+              "start": 11.02,
+              "end": 11.18,
+              "probability": 0.8751261830329895
+            },
+            {
+              "text": "方",
+              "start": 11.18,
+              "end": 11.36,
+              "probability": 0.9866806864738464
+            },
+            {
+              "text": " 上",
+              "start": 11.64,
+              "end": 11.74,
+              "probability": 0.990764856338501
+            },
+            {
+              "text": "传",
+              "start": 11.74,
+              "end": 11.92,
+              "probability": 0.9772635996341705
+            },
+            {
+              "text": "照",
+              "start": 11.92,
+              "end": 12.08,
+              "probability": 0.8930115699768066
+            },
+            {
+              "text": "片",
+              "start": 12.08,
+              "end": 12.28,
+              "probability": 0.9983853101730347
+            },
+            {
+              "text": " 马",
+              "start": 12.58,
+              "end": 12.78,
+              "probability": 0.9871571660041809
+            },
+            {
+              "text": "上",
+              "start": 12.78,
+              "end": 13.0,
+              "probability": 0.9847341179847717
+            },
+            {
+              "text": "试",
+              "start": 13.0,
+              "end": 13.2,
+              "probability": 0.9524138867855072
+            },
+            {
+              "text": "试",
+              "start": 13.2,
+              "end": 13.36,
+              "probability": 0.9978712499141693
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "proof_boundary": "Actual-audio recognition and measured word timing; homophones/low-confidence words need review; no lip-sync or music preservation claim."
+}

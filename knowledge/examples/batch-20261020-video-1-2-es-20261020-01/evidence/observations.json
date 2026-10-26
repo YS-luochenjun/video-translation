@@ -1,0 +1,28 @@
+{
+  "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680",
+  "video_sha256": "46af5daaa4acb765b3f2cf81d92dd9177dbe6a492d0f0b536bb5a0cfe8a66dbb",
+  "origin_run_id": "video-1-2-es-20261020-01",
+  "technical_decision": "pass",
+  "reviewer": "Codex / same-Agent self-review, 2026-10-20",
+  "method": "Actual final-video contact sheet, source/candidate frames, exact caption boundary panel, focused frame OCR, decoded-pixel boundary measurements, source/mix provenance and independently worded local Whisper base/small transcription. No direct human/independent listening.",
+  "lesson": "Use integer frame intervals at scene boundaries; do not copy rounded seconds directly into end-exclusive video text comparisons. Resolve ambiguous very short TTS ASR by a second local model and actual final-mix checks before another paid synthesis.",
+  "limitations": [
+    "Same-Agent self-review only; no independent reviewer, direct human listening, user acceptance or company acceptance.",
+    "Local glyph restoration approximates hair, fabric and wall texture in formerly occluded letter regions; subtle repair traces remain. Original faces, identity and source cut/wipe motion are preserved.",
+    "UVR separation inside narration windows is approximate; this is not a claim of lossless music/effect separation or human verification of every effect.",
+    "One KIE audio-understanding request returned business code 500 with no task/response billing receipt. Its final charge remains unknown and reserved; no duplicate model POST was made."
+  ],
+  "critical_defects": [],
+  "scores": {
+    "translation": 4.5,
+    "visual_fidelity": 4.1,
+    "temporal_alignment": 4.7,
+    "audio": 4.1,
+    "ad_style": 4.5
+  },
+  "original_record_hashes": {
+    "quality": "35517e72e84e29b6cef3109481790126c66c2abe114ca1cec8c9caf7218bb23d",
+    "review": "e907a8ad460f2ec51ed05ff936b3c0c92ff884285e3afa2d6fa15b9cdd530405"
+  },
+  "curation_boundary": "Existing task records checked; selected contact sheets inspected. No new full-video or listening review; omitted historical paths are not live dependencies."
+}

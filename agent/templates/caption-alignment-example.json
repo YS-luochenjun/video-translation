@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "source_sha256": "COPY_VERIFIED_SOURCE_HASH",
+  "target_language": "zh-CN",
+  "audio": {"path": "outputs/audio-mix/translated-mix.wav", "sha256": "COPY_ACTUAL_FINAL_MIX_HASH"},
+  "timeline": "final_mix_seconds",
+  "status": "pending",
+  "reviewer": "",
+  "method": "manual_listening",
+  "segments": [{
+    "speech_id": "a001",
+    "units": [
+      {"text": "现在", "start": 0.2, "end": 0.6},
+      {"text": "就试试！", "start": 0.6, "end": 1.2}
+    ]
+  }],
+  "note": "Illustrative times only. Replace with actual final-mix listening/alignment evidence before setting reviewed."
+}

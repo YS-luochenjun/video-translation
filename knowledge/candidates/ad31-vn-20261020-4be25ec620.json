@@ -1,0 +1,28 @@
+{
+  "id": "ad31-vn-20261020-4be25ec620",
+  "status": "candidate",
+  "created_at": "2026-10-20T10:24:40+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "vi",
+    "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+  },
+  "outcome": "pass",
+  "hypothesis": "Source-only repair was reused across eight languages. A bright foreground-hand mask must exclude dim thumbnail-photo skin; a generic rectangle or connected skin patch leaves source letters or clips native letters. Phone UI text must remain below the source-style caption capsule. Inspect the first source capsule/letter by frame index, not only the intended source caption interval. Actual spoken copy and caption are one script; final timing comes from adjusted voice and actual encoded pixels. These are observations on this one source, not cross-source proof.",
+  "evidence": {
+    "run": "ad31-vn-20261020",
+    "video_sha256": "4be25ec6208824302fca711d70e1af4696007da6221e63c23fc8031dc120d1b4",
+    "quality_sha256": "311e54bdd4ec36c26e1555538b064565c71d0d582c3e3c187156b2ca32a937c6"
+  },
+  "limitations": [
+    "Same-Agent visual and AV judgment plus independent provider audio-only analysis; no human/native-speaker or company acceptance.",
+    "Traditional local lettering repair with source-only neutral plates; local softness remains around repaired title areas, reflected in visual-fidelity score.",
+    "Original music and effects are retained, with local separated accompaniment during narration and modest ducking. Separation is not lossless.",
+    "No lip-sync model used. Creator handle, numeric counts/durations and handwritten palm initials are intentionally preserved.",
+    "The one authorized extra local correction contained failed partial implementations; those attempts and their evidence are retained, with no additional paid submission."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

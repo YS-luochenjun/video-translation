@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-20T03:08:13+00:00",
+  "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
+  "original_manifest": {
+    "path": "origin:reuse-assets.json",
+    "sha256": "c8e4d86d549be25b76fdf594fba15cab3c462580b741a3779cfc32a34755838a"
+  },
+  "assets": [
+    {
+      "path": "origin:visual-master.mp4",
+      "sha256": "6efda7aae177a240740df686faf0eca610b1ca11d0e9680646dafabdfba82666",
+      "role": "source-neutral plate",
+      "target_language": null,
+      "reuse_scope": "same_source"
+    },
+    {
+      "path": "origin:arrow-cutout-clean.png",
+      "sha256": "5d72577a7179c1e37c83e7cb6fb273fe5863f2587cd40f80b8465e0faf9e5be3",
+      "role": "source-arrow RGBA cutout",
+      "target_language": null,
+      "reuse_scope": "same_source"
+    },
+    {
+      "path": "origin:arrow-layers.json",
+      "sha256": "0355f7f65ade6669283e5bdd8ce849379f41adf843ad45b88fb36deca2caad47",
+      "role": "source-arrow motion/layer order",
+      "target_language": null,
+      "reuse_scope": "same_source"
+    },
+    {
+      "path": "origin:translated-mix.wav",
+      "sha256": "53245fb252e39e6c3b3a83ad926797e2823b43237c843293901eebe2e469056a",
+      "role": "unchanged reviewed Chinese mix",
+      "target_language": "zh-CN",
+      "reuse_scope": "same_source_same_chinese_copy_and_audio"
+    },
+    {
+      "path": "origin:typography.mov",
+      "sha256": "01ed94af9556e91fd3cec2a596ecac01281c4a9c22dfa050f4307321cb6236be",
+      "role": "Chinese-specific typography, rebuild for another locale",
+      "target_language": "zh-CN",
+      "reuse_scope": "same_source_same_chinese_copy_and_audio"
+    },
+    {
+      "path": "origin:caption-alignment.json",
+      "sha256": "85997d26a92f608cdba68304f3340e7a5d4c0cdc857bca61498457e1e767ce52",
+      "role": "Chinese audio-specific alignment",
+      "target_language": "zh-CN",
+      "reuse_scope": "same_source_same_chinese_copy_and_audio"
+    },
+    {
+      "path": "origin:preparation.json",
+      "sha256": "60917137ea0161bce35295205268e007e03e1b27c73c082fd288d8ce4e38be37",
+      "role": "provenance, not a neutral media layer",
+      "target_language": null,
+      "reuse_scope": "read_for_hash_and_dependency_checks"
+    },
+    {
+      "path": "origin:typography-record.json",
+      "sha256": "3ac551bc80994b3b3f7697fdffab327e9e93f0aaedf08979883dd01b89305be3",
+      "role": "provenance, not a neutral media layer",
+      "target_language": "zh-CN",
+      "reuse_scope": "read_for_hash_and_dependency_checks"
+    }
+  ],
+  "accepted_example": {
+    "target_language": "zh-CN",
+    "video_sha256": "57257dc8c74611d16ca8325a3885df18b79bc07102d373df35260dd5c8b32858",
+    "feedback_record": "origin:user-approval-20261020.json"
+  },
+  "reuse_procedure": [
+    "Match the actual source SHA256, then check each asset and provenance hash; fail closed on missing files or changes.",
+    "The neutral plate removes the original arrow too: restore the separate clean arrow cutout plus measured motion above the continuous target CTA.",
+    "For a new locale, rebuild final copy, speech, actual-audio alignment, target glyphs and typography; review the actual encoded result.",
+    "Reuse the Chinese complete mix only for the identical Chinese voice/copy; it is not a language-neutral music stem.",
+    "Store pointers and hashes rather than another copy of the source video; runs assets must remain available."
+  ],
+  "cost_boundary": "Reusing assets can avoid new visual model charges, but any new speech, model work or failed/retried tasks still belongs in its task ledger. No universal per-video cost guaranteed."
+}

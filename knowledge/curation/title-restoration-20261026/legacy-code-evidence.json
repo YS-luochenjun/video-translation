@@ -1,0 +1,247 @@
+{
+  "source_file": "outputs\\a78945b55f649d54\\fr\\1b7419c8833b9f43-best-59e752f2\\payload\\inputs\\build-localized.py",
+  "source_file_sha256": "d23c56df1e671971f64dcfbeac6371169c0d8c2ba394fecff0804a5b449f84d2",
+  "lines": [
+    {
+      "line": 121,
+      "text": "def clean_frame(frame,n):"
+    },
+    {
+      "line": 122,
+      "text": "    t=n/30"
+    },
+    {
+      "line": 123,
+      "text": "    masks=[]"
+    },
+    {
+      "line": 124,
+      "text": "    # These are reconstruction masks, not visible blur overlays. Flat original"
+    },
+    {
+      "line": 125,
+      "text": "    # title-container pixels are extended through source lettering only."
+    },
+    {
+      "line": 126,
+      "text": "    if 0.1<=t<7.1:"
+    },
+    {
+      "line": 127,
+      "text": "        for x,y,w,h in [(61,40,364,39),(100,81,277,40)]:"
+    },
+    {
+      "line": 128,
+      "text": "            roi=frame[y:y+h,x:x+w]"
+    },
+    {
+      "line": 129,
+      "text": "            # Reconstruct this already existing container from the current"
+    },
+    {
+      "line": 130,
+      "text": "            # frame's unlettered dark pixels; never add a new opaque panel."
+    },
+    {
+      "line": 131,
+      "text": "            row=np.percentile(roi,18,axis=1).astype(np.uint8)"
+    },
+    {
+      "line": 132,
+      "text": "            if t>6.6:"
+    },
+    {
+      "line": 133,
+      "text": "                # The source's container/text fade reveals native background."
+    },
+    {
+      "line": 134,
+      "text": "                # Temporal clean source at7.2s avoids dark letter-shaped scars."
+    },
+    {
+      "line": 135,
+      "text": "                frame=donor_patch(frame,DONORS['hospital'],(x,y,w,h),0)"
+    },
+    {
+      "line": 136,
+      "text": "            else:"
+    },
+    {
+      "line": 137,
+      "text": "                roi[:]=row[:,None,:]"
+    },
+    {
+      "line": 138,
+      "text": "    if 71.8<=t<72.667:"
+    },
+    {
+      "line": 139,
+      "text": "        # Source's Part2 overlay over already zoom-softened hair: glyph envelope"
+    },
+    {
+      "line": 140,
+      "text": "        # is narrow, sleeves/hand silhouettes remain untouched."
+    },
+    {
+      "line": 141,
+      "text": "        frame=donor_patch(frame,DONORS['bedroom'],(152,390,178,80),2.1)"
+    },
+    {
+      "line": 142,
+      "text": "    if 72.97<=t<74.23:"
+    },
+    {
+      "line": 143,
+      "text": "        # Rebuild the robe from adjacent source fabric. Arrow below is excluded."
+    },
+    {
+      "line": 144,
+      "text": "        frame=donor_patch(frame,DONORS['robe'],(154,414,174,60),max(0,(73.35-t)*5))"
+    },
+    {
+      "line": 145,
+      "text": "    return frame"
+    },
+    {
+      "line": 146,
+      "text": ""
+    },
+    {
+      "line": 147,
+      "text": "def typography(locale,text,w,h,size,color,outline=0):"
+    },
+    {
+      "line": 148,
+      "text": "    fontname='YuGothB.ttc' if locale=='ja' else 'malgunbd.ttf' if locale=='ko' else 'arialbd.ttf'"
+    },
+    {
+      "line": 149,
+      "text": "    for fs in range(size,10,-1):"
+    },
+    {
+      "line": 150,
+      "text": "        f=ImageFont.truetype(str(ROOT/'assets/fonts'/fontname),fs)"
+    },
+    {
+      "line": 151,
+      "text": "        test=Image.new('RGBA',(w,h));d=ImageDraw.Draw(test)"
+    },
+    {
+      "line": 152,
+      "text": "        bbox=d.multiline_textbbox((0,0),text,font=f,spacing=0,align='center',stroke_width=outline)"
+    },
+    {
+      "line": 153,
+      "text": "        if bbox[2]-bbox[0]<=w-8 and bbox[3]-bbox[1]<=h-6:break"
+    },
+    {
+      "line": 154,
+      "text": "    layer=Image.new('RGBA',(480,854));d=ImageDraw.Draw(layer)"
+    },
+    {
+      "line": 155,
+      "text": "    # caller sets position by compositing this compact crop."
+    },
+    {
+      "line": 156,
+      "text": "    crop=Image.new('RGBA',(w,h));d=ImageDraw.Draw(crop)"
+    },
+    {
+      "line": 157,
+      "text": "    d.multiline_text(((w-(bbox[2]-bbox[0]))/2-bbox[0],(h-(bbox[3]-bbox[1]))/2-bbox[1]),text,font=f,fill=color,spacing=0,align='center',stroke_width=outline,stroke_fill=(0,0,0,255))"
+    },
+    {
+      "line": 158,
+      "text": "    return crop"
+    },
+    {
+      "line": 159,
+      "text": ""
+    },
+    {
+      "line": 160,
+      "text": "def video_build(run):"
+    },
+    {
+      "line": 161,
+      "text": "    locale=read_json(run/'inputs/request.json')['target_language'];inv=read_json(run/'analysis/inventory.json')"
+    },
+    {
+      "line": 162,
+      "text": "    copies=read_json(pilot/'inputs/localization-copy.json')['visual'][locale]"
+    },
+    {
+      "line": 163,
+      "text": "    hook={'es':['¿ADIVINAS EL GIRO?','DE LA HISTORIA'],'ja':['この展開、','予想できる？'],'ko':['이 반전,','맞힐 수 있겠어?'],'pt':['ADIVINHA A','REVIRAVOLTA!'],'fr':['DEVINERAS-TU','CE REBONDISSEMENT ?'],'de':['ERRÄTST DU','DIESE WENDUNG?']}[locale]"
+    },
+    {
+      "line": 164,
+      "text": "    out=run/'outputs';out.mkdir(exist_ok=True)"
+    },
+    {
+      "line": 165,
+      "text": "    # Cache source-specific neutral once; full frame timing never retimed."
+    },
+    {
+      "line": 166,
+      "text": "    neutral=pilot/'outputs/native-neutral-v2.mp4'"
+    },
+    {
+      "line": 167,
+      "text": "    if not neutral.exists():"
+    },
+    {
+      "line": 168,
+      "text": "        cap=cv2.VideoCapture(str(pilot/'inputs/source.mp4'))"
+    },
+    {
+      "line": 169,
+      "text": "        for key,t in [('hospital',7.2),('bedroom',71.7),('robe',74.3)]:"
+    },
+    {
+      "line": 170,
+      "text": "            cap.set(cv2.CAP_PROP_POS_MSEC,t*1000);ok,f=cap.read();assert ok;DONORS[key]=f"
+    },
+    {
+      "line": 171,
+      "text": "        cap.set(cv2.CAP_PROP_POS_FRAMES,0)"
+    },
+    {
+      "line": 172,
+      "text": "        p=subprocess.Popen([str(ff),'-hide_banner','-loglevel','error','-f','rawvideo','-pix_fmt','bgr24','-s','480x854','-r','30','-i','pipe:0','-an','-c:v','libx264','-crf','17','-preset','fast','-pix_fmt','yuv420p','-y',str(neutral)],stdin=subprocess.PIPE)"
+    },
+    {
+      "line": 173,
+      "text": "        n=0"
+    },
+    {
+      "line": 174,
+      "text": "        while True:"
+    },
+    {
+      "line": 175,
+      "text": "            ok,frame=cap.read()"
+    },
+    {
+      "line": 176,
+      "text": "            if not ok:break"
+    },
+    {
+      "line": 177,
+      "text": "            p.stdin.write(clean_frame(frame,n).tobytes());n+=1"
+    },
+    {
+      "line": 178,
+      "text": "        p.stdin.close();assert p.wait()==0;cap.release();assert n==2235"
+    },
+    {
+      "line": 179,
+      "text": "    cap=cv2.VideoCapture(str(neutral))"
+    },
+    {
+      "line": 180,
+      "text": "    title1=typography(locale,hook[0],370,39,31,'white');title2=typography(locale,hook[1],276,39,28,'white')"
+    }
+  ],
+  "meaning": "Local row fill and fixed Arial Bold, not host image editing or Wan."
+}

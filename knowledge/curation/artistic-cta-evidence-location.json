@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "candidate": "knowledge/candidates/artistic-cta-transition-failure-20261019.json",
+  "case": "knowledge/examples/artistic-cta-audit-20261019",
+  "case_manifest_sha256": "0b0c0661df6ad80876a4f5d90fbacbe5fcb6a50f69744e9b40b94645ab4ad9ad",
+  "scope": "Evidence relocation only; candidate status and observations unchanged.",
+  "old_directory": "docs/verification/artistic-type-20261019",
+  "new_directory": "knowledge/examples/artistic-cta-audit-20261019/evidence"
+}

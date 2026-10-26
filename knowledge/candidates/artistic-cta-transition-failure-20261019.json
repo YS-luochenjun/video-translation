@@ -1,0 +1,52 @@
+{
+  "id": "artistic-cta-transition-failure-20261019",
+  "status": "candidate",
+  "created_at": "2026-10-19T09:41:07+00:00",
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "scope": {
+    "workflow": "video-localization",
+    "source_type": "animated_decorative_cta"
+  },
+  "company_preference": false,
+  "source_runs": [
+    "live-photo-zh-ui-gap-003",
+    "live-photo-ko-001"
+  ],
+  "observations": [
+    "Both final languages preserve readable CTA copy and broadly similar red/white/blue/yellow-green styling in stable frames.",
+    "Actual ASS uses Microsoft YaHei / Malgun Gothic at fixed size 146 with concentric outline layers; original source font is unknown.",
+    "Original red patterned fill, thick blue border and offset yellow dimensional treatment are simplified.",
+    "At frame 478 (15.933333s) large original English and bright fill blocks remain outside/around the target; frame 479 also retains English edges.",
+    "Frames 482 and 483 retain colored edge fragments. Sampled frames 480,481,484-486 do not show equally obvious English remnants.",
+    "t020 inventory has no trajectory and final ASS has no scale animation while source CTA briefly enlarges during entry.",
+    "Previous same-agent sampled pass for t020 missed transition frames; this supplementary assessment records the contradiction without rewriting it."
+  ],
+  "causal_hypothesis": "Static source-text removal bounds and fixed target layout do not cover the source pop-in extents; repair not yet tested.",
+  "next_falsification": "On an authorized revision, inspect every entry/exit frame, track full source glyph/outline/shadow extents, and verify neutral-master removal before compositing target motion. Compare texture and offset outlines separately.",
+  "evidence": {
+    "assessment": "origin:2026-10-19-final-pair-learning-and-artistic-type.json",
+    "captures": [
+      {
+        "path": "origin:capture-manifest.json",
+        "sha256": "79730443180aa9d0ae11782d70f88c437f8822025a6f5705ac310f9747676513",
+        "frames": 18
+      },
+      {
+        "path": "origin:capture-manifest.json",
+        "sha256": "3bcf716121dd39bc53c180cecfdb63d43a8eed754941f28af213d0586fc47b86",
+        "frames": 30
+      }
+    ],
+    "chinese_video_sha256": "06881b0383858f0a86ccc75945adda4f0fcec85efd32c91db28199799dbfcc36",
+    "korean_video_sha256": "4afed27d97111705b67042cf484a600be9404ef6ac1d92e4dff2c6f2d0a94fd5"
+  },
+  "limitations": [
+    "One source, same-agent visual assessment",
+    "No new rendering or paid model task this turn",
+    "Overall user approval is not an artistic-font or native-language expert acceptance",
+    "No brush-script, handwriting, 3D lettering, gradient, or complex perspective lettering validated"
+  ],
+  "promotion": "Retain as candidate until repair and another-source validation; scoped output references contain the known defect",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "013f130b46d6c04227d2b6a8eb1499b2c6231f0936938a9a29dc2f07b66290f3"
+}

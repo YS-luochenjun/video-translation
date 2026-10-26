@@ -1,0 +1,10 @@
+{
+  "id": "company-default",
+  "version": "0.1",
+  "status": "provisional_developer_defaults",
+  "company_preferences_confirmed": false,
+  "method": "config/profiles/company-default/method.md",
+  "priorities": ["translation accuracy", "product and claim fidelity", "timing", "legibility", "ad rhythm"],
+  "preserve": ["brand names unless explicitly localized", "numbers and offer meaning", "product identity", "shot order"],
+  "preferred_style": "Natural concise target-language ad copy; preserve the source's tone"
+}

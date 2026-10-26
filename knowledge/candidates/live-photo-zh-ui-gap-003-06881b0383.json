@@ -1,0 +1,25 @@
+{
+  "id": "live-photo-zh-ui-gap-003-06881b0383",
+  "status": "candidate",
+  "created_at": "2026-10-19T09:27:19+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "Check clean-master pixels as well as label bounds: inpaint can drag a bright dropdown icon into text background. Separate source-neutral repairs from per-language glyphs.",
+  "evidence": {
+    "run": "live-photo-zh-ui-gap-003",
+    "video_sha256": "06881b0383858f0a86ccc75945adda4f0fcec85efd32c91db28199799dbfcc36",
+    "quality_sha256": "7e5cc8cdb63be9eeae77819cc0c0912e53c9882e3651875697ee318e94dad6e1"
+  },
+  "limitations": [
+    "Same-agent sampled review, not independent full playback.",
+    "Original background stem may attenuate musical vocal samples under narration.",
+    "Target language acceptance by user/native reviewer not supplied."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "999db949fabeb98d2a9cf64ce18f656781750515ba9499f2b6a87765cb7025d5"
+}

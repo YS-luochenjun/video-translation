@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
+  "recorded_at": "2026-10-19T10:19:08+00:00",
+  "assets": [
+    {
+      "path": "origin:master.mp4",
+      "sha256": "6ad8c745c2303343cc7fb88ea21a7bdb2509d7441c4b791117de8285b811d8e4",
+      "usage": "source-neutral master including repaired CTA entry",
+      "target_language": null
+    },
+    {
+      "path": "origin:preparation.json",
+      "sha256": "1b0d012533bfe1b6a26226b1d3c36c4f11532ab37cde9348ebedfb58c1c2af91",
+      "usage": "neutral-master provenance and input hashes",
+      "target_language": null
+    },
+    {
+      "path": "origin:source-clean-before-entry.png",
+      "sha256": "416b88cf39008c05db09f9a4317dad2796825669eb17caccb1d161b6210c8b25",
+      "usage": "static-photo clean source frame476",
+      "target_language": null
+    },
+    {
+      "path": "origin:animation.json",
+      "sha256": "b83c59ef54b3e058dc27696284ac3dc34961769238750e68b0c25f907c018824",
+      "usage": "per-source-frame scale and position;64 measured visible source CTA frames",
+      "target_language": null
+    },
+    {
+      "path": "origin:source-red-texture.png",
+      "sha256": "9a1771046488af23ebc202d99fde55725f7b0b471384cfc72c96b8b775a2d727",
+      "usage": "original patterned red fill sample",
+      "target_language": null
+    },
+    {
+      "path": "origin:style-profile.json",
+      "sha256": "22896d36168b8b9ae51f3f36de7ab696f4786d202a980933c7ddefa466104dd6",
+      "usage": "source-derived visual effects; embedded Chinese copy is locale-specific",
+      "target_language": "zh-CN"
+    },
+    {
+      "path": "origin:cta-reference-transparent.png",
+      "sha256": "73d99de47a19d5ec44b86628664eab6882c68a846c3504402b2492f5bd6a0237",
+      "usage": "Chinese CTA glyph artwork",
+      "target_language": "zh-CN"
+    },
+    {
+      "path": "origin:zh-transparent.mov",
+      "sha256": "2921670e2bbf834c4b2127a644a1fec9f01c91e1006cc56f8f19c51673ffba4f",
+      "usage": "final combined Chinese UI and CTA alpha layer",
+      "target_language": "zh-CN"
+    },
+    {
+      "path": "origin:typography-record.json",
+      "sha256": "7a7462e1c7856b808cfc9bb917117839f264782674e3ce06cc883f79642c304a",
+      "usage": "Chinese copy, geometry, font and alpha binding",
+      "target_language": "zh-CN"
+    },
+    {
+      "path": "origin:protection-policy.json",
+      "sha256": "4c6d55bbe6453ca5054740a3cb2a2b71f00bcb78b16a0c2d9d2db3d6e0936327",
+      "usage": "source object-occlusion contour policy",
+      "target_language": null
+    },
+    {
+      "path": "origin:translated-mix.wav",
+      "sha256": "6172fe46bcee817a27e8376ca13ce2d70417d5c54450b416bd5b00a18278d8cb",
+      "usage": "accepted Chinese narration plus existing music mix",
+      "target_language": "zh-CN"
+    },
+    {
+      "path": "origin:msyhbd.ttc",
+      "sha256": "4508821b3dffe01f0ef5e5326a3e60df705a44633858811f67b6982dce3f6ee6",
+      "usage": "Chinese glyph font; source English font remains unknown",
+      "target_language": "zh-CN"
+    }
+  ],
+  "accepted_example": {
+    "target_language": "zh-CN",
+    "video_sha256": "96d77d9f2771c8a58bc5d5e2e415536e1c7c1f95a48d8e60ad78cb2906e318d0",
+    "feedback": "origin:user-visual-audio-approval-20261019.json"
+  },
+  "reuse_boundary": "Source-neutral assets may serve another locale after hash and fit checks. Chinese glyphs/full soundtrack are Chinese-specific; regenerate the target language glyphs and speech when locale or copy changes."
+}

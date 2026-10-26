@@ -1,0 +1,24 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"has_speech\": true,\n  \"detected_language\": \"ko\",\n  \"speech_segments\": [\n    {\n      \"start\": 0.0,\n      \"end\": 2.0,\n      \"source_text\": \"당신의 이상형은\"\n    },\n    {\n      \"start\": 5.0,\n      \"end\": 8.0,\n      \"source_text\": \"사진을 올려 이상형을 바로 확인하세요\"\n    },\n    {\n      \"start\": 15.0,\n      \"end\": 17.0,\n      \"source_text\": \"지금 무료로 체험하세요\"\n    }\n  ],\n  \"music\": {\n    \"present\": true,\n    \"contains_singing\": true,\n    \"description\": \"Upbeat background music with a male vocalist singing a repeated phrase, likely in Spanish.\"\n  },\n  \"uncertain_intervals\": [],\n  \"summary\": \"An advertisement for an app or service that finds a user's ideal type using uploaded photos, encouraging users to try it for free.\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792402078,
+  "credits_consumed": 0.12,
+  "id": "chatcmpl-dfede41dcea34d2698923f5b236a26f7",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 249,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 561,
+    "total_tokens": 810
+  }
+}

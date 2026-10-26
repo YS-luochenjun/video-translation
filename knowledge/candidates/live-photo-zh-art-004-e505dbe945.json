@@ -1,0 +1,25 @@
+{
+  "id": "live-photo-zh-art-004-e505dbe945",
+  "status": "candidate",
+  "created_at": "2026-10-19T10:03:20+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "zh-CN"
+  },
+  "outcome": "revise",
+  "hypothesis": "An object-protection contour can include background spurs even when the rendered alpha exactly matches the input; check the actual composited result.",
+  "evidence": {
+    "run": "live-photo-zh-art-004",
+    "video_sha256": "e505dbe9453ddf0b026b8e0235f3203053cbb41502f2f58b55b28e47416cf970",
+    "quality_sha256": "f0baa27d022dadf79f1190b2569c8b5ea397c14a2d8b940409c48c1d0cdb2cab"
+  },
+  "limitations": [
+    "Same-agent review",
+    "Only known failure recorded before full final review",
+    "Prior music/FX and first-line audio uncertainty remain"
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "original_record_sha256": "60a5b862b084733de34939e07de84d8e7d062de92b6b80ad8a28c4296a8e68f0"
+}
