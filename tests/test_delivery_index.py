@@ -63,6 +63,18 @@ class DeliveryIndexTests(unittest.TestCase):
         result = delivery_index.refresh(self.root)
         self.assertEqual(result["counts"]["delivered"], 0)
         self.assertEqual(result["counts"]["unavailable"], 1)
+        self.assertEqual(result['diagnostics'][0]['reason'], 'Catalog differs from manifest: status')
+
+    def test_invalid_manifest_is_diagnosed_and_html_escaped_without_link(self):
+        manifest = self.package / 'manifest.json'
+        manifest.write_text('', encoding='utf-8')
+        self.entry['manifest_sha256'] = file_hash(manifest)
+        write_json(self.root / 'outputs/index.json', {'entries': [self.entry]})
+        result = delivery_index.refresh(self.root)
+        self.assertIn('manifest.json', result['diagnostics'][0]['reason'])
+        self.assertEqual(result['counts']['unavailable'], 1)
+        self.assertNotIn('打开视频', (self.root / result['page']).read_text())
+
 
     def test_valid_delivery_and_empty_new_workspace(self):
         manifest = read_json(self.package / "manifest.json")

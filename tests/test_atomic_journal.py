@@ -1,3 +1,4 @@
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -7,6 +8,18 @@ from video_localizer.common import read_json, write_json
 
 
 class AtomicJournalTests(unittest.TestCase):
+    def test_invalid_record_identifies_file_without_exposing_content_or_repairing(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'capture.json'
+            for contents in ('', '{"private": "secret-value", broken}'):
+                with self.subTest(contents=bool(contents)):
+                    path.write_text(contents, encoding='utf-8')
+                    with self.assertRaises(json.JSONDecodeError) as raised:
+                        read_json(path)
+                    self.assertIn(str(path), str(raised.exception))
+                    self.assertNotIn('secret-value', str(raised.exception))
+                    self.assertEqual(path.read_text(), contents)
+
     def test_transient_windows_reader_keeps_old_record_until_replace(self):
         import os
         with tempfile.TemporaryDirectory() as folder:

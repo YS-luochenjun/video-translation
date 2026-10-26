@@ -62,6 +62,15 @@ class StorageTests(unittest.TestCase):
         self.assertEqual(file_hash(prepared.verify(restored, self.asset, self.source_sha)), self.asset["sha256"])
         self.assertEqual(file_hash(restored / "outputs/result.mp4"), self.video_sha)
 
+    def test_registered_demand_name_is_used_by_export_and_lookup(self):
+        write_json(self.root / 'state/delivery-folders.json',
+                   {'sources': {self.source_sha: '需求视频-01'}})
+        result = library.export(self.run, self.root)
+        self.assertTrue(result['package'].startswith('outputs/需求视频-01/zh-CN/'))
+        self.assertEqual(library.find(self.source_sha, root=self.root)[0]['availability'], 'available')
+        self.assertTrue(library.export(self.run, self.root)['reused'])
+        self.assertFalse((self.root / 'outputs' / self.source_sha[:16]).exists())
+
     def test_knowledge_survives_expiry_of_both_runs_and_outputs(self):
         method = self.root / "knowledge/local/rules/example.md"
         method.parent.mkdir(parents=True)

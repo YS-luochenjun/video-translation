@@ -17,14 +17,14 @@ def _video(entry, root):
             "Package must stay within outputs")
     manifest_path = inside(folder, "manifest.json")
     video = inside(folder, "final.mp4")
-    if not manifest_path.is_file() or not video.is_file():
-        return None, "文件缺失"
+    require(manifest_path.is_file(), "Missing manifest.json")
+    require(video.is_file(), "Missing final.mp4")
     require(file_hash(manifest_path) == entry["manifest_sha256"], "Manifest changed")
     manifest = read_json(manifest_path)
     require(manifest["kind"] == "delivery" and manifest["identity"] == entry["video_sha256"],
             "Wrong delivery manifest")
     for key in ("source_sha256", "target_language", "video_sha256", "status", "origin_run_id"):
-        require(manifest["metadata"][key] == entry[key], "Catalog differs from manifest")
+        require(manifest["metadata"][key] == entry[key], f"Catalog differs from manifest: {key}")
     require(file_hash(video) == entry["video_sha256"], "Video changed")
     from .quality_holds import active
     if active(entry["source_sha256"], entry["video_sha256"], root):
@@ -41,15 +41,21 @@ def refresh(root=None):
     with lock(out / ".catalog.lock"):
         catalog = read_json(out / "index.json") if (out / "index.json").exists() else {"entries": []}
         rows, counts = [], {"delivered": 0, "with_issues": 0, "reference": 0, "unavailable": 0}
+        diagnostics = []
         for entry in sorted(catalog["entries"], key=lambda e: (e.get("origin_run_id", ""), e.get("archived_at", ""))):
+            reason = ""
             try:
                 video, status = _video(entry, root)
-            except (WorkflowError, OSError, ValueError, KeyError, TypeError):
+            except (WorkflowError, OSError, ValueError, KeyError, TypeError) as exc:
                 video, status = None, "核验失败"
+                reason = str(exc)
+                diagnostics.append({"package": entry.get("package"),
+                                    "target_language": entry.get("target_language"),
+                                    "reason": reason})
             counts["delivered" if status == "已交付" else "with_issues" if status == '已输出 / 有瑕疵' else "reference" if video else "unavailable"] += 1
             link_text = "查看问题版本" if status == "质量异议 / 待返工" else "打开视频"
             action = (f'<a href="{quote(video.relative_to(out).as_posix(), safe="/")}">{link_text}</a>'
-                      if video else "请检查交付包")
+                      if video else f"请检查交付包<details><summary>查看原因</summary>{escape(reason)}</details>")
             cells = [escape(str(entry.get(k, ""))) for k in
                      ("origin_run_id", "target_language", "video_sha256")]
             rows.append(f"<tr><td>{cells[0]}</td><td>{cells[1]}</td><td>{status}</td>"
@@ -81,4 +87,5 @@ a{{color:#1257aa}}code{{font-size:12px}}p{{color:#526071}}</style>
         finally:
             if os.path.exists(temporary):
                 os.unlink(temporary)
-    return {"page": "outputs/index.html", "counts": counts, "copied_media": 0}
+    return {"page": "outputs/index.html", "counts": counts, "copied_media": 0,
+            "diagnostics": diagnostics}

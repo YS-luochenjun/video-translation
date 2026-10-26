@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 from pathlib import Path
+import os
+import sys
 
 from .common import CODE_ROOT, require, require_number
 
@@ -23,6 +25,23 @@ def validate(item, meta):
     require_number(item.get('padding', 2), 'Text padding', maximum=min(w, h)/2)
 
 
+FONT_FILES = {'Microsoft YaHei': ('msyh.ttc', 'msyhbd.ttc'), 'SimSun': ('simsun.ttc', 'simsun.ttc'),
+              'KaiTi': ('simkai.ttf', 'simkai.ttf'), 'Arial': ('arial.ttf', 'arialbd.ttf'),
+              'Yu Gothic': ('YuGothM.ttc', 'YuGothB.ttc'), 'Malgun Gothic': ('malgun.ttf', 'malgunbd.ttf')}
+
+
+def measurement_font(root, family, bold=False):
+    """Use the requested face only; never silently substitute a different family."""
+    filename = FONT_FILES[family][bool(bold)]
+    project = Path(root) / 'assets/fonts' / filename
+    candidates = [project]
+    if sys.platform == 'win32':
+        candidates.append(Path(os.environ.get('WINDIR', 'C:/Windows')) / 'Fonts' / filename)
+    elif sys.platform == 'darwin' and family == 'Arial':
+        candidates.append(Path('/System/Library/Fonts/Supplemental') / ('Arial Bold.ttf' if bold else 'Arial.ttf'))
+    return next((path for path in candidates if path.is_file()), project)
+
+
 def font_size(item):
     """Measure the actual font instead of letting a long translation cover its neighbors."""
     try:
@@ -32,8 +51,7 @@ def font_size(item):
         require(not item.get('fit_text'), 'Measured text fitting requires Pillow')
         return item.get('font_size', max(18, round(item['bbox'][3] * .48)))
     family = item.get('font_family', 'Microsoft YaHei')
-    fonts = {'Microsoft YaHei': 'msyhbd.ttc' if item.get('bold') else 'msyh.ttc', 'SimSun': 'simsun.ttc', 'KaiTi': 'simkai.ttf', 'Arial': 'arialbd.ttf' if item.get('bold') else 'arial.ttf', 'Yu Gothic': 'YuGothB.ttc' if item.get('bold') else 'YuGothM.ttc', 'Malgun Gothic': 'malgunbd.ttf' if item.get('bold') else 'malgun.ttf'}
-    font_path = CODE_ROOT / 'assets/fonts' / fonts[family]
+    font_path = measurement_font(CODE_ROOT, family, item.get('bold', False))
     requested = item.get('font_size', max(18, round(item['bbox'][3] * .48)))
     if not item.get('fit_text'):
         return requested

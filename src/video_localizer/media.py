@@ -317,7 +317,7 @@ def render_reference(source, segment, instances, meta, directory, run):
     ffmpeg(["-ss", segment["start"], "-i", source,
             "-loop", "1", "-framerate", "30", "-i", inside(run, config["day"]["path"]),
             "-loop", "1", "-framerate", "30", "-i", inside(run, config["night"]["path"]),
-            "-filter_complex_script", directory / "reference-filter.txt", "-map", "[clean]", "-t", duration,
+            "-filter_complex", ";\n".join(graph), "-map", "[clean]", "-t", duration,
             "-an", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", clean])
     return render_foreground(clean, segment, instances, meta, directory / "target-overlay")
 

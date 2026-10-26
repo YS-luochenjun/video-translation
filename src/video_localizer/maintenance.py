@@ -67,10 +67,12 @@ def _empty(root, directory):
     return removed
 
 
-def _references(root, candidates):
+def _references(root, candidates, errors=None):
     """Conservative references in records; failure to read prevents cache eviction."""
     import json
     referenced = set()
+    if not candidates:
+        return referenced
     targets = {(root / relative).resolve(): relative for relative in candidates}
     def strings(value):
         if isinstance(value, str):
@@ -87,8 +89,22 @@ def _references(root, candidates):
                 continue
             if record.is_relative_to(root / 'state/maintenance'):
                 continue
-            _plain(root, record)
-            text = record.read_text(encoding='utf-8-sig').replace('\\\\', '/').replace('\\', '/')
+            try:
+                _plain(root, record)
+                raw = record.read_text(encoding='utf-8-sig')
+                parsed = json.loads(raw) if record.suffix.lower() == '.json' else None
+            except (OSError, UnicodeError, ValueError, WorkflowError) as exc:
+                if errors is None:
+                    raise
+                # An unreadable record may reference ANY candidate. Never guess it is safe.
+                issue = {'path': record.relative_to(root).as_posix(),
+                         'error_type': type(exc).__name__}
+                if isinstance(exc, json.JSONDecodeError):
+                    issue.update(line=exc.lineno, column=exc.colno)
+                errors.append(issue)
+                referenced.update(candidates)
+                continue
+            text = raw.replace('\\\\', '/').replace('\\', '/')
             for relative in candidates:
                 if relative in text or str(root / relative).replace('\\', '/') in text:
                     referenced.add(relative)
@@ -96,7 +112,7 @@ def _references(root, candidates):
                 bases = [root, record.parent]
                 if area == 'runs':
                     bases.append(root / 'runs' / record.relative_to(root / 'runs').parts[0])
-                for value in strings(json.loads(record.read_text(encoding='utf-8-sig'))):
+                for value in strings(parsed):
                     if not value or len(value) > 1024 or '\n' in value or '://' in value:
                         continue
                     for base in bases:
@@ -137,7 +153,11 @@ def maintain(run, close=False, stage='manual'):
             terminal_stage = stage in ('manual', 'workflow.deliver', 'fast_delivery.deliver', 'finalization.finish')
             if delivered and terminal_stage and policy.get('automatic_registered_cache_after_delivery') and registry.exists():
                 candidates = read_json(registry)['files']
-                referenced = _references(root, candidates)
+                scan_errors = []
+                referenced = _references(root, candidates, errors=scan_errors)
+                if scan_errors:
+                    result['reference_scan_errors'] = scan_errors
+                    result['blockers'].append('Reference scan incomplete; all registered scratch retained')
                 preview = {'files': candidates, 'referenced': sorted(referenced)}
                 result['cache_preview_fingerprint'] = object_hash(preview)
                 write_json(state / 'cache-preview.json', preview)

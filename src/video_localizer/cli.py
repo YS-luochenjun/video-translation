@@ -24,6 +24,8 @@ def doctor(online=False):
               "workspace": str(ROOT), "code_root": str(CODE_ROOT),
               "kie_key": key, "scope": "Local readiness; no model generation proof"}
     result['runtime'] = runtime_report(CODE_ROOT)
+    from .readiness import inspect as inspect_readiness
+    result['route_readiness'] = inspect_readiness(CODE_ROOT)
     result['model_routing'] = routing_policy(ROOT)
     for relative in ("config/workspace.json", "config/quality.json", "knowledge/index.json", "config/mcp.json"):
         read_json(ROOT / relative)

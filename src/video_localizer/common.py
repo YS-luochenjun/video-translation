@@ -41,8 +41,16 @@ def utc_now():
 
 
 def read_json(path):
-    with Path(path).open(encoding="utf-8-sig") as stream:
-        return json.load(stream)
+    path = Path(path)
+    with path.open(encoding="utf-8-sig") as stream:
+        try:
+            return json.load(stream)
+        except json.JSONDecodeError as exc:
+            # Keep the exception type for existing fail-closed callers. Identify
+            # the broken record without printing its potentially private bytes.
+            raise json.JSONDecodeError(
+                f"Invalid JSON in {path}: {exc.msg}", exc.doc, exc.pos
+            ) from exc
 
 
 def write_json(path, value):

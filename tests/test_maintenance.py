@@ -46,6 +46,33 @@ class MaintenanceTests(unittest.TestCase):
         self.assertTrue(package.exists())
         self.assertEqual(maintenance.maintain(self.run)['deleted_cache'], [])
 
+    def test_corrupt_records_report_all_errors_without_deletion(self):
+        cache = self.scratch()
+        self.delivery()
+        bad = self.root / 'state/broken.json'
+        bad.write_bytes(b'{"secret": invalid}')
+        other = self.root / 'knowledge/empty.json'
+        other.parent.mkdir(parents=True)
+        other.write_bytes(b'')
+        with patch('video_localizer.retention.preserve') as preserve:
+            result = maintenance.maintain(self.run, close=True)
+        self.assertEqual(result['state'], 'deferred')
+        self.assertEqual(len(result['reference_scan_errors']), 2)
+        self.assertEqual(result['deleted_cache'], [])
+        self.assertTrue(cache.exists())
+        self.assertEqual(bad.read_bytes(), b'{"secret": invalid}')
+        self.assertNotIn('secret', str(result))
+        preserve.assert_not_called()
+        self.assertEqual(read_json(self.root / 'state/maintenance/example/latest.json'), result)
+
+    def test_invalid_utf8_record_keeps_scratch(self):
+        cache = self.scratch()
+        self.delivery()
+        (self.root / 'state/bad.txt').write_bytes(b'\xff')
+        result = maintenance.maintain(self.run)
+        self.assertEqual(result['reference_scan_errors'][0]['error_type'], 'UnicodeDecodeError')
+        self.assertTrue(cache.exists())
+
     def test_reference_and_changed_bytes_are_kept(self):
         cache = self.scratch()
         self.delivery()

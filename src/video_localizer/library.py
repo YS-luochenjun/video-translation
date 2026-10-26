@@ -8,6 +8,19 @@ from . import bundles
 from .common import ROOT, file_hash, inside, lock, read_json, require, utc_now, write_json
 
 
+def source_folder(root, source_sha256):
+    """Use an explicitly registered demand name; hashes remain source identity."""
+    path = Path(root) / 'state/delivery-folders.json'
+    names = read_json(path).get('sources', {}) if path.exists() else {}
+    for name in names.values():
+        require(isinstance(name, str) and name not in ('', '.', '..', 'reports')
+                and not re.search(r'[<>:"/\\|?*\x00-\x1f]', name)
+                and name == name.strip().rstrip('.'), 'Invalid delivery demand folder name')
+    require(len({name.casefold() for name in names.values()}) == len(names),
+            'Different sources cannot share a delivery demand folder')
+    return names.get(source_sha256, source_sha256[:16])
+
+
 def _bound_assets(value):
     if isinstance(value, dict):
         for key, digest_key in (("path", "sha256"), ("record", "record_sha256")):
@@ -63,7 +76,7 @@ def export(run, root=None, video_sha256=None, reuse_manifests=()):
     version = video_sha256[:16]
     if delivery.get('scope') == 'best_available':
         version += '-best-' + delivery['completion_sha256'][:8]
-    folder = inside(root / "outputs", f"{record['source_sha256'][:16]}/{language}/{version}")
+    folder = inside(root / "outputs", f"{source_folder(root, record['source_sha256'])}/{language}/{version}")
     existed = (folder / "manifest.json").exists()
     if existed:
         previous = bundles.verify(folder)
