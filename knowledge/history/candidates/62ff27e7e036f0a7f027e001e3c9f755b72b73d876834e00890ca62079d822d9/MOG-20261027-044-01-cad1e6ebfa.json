@@ -1,0 +1,32 @@
+{
+  "id": "MOG-20261027-044-01-cad1e6ebfa",
+  "status": "candidate",
+  "created_at": "2026-10-27T12:11:45+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "es",
+    "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3"
+  },
+  "outcome": "pass",
+  "hypothesis": "On this source, the complete-v5 paired audio review heard a missing fifty reaction that raw source ASR had missed. Replacing only a009 and auditing the actual final-parent-derived opening/ending probe recovered the numeric reaction. Exact elementary-video hash equality across v4–v6 supports reusing unchanged actual visual observations, not inheriting an unheard whole-ad audio pass. Unknown synchronous jobs remain reserved.",
+  "evidence": {
+    "run": "MOG-20261027-044-01",
+    "video_sha256": "cad1e6ebfa6fdafa2df22a218f5be524091d5427ce947a59b93b4ae3bb693895",
+    "quality_sha256": "63d6f1a97ed3ae6cce4566b0e99346b9b27eaa1516983e267feb38a8b12fb446"
+  },
+  "limitations": [
+    "Single source and exact locale only; no independent human review, user acceptance or automatic cross-source promotion.",
+    "No lip synchronization accepted; KIE perception remains attributed external evidence."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "observed_candidate",
+  "evidence_digest": {
+    "quality_decision": "pass",
+    "failure_codes": [],
+    "reviewer": "Codex same-agent visual/caption review; explicitly attributed external Gemini audio perception and local Whisper transcription",
+    "known_defect_count": null
+  },
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

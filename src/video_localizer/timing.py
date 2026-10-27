@@ -6,6 +6,8 @@ from pathlib import Path
 import time
 import uuid
 import warnings
+import os
+import threading
 from functools import wraps
 
 from .common import read_json, write_json
@@ -41,6 +43,23 @@ def measure(run, stage):
     started = time.perf_counter()
     token = _active.set(event['id'])
     run_token = _run.set(run)
+    heartbeat_stop = threading.Event()
+    heartbeat_thread = None
+    def record_activity(kind):
+        try:
+            from .ledger import runtime_event
+            runtime_event(run, kind, {'stage': stage, 'execution_id': event['id'],
+                                     'pid': os.getpid(), 'actor_kind': 'local_executor'},
+                          identifier=event['id']+'-'+kind.rsplit('.', 1)[-1] if kind != 'executor.heartbeat' else None)
+        except (OSError, ValueError):
+            warnings.warn('Ledger activity pending; execution result is unchanged', RuntimeWarning)
+    if parent is None:
+        record_activity('executor.started')
+        def heartbeat():
+            while not heartbeat_stop.wait(60):
+                record_activity('executor.heartbeat')
+        heartbeat_thread = threading.Thread(target=heartbeat, daemon=True, name='ledger-executor-heartbeat')
+        heartbeat_thread.start()
     try:
         yield
         event['status'] = 'completed'
@@ -48,6 +67,10 @@ def measure(run, stage):
         event['status'] = 'failed'
         raise
     finally:
+        heartbeat_stop.set()
+        if heartbeat_thread:
+            heartbeat_thread.join(timeout=2)
+            record_activity('executor.'+('finished' if event['status']=='completed' else 'failed'))
         _active.reset(token)
         _run.reset(run_token)
         event.update(seconds=round(time.perf_counter()-started, 6),

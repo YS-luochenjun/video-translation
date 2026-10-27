@@ -1227,7 +1227,7 @@
     },
     {
       "id": "method-animated-text-occlusion-v5",
-      "path": "knowledge/rules/method-animated-text-occlusion-v5.md",
+      "path": "knowledge/history/rules/method-animated-text-occlusion-v5.md",
       "scope": {
         "workflow": "video-localization"
       },
@@ -1246,7 +1246,7 @@
       "origin": "2026-10-21 explicit user request to consolidate the eight remaining ad-019f69fb candidates without duplicate prompts or real-video tests.",
       "reviewed_by": "Codex review of candidate hashes, existing source/output/quality bindings, selected historical images and old exact-asset holds; no new video acceptance.",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-21T06:54:37+00:00",
       "method_sha256": "bd926db9d21c3348acd8ff530bb03c2b9eaccacee5b1c5358140cdef51ca4ca9",
       "case": "knowledge/examples/method-animated-text-occlusion-v5",
@@ -1374,7 +1374,8 @@
       "selection_review": {
         "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
         "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
-      }
+      },
+      "superseded_by": "method-animated-text-occlusion-v6"
     },
     {
       "id": "moving-watermark-removal-v1",
@@ -1625,7 +1626,7 @@
     },
     {
       "id": "content-aware-text-restoration-20261026",
-      "path": "knowledge/rules/content-aware-text-restoration-20261026.md",
+      "path": "knowledge/history/rules/content-aware-text-restoration-20261026.md",
       "scope": {
         "workflow": "video-localization"
       },
@@ -1637,7 +1638,7 @@
       "origin": "Project owner clarification and eight-issue developer review 2026-10-26",
       "reviewed_by": "Codex same-agent policy and method review; no new media acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-26T02:49:20+00:00",
       "method_sha256": "f79b25f114de79767eb28c3183627c34b80ce74f3f0307985ab35ba061af4cea",
       "case": "knowledge/examples/content-aware-text-restoration-20261026",
@@ -1648,7 +1649,8 @@
       "delivery_modes": [
         "fast",
         "strict"
-      ]
+      ],
+      "superseded_by": "content-aware-text-restoration-v2"
     },
     {
       "id": "neutral-visual-and-animation-gate-v4",
@@ -1679,7 +1681,7 @@
     },
     {
       "id": "route-selection-v3",
-      "path": "knowledge/rules/route-selection-v3.md",
+      "path": "knowledge/history/rules/route-selection-v3.md",
       "scope": {
         "workflow": "video-localization"
       },
@@ -1691,7 +1693,7 @@
       "origin": "Project owner clarification and eight-issue developer review 2026-10-26",
       "reviewed_by": "Codex same-agent policy and method review; no new media acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-26T02:49:20+00:00",
       "method_sha256": "2c8057876f41f36fc0ac1a19611e10871352a34e721c5d7322f52472758e6cba",
       "case": "knowledge/examples/route-selection-v3",
@@ -1707,7 +1709,8 @@
       "selection_review": {
         "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
         "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
-      }
+      },
+      "superseded_by": "route-selection-v4"
     },
     {
       "id": "short-drama-character-voices-v2",
@@ -1828,7 +1831,7 @@
     },
     {
       "id": "user-request-budget-20261026",
-      "path": "knowledge/rules/user-request-budget-20261026.md",
+      "path": "knowledge/history/rules/user-request-budget-20261026.md",
       "scope": {
         "workflow": "video-localization"
       },
@@ -1840,7 +1843,7 @@
       "origin": "Project owner clarification and eight-issue developer review 2026-10-26",
       "reviewed_by": "Codex same-agent policy and method review; no new media acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-26T02:49:20+00:00",
       "method_sha256": "75298c4ea40c3eda1d45f03ccbb61cfdb3eeecd93e675c9ec5a047fed4b3e944",
       "case": "knowledge/examples/user-request-budget-20261026",
@@ -1851,7 +1854,8 @@
       "delivery_modes": [
         "fast",
         "strict"
-      ]
+      ],
+      "superseded_by": "user-language-budget-60-20261026"
     },
     {
       "id": "language-aliases-v2",
@@ -2190,6 +2194,809 @@
         "fast",
         "strict"
       ]
+    },
+    {
+      "id": "semantic-emphasis-localization-v1",
+      "path": "knowledge/rules/semantic-emphasis-localization-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "ads",
+        "visual",
+        "typography"
+      ],
+      "origin": "Explicit project owner feedback 2026-10-26 on lost red emphasis and improved revised outputs; same-agent evidence synthesis",
+      "reviewed_by": "Codex source-record synthesis, user directional acceptance; not independent full-video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-26T13:03:19+00:00",
+      "method_sha256": "6579f6422087dd3ee21e41ef806ddac26cb5cea5a6a47a625188a3582a666e9d",
+      "case": "knowledge/examples/semantic-emphasis-localization-v1",
+      "case_manifest_sha256": "a4dd0b79cfe1418dc2d9ff6ab705ec7d8096b079b60d307141253cb93b908875",
+      "requires_features": [
+        "onscreen_text"
+      ],
+      "knowledge_type": "class_method",
+      "validation_level": "user_feedback_and_recorded_observations",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ]
+    },
+    {
+      "id": "user-language-budget-60-20261026",
+      "path": "knowledge/rules/user-language-budget-60-20261026.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "budget",
+        "cost"
+      ],
+      "origin": "Direct project user budget instruction and visual concern, 2026-10-26; Codex implementation and routing review",
+      "reviewed_by": "Codex, same-agent developer review; budget amount explicitly specified by project user",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T03:13:15+00:00",
+      "method_sha256": "f0fb6b33570f43684a3085d886af8d9ba005b81a349efd46f27008bac1ce3330",
+      "case": "knowledge/examples/user-language-budget-60-20261026",
+      "case_manifest_sha256": "12351cf94f935b1ddc37fa92a476a7caae47f9801e817998597eb2d8865dda7d",
+      "supersedes": "user-request-budget-20261026",
+      "knowledge_type": "project_policy",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "cost",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
+    },
+    {
+      "id": "content-aware-text-restoration-v2",
+      "path": "knowledge/rules/content-aware-text-restoration-v2.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "restoration"
+      ],
+      "origin": "Direct project user budget instruction and visual concern, 2026-10-26; Codex implementation and routing review",
+      "reviewed_by": "Codex, same-agent developer review; budget amount explicitly specified by project user",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T03:13:15+00:00",
+      "method_sha256": "8f970734922bfc49ff135b0eb64a5f3b60d6782ff93c0409cce1c1e46e5f1c4b",
+      "case": "knowledge/examples/content-aware-text-restoration-v2",
+      "case_manifest_sha256": "23b3261715805796e78b4cbdc9ce5df775ab8ad4b4d8a6583d27f1b4b45c4c7e",
+      "supersedes": "content-aware-text-restoration-20261026",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
+    },
+    {
+      "id": "container-layout-and-local-motion-repair-v1",
+      "path": "knowledge/rules/container-layout-and-local-motion-repair-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "layout",
+        "repair",
+        "motion",
+        "container",
+        "multilingual"
+      ],
+      "origin": "Direct user request to preserve this experience and prioritize the direction for similar assets, explicitly without locking future work to Wan. One-source case plus developer synthetic integration verification.",
+      "reviewed_by": "Codex, same-agent technical review; user accepted direction and current effect",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T03:39:03+00:00",
+      "method_sha256": "933bafef509974f52f64a294b91844b64fe52c7b991b0eef8432d5851b07298a",
+      "case": "knowledge/examples/container-layout-and-local-motion-repair-v1",
+      "case_manifest_sha256": "46037ab7aea18b8a09c13efa6bef85a326687ba79e98b393cce733b3a54fd77f",
+      "reference_video_sha256": "e9bb81e1dd9ab98a5032cdc40739c53eda3a4b75548353234f6aafaef3dd05ea",
+      "source_run": "APC-20261026-040-1-01",
+      "requires_any_features": [
+        "static_text_surface",
+        "foreground_occlusion",
+        "artistic_typography"
+      ],
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required",
+      "selection_review": {
+        "reason": "User explicitly requests priority for similar containers and moving text backgrounds; guidance only, not mandatory model execution.",
+        "path": "knowledge/examples/container-layout-and-local-motion-repair-v1/evidence/review.json",
+        "sha256": "eb9e44e3da1f66e26b099f6fc86087686701736df99d1ef92dd39324c32d6a31"
+      }
+    },
+    {
+      "id": "remotion-title-cta-emphasis-v1",
+      "path": "knowledge/rules/remotion-title-cta-emphasis-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "typography",
+        "motion"
+      ],
+      "origin": "Direct user authorization2026-10-26 for formal title/CTA/emphasis integration; actual same-agent technical verification on one existing5s clean master",
+      "reviewed_by": "Codex, same-agent implementation and actual image/technical review; not independent audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T04:38:51+00:00",
+      "method_sha256": "fa972715413f43ad0e3a8da785a02de16822afb4d52ff2a4521d089cd4b05884",
+      "case": "knowledge/examples/remotion-title-cta-emphasis-v1",
+      "case_manifest_sha256": "90de5ec4ff2df7f10db4c1ed49c110e0ea73cc9cb075822dafb7e681376906c9",
+      "requires_features": [
+        "onscreen_text"
+      ],
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required",
+      "selection_review": {
+        "reason": "User explicitly requests this bounded typography route; required guidance still keeps simple/static text onFFmpeg",
+        "path": "knowledge/examples/remotion-title-cta-emphasis-v1/evidence/authorization.json",
+        "sha256": "b8aacbdf123fe2a94b861e01869b9d88ab61b86f83a80e393efa75adab2a57ba"
+      }
+    },
+    {
+      "id": "method-animated-text-occlusion-v6",
+      "path": "knowledge/history/rules/method-animated-text-occlusion-v6.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "ads",
+        "animated_text",
+        "artistic_typography",
+        "filmed_phone_ui",
+        "foreground_occlusion",
+        "occlusion",
+        "surface_typography",
+        "text",
+        "timing",
+        "typography"
+      ],
+      "origin": "Current user asked to consolidate seven real-test chats and current project changes; direct visual corrections from APC0402/SHE0252/WOW012 are preserved with independent sanitized evidence.",
+      "reviewed_by": "Codex review of user feedback screenshots, report hashes and source/output identities; same-agent curation, no new full-video acceptance.",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-10-27T07:22:05+00:00",
+      "method_sha256": "5ebe15ff3265f56ed511541be6015c9a8a8c19df454da0a5a8394e8e1b845dcb",
+      "case": "knowledge/examples/method-animated-text-occlusion-v6",
+      "case_manifest_sha256": "08731a15a8c0fe182c134ea7a614672761d44c198965a7231601b3ced90de3da",
+      "supersedes": "method-animated-text-occlusion-v5",
+      "requires_any_features": [
+        "animated_text",
+        "artistic_typography",
+        "filmed_phone_ui",
+        "foreground_occlusion",
+        "surface_typography"
+      ],
+      "knowledge_type": "class_method",
+      "validation_level": "multi_source_observations",
+      "topic": "visual",
+      "evidence_sources": [
+        {
+          "path": "knowledge/examples/supplements/hand-zh-sync-user-approved-20261020/af4c1a3fad6c8543ba89452b0b29a057251a435bd946cde490205ccd14a8f049",
+          "manifest_sha256": "c57f2ff01f27cdf220f4b2eb227482b65c4ef193570d465325889a3cbf57dfbe",
+          "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+        },
+        {
+          "path": "knowledge/examples/supplements/live-photo-zh-art-user-approved-20261019/dc505053f9eaa92cb524ba5f311558ba16ade538056da5d71df134fc704f8e88",
+          "manifest_sha256": "f2e3c2178a63b1cf17a2e6b099399dbdeea146f7ec2a3e1a3c94b5c3cc0ec3ea",
+          "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+        },
+        {
+          "path": "knowledge/examples/supplements/family-time-zh-local-repair-user-approved-20261019/8454b9620778cc71324b13c1cd3a85f18b803b652604827e8b181f418a5a2f89",
+          "manifest_sha256": "cb5e16d3360bea62f01e2127ac169b293acea52940b3ebe9e98983ec429ac059",
+          "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-1-1-es-20261020",
+          "manifest_sha256": "8b1bda23c3840fc89a3feecb4534bda8d08cba18b9a62976a3b399b94627e242",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-video-1-2-es-20261020-01",
+          "manifest_sha256": "ce07584e31d3b86fc4e39cefe1445dfce996b3306a09385df619cb4df6e0cab4",
+          "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-2-1-es-20261020",
+          "manifest_sha256": "17d4dc09d282f01314e194d259ae0484ce8fa48d8b9cc05451adebd7b9874ebe",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-ad31-es-20261020",
+          "manifest_sha256": "e07bbd5f235803fa7ef8aba50df046e3331e19ff883dde3a9ee86070afb27625",
+          "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-4-1-es-20261020",
+          "manifest_sha256": "683d2db356592d7bb5974d8a71aff5768cbf885712e7bd26892cc6c1a09f76a1",
+          "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-4-2-es-20261020",
+          "manifest_sha256": "b2a5b613e7007c7be317b1062d163ea621d813f9aa256c227857b3b141596a27",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-1-visual-counterexample-20261020",
+          "manifest_sha256": "1f140a5653b43231654ea0014929c73b9f72d2d353eb47a95a423c4973ab9903",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-3-visual-counterexample-20261020",
+          "manifest_sha256": "a346d2423a0e7a215424c2260de87d2ecbeb0a851b470b2f6bdd57180adc317d",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/supervision-2-1-visual-counterexample-20261020",
+          "manifest_sha256": "9377962858ba11def86ef5ce0f557d688b1ce7130e868d4c053b705ef48633d5",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/supervision-4-2-visual-counterexample-20261020",
+          "manifest_sha256": "30934df5482e93f00b999d77242f4df5f3c0eaa7ff1a8ebc4870645050dd7ed2",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-1-repair-observation-20261020",
+          "manifest_sha256": "b3c9c6e5dd980e0db7972cc4ef8a0a88ade1176a0ddb9b4ddc08b6ee7172aec2",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-1-3-20261021",
+          "manifest_sha256": "87f57d8f03f7f2aab3bc2ed184005e2d1133e4b2f946a1dfba3838c361197573",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-2-1-20261021",
+          "manifest_sha256": "0f12b203ead8a3fae9b1e9329dab27104cce7e2e566f35fd57b207aaa299cc86",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-4-2-20261021",
+          "manifest_sha256": "84c74d1440128991906ea9ee3f98815ceca46e52e751f2bd615cde03f59df635",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supplements/method-animated-text-occlusion-v2/ff56d11812be27f0b61b5d323abc242f90deef45ed7f6446f6ed790985c56355",
+          "manifest_sha256": "4ab0ab95aabb53f572f2f93bc92691b707af85bb2f3b526a538ca392f926dfce",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/candidate-adoption-hand-20261021",
+          "manifest_sha256": "27834eba04a4f7715f8f45fd7b69587ad00de6186155a8c366ddeb175b0940fc",
+          "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+        },
+        {
+          "path": "knowledge/examples/candidate-adoption-art-ui-20261021",
+          "manifest_sha256": "9cccf97cb4adfb771b460242880660f6e06f0991e21471cc8c9514d1d0aa5919",
+          "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+        },
+        {
+          "path": "knowledge/examples/candidate-adoption-ad019f69fb-20261021",
+          "manifest_sha256": "6497fd2c98d5af76c33e7336d22507d31dd5011120b1ddec73012efeab78ae00",
+          "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+        }
+      ],
+      "evidence_caveat": "Four-source repair observations include failure and partial/self-reviewed improvement. Overall positive user feedback does not override per-version technical limits or existing quality holds. New visibility-versus-geometry refinement is single-source developer-reviewed diagnosis, not cross-source proof of a circular-mask algorithm; four derivatives count once and old holds remain. New seven-source feedback preserves old quality holds, source/locale limits and unknown billing. Screenshots are explicit counterexamples, not proof that every final video passed.",
+      "retrieval_role": "required",
+      "selection_review": {
+        "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
+        "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
+      },
+      "superseded_by": "method-animated-text-occlusion-v7"
+    },
+    {
+      "id": "method-animated-text-occlusion-v7",
+      "path": "knowledge/history/rules/method-animated-text-occlusion-v7.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "ads",
+        "animated_text",
+        "artistic_typography",
+        "filmed_phone_ui",
+        "foreground_occlusion",
+        "occlusion",
+        "surface_typography",
+        "text",
+        "timing",
+        "typography"
+      ],
+      "origin": "Explicit current user request to review remaining candidates, consolidate valuable observations and resolve conflicts; limited developer/source review.",
+      "reviewed_by": "Codex same-agent review of candidate contents, immutable cases and selected screenshots; no new media acceptance",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "b6f22da7a98ed66a7f8cfb87cfa7146fca4d5433d0c5821f1bef4a7fb4d92026",
+      "case": "knowledge/examples/method-animated-text-occlusion-v7",
+      "case_manifest_sha256": "7e16ab916ad2c3c6a526bbf9e996974c329796dac43847dafda4d5ae731cb9e8",
+      "supersedes": "method-animated-text-occlusion-v6",
+      "requires_any_features": [
+        "animated_text",
+        "artistic_typography",
+        "filmed_phone_ui",
+        "foreground_occlusion",
+        "surface_typography"
+      ],
+      "knowledge_type": "class_method",
+      "validation_level": "multi_source_observations",
+      "topic": "visual",
+      "evidence_sources": [
+        {
+          "path": "knowledge/examples/supplements/hand-zh-sync-user-approved-20261020/af4c1a3fad6c8543ba89452b0b29a057251a435bd946cde490205ccd14a8f049",
+          "manifest_sha256": "c57f2ff01f27cdf220f4b2eb227482b65c4ef193570d465325889a3cbf57dfbe",
+          "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+        },
+        {
+          "path": "knowledge/examples/supplements/live-photo-zh-art-user-approved-20261019/dc505053f9eaa92cb524ba5f311558ba16ade538056da5d71df134fc704f8e88",
+          "manifest_sha256": "f2e3c2178a63b1cf17a2e6b099399dbdeea146f7ec2a3e1a3c94b5c3cc0ec3ea",
+          "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+        },
+        {
+          "path": "knowledge/examples/supplements/family-time-zh-local-repair-user-approved-20261019/8454b9620778cc71324b13c1cd3a85f18b803b652604827e8b181f418a5a2f89",
+          "manifest_sha256": "cb5e16d3360bea62f01e2127ac169b293acea52940b3ebe9e98983ec429ac059",
+          "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-1-1-es-20261020",
+          "manifest_sha256": "8b1bda23c3840fc89a3feecb4534bda8d08cba18b9a62976a3b399b94627e242",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-video-1-2-es-20261020-01",
+          "manifest_sha256": "ce07584e31d3b86fc4e39cefe1445dfce996b3306a09385df619cb4df6e0cab4",
+          "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-2-1-es-20261020",
+          "manifest_sha256": "17d4dc09d282f01314e194d259ae0484ce8fa48d8b9cc05451adebd7b9874ebe",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-ad31-es-20261020",
+          "manifest_sha256": "e07bbd5f235803fa7ef8aba50df046e3331e19ff883dde3a9ee86070afb27625",
+          "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-4-1-es-20261020",
+          "manifest_sha256": "683d2db356592d7bb5974d8a71aff5768cbf885712e7bd26892cc6c1a09f76a1",
+          "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-4-2-es-20261020",
+          "manifest_sha256": "b2a5b613e7007c7be317b1062d163ea621d813f9aa256c227857b3b141596a27",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-1-visual-counterexample-20261020",
+          "manifest_sha256": "1f140a5653b43231654ea0014929c73b9f72d2d353eb47a95a423c4973ab9903",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-3-visual-counterexample-20261020",
+          "manifest_sha256": "a346d2423a0e7a215424c2260de87d2ecbeb0a851b470b2f6bdd57180adc317d",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/supervision-2-1-visual-counterexample-20261020",
+          "manifest_sha256": "9377962858ba11def86ef5ce0f557d688b1ce7130e868d4c053b705ef48633d5",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/supervision-4-2-visual-counterexample-20261020",
+          "manifest_sha256": "30934df5482e93f00b999d77242f4df5f3c0eaa7ff1a8ebc4870645050dd7ed2",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-1-repair-observation-20261020",
+          "manifest_sha256": "b3c9c6e5dd980e0db7972cc4ef8a0a88ade1176a0ddb9b4ddc08b6ee7172aec2",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-1-3-20261021",
+          "manifest_sha256": "87f57d8f03f7f2aab3bc2ed184005e2d1133e4b2f946a1dfba3838c361197573",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-2-1-20261021",
+          "manifest_sha256": "0f12b203ead8a3fae9b1e9329dab27104cce7e2e566f35fd57b207aaa299cc86",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-4-2-20261021",
+          "manifest_sha256": "84c74d1440128991906ea9ee3f98815ceca46e52e751f2bd615cde03f59df635",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supplements/method-animated-text-occlusion-v2/ff56d11812be27f0b61b5d323abc242f90deef45ed7f6446f6ed790985c56355",
+          "manifest_sha256": "4ab0ab95aabb53f572f2f93bc92691b707af85bb2f3b526a538ca392f926dfce",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/candidate-adoption-hand-20261021",
+          "manifest_sha256": "27834eba04a4f7715f8f45fd7b69587ad00de6186155a8c366ddeb175b0940fc",
+          "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+        },
+        {
+          "path": "knowledge/examples/candidate-adoption-art-ui-20261021",
+          "manifest_sha256": "9cccf97cb4adfb771b460242880660f6e06f0991e21471cc8c9514d1d0aa5919",
+          "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+        },
+        {
+          "path": "knowledge/examples/candidate-adoption-ad019f69fb-20261021",
+          "manifest_sha256": "6497fd2c98d5af76c33e7336d22507d31dd5011120b1ddec73012efeab78ae00",
+          "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+        }
+      ],
+      "evidence_caveat": "Four-source repair observations include failure and partial/self-reviewed improvement. Overall positive user feedback does not override per-version technical limits or existing quality holds. New visibility-versus-geometry refinement is single-source developer-reviewed diagnosis, not cross-source proof of a circular-mask algorithm; four derivatives count once and old holds remain. New seven-source feedback preserves old quality holds, source/locale limits and unknown billing. Screenshots are explicit counterexamples, not proof that every final video passed.",
+      "retrieval_role": "required",
+      "selection_review": {
+        "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
+        "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
+      },
+      "superseded_by": "method-animated-text-occlusion-v8"
+    },
+    {
+      "id": "route-selection-v4",
+      "path": "knowledge/rules/route-selection-v4.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "ads"
+      ],
+      "origin": "Explicit current user request to review remaining candidates, consolidate valuable observations and resolve conflicts; limited developer/source review.",
+      "reviewed_by": "Codex same-agent review of candidate contents, immutable cases and selected screenshots; no new media acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "e16a65745e8800a4d9e89d567b587f7303c3e62bc172dafab9a9fb42058370c1",
+      "case": "knowledge/examples/route-selection-v4",
+      "case_manifest_sha256": "1b538809d763806c08d7b55a1d82c0732b6996bb8e955f7dd1d428e4a25c6368",
+      "supersedes": "route-selection-v3",
+      "knowledge_type": "developer_method",
+      "validation_level": "developer_reviewed_guidance",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required",
+      "selection_review": {
+        "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
+        "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
+      }
+    },
+    {
+      "id": "method-animated-text-occlusion-v8",
+      "path": "knowledge/rules/method-animated-text-occlusion-v8.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "ads",
+        "animated_text",
+        "artistic_typography",
+        "filmed_phone_ui",
+        "foreground_occlusion",
+        "occlusion",
+        "surface_typography",
+        "text",
+        "timing",
+        "typography"
+      ],
+      "origin": "Current explicit user request to actually verify the last hidden-RGB hypothesis and close this curation round. Two new actual source families, pixel/codec/consumer tests and observed resampling counterexamples.",
+      "reviewed_by": "Codex same-agent actual-asset technical and image review; no whole-ad or independent native-language acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T08:51:05+00:00",
+      "method_sha256": "9b039ebe99e35c81eb011db059e740a05de03fb3f1cf2e1b7901af0116b1263a",
+      "case": "knowledge/examples/method-animated-text-occlusion-v8",
+      "case_manifest_sha256": "1700ae90e3fb7d52cf5ee4cf0bf0aae4393e3d444ee9f82412644d99b5998887",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/hand-sync-transfer-lessons-20261020.json",
+          "sha256": "ce6eaf70dfd3fd4bd7f79b230e5e08adeea025289111d301d20781cf9343422f"
+        }
+      ],
+      "supersedes": "method-animated-text-occlusion-v7",
+      "requires_any_features": [
+        "animated_text",
+        "artistic_typography",
+        "filmed_phone_ui",
+        "foreground_occlusion",
+        "surface_typography"
+      ],
+      "knowledge_type": "class_method",
+      "validation_level": "multi_source_observations",
+      "topic": "visual",
+      "evidence_sources": [
+        {
+          "path": "knowledge/examples/supplements/hand-zh-sync-user-approved-20261020/af4c1a3fad6c8543ba89452b0b29a057251a435bd946cde490205ccd14a8f049",
+          "manifest_sha256": "c57f2ff01f27cdf220f4b2eb227482b65c4ef193570d465325889a3cbf57dfbe",
+          "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+        },
+        {
+          "path": "knowledge/examples/supplements/live-photo-zh-art-user-approved-20261019/dc505053f9eaa92cb524ba5f311558ba16ade538056da5d71df134fc704f8e88",
+          "manifest_sha256": "f2e3c2178a63b1cf17a2e6b099399dbdeea146f7ec2a3e1a3c94b5c3cc0ec3ea",
+          "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+        },
+        {
+          "path": "knowledge/examples/supplements/family-time-zh-local-repair-user-approved-20261019/8454b9620778cc71324b13c1cd3a85f18b803b652604827e8b181f418a5a2f89",
+          "manifest_sha256": "cb5e16d3360bea62f01e2127ac169b293acea52940b3ebe9e98983ec429ac059",
+          "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-1-1-es-20261020",
+          "manifest_sha256": "8b1bda23c3840fc89a3feecb4534bda8d08cba18b9a62976a3b399b94627e242",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-video-1-2-es-20261020-01",
+          "manifest_sha256": "ce07584e31d3b86fc4e39cefe1445dfce996b3306a09385df619cb4df6e0cab4",
+          "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-2-1-es-20261020",
+          "manifest_sha256": "17d4dc09d282f01314e194d259ae0484ce8fa48d8b9cc05451adebd7b9874ebe",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-ad31-es-20261020",
+          "manifest_sha256": "e07bbd5f235803fa7ef8aba50df046e3331e19ff883dde3a9ee86070afb27625",
+          "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-4-1-es-20261020",
+          "manifest_sha256": "683d2db356592d7bb5974d8a71aff5768cbf885712e7bd26892cc6c1a09f76a1",
+          "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-4-2-es-20261020",
+          "manifest_sha256": "b2a5b613e7007c7be317b1062d163ea621d813f9aa256c227857b3b141596a27",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-1-visual-counterexample-20261020",
+          "manifest_sha256": "1f140a5653b43231654ea0014929c73b9f72d2d353eb47a95a423c4973ab9903",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-3-visual-counterexample-20261020",
+          "manifest_sha256": "a346d2423a0e7a215424c2260de87d2ecbeb0a851b470b2f6bdd57180adc317d",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/supervision-2-1-visual-counterexample-20261020",
+          "manifest_sha256": "9377962858ba11def86ef5ce0f557d688b1ce7130e868d4c053b705ef48633d5",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/supervision-4-2-visual-counterexample-20261020",
+          "manifest_sha256": "30934df5482e93f00b999d77242f4df5f3c0eaa7ff1a8ebc4870645050dd7ed2",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-1-repair-observation-20261020",
+          "manifest_sha256": "b3c9c6e5dd980e0db7972cc4ef8a0a88ade1176a0ddb9b4ddc08b6ee7172aec2",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-1-3-20261021",
+          "manifest_sha256": "87f57d8f03f7f2aab3bc2ed184005e2d1133e4b2f946a1dfba3838c361197573",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-2-1-20261021",
+          "manifest_sha256": "0f12b203ead8a3fae9b1e9329dab27104cce7e2e566f35fd57b207aaa299cc86",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-4-2-20261021",
+          "manifest_sha256": "84c74d1440128991906ea9ee3f98815ceca46e52e751f2bd615cde03f59df635",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supplements/method-animated-text-occlusion-v2/ff56d11812be27f0b61b5d323abc242f90deef45ed7f6446f6ed790985c56355",
+          "manifest_sha256": "4ab0ab95aabb53f572f2f93bc92691b707af85bb2f3b526a538ca392f926dfce",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/candidate-adoption-hand-20261021",
+          "manifest_sha256": "27834eba04a4f7715f8f45fd7b69587ad00de6186155a8c366ddeb175b0940fc",
+          "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+        },
+        {
+          "path": "knowledge/examples/candidate-adoption-art-ui-20261021",
+          "manifest_sha256": "9cccf97cb4adfb771b460242880660f6e06f0991e21471cc8c9514d1d0aa5919",
+          "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+        },
+        {
+          "path": "knowledge/examples/candidate-adoption-ad019f69fb-20261021",
+          "manifest_sha256": "6497fd2c98d5af76c33e7336d22507d31dd5011120b1ddec73012efeab78ae00",
+          "source_sha256": "c739046eacb64716daec0166ce0f20907ae909b8ceb30df8f2b65f7f507a2a87"
+        }
+      ],
+      "evidence_caveat": "Four-source repair observations include failure and partial/self-reviewed improvement. Overall positive user feedback does not override per-version technical limits or existing quality holds. New visibility-versus-geometry refinement is single-source developer-reviewed diagnosis, not cross-source proof of a circular-mask algorithm; four derivatives count once and old holds remain. New seven-source feedback preserves old quality holds, source/locale limits and unknown billing. Screenshots are explicit counterexamples, not proof that every final video passed.",
+      "retrieval_role": "required",
+      "selection_review": {
+        "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
+        "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
+      }
+    },
+    {
+      "id": "kie-api-local-verification-v1",
+      "path": "knowledge/rules/kie-api-local-verification-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "budget",
+        "cost",
+        "speech"
+      ],
+      "origin": "User 2026-10-27 requested persistent API-only KIE checks, synthesis of actual task chats, and repair of automatic publication; same-agent developer review of bounded observations.",
+      "reviewed_by": "Codex same-agent developer review; no new media quality acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T11:46:27+00:00",
+      "method_sha256": "a104f263fc3705fdb84caa4a3613903053d0ffc394bf0db9973fe7e522e052f7",
+      "case": "knowledge/examples/kie-api-local-verification-v1",
+      "case_manifest_sha256": "a55040d31bb10cc509a01ff0d6d14c50bfd31c94d8ccd2e82149eb5c0d70ae48",
+      "knowledge_type": "project_policy",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "workflow",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
+    },
+    {
+      "id": "fireplay-completion-recovery-v1",
+      "path": "knowledge/history/rules/fireplay-completion-recovery-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "delivery",
+        "workflow"
+      ],
+      "origin": "User 2026-10-27 requested persistent API-only KIE checks, synthesis of actual task chats, and repair of automatic publication; same-agent developer review of bounded observations.",
+      "reviewed_by": "Codex same-agent developer review; no new media quality acceptance",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-10-27T11:46:27+00:00",
+      "method_sha256": "acc0a2140344603696f0349bbef41933a41ab7264aae97cd6110cb8bc2888e41",
+      "case": "knowledge/examples/fireplay-completion-recovery-v1",
+      "case_manifest_sha256": "01c9f2f55aa6ec06efa19e35c12ede3878bb857e1d1b41e0c2f9bae889b37954",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "workflow",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required",
+      "superseded_by": "fireplay-completion-recovery-v2"
+    },
+    {
+      "id": "multilingual-thread-lessons-v1",
+      "path": "knowledge/rules/multilingual-thread-lessons-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "speech",
+        "onscreen_text"
+      ],
+      "origin": "User 2026-10-27 requested persistent API-only KIE checks, synthesis of actual task chats, and repair of automatic publication; same-agent developer review of bounded observations.",
+      "reviewed_by": "Codex same-agent developer review; no new media quality acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T11:46:27+00:00",
+      "method_sha256": "d18aac944db9ea3c932fdc20dc4db322d49d30d305324baa92fb23725c94c285",
+      "case": "knowledge/examples/multilingual-thread-lessons-v1",
+      "case_manifest_sha256": "b1ef1fae17f3a2a5d71e9feb7c9233c0c6ea46f76d9ca06de3864095ef1b6d29",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "workflow",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "optional"
+    },
+    {
+      "id": "fireplay-completion-recovery-v2",
+      "path": "knowledge/history/rules/fireplay-completion-recovery-v2.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "delivery",
+        "workflow"
+      ],
+      "origin": "Direct user 2026-10-27: finish knowledge closure and stop tracking YouTube progress after each upload; trust Fireplay.",
+      "reviewed_by": "Codex same-agent developer review; no new media quality acceptance",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-10-27T11:52:09+00:00",
+      "method_sha256": "9d65731d471b0166669337d25624d99bed09f3fd2aefc483b4d9e0e16ce0296c",
+      "case": "knowledge/examples/fireplay-completion-recovery-v2",
+      "case_manifest_sha256": "7df6074a5d6090bc8d4ee5c21ca255d202d0f6e5ba6acea1f6170e31f73d9688",
+      "supersedes": "fireplay-completion-recovery-v1",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "workflow",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required",
+      "superseded_by": "fireplay-completion-recovery-v3"
+    },
+    {
+      "id": "fireplay-completion-recovery-v3",
+      "path": "knowledge/rules/fireplay-completion-recovery-v3.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "delivery",
+        "workflow"
+      ],
+      "origin": "Direct user latest 2026-10-27: standard import/share/group/YouTube auto-request/tags/binding is sufficient; avoid overchecking task/account group. User explicitly identifies missed MOG053.",
+      "reviewed_by": "Codex same-agent developer review; no new audiovisual quality acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T13:35:07+00:00",
+      "method_sha256": "9cd00a1d423aeb645f1bf6330d07c90996870825d292be968af12c279a0c79bc",
+      "case": "knowledge/examples/fireplay-completion-recovery-v3",
+      "case_manifest_sha256": "89d68c692b33e4ee272e2b168c60bb55a87e70e69d7ecd54ccdcf314d918448f",
+      "supersedes": "fireplay-completion-recovery-v2",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "workflow",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

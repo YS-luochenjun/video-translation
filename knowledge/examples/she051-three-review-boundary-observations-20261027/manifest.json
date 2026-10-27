@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "she051-three-review-boundary-observations-20261027",
+  "created_at": "2026-10-27T07:50:08+00:00",
+  "files": [
+    {
+      "path": "evidence/she051-three-review-boundary.json",
+      "sha256": "436007beffae82c43740d70910f1a2f01eb1cd0eea55eb0c2e984adf2b26eba1",
+      "bytes": 2683
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# she051-three-review-boundary：精确同源观察\n\n- 两份保全案例的历史审核包含59个文字实例与33段人声，不能用片头、片尾几张截图覆盖全部实例。\n- 原记录明确：场景细字、纹理及透视近似，完整正常播放和每字幕边界仍待检查。33段实际角色TTS/ASR不等于独立母语听审。\n- 本轮只核验案例字节与审查记录，没有重新审核这些台词、发布合格底片或继承目标语音频验收。\n\n见 evidence:observations。仅是有来源的历史观察和复用风险；语种/成片验收沿各原始scope与视频哈希，不扩大到新语言。本轮未作完整视听验收，未放行底片、解除质量异议、结算未知费用或授权重新调用模型。\n",
+    "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/she051-three-review-boundary.json"
+    }
+  }
+}

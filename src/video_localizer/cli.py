@@ -162,6 +162,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Agent-operated advertisement video localization")
     parser.add_argument("--version", action="version", version=__version__)
     commands = parser.add_subparsers(dest="command", required=True)
+    from .ledger_cli import configure as configure_ledger
+    configure_ledger(commands)
     command = commands.add_parser("doctor", help="Local tools/config; --online checks KIE credits only")
     command.add_argument("--online", action="store_true")
     commands.add_parser("check", help="Run tests with this same working Python interpreter")
@@ -240,6 +242,43 @@ def main(argv=None):
     command = commands.add_parser('visual-release-neutral', help='Release a neutral shot only after all individual observations pass')
     command.add_argument('run')
     command.add_argument('--shot', required=True)
+    command = commands.add_parser('font-bind', help='Bind an actual family/weight as a glyph-checked single-face run-local font')
+    command.add_argument('run')
+    command.add_argument('--family', required=True)
+    command.add_argument('--bold', action='store_true')
+    command.add_argument('--text', default='')
+    command = commands.add_parser('fireplay-pull', help='Prepare a scoped P0-first intake queue from authenticated host summary receipts')
+    command.add_argument('spec')
+    command = commands.add_parser('fireplay-monitor', help='Scan all visible groups, record Agent translation decisions, or resume scoped owner follow-ups')
+    command.add_argument('action', choices=['status', 'scan', 'assess', 'signal'])
+    command.add_argument('--spec')
+    command.add_argument('--code')
+    command = commands.add_parser('fireplay-publication-review', help='Record actual minor/major output review without changing internal quality')
+    command.add_argument('code')
+    command.add_argument('spec')
+    command = commands.add_parser('fireplay-youtube-route', help='Bind an observed explicit YouTube account selection to the exact next video import')
+    command.add_argument('code')
+    command.add_argument('spec')
+    command.add_argument('--video', type=int, default=1)
+    command = commands.add_parser('fireplay', help='Read/register an exact Fireplay requirement through the authenticated host connector')
+    command.add_argument('code')
+    command.add_argument('--snapshot')
+    command.add_argument('--decision')
+    for action in ('source', 'chat', 'start', 'return', 'dispatch', 'receipt', 'status'):
+        command = commands.add_parser('fireplay-' + action)
+        command.add_argument('code')
+        if action in ('source', 'chat', 'start', 'dispatch', 'receipt'):
+            command.add_argument('--video', type=int, default=1)
+        if action in ('source', 'chat'):
+            command.add_argument('--receipt')
+        if action == 'source':
+            command.add_argument('--download', action='store_true')
+        if action in ('chat', 'dispatch'):
+            command.add_argument('--execute', action='store_true', help='Journal dispatch BEFORE the host connector call; does not itself call Fireplay/Codex')
+        if action in ('start', 'return', 'receipt'):
+            if action == 'receipt':
+                command.add_argument('operation')
+            command.add_argument('spec')
     command = commands.add_parser('budget-open', help='Host/operator: register one actual human request, never a worker run or retry')
     command.add_argument('spec')
     command = commands.add_parser('budget-bind', help='Bind an existing or derived run to the same request budget')
@@ -247,6 +286,9 @@ def main(argv=None):
     command.add_argument('--parent-run')
     command = commands.add_parser('budget-status', help='Read whole-request spending across all runs and batches')
     command.add_argument('id')
+    command = commands.add_parser('budget-amend', help='Host/operator: apply an attributed user budget amendment without clearing spending')
+    command.add_argument('id')
+    command.add_argument('spec')
     command = commands.add_parser('fast-register', help='Bind a native-timing composition and open basic review; never auto-pass')
     command.add_argument('run')
     command.add_argument('recipe')
@@ -260,12 +302,12 @@ def main(argv=None):
     command.add_argument('--from-run', required=True)
     command.add_argument('--source-shot', required=True)
     command.add_argument('--target-shot', required=True)
-    command = commands.add_parser('batch-create', help='Create locale runs sharing one source-duration request budget')
+    command = commands.add_parser('batch-create', help='Create locale runs sharing the registered per-language request budget')
     command.add_argument('id')
     command.add_argument('video')
     command.add_argument('--targets', nargs='+', required=True)
     command.add_argument('--brief', default='完整本地化广告，保留品牌、音乐、音效和运动。')
-    command.add_argument('--reused', action='store_true', help='Use the lower existing incremental-reuse budget')
+    command.add_argument('--reused', action='store_true', help='Use an explicitly registered new reuse request budget')
     for name in ('batch-status', 'batch-approve', 'batch-run'):
         command = commands.add_parser(name)
         command.add_argument('id')
@@ -375,6 +417,7 @@ def main(argv=None):
             command.add_argument("--execute", action="store_true", help="Actually upload and create a paid KIE job")
             command.add_argument("--retry-failed", action="store_true", help="One explicit retry of a terminal zero-cost provider failure")
         if name == "audio-analyze":
+            command.add_argument('--retry-authorization', help='Run-relative explicit user grant for one additional ambiguous audio request; original reservation retained')
             command.add_argument('--model',choices=AUDIO_MODELS,default=selected('audio_analysis'))
             command.add_argument('--model-authorization',help='Run-relative source/request-bound human grant for an alternative analysis model')
             command.add_argument('--retry-upload',action='store_true',help='Retry a journaled transport failure before model submission; preserves prior attempt and budget')
@@ -400,19 +443,66 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         name = args.command
-        if name == "doctor":
+        if name == 'ledger':
+            from .ledger_cli import execute as execute_ledger
+            result = execute_ledger(args, ROOT)
+        elif name == "doctor":
             result = doctor(args.online)
         elif name == 'model-routing':
             result = routing_policy(ROOT)
         elif name == 'kie-authorization':
             from .batches import authorization
             result = authorization(ROOT)
+        elif name == 'font-bind':
+            from .fonts import bind
+            result = bind(get_run(args.run), args.family, args.bold, args.text)
+        elif name == 'fireplay' or name.startswith('fireplay-'):
+            from . import fireplay
+            if name == 'fireplay-monitor':
+                from . import fireplay_monitor
+                if args.action == 'status':
+                    result = fireplay_monitor.status(ROOT)
+                elif args.action == 'scan':
+                    result = fireplay_monitor.scan(args.spec, ROOT)
+                elif args.action == 'assess':
+                    result = fireplay_monitor.assess(args.code, args.spec, ROOT)
+                else:
+                    result = fireplay_monitor.signal(args.spec, ROOT)
+            elif name == 'fireplay-publication-review':
+                from .fireplay_publication import review
+                result = review(args.code, args.spec, ROOT)
+            elif name == 'fireplay-youtube-route':
+                from .fireplay_youtube import record_route
+                result = record_route(args.code, args.spec, args.video, ROOT)
+            elif name == 'fireplay-pull':
+                result = fireplay.pull(args.spec, ROOT)
+            elif name == 'fireplay':
+                result = fireplay.register(args.code, args.snapshot, args.decision, ROOT) if args.snapshot else fireplay.lookup_packet(args.code)
+            elif name == 'fireplay-source':
+                result = fireplay.source(args.code, args.receipt, args.video, args.download, ROOT)
+            elif name == 'fireplay-chat':
+                result = fireplay.chat(args.code, args.receipt, args.video, args.execute, ROOT)
+            elif name == 'fireplay-start':
+                result = fireplay.start(args.code, args.spec, args.video, ROOT)
+            elif name == 'fireplay-return':
+                result = fireplay.prepare_return(args.code, args.spec, ROOT)
+            elif name == 'fireplay-dispatch':
+                result = fireplay.dispatch(args.code, args.execute, ROOT, args.video)
+            elif name == 'fireplay-receipt':
+                result = fireplay.receipt(args.code, args.operation, args.spec, ROOT, args.video)
+            else:
+                result = fireplay.status(args.code, ROOT)
         elif name == 'budget-open':
             from .budgets import open_request
             result = open_request(args.spec, ROOT)
         elif name == 'budget-status':
             from .budgets import status as budget_status
             result = budget_status(args.id, ROOT)
+        elif name == 'budget-amend':
+            from .budgets import amend_limit
+            spec = read_json(args.spec)
+            result = amend_limit(args.id, spec['credit_limit'], spec['authorization_ref'], spec['source_quote'],
+                                 ROOT, targets=spec.get('targets'))
         elif name.startswith('batch-'):
             from . import batches, production
             if name == 'batch-create':
@@ -619,6 +709,9 @@ def main(argv=None):
                 result = workflow.analyze_audio(run, candidate=args.candidate, model=args.model,
                                                 transcribe_only=args.transcribe_only,voice_review=args.voice_review,
                                                 retry_upload=args.retry_upload,
+                                                retry_authorization=({'path': args.retry_authorization,
+                                                    'sha256': file_hash(inside(run, args.retry_authorization))}
+                                                    if args.retry_authorization else None),
                                                 model_authorization=({'path': args.model_authorization,
                                                     'sha256': file_hash(inside(run, args.model_authorization))}
                                                     if args.model_authorization else None))

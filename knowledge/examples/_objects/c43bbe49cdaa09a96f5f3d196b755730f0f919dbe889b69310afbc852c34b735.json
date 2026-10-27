@@ -1,0 +1,1130 @@
+{
+  "reviewed_at": "2026-10-27",
+  "independent_sources": 7,
+  "locale_outputs": 70,
+  "read_boundary": "read_thread attempted for all seven; five exceeded service response-size limits even at one turn. Those five use local hash-bound reports/feedback. No claim of a complete chat read.",
+  "quality_boundary": "No new full-video quality approval; observed user objections and historical failures retained. Seven sources, not seventy independent validations.",
+  "sources": [
+    {
+      "name": "APC-20261026-040-1",
+      "source_sha256": "3dba01e02f663682cfd49c02d180777a633084383239109cb2db60082e2ef20b",
+      "thread": {
+        "thread_id": "01a17b22-e478-77f1-b3ed-de3d002973e7",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "report": {
+        "origin_label": "outputs/reports/APC-20261026-040-1/revision-03/delivery-summary.json",
+        "sha256": "d15c2d4050870bf36ee605c35c4185cf26e8a9acf51acbbe498fd3331554c0d0"
+      },
+      "findings": [
+        "评论须按实际容器重排，先检查行宽、缩放和可读时间。",
+        "七处失败画面采用真实 Wan 2.7 结果并保留卡片空间边界；这些坐标不跨源复用。"
+      ],
+      "limitations": [
+        "报告仍为有瑕疵，声音同步和 CTA 限制未解除。"
+      ],
+      "outputs": [
+        {
+          "locale": "tw",
+          "video_sha256": "e9bb81e1dd9ab98a5032cdc40739c53eda3a4b75548353234f6aafaef3dd05ea",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "pt",
+          "video_sha256": "e2380876216407087696441e72141ede1c574d18322220f4c15fc5f8a47c68b9",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "es",
+          "video_sha256": "39714722df9498fbad153b9d5b096844a5cd5724cfb73654dea80c17b43113cc",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "de",
+          "video_sha256": "a811a2f7ccbfc024ac354f153e5afdc5fa0aa2863fede6507abb5fafb69e3ac2",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "nl",
+          "video_sha256": "bbfbbf6b15803d24593c0d0818231b98f53a12e9b606bb9d93aca6e1c0597a79",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "fr",
+          "video_sha256": "4d436f02e3a478067d338a93cdc92ae3692c50c9f7b84a29f64e267f2c68dd95",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "th",
+          "video_sha256": "3d4201e209b02e2a700391b50b837411e04c14552a6eea3433649d48588f3d14",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        }
+      ],
+      "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+      "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+      "billing_snapshot": {
+        "billed_credits": 437.76,
+        "unknown_reserved_credits": 4,
+        "reserved_or_billed_credits": 441.76,
+        "execution_cap": 500
+      }
+    },
+    {
+      "name": "APC-20261026-040-2",
+      "source_sha256": "3623fbe61d44705072a566db49183e2e2762092f38f6662d58b839b7710ed16b",
+      "thread": {
+        "thread_id": "01a17b25-38b7-7431-a4ba-a0ce458607f5",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "report": {
+        "origin_label": "outputs/reports/APC-20261026-040-2/deliveries-v2.json",
+        "sha256": "e5a9a0089d64b5354a860c4d53d6209c5a7ba709d86d6952fe639aaaa3ea5f4b"
+      },
+      "findings": [
+        "源片前景 CTA 与箭头清晰，背景标题/问题在片尾失焦；不能把重绘背景字保持锐利。",
+        "检查 CTA 到源片最后可见帧，不能按最后一句配音结束裁短。报告的1543帧及49.4秒是本源参数。"
+      ],
+      "limitations": [
+        "本轮仅确认用户所指片尾项改善；七语 quality_passed 仍为 false。",
+        "沿用 AAC 且本轮未新增付费，不代表以前的声音或账本问题已通过。"
+      ],
+      "outputs": [
+        {
+          "locale": "zh-TW",
+          "video_sha256": "8cb5c6a3abc835a48d03022428c6854623da2e0278535d7b7eaef2e067e45fdf",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "reported_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "pt",
+          "video_sha256": "19585a9b4facedac54eb75c13800af25c0c35cb5831df8846d082ad751bcabce",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "reported_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "es",
+          "video_sha256": "d3f9308234378e32eb37b76131dd11d6948a6b8d9cdba5f35966bd1d40b39846",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "reported_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "de",
+          "video_sha256": "4305c93d4d52f93e3235cadc00376d95f5b175733fe75a1916cb51ab84cd1979",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "reported_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "nl",
+          "video_sha256": "45818a4d19c3b46db7f63a959eac6fefac440fcf729f6c0c75e408471e5e42cb",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "reported_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "fr",
+          "video_sha256": "cb25cd07534849d3e62eb99bcb172f910d88240100b7156b2682485f72a81a39",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "reported_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "th",
+          "video_sha256": "123c7550021c4ea6818c0bc8760db231fd5c322a3fb6cf738d0a1d4d8097badc",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "reported_with_issues",
+          "limitations": []
+        }
+      ],
+      "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+      "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+      "billing_snapshot": {},
+      "feedback": {
+        "origin_label": "knowledge/local/feedback/APC-20261026-040-2-tail-correction/feedback.json",
+        "sha256": "8fdd9b3f1fce7c216ceaf17e79b1f5848e981e486dd8e0a3ab260b2ee73b3e41",
+        "user_quote": "最后面的“Dare you try”不见了（也就是保留时间太短），所有版本都没有完整留存时间。且最后一张图，红框中的内容应该是在模糊下方的。",
+        "observed": null
+      }
+    },
+    {
+      "name": "SHE-20261027-025-1",
+      "source_sha256": "89bc94ac042d9aecce720f62ded6627ce1f48945d4c8f0ddc8e8a0f4c7754fe9",
+      "thread": {
+        "thread_id": "01a17b43-fabd-71d2-b1ac-a454ba6d7df1",
+        "host": "local",
+        "read_state": "read"
+      },
+      "report": {
+        "origin_label": "outputs/reports/SHE-20261027-025-1/delivery.json",
+        "sha256": "6f42bff139c4e63712787967fce233a85456175481d03e4b725bea25cf3445b4"
+      },
+      "findings": [
+        "16种语言分别配音和添加字幕；原角色嘴型未随目标语重做。",
+        "用户要求素材入库、共享需求组、语言及产品 tag、YouTube 自动上传并绑定需求；素材名称用需求编号+语言。"
+      ],
+      "limitations": [
+        "本次仅读取聊天和本地报告，不重新上传、改名或核验线上完成。",
+        "同一 Agent 视觉检查、ASR和部分模型复核，不是独立母语视听验收。"
+      ],
+      "outputs": [
+        {
+          "locale": "zh-TW",
+          "video_sha256": "39edc5d786b229e70e1a3aae22550d88d7bc2195f7216a804b9cee1c0512819f",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "es",
+          "video_sha256": "7419b01b5d0de02d404ce02832e6038447d023e5447fc4d0d9f938c9ee9d9f30",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "pt",
+          "video_sha256": "1b42a1b2e650c80be49417cc34dea4635f1b3ccc0149c1af33e252ada84b2e9f",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "de",
+          "video_sha256": "80e52c6eff28c8926fe3afc1596b6f4dc7a4053991d5f9c018adc403ae2d7690",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "fr",
+          "video_sha256": "8da6d80fea96f042bbaa358b29158adf08ded769333c834a21e9cd86f14ecda2",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "id",
+          "video_sha256": "5d1cad65ca9799eadb0c02823796d194d84aba21c745cc2fe858367ae6065ffa",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "th",
+          "video_sha256": "7e2504d9542b8062fbdc5692a9f7f37bcd5b61eadb4e0871d98b2350c74cac42",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "pl",
+          "video_sha256": "e50840bb6c5ce325d471abea4af91073d2141688d5c37311653332e760bdf578",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "tr",
+          "video_sha256": "16ea59cc71735208d923da12dd0daca08245c73cf95b28b102b911e0b8f4b3ef",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "hi",
+          "video_sha256": "0f69fad6b181d558f74068074434ec75cffa935bdbaee31211c7d15bf4892d97",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "ar",
+          "video_sha256": "18244cf3dbf6038494b460d929dd7825d4682eb08a9f74110deb928805fb5d4d",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "it",
+          "video_sha256": "fec9dca53c6d42d7704ab5223fd357c9f15976cd4572cd42c0ade88d5766f6ac",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "vi",
+          "video_sha256": "42a953396944715586d8b4394bce806d41325435659d2fbdbc4264c06ceadfcd",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "ja",
+          "video_sha256": "a587e648dbc284d47227e618c6b7e2b53eecbf81ef2207fe5e0e6e0cdfc822da",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "nl",
+          "video_sha256": "f052c7cc5073a5d3f72b4e38a0ab6e1bbfc5c5b8656211d2746eefcd73fba3b2",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        },
+        {
+          "locale": "ru",
+          "video_sha256": "a8a62d81b59ec7bb36c8ea70346d02f4902825702f4719e2f6e245d0ba8cb6b8",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "Original mouth animation retained; no language-specific viseme retiming.",
+            "Local CTA/disclaimer background interpolation has minor softness.",
+            "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+            "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+            "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+          ]
+        }
+      ],
+      "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+      "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+      "billing_snapshot": {
+        "limit": 54.195,
+        "confirmed": 22.13,
+        "reserved_or_billed": 26.13,
+        "unknown_reserved": 4.0
+      }
+    },
+    {
+      "name": "SHE-20261027-025-2",
+      "source_sha256": "eb6cf59fbc67569c4d4da8a991810e8d4564c3714fbe89357ae69c6128ae334e",
+      "thread": {
+        "thread_id": "01a17b47-7a73-7a00-9261-8c884c7a97ef",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "report": {
+        "origin_label": "outputs/reports/SHE-20261027-025-2/delivery.json",
+        "sha256": "82df38981244eede3be5cc89e237b2d7d96208f43df7be4acb6ba94b97fb4d19"
+      },
+      "findings": [
+        "用户截图显示英语伸出小模糊块；擦除包络须包含全字及边缘。截图对应精确帧/版本不确定，不虚构定位。",
+        "先制作 Wan 2.7 台湾繁体样片；用户明确授权后扩展其余15语，原共享v2底片有质量异议，不作已批准底片复用。",
+        "完整混音 ASR 只识别 CTA 时，检查实际局部对话和原配音，不能据此认定前段静音。"
+      ],
+      "limitations": [
+        "授权推广样片只覆盖已披露瑕疵，不等于16语质量通过或母语认可。",
+        "报告顶层 revision_status 仍写等待样片确认，而 revision 已记16语完成；保留旧报告原文，查询具体版本和成片哈希。",
+        "旧300 credits限额、278.5已确认及4未知预留沿用，不重按新语言预算计价。"
+      ],
+      "outputs": [
+        {
+          "locale": "zh-TW",
+          "video_sha256": "f7fdce6390a4f278c7c9f42f4e663d30a72e4110c652551560072a2113ec7c75",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "片尾手机内部/绿色对勾背景经 Wan 重建，保留轻微生成细节和柔焦差异；原箭头按对应源帧保留。",
+            "9.90–10.03 秒原片快速模糊切镜中的四帧采用较宽 Wan 去字底面并匹配原模糊，局部几何有轻微差异。",
+            "沿用原台湾繁体中文配音；实际捕获音频哈希一致。未新增独立母语听审、嘴型或完整音乐音效验收。",
+            "仅交台湾繁体中文样片，等待用户确认；其余15种语言尚未更新。"
+          ]
+        },
+        {
+          "locale": "es",
+          "video_sha256": "6d41ef7cda2a98a7fdb09947c34f8a764ed9cb91e13b2e09baab4d6a4951bd30",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "pt",
+          "video_sha256": "bc1961c820013b906d19c044a7d0c3a95c2e94845f1b8fffabe601db5d06f933",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 2 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "de",
+          "video_sha256": "b2800ca65515bdecdaf81365e745140824f5f5ca0d671409fa7933732ad7e272",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 1 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "fr",
+          "video_sha256": "50c008e3d2420f8e2ae4dae737962b852864b1654a7ea82705de562798f48b68",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 2 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "id",
+          "video_sha256": "d9351d0690cc89cdcfd327381ee47c890391cff9ee0d05f00dd2043d4272e1f2",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 6 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "th",
+          "video_sha256": "c2828ffb9a3bfd274c4b2ec54e7feab90590284bd4f208e8585de0b8dfcec7d7",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 7 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "pl",
+          "video_sha256": "a917ff137e8b27500d89fd1d7617c60374ae712622f6fb3e67094ce857a7b750",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "tr",
+          "video_sha256": "c9044679542c648118da6852f224e7a1e64e8b00db3114e3de7dcd446f636832",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "hi",
+          "video_sha256": "521a94eb862d1eb72782f48fd87ad995e363cd31cad2882a82e705f084409d1b",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 5 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "ar",
+          "video_sha256": "49c8d9724f86bbf440b94889d982d282da25e86fc3dddfe02c2643fc5fda37b9",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 3 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "it",
+          "video_sha256": "8c7a14e3b77cf2ba5c71544c648ea05d3a48886101ffffcaa75dadfdd749ecf5",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "vi",
+          "video_sha256": "b1c4f9556e1e586e75cfdc0b424b76ee9eb4f95401b85441d6df07dad8199eec",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 4 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "ja",
+          "video_sha256": "305938a10f9f944c26f071f822092db93fb6e12300137653b06a5301b6b6aac7",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "nl",
+          "video_sha256": "cca19e68337fbcd7ce7a9ece5bb36cb0306ac82b85a7f3e973d341c2d8d38a28",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 2 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        },
+        {
+          "locale": "ru",
+          "video_sha256": "fa3055e34d10462e8437e0e2c52357601a84d1f4e49c36d0d03da7f9df81b4ef",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": [
+            "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+            "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+            "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+            "Target audio acoustic comparison records contain 1 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+          ]
+        }
+      ],
+      "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+      "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+      "billing_snapshot": {
+        "limit": 300,
+        "confirmed_credits": 278.5,
+        "unknown_reservation": 4,
+        "unknown_jobs": 2,
+        "remaining_credits": 17.5,
+        "this_rollout_new_credits": 0
+      },
+      "feedback": {
+        "origin_label": "knowledge/local/feedback/SHE-20261027-025-2-wan-r2/feedback.json",
+        "sha256": "31cf77ac49c32300307ccd1060dfc9df5bdec66ade659ef626481c39c7c0165d",
+        "user_quote": "请用 Wan 2.7 修复局部去字软化和片尾瑕疵，先做好台湾繁体中文样片给我看，再更新其他语言。如图的内容，很多也没有遮好",
+        "observed": "User image visibly shows original English extending beyond a small blurred patch. Exact screenshot-to-frame/version identification is uncertain. Independently, prior native comparisons confirm soft/smeared hand, stocking and sleeve areas and CTA shadows; those shared v2 bytes must not be reused as an approved neutral master."
+      },
+      "report_conflict": {
+        "top_level_revision_status": "Wan 2.7 Taiwan Traditional Chinese pilot in production; user confirmation required before other language rollout.",
+        "revision": {
+          "state": "all_16_finalized_with_disclosed_issues",
+          "model": "Wan2.7",
+          "updated_languages": [
+            "es",
+            "pt",
+            "de",
+            "fr",
+            "id",
+            "th",
+            "pl",
+            "tr",
+            "hi",
+            "ar",
+            "it",
+            "vi",
+            "ja",
+            "nl",
+            "ru"
+          ],
+          "total_current_languages": 16,
+          "rollout_user_quote": "好的，请你帮我进行其余15种语言的最终视频完成",
+          "rollout_authorized": true,
+          "quality_passed": false,
+          "independent_review": false
+        }
+      }
+    },
+    {
+      "name": "SHE-20261027-025-3",
+      "source_sha256": "b6dc427aa2ee990ca5093ed1e94a2e39a9db989fbc02dafd5b7c430fa25138dd",
+      "thread": {
+        "thread_id": "01a17b47-a358-7930-920f-c7455608b08e",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "report": {
+        "origin_label": "outputs/reports/SHE-20261027-025-3/manifest.json",
+        "sha256": "993161af113c3d4be27c1405af62d1ffd101bff0da4f8d7cdeed7ac34eedb047"
+      },
+      "findings": [
+        "16语来自同一源，不能算16个独立方法成功样本。",
+        "同一需求有多个原片和聊天同时上传；同名不能判断重复，需原片、语言、实际成片哈希/大小、素材ID及各自导入回执。"
+      ],
+      "limitations": [
+        "极小界面标签/远景招牌保留；局部片尾背景与碎纸运动有差异。",
+        "只有 zh-TW/es/pt/hi 具有成功音频模型对照，其他语种不能沿用其通过结论。",
+        "五笔音频复核超时，10 credits未知预留保留；未经独立母语验收。"
+      ],
+      "outputs": [
+        {
+          "locale": "zh-TW",
+          "video_sha256": "56e67dd051490defd026f076159bc64c6c15d45baac4036ec1da35ea74435929",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。"
+          ]
+        },
+        {
+          "locale": "es",
+          "video_sha256": "d502b8851cb6aa66fc11228be8c5b7c60abad04a1400ff047ebe1b5834a3ea29",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。"
+          ]
+        },
+        {
+          "locale": "pt",
+          "video_sha256": "3cb3fbd18424d6a3ea8b94fcfd4958b82ff65de41faaf866e0e9a250b0feff73",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。"
+          ]
+        },
+        {
+          "locale": "de",
+          "video_sha256": "de7d1eb0c085c42f56b5f4f592853553f783be7693424e06482a3414e44df1cf",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "fr",
+          "video_sha256": "9bcbeb84bf030081d5b60072f7b325a0ca7ddc0a913a3a621add737bf200ea42",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "id",
+          "video_sha256": "202563097d2cabd2e301df0842a7a9e2764ac966137f5865e913ceaec2828dc9",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "th",
+          "video_sha256": "35aaedd5815175780cffdc624dcdf53a25d1e24f18395f7c208455aae6d7b3c0",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "pl",
+          "video_sha256": "a5cca9cd677d91dc92d5915e04fe8f5e419d98c30c22f704c923dd1c2627bfe4",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "tr",
+          "video_sha256": "b7144408245660393b753d9bfa96f8ec3f241a9a2c1016c95aa6693293ba850a",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "hi",
+          "video_sha256": "cf9d98b1d5a989ef493d2295bbe4173ebb209dbdb9b92175cdc4d47f0f63b7e4",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。"
+          ]
+        },
+        {
+          "locale": "ar",
+          "video_sha256": "9c9d6cf67c6e2979c53170f2bbec47a07ddb17d38b8de5d0198848e8682804d8",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "it",
+          "video_sha256": "fb4607a6ee6d92b1852391cc4f9a879660ffe51f25fcfab2a200a103c950486f",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "vi",
+          "video_sha256": "66089a358c1163cf6337a16d3b5bcce2618630e378ce3c94474eb0e2fabef16f",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "越南语成片ASR存在同音转写分歧；音频模型复核超时，实际发音尚待人工核验。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "ja",
+          "video_sha256": "90b36bab8d6da6e1334426ce2c775821384038180cabf68c2d81a904b2ac2a2b",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "nl",
+          "video_sha256": "21defc03be28d2b1eb46fe913d774c57162a7d2a38dbe178099883ddae5c7e46",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        },
+        {
+          "locale": "ru",
+          "video_sha256": "d32dc7092e9393cc42079c0d681899e37daa379b6b0a8f16c55ba7c3cc2c7d97",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "已输出／有瑕疵",
+          "limitations": [
+            "手机桌面的极小应用标签及远景招牌保留原样。",
+            "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+            "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+            "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+          ]
+        }
+      ],
+      "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+      "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+      "billing_snapshot": {
+        "confirmed_credits": 21.04,
+        "unknown_reserved_credits": 10,
+        "unknown_requests": 5,
+        "credit_limit": 55.658,
+        "scope": "Five timed-out audio review responses remain unknown; no duplicate dispatch. Does not affect stored video bytes."
+      },
+      "duplicate_review": {
+        "origin_label": "outputs/reports/SHE-20261027-025-3/duplicate-verification.json",
+        "sha256": "67288acef63ba57d9832bd439d340e4f68af1f4e58eac2a207a5fce8f5807001",
+        "scope": "Historical exact-ID duplicate verification belongs to that chat; no new deletion permission.",
+        "user_condition": "请你确认是重复的，目前SHE-20261027-025不只是你一个人在传输"
+      }
+    },
+    {
+      "name": "WOW-20261027-025",
+      "source_sha256": "8876766248b38a5ff8dc714342528b9f38db39e38bc330efcba2ba5c1741b7e8",
+      "thread": {
+        "thread_id": "01a17b6c-f243-7b11-8134-330ca6e3c8b7",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "report": {
+        "origin_label": "outputs/reports/WOW-20261027-025/delivery-summary.json",
+        "sha256": "a24dfb33fc43994fb607550c22ca47118f18c36055c2d1e6f7ce4997114a207b"
+      },
+      "findings": [
+        "ko词义识别分歧通过改写和一次新TTS后，原配音、混音、编码AAC转写一致；三个阶段分别核对。",
+        "es最终 Haz la prueba 保留立即行动含义，但 now 未逐词显式表达；记录语义取舍，不把转写一致称母语自然。"
+      ],
+      "limitations": [
+        "四语均有瑕疵：原嘴型、局部衣物修复柔化、UVR音乐/音效近似。",
+        "同一Agent/模型审核，没有独立完整正常播放验收。",
+        "两笔超时复核仍未知，4 credits预留不释放或盲重发。"
+      ],
+      "outputs": [
+        {
+          "locale": "es",
+          "video_sha256": "5f21ffa8c923ea5edfed6cb7bff70215b2f76acc89cb889febf099b60fb8d0b8",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "ko",
+          "video_sha256": "30946b1d73eab6a6e1353fce5e2306a6d8d6dbb12a0c3bc1cc10f3177856769e",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "pt",
+          "video_sha256": "0ffe202ba617c8c91de979244b4ef5461b944ff0040216e48564d67e7fda1318",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "zh-TW",
+          "video_sha256": "c25da1574c702053f2f11f5ce21ffbe158ef7d1f8b7bc6b8ee8cbb34fab8edcf",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        }
+      ],
+      "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+      "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+      "billing_snapshot": {
+        "limit_credits": 240.0,
+        "confirmed_credits": 147.62,
+        "reserved_or_billed_credits": 151.62,
+        "unknown_billing_jobs": 2,
+        "unknown_reservations_credits": 4,
+        "note": "Two timed-out audio review requests remain reserved; no blind repeats or charge assumptions."
+      }
+    },
+    {
+      "name": "WOW-20261027-012",
+      "source_sha256": "1a08df40f46f6c221b809c44b375ed769898f89cf02c5cf80aad6553cfbc77cb",
+      "thread": {
+        "thread_id": "01a17b32-2314-7363-8279-114dbcff22f9",
+        "host": "local",
+        "read_state": "read"
+      },
+      "report": {
+        "origin_label": "outputs/reports/WOW-20261027-012/decision-record.json",
+        "sha256": "e1cebafc1f68e5f82117d03d4e0875da0d45e9463b406b30e00e1fa71bfb1769"
+      },
+      "findings": [
+        "用户明确要求先去旧字，再在原文字位置写译文；不得为避开箭头把功能文案移动到原片没有文字的位置。",
+        "匹配原片背景失焦，保留前景箭头；末尾模糊英语仍属残字。",
+        "检查实际修复边界的亮线/接缝，底片与目标字分别检查；逐词节奏按实际目标配音。"
+      ],
+      "limitations": [
+        "初版“避箭头上移文字”是反例，不能作为排版成功经验。",
+        "四语修订改善不抹去旧版接缝/供体冻结/声音未独立验收。",
+        "原历史账本101.773上限、4.66已确认和2未知预留保留；本任务不重新上传或放行旧异议。"
+      ],
+      "outputs": [
+        {
+          "locale": "de",
+          "video_sha256": "de9a4a65b6cea73a9f38910b26f497487e4db5586afabc2bc76f01663dd67235",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "pl",
+          "video_sha256": "9049fbb5bda41fad2bd3efb587cbfa78bf2bb13f178c281ad540e59d0c22c02f",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "fr",
+          "video_sha256": "e4579036fe6b86cd1c46a3c4592bd52aa088b13aca211bd3ded167826a98f0a6",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        },
+        {
+          "locale": "ru",
+          "video_sha256": "d8204ea1d899feb8929c474cc772bc1c375a3d044863718ec3c9f530d52ef62b",
+          "availability_at_curation": "hash_verified",
+          "quality_passed": false,
+          "historical_state": "delivered_with_issues",
+          "limitations": []
+        }
+      ],
+      "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+      "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+      "billing_snapshot": {
+        "limit_credits": 101.773,
+        "known_charged_credits": 4.66,
+        "unknown_reservations": [
+          {
+            "job": "1e44902a033f3d214db05d4d2f00d1523c68dddcbae5292726fa0cf2b2878cad",
+            "reserved_credits": 2,
+            "state": "ambiguous"
+          }
+        ],
+        "no_ambiguous_resubmission": true
+      },
+      "feedback": {
+        "origin_label": "knowledge/local/feedback/WOW-20261027-012-visual-correction/feedback.json",
+        "sha256": "a4a8867f74cbf7f07e6e5cf052f78209226678d01b82ed55adcac4a78d2aff66",
+        "user_quote": "目前我希望，先做一遍去掉文字，然后在去掉的文字上方，写上翻译后的文字，而不是放在其他位置。切如图二，这几针不太对。第三张图片中，红框中的内容我没有在原片中看到。第四张图片中内容不对，该模糊的要模糊。且最后一点有露英语。",
+        "observed": "Image 1: smeared original word glyph area below feature title. Image 2: old/new header double exposure at badge fade. Image 3: translated prisoner feature moved above its original obscured location. Image 4: rebuilt badge headers are crisp over source defocus; ending retains blurred English feature."
+      }
+    }
+  ],
+  "screens": [
+    {
+      "path": "evidence/apc0402-source-tail.png",
+      "sha256": "739cdd53a6593b5db609ae5452cee5a7439632199c3cc0f8ba6ff4e434918c8d",
+      "origin_label": "knowledge/local/feedback/APC-20261026-040-2-tail-correction/user-1.png"
+    },
+    {
+      "path": "evidence/apc0402-sharp-background-counterexample.png",
+      "sha256": "78d691edfdd06d1682661d37b493fd986ad1f61ede0a3d54a8416d989e590a5f",
+      "origin_label": "knowledge/local/feedback/APC-20261026-040-2-tail-correction/user-2.png"
+    },
+    {
+      "path": "evidence/she0252-incomplete-erasure.png",
+      "sha256": "6d97b084fdbea400517380641c92122b42f534ac392974b897bc2ce780a7017c",
+      "origin_label": "knowledge/local/feedback/SHE-20261027-025-2-wan-r2/user-screenshot.png"
+    },
+    {
+      "path": "evidence/wow012-relocated-text-counterexample.png",
+      "sha256": "62f7ce9f67ee5e522c467eb28a934fd27db7100f47fca06f5a8fd0b9068104ee",
+      "origin_label": "knowledge/local/feedback/WOW-20261027-012-visual-correction/user-3.png"
+    },
+    {
+      "path": "evidence/wow012-defocus-counterexample.png",
+      "sha256": "d56e804e38c3cd3ace9df7f20934318b45404fb3c3fa58684ed6a9b508918941",
+      "origin_label": "knowledge/local/feedback/WOW-20261027-012-visual-correction/user-4.png"
+    },
+    {
+      "path": "evidence/wow012-boundary-residue.png",
+      "sha256": "3e9b03e2e069441c3060d3c1c7ff28392acd04ee02e32de1b196e27359be8b28",
+      "origin_label": "knowledge/local/feedback/WOW-20261027-012-visual-correction/user-5-seam.png"
+    }
+  ]
+}

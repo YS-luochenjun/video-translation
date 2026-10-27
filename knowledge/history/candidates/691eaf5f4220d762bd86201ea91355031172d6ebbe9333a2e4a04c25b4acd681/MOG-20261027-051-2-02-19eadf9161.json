@@ -1,0 +1,40 @@
+{
+  "id": "MOG-20261027-051-2-02-19eadf9161",
+  "status": "candidate",
+  "created_at": "2026-10-27T08:12:02+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "pt",
+    "source_sha256": "6665c3368681ac7fa24ae2a94db587f8be64fc712c7a9dd522328a4435e564b3"
+  },
+  "outcome": "revise",
+  "hypothesis": "A generated clip must cover the complete source-text exit envelope across the cut: the 4.4s opening candidate missed roughly 0.2s of question ghosts. Separate local seam/underlay provenance, character motion and target glyph acceptance. Derived languages share this single source failure, not independent validation.",
+  "evidence": {
+    "run": "MOG-20261027-051-2-02",
+    "video_sha256": "19eadf91613fb491605fc91e321439a2ff5f6c6f59f82df00d4168bbb6da3f2a",
+    "quality_sha256": "1801f5e8e9e8392e9a0504a65e76e6e21e6c50d8800aa9b9b890df33edb70bed"
+  },
+  "limitations": [
+    "Caption placement uses observed generated-take phrase boundaries, trim/offset and actual native encoded frames. Complete final per-boundary AV signoff remains pending; no quality pass.",
+    "Simplified static typography/different outlines and reconstructed defocused backdrop differ from original; no independent native-language/human playback acceptance.",
+    "Original English question ghost remains about 4.36–4.57s at phone transition. Generated lower-area underlay mark and local seam/motion match are not accepted as clean neutral master."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "observed_candidate",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "source_text_removed_unreviewed",
+      "protected_graphics_unreviewed",
+      "caption_sync_unreviewed",
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "recipe_unresolved:Source 2 transition question residual at 4.36–4.57 seconds"
+    ],
+    "reviewer": "Codex same-agent",
+    "known_defect_count": null
+  },
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -1,0 +1,248 @@
+{
+  "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+  "name": "she051-ui-one",
+  "findings": [
+    "静态白/黑/橙界面使用原容器与同源供体；源光标保持前景。回贴光标曾带回旧字，需要独立查片尾。",
+    "重复标语及FAIL按实际出现区间登记，数字分数保留但逐数字起止尚未逐项审查。",
+    "源音频分析记录无可辨识台词，保留原音轨；不是所有界面广告都不需要配音。字体纹理近似，未完成正常播放质量验收。"
+  ],
+  "observed_locales": [
+    "es",
+    "hi",
+    "ja",
+    "ko",
+    "pt"
+  ],
+  "record_bindings": [
+    {
+      "sha256": "fc0054eb3178144210a5d5920467dd20ea677cab0123d9fbf101a1416eef51bf",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "pt"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "2d45e55e1762104ddce2473b1b37e206a775df7743530d66ae85b3cc3c67122a",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "hi"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "7e3b0d9cbea6773c509aed24fd78ff3cd8f24d8874ee86470557dce2ffc4e21e",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "ja"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "a5b145fff39214d73d79549847bfe265fe848bdc11d5d46b4714a510eb70d6f5",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "ko"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "7fa477e4a184c9b1c26c9ddcfbb8018edfaacb9d7f73523054f509f5d0abbb20",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "es"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "3b51173f1de711834a061d4bf6cd6a94edf83639fbc8aaf067b0c2f47734ad50",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "pt"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "52d3a155f711d2da1bcb3277c6b679cd8ecccb5501dfab3ebca5998a05a451a1",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "ja"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "72cef194e94f666155a0b99c5ee82e1346ca86c8f6b10e2d55c32cb21c80ffe9",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "ko"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "8f85aed031aacc91d78f142689c6204026838aeb6ae1c2ad10e623800f69be02",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "ko"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "607679d0467f36609bb2993819ee303f916f3df5c1f3cf0ad3254a68e63600a1",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "hi"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "5379ffe1478a07c1bf4bf639b6ee8a8b8a1440286b32613c0cba7c83f21b49a0",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "hi"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "7fd20d2915eb690e6d613b3e1707e4cee57b6e916c30a23ed4b7ee50cdc2e4f1",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "pt"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "bddc74a31013a4fac4a38c3a68b222df01b2e3f87bbdfeaa54afc994f8266326",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "es"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "746f2449f438959397b0f5b44b1826073bf1e3db4201f6ab6d662219dde857e0",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "es"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "6cd804f33bb6bac3162346d0c700057c0f2faa57ca148f583facf3e71166e50d",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+        "target_language": "ja"
+      },
+      "historical_outcome": "observation"
+    }
+  ],
+  "case_bindings": [
+    {
+      "manifest_sha256": "a5a89156af635af286d92fbb49de0344b66cb9b191c1eb9ad1f2974540ad7a85",
+      "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+      "video_sha256": "99eece01dd119ff27023903adad0a8039cb9d81beba0e0f1bcbb8d460714d04a",
+      "locale": "pt",
+      "verified_files": 213
+    },
+    {
+      "manifest_sha256": "11dcf2dd6a65c06fc4a53334d08c4aafce1633827e5f40a8ae5f3b020b7b02ae",
+      "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+      "video_sha256": "5db6872f7bb70fa1beff024d1f0ed481e0cf55930e762e9f11d32496de0d9c51",
+      "locale": "hi",
+      "verified_files": 180
+    },
+    {
+      "manifest_sha256": "69c1e868406f7bf66365bdb7b998d708f62391fb6f6bde549df17e31c24d7cb2",
+      "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+      "video_sha256": "ea03e517b4fefe85629ce866016ec3281fd9fcb1d2c4b9623afe9c0eb66b8c01",
+      "locale": "ja",
+      "verified_files": 180
+    },
+    {
+      "manifest_sha256": "cdd040688227363bff8251fd38b656100dde9dcc201a94fa80389c7ba5ef73e5",
+      "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+      "video_sha256": "75bec4ad835ed5a6e42f98ae3386f4c4383cc1304a66502dcbd9febe059c70cb",
+      "locale": "ko",
+      "verified_files": 180
+    },
+    {
+      "manifest_sha256": "0889f456ac49f78a74fe670ab6b99993f0e6d36f007372a4a8de2a8267ccfc4b",
+      "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+      "video_sha256": "46a019ce6fe4f75985d1374e157e4fba8aa3ef96c3bb5a8265af46cb3d3a53c9",
+      "locale": "es",
+      "verified_files": 180
+    }
+  ],
+  "scoped_use_observations": [
+    {
+      "observation": "Used the actual static UI and source donor availability to select local reconstruction; no unnecessary Wan submission.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Codex directly read source/target images and made deterministic composition decisions; no external OCR/image model used.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Reconstructed existing white/black/orange surfaces and aligned same-source donors; visible target words fit without a new panel.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Classified as onscreen-text-led; actual Gemini audio analysis found no intelligible speech, so source AAC was copied.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Checked native encoded text crops and risk-boundary sequences, and decoded all frames. Full normal-speed playback remains unverified; no quality pass asserted.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Shared request ledger capped five locales at 90.279 credits; one source audio call, no video or TTS calls.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Reused original UI/header/button surfaces; no new opaque subtitle strip.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Kept source pointer in front of the new button text and source-timed opening fade. v3 corrected restored old label near pointer; actual tail crop no longer shows it.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Used source-time donors and local reconstruction for a shared neutral asset. Font texture differs; neutral asset is not marked quality-approved.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Used exact-source local composition after inspecting surfaces; alternate Wan route was not needed for these static containers.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    },
+    {
+      "observation": "Tracked repeated slogan/FAIL instances separately and used native frame boundaries. Preserved score graphics remain grouped as a numeric sequence; exact individual score onset/offsets were not audited.",
+      "outcome": "helpful",
+      "original_receipt_count": 10
+    }
+  ],
+  "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+}

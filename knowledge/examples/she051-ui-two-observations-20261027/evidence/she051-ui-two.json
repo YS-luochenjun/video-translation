@@ -1,0 +1,269 @@
+{
+  "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+  "name": "she051-ui-two",
+  "findings": [
+    "同源静态照片供体只应用到对应教程文字区，保持当前照片位置、光标及箭头，不拉伸短模型视频补齐原片。",
+    "历史检查暴露片尾48帧与45帧不一致，修订记录已修正；具体帧数不推广。",
+    "原红色印章边框、选择淡出与文字分别检查；FAIL做旧纹理、肖像局部边缘仍为近似，正常播放门禁保持pending。"
+  ],
+  "observed_locales": [
+    "es",
+    "hi",
+    "ja",
+    "ko",
+    "pt"
+  ],
+  "record_bindings": [
+    {
+      "sha256": "1394d86a6198750e530c86acf11290d9c582e911c69732af095c0394577bd744",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "hi"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "a905060cdd082ef96cdc1511de77ccd16cc385fbd3114b05c9fc79597520d465",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "ja"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "fc3df5ba41e8d3eb73d00df84e47dfa104bf356ae9beb32bfe45699486bf297d",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "ko"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "3275d5766149069de87995a5bf68573215494b656c6ae786b65604fecf63b439",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "es"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "34759d18c522a161939446afa8f08670f7f85e9e47777488e3bb2b2786e434ca",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "es"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "e4e3d2df7c5705c9746863c788af9243b673400d249875aba4971601e245c68e",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "hi"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "c4fd00e5517fd5bc71a643953a45f694b3277e7f683dc000018a39a2bb37877a",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "hi"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "ddacd24fe718b1a680217210526dafaab9852d312268d01f38503dbd4c874845",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "pt"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "07c310160d63ae794ca4f1f8192317b558d1db379342c164c0b347f8ff903367",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "ko"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "47c6d9537a2a6d6fec83068743901dbf18079d09eab9579460f082be9f97e218",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "hi"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "48f71866bca073ea1c557d1e19ae1aa3b0e131f56e5caef8b14c7af6847b4ff6",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "pt"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "328722a7605135dfe69f69fd942b9e413189cb64540b62484b1394528674c8a4",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "ja"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "12b4b077803b5d52b24ae4bb447084ab3fd903454848ba44c9a735f70c5e2f1a",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "es"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "e9031c86a5ba74211dc79cf6f965d55593d8c388dd5d36577c86e2f83f67beda",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "ko"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "d6b7e02b605e23992f246d2076905357532424a381b2d9bcfa68956373eba516",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "es"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "57d8926a312c09ea86e63c5777a1002b97de694f5e99d8c975200f9a23f30c75",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+        "target_language": "ja"
+      },
+      "historical_outcome": "observation"
+    }
+  ],
+  "case_bindings": [
+    {
+      "manifest_sha256": "b534fa2cf57a518e3f8b924ff4ec3d32f0de469013677c8982430cd6b3d15820",
+      "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+      "video_sha256": "e574497831e67eea6991550a80881d0e8ac0e271e6dce772e2a2618bb4c18035",
+      "locale": "hi",
+      "verified_files": 96
+    },
+    {
+      "manifest_sha256": "7f5634b70e6f2fc1a488597b3ab824195c38772761baf2e184efdb3182bcd995",
+      "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+      "video_sha256": "fd381fb8a81fddbe31b06569ea30e8cabc6026874785b74081882833b9905f33",
+      "locale": "ja",
+      "verified_files": 150
+    },
+    {
+      "manifest_sha256": "cdc6d5f1bd74f386457bf0f61e59ee37e626765eacd16c1c679a46822619af60",
+      "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+      "video_sha256": "52a10f072a5c6b28453a97a061310820f9ac2e26ed08b0eb602ad43d682d9cbf",
+      "locale": "ko",
+      "verified_files": 150
+    },
+    {
+      "manifest_sha256": "a9bef2e77635b23a835ae9fbe3d68cac9d4f2602240a154156923d822cad144a",
+      "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+      "video_sha256": "d7de61448adac4698063ee76534bf3c33cb70aa21f8c965caf7cd2cb2246c72f",
+      "locale": "es",
+      "verified_files": 96
+    },
+    {
+      "manifest_sha256": "ee9201c509d0b4959091292f2413ff5490345dea1fe10856696a751f4a5905ee",
+      "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+      "video_sha256": "1f19d4523da5f66ed29e8921cd5e6ea9e346370675b099030e80d30e03290139",
+      "locale": "es",
+      "verified_files": 145
+    },
+    {
+      "manifest_sha256": "8de5e875943862f4632481a5835d571d0c285ea54eb4c4a06ac26bd903e599ab",
+      "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+      "video_sha256": "8b2981f40b521a1aad182ad1252832b6ea12d4fd9f2a6127d50b9e25a956306a",
+      "locale": "hi",
+      "verified_files": 145
+    }
+  ],
+  "scoped_use_observations": [
+    {
+      "observation": "Used source observations to choose static container/donor reconstruction and bounded two trials; did not invoke a video model without a demonstrated need. Review limits remain disclosed.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Codex directly read source frames and translated copy; Whisper small and user-authorized Gemini 3.1 Pro analyzed actual audio. No prohibited OCR/image model used.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Original flat UI and exact source photo donors supported natural bounded reconstruction. No visible blur strips added; local stamp/portrait cosmetic differences disclosed.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Actual visuals carry claim and instructions; successful audio analysis found music/nonverbal effects with no intelligible speech, so text-led classification and original audio preservation were appropriate.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Separated complete video output from quality approval. All encoded files retain source timing and PCM audio; uninterrupted playback/independent acceptance remain unverified.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "All five locale runs share the measured 28.096145s x 3 credits request cap; 0.4 credits known billing and 2 credits unknown reservation retained.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Used only existing white header, original black end-card background and original orange button; translated text layer has transparent background.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Checked source layers, stamp red border, original arrows, moving cursors, choice fading and shaped target glyphs separately. Exact visual style remains an approximation.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Shared a source-native 840-frame local reconstruction; exact same static photo donor used only within the tutorial text region with current-frame photo position. Did not stretch a model clip.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Chose source donors/original containers with transparent libass glyphs, fixing header artifacts in the bounded second reconstruction. No claim that shared plate passed full normal-play review.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Tracked fourteen translatable text instances and five preservation groups; repeated header/FAIL intervals kept distinct. Start/end tied to actual integer source frames.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    },
+    {
+      "observation": "Actual same-source donor retained after built-in imagegen geometry comparison; dense boundary review exposed48-vs45 frame ending and v2 corrected it. Onscreen-text-led; existing no-speech evidence and PCM-identical audio reused; no new KIE or opaque panel. Full-playback gate stays pending.",
+      "outcome": "helpful",
+      "original_receipt_count": 5
+    }
+  ],
+  "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+}

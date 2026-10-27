@@ -1,0 +1,37 @@
+{
+  "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+  "name": "mog043-failed-still-probes",
+  "findings": [
+    "仅五张静帧的失败诊断：图像与遮罩匹配反射填充后镜像原字伪影减少；数字保护仅观察两张采样帧。",
+    "发丝接缝和CTA色带仍在，没有完整底片、连续运动、目标语言视频或音频验收。静帧局部改善不能放行中性底片。",
+    "此记录仅在精确同源西语任务作为失败诊断参考；不启用反射填充为默认算法，不继承任何通过结论。"
+  ],
+  "observed_locales": [
+    "es"
+  ],
+  "record_bindings": [
+    {
+      "sha256": "d5f7dbc909030fa8eadd6bddb1f576a5d9a081587ca797000d44266311dcc158",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+        "stage": "neutral",
+        "target_language": "es"
+      },
+      "historical_outcome": "fail"
+    },
+    {
+      "sha256": "b1c9e2f20e947f8f26f0720f88ab9a975960100c604b401bce42a3c02429948b",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+        "stage": "neutral",
+        "target_language": "es"
+      },
+      "historical_outcome": null
+    }
+  ],
+  "case_bindings": [],
+  "scoped_use_observations": [],
+  "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+}

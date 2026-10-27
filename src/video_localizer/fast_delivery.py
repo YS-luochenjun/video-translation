@@ -50,6 +50,12 @@ def validate_plan(run, plan):
         require(file_hash(inside(run, asset['path'])) == asset['sha256'], 'Fast recipe dependency changed')
     from .workflow import source_path
     require(file_hash(source_path(run)) == plan['source_sha256'], 'Source changed')
+    from .typography import verify_contract, verify_receipt
+    verify_contract(run, plan, read_json(run/'analysis/inventory.json'))
+    for asset in plan.get('typography_assets', []):
+        verify_receipt(run, asset)
+    from .typography import verify_assets
+    verify_assets(run,plan.get('typography_assets',[]),read_json(run/'analysis/inventory.json'))
     if plan.get('knowledge_snapshot_version') == 1:
         directory = run / 'plans' / plan['id']
         require(read_json(directory / 'plan.json') == plan, 'Frozen fast plan changed')
@@ -103,15 +109,34 @@ def register(run, recipe_relative):
     if request.get('routing_contract_version', 0) >= 1:
         from .captions import contract
         plan['caption_contract'] = contract(inventory)
+    from .typography import contract, verify_receipt
+    typography_contract = contract(run, inventory)
+    if typography_contract:
+        receipts = recipe.get('typography_assets', [])
+        require(bool(receipts), 'Fast motion recipe needs actual typography receipts')
+        covered = set()
+        for asset in receipts:
+            receipt = verify_receipt(run, asset)
+            require(any(a['path'] == receipt['output']['path'] and a['sha256'] == receipt['output']['sha256'] for a in assets),
+                    'Fast recipe must bind the actual typography-composited visual')
+            covered.update(read_json(inside(run, receipt['provenance']['path']))['texts'])
+        require(covered == {i['id'] for i in inventory['text_instances'] if i.get('display',{}).get('motion')},
+                'Fast typography receipts do not cover motion instances')
+        from .typography import verify_assets
+        verify_assets(run,receipts,inventory)
+        plan['typography_contract'] = typography_contract
+        plan['typography_assets'] = receipts
     plan['id'] = object_hash(plan)[:16]
     _freeze_knowledge(run, plan)
     validate_plan(run, plan)
     write_json(run / 'plan.json', plan)
     write_json(run / 'outputs/candidate.json', {**output, 'mode': 'fast', 'plan_id': plan['id'],
+               'typography_assets':plan.get('typography_assets', []),
                'inventory_sha256': plan['inventory_sha256'], 'recipe': recipe_relative})
     checks = {key: {'decision': 'pending', 'observation': '', 'evidence': []}
               for key in policy(run.parent.parent)['review_checks']}
     template = {'video_sha256': output['sha256'], 'plan_id': plan['id'], 'reviewer': '', 'method': '',
+                'typography_fallbacks': [],
                 'covered_text_ids': [], 'covered_speech_ids': [], 'checks': checks, 'known_variations': [],
                 'visual_finish': {'score': None, 'normal_speed_observation': '', 'evidence': [], 'defects': []}}
     write_json(run / 'review/fast-template.json', template)
@@ -184,6 +209,8 @@ def quality(run):
         shutil.copyfile(review_path, run / 'review/review.json')
     inv = read_json(run / 'analysis/inventory.json')
     failures = review_failures(review, candidate, inv, run, policy(run.parent.parent)['review_checks'])
+    from .typography import review_failures as typography_review_failures
+    failures.extend(typography_review_failures(run,plan.get('typography_assets',[]),review))
     failures.extend(visual_finish_failures(review, run, policy(run.parent.parent).get('visual_acceptance')))
     failures.extend('recipe_unresolved:' + str(reason) for reason in recipe.get('known_failures', []))
     # Reuse the full decode only when the actual bytes and decoder are unchanged.

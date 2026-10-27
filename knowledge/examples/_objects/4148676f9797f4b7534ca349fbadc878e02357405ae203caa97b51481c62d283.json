@@ -1,0 +1,278 @@
+{
+  "name": "SHE-20261027-025-2",
+  "source_sha256": "eb6cf59fbc67569c4d4da8a991810e8d4564c3714fbe89357ae69c6128ae334e",
+  "thread": {
+    "thread_id": "01a17b47-7a73-7a00-9261-8c884c7a97ef",
+    "host": "local",
+    "read_state": "unavailable_size_limit"
+  },
+  "report": {
+    "origin_label": "outputs/reports/SHE-20261027-025-2/delivery.json",
+    "sha256": "82df38981244eede3be5cc89e237b2d7d96208f43df7be4acb6ba94b97fb4d19"
+  },
+  "findings": [
+    "用户截图显示英语伸出小模糊块；擦除包络须包含全字及边缘。截图对应精确帧/版本不确定，不虚构定位。",
+    "先制作 Wan 2.7 台湾繁体样片；用户明确授权后扩展其余15语，原共享v2底片有质量异议，不作已批准底片复用。",
+    "完整混音 ASR 只识别 CTA 时，检查实际局部对话和原配音，不能据此认定前段静音。"
+  ],
+  "limitations": [
+    "授权推广样片只覆盖已披露瑕疵，不等于16语质量通过或母语认可。",
+    "报告顶层 revision_status 仍写等待样片确认，而 revision 已记16语完成；保留旧报告原文，查询具体版本和成片哈希。",
+    "旧300 credits限额、278.5已确认及4未知预留沿用，不重按新语言预算计价。"
+  ],
+  "outputs": [
+    {
+      "locale": "zh-TW",
+      "video_sha256": "f7fdce6390a4f278c7c9f42f4e663d30a72e4110c652551560072a2113ec7c75",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "片尾手机内部/绿色对勾背景经 Wan 重建，保留轻微生成细节和柔焦差异；原箭头按对应源帧保留。",
+        "9.90–10.03 秒原片快速模糊切镜中的四帧采用较宽 Wan 去字底面并匹配原模糊，局部几何有轻微差异。",
+        "沿用原台湾繁体中文配音；实际捕获音频哈希一致。未新增独立母语听审、嘴型或完整音乐音效验收。",
+        "仅交台湾繁体中文样片，等待用户确认；其余15种语言尚未更新。"
+      ]
+    },
+    {
+      "locale": "es",
+      "video_sha256": "6d41ef7cda2a98a7fdb09947c34f8a764ed9cb91e13b2e09baab4d6a4951bd30",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "pt",
+      "video_sha256": "bc1961c820013b906d19c044a7d0c3a95c2e94845f1b8fffabe601db5d06f933",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 2 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "de",
+      "video_sha256": "b2800ca65515bdecdaf81365e745140824f5f5ca0d671409fa7933732ad7e272",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 1 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "fr",
+      "video_sha256": "50c008e3d2420f8e2ae4dae737962b852864b1654a7ea82705de562798f48b68",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 2 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "id",
+      "video_sha256": "d9351d0690cc89cdcfd327381ee47c890391cff9ee0d05f00dd2043d4272e1f2",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 6 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "th",
+      "video_sha256": "c2828ffb9a3bfd274c4b2ec54e7feab90590284bd4f208e8585de0b8dfcec7d7",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 7 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "pl",
+      "video_sha256": "a917ff137e8b27500d89fd1d7617c60374ae712622f6fb3e67094ce857a7b750",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "tr",
+      "video_sha256": "c9044679542c648118da6852f224e7a1e64e8b00db3114e3de7dcd446f636832",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "hi",
+      "video_sha256": "521a94eb862d1eb72782f48fd87ad995e363cd31cad2882a82e705f084409d1b",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 5 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "ar",
+      "video_sha256": "49c8d9724f86bbf440b94889d982d282da25e86fc3dddfe02c2643fc5fda37b9",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 3 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "it",
+      "video_sha256": "8c7a14e3b77cf2ba5c71544c648ea05d3a48886101ffffcaa75dadfdd749ecf5",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "vi",
+      "video_sha256": "b1c4f9556e1e586e75cfdc0b424b76ee9eb4f95401b85441d6df07dad8199eec",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 4 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "ja",
+      "video_sha256": "305938a10f9f944c26f071f822092db93fb6e12300137653b06a5301b6b6aac7",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 0 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "nl",
+      "video_sha256": "cca19e68337fbcd7ce7a9ece5bb36cb0306ac82b85a7f3e973d341c2d8d38a28",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 2 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    },
+    {
+      "locale": "ru",
+      "video_sha256": "fa3055e34d10462e8437e0e2c52357601a84d1f4e49c36d0d03da7f9df81b4ef",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "已共用台湾样片的 Wan 2.7 修复画面；片尾背景与9.90–10.03秒快速切镜保留轻微生成/柔焦细节差异。",
+        "沿用本语言已有配音及字幕时轴，捕获音频哈希与前版相同；没有新增独立母语听审、逐字嘴型或完整音效验收。",
+        "实际编码字幕/UI/CTA/页脚为 Codex 同一 Agent 抽帧自审，完整连续正常播放和独立视听同步验收仍未通过。",
+        "Target audio acoustic comparison records contain 1 phrases with recognition differences; homophones/orthography not independently resolved. No native listening or lip-sync approval."
+      ]
+    }
+  ],
+  "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+  "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+  "billing_snapshot": {
+    "limit": 300,
+    "confirmed_credits": 278.5,
+    "unknown_reservation": 4,
+    "unknown_jobs": 2,
+    "remaining_credits": 17.5,
+    "this_rollout_new_credits": 0
+  },
+  "feedback": {
+    "origin_label": "knowledge/local/feedback/SHE-20261027-025-2-wan-r2/feedback.json",
+    "sha256": "31cf77ac49c32300307ccd1060dfc9df5bdec66ade659ef626481c39c7c0165d",
+    "user_quote": "请用 Wan 2.7 修复局部去字软化和片尾瑕疵，先做好台湾繁体中文样片给我看，再更新其他语言。如图的内容，很多也没有遮好",
+    "observed": "User image visibly shows original English extending beyond a small blurred patch. Exact screenshot-to-frame/version identification is uncertain. Independently, prior native comparisons confirm soft/smeared hand, stocking and sleeve areas and CTA shadows; those shared v2 bytes must not be reused as an approved neutral master."
+  },
+  "report_conflict": {
+    "top_level_revision_status": "Wan 2.7 Taiwan Traditional Chinese pilot in production; user confirmation required before other language rollout.",
+    "revision": {
+      "state": "all_16_finalized_with_disclosed_issues",
+      "model": "Wan2.7",
+      "updated_languages": [
+        "es",
+        "pt",
+        "de",
+        "fr",
+        "id",
+        "th",
+        "pl",
+        "tr",
+        "hi",
+        "ar",
+        "it",
+        "vi",
+        "ja",
+        "nl",
+        "ru"
+      ],
+      "total_current_languages": 16,
+      "rollout_user_quote": "好的，请你帮我进行其余15种语言的最终视频完成",
+      "rollout_authorized": true,
+      "quality_passed": false,
+      "independent_review": false
+    }
+  }
+}

@@ -177,6 +177,25 @@ class KnowledgeLifecycleTests(unittest.TestCase):
         with self.assertRaises(WorkflowError):
             usage.record.__wrapped__(run, spec, self.root)
 
+    def test_repeated_use_observations_are_compact_and_legacy_retries_stay_immutable(self):
+        run, spec, plan = self.make_run()
+        second = {**plan['knowledge'][0], 'path':'knowledge/rules/other-fixture.md'}
+        plan['knowledge'].append(second)
+        write_json(run/'plan.json',plan);write_json(run/'plans/p1/plan.json',plan)
+        spec['uses'].append({**spec['uses'][0], 'path':second['path']})
+        result = usage.record.__wrapped__(run,spec,self.root)
+        path = self.root/result['path'];receipt=read_json(path)
+        self.assertEqual(len(receipt['uses']),2)
+        self.assertEqual(receipt['hypothesis'],spec['uses'][0]['observation'])
+        self.assertEqual(result,usage.record.__wrapped__(run,spec,self.root))
+        receipt['hypothesis']=' | '.join(u['observation'] for u in spec['uses'])
+        write_json(path,receipt);historical=path.read_bytes()
+        usage.record.__wrapped__(run,spec,self.root)
+        self.assertEqual(path.read_bytes(),historical)
+        receipt['hypothesis']='Altered observation';write_json(path,receipt)
+        with self.assertRaisesRegex(WorkflowError,'Immutable knowledge feedback changed'):
+            usage.record.__wrapped__(run,spec,self.root)
+
     def test_new_plan_cannot_claim_use_against_an_old_render(self):
         run, spec, plan = self.make_run()
         changed = {**plan, "id": "p2"}

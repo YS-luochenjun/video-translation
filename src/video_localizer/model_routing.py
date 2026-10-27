@@ -47,6 +47,10 @@ def require_audio_analysis_model(model, run=None, authorization=None):
 
 
 def require_remote_task(model, root=None, run=None, authorization=None):
+    if model in ('wan/2-6-flash-video-to-video', 'bytedance/seedance-2-mini'):
+        from .video_tests import authorize
+        authorize(model, run, authorization)
+        return
     current = policy(root)
     if model in (current['video'], current['tts']):
         return

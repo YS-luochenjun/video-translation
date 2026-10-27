@@ -79,7 +79,8 @@ def render(run,segment,items,meta,directory,source_sha256):
     require(abs(actual['duration']-(segment['end']-segment['start']))<=.15,'Prepared video duration differs')
     output=directory/'visual.mp4'
     media.normalize(master,segment['end']-segment['start'],meta,output)
-    output=compositor.text(output,segment,items,meta,directory/'target-overlay')
+    from . import typography
+    output=typography.render(run,output,segment,items,meta,directory/'target-overlay')
     if segment.get('surface_typography'):
         from . import surface
         layer = surface.verify(run, segment['surface_typography'], source_sha256,

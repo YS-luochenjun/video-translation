@@ -1,10 +1,11 @@
-"""Loopback-only, GET/HEAD-only workbench. Python standard library, no installs."""
+"""Loopback workbench and resident evidence collector; bounded ledger writes only."""
 from __future__ import annotations
 
 import argparse
 import json
 import mimetypes
 import re
+import secrets
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -12,6 +13,8 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from store import Store
+from collector import Collector
+from video_localizer.ledger import Conflict
 
 STATIC = Path(__file__).resolve().parent / 'static'
 
@@ -24,7 +27,14 @@ class WorkbenchServer(ThreadingHTTPServer):
         self.cache = None
         self.cache_at = 0
         self.cache_lock = threading.Lock()
+        self.ledger_token = secrets.token_urlsafe(32)
+        self.collector = Collector(root, self.store)
         super().__init__(address, Handler)
+        self.collector.start()
+
+    def server_close(self):
+        self.collector.close()
+        super().server_close()
 
     def snapshot(self):
         with self.cache_lock:
@@ -47,6 +57,8 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Type', mime)
         self.send_header('Content-Length', str(length))
         self.send_header('Cache-Control', 'no-store')
+        if self.close_connection:
+            self.send_header('Connection','close')
         self.send_header('X-Content-Type-Options', 'nosniff')
         self.send_header('Referrer-Policy', 'no-referrer')
         self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
@@ -67,6 +79,8 @@ class Handler(BaseHTTPRequestHandler):
         self.route(head=True)
 
     def do_POST(self):
+        if urlsplit(self.path).path == '/api/ledger/action':
+            return self.ledger_action()
         # Drain small rejected request bodies before closing: unread bytes can
         # cause Windows to reset the socket before the client receives the 405.
         try:
@@ -81,6 +95,39 @@ class Handler(BaseHTTPRequestHandler):
     do_PATCH = do_POST
     do_DELETE = do_POST
 
+    def ledger_action(self):
+        self.close_connection = True
+        try:
+            expected = {f'http://127.0.0.1:{self.server.server_port}', f'http://localhost:{self.server.server_port}'}
+            host = self.headers.get('Host')
+            if 'http://'+str(host) not in expected or self.headers.get('Origin') not in expected:
+                raise PermissionError('跨站请求不允许')
+            if not secrets.compare_digest(self.headers.get('X-Ledger-Token',''), self.server.ledger_token):
+                raise PermissionError('请刷新工作台后重试')
+            if self.headers.get_content_type() != 'application/json':
+                raise ValueError('只接收 JSON')
+            length = int(self.headers.get('Content-Length', '0'))
+            if not 0 < length <= 32768:
+                raise ValueError('请求过大或为空')
+            payload = json.loads(self.rfile.read(length))
+            action, spec = payload['action'], payload['data']
+            if action == 'link':
+                task = self.server.store.detail(spec.get('run_id'))
+                if task.get('target_language') != spec.get('locale') or task.get('source_sha256') != spec.get('source_sha256'):
+                    raise ValueError('任务的真实语言或源哈希不匹配')
+            result = self.server.collector.ledger.action(action, spec, payload['operation_id'], payload.get('expected_revision'))
+            return self.json(200, result)
+        except PermissionError as exc:
+            self.json(403, {'error': str(exc)})
+        except Conflict as exc:
+            self.json(409, {'error': str(exc)})
+        except (ValueError, KeyError, TypeError):
+            self.json(400, {'error': '输入不完整、时间范围不合法或关联证据不匹配；请核对后重试。'})
+        except Exception:
+            self.json(503, {'error': '台账暂不可写，请保留输入稍后重试。'})
+        finally:
+            self.close_connection = True
+
     def route(self, head=False):
         try:
             expected = {f'127.0.0.1:{self.server.server_port}', f'localhost:{self.server.server_port}'}
@@ -93,6 +140,31 @@ class Handler(BaseHTTPRequestHandler):
             args = parse_qs(url.query)
             arg = lambda key: args.get(key, [''])[0]
             store = self.server.store
+            if url.path == '/api/ledger':
+                result = self.server.collector.view()
+                rows = result['requirements']
+                result['unlinked_total'] = sum(not r.get('countable') for r in rows)
+                query = arg('q').lower()
+                state, locale, owner = arg('state'), arg('locale'), arg('owner').lower()
+                if query:
+                    rows = [r for r in rows if query in json.dumps([r['code'],r['title'],r.get('threads'),r.get('videos')],ensure_ascii=False).lower()]
+                if state and state != 'all':
+                    rows = [r for r in rows if (r.get('overdue') if state=='overdue' else not r.get('countable') if state=='unlinked' else r['state']==state)]
+                elif state != 'unlinked':
+                    rows = [r for r in rows if r.get('countable') is not False]
+                if locale:
+                    rows = [r for r in rows if any(locale in v['targets'] for v in r['videos'])]
+                if owner:
+                    rows = [r for r in rows if owner in json.dumps([r.get('claim'),r.get('threads')],ensure_ascii=False).lower()]
+                days = int(arg('days') or 14)
+                if days not in {7,14,30,90}: raise ValueError('Invalid period')
+                result.update(requirements=rows, metrics=self.server.collector.ledger.metrics(rows,days=days), total_rows=len(result['requirements']), csrf_token=self.server.ledger_token)
+                from store import clean
+                token = result.pop('csrf_token')
+                return self.json(200, {**clean(result), 'csrf_token': token}, head)
+            if url.path == '/api/ledger/detail':
+                from store import clean
+                return self.json(200, clean(self.server.collector.ledger.detail(arg('id'))), head)
             if url.path == '/api/snapshot':
                 return self.json(200, self.server.snapshot(), head)
             if url.path == '/api/task':
@@ -103,7 +175,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.json(200, store.document(arg('path')), head)
             if url.path == '/api/media':
                 return self.file(store.media(arg('path')), head)
-            static = {'/': 'index.html', '/app.js': 'app.js', '/styles.css': 'styles.css', '/tokens.css': 'tokens.css'}
+            static = {'/': 'index.html', '/app.js': 'app.js', '/ledger.js': 'ledger.js', '/ledger.css': 'ledger.css', '/styles.css': 'styles.css', '/tokens.css': 'tokens.css'}
             if url.path in static:
                 return self.file(STATIC / static[url.path], head)
             return self.json(404, {'error': '入口不存在'}, head)
@@ -159,7 +231,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='视频本地化工作台（本机只读）')
+    parser = argparse.ArgumentParser(description='视频本地化工作台与需求台账（本机）')
     parser.add_argument('--port', type=int, default=8768)
     parser.add_argument('--workspace', type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()

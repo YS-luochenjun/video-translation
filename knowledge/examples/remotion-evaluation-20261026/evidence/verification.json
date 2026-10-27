@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-10-27T04:10:22+00:00",
+  "node_input_checks": {
+    "passed": 3,
+    "command": "node --test tests/remotion-input.test.mjs"
+  },
+  "existing_surface_tests": {
+    "passed": 2
+  },
+  "full_check": {
+    "tests_run": 510,
+    "passed": 508,
+    "failed": 1,
+    "skipped": 1,
+    "decision": "not_all_passed",
+    "failure": "test_workflow_optimization.WorkflowOptimizationTests.test_segment_cache_reuses_visuals_across_audio_change_but_not_text_change",
+    "evidence": "tests/test_workflow_optimization.py:42 expects non-null signature; src/video_localizer/render_cache.py returns None without Windows Fonts. Existing pre-Remotion Mac environment failure; no change to that source or test."
+  },
+  "local_media_demo": {
+    "id": "remotion-interface-smoke-20261026b",
+    "result": "candidate_generated",
+    "state": "needs_review",
+    "quality_pass": false
+  },
+  "repository_check": {
+    "decision": "pass",
+    "files": 1652,
+    "knowledge_entries": 64,
+    "checked_links": 632,
+    "source_bytes": 421242488,
+    "errors": [],
+    "scope": "Source inclusion, knowledge identity/history and current document links; not secret certification or video acceptance"
+  },
+  "knowledge_audit_decision": "pass",
+  "maintenance": {
+    "run": "remotion-evaluation-20261026",
+    "stage": "manual",
+    "checked_at": "2026-10-27T04:08:41+00:00",
+    "state": "deferred",
+    "deleted_cache": [],
+    "removed_empty_directories": [],
+    "blockers": [
+      "Complete translated delivery required before automatic run retirement"
+    ],
+    "outputs": "Independent delivery packages retained; no automatic eviction"
+  }
+}

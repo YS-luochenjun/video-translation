@@ -1,0 +1,26 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261027-044-05-99b04e7691.json",
+    "sha256": "6c6a3a4a7337029f9249fa5921aa2d8ae204126d6b1b12b7e4aaa9c42ba80966"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex主控：实际阅读源记录及方法的开发者文档复盘，未重新听看视频，非母语/人类验收",
+  "origin": "2026-10-27T12:32 Fireplay heartbeat，用户持续要求经验提炼与暂存整理",
+  "retrieval_features": [],
+  "resolution": "pending",
+  "reason": "青色按钮与深色停止方块联合识别是具体源的新增控制态观察；当前没有审查独立原/结果帧证据，不能把坐标/颜色检测提升为通用方法。",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "此确切源/语种、视频哈希、评审来源、失败范围及限制原样保留；方法关联不扩大案例适用范围，不产生新视频验收。",
+    "保留按钮颜色亮度单条件误判及对应控制状态的完整候选。"
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "如需启用该源ko参考，先从保留案例读取实际Record/StopRecording原帧和目标帧，独立打包后按原source_sha256与ko限定发布；不启动付费实验。",
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-10-27T12:36:05+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

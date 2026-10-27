@@ -1,0 +1,29 @@
+{
+  "user_quote": "把这次气泡排版和 Wan 动态去字的经验沉淀到代码和知识库，后续类似素材优先按这个方向处理。但是后续不一定使用wan模型。但是目前效果还可以",
+  "authorization": "Prioritize the demonstrated direction for similar material; do not hardcode Wan or bypass model authorization. No global company quality standard change.",
+  "source_sha256": "3dba01e02f663682cfd49c02d180777a633084383239109cb2db60082e2ef20b",
+  "reviewer": "Codex same-agent synthesis of observed encoded frames and user feedback",
+  "actual_video_sha256": {
+    "tw": "e9bb81e1dd9ab98a5032cdc40739c53eda3a4b75548353234f6aafaef3dd05ea",
+    "pt": "e2380876216407087696441e72141ede1c574d18322220f4c15fc5f8a47c68b9",
+    "es": "39714722df9498fbad153b9d5b096844a5cd5724cfb73654dea80c17b43113cc",
+    "de": "a811a2f7ccbfc024ac354f153e5afdc5fa0aa2863fede6507abb5fafb69e3ac2",
+    "nl": "bbfbbf6b15803d24593c0d0818231b98f53a12e9b606bb9d93aca6e1c0597a79",
+    "fr": "4d436f02e3a478067d338a93cdc92ae3692c50c9f7b84a29f64e267f2c68dd95",
+    "th": "3d4201e209b02e2a700391b50b837411e04c14552a6eea3433649d48588f3d14"
+  },
+  "observations": [
+    "Earlier centered metadata wrapped poorly and blurred loss-label rectangle obscured forehead and comment edge.",
+    "Left-aligned metadata/name/body, original avatar and container preserved in seven locale outputs.",
+    "Actual Wan 2.7 trial 3s then five real source clips 2/10/6/3/2s, all native 30fps counts verified.",
+    "Limited-range alpha leaked faint source text; narrow crop cut moving forehead. Full opacity, protected objects and broader same-surface merge improved result.",
+    "All 567 loss frames covered exactly once. Full target audio remux packet hashes equal previous approved-for-reuse tracks."
+  ],
+  "limitations": [
+    "Single source; seven languages are not independent source replications.",
+    "Same-agent sampled visual review, no independent native listening or full quality pass.",
+    "Minor texture variation, approximate CTA animation and dubbing synchronization limits remain.",
+    "Wan success does not establish superiority or compel future model choice."
+  ],
+  "private_data": "Names, raw faces, audio and external asset URLs omitted; hashes identify historical evidence, not external dependencies."
+}

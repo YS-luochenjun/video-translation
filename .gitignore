@@ -19,4 +19,7 @@ __pycache__/
 .runtime/
 *.egg-info/
 .pytest_cache/
+.DS_Store
+node_modules/
+.cache/
 

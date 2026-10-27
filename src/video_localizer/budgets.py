@@ -30,6 +30,42 @@ def duration_allowance(source, root=ROOT):
             'rounding': 'floor_to_millicredit'}}
 
 
+def target_languages(targets, root=ROOT):
+    from .languages import resolve
+    require(isinstance(targets, list) and bool(targets), 'Budget requires the actual target languages in targets')
+    # Aliases and case changes do not issue additional language allowances.
+    languages = {}
+    for value in targets:
+        language = resolve(value, root)['target_language']
+        languages.setdefault(language.casefold(), language)
+    return [languages[key] for key in sorted(languages)]
+
+
+def request_allowance(source, targets, root=ROOT):
+    policy_path = Path(root) / 'config/budget-policy.json'
+    policy = read_json(policy_path)
+    if policy.get('mode') == 'source_duration':
+        return duration_allowance(source, root)
+    require(policy.get('mode') == 'per_target_language', 'Unsupported request budget policy')
+    from . import media
+    languages = target_languages(targets, root)
+    rate = require_number(policy['credits_per_target_language'], 'credits per target language', minimum=.001)
+    seconds = require_number(media.probe(source)['duration'], 'source duration', minimum=.001)
+    limit = float(Decimal(str(rate)) * len(languages))
+    return {'credit_limit': limit, 'budget_basis': {'policy': 'per_target_language',
+            'targets': languages, 'target_count': len(languages), 'credits_per_target_language': rate,
+            'source_duration_seconds': seconds, 'policy_sha256': file_hash(policy_path),
+            'scope': 'whole_request', 'allocation': 'shared_pool'}}
+
+
+def require_targets(record, targets, root=ROOT):
+    basis = record.get('budget_basis', {})
+    if basis.get('policy') == 'per_target_language':
+        require(set(t.casefold() for t in target_languages(targets, root)).issubset(
+                    t.casefold() for t in basis['targets']),
+                'Target languages exceed the registered request; use an attributed budget-amend')
+
+
 def run_allowance(run):
     """Use the bound original request, including for clips; otherwise quote only."""
     run = Path(run).resolve()
@@ -42,13 +78,14 @@ def run_allowance(run):
         record = read_json(_record(root, scope))
         require(sha in record['sources'] and (not entry or entry['source_sha256'] == sha), 'Budget source mismatch')
         return {key: record[key] for key in ('credit_limit', 'budget_basis') if key in record}
-    return duration_allowance(inside(run, read_json(run / 'run.json')['source']), root)
+    request = read_json(run / 'inputs/request.json')
+    return request_allowance(inside(run, read_json(run / 'run.json')['source']), [request['target_language']], root)
 
 
 def job_allowance(run, allowance, segment_seconds):
     """Finite planning guard; money and two repair rounds remain separate gates."""
     basis = allowance.get('budget_basis', {})
-    require(basis.get('policy') == 'source_duration', 'Duration-based job allowance needs its original source basis')
+    require(basis.get('policy') in ('source_duration', 'per_target_language'), 'Job allowance needs its original source basis')
     units = math.ceil(basis['source_duration_seconds'] / require_number(segment_seconds, 'segment seconds', minimum=.001))
     inventory = Path(run) / 'analysis/inventory.json'
     if inventory.exists():
@@ -73,7 +110,9 @@ def _directory(root):
 
 def _index(root):
     path = _directory(root) / 'index.json'
-    return read_json(path) if path.exists() else {'sources': {}, 'runs': {}, 'authorizations': {}}
+    value = read_json(path) if path.exists() else {'sources': {}, 'runs': {}, 'authorizations': {}}
+    value.setdefault('requirement_sources', {})
+    return value
 
 
 def _record(root, scope):
@@ -91,6 +130,10 @@ def open_request(spec, root=ROOT):
     require(spec.get('authority') == 'user' and spec.get('authorization_ref') and spec.get('user_request'),
             'Budget requires the originating human request, its stable host event reference and authority=user')
     require(spec.get('mode') in ('first', 'reuse'), 'Budget mode must be first or reuse')
+    requirement_code = spec.get('scope_requirement')
+    if requirement_code:
+        require(isinstance(requirement_code, str) and re.fullmatch(r'[A-Z][A-Z0-9]{1,15}-\d{8}-\d{3,6}', requirement_code),
+                'Invalid requirement budget scope')
     source = Path(spec['source']).resolve()
     digest = file_hash(source)
     auth = object_hash({'authorization_ref': spec['authorization_ref']})
@@ -99,11 +142,18 @@ def open_request(spec, root=ROOT):
         index = _index(root)
         if auth in index['authorizations']:
             existing = read_json(_record(root, index['authorizations'][auth]))
+            require(existing.get('scope_requirement') == requirement_code, 'Human request belongs to another requirement scope')
             require(existing['original_source_sha256'] == digest and existing['mode'] == spec['mode'],
                     'One user request cannot issue multiple budgets; attach its split work to the original budget')
+            if existing.get('budget_basis', {}).get('policy') == 'per_target_language':
+                require_targets(existing, spec.get('targets'), root)
             return existing
-        previous = index['sources'].get(digest)
+        source_index = index['requirement_sources'].setdefault(requirement_code, {}) if requirement_code else index['sources']
+        previous = source_index.get(digest)
         if spec['mode'] == 'first' and previous:
+            existing = read_json(_record(root, previous))
+            if existing.get('budget_basis', {}).get('policy') == 'per_target_language':
+                require_targets(existing, spec.get('targets'), root)
             # Even a different run, batch or fabricated task ID cannot replenish first-version funds.
             index['authorizations'][auth] = previous
             write_json(directory / 'index.json', index)
@@ -118,7 +168,7 @@ def open_request(spec, root=ROOT):
             require(spec.get('reuse_confirmation') == 'new_user_request',
                     'Retries/revisions are the same request, not a new reuse allowance')
         scope = object_hash({'source': digest, 'authorization': auth, 'mode': spec['mode']})[:32]
-        allowance = duration_allowance(source, root) if (Path(root) / 'config/budget-policy.json').exists() else {
+        allowance = request_allowance(source, spec.get('targets'), root) if (Path(root) / 'config/budget-policy.json').exists() else {
             'credit_limit': 60 if spec['mode'] == 'first' else 40}
         # Validate/probe before closing the old allowance: a failed quote must be retryable.
         if spec['mode'] == 'reuse':
@@ -129,6 +179,8 @@ def open_request(spec, root=ROOT):
                   'original_source_sha256': digest, 'sources': [digest], 'runs': {}, 'reservations': {},
                   'authorization_ref': spec['authorization_ref'], 'user_request': spec['user_request'],
                   'created_at': utc_now()}
+        if requirement_code:
+            record['scope_requirement'] = requirement_code
         if previous:
             record['sources'] = list(old['sources'])
             record['reuse_of'] = previous
@@ -141,6 +193,9 @@ def open_request(spec, root=ROOT):
                 meta = read_json(meta_path)
                 if meta.get('source_sha256') != digest:
                     continue
+                provenance = meta_path.parent / 'inputs/fireplay.json'
+                if requirement_code and (not provenance.exists() or read_json(provenance).get('code') != requirement_code):
+                    continue
                 name = meta_path.parent.name
                 require(name not in index['runs'], 'Existing run already belongs to another request')
                 record['runs'][name] = digest
@@ -148,13 +203,13 @@ def open_request(spec, root=ROOT):
             _refresh(record, root)
         write_json(_record(root, scope), record)
         for sha in record['sources']:
-            index['sources'][sha] = scope
+            source_index[sha] = scope
         index['authorizations'][auth] = scope
         write_json(directory / 'index.json', index)
     return record
 
 
-def amend_limit(scope, limit, authorization_ref, source_quote, root=ROOT):
+def amend_limit(scope, limit, authorization_ref, source_quote, root=ROOT, targets=None):
     """Host-only amendment from an actual user instruction; never resets spending."""
     require_number(limit, 'credit limit', minimum=.001)
     require(bool(authorization_ref) and bool(source_quote), 'User amendment attribution required')
@@ -164,15 +219,24 @@ def amend_limit(scope, limit, authorization_ref, source_quote, root=ROOT):
         used = sum(row['reserved_credits'] for row in record['reservations'].values())
         require(limit >= used, 'Limit is below already billed/reserved credits')
         require(record['state'] == 'open', 'Request budget is closed')
+        languages = target_languages(targets, root) if targets is not None else None
+        basis = record.get('budget_basis', {})
+        if languages is not None:
+            require(basis.get('policy') == 'per_target_language', 'Target amendments require a per-language request')
+            require(set(t.casefold() for t in basis['targets']).issubset(t.casefold() for t in languages),
+                    'Target amendment cannot remove already registered languages')
         amendments = record.setdefault('authorized_amendments', [])
         prior = [a for a in amendments if a.get('authorization_ref') == authorization_ref]
         if prior:
             require(prior[-1]['new_total_credit_limit'] == limit, 'Amendment identity changed')
+            require(prior[-1].get('targets') == languages, 'Amendment target identity changed')
             return record
         amendments.append({'authority': 'user', 'authorization_ref': authorization_ref,
                            'source_quote': source_quote, 'previous_limit': record['credit_limit'],
-                           'new_total_credit_limit': limit, 'at': utc_now()})
+                           'new_total_credit_limit': limit, 'targets': languages, 'at': utc_now()})
         record['credit_limit'] = limit
+        if languages is not None:
+            record['budget_basis'] = {**basis, 'targets': languages, 'target_count': len(languages)}
         write_json(_record(root, scope), record)
     return record
 
@@ -182,6 +246,32 @@ def for_source(source_sha, root=ROOT):
     require(source_sha in index['sources'], 'No request budget: host must register the real user request with budget-open; new runs do not create credit')
     record = read_json(_record(root, index['sources'][source_sha]))
     require(record['state'] == 'open', 'Request budget is closed')
+    return record
+
+
+def attach_source(scope, source, authorization_ref, root=ROOT):
+    """Host intake: attach another declared original to the SAME language pool.
+
+    No new allowance; the registered human event must already own this scope.
+    Unlike derived-run binding, this survives retirement of the first video run.
+    """
+    digest = file_hash(source)
+    with lock(_directory(root) / '.lock'):
+        index = _index(root)
+        require(index['authorizations'].get(object_hash({'authorization_ref': authorization_ref})) == scope,
+                'Source attachment needs the original registered human request')
+        record = read_json(_record(root, scope))
+        require(record['state'] == 'open', 'Request budget is closed')
+        require(record.get('budget_basis', {}).get('policy') == 'per_target_language',
+                'Additional originals require a shared per-language request, not a historical duration allowance')
+        source_index = index['requirement_sources'].setdefault(record['scope_requirement'], {}) if record.get('scope_requirement') else index['sources']
+        require(digest not in source_index or source_index[digest] == scope,
+                'Source already belongs to another request; preserve its original ledger')
+        if digest not in record['sources']:
+            record['sources'].append(digest)
+        source_index[digest] = scope
+        write_json(_record(root, scope), record)
+        write_json(_directory(root) / 'index.json', index)
     return record
 
 
@@ -202,6 +292,8 @@ def bind(run, parent_run=None):
             require(entry['source_sha256'] == sha, 'Run identity was reused for another source')
             record = read_json(_record(root, entry['scope']))
             require(record['state'] == 'open', 'Original run request is closed; do not repurpose it for a new allowance')
+            if record.get('budget_basis', {}).get('policy') == 'per_target_language':
+                require_targets(record, [read_json(run / 'inputs/request.json')['target_language']], root)
             return record
         if parent_run:
             parent = Path(parent_run).resolve()
@@ -209,16 +301,26 @@ def bind(run, parent_run=None):
             parent_sha = _run_source(parent)
             require(parent_sha == index['runs'][parent.name]['source_sha256'], 'Parent source changed')
             scope = index['runs'][parent.name]['scope']
-            require(sha not in index['sources'] or index['sources'][sha] == scope, 'Source already belongs to another request')
+            parent_record = read_json(_record(root, scope))
+            source_index = index['requirement_sources'].setdefault(parent_record['scope_requirement'], {}) if parent_record.get('scope_requirement') else index['sources']
+            require(sha not in source_index or source_index[sha] == scope, 'Source already belongs to another request')
         else:
-            require(sha in index['sources'], 'Unbound paid run: budget-open for the human request or budget-bind --parent-run for a derived clip')
-            scope = index['sources'][sha]
+            provenance = run / 'inputs/fireplay.json'
+            code = read_json(provenance).get('code') if provenance.exists() else None
+            scoped = index['requirement_sources'].get(code, {})
+            source_index = scoped if sha in scoped else index['sources']
+            require(sha in source_index, 'Unbound paid run: budget-open for the human request or budget-bind --parent-run for a derived clip')
+            scope = source_index[sha]
         record = read_json(_record(root, scope))
+        if record.get('scope_requirement'):
+            source_index = index['requirement_sources'].setdefault(record['scope_requirement'], {})
         require(record['state'] == 'open', 'Request budget is closed')
+        if record.get('budget_basis', {}).get('policy') == 'per_target_language':
+            require_targets(record, [read_json(run / 'inputs/request.json')['target_language']], root)
         record['runs'][run.name] = sha
         if sha not in record['sources']:
             record['sources'].append(sha)
-        index['sources'][sha] = scope
+        source_index[sha] = scope
         index['runs'][run.name] = {'scope': scope, 'source_sha256': sha}
         # Existing/restored jobs are imported and deduplicated by actual provider IDs.
         _refresh(record, root)

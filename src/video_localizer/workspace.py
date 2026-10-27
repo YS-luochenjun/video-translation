@@ -1,5 +1,6 @@
 """Initialize a portable workspace outside the executable checkout, without credentials."""
 from pathlib import Path
+import os
 import shutil
 
 from .common import CODE_ROOT, file_hash, inside, read_json, require, write_json
@@ -13,6 +14,16 @@ PUBLIC_DIRECTORIES = (
     "knowledge/candidates", "knowledge/distillations", "knowledge/curation", "knowledge/history",
 )
 SOURCE_DIRECTORIES = ("bin", "src", "tests", "workbench")
+RUNTIME_DIRECTORIES = {"node_modules", ".cache", "__pycache__", ".pytest_cache", ".venv", ".runtime"}
+
+
+def _tree_files(folder):
+    """Do not walk installed dependencies or build caches in public trees."""
+    for directory, names, files in os.walk(folder, followlinks=False):
+        names[:] = [name for name in names if name not in RUNTIME_DIRECTORIES]
+        for name in names:
+            require(not (Path(directory) / name).is_symlink(), "Workspace input is a link: " + name)
+        yield from (Path(directory) / name for name in files)
 
 
 def public_files(source):
@@ -24,7 +35,7 @@ def public_files(source):
     for name in PUBLIC_DIRECTORIES:
         folder = source / name
         if folder.exists():
-            paths.extend(path for path in folder.rglob("*") if path.is_file())
+            paths.extend(_tree_files(folder))
     return _checked_files(source, paths)
 
 
@@ -32,7 +43,7 @@ def _checked_files(source, paths):
     result = {}
     for path in sorted(paths):
         relative = path.relative_to(source)
-        if ("__pycache__" in relative.parts or path.suffix in (".pyc", ".pyo")
+        if (RUNTIME_DIRECTORIES.intersection(relative.parts) or path.suffix in (".pyc", ".pyo")
                 or relative.parts[:2] == ("docs", "verification")
                 or path.name.endswith(".local.json") or path.name == ".env"
                 or (path.name.startswith(".env.") and path.name != ".env.example")):
@@ -50,7 +61,7 @@ def source_files(source):
     files = public_files(source)
     extras = [source / name for name in ("README.md", "pyproject.toml", ".gitignore", ".gitattributes")]
     for name in SOURCE_DIRECTORIES:
-        extras.extend(path for path in (source / name).rglob("*") if path.is_file())
+        extras.extend(_tree_files(source / name))
     files.update(_checked_files(source, extras))
     return files
 

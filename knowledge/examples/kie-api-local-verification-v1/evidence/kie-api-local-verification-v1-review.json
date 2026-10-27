@@ -1,0 +1,11 @@
+{
+  "reviewed_at": "2026-10-27T11:46:27+00:00",
+  "reviewer": "Codex same-agent developer synthesis, not independent acceptance",
+  "user_quote": "所有后续对话都通过API和本地日志核查KIE任务，不要再要求我登录KIE后台。",
+  "official_reference": "https://docs.kie.ai/market/common/get-task-detail",
+  "official_finding": "recordInfo queries asynchronous createTask jobs. Chat models return synchronously and have no task to query.",
+  "observed_failures": [
+    "HTTP524 synchronous audio review lacks a recoverable taskId; keep unknown fee",
+    "Recovered saved fenced JSON response without another paid call"
+  ]
+}

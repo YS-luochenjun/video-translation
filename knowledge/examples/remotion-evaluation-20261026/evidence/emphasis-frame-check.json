@@ -1,0 +1,18 @@
+{
+  "yellow_pixels_in_headline": {
+    "en": {
+      "39": 0,
+      "40": 1321
+    },
+    "zh-CN": {
+      "39": 0,
+      "40": 2224
+    },
+    "ar": {
+      "39": 0,
+      "40": 1737
+    }
+  },
+  "expected_switch_frame": 40,
+  "passed": true
+}

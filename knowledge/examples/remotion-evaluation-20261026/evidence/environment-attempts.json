@@ -1,0 +1,37 @@
+{
+  "attempts": [
+    {
+      "browser": "Remotion default Chrome Headless Shell 157.0.8080.0",
+      "mode": "sandbox",
+      "result": "MachPort bootstrap permission denied before rendering"
+    },
+    {
+      "browser": "Remotion default Chrome Headless Shell 157.0.8080.0",
+      "mode": "approved local execution",
+      "result": "Target closed; GPU process repeatedly aborts on icudtl.dat not found in bundle"
+    },
+    {
+      "browser": "same 157, swangle option",
+      "mode": "approved local execution",
+      "result": "Same ICU GPU-process abort; available memory about19GiB, not evidence of memory pressure"
+    },
+    {
+      "browser": "Google Headless Shell156.0.8078.47",
+      "mode": "approved execution, normal launch",
+      "result": "Target closed before media output"
+    },
+    {
+      "browser": "Google Headless Shell156.0.8078.47",
+      "mode": "task-local --disable-gpu launcher",
+      "result": "Target closed before media output"
+    },
+    {
+      "browser": "Google Headless Shell156.0.8078.47",
+      "mode": "task-local --disable-gpu --in-process-gpu launcher",
+      "result": "Four 150-frame ProRes renders plus six PNG stills completed"
+    }
+  ],
+  "next": null,
+  "paid_model_calls": 0,
+  "unused_fallback": "Full Chrome for Testing156 download terminated after Headless Shell workaround succeeded; no render used it."
+}

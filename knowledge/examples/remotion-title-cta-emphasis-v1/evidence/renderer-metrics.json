@@ -1,0 +1,25 @@
+{
+  "versions": {
+    "remotion": "4.0.539",
+    "node": "v24.19.0"
+  },
+  "browserExecutable": "/Users/yanshan/Desktop/video-translation/video-translation/.runtime/deps/remotion-chrome-156/software-browser.sh",
+  "chromeMode": "headless-shell",
+  "concurrency": 2,
+  "scope": "Typography rendering only; no model calls or localization quality approval",
+  "isProduction": true,
+  "bundleSeconds": 0.5818896669999999,
+  "browserSeconds": 0.22269724999999993,
+  "renders": [
+    {
+      "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-production-integration-20261027/outputs/remotion/motion/native.mov",
+      "props": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-production-integration-20261027/outputs/remotion/motion/props.json",
+      "seconds": 4.434049917,
+      "frames": 150,
+      "width": 720,
+      "height": 1280,
+      "stills": []
+    }
+  ],
+  "totalSeconds": 5.245766125
+}

@@ -1,0 +1,88 @@
+{
+  "name": "APC-20261026-040-2",
+  "source_sha256": "3623fbe61d44705072a566db49183e2e2762092f38f6662d58b839b7710ed16b",
+  "thread": {
+    "thread_id": "01a17b25-38b7-7431-a4ba-a0ce458607f5",
+    "host": "local",
+    "read_state": "unavailable_size_limit"
+  },
+  "report": {
+    "origin_label": "outputs/reports/APC-20261026-040-2/deliveries-v2.json",
+    "sha256": "e5a9a0089d64b5354a860c4d53d6209c5a7ba709d86d6952fe639aaaa3ea5f4b"
+  },
+  "findings": [
+    "源片前景 CTA 与箭头清晰，背景标题/问题在片尾失焦；不能把重绘背景字保持锐利。",
+    "检查 CTA 到源片最后可见帧，不能按最后一句配音结束裁短。报告的1543帧及49.4秒是本源参数。"
+  ],
+  "limitations": [
+    "本轮仅确认用户所指片尾项改善；七语 quality_passed 仍为 false。",
+    "沿用 AAC 且本轮未新增付费，不代表以前的声音或账本问题已通过。"
+  ],
+  "outputs": [
+    {
+      "locale": "zh-TW",
+      "video_sha256": "8cb5c6a3abc835a48d03022428c6854623da2e0278535d7b7eaef2e067e45fdf",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "reported_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "pt",
+      "video_sha256": "19585a9b4facedac54eb75c13800af25c0c35cb5831df8846d082ad751bcabce",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "reported_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "es",
+      "video_sha256": "d3f9308234378e32eb37b76131dd11d6948a6b8d9cdba5f35966bd1d40b39846",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "reported_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "de",
+      "video_sha256": "4305c93d4d52f93e3235cadc00376d95f5b175733fe75a1916cb51ab84cd1979",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "reported_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "nl",
+      "video_sha256": "45818a4d19c3b46db7f63a959eac6fefac440fcf729f6c0c75e408471e5e42cb",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "reported_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "fr",
+      "video_sha256": "cb25cd07534849d3e62eb99bcb172f910d88240100b7156b2682485f72a81a39",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "reported_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "th",
+      "video_sha256": "123c7550021c4ea6818c0bc8760db231fd5c322a3fb6cf738d0a1d4d8097badc",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "reported_with_issues",
+      "limitations": []
+    }
+  ],
+  "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+  "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+  "billing_snapshot": {},
+  "feedback": {
+    "origin_label": "knowledge/local/feedback/APC-20261026-040-2-tail-correction/feedback.json",
+    "sha256": "8fdd9b3f1fce7c216ceaf17e79b1f5848e981e486dd8e0a3ab260b2ee73b3e41",
+    "user_quote": "最后面的“Dare you try”不见了（也就是保留时间太短），所有版本都没有完整留存时间。且最后一张图，红框中的内容应该是在模糊下方的。",
+    "observed": null
+  }
+}

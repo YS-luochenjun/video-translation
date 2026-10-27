@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "remotion-evaluation-20261026",
+  "created_at": "2026-10-27T04:08:01+00:00",
+  "files": [
+    {
+      "path": "case.json",
+      "sha256": "85c407644f05de755ebc9fcae459babb8b9a88df722edaa6bcd0139f733ca513",
+      "bytes": 3693
+    },
+    {
+      "path": "evidence/ar-final-60.png",
+      "sha256": "fb2f34e1b69fa66c7354943da9500d6dc233cbd115cabedc1619980fc6142a76",
+      "bytes": 1509928
+    },
+    {
+      "path": "evidence/comparison-poster.jpg",
+      "sha256": "78f60ea57c4a5734a951eb768fe101aa32cce8c4fc4680bf2184dbc22aadfa0c",
+      "bytes": 150089
+    },
+    {
+      "path": "evidence/comparison.mp4",
+      "sha256": "6ffca859412ee4cd1d77b38b5f98bdb33e1fe53151e06ef5bbf93bf65794d48f",
+      "bytes": 6358976
+    },
+    {
+      "path": "evidence/emphasis-frame-check.json",
+      "sha256": "ccf96e4e2e1636190b4ac6cc93a8b59193f909e0598bec8b950083ba53fe1074",
+      "bytes": 244
+    },
+    {
+      "path": "evidence/en-final-60.png",
+      "sha256": "05d6efbf18e6edcc84aed4ffc34cbfac4c226f8256a8cb7506068aaaf33a067b",
+      "bytes": 1514636
+    },
+    {
+      "path": "evidence/environment-attempts.json",
+      "sha256": "04fa32ce4fe451993106e16840767145cca44da61d2ec1ff6cfaff210a71d5f9",
+      "bytes": 1366
+    },
+    {
+      "path": "evidence/ffmpeg-baseline.json",
+      "sha256": "9bd2280d9d6b21566b04578e94950bf99bb02cd4d826a29319ce67875b9ce67f",
+      "bytes": 355
+    },
+    {
+      "path": "evidence/render-metrics.json",
+      "sha256": "1bdd2881a8d1fa19b65c2f8a56c895625bcb6603b05a4f48b0d8e09324f50465",
+      "bytes": 3196
+    },
+    {
+      "path": "evidence/renderer-evaluation.json",
+      "sha256": "48ccddb2c2f30d0d94fd3e0457fd21b2f4b3b0aa375d473f9357d2ae17746b38",
+      "bytes": 3168
+    },
+    {
+      "path": "evidence/technical-result.json",
+      "sha256": "1acfcf6282ed44b73a118fc4759471960a9eb5c6763df9aaa46496651f15b7a5",
+      "bytes": 2704
+    },
+    {
+      "path": "evidence/verification.json",
+      "sha256": "842e746198b7d2b73e2b61b706dbcbcfc790c249703189fe1606a943a3d8a0a0",
+      "bytes": 1643
+    },
+    {
+      "path": "evidence/zh-CN-final-60.png",
+      "sha256": "39a0b36afd295035e3013cf1a325cd54e4d2cc1da92444673de289a5194f892f",
+      "bytes": 1512978
+    },
+    {
+      "path": "report.md",
+      "sha256": "5d337703de2816ef2284389aa6e40b54bdb1ecb9aa7815794234496c7ad3be66",
+      "bytes": 6571
+    }
+  ]
+}

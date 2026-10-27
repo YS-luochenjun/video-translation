@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "she-20261027-025-1-review-20261027",
+  "created_at": "2026-10-27T07:22:05+00:00",
+  "files": [
+    {
+      "path": "evidence/SHE-20261027-025-1-observations.json",
+      "sha256": "5d0496fbfdfb122d9162115ee47ddbaba90505294f535d2cf8cc36d785d44dbb",
+      "bytes": 15442
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "89bc94ac042d9aecce720f62ded6627ce1f48945d4c8f0ddc8e8a0f4c7754fe9"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# SHE-20261027-025-1：同源观察与返工边界\n\n仅用于精确同源的画面/操作事实和审查限制；列出语种的声音、译文及质量事实只属于该语种和成片哈希，不扩张语言验收。\n\n- 16种语言分别配音和添加字幕；原角色嘴型未随目标语重做。\n- 用户要求素材入库、共享需求组、语言及产品 tag、YouTube 自动上传并绑定需求；素材名称用需求编号+语言。\n\n限制：\n\n- 本次仅读取聊天和本地报告，不重新上传、改名或核验线上完成。\n- 同一 Agent 视觉检查、ASR和部分模型复核，不是独立母语视听验收。\n\n见 evidence:observations；历史路径仅来源标签。新语言稿、配音、动态文字和实际成片须重新审核，复用资产另查交付库。本次未作新的完整视听验收或平台写入。\n",
+    "source_sha256": "89bc94ac042d9aecce720f62ded6627ce1f48945d4c8f0ddc8e8a0f4c7754fe9",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/SHE-20261027-025-1-observations.json"
+    }
+  }
+}

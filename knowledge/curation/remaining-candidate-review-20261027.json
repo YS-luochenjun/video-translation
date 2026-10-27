@@ -1,0 +1,1320 @@
+{
+  "id": "remaining-candidate-review-20261027",
+  "origin": "Explicit user continuation: review remaining candidates, accumulate valuable experience, merge duplicates, archive obsolete records and check project conflicts.",
+  "reviewed_by": "Codex same-agent structural/evidence review; no new full-video/native-language acceptance",
+  "frozen_inventory_records": 409,
+  "historical_cases_verified": 283,
+  "historical_case_files_verified": 24215,
+  "distinct_actual_use_observations_reviewed": 124,
+  "reviewed_closed": 408,
+  "partially_adopted_pending": 1,
+  "new_source_references": [
+    {
+      "id": "she054-paper-observations-20261027",
+      "case": "knowledge/examples/she054-paper-observations-20261027",
+      "status": "active"
+    },
+    {
+      "id": "she058-parchment-observations-20261027",
+      "case": "knowledge/examples/she058-parchment-observations-20261027",
+      "status": "active"
+    },
+    {
+      "id": "she051-ui-one-observations-20261027",
+      "case": "knowledge/examples/she051-ui-one-observations-20261027",
+      "status": "active"
+    },
+    {
+      "id": "she051-ui-two-observations-20261027",
+      "case": "knowledge/examples/she051-ui-two-observations-20261027",
+      "status": "active"
+    },
+    {
+      "id": "she051-three-review-boundary-observations-20261027",
+      "case": "knowledge/examples/she051-three-review-boundary-observations-20261027",
+      "status": "active"
+    },
+    {
+      "id": "she053-cta-style-observations-20261027",
+      "case": "knowledge/examples/she053-cta-style-observations-20261027",
+      "status": "active"
+    },
+    {
+      "id": "wow044-placement-observations-20261027",
+      "case": "knowledge/examples/wow044-placement-observations-20261027",
+      "status": "active"
+    },
+    {
+      "id": "wow050-mixed-ui-observations-20261027",
+      "case": "knowledge/examples/wow050-mixed-ui-observations-20261027",
+      "status": "active"
+    },
+    {
+      "id": "wow052-missed-cta-observations-20261027",
+      "case": "knowledge/examples/wow052-missed-cta-observations-20261027",
+      "status": "active"
+    },
+    {
+      "id": "mog043-failed-still-probes-observations-20261027",
+      "case": "knowledge/examples/mog043-failed-still-probes-observations-20261027",
+      "status": "active"
+    }
+  ],
+  "active_method_count_unchanged": 20,
+  "method_revisions": [
+    {
+      "previous": "route-selection-v3",
+      "current": "route-selection-v4",
+      "reason": "Replace outdated agent-method-selection-v1 reference with current v2; retain all prior evidence."
+    },
+    {
+      "previous": "method-animated-text-occlusion-v6",
+      "current": "method-animated-text-occlusion-v7",
+      "reason": "Consolidate actual font-face/renderer/cache and range-aware capture checks, moving-plane counterexamples and explicit limits; retain all inherited evidence."
+    }
+  ],
+  "pending": [
+    {
+      "source": {
+        "path": "knowledge/candidates/hand-sync-transfer-lessons-20261020.json",
+        "sha256": "ce6eaf70dfd3fd4bd7f79b230e5e08adeea025289111d301d20781cf9343422f"
+      },
+      "resolution": "partial",
+      "next_action": "Verify the still-unvalidated transparent-RGB/tight-cutout hypothesis on a different soft-alpha asset; compare downstream alpha-insensitive RGB and visible antialias edges. No new paid model task authorized by this review."
+    }
+  ],
+  "decisions": [
+    {
+      "source": {
+        "path": "knowledge/candidates/1-1-es-20261020-a467b5c43d.json",
+        "sha256": "6a2d4454081d79f3f9b3b9a2182f14b24c39b352338da10809597a4efce8d513"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/da96ccc0fc29c4bae7ed105080e456ff1956f810407dce50be99998ee320767a.json",
+        "sha256": "87a2d83c0ab17d23ab3e84c2532559d4f16ff3f4c12d5d10936db0f4db45a181",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/1-1-es-visual-fix-20261020-9ea9a3cd1e.json",
+        "sha256": "aacb767dcc6542ea6dc515b14f5aba44b3009b60125ffee4f772824de894b622"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/26c2b621598e6492efd21aa0f114f826cf80d38e95ea17ca4ea734777182a2ed.json",
+        "sha256": "f6beb9ed40102fe0bb8f37706432d5872463616deda0e5b1f18e447d129a1db9",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/1-1-es-visual-fix-20261020-method.md",
+        "sha256": "798b92f545e648a4ae13a278bade886f9e01030fba2a31cf2c2b9dfed39f0c2f"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/5a20c564ca2845293f82ce8e324e2d8795580efe498f89328e76aec11e1cd0bf.json",
+        "sha256": "4efbe9bedfc389711fac8a6794ba1d0d1dc88c0954a267ae16d88489b9b2b2d6",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/1-3-es-20261020-fd94cb073f.json",
+        "sha256": "8f676b6fd06a0d41ada8582534d8317264542cfa5570f6262121037d16d469de"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/cc43de96707dfad7527c189233f216ee0334f9e5e39dd5e196d89101ca6bdb3c.json",
+        "sha256": "8f5732a137754f3f78bc0e14730f6a6a23e5d24a5bd391d8a3b5c4021284f7a8",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/1-3-es-user-visual-feedback-20261020.json",
+        "sha256": "4ddf27a891e4b57ec53c9d07d67c11581c48ed0732a847a2c0835de10ffddae3"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/ddf51be17dc6197794ac3af9780e7b39d3370e97638b3da0312a8e32ade085c9.json",
+        "sha256": "1fe7aad0f13caba529d3a879cd77249695b764879c302d9f843b3cc2075632bf",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/1-3-es-visual-fix-r2-failure-20261020.json",
+        "sha256": "8d8c9abaec90bacaf60ee4c898f1b96a20ca05a4c794f6801c275d4459eab801"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/35b36159624fbbcabb1ce6d6eabc312e1abefaba129ee966a9ef7b46bbc2883a.json",
+        "sha256": "9fedea2dcea4db0b0230bd2e7bb66913b1e1fb079a26e26fc5c55a19579695bf",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/2-1-dynamic-de-technical-20261020-bb7797d563.json",
+        "sha256": "7faabb6e7229abc6ae658d560544582a1b5683eb3599d2bb385e810250d1fdc0"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/415c9b54302c484badd4a9a1f20e489b718f7aa7644f11f3c363478073be3d9a.json",
+        "sha256": "fa5bb4d64966e06ee23e38d183d4f11097baad984881cb8efe58c969ac3f4fe2",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/4-2-de-20261020-cc67e5ec49.json",
+        "sha256": "c8e7f976c018af72553fd2e6f5df4dcd348679cd4f0a1d916aa6ffd89938e28c"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/9fb45f03d1b22df069120ae1fd0eca7471f3d3450f84b16fc849effaf0817ed8.json",
+        "sha256": "8af9925c24500a97ea5122ec1a6940cff3fe7a5ca5de4b11b12ff6a4017d2d27",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/4-2-es-20261020-07691e6bc6.json",
+        "sha256": "5de46044da856c99d8c2ae84ab130c4c5b62e207445ce9434a2d923acf329012"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/e0800cadf7effd58260d8f9c089b79ed69d9d08fdcf30c3ce3fc4623be141a78.json",
+        "sha256": "d5f972eda18beef8a5535729f4259d355ed1c008d8d1fb1862e60f35a9f85813",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/4-2-hi-20261020-549a3b1a65.json",
+        "sha256": "aae4f9eb9e751108a7261fdf4834cee5929cba4a93f9a9ce3f4e06dd52a62691"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/9f3bf52794611f178ef795a2e48cd0ec2c1cfd28d5750b03c9cdfe72af239bc1.json",
+        "sha256": "04afe8a7aae2e8313a6636efe538da8ce0d5508dd8495d85db596f9d83f230c7",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/4-2-id-20261020-72a235aca8.json",
+        "sha256": "f3341b98005f6367fcc007d70ad8a32bd89962ed840461acb9134024a7ea9462"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/89200c387b216c369fd15706e39d99a39e86411572eb91be32cf29043c6e37b6.json",
+        "sha256": "0c2a0060db9217f45f1515b7723384eb144467f290e132d40ac0e160b4ef0f77",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/4-2-motion-repair-20261020-0942091da7.json",
+        "sha256": "0e05dc56e8e0f69a995701fd50c54815104696fa290fb0eb9d2ee8d90f032a14"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/99eceac4b8c0b86ae87038ae49964e9799bc2d2a5d98ed1c15c8990abdc693e8.json",
+        "sha256": "0c5dd68c880fb46aeea347a071633d86f9721f8dc748406c711586d6bb8dd96e",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/4-2-motion-repair-20261020.md",
+        "sha256": "b0762bb4241515204528853b6b4a71f597989b4d5620354b0eb2d692771a80df"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/e065a5a3892c8181f820b6c08625e138f8447058170499f28ab31d824fd6d569.json",
+        "sha256": "9223b3330a54b5dae2056f4b7a3b1f55b45daa096e6d2043c9c642a4ab13e2fe",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/4-2-pt-20261020-02de61607b.json",
+        "sha256": "7ef5fec09d32c0b6b3ca9ced5a9912e3cd16032713d7ab4819fbbe03eb7bfe82"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/eb6444350399373b838c888db2f2fe46ec1e55cacacc1754c40ff9cba5f0de47.json",
+        "sha256": "32f23c11dbe74f4a205caa08b9378c81d28839d5574b6d7c69678527f1d79de0",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/4-2-tr-20261020-4e5b1f215e.json",
+        "sha256": "26d870e0a2c9cedddede505d5647cbf7c8f6c92f777115552ebe572b96c6390f"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/5d92ec5d1421641960cbce9e79c3b2a5df96ac16760be3131546277b1945fd8f.json",
+        "sha256": "31dc5a2d5046bfe32fa595cb603ed50682850034272a538ba0ca1444d35cb80a",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/4-2-visual-revision-20261020-965b17b7ef.json",
+        "sha256": "da1bf5060aee1a3bfa206c16e2826428f817c13406cd6c0c5a3f10f8ad7c5d47"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/e306597b737fafca877c1dd2c78a28b0d860ffe0fca0680fd54b6540fc1caccf.json",
+        "sha256": "8baa29adb655bcdf72b19cb07415d06a7162184954f2b702ce3df62e8f315491",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-01-dd6b88a60f.json",
+        "sha256": "00487877fd7bb00c765091364ea3c708f02dcf3578eca6aa44c4946751712d5e"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/e8cc39cb0cb82aa41588d97453b0b263cd55f87bd486a06452b676d7c294f67e.json",
+        "sha256": "749c116c1256f35ae5c23cbdbe844cd2ab5b9c2f280e02b313c66a0a15ee6f44",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-01-e52a625b01.json",
+        "sha256": "9f3a17eb484c7a8188334c9e0f464f4ca56e402c5a1388403ec5db585ec6723c"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/07c1146f1f7f3650f36b0e1bf9fbfc5da0da51de641856ff996b4563d375886f.json",
+        "sha256": "25c27ed8b5c4e41f864f3d93cb7e432276c0ed6ca43da13f239e44997c6d1c4f",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-02-8d02dd90ac.json",
+        "sha256": "9e5831b812515b60f9493aa792b2092f743a1c1935dbbd16a25943a84412fe15"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/7bc64c5225023758825e3d33a00b78fb203bd1c1423ec3c3b7fc963f460c57ba.json",
+        "sha256": "468113a4127dd9e9380e2d1933ef479dad892d2355f33b399fe714a2d459625d",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-02-b4ff18b828.json",
+        "sha256": "267d8c2037355326680b3ed178bbd7086245a8b17f1613d717ff6b356924a20b"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/48b14ece05508aa978eaf829b787c3e42e066b6781adb61b80776cf59d74ea0e.json",
+        "sha256": "e515c42be558ac92a66a3502053f7bd30a37bd13a2afc2028d62db71307c5cb5",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-03-ecc048f2e7.json",
+        "sha256": "a4b6f5a2c810456da2095bab33c2a1f0247e2c9e8e88516a1711589eccf8af0d"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/956b28112924cf4cc8c570db6cd8332d4157a86116205c405fee8debda5a533a.json",
+        "sha256": "211b99158fc8b7cd63812787e1faf8e96dc79cf1010e63afaefff7641eea2bfe",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-03-f94c6c92b2.json",
+        "sha256": "c2b9b00b1581be12e783d23b1f5668418ef3dc27e3cbe16129f13caec7f728ef"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/24a188897e7ace52563ef8e7e42400fb0862fb5ff230e51705e05068ba9f4a11.json",
+        "sha256": "f28c19f6c2942ffe5407fb89d9abcf355a3b97c51266adea185c685fd7b22f56",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-04-1936e15068.json",
+        "sha256": "c3c82b83bf91709494ded85f360dc2e8f68893b9609b2e75c283e4ad7e823c27"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/7e34f71f643c806d95819c0164b9496cb194cb8d8be72c8483b73f7557dd584f.json",
+        "sha256": "78583f110d787e271e6a3f44b8995253ac6ab05ed41919d406b9c8742bc8d028",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-04-3101d1e1d7.json",
+        "sha256": "8f21a1ff6925c9b27ca10b3e96fb17d139c242c974763c035020596ea9e3a451"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/f71175e804bbe994dc3ad272f88687ac7a7cdf514dca5d5ebf39003ad776857e.json",
+        "sha256": "1ca18e1c488233b711f4775a7410c77382dc0337c156236dfc42e34a763401e2",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-05-25df0651de.json",
+        "sha256": "fa29fda45626eaad51f2d61f20b656eb2ef93261e34414ab540518614c1a8357"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/69ce6a58a272152bccdea29deacaf9bbb85ee1c7ef32c01df1bb966c0a02e6f1.json",
+        "sha256": "d7a117f6cda080eb7ef3010acd8ed382e23af36bbf1961d3e2b6f613c20f9747",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-05-ef7e2e329b.json",
+        "sha256": "93feaef47881f4c25a11df73563e109708e2b983270418456ed67c42b914520d"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/ef6aecc0aec000fdf38da3a54ce9089e472268ef5155bd7803495c52010a90bc.json",
+        "sha256": "1155c5ed75074b1b65fe5060d3ec9e286764474c80d2d104322a6866babd6032",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-06-7d5d37d268.json",
+        "sha256": "950e47eca4b500f3ba11ae36472d279e78405f31ad97217fa2e9d9c37085289d"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/9d3a272e5ad8e0b5bb0c58f1856132527cd21112cd8179544382e46986ec8be6.json",
+        "sha256": "1a617226283d822d5eb9b33c0affa795fd2e2be1d953246eb1b8647babb11f14",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-06-9e3213384d.json",
+        "sha256": "78108f8482ee57c98d65215168911b6637a1125710f87fe07247fe05d8998a25"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/fed47820d04b7a23be83a9ea5d0f84d6fa6d24e99c5c0d7774bc0b48f812ea03.json",
+        "sha256": "7496767c3042ac152e2de63efb9d715cbbd6e2c5153a24f98644b289bca7c078",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-07-c1940cfcda.json",
+        "sha256": "f7c12c6306f95f93e4468d078c6a9744b5be13121795f588827067d61c8af703"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/d465cff53b8ca3f2b86ee1f890373eb6b96d32b0b82ebfb3f79388a8ed8068ae.json",
+        "sha256": "0bbf53f5e2ee3618d440be542fa7c1a6b57ee0913d37a035be2b8a1de9e3e00c",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-07-d13dad983d.json",
+        "sha256": "30214d310283b3e966e741c5f7904afd9c3e8c3541c8b60769545a502ab89f94"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/9676e3abfdfb8f51f785c9ea7ee55a1aa35bd4cc5225fc98427e3a4f968db625.json",
+        "sha256": "2eef8d5eb3362576eece4a049bb6009d66b768bed8ec025c01c036b84f6d37bd",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-08-69a7628e30.json",
+        "sha256": "c581ecdc2bb012f803985516481a069b2b57c659874a66f7b18f62e6caf243f0"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/24a785d5ceaf88caa24fcd43293ecf12ee8548941d596d1fad8df882268359c6.json",
+        "sha256": "5487181d622e72e9c453e3e16468dcf3951ac3ce5711560e9a0399597483ca48",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-08-7bbfd989c6.json",
+        "sha256": "2afab5d0c9dcb335d5fd64db3288b210eab1e19c3d1bb5c4288ef2bdf574f751"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/0e1cbc1214d0ab238ab3c183956c41e4de4984a6ba956b4c466e093c6815b7fd.json",
+        "sha256": "ef4744a7309cc83e5711a5ce9ad5eb3349ec5699f0eccc8c53be1ca0165c7d18",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-09-0e0beb88cf.json",
+        "sha256": "c6dd2bd2d3343ed2ab036870a75dcb559ecb9224cd321b5ce3b4093b3aa84c41"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/44c2f2b693dfd6840a8f51374a1bc350f19f16f4cbf443508b4910d656835fc1.json",
+        "sha256": "f5ec19fad50326ba9be87be9385e50dfa3babc1af49d57b1bd567242cf25f8ab",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-09-f2f0c20ab5.json",
+        "sha256": "21fc595e639f554e9871c8102e8a5c4a8ce0d88edd8240d15c517d26bd14eae5"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/2d1557afbf322d34f372c94cd31bf8e546f4f4cf969c6c03bb38182fc262fc37.json",
+        "sha256": "11b4b15618a817f6cb5a1b189a9d6dfa8f0efbcac3807116a3fb99a876fa4850",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-10-83115fcc67.json",
+        "sha256": "d924e39d555c4985f26d58bbd4238a584567f4e8e32b42c400f742abfb829668"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/8f6008cc1a93315989e768770c0dbf13c553bc738ed59327f469d34d0c6571d8.json",
+        "sha256": "beb7c2222f032645a4d682dd749d81a93b88a4ca33b6a08dfb535d59d4c3f6cd",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-10-f0060207a6.json",
+        "sha256": "89aafe08919e925693baa6cae2060fb1eadae4cbba6a8e2d23c9151f88b7436e"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/2643ba53874b079e1654352b830493bd13f0cdf1563145166e2b4410e697a26a.json",
+        "sha256": "fa69364362fc8838da42931298f76d13229b979707cefff77134f0d7af152d38",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-11-460770bbd4.json",
+        "sha256": "09f8e62287c0741893a4c403b12b4bc942bb40bc73aa7744a722dca112a124e6"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/e8f7bcb5def6e4a35f7082a761fd30080399b0a654a4529ce86207b98bab88a7.json",
+        "sha256": "2ff74fe370c708ff10ca6785c792b7fb0909d3ec699bdbaec0c7c4ee69bb835b",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/SHE-20261026-054-11-9973d7ccd9.json",
+        "sha256": "56191691dee1735ec4b9d9b426c4eaf597ee9c54e8134f8723ff120a3428438c"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/8bd9bc04b138c65c4f559cfe7d84e39588901cc9273909b32ad4ecf7cdb5b2b7.json",
+        "sha256": "4373eaa44d2e8ebcbdc40e231a7c4af9add962d8440bfb22cc597ff6da4be376",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad-019f69fb-de-20261021-ad80ac8f35.json",
+        "sha256": "180007e362b6237984d4b3b3d1207a1c1b7c16c122e90f85ab3923e56abd85e2"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/138c0b0385d5f62c43b68e12ac5e1bae48ec68667d861f2a59832cd7bf9d5fcb.json",
+        "sha256": "68b848cf2108d27cde4d2f6fe3b6de855a9ecb3ed624c68c66e0a9cac8c0df80",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad-019f69fb-de-buttons-20261021-27fa4a6473.json",
+        "sha256": "41514af1bee8ba4939533da03da90adec348a652bec90945e465ac3d44c49f33"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/a54b2d538738782e7729bbf38bc880969812abbc18533234a54c05f01e538c99.json",
+        "sha256": "f1092f7caddee459b6506edf9d9f752191161a8af9546bb2dc97bbfeb5b329ac",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad-019f69fb-es-20261021-a73fbdf20e.json",
+        "sha256": "d59291a07f8cd05dbf9d19634c653c52c7b2bfe73f7d9a145602b3e14b41b4a6"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/bbf856ced8df4d673d94cfd993c521e813a7dc24945222d58d654ef77e239a73.json",
+        "sha256": "916f56ae52566e4592fa57b97e024ca7f0f443ced338c5553981e4e9aff2631b",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad-019f69fb-es-buttons-20261021-660a0ad13a.json",
+        "sha256": "14438e4ae7d1a474abf0fa38f1d97a5b767783dddd2a0ab9ed356e4a7d0bad66"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/59f1dc85de0341cc9765d03bf748d4c740a69158ac9907a7bd2f981da6fbda57.json",
+        "sha256": "461935ed8e7d8baad8a61a89cd613afa05b7f3ed98c8e92c443e69a92f848b92",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad-019f69fb-fr-20261021-0493134157.json",
+        "sha256": "57fc7662e01aaab69126cd5ef9c0973c6d0890bc7292edfcd6aa124eeec331a7"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/d3ec7efe7bfa0dcb62b0d9a3d93d268f88416fe7e81aa52bf36695b9d12bd4c9.json",
+        "sha256": "9d4f20dadd15136345728bb1f09c2c388634b6c8cf9f3a10f0a81bb2292e8e33",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad-019f69fb-fr-buttons-20261021-7124cd71a2.json",
+        "sha256": "2940c459600815b058949dc8595aaa3e5f77d4e35b7b0489c84fe9f4912516c8"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/83ea4d97f479ac5a177ceaef63ee6ff770c152b118083bb78c177319709ea3bb.json",
+        "sha256": "6fb5bb02f81830c6d7fd59d4df5612bcf19a7d68782ae47ad16687d9de458064",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad-019f69fb-hi-20261021-6dfb22cf28.json",
+        "sha256": "fe24fe3c67a13c815702cf1cd8f754c86f6fc2f363b524e45c60f602aa8f9915"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/b4336b59777945b8f7e512b603c379dc7ae7862b649f47030de78c6bd512df81.json",
+        "sha256": "50655c18da81d751832281f3477023d761ee3b61706cac2eb85a2f98d7159bc5",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad-019f69fb-hi-buttons-20261021-2063e09f00.json",
+        "sha256": "95ea956ece3033ce36fc14baceb430d397a186d3e72d7fe8442c773175c4f03b"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/3f2adbbfe3534ca79a214a1512c34a1a0d2389d24ba976c1db41dc04538b5b9f.json",
+        "sha256": "8a0ec927df16c9b8e0f3e28648c593d3b4ef98a284ffc773d4e1640e3d421c17",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad-localization-distilled-methods-20261019.json",
+        "sha256": "06924303fd88a6c7e3c73f4f70d57d1e2a78d809024a289dce710af78d35d1a7"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/709eff87f3af0d5696a43227f30f3b1bee3d283417a47d4355e9574d239165fe.json",
+        "sha256": "c9de7c5ad89b689fdea8b819263e174075562b33410ddb950b9fc238e2d4af3b",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad31-de-20261020-4a1dd9b117.json",
+        "sha256": "304f2c19a61a7cea763529dc09e6d79c4ea12f969f257aedf8f7b0bce3dbc3a7"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/b580ece73a5ab3095a3c57f1790ba8705b8b8af301b371cdd173a9d3afaddb66.json",
+        "sha256": "b74256b0f6217aa5e3ae50e1b4f17f187727272f8ebbb94ec3b5d666e554bf35",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad31-es-20261020-a2e06ce3f9.json",
+        "sha256": "5ef31cf36e9f998f0561d28060cb0a3c327e4dcdd6593fe44d3d01b6ef49bf97"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/c6b69bcf443f4c89344717b0a9e85b0234081743ae04fa441e77a55ba3992fb6.json",
+        "sha256": "81f5cc4ce907466a61f2e03bac3d66f807c051046a26fc145697ab7efe08cec7",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad31-fr-20261020-9f577c52dd.json",
+        "sha256": "69549b71de73c0ea192442c9b1e9847398e4f2d9f26317c828f5e99dc2ac4592"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/b653fec798c9931f3efd8e507580115d724761d33341fe8b09910e9c2afce5b8.json",
+        "sha256": "6feeb233703d41a5d3d5b0c5769bea8c5755013ad9500d3c5c8e67e51510e2ea",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad31-in-20261020-83b887bfa1.json",
+        "sha256": "5629c287de4cb1bfd06cb987b7e2b1a6b7ac84ff9b3eeba31f20d094d3b4b5db"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/135e585ad8da65bc6888a1aefe8949154c3483f07918cc0e771f113995a4d1a4.json",
+        "sha256": "b81ba6e1ceb78df64cd45fdfa68ae99335e0da5305a82b49e4f90851477da59b",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad31-jp-20261020-91eed374ba.json",
+        "sha256": "c5efadc2a4404437c01a65dcfe44a06b8a47899232759a4050e22a0be5b92085"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/5bd546137059ee83566e053c3497b4f04b6ca0d73babd34d46c4a13b39beeabe.json",
+        "sha256": "988a0a1f07ae26d18d3297ea02d5b8a425384f969323e7dd040b0c6071c43e43",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad31-kr-20261020-3c98a197e9.json",
+        "sha256": "2355ca5f4555ef06d9faee5ac0cb55faf7f2f4cb3f99fbc166eb33d0b188fdfc"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/75061df5d631078d9791a41ca4b8a528f6ea543094d95bdd6d03621836dc0194.json",
+        "sha256": "b512ac7e47e73334984f8443202094747d7808f544246b495571a9d9e9dd70d3",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad31-pt-20261020-136a53dc7e.json",
+        "sha256": "18e986c654778e202af52bbd509b248fca428ac11daab1a9755ee425a90ac32c"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/2d5303d756d8c822977fc371a72ff05d23f879fb682b9d937af36d791bfe55fc.json",
+        "sha256": "b8d62942a37d298b2c315e834ba1a8eeee1cf5979c21f802e0bef202af43eb58",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/ad31-vn-20261020-4be25ec620.json",
+        "sha256": "dcab3373eb3d467985ff95337dd207095e195fcd394513b42a8f12e75a621d36"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/2f743639bde35d68ef65789ace7b4e6d47ec1783c4a5cc3e86b13be85d8542e1.json",
+        "sha256": "f6a3cdff2b590dd3dc8ba5c55d9864790ae58fa8846e707fed69db0fe618ea7c",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/artistic-cta-transition-failure-20261019.json",
+        "sha256": "eabd802f8ec6a72c477f1ece86d6cb903985bc53c9cb84eb2943c2acc1563ce6"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/3056b83917e3650844c951ab6ea36cc814786edeaface5e6d1fb1439fce5d89e.json",
+        "sha256": "8fcbb0afb442e7b4ebedc50dd648da48ff2e5fd51b47b027a75175f03d62790f",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/completed-batch-feedback-20261020.json",
+        "sha256": "fe67811fcc851f3edc58314448f7204c1c27211654e229fa26bc616a884783b9"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/f30201552dfa25cba6fc49063bef82eef4955bec2c1e316e4dff8b2cfc6406c0.json",
+        "sha256": "fe80a1edb9d41c4941a6a5a5b01c6fa7d2fd0ead55ff8db235175c7a4a4b296d",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/completed-final-followup-20261020.json",
+        "sha256": "91e9c7db497d64291e537a01b6d19f0ae8c6b404347dc45c0b249a05569e4d83"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/7f4da657642af07bc57e0f5c68838181717cb5d59868fc7ac3c39be254f1ada8.json",
+        "sha256": "3fc0f926f146dfae96fef927ceb5688c9aed7a556e7eed8e6b93a9ea441746f7",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/complex-av-en-zh-001-466519b59f.json",
+        "sha256": "872efaefb659536368988161a482dded8578b15b0a5bcb7c4ee52e002940c264"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/fce355cfb368feca866efe4cffa41b2471aadd9437682d3ab8d4ff86fc2af56e.json",
+        "sha256": "5fb49daacc4f89670b6c787c5c13ca22e097e387f4ae4ca6d23d77e302a16cdc",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/complex-av-en-zh-001-capture-tail-followup.json",
+        "sha256": "3dadab5706ae9a472046124ede2fb803d62863baaa54a5bf8571dfe6f807887e"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/f78d0408348e3bfcbfb50b36919963cf75444da1658063dd43987e9b316176d7.json",
+        "sha256": "10a332719b432885646510c188c9a543508f6df8b0a2bfe9572600194a7128b0",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/complex-av-en-zh-002-81f60de6b3.json",
+        "sha256": "2cf81f8965f956f55af145662477939c2c069f2ddc3ba6e96415dc9ad0ec6bf0"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/e8a92b7004ffc8b6e7cc437140be30ec725bf7f4d91ff9bc467e279304350ef5.json",
+        "sha256": "798d44e5243761d1b5adc67c2714761a921908245bc9754f680791bfb7e24380",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/complex-av-en-zh-lowcost-003-f5b1a0abd0.json",
+        "sha256": "c79818f65be9aeb58bcd4758947bfc1d0863214f9037de38c90287513e9cbd14"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/6f4c2c281ac7b3a1f0760f103ceb2ca9ada503e415f1ee4bea9dc05977e55d20.json",
+        "sha256": "1d1bdaa4d36fab0d7da2a13a0ce7f93f108bc05dae0c50bf46147976a46dc4ce",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/de2us-en-20261021-01-ff1eec75f0.json",
+        "sha256": "f9a3af17fd96040275be9ad6619665250059bf00afaa724d9445aa744b995cc8"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/0f21ce1cfa8fd84bd876ac2c8c9d91286a7e859b9af084abd3cabc4fa82f43ac.json",
+        "sha256": "c97f72072a6cb7e335f627d175b221989f0c7a45da4a1af037faf1593d816d35",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/dropdown-neutral-bleed-korean-reuse-20261019.json",
+        "sha256": "5c0d95bd33d2f0fdb2a2b733ad0329f32432af1feaac78233e8ded08eba1ad53"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/3b015b04fbbf49192f30f72290c55fe93efec4d70973cabf872cb4f7b8ed3e31.json",
+        "sha256": "dc78a6d376b0aef452cae59ebe08d27bf68219062d7e2c73275f387df6eb533f",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/encoded-frame-sampling-phase-20261020.json",
+        "sha256": "5ec5eadd797ac768c6ecb0c726cf5b9df4fa551e0398877569062f422c0bb313"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/b6ca7d5033a806b9cff8431774924a654497b58d4a71b4c8eca4bbf0c2859eb5.json",
+        "sha256": "1bbb73eb0dcc9cfcd615fb10ef4842d24b96036254d1d7e2746b536066544bca",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/fireplay-range-and-title.json",
+        "sha256": "1ff4abf0750793ac7f5700b1b9c1abc52e5e635b98c39c332eea5e3c4228f5e0"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/e165b37622b1307db910ecbd8bb6a8d147dbbe99a630ec34e9bc8fe751a1d05c.json",
+        "sha256": "87041b68c02b7cc1c70c6676e965e997ccf676117eeebd6b7837084606168999",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/four-thread-visual-supervision-20261020.json",
+        "sha256": "ebe38c91f60657ab89867df4ccfb11d884392de7cc84d9416b688e89a11eafa6"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/198e3b47dbce7a26c3ec6c21a15bdd079313a9a13475cd6bb2eb4bf3167de060.json",
+        "sha256": "536ac2a5e74f497838f38fe5fa96555f14d7bef15470bcbe87b89b8520e36f4b",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/hand-ja-001-3d5c2bd0f6.json",
+        "sha256": "3c71b656669237e8ce54e558dc7a2ffbe0050ff543ad57725f151a2b96205878"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/f3980878387ab2626a57190d9be497bc60a6c6dab13805c13065e304e25018aa.json",
+        "sha256": "c9c4057260af22484727e60b07f899851758c17db53a4432be866d177b83e227",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/hand-ja-001-fef9443929.json",
+        "sha256": "b733aaf4d1d0ae978fd8894004f79ebdb7ad4e828d4067a7f89ba9dd443468f0"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/0232e2e3321ec4173abd21ae4a585eee73d25023e3ab5a0ceabef2854536d7b1.json",
+        "sha256": "353b8ea2611037ed1c347eabc4d0cd6d56caa8e2c7f91232772f4b33ef7c7e28",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/hand-sync-transfer-lessons-20261020.json",
+        "sha256": "ce6eaf70dfd3fd4bd7f79b230e5e08adeea025289111d301d20781cf9343422f"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/40e553bd0ceef33fe73fffd8f99e05c9ed0bcf89ad2d1aefa87c45fedc552e85.json",
+        "sha256": "134a11c966922479e7f5e1bf798d951c09c7624cbf808af0278634540906bc78",
+        "closed": false
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/hand-zh-001-8126fe0a8a.json",
+        "sha256": "1249c72a18cc2e0c3fe5e2c7bd82d46299ec520364f65308e44df884d92aeee9"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/5438cb140991182fec84a6b7d6ec0c086125a6fa441f8aa8456c8d43ab2a9dc5.json",
+        "sha256": "b5dc231ecdccfbe02981a3b81375a1825edf00a16754926e5ab4ba1f8e99100e",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/hand-zh-001-f43da11ef4.json",
+        "sha256": "bf14dcbc6d9fb73263d7b889a89848335373c9d543d3f5f948998b059554b54c"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/a6b960c33f72c62f584bb3397f6c4d291f6f7be7bb8c38d660d4d5e974709f76.json",
+        "sha256": "5cadd4800541705869dcdc9e0f999175c31b7f6d825de0e17ec0985cb6f705bb",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/hand-zh-sync-002-16b884019c.json",
+        "sha256": "4b99b44124a8cffb634e47c2dbcbf8ca7d039b20c6731cb5f3d1349a01051c21"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/cfdcff1dc13809b0c72f381dd985b06d591e45c8ec89b6c0e0bcdcbe46d8953d.json",
+        "sha256": "a513473b1ef310f899ab60ef2c5ecef10de8e01d89f9f211f6d63b5e1cc0d856",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/hand-zh-sync-002-57257dc8c7.json",
+        "sha256": "747250a536a5472c825e079a5ef1a8635d4c5d2d58a3a7e42c9863fb8df46ded"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/2e5ffeee8144b06a72eb53850410c8d50208c83360ef973006da2825f3045b51.json",
+        "sha256": "f2178accf505a3dfcbba2cb8aa88cd507d06fd9ee6fa914d0274142edc3e68be",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/hand-zh-sync-002-d2cced3bb1.json",
+        "sha256": "06f9abf5735d2b5a749b35019707efd34eb6f62d63696e9c23214079e540c0d9"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/11177958037248460bf5a1e1d5718a8e766bb7cfe9a9c42cfbca0256ab4db386.json",
+        "sha256": "b68417b5aa4767558712fba79140632099b0d213795386a9afe8fe62724baea4",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/live-photo-ja-001-566413b211.json",
+        "sha256": "eae6bbe33b106477a71c8859fa63f41030cd667bb68b0afe09a1649f36288c34"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/378d8d6501489a4afa1e30268044a50fa685e009e3abd459478528370626ce9c.json",
+        "sha256": "5f78d565af87e5daa2e9c7564d179f413270d72be879066058fa45e287250467",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/live-photo-ko-001-4afed27d97.json",
+        "sha256": "c4844efc6cc77d9f30ac1f529e99194be75cc33dacf1908520b91780ccf31711"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/28b4af7bd1be74f6d1c401179c7a390c293ab49c28832d35e0dd20bc2e733ae3.json",
+        "sha256": "f410b87e2bf3432e946da5e97d958079b570d5efa23c6face6f3b35934f00c69",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/live-photo-multilingual-method-20261019.json",
+        "sha256": "033aaa7ef40b97acbe49dd209267148723bb8a5fb9cda9936c7152e675cf45dc"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/55a4b8188b2d7413a7bd0ffa4e1609afebd1b159eb99f4fc76bd64c520a057ec.json",
+        "sha256": "dc74ee24d5c37d77b64ef9541babdb8decbbbb3942caf72a2061fc59c5b438c5",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/live-photo-zh-001-b286840d64.json",
+        "sha256": "ca0cf0b78c66f4a62e04d04f03490c94dbc84d7a3d7c0b64e48f345e794d0eec"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/a5af04aecd5378d5c21aa0cfe43de938f3204dbfbc320b37b2618d99e9a7c376.json",
+        "sha256": "242e2e2b4f5a75c208ff1b039f6d5f4a5fec96746f8e8f1ede6a8f1817a12087",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/live-photo-zh-art-004-96d77d9f27.json",
+        "sha256": "3f7ba6a47cbb4f561cac5347e6cc957a45610e293dcd911c1f408935a7ecbc84"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/f9231f67a457d33ed36d3eb8fa4c05db25ebc23c9b884eaa61bdfa7f817e36ab.json",
+        "sha256": "49082f692ed42d3eae7a6161cb99e920e07f0c8d1435e13d487be816ecf88155",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/live-photo-zh-art-004-e505dbe945.json",
+        "sha256": "04d0fe9f9ac0f9e917ce4d84816163e6b25419f4930c7bd2bfb82b0a8a727c7c"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/401b0a422ff4e96caddb4e9f6bb863e95d2f4fe3ec508f852f9be8909a8faaca.json",
+        "sha256": "12fd23cdaccc2d40e4ddee71c2a84354c638628184b0d88d8c0106bc58ed9731",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/live-photo-zh-ui-002-95a95ee3c1.json",
+        "sha256": "d05f80eb060c51c6af3fb0f3f512dd8dab783cbee625f379d8f5ff60d4882541"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/877559f1edaa6c4ac31fa38ed8ba1ba884cde7b2a64666dfba76db1b29dab851.json",
+        "sha256": "af4c500d5e89dc9e2d47184e49b0aad24dd85ececfa76d95a4696d3253c5bc9e",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/live-photo-zh-ui-gap-003-06881b0383.json",
+        "sha256": "059734714503b44a75ed1ce31ed4835e297610737763853b323216220ab660cd"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/1a3dcb525d6686beeaf3c54f37c43bb79bef504ecfdfcafbf9416fefd135a00f.json",
+        "sha256": "7aed337f96dc89d924961ce2a69a86b042b32698c3e771d8965f261d77d6ff91",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/mog043-nonopaque-local-probes-20261022.json",
+        "sha256": "d5f7dbc909030fa8eadd6bddb1f576a5d9a081587ca797000d44266311dcc158"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/e4c67d78ac810683b30d821b6a1211d967c2e8917f2e23552814bdfe01059e56.json",
+        "sha256": "e1918714903344cdc85981dfde92c9ab9755b5375059d36c26dfdbab504eee6d",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/native-font-resolution-macos-20261026.json",
+        "sha256": "f5d10745d5bde43ffde6908ac897aefab611392b9b02b4b72ebf9a58c19df7b2"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/f4c85e684755d4bed8180e23b8fcc32ec877d25b96df24439ca77e87043235a7.json",
+        "sha256": "e32f23ac5de089be95c78133b598358deb3de6f90dcb6b7b3faf4bea464c5892",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/project-owned-curation-hook-20261020.json",
+        "sha256": "b5d410c679018111dc5d78da3d2e14fdf0b40e40b05a599fd85010e0ee89f2bb"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/01c8d9807fce1d3e653f5beb99b56067d439a7308ed44d11aebccb0cb5c03a91.json",
+        "sha256": "5c0b8b58c7c0ab9bea7a4aecab66854f283fff6b2534122270bd9870406a8701",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/remotion-evaluation-20261026.json",
+        "sha256": "97abe9ee98bd74126225dc873a9efaeb1bd58641d11e7e4a8df86186efade536"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/286004277d87e232d6a0b4be70a70b530383b59079334cd435414a7aa38a7cf3.json",
+        "sha256": "188518587de42a1754146fdceea6b4f353fc2534b18554143933e25de120c865",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/remotion-production-integration-20261027.json",
+        "sha256": "29721668caec54fa9a9360db9dd4423dd236de31ea4cf64ecdbe6057d66a1455"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/7bc9a7984d2b73239832827fb9360c1c611d9ef9e28a90445b0661864ad75e78.json",
+        "sha256": "d0fc5567abda406b647a9f2ab840b4053f5a2424e004dceed4a93ad00d5c883e",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/she-20261026-058-01-725b28dbec.json",
+        "sha256": "dc7a62245e636473ecf661961de69f013607887e3acc3992696b9b2feee43f4a"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/0cb81909357f73af7397c0262cddb5bc407470f49deb3785224f4aa0131aacb0.json",
+        "sha256": "3d4fa0d96eeaeacfc5dedde9a6e73b56712e0f2647cd8bac440d185b1c5f7e07",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/she-20261026-058-01-bdfaee01f8.json",
+        "sha256": "e488276f1d4d8610aece3f542bd2503ce6e288764e1990015f8135cdc5520443"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/58502ab4d2ec541d6976ce17006924fff7a9f3ae69ee21a0210dbea756245b3d.json",
+        "sha256": "53eaf26e7519fd0615bcc6c77c95a0c2ce44c8595af018138fffd5962b4448f0",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/she-20261026-058-02-09f909542c.json",
+        "sha256": "d5d8ccd6d3fb66b92b01853f1f5e395b7c648c18afa1c243ea9a2342544532e4"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/9f6ed621c668d22bf8c515bb39245f0dfb588733b8d669177a293e7c1f001c89.json",
+        "sha256": "35b1d144b07c1ba83d9c4ba730d0fb0500bfe42c430ac10044dbb5f38a924a8e",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/she-20261026-058-02-964581953d.json",
+        "sha256": "ba208b417416108297e058f5ce89504bd23de0f7d5284ba29d66692d43ef1e45"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/44df840666ff2d4bdb78f40e5074018672eca12fe5661b4efbeeda08247086a8.json",
+        "sha256": "106f1f1cac6c70ae9fd058a3b1bc98ab8ab465188c3fe97e4f8b2c251bdb3d52",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/she-20261026-058-03-5203cd8a3a.json",
+        "sha256": "0259440d29df27ede0f40be184662ada7c2918cd09fdf19735a1fdb9373cd011"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/dfc085f6fed033077e950be037e39ae97606f665826ba41e02777f98e85b7393.json",
+        "sha256": "f139644aba474ad7707ce26cffaee8b6bb2008bde2c673440c3b497c93821714",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/she-20261026-058-03-b9c650384a.json",
+        "sha256": "e3b7867316ce67e08aa675d570acf0735ba8fe4b69768fbc77a05ea5dd45d8b0"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/8fc57ed5c28e9f05b6495143b66ca35a7886959028fdb10291c8c274c5203450.json",
+        "sha256": "2acebed6974049737a4171545e93a6f7390f3f4055566ea5ecad7577cc6a1809",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/she-20261026-058-04-762a19be3b.json",
+        "sha256": "508d2db15355461862daf72511e8a46e7a02cae451d78e22a0ae29db515a6770"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/dc8ecf0cf20c3ecffae394fd9915fa9343fa2b17a73458411bb25fedf06db020.json",
+        "sha256": "adabfe9d4995a57fa9b5bc057d9e79e0234e8a6d87d096776a55791c3726c1ae",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/she-20261026-058-04-819f156a27.json",
+        "sha256": "bfd2713bd96409bfce00754ed12f057b8c78dff1c63ae2ec0ca9cc94feddab64"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/45f59e405a72e4b9592a024768b6494f6e488663e8df47a1d1c8c263f0f9594f.json",
+        "sha256": "cece5be4577372aac30e150cf14f1a1ef8492de7561d4180a6e1abddb42478c6",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/static-veo-lite-001-6bd69f43ba.json",
+        "sha256": "e1114c85adb3500f872ccdd258f3cad6052b2cd78f0110d1c52d5d1d130b5241"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/5c7cef6caf3fec323df6513f8569d48b0a45c1cfb126d5e22e38e16438177089.json",
+        "sha256": "662e6adfd0f38d9ad89cd4fa4aef7b2bdd47590da178244198f80b9fb26af3fe",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/static-wan26-probe-001-3a80a9ae63.json",
+        "sha256": "3998bdff743e938a1d12ed2e8aebddaa0255a8689d934cd27672672ecb96a246"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/99df64b018080d866a3cce835a2afbeafbb65901b57d3d59e0c8f4d6b5c594b2.json",
+        "sha256": "8fa1922cbb3f201434f4dc8c890d3abde4c63754558ee0c94f9fee5785b43adc",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/static-wan27-edit-001-9b6563eacd.json",
+        "sha256": "936ff94d07acdf6d84043aa6eac4b80b6cdc746b73227a3a2d87f461998e581a"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/fdc3a406bb3048ee9b3faefd19f4e0ddf32d9a69ffa9f6479a96e14264f4efe9.json",
+        "sha256": "7991f2fa9041e19a55c1d5d8e9216788abbda0f97990453cbc0de823e027b059",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/storage-foundation-20261020.json",
+        "sha256": "7aea7e535efeddb1e482c64837dc3e20898055171a7dd029969bccb35dae4a1a"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/b4de26c742b97170c088ee975ded98ca119b3cc5b3bbd068c1d57452c375586e.json",
+        "sha256": "528d692fb1c15274a7ae7ece932626c93a79cf173d9a98fac011cb7875e6d80b",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/three-model-erasure-20261026.json",
+        "sha256": "866196f9dfb256c76e2b0a898ffe4b61dc12671e316cc4d04f7a0bbdb0fddbf2"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/c842c9162cd90d2744049a1159ac3940069cdbc3aa54aa6897c8e92169d640e3.json",
+        "sha256": "00dd059998374fa26454f662b48e7b561398cb76550fd3173193bde44a3130c0",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/video-1-2-es-20261020-01-46af5daaa4.json",
+        "sha256": "d3a061da70855bd99981533288df153c12b5ccbd267a9dc0b97927561ce3b3b3"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/a33109dffa0f0260236d0d84ba0d0c25e2c6d00101d3e503f8081cfd23f67708.json",
+        "sha256": "5d90f5b0f2a84f29efe4200f77736bc407c678991d3a5d5ebfee5cfe5b6fb660",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/wow-20261026-052-01-718a6e9f01.json",
+        "sha256": "9b5857d890a6ead6bc2ed8547bd944ea1b2fb1063230f351ebb446f7cfd5daba"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/1d0f3003b7ed3817bd1a61d28f9b9db60500654e0ecc40b7b79db6f43b8c8ef0.json",
+        "sha256": "72ae1b28f9b5e3cbde474134f5618514450c0e4b6061c1c1a0a50be4d7ef8325",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/wow-20261026-052-02-23f50be5f3.json",
+        "sha256": "948c3eeaec5bc19437739c19e0a8bceb68c4db80b8e8c951fb284472c1afb57e"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/489e186e697ebe5098e412119e5efeca3f163fac7a5080fdaaf2360c5d8e1122.json",
+        "sha256": "446a4226c078fd100a130bb30327856aa3080be01bc2601562640a99c9f27fdc",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/wow-20261026-052-03-226e172efb.json",
+        "sha256": "d71eb13faee50fe67ae5438668bc5750e198aba62212c22eaa22b13b1bb91409"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/1a7e75661943b630408a220dba8d7a93ce41ce579f4640e343ade00fafadb138.json",
+        "sha256": "6be9b39490d5e78a0551b1985ccc5f718a850cd04db0e30c32cde5cb133ed1c9",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/wow-20261026-052-03-402e95902c.json",
+        "sha256": "784a9de8f2395c129a6516d72e7c6ae28ab38369d46084829933bd332f20b07d"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/9796f8242c2237c947d4d7201c1e9379ca5059c14829a374a6798f1f1b437cc1.json",
+        "sha256": "1cdba837584aa0f67ddf1a8ec5b7d09303b6ea5ae6212305c9f4d6c72f093d8d",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/wow-20261026-052-04-934bd29b94.json",
+        "sha256": "98e41ec79592fc5f4beffbecd01a3fe57e6fa3daa45fe017536de012ea9cff94"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/796d3d19674a91cefe507819caa4a14272321ea52f1ecb021d2e883ed3b978fa.json",
+        "sha256": "a86d9d8342b23c9273697d9fc0e0d5f7ea9c204eec81225539c775f862e15884",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/candidates/wow-20261026-052-05-f6925e0950.json",
+        "sha256": "6cea536aaf4a81f590b9be6db091fea1154afc70c6fca50353e24e718c11dc0c"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/fdeebbdc885ec38b0f875d881678cb27f00e566a5ce1a71b653b10337e92efa9.json",
+        "sha256": "0ef18772d6d918d9545d5da534b46fd5489c1ef5e85093d47cf7c0e476e8d209",
+        "closed": true
+      }
+    },
+    {
+      "source": {
+        "path": "knowledge/distillations/lesson-7044a49363c02658d770/fc40de1549dec7b135aee8521586f1a604fdb4b11d8752af471a87f294a03029.json",
+        "sha256": "b1c9e2f20e947f8f26f0720f88ab9a975960100c604b401bce42a3c02429948b"
+      },
+      "decision": {
+        "path": "knowledge/curation/reviews/d5b2ae791cf077cb189ee6a79184ceec915564f8aac8bafbc3268851f00b46bb.json",
+        "sha256": "02fb47bef7db05e11344df37f20c91a6047cb67619bb613c796405a5d902cb16",
+        "closed": true
+      }
+    }
+  ],
+  "private_review_boundary": "Private originals, per-locale cases, use outcomes and review decisions stay local; this map does not publish their raw contents.",
+  "preserved": "Original candidate bytes, exact source/locale/stage scopes, historical failures/holds and unknown fees. Source observations are not approved reusable media. No external writes, model calls or new financial authority.",
+  "conflicts_resolved": [
+    "Route method linked an obsolete selection policy.",
+    "History navigation called obsolete budget the current budget.",
+    "Operational retention placeholders could occupy production advisories.",
+    "Repeated identical use observations inflated new receipt summaries.",
+    "Early model/cost experiments are historical, not current model/budget policy."
+  ],
+  "not_adopted": [
+    "Universal circular mask for stationary posters",
+    "General cost-saving retimed video model recipe",
+    "Default source HSV/coordinates/face/font/color parameters",
+    "Generalized model ranking/pricing from one clip",
+    "Any new full-video quality, native-language, lossless-music or lip-sync acceptance"
+  ],
+  "archives": {
+    "public_originals_archived": 107,
+    "total_public_archived": 141,
+    "source_bytes_retained": true,
+    "closure_does_not_release_media_or_billing": true
+  },
+  "evidence_compaction": {
+    "exact_duplicate_files_consolidated": 105,
+    "logical_bytes_removed": 14019454,
+    "old_manifests_unchanged": true,
+    "only_identical_sha256_and_length": true
+  },
+  "valid_historical_reference": {
+    "id": "family-time-zh-local-repair-user-approved-20261019",
+    "former_id": "family-time-zh-user-approved-reference-20261019",
+    "disposition": "Retain explicit supersession explanation; not a live old-policy instruction."
+  }
+}

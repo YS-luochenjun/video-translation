@@ -52,7 +52,7 @@ def record(run, spec, root=None):
     value = {"schema_version": 1, "id": identity, "status": "candidate", "scope": scope,
              "plan_id": plan["id"], "video_sha256": candidate["sha256"], "uses": uses,
              "outcome": "counterexample" if negative else "observation",
-             "hypothesis": " | ".join(u["observation"] for u in uses),
+             "hypothesis": " | ".join(dict.fromkeys(u["observation"] for u in uses)),
              "reviewed_by": spec["reviewed_by"], "review_type": spec["review_type"],
              "case": (folder / "bundle").relative_to(root).as_posix(),
              "case_manifest_sha256": file_hash(folder / "bundle/manifest.json"),
@@ -60,7 +60,13 @@ def record(run, spec, root=None):
              "next_action": "Review counterexample and revise/supersede the affected method" if negative else "Review whether the method needs clarification or no change"}
     target = folder / "feedback.json"
     if target.exists():
-        require(read_json(target) == value, "Immutable knowledge feedback changed")
+        previous = read_json(target)
+        # Old receipts repeat identical observations for every selected rule.
+        # Preserve their exact text on retry; accept only the known old format.
+        legacy = " | ".join(u["observation"] for u in uses)
+        if previous.get('hypothesis') == legacy:
+            value['hypothesis'] = legacy
+        require(previous == value, "Immutable knowledge feedback changed")
     else:
         write_json(target, value)
     pointer = {"path": target.relative_to(root).as_posix(), "sha256": file_hash(target)}

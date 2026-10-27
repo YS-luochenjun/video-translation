@@ -1,0 +1,29 @@
+{
+  "id": "three-model-erasure-20261026",
+  "status": "candidate",
+  "created_at": "2026-10-27T03:41:27+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f"
+  },
+  "outcome": "wan27_selected_for_this_source",
+  "hypothesis": "On one 5s animated garment-text source, Wan 2.7 erased CHEER while preserving required forehead ratings; Seedance Mini erased CHEER and both protected ratings, and Flash rebuilt a different landscape scene with CHEER remaining. Actual credits 80/50/20. Keep Wan 2.7 default; Mini remains explicitly scoped test-only. Do not generalize to every source or treat clean text removal as subject fidelity.",
+  "evidence": {
+    "case": "knowledge/examples/three-model-erasure-20261026",
+    "manifest_sha256": "692259df1c1f18c1fd32b7edb4761f268453577adc5bddc04296135e0f174594",
+    "observed_video_sha256s": {
+      "wan/2-7-videoedit": "82c08c1940b8441b50eeca9a6c6627bff03032d10a480f4339d49b125756417f",
+      "bytedance/seedance-2-mini": "87e5160b4c74bf8671e0e0527b79587eace4328fc0b06d2a67f2b0c5dbb8cabb",
+      "wan/2-6-flash-video-to-video": "375da066b51558dc11f5cd7cb66d46c14a162c87fe73a8828fb4b1cda4f7affd"
+    }
+  },
+  "limitations": [
+    "One animated source and one initial task per model; not evidence for universal model ranking.",
+    "Same agent prepared and reviewed, and native aspect/fps can reveal model identity. Operational anonymization is not an independent blind study.",
+    "Review uses complete garment-frame contact sequences and 13 native full-frame samples, not a claim of continuous real-time audiovisual playback or full-frame every-pixel inspection.",
+    "Only erasure/visual fidelity compared; translated text, dubbing and full-video localization acceptance are outside scope."
+  ],
+  "company_preference": false,
+  "promotion": "Single-source experiment only; no global quality-policy or company-preference change. Production default retained.",
+  "knowledge_class": "project_training_candidate"
+}

@@ -1,0 +1,39 @@
+{
+  "kind": "synthetic_developer_verification",
+  "tests": {
+    "container-tests.log": "test_left_alignment_transparency_and_avatar_guard (test_container_text.ContainerTextTests.test_left_alignment_transparency_and_avatar_guard) ... ok\ntest_patch_protection_uses_patch_local_intersection (test_container_text.ContainerTextTests.test_patch_protection_uses_patch_local_intersection) ... ok\ntest_unreadable_copy_is_rejected_instead_of_silently_shrunk (test_container_text.ContainerTextTests.test_unreadable_copy_is_rejected_instead_of_silently_shrunk) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.014s\n\nOK\n",
+    "repair-tests.log": "test_mask_is_opaque_inside_and_protected_after_feathering (test_local_repair.LocalRepairTests.test_mask_is_opaque_inside_and_protected_after_feathering) ... ok\ntest_real_ffmpeg_preserves_protection_native_window_and_full_opacity (test_local_repair.LocalRepairTests.test_real_ffmpeg_preserves_protection_native_window_and_full_opacity) ... ok\ntest_rejects_gaps_overlap_and_short_or_retimed_clips (test_local_repair.LocalRepairTests.test_rejects_gaps_overlap_and_short_or_retimed_clips) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.033s\n\nOK\n"
+  },
+  "demo": {
+    "run": "container-motion-learning-20261027",
+    "fixture": "synthetic_not_real_ad",
+    "plan": "d85e9caa597baeae",
+    "routes": [
+      "local_overlay"
+    ],
+    "knowledge": [
+      "agent-method-selection-v2",
+      "codex-visual-model-policy-20261022",
+      "content-led-localization-v1",
+      "neutral-visual-and-animation-gate-v4",
+      "user-caption-audio-sync-20261019",
+      "user-no-solid-text-panels-20261022",
+      "user-language-budget-60-20261026",
+      "method-source-neutral-preparation-v5",
+      "route-selection-v3",
+      "text-instance-timing-v1",
+      "content-aware-text-restoration-v2",
+      "semantic-emphasis-localization-v1"
+    ],
+    "candidate": "runs/container-motion-learning-20261027/outputs/candidate-d85e9caa597baeae.mp4",
+    "sha256": "dbf67e213ec2ed21bc50d6987a408b35740d8cf7232afaee1813957906e7dbb8",
+    "state": "needs_review"
+  },
+  "code_sha256": {
+    "src/video_localizer/container_text.py": "24b98c61ea6e48bace6aa2ce2cdde0fa282c5ba2f1c9d4edcbd7de28dd45fc42",
+    "src/video_localizer/local_repair.py": "70a7cc2fd01e1239920a4ff475f8ba99ae1ead7dbc88de22ce2c36531e62ca6d",
+    "tests/test_container_text.py": "9ac6ca1e7e6f55a2a9433337946b5595dfb0c743b15fd7ab780f791aa9fe91c8",
+    "tests/test_local_repair.py": "9ec3740ac6aa5228097aaaeb6c1eba006b759948bddaaa4eae3dc01045121c42"
+  },
+  "proof_boundary": "Six targeted tests pass including actual FFmpeg pixels/timeline; synthetic tests establish code behavior only, not quality of future model results. Existing real-source observations are in review.json."
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "semantic-emphasis-localization-v1",
+  "created_at": "2026-10-26T13:03:19+00:00",
+  "files": [
+    {
+      "path": "evidence/semantic-emphasis-evidence.json",
+      "sha256": "55c60665424380e2fbb24a592ce84666f1e174ef3977c04d68c0677c0387476d",
+      "bytes": 1983
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 译文应保留广告的语义强调\n\n适用于画面文案带局部标色、字号层级、粗体、描边、下划线或强调动画的本地化。与文字时序、表面跟踪和前景遮挡方法配合使用。文字译全且可读，不等于广告视觉重点已保留。\n\n1. 按实例记录原文的重点短语及强调方式，建立“原文含义 → 目标语言对应片段”的映射。词序、代词、附着词变化时重新定位；不能按字符位置或固定第几词着色。整句红色与局部红色分别记录。\n2. 原片没有红色重点时，不凭猜测增加标红；仍保留标题、正文、按钮的字号、粗细与对比层级。示例的字体和坐标不成为默认参数。\n3. 对译文最长、字形复杂或方向不同的语言，先测量实际字形和换行。旋转、缩放及描边需要透明画布留白；先调整边界、锚点和布局，再判断方案是否不可用。阿语连字正确不代表整行词序正确，须看实际编码帧中的阅读顺序。\n4. 目标字层随所属表面运动；手指和箭头独立处理层级。局部强调的恢复不能损坏前景遮挡、按钮入场或原有动作。\n5. 先制作一个完整代表语种，比较原片、旧版、新版的重点与连续运动，再扩展；每种语言分别检查。代表版不代替其他语种验收。\n6. 有现成版本不是停止修改的依据。已识别的强调丢失应作为缺陷登记；修订只改需要改变的视觉部分，能复用的已核验音轨继续保留。旧失败结论和当前用户认可分别记录。\n\n失败签名：只保留数字标红却丢失代词重点；把整句变单色；CTA颜色过暗或字号层级减弱；旋转字层截顶；译文跟随屏幕而不是物体；手指被译文压住。按具体实例选变量修订，遵守原试验和预算边界。\n\n证据与范围见 evidence:observations。多语种衍生不算独立源；本次用户认可支持改善方向，不等于正常速度整片、母语听审或所有像素通过。底面修复另按实际内容选择：imagegen 单帧成功不能证明连续传播成功；可见模糊的面积也不能替代画面质量判断。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/semantic-emphasis-evidence.json"
+    }
+  }
+}

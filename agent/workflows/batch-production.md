@@ -4,11 +4,11 @@
 
 ## 新任务
 
-主控按 `agent/templates/budget-request.json` 填真实用户请求、原视频及宿主消息ID，执行 `bin/va.ps1 budget-open SPEC`，取得请求总账本ID。然后用 `bin/va.ps1 batch-create demo C:/media/source.mp4 --targets ja es pt` 编排语言。第一语言是代表语言，优先选择文字长度/字体与音频风险有代表性的语言。各语言独立run，但一次请求的所有批次/run/短片/模型/返工共用原视频实际时长×3 credits 的总限额（向下保留三位小数）；不能把额度乘以语言、模型或任务数。
+主控按 `agent/templates/budget-request.json` 填真实用户请求、原视频、targets全部目标语言及宿主消息ID，执行 `bin/va.ps1 budget-open SPEC`，取得请求总账本ID。然后用 `bin/va.ps1 batch-create demo C:/media/source.mp4 --targets ja es pt` 编排语言。第一语言是代表语言，优先选择文字长度/字体与音频风险有代表性的语言。各语言独立run，但一次请求的所有批次/run/短片/模型/返工共用60 credits×去重目标语言数的总池；3语言180、10语言600。共用底片费用只计一次，允许池内灵活调配，不对每种语言另设60硬分区；别名重复、模型、run或任务数不增额。
 
 单语言也可用此入口。旧的init及查询、下载、评审继续可用，但没有请求账本的run不能新增付费调用。同源新run自动加入现有预算；首次登记会收纳同源旧run的费用，不能换run跳过旧账。派生短片字节不同，先 `budget-bind CHILD --parent-run PARENT` 继承总预算。删除run不会返还总账本中的费用或未知占位。
 
-只有用户后续真实提出新复用需求，主控才登记另一请求：`mode: reuse`、`reuse_of: 先前账本ID`、`reuse_confirmation: new_user_request`，使用新的真实宿主消息ID。旧账需全部对账，关闭后新请求按原视频实际时长×3 credits 登记，再 `batch-create ... --reused`。同一请求的失败、返工、拆片或新增worker不是新的复用额度。已结算的历史供应商回执复用不重计费用；新调用照常计入新请求总额。历史账本不自动改价；带用户来源的 budget-amend 保留费用及未知占位。任务名额按原时长/角色数有限规划，两轮返工与整请求预算同时约束。归档恢复的旧batch指针仅作来源，新部署须由自己的拥有者授权并登记请求。
+只有用户后续真实提出新复用需求，主控才登记另一请求：`mode: reuse`、`reuse_of: 先前账本ID`、`reuse_confirmation: new_user_request`，使用新的真实宿主消息ID。旧账需全部对账，关闭后新请求按实际去重目标语言数×60 credits 登记（首次/新复用同价），再 `batch-create ... --reused`。同一请求的失败、返工、拆片或新增worker不是新的复用额度。已结算的历史供应商回执复用不重计费用；新调用照常计入新请求总额。历史账本不自动改价；带用户来源的 budget-amend 保留费用及未知占位。任务名额按原时长/角色数有限规划，两轮返工与整请求预算同时约束。归档恢复的旧batch指针仅作来源，新部署须由自己的拥有者授权并登记请求。
 
 1. 先对代表run执行analyze/context，建立真实inventory，使用已有source-save/source-find缓存原片观察。缓存不复制目标译文或验收。
 2. 按原流程准备无字底片、音轨和字层。底片必须过原有prepared-video门禁。同源资产用交付库恢复/绑定，或 `reuse-neutral TARGET --from-run SOURCE --source-shot ID --target-shot ID` 复用同一源时间段的已审无字底片。它复制独立证据并校验哈希、质量异议与原评审；不重新编码，不复制目标语言译稿/音轨/成片审核。绑定后重建目标plan。
@@ -31,7 +31,7 @@ production编码检查点绑定计划、inputs/analysis字节、模型结果、�
 
 `budget-status ID` 显示整次请求占位/计费、剩余额度和待对账数；`batch-status demo` 使用同一总账本并补充批次进度与耗时。视频submit、model-task、audio-analyze在外发前原子预留；KieClient写请求必须持有执行器预留许可，单份许可只能建一次模型任务。并发锁冲突时停止；中断在预留后未写job也继续占位，需要对账，不自动重发。确认终态计费后结算；收到费用但JSON解析失败也保存实扣。
 
-总账本在state/budgets，批次进度在state/batches。请求上限固定60/40；修改run/batch预算或新建run不会增额。不要手动删除或调低账本。当前支持的全部付费KIE入口统一记账，其他供应商如后续接入也必须先走同一预留/结算合同。当前本地OCR/FFmpeg不产生供应商credits；Codex宿主套餐消耗没有KIE credits计价接口，不伪造换算。
+总账本在state/budgets，批次进度在state/batches。新请求上限按每个目标语言60 credits汇总（由config/budget-policy.json唯一配置），历史60/40与按时长账本保留原限额；修改run/batch预算或新建run不会增额。不要手动删除或调低账本。当前支持的全部付费KIE入口统一记账，其他供应商如后续接入也必须先走同一预留/结算合同。当前本地OCR/FFmpeg不产生供应商credits；Codex宿主套餐消耗没有KIE credits计价接口，不伪造换算。
 
 执行器能阻止“已实扣或占位 + 下一笔估价”超过总额，但本地估价不能约束供应商最终计费；要保证远端账单绝不超额，需要供应商的确定价格/硬限额。实际费用超估算会阻止后续调用，未知计费继续占位。旧的单笔视频40上限已移除，Seedance禁用、每run笔数与返工次数保留。
 
@@ -56,3 +56,5 @@ production编码检查点绑定计划、inputs/analysis字节、模型结果、�
 `codex-packet RUN --stage recognize` 提供实际图片和项目知识，由 Codex 看图完成实例识别，再用 `codex-result` 登记真实观察。`bin/ocr.py RUN` 是同一工作包的兼容入口。登记成功不代表实例覆盖、翻译或质量已通过，缺失观察继续 pending。
 
 源解析库可复用已核验的源帧和历史 OCR 观察；复用仍需核对当前源哈希及覆盖范围。新识别不调用 RapidOCR 或 GLM，具体合同见 [文字识别](ocr.md) 和 [模型分工](../contracts/model-routing.md)。
+
+新增语言时，主控将真实用户授权、完整targets和修订后总额度填入 `agent/templates/budget-amendment.json`，执行 `budget-amend ID SPEC`；旧费用和未知占位保留。同一授权重复提交幂等；不通过再次budget-open重置账本。历史账本只修额度时省略targets，不能自动迁移或降低已占用金额。

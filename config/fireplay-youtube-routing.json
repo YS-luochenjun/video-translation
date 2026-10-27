@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "require_requirement_group": false,
+  "allow_unverified_default_account": true,
+  "authority": "user",
+  "authorization_ref": "user-fireplay-standard-submission-platform-managed-20261027",
+  "source_quote": "不要太在意上传问题，一般选择公开到对应的组就行。一般来说，按照：入到素材库，共享到需求组开启YouTube 视频自动上传，并打上语言tag和产品tag，最后再绑定到当前需求。素材名称用需求编号+语言，就是没问题的。",
+  "finding": "shared_dept_id controls material sharing, not the YouTube upload account. Current ordinary MCP import exposes no explicit account/group selector.",
+  "allowed_explicit_route": "host_web_account_selection",
+  "selection_max_age_seconds": 600,
+  "history": [
+    {
+      "schema_version": 1,
+      "require_requirement_group": true,
+      "allow_unverified_default_account": false,
+      "authority": "user",
+      "authorization_ref": "user-fireplay-prevent-wrong-group-20261027",
+      "source_quote": "APC组的翻译视频，被传到了MOG组下。请你判断这是什么原因。应该是APC-20261026-040这个需求，也有对应对话。请你判断是哪一步出错了，且以后不要再出错，且是否能够把这个内容修改正确。",
+      "finding": "shared_dept_id controls material sharing, not the YouTube upload account. Current ordinary MCP import exposes no explicit account/group selector.",
+      "allowed_explicit_route": "host_web_account_selection",
+      "selection_max_age_seconds": 600
+    }
+  ],
+  "mode": "platform_managed",
+  "require_task_department_match": false,
+  "rule": "Verify library import, sharing to the requirement group, name/tags and binding; let Fireplay route YouTube. Account/task-group display is not a submission blocker. Preserve historical observations and unknown writes; never reimport a known material merely because of routing display or missing YouTube link."
+}

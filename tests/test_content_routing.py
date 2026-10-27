@@ -89,9 +89,24 @@ class ContentRoutingTests(unittest.TestCase):
         ctx=knowledge.context_for({'target_language':'ja'},self.inv,ROOT)
         entries=knowledge.retrieve(ctx,limit=0,root=ROOT)
         ids={e['id'] for e in entries}
-        self.assertTrue({'text-instance-timing-v1','method-spoken-caption-verification-v4',
-                         'short-drama-audio-scenes-v2','method-animated-text-occlusion-v5',
-                         'moving-watermark-removal-v1','route-selection-v3'}.issubset(ids))
+        # Follow the independent index lineage instead of pinning today's version.
+        # A successor must remain required and retrieved even with no optional slots;
+        # missing methods, broken/cyclic lineages and stale retrieval still fail.
+        index={e['id']:e for e in read_json(ROOT/'knowledge/index.json')['entries']}
+        expected=set()
+        for original in ('text-instance-timing-v1','method-spoken-caption-verification-v4',
+                         'short-drama-audio-scenes-v2','method-animated-text-occlusion-v6',
+                         'moving-watermark-removal-v1','route-selection-v3'):
+            current=original
+            visited=set()
+            while index[current].get('superseded_by'):
+                self.assertNotIn(current,visited,'Cyclic knowledge replacement')
+                visited.add(current)
+                current=index[current]['superseded_by']
+            self.assertEqual(index[current]['status'],'active')
+            expected.add(current)
+            self.assertTrue(visited.isdisjoint(ids),'Superseded knowledge was retrieved')
+        self.assertTrue(expected.issubset(ids),f'Missing required methods: {expected-ids}')
         self.assertTrue(any(i.startswith('method-source-neutral-preparation-') for i in ids))
         self.assertTrue(all(e.get('knowledge_type')=='project_policy' or e.get('retrieval_role')=='required' for e in entries))
         self.inv['content_features']=[]

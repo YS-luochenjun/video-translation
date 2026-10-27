@@ -1,0 +1,38 @@
+{
+  "id": "MOG-20261027-051-1-03-ba4638003b",
+  "status": "candidate",
+  "created_at": "2026-10-27T08:12:01+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ja",
+    "source_sha256": "90247581cd036bcf12e2241bd19ba6eee85fa11ba95df40e59dd05e55e133048"
+  },
+  "outcome": "revise",
+  "hypothesis": "KIE 524 final-mix review failure is a supplier/unknown-billing limit, not proof that the real Japanese TTS failed; preserve the actual take/transcription and mark mix acceptance pending without repeating the unknown call.",
+  "evidence": {
+    "run": "MOG-20261027-051-1-03",
+    "video_sha256": "ba4638003b511d65e2f19a85a03cf45cb5ba526f66e28cb001f6c69d4bfab7c4",
+    "quality_sha256": "7765df7221d6252de37564280e30cba6f0a4ef1a27ce219b0e88171209d3772e"
+  },
+  "limitations": [
+    "Caption placement uses observed generated-take phrase boundaries, trim/offset and actual native encoded frames. Complete final per-boundary AV signoff remains pending; no quality pass.",
+    "Simplified static typography/different outlines and reconstructed defocused backdrop differ from original; no independent native-language/human playback acceptance.",
+    "Final-mix Gemini Flash review failed with KIE HTTP 524 upstream connection error; original failed response and unknown cost reservation retained, no duplicate request. Isolated real Japanese take was transcribed by Whisper small; final-mix music/FX acceptance remains unverified."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "observed_candidate",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "speech_complete_unreviewed",
+      "head_tail_audio_unreviewed",
+      "music_effects_unreviewed",
+      "caption_sync_unreviewed"
+    ],
+    "reviewer": "Codex same-agent",
+    "known_defect_count": null
+  },
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

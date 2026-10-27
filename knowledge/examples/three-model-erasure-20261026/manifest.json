@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "three-model-erasure-20261026",
+  "created_at": "2026-10-27T03:41:27+00:00",
+  "files": [
+    {
+      "path": "evidence/A-05.jpg",
+      "sha256": "f45a40ac9aa97dad55b859d3810a21caa4769eb53551abb77050826576353163",
+      "bytes": 294184
+    },
+    {
+      "path": "evidence/A-all-frames-01.jpg",
+      "sha256": "4cfdfa3b2778bfc7c03e36f668734e40aa0d09a06438a32ccf7dcea499d40cde",
+      "bytes": 371753
+    },
+    {
+      "path": "evidence/A-all-frames-02.jpg",
+      "sha256": "babe40d8ddde794bf3229457bf26b53c7133d94494ee2a3f7c235e637d026f05",
+      "bytes": 367172
+    },
+    {
+      "path": "evidence/A-all-frames-03.jpg",
+      "sha256": "517f162eb346ecfe85271ed7b4b70355cea84f098e3f5427eb8fbbee087990ae",
+      "bytes": 355234
+    },
+    {
+      "path": "evidence/A-overview.jpg",
+      "sha256": "17d77189e23c171c58ac5f0a742e153dc946c7c2de0e561cc117b08b83ee62e3",
+      "bytes": 411075
+    },
+    {
+      "path": "evidence/B-05.jpg",
+      "sha256": "839b60c384a24a613c62093102b7bd3ffa70f096ddce6dcb3f083cccb571439f",
+      "bytes": 243422
+    },
+    {
+      "path": "evidence/B-all-frames-01.jpg",
+      "sha256": "3df5f6acd8f38d9dd37d3aa18cdfb0c030a94bf51c88f97970e7d5e780a64d35",
+      "bytes": 358658
+    },
+    {
+      "path": "evidence/B-all-frames-02.jpg",
+      "sha256": "9c046044594335d638db82505b30e50750c8f71c863c7ad54b26402e28851c6b",
+      "bytes": 350999
+    },
+    {
+      "path": "evidence/B-all-frames-03.jpg",
+      "sha256": "ee1090d2af83e7a9327d85089e2c19706ca30e7faa74824f2aa12bc56d52a27b",
+      "bytes": 145387
+    },
+    {
+      "path": "evidence/B-overview.jpg",
+      "sha256": "95b8d9187c0d05a7425212c0e40e96259876c9c19256b34c4425767475f08c7f",
+      "bytes": 406595
+    },
+    {
+      "path": "evidence/C-05.jpg",
+      "sha256": "ce8ad7b51b4cd2a533671849f889c274eac611b41077b5d24109e56dbda14011",
+      "bytes": 154022
+    },
+    {
+      "path": "evidence/C-overview.jpg",
+      "sha256": "61ffb0a7a8bde39a75b5961fe98bd7eb967c48a143b07313bbd4592402fa5c7a",
+      "bytes": 139271
+    },
+    {
+      "path": "evidence/Source-overview.jpg",
+      "sha256": "a00f26fe50c446e20e3735d439a83f1efe3130ce00e66777f17dd2c91a7a06f0",
+      "bytes": 431748
+    },
+    {
+      "path": "evidence/comparison-learning.json",
+      "sha256": "a858b60f6a1315a586480030547b8b8e23ac3d1b7bcfc8be82b8e5c0be7efedc",
+      "bytes": 3421
+    },
+    {
+      "path": "evidence/comparison-poster.jpg",
+      "sha256": "110d497f648030f261e75e3eecd91eb3c7b44c0a1e4e08539e59b5f41ed2af15",
+      "bytes": 500242
+    },
+    {
+      "path": "evidence/comparison-source-2.jpg",
+      "sha256": "7a8b1b5270fc03278ea558163af2907bd2a77da190831c36c18d768baedba9bf",
+      "bytes": 157362
+    },
+    {
+      "path": "evidence/review.json",
+      "sha256": "a1a1f501db277e2cff5c6402b78c6dec0bbdab660f76d5a78f42c6dc6d994624",
+      "bytes": 4671
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f"
+    },
+    "status": "candidate",
+    "lesson": "On one 5s animated garment-text source, Wan 2.7 erased CHEER while preserving required forehead ratings; Seedance Mini erased CHEER and both protected ratings, and Flash rebuilt a different landscape scene with CHEER remaining. Actual credits 80/50/20. Keep Wan 2.7 default; Mini remains explicitly scoped test-only. Do not generalize to every source or treat clean text removal as subject fidelity.",
+    "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

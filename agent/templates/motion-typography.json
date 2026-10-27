@@ -1,0 +1,14 @@
+{
+  "note": "Copy display into a real inventory instance, replace copy, hash, box and times using actual evidence. No new text is inferred from this example.",
+  "display": {
+    "font_size": 48,
+    "min_font_size": 24,
+    "font_asset": {"path": "inputs/fonts/verified-face.ttf", "sha256": "ACTUAL_FONT_SHA256"},
+    "color": "#FFFFFF",
+    "outline": 2,
+    "outline_color": "#111111",
+    "direction": "ltr",
+    "align": "center",
+    "motion": {"kind": "emphasis", "effect": "fade_scale", "emphasize": "exact unique target phrase", "emphasis_at": 2.2}
+  }
+}

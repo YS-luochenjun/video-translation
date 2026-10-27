@@ -1,0 +1,48 @@
+{
+  "source": {
+    "path": "knowledge/candidates/complex-av-en-zh-001-466519b59f.json",
+    "sha256": "872efaefb659536368988161a482dded8578b15b0a5bcb7c4ee52e002940c264"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent candidate/evidence review, not a new independent media review",
+  "origin": "Current explicit user continuation request; remaining-candidate consolidation and conflict audit 2026-10-27.",
+  "resolution": "duplicate",
+  "reason": "Historical source/locale facts have been accounted for; no new algorithm, wider scope, output approval or spending authority is inferred.",
+  "targets": [
+    {
+      "id": "route-selection-v4",
+      "path": "knowledge/rules/route-selection-v4.md",
+      "sha256": "e16a65745e8800a4d9e89d567b587f7303c3e62bc172dafab9a9fb42058370c1",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 按实际内容组合修复路线\n\n适用有必译文字的广告。先按 agent-method-selection-v2 解决规则优先级，再按 content-aware 政策选择主方法；并非命中一个标签就固定整片路线。\n\n1. 静态界面/自然容器：首选经核验的同源底面或 Codex 重建加透明译字；供体光照、姿态、时刻不匹配时换供体或宿主编辑，不用静态补丁冻结动态区域。\n2. 艺术字/表面文字/动画/遮挡：组合 source-neutral 与 animated-text 方法，记录字形测量、运动、层级和保护区；持续动态修复确有必要时用已授权 Wan 2.7 短段，核验实际帧映射后局部采用。宿主图片处理只证明图片结果。\n3. 移动水印：独立实例和轨迹，组合 watermark 检查，不因译字遮住水印而视为已去除。\n4. 先保留可核验画面与声音，复用精确源哈希资产；每个新语种重新建立定稿、字层、配音和时轴。配音走专用音频模型，字幕与最终声音对齐。\n\n首选失败时先定位底面、运动、文字层、音频中的具体失败项；只切换受影响实例，写明一个主要变量和预期验证。当前模型/输入不支持的方案先查能力合同，不能激活已停用模型。局部可见模糊只按 content-aware 的复杂度和主体风险条件使用。\n\n停止条件：满足当前模式；无明确改善依据；达到试验/费用/能力边界。后两种按最终输出合同保留缺陷和音频需求状态，不无限追加算法。主路线与辅助检查、实际使用与仅参考分别记录。\n\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\n\n历史候选中的旧模型、临时坐标及按时长额度只作失败/试验来源。审查候选时沿索引替代链看当前方法，当前请求和模型合同不因旧记录曾经成功而回退。evidence:conflict_review 记录本次失效引用修正；本版没有新增媒体效果结论。\n"
+    },
+    {
+      "id": "method-spoken-caption-verification-v4",
+      "path": "knowledge/rules/method-spoken-caption-verification-v4.md",
+      "sha256": "e20eb1874113966042995c02caa3f77e15dcebe9b288ad1d1552d4a0f2890f8e",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 口播与字幕：实际混音、分歧及停止\r\n\r\n适用有人声任务。先区分对白、独白、旁白、口播字幕、独立标题/UI及配乐演唱；实际职责与用户要求决定替换范围。单人口播首选共同定稿生成真实目标语音频，字幕在裁切/变速/偏移/混音后按实际发声对齐。多角色叠加角色声线与场景方法，不默认全员同音色。\r\n\r\n首选证据是实际编码成片声音及对应字幕边界帧。检查逐句内容、完整发音、首尾、语种、音乐音效及同步。请求文字、计划时间、孤立 TTS 与成功响应不能替代最终混音。换音、改稿、变速或画面时轴改变后重新绑定相关审核。\r\n\r\nASR 空白/同音/文字系统混淆或与 Gemini 分歧：定位实际词句，保留原始结果，补真实上下文、独立分句或可用听审；必要时做一次针对疑点的音频理解。仍有分歧留 pending；只有实际错读、漏读或不可理解才补录。禁止用预期译稿替换 ASR。低能量不必然静音，短句级证据可靠时不伪造词级精度。\r\n\r\n字幕时标异常先查句前静音与混音偏移，再按实际短语定位，检查编码边界；不得为追字幕改变背景音乐速度。具体工程阈值查 quality 配置，语义和自然度仍需实际审查。\r\n\r\n停止：对应内容/同步完整且有证据；或无新补证方向/达到尝试费用能力边界。后者标明未审、已确认错误及音频可用状态，按最终输出合同处理。用户要求必须配音时字幕不代替音频。声学模型、自审、母语听审及用户验收分别记录，不保证无损分轨或逐字嘴型。\r\n\r\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\r\n"
+    }
+  ],
+  "adopted_parts": [
+    "Model/API and signal success are separate from translated speech, retained effects and visually correct moving text."
+  ],
+  "retained_parts": [
+    "Original source and exact locale/stage/profile scope; actual video/plan/quality hashes; full original prose, per-method outcomes, case pointers, failure and limitation records.",
+    "All source-specific coordinates, thresholds, font choices, geometry, model/retiming parameters and prices remain historical examples. No cross-source or cross-language effectiveness claim is adopted.",
+    "Old pass/revise, later quality objections, live asset holds and unknown charges remain unchanged. Closure resolves knowledge bookkeeping, not media quality, external acceptance or the ledger."
+  ],
+  "all_material_accounted": true,
+  "next_action": "historical_record_only",
+  "remaining_disposition": "historical_only",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-27T07:54:43+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "timezone": "America/Los_Angeles",
+  "collector_seconds": 15,
+  "auto_eta": true,
+  "eta_rule_version": "bootstrap-v1",
+  "shared_source_minutes": [8, 25],
+  "per_locale_minutes": [4, 12],
+  "review_only_minutes": [2, 5],
+  "queue_allowance_minutes": [0, 60],
+  "assumptions": "初始规则估算，尚未用历史样本校准。按语言任务串行余量估计；排队留出 0–60 分钟，真实 Agent 调度顺序未知。复杂运动、多人配音和有界返工可能使预测失效。"
+}

@@ -1,0 +1,250 @@
+{
+  "name": "SHE-20261027-025-1",
+  "source_sha256": "89bc94ac042d9aecce720f62ded6627ce1f48945d4c8f0ddc8e8a0f4c7754fe9",
+  "thread": {
+    "thread_id": "01a17b43-fabd-71d2-b1ac-a454ba6d7df1",
+    "host": "local",
+    "read_state": "read"
+  },
+  "report": {
+    "origin_label": "outputs/reports/SHE-20261027-025-1/delivery.json",
+    "sha256": "6f42bff139c4e63712787967fce233a85456175481d03e4b725bea25cf3445b4"
+  },
+  "findings": [
+    "16种语言分别配音和添加字幕；原角色嘴型未随目标语重做。",
+    "用户要求素材入库、共享需求组、语言及产品 tag、YouTube 自动上传并绑定需求；素材名称用需求编号+语言。"
+  ],
+  "limitations": [
+    "本次仅读取聊天和本地报告，不重新上传、改名或核验线上完成。",
+    "同一 Agent 视觉检查、ASR和部分模型复核，不是独立母语视听验收。"
+  ],
+  "outputs": [
+    {
+      "locale": "zh-TW",
+      "video_sha256": "39edc5d786b229e70e1a3aae22550d88d7bc2195f7216a804b9cee1c0512819f",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "es",
+      "video_sha256": "7419b01b5d0de02d404ce02832e6038447d023e5447fc4d0d9f938c9ee9d9f30",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "pt",
+      "video_sha256": "1b42a1b2e650c80be49417cc34dea4635f1b3ccc0149c1af33e252ada84b2e9f",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "de",
+      "video_sha256": "80e52c6eff28c8926fe3afc1596b6f4dc7a4053991d5f9c018adc403ae2d7690",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "fr",
+      "video_sha256": "8da6d80fea96f042bbaa358b29158adf08ded769333c834a21e9cd86f14ecda2",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "id",
+      "video_sha256": "5d1cad65ca9799eadb0c02823796d194d84aba21c745cc2fe858367ae6065ffa",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "th",
+      "video_sha256": "7e2504d9542b8062fbdc5692a9f7f37bcd5b61eadb4e0871d98b2350c74cac42",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "pl",
+      "video_sha256": "e50840bb6c5ce325d471abea4af91073d2141688d5c37311653332e760bdf578",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "tr",
+      "video_sha256": "16ea59cc71735208d923da12dd0daca08245c73cf95b28b102b911e0b8f4b3ef",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "hi",
+      "video_sha256": "0f69fad6b181d558f74068074434ec75cffa935bdbaee31211c7d15bf4892d97",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "ar",
+      "video_sha256": "18244cf3dbf6038494b460d929dd7825d4682eb08a9f74110deb928805fb5d4d",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "it",
+      "video_sha256": "fec9dca53c6d42d7704ab5223fd357c9f15976cd4572cd42c0ade88d5766f6ac",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "vi",
+      "video_sha256": "42a953396944715586d8b4394bce806d41325435659d2fbdbc4264c06ceadfcd",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "ja",
+      "video_sha256": "a587e648dbc284d47227e618c6b7e2b53eecbf81ef2207fe5e0e6e0cdfc822da",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "nl",
+      "video_sha256": "f052c7cc5073a5d3f72b4e38a0ab6e1bbfc5c5b8656211d2746eefcd73fba3b2",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    },
+    {
+      "locale": "ru",
+      "video_sha256": "a8a62d81b59ec7bb36c8ea70346d02f4902825702f4719e2f6e245d0ba8cb6b8",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": [
+        "Original mouth animation retained; no language-specific viseme retiming.",
+        "Local CTA/disclaimer background interpolation has minor softness.",
+        "Fine caption boundary synchrony has waveform-derived sentence timing; no independent audiovisual synchronization acceptance.",
+        "External final-mix comparison is incomplete (request timeout or stopped after repeated provider timeouts); local final-video ASR confirms target-language sentences. Retained effects and voice distinction have no completed external final-mix review.",
+        "Same-agent visual review and external model audio review; not native-speaker or user/company acceptance."
+      ]
+    }
+  ],
+  "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+  "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+  "billing_snapshot": {
+    "limit": 54.195,
+    "confirmed": 22.13,
+    "reserved_or_billed": 26.13,
+    "unknown_reserved": 4.0
+  }
+}

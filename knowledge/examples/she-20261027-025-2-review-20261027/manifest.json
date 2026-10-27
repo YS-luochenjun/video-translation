@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "she-20261027-025-2-review-20261027",
+  "created_at": "2026-10-27T07:22:05+00:00",
+  "files": [
+    {
+      "path": "evidence/SHE-20261027-025-2-observations.json",
+      "sha256": "4148676f9797f4b7534ca349fbadc878e02357405ae203caa97b51481c62d283",
+      "bytes": 18094
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "eb6cf59fbc67569c4d4da8a991810e8d4564c3714fbe89357ae69c6128ae334e"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# SHE-20261027-025-2：同源观察与返工边界\n\n仅用于精确同源的画面/操作事实和审查限制；列出语种的声音、译文及质量事实只属于该语种和成片哈希，不扩张语言验收。\n\n- 用户截图显示英语伸出小模糊块；擦除包络须包含全字及边缘。截图对应精确帧/版本不确定，不虚构定位。\n- 先制作 Wan 2.7 台湾繁体样片；用户明确授权后扩展其余15语，原共享v2底片有质量异议，不作已批准底片复用。\n- 完整混音 ASR 只识别 CTA 时，检查实际局部对话和原配音，不能据此认定前段静音。\n\n限制：\n\n- 授权推广样片只覆盖已披露瑕疵，不等于16语质量通过或母语认可。\n- 报告顶层 revision_status 仍写等待样片确认，而 revision 已记16语完成；保留旧报告原文，查询具体版本和成片哈希。\n- 旧300 credits限额、278.5已确认及4未知预留沿用，不重按新语言预算计价。\n\n见 evidence:observations；历史路径仅来源标签。新语言稿、配音、动态文字和实际成片须重新审核，复用资产另查交付库。本次未作新的完整视听验收或平台写入。\n",
+    "source_sha256": "eb6cf59fbc67569c4d4da8a991810e8d4564c3714fbe89357ae69c6128ae334e",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/SHE-20261027-025-2-observations.json"
+    }
+  }
+}

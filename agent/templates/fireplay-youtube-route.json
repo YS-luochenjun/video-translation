@@ -1,0 +1,15 @@
+{
+  "method": "host_web_account_selection",
+  "selected_account_id": "REPLACE_WITH_ACTUALLY_SELECTED_ACCOUNT_UUID",
+  "account": {
+    "id": "REPLACE_WITH_SAME_ACTUAL_ACCOUNT_UUID",
+    "department_id": "REPLACE_WITH_LIVE_ACCOUNT_DEPARTMENT_ID",
+    "department_name": "REPLACE_WITH_LIVE_ACCOUNT_DEPARTMENT_NAME"
+  },
+  "selection_verified": false,
+  "observed_at": "REPLACE_WITH_ACTUAL_OBSERVATION_TIME_UTC",
+  "evidence": {
+    "path": "work/runs/REPLACE_WITH_TASK/account-selection.png",
+    "sha256": "REPLACE_WITH_ACTUAL_SCREENSHOT_SHA256"
+  }
+}

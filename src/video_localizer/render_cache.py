@@ -1,5 +1,4 @@
 """Verified local segment reuse across plan revisions; model-result audio is excluded."""
-import os
 from pathlib import Path
 
 from .common import CODE_ROOT, file_hash, inside, object_hash, read_json, require, write_json
@@ -10,36 +9,37 @@ def implementation_signature():
     # Hash the actual rendering/orchestration modules, not cleanup, reports or
     # evidence viewers. Update this list when rendering gains a new dependency.
     names = ('audio', 'captions', 'common', 'compositor', 'layout', 'media',
-             'prepared', 'production', 'render_cache', 'runtime', 'surface', 'workflow')
+             'prepared', 'production', 'render_cache', 'runtime', 'surface', 'workflow', 'typography', 'processes', 'font_environment', 'fonts')
     try:
         from PIL import __version__ as pillow_version
     except ImportError:
         pillow_version = None
-    return {'version': 1, 'pillow': pillow_version,
+    from .typography import code_identity
+    from .fonts import policy as font_policy
+    return {'version': 2, 'pillow': pillow_version, 'typography':code_identity(),
+            'font_policy': object_hash(font_policy(CODE_ROOT)),
             'modules': {name: file_hash(CODE_ROOT / 'src/video_localizer' / (name + '.py')) for name in names}}
 
 
-def signature(run, plan, segment, inventory, meta):
+def signature(run, plan, segment, inventory, meta, font_hash_cache=None):
     if segment['route'] not in ('local_overlay', 'reference_composite', 'prepared_video'):
         return None  # Preserve the existing paid-result and model-audio selection path.
     items = [item for item in inventory['text_instances'] if item['id'] in segment['instance_ids'] or
              (item['start'] < segment['end'] and item['end'] > segment['start']) or
              (item.get('source_interval', [item['start'], item['end']])[0] < segment['end'] and
               item.get('source_interval', [item['start'], item['end']])[1] > segment['start'])]
-    # Hash installed renderer fonts as well as project assets. Missing font environments
-    # cannot safely reuse this cache (libass may choose different fallback faces).
-    font_directory = Path(os.environ.get('WINDIR', 'C:/Windows')) / 'Fonts'
-    names = ('msyh.ttc', 'msyhbd.ttc', 'simsun.ttc', 'simkai.ttf', 'arial.ttf', 'arialbd.ttf',
-             'YuGothM.ttc', 'YuGothB.ttc', 'malgun.ttf', 'malgunbd.ttf')
-    fonts = [font_directory / name for name in names if (font_directory / name).is_file()]
+    from .typography import selected
+    if any(selected(item) for item in items):
+        return None  # Re-attempt optional runtime; a prior fallback is never silently cached.
+    from .font_environment import fingerprint
+    fonts = fingerprint(Path(run).parent.parent, font_hash_cache)
     if not fonts:
         return None
-    fonts += [p for p in (Path(run).parent.parent / 'assets/fonts').rglob('*') if p.is_file()]
     visual_segment = {k: v for k, v in segment.items() if k not in ('prompt', 'reason')}
-    return object_hash({'version': 1, 'source_sha256': plan['source_sha256'], 'segment': visual_segment,
-        'items': items, 'video': {key: meta.get(key) for key in ('width', 'height', 'fps', 'duration')},
+    return object_hash({'version': 2, 'source_sha256': plan['source_sha256'], 'segment': visual_segment,
+        'items': items, 'video': {key: meta.get(key) for key in ('width', 'height', 'fps', 'duration', 'target_language')},
         'profile': plan.get('profile_sha256'),
-        'fonts': {str(p): file_hash(p) for p in fonts},
+        'fonts': fonts,
         'code': implementation_signature(),
         'encoder': media.command(['ffmpeg', '-version']).stdout})
 

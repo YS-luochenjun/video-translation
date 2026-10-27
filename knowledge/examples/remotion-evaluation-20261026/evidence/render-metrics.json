@@ -1,0 +1,78 @@
+{
+  "versions": {
+    "remotion": "4.0.539",
+    "node": "v24.19.0"
+  },
+  "browserExecutable": "/Users/yanshan/Desktop/video-translation/video-translation/.runtime/deps/remotion-chrome-156/software-browser.sh",
+  "chromeMode": "headless-shell",
+  "concurrency": 2,
+  "scope": "Local development typography evaluation; no paid model calls; not a localization quality approval",
+  "bundleSeconds": 0.5068301669999999,
+  "browserSeconds": 0.5444295000000001,
+  "renders": [
+    {
+      "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/outputs/remotion/en.mov",
+      "props": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/inputs/en.json",
+      "seconds": 5.625338332999999,
+      "frames": 150,
+      "width": 720,
+      "height": 1280,
+      "stills": [
+        {
+          "frame": 60,
+          "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/review/en-60.png"
+        },
+        {
+          "frame": 60,
+          "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/review/en-60-repeat.png"
+        }
+      ]
+    },
+    {
+      "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/outputs/remotion/zh-CN.mov",
+      "props": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/inputs/zh-CN.json",
+      "seconds": 4.604246915999999,
+      "frames": 150,
+      "width": 720,
+      "height": 1280,
+      "stills": [
+        {
+          "frame": 60,
+          "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/review/zh-CN-60.png"
+        },
+        {
+          "frame": 60,
+          "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/review/zh-CN-60-repeat.png"
+        }
+      ]
+    },
+    {
+      "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/outputs/remotion/ar.mov",
+      "props": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/inputs/ar.json",
+      "seconds": 4.594725417000001,
+      "frames": 150,
+      "width": 720,
+      "height": 1280,
+      "stills": [
+        {
+          "frame": 60,
+          "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/review/ar-60.png"
+        },
+        {
+          "frame": 60,
+          "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/review/ar-60-repeat.png"
+        }
+      ]
+    },
+    {
+      "output": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/outputs/remotion/en-static.mov",
+      "props": "/Users/yanshan/Desktop/video-translation/video-translation/runs/remotion-evaluation-20261026/inputs/en-static.json",
+      "seconds": 4.099215667,
+      "frames": 150,
+      "width": 720,
+      "height": 1280,
+      "stills": []
+    }
+  ],
+  "totalSeconds": 20.798413708
+}

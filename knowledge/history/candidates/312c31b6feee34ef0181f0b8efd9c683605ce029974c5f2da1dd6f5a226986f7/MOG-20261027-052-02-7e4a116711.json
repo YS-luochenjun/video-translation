@@ -1,0 +1,42 @@
+{
+  "id": "MOG-20261027-052-02-7e4a116711",
+  "status": "candidate",
+  "created_at": "2026-10-27T08:17:13+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "pt",
+    "source_sha256": "0b590c48c9da106f63fa9a261d9b304f4151fba860615be37a1ff7e16ce50db4"
+  },
+  "outcome": "revise",
+  "hypothesis": "Fast movement makes a fixed ROI splice unsafe when the model changes object geometry/timing. The visible horizontal seam was caused by neutral compositing, not transparent glyph alpha. Holding old bytes prevents approved reuse; full-shot adoption removes that seam but still needs fidelity review. This exact source remains unapproved.",
+  "evidence": {
+    "run": "MOG-20261027-052-02",
+    "video_sha256": "7e4a116711acdc6b120122081adace1c06c8d79397759476127c8e67b8496305",
+    "quality_sha256": "5889173ab1f4e6107972456d4d7ee05746fece9778fb66496889b66198c82ca7"
+  },
+  "limitations": [
+    "The reported horizontal seam is removed in this new complete-shot composition; the prior ROI composition and its neutral are held and cannot serve as approved reuse.",
+    "Existing Wan output changes opening motion, initial hand/cake position, face and illustration detail/timing relative to source. Source fidelity is not approved. No further paid video trials were made.",
+    "The brief tutorial is less readable than the main headline. A tiny old CTA antialias fragment may remain at extreme entry-edge frames.",
+    "Same-agent image review plus actual ASR/external audio perception; no independent human or native-speaker acceptance.",
+    "Portuguese comparative audio request timed out after dispatch; response and fee remain unknown, no repeated model request. Actual isolated TTS ASR recognizes Faça o teste. and the whole phrase is mixed without clipping, but final mixed CTA crop ASR reads Posso o teste? under music. Final pronunciation/intelligibility and perceptual music/effects review remain unverified."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "observed_candidate",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "protected_graphics_unreviewed",
+      "native_motion_unreviewed",
+      "speech_complete_unreviewed",
+      "music_effects_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "recipe_unresolved:Opening model reconstruction alters motion/detail relative to source; source-fidelity not approved."
+    ],
+    "reviewer": "Codex same-agent",
+    "known_defect_count": null
+  },
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

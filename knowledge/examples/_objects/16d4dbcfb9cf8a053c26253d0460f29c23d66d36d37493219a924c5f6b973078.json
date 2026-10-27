@@ -1,0 +1,26 @@
+{
+  "reviewed_by": "Codex developer review",
+  "origin": "Current user continuation request",
+  "stale_reference": {
+    "method": "route-selection-v3",
+    "old_reference": "agent-method-selection-v1",
+    "current_reference": "agent-method-selection-v2"
+  },
+  "historical_capture_lessons": [
+    "AAC can outlast the picture: seek within video stream bounds and require an actual output file.",
+    "AV1 limited-range frame extraction required explicit full-range JPEG; compare actual source before judging restoration colors."
+  ],
+  "limits": [
+    "Execution/capture checks only, not proof of localization or listening quality.",
+    "Native font preview is Mac synthetic sample evidence, not every language/layout or Windows/Linux validation."
+  ],
+  "implementation_hashes": {
+    "src/video_localizer/cli.py": "12e54bd0933de16fb04a66767630ceae277b03159cf1070d3dba5e5513343044",
+    "src/video_localizer/fonts.py": "b4c840d769ff90732a31cb2d402d6465145745a5ab573ff4fd83c557e330605e",
+    "config/fonts.json": "d0b703a2adbf0544d1df0676a7ef528823e9ac4759fde3a3f1effa5359703a09",
+    "tests/test_acceptance.py": "0de6a81178353cf0550076c6b7cc76b2d5b4bc39a748e7c4f92e9c1e0ba5c6f8",
+    "tests/test_native_fonts.py": "cb4d38cbc02ea35efc1c3212877a9030a07a90e00e998678fc4bddadbcc79aa2",
+    "src/video_localizer/knowledge_records.py": "a2e1b52e00dc9c5f6111dd6637002a3b9b94014370349e8e389ab070907f8790",
+    "src/video_localizer/knowledge_usage.py": "e59f72eafa42236a861dbafe772a23d8ea4a2ee6ca23d94c5c21a6bfffd3e8d9"
+  }
+}

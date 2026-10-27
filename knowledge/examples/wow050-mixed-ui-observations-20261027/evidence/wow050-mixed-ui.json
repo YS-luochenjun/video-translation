@@ -1,0 +1,169 @@
+{
+  "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+  "name": "wow050-mixed-ui",
+  "findings": [
+    "源有五条音频主张和独立商店画面文字，按混合载体分别清点；不能只翻译字幕。",
+    "平滑商店界面可用自然重建；移动游戏微字、闪电形擦入、禁止标志及CTA分别判断。局部通知修复形成暗块曾被拒绝。",
+    "保留未译微字、CTA纹理变化和部分音频服务失败；七语共享历史账本，不按新语言预算重置。"
+  ],
+  "observed_locales": [
+    "de",
+    "es",
+    "fr",
+    "pt",
+    "th",
+    "tr",
+    "vi"
+  ],
+  "record_bindings": [
+    {
+      "sha256": "0df9155a91c8d6ce91068d8da208ec7d9424d9e7f0ee4b2a2c632922a347fec4",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+        "target_language": "es"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "ce1cf24d145c3b8ffc88da9a432ae47cfda8ca63bbdf3fd953cff9b0357d70af",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+        "target_language": "pt"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "bd0605793ca3eb45a29a2a0b3609caa2fa60d42646f07f6770ec8607a94b4e4e",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+        "target_language": "es"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "6e05603d27145fe793740ed01a541055e7fc7339d7c2da2c1c52bfefa035165a",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+        "target_language": "fr"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "a72a17e3ede8b54fd9bd97932283f7baa33bd97599add5301cced7caa9c3e328",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+        "target_language": "de"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "100a5144a8633e0a050ee246305a0e631369dfd9f6459ac2d63c0ea8c2621bd7",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+        "target_language": "tr"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "0a6aeb0408ca65515f7c5367c0e0d2d9a5b8b76c84f2af4d949fc1a8baf2bb6e",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+        "target_language": "th"
+      },
+      "historical_outcome": "observation"
+    },
+    {
+      "sha256": "0f0ac9bbe160a505778968ce99009bcffd7bd9e4204513b9a5f7ecc077e8da16",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+        "target_language": "vi"
+      },
+      "historical_outcome": "observation"
+    }
+  ],
+  "case_bindings": [
+    {
+      "manifest_sha256": "2a7b3c0ad7dac94cd154e331970f8e886eb36ccf5393f2cfa231e1dc8c02b4b6",
+      "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+      "video_sha256": "9b0a851c2794ec2ca71c29f9d2ad92d8d1c5e312b49f9291ecb51ecfd6c36c3c",
+      "locale": "es",
+      "verified_files": 115
+    }
+  ],
+  "scoped_use_observations": [
+    {
+      "observation": "Used to choose source-bound local UI/CTA reconstruction and separate specialist narration; preserved unresolved moving UI rather than misreport success.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Source audio contains five claims and visual store text carries independent content; classified mixed and inventoried both.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Narration captions absent in source; scene UI/CTA classified separately. Speech phrases aligned from actual generated audio; did not invent subtitle alignment.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Codex read actual frames; Whisper/UVR/Gemini generated real audio evidence. No prohibited OCR or picture model was used.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Smooth app-store surfaces supported local reconstruction; moving gameplay labels did not. Candidate retained explicit residual defects.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Applied fast-mode actual encoded per-locale frame checks; incomplete playback and untranslated small UI retained as unapproved, not passed.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "One 40.263-credit request ledger shared by all seven locales and all retries; zero-fee terminal timeouts distinguished from ambiguous audio-review charges.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "No added opaque backing used. A game-notification trial produced a dark patch and was rejected rather than adopted.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Red prohibition sign retained as foreground; native CTA icon/arrows protected. Irregular lightning wipe and moving microtext remain counterexamples to complete local mask coverage.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Final TTS transcription and real mixed WAV used. Successful Gemini final comparisons distinguished from German/Thai provider failures and unreviewed phonetics.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Deterministic per-frame composition retained source native motion; smooth UI replacements useful, but CTA repair visibly changed texture/style and is not approved.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Selected local smooth-surface reconstruction plus transparent type, separately aligned TTS and original source-timing accompaniment; stopped unsafe small-label trials.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    },
+    {
+      "observation": "Recorded repeated app-brand/platform instances in separate source time ranges; main UI and CTA typed on native 30fps mapping.",
+      "outcome": "helpful",
+      "original_receipt_count": 7
+    }
+  ],
+  "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+}

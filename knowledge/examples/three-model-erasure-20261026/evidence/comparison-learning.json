@@ -1,0 +1,77 @@
+{
+  "observation": "On one 5s animated garment-text source, Wan 2.7 erased CHEER while preserving required forehead ratings; Seedance Mini erased CHEER and both protected ratings, and Flash rebuilt a different landscape scene with CHEER remaining. Actual credits 80/50/20. Keep Wan 2.7 default; Mini remains explicitly scoped test-only. Do not generalize to every source or treat clean text removal as subject fidelity.",
+  "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+  "clip_sha256": "007d0bb69400556825ea26e1dd70c580824629af96b441c9cdb81b080dbe2c44",
+  "source_interval": [
+    40.3,
+    45.3
+  ],
+  "models": [
+    {
+      "model": "wan/2-7-videoedit",
+      "job": "20deb0559792445de7ed87a4b423757adb9d718fde8af9ec520c84d29bb506bf",
+      "video_sha256": "82c08c1940b8441b50eeca9a6c6627bff03032d10a480f4339d49b125756417f",
+      "duration": 5.0,
+      "width": 720,
+      "height": 1280,
+      "fps": 30.0,
+      "frames": "150",
+      "has_audio": true,
+      "full_video_decode": "pass",
+      "credits_consumed": 80.0,
+      "task_id": "274ef48801d26e5c41155bfd536712ab",
+      "state": "success",
+      "file": "wan27.mp4",
+      "provider_create_time": 1793071805192,
+      "provider_complete_time": 1793072049459,
+      "provider_cost_time": 244
+    },
+    {
+      "model": "bytedance/seedance-2-mini",
+      "job": "62f1d6211f37189afffe56adbe145f044006539a5e35e6656644e8766df229a9",
+      "video_sha256": "87e5160b4c74bf8671e0e0527b79587eace4328fc0b06d2a67f2b0c5dbb8cabb",
+      "duration": 5.041667,
+      "width": 720,
+      "height": 1280,
+      "fps": 24.0,
+      "frames": "121",
+      "has_audio": false,
+      "full_video_decode": "pass",
+      "credits_consumed": 50.0,
+      "task_id": "f77766e6242c396818a55a538c3a456e",
+      "state": "success",
+      "file": "seedance-mini.mp4",
+      "provider_create_time": 1793071823497,
+      "provider_complete_time": 1793071957144,
+      "provider_cost_time": 133
+    },
+    {
+      "model": "wan/2-6-flash-video-to-video",
+      "job": "86e2a4c50aa68aca212147aa7675d5cb4a41cf8e417352f4f1cba157fe4e8488",
+      "video_sha256": "375da066b51558dc11f5cd7cb66d46c14a162c87fe73a8828fb4b1cda4f7affd",
+      "duration": 5.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30.0,
+      "frames": "150",
+      "has_audio": false,
+      "full_video_decode": "pass",
+      "credits_consumed": 20.0,
+      "task_id": "db3c97b8be62afe4dbebfd4c0af31517",
+      "state": "success",
+      "file": "wan26-flash.mp4",
+      "provider_create_time": 1793071815455,
+      "provider_complete_time": 1793071893389,
+      "provider_cost_time": 78
+    }
+  ],
+  "reviewer": "same_agent_operationally_blinded_frame_sequence_review",
+  "actual_total_credits": 150,
+  "limitations": [
+    "One animated source and one initial task per model; not evidence for universal model ranking.",
+    "Same agent prepared and reviewed, and native aspect/fps can reveal model identity. Operational anonymization is not an independent blind study.",
+    "Review uses complete garment-frame contact sequences and 13 native full-frame samples, not a claim of continuous real-time audiovisual playback or full-frame every-pixel inspection.",
+    "Only erasure/visual fidelity compared; translated text, dubbing and full-video localization acceptance are outside scope."
+  ],
+  "user_feedback_status": "no user acceptance of these generated results yet"
+}

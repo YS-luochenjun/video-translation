@@ -1,0 +1,3123 @@
+{
+  "original_records": 409,
+  "case_records_verified": 283,
+  "case_files_verified": 24215,
+  "use_observation_groups_reviewed": 124,
+  "source_diagnostics": [
+    {
+      "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+      "name": "she054-paper",
+      "findings": [
+        "纸面内部去字与纸张外轮廓、森林背景分开；过宽CTA修复曾伤及下边轮廓，缩到墨迹包络后改善。",
+        "同源纸面与目标透明文字共同沿真实源帧缩放。旧自然填补与后续宿主图像修复为不同版本，不能互相继承验收。",
+        "固定纸面文案不当作口播字幕；旁白另译。十一种语言和多轮修订仍只算一个源。",
+        "仍有纸纹柔化、字体近似、断行和部分音乐音效听审限制，历史pass/revise分别保留。"
+      ],
+      "observed_locales": [
+        "de",
+        "fr",
+        "hi",
+        "it",
+        "ja",
+        "ko",
+        "nl",
+        "pl",
+        "pt",
+        "tr",
+        "zh-TW"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "00487877fd7bb00c765091364ea3c708f02dcf3578eca6aa44c4946751712d5e",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "9f3a17eb484c7a8188334c9e0f464f4ca56e402c5a1388403ec5db585ec6723c",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "9e5831b812515b60f9493aa792b2092f743a1c1935dbbd16a25943a84412fe15",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "hi",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "267d8c2037355326680b3ed178bbd7086245a8b17f1613d717ff6b356924a20b",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "hi",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "a4b6f5a2c810456da2095bab33c2a1f0247e2c9e8e88516a1711589eccf8af0d",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "de",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "c2b9b00b1581be12e783d23b1f5668418ef3dc27e3cbe16129f13caec7f728ef",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "de",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "c3c82b83bf91709494ded85f360dc2e8f68893b9609b2e75c283e4ad7e823c27",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "8f21a1ff6925c9b27ca10b3e96fb17d139c242c974763c035020596ea9e3a451",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "fa29fda45626eaad51f2d61f20b656eb2ef93261e34414ab540518614c1a8357",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "nl",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "93feaef47881f4c25a11df73563e109708e2b983270418456ed67c42b914520d",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "nl",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "950e47eca4b500f3ba11ae36472d279e78405f31ad97217fa2e9d9c37085289d",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "it",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "78108f8482ee57c98d65215168911b6637a1125710f87fe07247fe05d8998a25",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "it",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "f7c12c6306f95f93e4468d078c6a9744b5be13121795f588827067d61c8af703",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pl",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "30214d310283b3e966e741c5f7904afd9c3e8c3541c8b60769545a502ab89f94",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pl",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "c581ecdc2bb012f803985516481a069b2b57c659874a66f7b18f62e6caf243f0",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "zh-TW",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "2afab5d0c9dcb335d5fd64db3288b210eab1e19c3d1bb5c4288ef2bdf574f751",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "zh-TW",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "c6dd2bd2d3343ed2ab036870a75dcb559ecb9224cd321b5ce3b4093b3aa84c41",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "tr",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "21fc595e639f554e9871c8102e8a5c4a8ce0d88edd8240d15c517d26bd14eae5",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "tr",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "d924e39d555c4985f26d58bbd4238a584567f4e8e32b42c400f742abfb829668",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "ja",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "89aafe08919e925693baa6cae2060fb1eadae4cbba6a8e2d23c9151f88b7436e",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "ja",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "09f8e62287c0741893a4c403b12b4bc942bb40bc73aa7744a722dca112a124e6",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "ko",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "56191691dee1735ec4b9d9b426c4eaf597ee9c54e8134f8723ff120a3428438c",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "ko",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "b51b8451325772ecd85e85f56efe9946d4149e1b4b65162889cc65a2c657bccc",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "e70f33df8b2f547c7b50cf35fe7f7771dc655026939faaf84a54cf7d72a8f408",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "14c23dbbc9584573e6df094e8d969dcbec7fc67524b63aa1a2c9b3a0f59502eb",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "hi",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "b761048f22154c9fa26d133d0537d768ed4321f1b3016c7af7dca1c1d2089a2d",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "hi",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "078c4dcce29bce3e20e2e31396767507e9da273e058af84b47b9bf10f2d5385b",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "de",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "f49304144e489818bde31643f7608ac39cf1550588c340ef72617112f9020afd",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "de",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "fa8c647e8f427b39b39309d4369ce8af9a9547a21add8a9abd2ca025eda55056",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "c281da3c6fc64578664ce0d6d02702b7e988449a2802c68ca2ddcd2807430577",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "f6aa99b41b2be467a1f1b78089749da3b70389fb254ff48d4a26e4f6b4445f1d",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "nl",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "f56adaffc07f34a6a1507478f036cf891a71948645bf2bd0e361e8bd2d65e8f4",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "nl",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "294215b000e0e1158d0b05865edf2677daefb9f8d64cfa8dbc7288b07ada2135",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "it",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "be7c313318237cc3b72675863815939b4298698b374cd42d575439adf85b7b77",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "it",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "a008f267fc900dcb89aa4e5bc8208a4a68d14db63e48a72dab95faac900a2ec9",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pl",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "bc0f95f489c1435d938898d66f21ded8ebf4c343d33f927044264404de12fc06",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pl",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "2edc4d4ed1a6e134c59ecc200aa47cd66a3c301b42ce39bd7bbc5e9a171fb7d5",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "zh-TW",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "35ed703881e9afdf477ddcba2a4d9a21cb53fd3e8aa9c84a9eec79c6aca9a41f",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "zh-TW",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "513e5b6609f3df900965ae008308448a2709f9faa5acf5f9527e0dd07ddac2a7",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "tr",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "42c7b429bfcd82ec3bd541b7019a6726473135d0b818c35547fbfdd4ec266ed6",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "tr",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "pass"
+        },
+        {
+          "sha256": "0c1b2708a7419607d1963ed9c005a4eadbf7544a098399e497237203a8850913",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "ja",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "cf7a4327ae41f855a06f96c11e73e6db0a4af7e5451f85761a5267db44a97aea",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "ja",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "d83c39e3da99b6aef39d514d47bac662e73a86c9f2f83df1fafe6a8f00a20cbb",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "ko",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "e8ca619e1304d8918398e02548dbe171ab5bdedcadb59fdd3d490807024a80fd",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "ko",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "d5dc8849d33419ea30da2cb5b69262e1f7fccdcf804bee3ea10fb0b70c3a6fdc",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "97fa46ccdd425356c293e9ec8b53061fcd2bb1dc8540ea5cb205b3c344eccdae",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "68a69e71937c62792781a5fd6712f291bb19ac99164f87b4155462bb098415d7",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "1e3af11d130d4859ac42a33db118875943b06456e649a8242ccd20b0bd7f952c",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "de"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "995dfe53ae0a28ac3eb7c0806683431a9a4ece506ca0af0e49eb561982d63e31",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "de"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "3467d25ac9a2490e76bada38f0a91aef7c727fa7a256868d98cbd28421e56805",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "de"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "a81e8c931a8beb30f982c7e0abfac3c20fe5fa963a67698c103a74c510c4491c",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "nl"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "3225091c6e7b31b3ee95be2d9e7502c439ef24ab686d4d0ad8fb8b67f1f8fc7f",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "nl"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "271d523de9e7302a2195b26ab2ad9834323ae29e1a16a78d5daa0e50e18a67c1",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "nl"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "09b11cbd6b6f925abe19661b0601b767a42ef0a89b6dc4c15c6f2c33226d8455",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "zh-TW"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "ed276121a7086501f14274a4471ea447a968cefcee5244e5bd2392efc4929784",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "zh-TW"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "8f61ed244f8c9f0b2072cf0633d647a5f44f956fda4d72a2e8f670ef046c56ba",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "zh-TW"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "f451a73f888a91aefab0dd6fe3a8c5be49c2bb09daa5d662a8a5000141e0712c",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "tr"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "31fc45a28b346db5165cc6312dd4520d9dc9af8f6b1b28306dc2bfb70174d04f",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "tr"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "659d83b0e52bb83f8a26c7aa44ed4348f99bf0a9d8fe6f8e7ca6a7c886f7e7fd",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "tr"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "e133bc5f07ed0a9a184ce240efbcbbcecd1391be84f078627b4d30d55d05265a",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "ja"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "479603a4fff40e3e1bb69c1a7d8ce30939427a118772dfd526df4fd432342819",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "ja"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "6995297d974709cee93dada7c930e9fad7abe5db38878f79d550a781acf572e7",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "ja"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "f56df7273fb73e4e90edec914f2848e759ef3a1cb3842fdbe3c35d6610f0d617",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "nl"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "d40a4665c7f96390ea494e6113c5c1f2c6653b7582c00c9dbe492668bc4637be",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "fr"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "250f6d08da656b7fc709bd02a8b4bf08a8035d57da8c2179ea1a2a2d205f0a98",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "pl"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "31d93d2a322596185368d8b618ee1b77da0b2909e98049f63238c08ba021c2fe",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "pl"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "a81350ba1d9ce880b28e638d25f1b1ee41221d7a05fe3d8655aee89dbd6ef0a3",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "hi"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "d95daf3c9624287e8d4e60f687b86007c6a5748e06e92ad0f1ab7f6bd3526530",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "a3801b32eda75095d6ea188b2f7b0cec1a530978dd949b4138afc2e5bf874954",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "ko"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "ca0b0316311ad7e8bacf59eed69a1a41ec16228555217ee79843274d9e9fd60d",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "de"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "4928d9ea6c8790c3f0630fe4900c0ecbcf6be12f671e8b93db901d1b39dc4b6a",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "nl"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "4f760c974b180cd3cc2d169cb09ae6c72dffe1e1ee8d1d7b1e2a759ec73b0473",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "fr"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "ef011e363affedc658aa85654b69f19ae01da7d0707bf93f131303edd64f44c6",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "hi"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "9643749ab855fc5fb314839c814afe1c2808cfa77aa968e975431c4707ae3c4e",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "zh-TW"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "282cb4b9e76b5f63f0783723cbff5bca64721360c124a6310b9f15fbcfc5c1f0",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "de"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "d2874b10af5e7a1e2d0b0a63174aeaafefa3c497fc2504a7eb9ca832e1cec8ca",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "tr"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "fb17c82a36c4bb6f793374d42b23b59ebecdb2e65b76f70ed94f1a5cc92cda08",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "it"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "0e0b9d2bee7f21344860303dba19557e77d90181f7d422034d6ea49966dc36fc",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "tr"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "2c15866a1ce2eb0213a3ea051d5dfbf6c19e703346d5d3a9e27264c00c9c0f0a",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "ja"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "f7005e03872948deec74acd034bbd686456baee7e174abe86e74c59b7e209224",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "ja"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "c66d724235522740cee3042e24bcfb2be5e16074c07107211315d1eb3eaaba17",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "ko"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "aca7bb0ffc2dbfc516986d9dbce105e7ff933b9e0bfc835f9bffe834e1b2ad8c",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "37edbad1ec8ee926db2c2a5fb078e8221b9487f6fe429e4bb3396e480e615a9f",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "it"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "137e7eb4dbe7ece4bdbe8a84650b80b285f7dab5344e6fefc3382b3a123d548e",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+            "target_language": "zh-TW"
+          },
+          "historical_outcome": "observation"
+        }
+      ],
+      "case_bindings": [
+        {
+          "manifest_sha256": "b29f8d23278b9c83333abff4d933102e1cf0660f9870ebb47c690007e9f6dc16",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "dd6b88a60fac7d0dd8688587a1d696aa68a2acc945d30e473aae1d8055f554d5",
+          "locale": "pt",
+          "verified_files": 21
+        },
+        {
+          "manifest_sha256": "033e348b7161abafed5706a69372519252ae32da8a0dceb3fb929dc5f96f8826",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "e52a625b0170838228abfa50e97e080092336bede1a29a6d9ce51c093ba88722",
+          "locale": "pt",
+          "verified_files": 22
+        },
+        {
+          "manifest_sha256": "ef1c9e67c15ad991c5d29777b9247e2f80ea000bb976f3ed06f8c23771134b43",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "8d02dd90ac97de34f15ab4c6c70eeedf0061e6d48ddc2e339dfd9976f862b3e1",
+          "locale": "hi",
+          "verified_files": 22
+        },
+        {
+          "manifest_sha256": "263024bf3f7a5f938cc694ca8b2eaf6391a2f5455c80597c2eeebeb0045ccecf",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "b4ff18b8282bcf5fb58bf2202130f1ea8be9533f8d7db1c30b0f0cb426f74bbb",
+          "locale": "hi",
+          "verified_files": 25
+        },
+        {
+          "manifest_sha256": "358c266d25ef257d7a9ddd2b625487986ebb276d24bc789208af2464d260dc7c",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "ecc048f2e7e0f229e226ca10fc861ddc46c23c52446ad550095868f3cd894ee0",
+          "locale": "de",
+          "verified_files": 22
+        },
+        {
+          "manifest_sha256": "2e13f4bd02fdbd0ee0194438e67cb7644fafc780b235a5641daa83d6e886b0e2",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "f94c6c92b229a73db95a6c0dd3a21454617c58df952e8e21bb49054ae05dec82",
+          "locale": "de",
+          "verified_files": 25
+        },
+        {
+          "manifest_sha256": "9dcb1ccc3248778e4a2cd4b0370673c46696af8e73a329fc73f31c5890547f6b",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "1936e1506863a249d2b07d674be6b65904e88ca549c491e02d08994a597e94a2",
+          "locale": "fr",
+          "verified_files": 23
+        },
+        {
+          "manifest_sha256": "5f5e2aad6941ef11a9ddaa7df16092c61de7ddfa1399cff1583108cb4ff86994",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "3101d1e1d754c73702377c0a538efa51dde41d26e2c8e74550e678d18533fb2a",
+          "locale": "fr",
+          "verified_files": 26
+        },
+        {
+          "manifest_sha256": "05c7fe5a2125923b9b70ec30afb7e5e8fa102898d75ea33dc5bb1863e8334f15",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "25df0651dea790247d71a091c881784da0a627df367d6b8f8c9031be04b809ea",
+          "locale": "nl",
+          "verified_files": 22
+        },
+        {
+          "manifest_sha256": "86eee12130486a15c097e2f8247ac1c07809ef6e5584e0cca809fbc966fe8eeb",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "ef7e2e329b14d3aa6b02070b93366aca515dce5e161d68881fccd80896798d83",
+          "locale": "nl",
+          "verified_files": 25
+        },
+        {
+          "manifest_sha256": "a6516a5db52f51de03eeaae107dcbcab617c2f4ea16bd140d608fe26c68a0df2",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "7d5d37d26893132f8ec1d62e24d4408ecac5fdb60de31c95ffcebcc0e2f7936e",
+          "locale": "it",
+          "verified_files": 22
+        },
+        {
+          "manifest_sha256": "f8e14bce5cd42736ad4d467a45e0afeb7078a8d77fb07dd04116cde2f1d8f7a8",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "9e3213384da8bbd6b85463466c53c8375badafc39babfb2bf0df63d69a6d0d03",
+          "locale": "it",
+          "verified_files": 24
+        },
+        {
+          "manifest_sha256": "8a1bb9f2a4d854ddcb2125a44fd303c9abcbffbc1d3306212fd6896aa00d9020",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "c1940cfcda7bfa7e505e5e0ecf2abf907fa5c090a9848abce5a70df3afac0e6d",
+          "locale": "pl",
+          "verified_files": 22
+        },
+        {
+          "manifest_sha256": "6916187674bee7367ea90f2780788feff729dba7ce7a7df73c8543c4159be47c",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "d13dad983de58182ce8d588a881c96e0d2fa694892453b0644dbbbbaf7aff5fd",
+          "locale": "pl",
+          "verified_files": 24
+        },
+        {
+          "manifest_sha256": "a9829d98f2c17437d70034eb15bb65623e26f6605168b87365de350a88f045b9",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "69a7628e3074c114f4319ec2cb385383eb0b1d7282f076d66466650563c1df4b",
+          "locale": "zh-TW",
+          "verified_files": 23
+        },
+        {
+          "manifest_sha256": "cd5aa99b37814b4c307c6c7add13ce0e3f40b3e03b596dec4727e13de2c96fc0",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "7bbfd989c65cb48bc8dcb1cb077a44c02eead01bc46e19704965b4cc56b2231c",
+          "locale": "zh-TW",
+          "verified_files": 26
+        },
+        {
+          "manifest_sha256": "af8dfb0da5f651e7ea40e0bae15a3058ff0ff0049110529c6072cde224be879e",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "0e0beb88cf68175bc8a7051a8990ceedc2cf445c02df822c659d42acd9cb3180",
+          "locale": "tr",
+          "verified_files": 23
+        },
+        {
+          "manifest_sha256": "5c948433cb29b95497f5f94677a7a1e9f1492908bc0a646f2b494df700e7e138",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "f2f0c20ab5dccfcad78de747950fd50f9c5384a1ba8bd84c73b4331542e44fdc",
+          "locale": "tr",
+          "verified_files": 26
+        },
+        {
+          "manifest_sha256": "d7a65f3d06363a7e08146b6cfefec00828d2f67a54354878a388619cc9759c3c",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "83115fcc67116d1143996084296dcb4a752e6df84e6298b68102031f282a416d",
+          "locale": "ja",
+          "verified_files": 22
+        },
+        {
+          "manifest_sha256": "c03feb47b0e5e81e9ecd2dca4fa22469ee529a68960d42b2bb2cf684069ba2a4",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "f0060207a65eac9ad1fe66bcaeb541c3f0812c6f8e67df3cc9c97558c860ef16",
+          "locale": "ja",
+          "verified_files": 24
+        },
+        {
+          "manifest_sha256": "66d9745b7e0bc0186186e23b0c1a29116bebbd80f97c98ad450dd5194bcb52f9",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "460770bbd4e27e9df6eab3842620baf3432cab9e3917e0adaa88288eb11e78ac",
+          "locale": "ko",
+          "verified_files": 24
+        },
+        {
+          "manifest_sha256": "f31fbd4f0767a6e7172465733cf39ef5abea156dff47d7210205120111c67986",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "9973d7ccd99689e32495fa68d2b399f12004660af4ac08688f10eab07ee99719",
+          "locale": "ko",
+          "verified_files": 22
+        },
+        {
+          "manifest_sha256": "aac4e40f7deb102762cad476fd9536965aa2212df8f00edc5c0b5b8b6df10d67",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "8d02dd90ac97de34f15ab4c6c70eeedf0061e6d48ddc2e339dfd9976f862b3e1",
+          "locale": "hi",
+          "verified_files": 132
+        },
+        {
+          "manifest_sha256": "ee10db9719610f94ae602df444f3355facc4afd4ba3de67a4ebc1157ef7106c1",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "8d02dd90ac97de34f15ab4c6c70eeedf0061e6d48ddc2e339dfd9976f862b3e1",
+          "locale": "hi",
+          "verified_files": 129
+        },
+        {
+          "manifest_sha256": "86fdb7733ad34583d6f3abe6caa49d0a141fc9937b1b7b8ae134166735e695f2",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "b4ff18b8282bcf5fb58bf2202130f1ea8be9533f8d7db1c30b0f0cb426f74bbb",
+          "locale": "hi",
+          "verified_files": 112
+        },
+        {
+          "manifest_sha256": "1aaa9d8177285a5e1d4c8994ccbf74085ce918d3255a3e65cbca7a64e2c3c202",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "ecc048f2e7e0f229e226ca10fc861ddc46c23c52446ad550095868f3cd894ee0",
+          "locale": "de",
+          "verified_files": 111
+        },
+        {
+          "manifest_sha256": "963f5eb74af56eecfc0423d34012bc5797e26257006ddd6c61edcc9eb16dfd23",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "f94c6c92b229a73db95a6c0dd3a21454617c58df952e8e21bb49054ae05dec82",
+          "locale": "de",
+          "verified_files": 113
+        },
+        {
+          "manifest_sha256": "c67fc545e4f759e8f2f2226b3c3f06f2d0dae5eeca205a79d2492bc65755e9f7",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "ecc048f2e7e0f229e226ca10fc861ddc46c23c52446ad550095868f3cd894ee0",
+          "locale": "de",
+          "verified_files": 114
+        },
+        {
+          "manifest_sha256": "a1ead6895321efed95d1856726a12948d27f7c647e25d3fcb530c1618bdc3c11",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "25df0651dea790247d71a091c881784da0a627df367d6b8f8c9031be04b809ea",
+          "locale": "nl",
+          "verified_files": 111
+        },
+        {
+          "manifest_sha256": "161cde9b3252af868743c20ccb75245a30c84e71ee760ea0cd47b5bfdf3634a9",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "ef7e2e329b14d3aa6b02070b93366aca515dce5e161d68881fccd80896798d83",
+          "locale": "nl",
+          "verified_files": 114
+        },
+        {
+          "manifest_sha256": "fc2332e7dfc1da040166abf006d4423078d02cdbec25831216e8956d6f39df9b",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "25df0651dea790247d71a091c881784da0a627df367d6b8f8c9031be04b809ea",
+          "locale": "nl",
+          "verified_files": 114
+        },
+        {
+          "manifest_sha256": "1ec896aafafbc3937e8f3118abe0b632923f4a79873ccdd5df7483e98d4ccedf",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "69a7628e3074c114f4319ec2cb385383eb0b1d7282f076d66466650563c1df4b",
+          "locale": "zh-TW",
+          "verified_files": 116
+        },
+        {
+          "manifest_sha256": "b723f32da7d708604e61dc5369185befa7831ad1a2bf2f670ff5dc2ce3a99d30",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "7bbfd989c65cb48bc8dcb1cb077a44c02eead01bc46e19704965b4cc56b2231c",
+          "locale": "zh-TW",
+          "verified_files": 116
+        },
+        {
+          "manifest_sha256": "57246af3f912235e7c849d43d5a488fb00bdc90a2eb1642be4397b73767b72ea",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "69a7628e3074c114f4319ec2cb385383eb0b1d7282f076d66466650563c1df4b",
+          "locale": "zh-TW",
+          "verified_files": 113
+        },
+        {
+          "manifest_sha256": "6e34fca4893e78e570fbdd81b0d00559177b7b2cce9733bf3f500177a76897ae",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "0e0beb88cf68175bc8a7051a8990ceedc2cf445c02df822c659d42acd9cb3180",
+          "locale": "tr",
+          "verified_files": 113
+        },
+        {
+          "manifest_sha256": "1614cf927f949eff546f603d5b341c63b8639a0b5f3263f2db0bf4c434f49e66",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "f2f0c20ab5dccfcad78de747950fd50f9c5384a1ba8bd84c73b4331542e44fdc",
+          "locale": "tr",
+          "verified_files": 116
+        },
+        {
+          "manifest_sha256": "20f074b73aa72f2085db3eb808e496871b200ae851fa564f7884eb55bb27bb68",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "0e0beb88cf68175bc8a7051a8990ceedc2cf445c02df822c659d42acd9cb3180",
+          "locale": "tr",
+          "verified_files": 116
+        },
+        {
+          "manifest_sha256": "3123c7028ea59aa4bf271d2cfde2dd33ffa78064730b3a253863e2a3b63dce07",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "f0060207a65eac9ad1fe66bcaeb541c3f0812c6f8e67df3cc9c97558c860ef16",
+          "locale": "ja",
+          "verified_files": 177
+        },
+        {
+          "manifest_sha256": "a3a77a177f1016b46770cccc77980643cea08c344877040403b0146e0f6cd3b0",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "83115fcc67116d1143996084296dcb4a752e6df84e6298b68102031f282a416d",
+          "locale": "ja",
+          "verified_files": 168
+        },
+        {
+          "manifest_sha256": "b0761afeda0c0fcb1a81b824fa682b4c2032eda0bd39e9daaa2f0f0119969b6c",
+          "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+          "video_sha256": "83115fcc67116d1143996084296dcb4a752e6df84e6298b68102031f282a416d",
+          "locale": "ja",
+          "verified_files": 165
+        }
+      ],
+      "scoped_use_observations": [
+        {
+          "observation": "Applied to this bounded paper-interior imagegen restoration: preserve source-frame forest and contour, independent transparent text, source-derived motion, no new paid requests; native-frame comparison confirms cleaner paper. Audio perception remains separate.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Used observed simple paper surface to select natural reconstruction and transparent type; no Wan needed. Current fast visual evidence retains readable card and intact contour.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Classified persistent paper claim/CTA as onscreen-text-led and translated the narrator separately; both domains represented in inventory.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Classified permanent scene copy separately from timed captions; checked all three blocks and actual target audio. No timed-subtitle or lip-sync approval implied.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Codex inspected source/final images and translated text; Whisper/UVR/Gemini performed only actual audio processing.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Simple pale paper handled by ink-local natural fill. Prior wide CTA mask damaged lower contour and was rejected; tighter current fill preserves contour with minor grain softness.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Used fast basic checks plus actual native pixels and source-frame zoom mappings; did not claim strict or independent acceptance.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "All locales and retries bound to original 26.122-credit ledger; unknown dispatch costs retained rather than erased.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Transparent localized type on original paper; no opaque replacement plate.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Actual encoded-audio model review or Whisper transcript used separately from TTS API success; music perceptual gaps retained where KIE failed.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Shared same-source ink-local master retained the original frame clock; individual locale lettering/voice review established separately.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "Selected source-native repair and transparent shaped overlay for a simple paper surface with slow zoom; bounded failed mask revision preserved.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        },
+        {
+          "observation": "All three persistent scene-text instances preserve full original visibility; encoded head and tail checked.",
+          "outcome": "helpful",
+          "original_receipt_count": 11
+        }
+      ],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    },
+    {
+      "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+      "name": "she058-parchment",
+      "findings": [
+        "用户否定转动羊皮纸上的固定译字；修订记录让擦字区域与译字共同跟随源平面变换。给定的角度只属于该源。",
+        "全局中位数供体曾在卷边和页边形成接缝；局部对齐仅在已检查风险窗口改善。运动水印、主体和末尾QUIZTEST.ME分别处理。",
+        "既有四语音轨以实际AAC基本流哈希相等复用，固定海报文案不等于逐词口播字幕。",
+        "旧版本损坏移动水印、修补痕迹和未完成正常播放检查继续保留；用户条件性替换请求不是本轮删素材授权。"
+      ],
+      "observed_locales": [
+        "en",
+        "es",
+        "fr",
+        "pt"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "dc7a62245e636473ecf661961de69f013607887e3acc3992696b9b2feee43f4a",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "en",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "e488276f1d4d8610aece3f542bd2503ce6e288764e1990015f8135cdc5520443",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "en",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "d5d8ccd6d3fb66b92b01853f1f5e395b7c648c18afa1c243ea9a2342544532e4",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "es",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "ba208b417416108297e058f5ce89504bd23de0f7d5284ba29d66692d43ef1e45",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "es",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "0259440d29df27ede0f40be184662ada7c2918cd09fdf19735a1fdb9373cd011",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "e3b7867316ce67e08aa675d570acf0735ba8fe4b69768fbc77a05ea5dd45d8b0",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "508d2db15355461862daf72511e8a46e7a02cae451d78e22a0ae29db515a6770",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "bfd2713bd96409bfce00754ed12f057b8c78dff1c63ae2ec0ca9cc94feddab64",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "1459f04a8095df6d270752d318babb3e780d745a84415819b7b71b7614c2f248",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "en",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "4b982ea5d602690f1dd711b14836251f205e7ad04b03ee26c23d7bf2f24ac054",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "en",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "ae9307098f10e6317682dda44b9c3718657fb2469644641dc53accabd6ddc9af",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "es",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "9509975787a5912f74d3e8919e3e6ffcf9c3da622de5c0cc3e8833426b0b8af9",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "es",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "de282a30593e8a4a831914e1e64333a9c07bb1121e10ce2aca54bd9d11b953e3",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "02dd73f2d2118b687385f95ec78ae440bd71c00f994ed3e5b12e5e5c3dc8c357",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "bb3832400643f67edd8ed3f4cccbf2f5888b77c849e4904c630f1534042e7df2",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "c34751072bbb474d15fac32da8b880eba53275f6592527eab0f6992877c97225",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "035642230b6f8d365de25e51ed9eea214024620ac46f7e529073a2b905dc6164",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "06f77b6fb3dc84dc3042ceb4c0300e2d9f5a1e8f238314537c68c063cbbbee36",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+            "target_language": "es"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "3fe09b84b1118c06112a6da070785f3d2b745a6700e54e6a54831c6e74a16ddf",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+            "target_language": "fr"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "4f1d1293c385380cb2d01a46247bb0c5920080cafa3a80e0779220ec303e2fd8",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "19292e86ac0fdd0953b08aebfabf67d490fe6c73e0874f7940169b98609a9061",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+            "target_language": "en"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "6f0b6f556badd08e4aff8d54bf72d4f1bfb51aa6b9de919f1e0b5f9676d36ce9",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+            "target_language": "fr"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "affe49ccdfe907d8db0191a6d83b36612880c74c9f04558ae655733a4bed07da",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+            "target_language": "es"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "24a0e2d89f1397d6e35958c9340b5cbb7a1c17775acc04909ab5bb280e5a3ec9",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+            "target_language": "en"
+          },
+          "historical_outcome": "counterexample"
+        }
+      ],
+      "case_bindings": [
+        {
+          "manifest_sha256": "d6f2ed717d50a0f746f3349cccc923e85de0edd59ec93a0802803ebc2c480add",
+          "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+          "video_sha256": "725b28dbec9a0f30d921382d6f105849dedacede4b08cf3646ccf71089c6f265",
+          "locale": "en",
+          "verified_files": 24
+        },
+        {
+          "manifest_sha256": "ada5acdbe7739263767f4a831c05fb49344f5ae39b4bb8230ec1f9fe1ac4ab9d",
+          "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+          "video_sha256": "bdfaee01f86fb50bf3ad1247383da488f122364fe5484e999ab12679ccb0e2ca",
+          "locale": "en",
+          "verified_files": 27
+        },
+        {
+          "manifest_sha256": "4574b0e0671e088d7b8fff2b9585310b9e23eee3fa86abcac4016110ac8577cc",
+          "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+          "video_sha256": "09f909542c3aeb597b85c239c016f0b20889e7bfe5f8282a38f78182005f41aa",
+          "locale": "es",
+          "verified_files": 27
+        },
+        {
+          "manifest_sha256": "1962685a3349efa89d253822af7ea7ddc305c0fe924ef7adb8aa4efd351ef4e3",
+          "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+          "video_sha256": "964581953de7bb3c463acb9eaedf4cdb7a1c84df5ff925af880d21e5e477dd46",
+          "locale": "es",
+          "verified_files": 24
+        },
+        {
+          "manifest_sha256": "ff3fa8c66d2b8743b62cae154e2772749e52d3ba5c9c8c8c0bff97f7d7deaaa2",
+          "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+          "video_sha256": "5203cd8a3a99f8ed7d41ff63e08bb73b7ac3d17056fae84a780989c41c7575f8",
+          "locale": "fr",
+          "verified_files": 24
+        },
+        {
+          "manifest_sha256": "e83e6eec142c3ff3418734a2cdea1c7d2deb6d14c2a910e9e07df96ba8262ffb",
+          "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+          "video_sha256": "b9c650384a95e81a3b424803483b135fcbaa649d16b5aab8c2d8249ce28caff4",
+          "locale": "fr",
+          "verified_files": 27
+        },
+        {
+          "manifest_sha256": "9d93a2bf5f218fa8bf09b78a2daf805ace005f06569e751659de87dabf4183bb",
+          "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+          "video_sha256": "762a19be3bbefd00d5b3ae4f76fa5486d26b79db75ccf6829de4fa50c9be799b",
+          "locale": "pt",
+          "verified_files": 24
+        },
+        {
+          "manifest_sha256": "c67a348d90e6e55eb33f1deb5c47cde0c582fcd3b86f56eaee1f94c78f05a78c",
+          "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4",
+          "video_sha256": "819f156a27f149ff2b9d8cdbf2b08fc4523875cbdf760327c0701188568832ee",
+          "locale": "pt",
+          "verified_files": 27
+        }
+      ],
+      "scoped_use_observations": [
+        {
+          "observation": "Applied project scope, finite revision, native source timing, honest evidence and always-output policy. Four-language revision has actual encoded native frames and unchanged audio evidence; normal-speed playback remains pending, no quality or independent acceptance claimed.",
+          "outcome": "helpful",
+          "original_receipt_count": 4
+        },
+        {
+          "observation": "User rejected fixed overlay on moving parchment. Per-frame source affine now drives local glyph restoration and target layer together (−1.219° to +3.010°); encoded consecutive risk windows show consistent rotation. Direct playback unavailable; same-source four languages are one visual method trial, not four independent validations.",
+          "outcome": "helpful",
+          "original_receipt_count": 4
+        },
+        {
+          "observation": "Reused prior per-language Gemini-reviewed target audio. Actual final AAC elementary stream SHA256 exactly equals earlier encoded video; no new TTS or audio understanding call. This is persistent independent artwork, not timed speech captions.",
+          "outcome": "helpful",
+          "original_receipt_count": 4
+        },
+        {
+          "observation": "Global median donor caused seams at roll/page edges. Local dense donor alignment improved checked native encoded watermark boundary windows. Reconstructed CTA from original frame-zero contour rather than blurry median to avoid broken border. Final QUIZTEST.ME located at y425–470 and removed only after source cut. No pixel-perfect or full normal-playback acceptance.",
+          "outcome": "helpful",
+          "original_receipt_count": 4
+        },
+        {
+          "observation": "Applied current scope, evidence and bounded output requirements; complete native-timing dubbed video delivered with visible local parchment/watermark defects disclosed. No quality pass or cross-source claim.",
+          "outcome": "helpful",
+          "original_receipt_count": 4
+        },
+        {
+          "observation": "Shared representative glyph-reconstruction result reused with all defects disclosed; no new local repair trial or language-specific visual quality pass. Separate transparent target typography and actual encoded-audio review established this locale.",
+          "outcome": "helpful",
+          "original_receipt_count": 3
+        },
+        {
+          "observation": "Fixed poster copied with independent translated alpha layer; original 352-frame native motion and end-card preserved. Moving publisher intersections reveal failure in protected foreground; recorded fail rather than approving from a still preview.",
+          "outcome": "helpful",
+          "original_receipt_count": 4
+        },
+        {
+          "observation": "Actual source Whisper and Gemini agree on German narration. Exact target Gemini TTS mixed over UVR accompaniment, then actual encoded audio compared by Gemini. Complete target speech and original music/effect reported. Source poster is independent persistent artwork, not timed captions; no forced word alignment claimed.",
+          "outcome": "helpful",
+          "original_receipt_count": 4
+        },
+        {
+          "observation": "Two source-bound natural local reconstruction variants removed fixed German copy but damaged overlapping moving Quiztest watermark and left visible parchment patches. No host image-generation or Wan pixels were used. Method correctly requires motion/foreground review; local glyph inpainting is not validated clean reconstruction. Same-source derivatives share this defect, not independent replications.",
+          "outcome": "ineffective",
+          "original_receipt_count": 1
+        }
+      ],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    },
+    {
+      "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+      "name": "she051-ui-one",
+      "findings": [
+        "静态白/黑/橙界面使用原容器与同源供体；源光标保持前景。回贴光标曾带回旧字，需要独立查片尾。",
+        "重复标语及FAIL按实际出现区间登记，数字分数保留但逐数字起止尚未逐项审查。",
+        "源音频分析记录无可辨识台词，保留原音轨；不是所有界面广告都不需要配音。字体纹理近似，未完成正常播放质量验收。"
+      ],
+      "observed_locales": [
+        "es",
+        "hi",
+        "ja",
+        "ko",
+        "pt"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "fc0054eb3178144210a5d5920467dd20ea677cab0123d9fbf101a1416eef51bf",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "pt"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "2d45e55e1762104ddce2473b1b37e206a775df7743530d66ae85b3cc3c67122a",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "7e3b0d9cbea6773c509aed24fd78ff3cd8f24d8874ee86470557dce2ffc4e21e",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "ja"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "a5b145fff39214d73d79549847bfe265fe848bdc11d5d46b4714a510eb70d6f5",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "ko"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "7fa477e4a184c9b1c26c9ddcfbb8018edfaacb9d7f73523054f509f5d0abbb20",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "es"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "3b51173f1de711834a061d4bf6cd6a94edf83639fbc8aaf067b0c2f47734ad50",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "52d3a155f711d2da1bcb3277c6b679cd8ecccb5501dfab3ebca5998a05a451a1",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "ja"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "72cef194e94f666155a0b99c5ee82e1346ca86c8f6b10e2d55c32cb21c80ffe9",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "ko"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "8f85aed031aacc91d78f142689c6204026838aeb6ae1c2ad10e623800f69be02",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "ko"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "607679d0467f36609bb2993819ee303f916f3df5c1f3cf0ad3254a68e63600a1",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "hi"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "5379ffe1478a07c1bf4bf639b6ee8a8b8a1440286b32613c0cba7c83f21b49a0",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "hi"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "7fd20d2915eb690e6d613b3e1707e4cee57b6e916c30a23ed4b7ee50cdc2e4f1",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "bddc74a31013a4fac4a38c3a68b222df01b2e3f87bbdfeaa54afc994f8266326",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "es"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "746f2449f438959397b0f5b44b1826073bf1e3db4201f6ab6d662219dde857e0",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "es"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "6cd804f33bb6bac3162346d0c700057c0f2faa57ca148f583facf3e71166e50d",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+            "target_language": "ja"
+          },
+          "historical_outcome": "observation"
+        }
+      ],
+      "case_bindings": [
+        {
+          "manifest_sha256": "a5a89156af635af286d92fbb49de0344b66cb9b191c1eb9ad1f2974540ad7a85",
+          "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+          "video_sha256": "99eece01dd119ff27023903adad0a8039cb9d81beba0e0f1bcbb8d460714d04a",
+          "locale": "pt",
+          "verified_files": 213
+        },
+        {
+          "manifest_sha256": "11dcf2dd6a65c06fc4a53334d08c4aafce1633827e5f40a8ae5f3b020b7b02ae",
+          "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+          "video_sha256": "5db6872f7bb70fa1beff024d1f0ed481e0cf55930e762e9f11d32496de0d9c51",
+          "locale": "hi",
+          "verified_files": 180
+        },
+        {
+          "manifest_sha256": "69c1e868406f7bf66365bdb7b998d708f62391fb6f6bde549df17e31c24d7cb2",
+          "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+          "video_sha256": "ea03e517b4fefe85629ce866016ec3281fd9fcb1d2c4b9623afe9c0eb66b8c01",
+          "locale": "ja",
+          "verified_files": 180
+        },
+        {
+          "manifest_sha256": "cdd040688227363bff8251fd38b656100dde9dcc201a94fa80389c7ba5ef73e5",
+          "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+          "video_sha256": "75bec4ad835ed5a6e42f98ae3386f4c4383cc1304a66502dcbd9febe059c70cb",
+          "locale": "ko",
+          "verified_files": 180
+        },
+        {
+          "manifest_sha256": "0889f456ac49f78a74fe670ab6b99993f0e6d36f007372a4a8de2a8267ccfc4b",
+          "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+          "video_sha256": "46a019ce6fe4f75985d1374e157e4fba8aa3ef96c3bb5a8265af46cb3d3a53c9",
+          "locale": "es",
+          "verified_files": 180
+        }
+      ],
+      "scoped_use_observations": [
+        {
+          "observation": "Used the actual static UI and source donor availability to select local reconstruction; no unnecessary Wan submission.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Codex directly read source/target images and made deterministic composition decisions; no external OCR/image model used.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Reconstructed existing white/black/orange surfaces and aligned same-source donors; visible target words fit without a new panel.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Classified as onscreen-text-led; actual Gemini audio analysis found no intelligible speech, so source AAC was copied.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Checked native encoded text crops and risk-boundary sequences, and decoded all frames. Full normal-speed playback remains unverified; no quality pass asserted.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Shared request ledger capped five locales at 90.279 credits; one source audio call, no video or TTS calls.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Reused original UI/header/button surfaces; no new opaque subtitle strip.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Kept source pointer in front of the new button text and source-timed opening fade. v3 corrected restored old label near pointer; actual tail crop no longer shows it.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Used source-time donors and local reconstruction for a shared neutral asset. Font texture differs; neutral asset is not marked quality-approved.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Used exact-source local composition after inspecting surfaces; alternate Wan route was not needed for these static containers.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        },
+        {
+          "observation": "Tracked repeated slogan/FAIL instances separately and used native frame boundaries. Preserved score graphics remain grouped as a numeric sequence; exact individual score onset/offsets were not audited.",
+          "outcome": "helpful",
+          "original_receipt_count": 10
+        }
+      ],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    },
+    {
+      "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+      "name": "she051-ui-two",
+      "findings": [
+        "同源静态照片供体只应用到对应教程文字区，保持当前照片位置、光标及箭头，不拉伸短模型视频补齐原片。",
+        "历史检查暴露片尾48帧与45帧不一致，修订记录已修正；具体帧数不推广。",
+        "原红色印章边框、选择淡出与文字分别检查；FAIL做旧纹理、肖像局部边缘仍为近似，正常播放门禁保持pending。"
+      ],
+      "observed_locales": [
+        "es",
+        "hi",
+        "ja",
+        "ko",
+        "pt"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "1394d86a6198750e530c86acf11290d9c582e911c69732af095c0394577bd744",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "a905060cdd082ef96cdc1511de77ccd16cc385fbd3114b05c9fc79597520d465",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "ja"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "fc3df5ba41e8d3eb73d00df84e47dfa104bf356ae9beb32bfe45699486bf297d",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "ko"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "3275d5766149069de87995a5bf68573215494b656c6ae786b65604fecf63b439",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "es"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "34759d18c522a161939446afa8f08670f7f85e9e47777488e3bb2b2786e434ca",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "es"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "e4e3d2df7c5705c9746863c788af9243b673400d249875aba4971601e245c68e",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "c4fd00e5517fd5bc71a643953a45f694b3277e7f683dc000018a39a2bb37877a",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "hi"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "ddacd24fe718b1a680217210526dafaab9852d312268d01f38503dbd4c874845",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "07c310160d63ae794ca4f1f8192317b558d1db379342c164c0b347f8ff903367",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "ko"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "47c6d9537a2a6d6fec83068743901dbf18079d09eab9579460f082be9f97e218",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "hi"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "48f71866bca073ea1c557d1e19ae1aa3b0e131f56e5caef8b14c7af6847b4ff6",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "328722a7605135dfe69f69fd942b9e413189cb64540b62484b1394528674c8a4",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "ja"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "12b4b077803b5d52b24ae4bb447084ab3fd903454848ba44c9a735f70c5e2f1a",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "es"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "e9031c86a5ba74211dc79cf6f965d55593d8c388dd5d36577c86e2f83f67beda",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "ko"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "d6b7e02b605e23992f246d2076905357532424a381b2d9bcfa68956373eba516",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "es"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "57d8926a312c09ea86e63c5777a1002b97de694f5e99d8c975200f9a23f30c75",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+            "target_language": "ja"
+          },
+          "historical_outcome": "observation"
+        }
+      ],
+      "case_bindings": [
+        {
+          "manifest_sha256": "b534fa2cf57a518e3f8b924ff4ec3d32f0de469013677c8982430cd6b3d15820",
+          "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+          "video_sha256": "e574497831e67eea6991550a80881d0e8ac0e271e6dce772e2a2618bb4c18035",
+          "locale": "hi",
+          "verified_files": 96
+        },
+        {
+          "manifest_sha256": "7f5634b70e6f2fc1a488597b3ab824195c38772761baf2e184efdb3182bcd995",
+          "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+          "video_sha256": "fd381fb8a81fddbe31b06569ea30e8cabc6026874785b74081882833b9905f33",
+          "locale": "ja",
+          "verified_files": 150
+        },
+        {
+          "manifest_sha256": "cdc6d5f1bd74f386457bf0f61e59ee37e626765eacd16c1c679a46822619af60",
+          "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+          "video_sha256": "52a10f072a5c6b28453a97a061310820f9ac2e26ed08b0eb602ad43d682d9cbf",
+          "locale": "ko",
+          "verified_files": 150
+        },
+        {
+          "manifest_sha256": "a9bef2e77635b23a835ae9fbe3d68cac9d4f2602240a154156923d822cad144a",
+          "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+          "video_sha256": "d7de61448adac4698063ee76534bf3c33cb70aa21f8c965caf7cd2cb2246c72f",
+          "locale": "es",
+          "verified_files": 96
+        },
+        {
+          "manifest_sha256": "ee9201c509d0b4959091292f2413ff5490345dea1fe10856696a751f4a5905ee",
+          "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+          "video_sha256": "1f19d4523da5f66ed29e8921cd5e6ea9e346370675b099030e80d30e03290139",
+          "locale": "es",
+          "verified_files": 145
+        },
+        {
+          "manifest_sha256": "8de5e875943862f4632481a5835d571d0c285ea54eb4c4a06ac26bd903e599ab",
+          "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26",
+          "video_sha256": "8b2981f40b521a1aad182ad1252832b6ea12d4fd9f2a6127d50b9e25a956306a",
+          "locale": "hi",
+          "verified_files": 145
+        }
+      ],
+      "scoped_use_observations": [
+        {
+          "observation": "Used source observations to choose static container/donor reconstruction and bounded two trials; did not invoke a video model without a demonstrated need. Review limits remain disclosed.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Codex directly read source frames and translated copy; Whisper small and user-authorized Gemini 3.1 Pro analyzed actual audio. No prohibited OCR/image model used.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Original flat UI and exact source photo donors supported natural bounded reconstruction. No visible blur strips added; local stamp/portrait cosmetic differences disclosed.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Actual visuals carry claim and instructions; successful audio analysis found music/nonverbal effects with no intelligible speech, so text-led classification and original audio preservation were appropriate.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Separated complete video output from quality approval. All encoded files retain source timing and PCM audio; uninterrupted playback/independent acceptance remain unverified.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "All five locale runs share the measured 28.096145s x 3 credits request cap; 0.4 credits known billing and 2 credits unknown reservation retained.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Used only existing white header, original black end-card background and original orange button; translated text layer has transparent background.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Checked source layers, stamp red border, original arrows, moving cursors, choice fading and shaped target glyphs separately. Exact visual style remains an approximation.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Shared a source-native 840-frame local reconstruction; exact same static photo donor used only within the tutorial text region with current-frame photo position. Did not stretch a model clip.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Chose source donors/original containers with transparent libass glyphs, fixing header artifacts in the bounded second reconstruction. No claim that shared plate passed full normal-play review.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Tracked fourteen translatable text instances and five preservation groups; repeated header/FAIL intervals kept distinct. Start/end tied to actual integer source frames.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        },
+        {
+          "observation": "Actual same-source donor retained after built-in imagegen geometry comparison; dense boundary review exposed48-vs45 frame ending and v2 corrected it. Onscreen-text-led; existing no-speech evidence and PCM-identical audio reused; no new KIE or opaque panel. Full-playback gate stays pending.",
+          "outcome": "helpful",
+          "original_receipt_count": 5
+        }
+      ],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    },
+    {
+      "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+      "name": "she051-three-review-boundary",
+      "findings": [
+        "两份保全案例的历史审核包含59个文字实例与33段人声，不能用片头、片尾几张截图覆盖全部实例。",
+        "原记录明确：场景细字、纹理及透视近似，完整正常播放和每字幕边界仍待检查。33段实际角色TTS/ASR不等于独立母语听审。",
+        "本轮只核验案例字节与审查记录，没有重新审核这些台词、发布合格底片或继承目标语音频验收。"
+      ],
+      "observed_locales": [
+        "ja",
+        "pt"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "866196f9dfb256c76e2b0a898ffe4b61dc12671e316cc4d04f7a0bbdb0fddbf2",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f"
+          },
+          "historical_outcome": "wan27_selected_for_this_source"
+        },
+        {
+          "sha256": "d4925a459d7a28d0fa4582811e8117c799547bffba5ae1da42eb64710567370d",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+            "target_language": "pt"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "1371c60c372dbc0215b46565fe9254d7533abc4121bafe6ae29312eab24ac505",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+            "target_language": "ja"
+          },
+          "historical_outcome": null
+        }
+      ],
+      "case_bindings": [
+        {
+          "manifest_sha256": "fb3f8bedb733ae3b6ff331c00e9a09f0bde0d9dcfb1f5e459ab1caea77ec1fc3",
+          "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+          "video_sha256": "5013f6294f0d86d7036193aa16d76d8a3fbc7f4858f410cfbee61a966125b08c",
+          "locale": "pt",
+          "verified_files": 528
+        },
+        {
+          "manifest_sha256": "0bea24dbe4c3448e920f32c6b9e32cd768f3c9d7a77be8a82a57b8c236893e65",
+          "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+          "video_sha256": "4c98afb9f910288a27da23e88a348ac02a51ae9d615f8df78733cfcaca9ed92b",
+          "locale": "ja",
+          "verified_files": 512
+        }
+      ],
+      "scoped_use_observations": [],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    },
+    {
+      "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+      "name": "she053-cta-style",
+      "findings": [
+        "用户要求片尾Dare You Try更醒目；已观察源、旧、改后截图：旧版细黑白译字与源片层次不匹配，修订增加粗字与彩色轮廓。",
+        "颜色、轮廓、字面高度和前景层级应按该实例观察；不把这次红黄蓝方案变为全项目字体/颜色偏好。",
+        "改后截图仍有背景标题偏锐与可见局部补丁，额头修复柔化、台词手势偏移及NL末句历史疑点不因CTA更醒目而消失。"
+      ],
+      "observed_locales": [
+        "es",
+        "nl",
+        "ru"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "8863cb4043132f423a632f7831e022ef6e4f5bf2abe3ff5b3dd10f8ccc464073",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+            "target_language": "es"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "77eee2faca138a16e06cd192059a62987add9139bb4fb14c3cade513063a2215",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+            "target_language": "nl"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "e61207144486c11761b4ae0d0bca379b675bbe9b5861835310bef8648ed8f869",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+            "target_language": "ru"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "201bd3cc0c86048b93ad96ffb24f3e4927ecf7969b981d82c7965c84ee9003e6",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+            "target_language": "nl"
+          },
+          "historical_outcome": null
+        }
+      ],
+      "case_bindings": [
+        {
+          "manifest_sha256": "3d007422e4f7bc5d254a61f513093d9a48f2ec43ab17411b0b494cd6c6f8c4c0",
+          "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+          "video_sha256": "496c907bb9e2520fd32a7ccfde20b0e1e76e8321b02bd64df0f66fbc678c77b8",
+          "locale": "es",
+          "verified_files": 55
+        },
+        {
+          "manifest_sha256": "8017ae942eaff264233bce279a73dd3f88a766a7214f08dc5cfc92e91f7f78ce",
+          "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+          "video_sha256": "11edecbff139836127e315b134b81c909d1336756f7614fb9a9147e171cd2257",
+          "locale": "nl",
+          "verified_files": 89
+        },
+        {
+          "manifest_sha256": "5f07988323feb02c416f45bc1b826f66dea5ae8cdfce7c65cc6cb452181010fd",
+          "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+          "video_sha256": "cdc2b608e2d1cb8224d46ef6c36191d4d2294d272587cf13b4499929d99ae0a1",
+          "locale": "ru",
+          "verified_files": 65
+        },
+        {
+          "manifest_sha256": "ea569a47650e4f8158706ec39650531c1c3cfb31815eed7c96dd9144039a25a5",
+          "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+          "video_sha256": "11edecbff139836127e315b134b81c909d1336756f7614fb9a9147e171cd2257",
+          "locale": "nl",
+          "verified_files": 57
+        }
+      ],
+      "scoped_use_observations": [],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    },
+    {
+      "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+      "name": "wow044-placement",
+      "findings": [
+        "用户指出译字离开原擦除足迹、箭头层级不对；按原评论行分别排版，最后恢复原箭头与骷髅前景。",
+        "文字位置修正不代表底片自然：衣服/头发区域的局部柔化仍明显，标题明暗及逐字效果仍简化。",
+        "短句ASR歧义和音乐音效听审限制仍在；失败兜底不能作为质量通过。"
+      ],
+      "observed_locales": [
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "id",
+        "ja",
+        "nl",
+        "pt",
+        "vi"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "6517c487392c471ccdfbd14eed2235f1f673da462c2a4f3ce9591aa4773ba161",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "pt"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "ec610958159a514a9005fbea36f8f7115474e910e1c218670ddccd956e29c901",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "de"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "2ab920b651068c83cf76746994e1df829d4456cd40930e0b2e311fea1e4846a2",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "fr"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "fd833ee3c7a4853c5253b78625f64f3f629745974be5fdc67de61282466384a3",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "ar"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "adb6f1f1c191c01ee9f635125659b356c7dbe0bbf4d56db2e7302b96825d8487",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "ja"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "817b23926a5c5593fb2fcea10343556504e02ab9ab6538d1d5be95ed156cf81b",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "id"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "47da57851bbbd11456f7f7a2b999fa3c5dc9710a4de465e105a4d8caa23e1798",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "vi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "17107e7ae80961804368cfa03c2688ab4a0cdae7347df39ca72db9babece0d35",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "nl"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "555e420cfc7f2dbc3c60698d370556ae759d626fb0d93d0520bc955cbf2f1c9d",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "pt"
+          },
+          "historical_outcome": "counterexample"
+        },
+        {
+          "sha256": "802dd6f2da94af251944f59afdbb3ff334586ba1187970cfcbbcca533e527fd4",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "es"
+          },
+          "historical_outcome": "counterexample"
+        },
+        {
+          "sha256": "328bc4d93795be81b61ded1b036dabb723874b361c9f923ccacac1121b082710",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "ja"
+          },
+          "historical_outcome": "counterexample"
+        },
+        {
+          "sha256": "ee40387c9c6f8e51dad55527d0b92e0d48bac6bbf031fcfc103448b0bff4d63a",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "fr"
+          },
+          "historical_outcome": "counterexample"
+        },
+        {
+          "sha256": "9d2843c19c6ebea6cc9916d6a1cbc795aaa0433f1139661020c400c3ad9cbc62",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "de"
+          },
+          "historical_outcome": "counterexample"
+        },
+        {
+          "sha256": "ef01673cfc6de808145c6cd11e2f0635afc0cb3c9002e6acbd565f77aea71a01",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "vi"
+          },
+          "historical_outcome": "counterexample"
+        },
+        {
+          "sha256": "a9caf4d9801a97336a896a39d60f888426c2ba39f2ff7c342e85f810356982df",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "ar"
+          },
+          "historical_outcome": "counterexample"
+        },
+        {
+          "sha256": "abb1613db7168e27ce4810c51bced1b32425d8759f56aa7c375c63e96818d56d",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "nl"
+          },
+          "historical_outcome": "counterexample"
+        },
+        {
+          "sha256": "8c561bbc3ac3650d8b9735c3b7b495869ac6493bc7302afbdaa0353bdb0dd38e",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+            "target_language": "id"
+          },
+          "historical_outcome": "counterexample"
+        }
+      ],
+      "case_bindings": [
+        {
+          "manifest_sha256": "67d10aecc2040b4a72ed2c1b72a6577e7fddc22aaca0da155c094bbfff1b21fc",
+          "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+          "video_sha256": "0b298ea3e67346b90bf97fa7c0669ea7fd284dbe8e55a71c6a6ef1ddfe2894c0",
+          "locale": "pt",
+          "verified_files": 119
+        },
+        {
+          "manifest_sha256": "61a9af2edfce2f58a24779f121886ae718797ef04ebd53213637104ea527825f",
+          "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+          "video_sha256": "f30ebc39a6c7fe822b81e850d5f7a971f0a3814b75a28dbb2ba8850890afae52",
+          "locale": "de",
+          "verified_files": 100
+        },
+        {
+          "manifest_sha256": "fc28f7b3af247340b1dc515d52ada936b7af0b68804e3a4421dca462f759bcf8",
+          "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+          "video_sha256": "9fd1d8ac52de1352c816eab8d8d1f6757d73510c7ebaee2ab1b4f0e70c57a394",
+          "locale": "fr",
+          "verified_files": 118
+        },
+        {
+          "manifest_sha256": "3c295c089badb7b9394f0a12dacfa544f4d1812f5bf6167e56f0ec648e072399",
+          "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+          "video_sha256": "2446f74038ef39d72edbbf8e102bb2996bbdbba0fce90c53ca890abb132ae6d0",
+          "locale": "ar",
+          "verified_files": 118
+        },
+        {
+          "manifest_sha256": "c65fc19ee4864eae6bd1df5912d5ca5ad18bd91a36387a656f2716649f7762ec",
+          "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+          "video_sha256": "916201d8942f6256592d0c14e70c6aade02199632e8be8dc5300614edfe3e376",
+          "locale": "ja",
+          "verified_files": 120
+        },
+        {
+          "manifest_sha256": "675d215f833c8e6a71312d53ea0b324bcdfd62f0009c01655ad6e4d0e9982846",
+          "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+          "video_sha256": "365771e4cec9d39686c5c9be7c24d58f260fffca36c3dd3842c61bfbdfa5cac7",
+          "locale": "id",
+          "verified_files": 118
+        },
+        {
+          "manifest_sha256": "517ef44263c341d15482755d14b8ea40403a495a6f2c997695014ca8c7411c29",
+          "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+          "video_sha256": "5037c73104986ca4c4847383abd9e0f028f6473c2db2d2bf0952ad962f49457c",
+          "locale": "vi",
+          "verified_files": 101
+        },
+        {
+          "manifest_sha256": "dcd4c60a40034dda7f7b60da5634938f558e8235cc786d241314873df6c9580d",
+          "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+          "video_sha256": "dc8284e4c3e70bdc2124aaf52ab3cf7cf2759e7415a4d303f989046def948d5b",
+          "locale": "nl",
+          "verified_files": 120
+        }
+      ],
+      "scoped_use_observations": [
+        {
+          "observation": "Applied within this source: exact source/target evidence, frozen inventory and bounded repair; output remains with disclosed issues, not independent acceptance.",
+          "outcome": "helpful",
+          "original_receipt_count": 9
+        },
+        {
+          "observation": "Complex clothing/hair natural repair failed and minimal local softness remains visibly broad. Permitted fallback did not meet visual finish; target-footprint correction only improves composition.",
+          "outcome": "ineffective",
+          "original_receipt_count": 9
+        },
+        {
+          "observation": "User identified old target position and arrow-order errors. V3 applies original line footprints, actual source arrow/skull last; native encoded frames show corrected positioning/occlusion. Softness and simplified animation remain.",
+          "outcome": "helpful",
+          "original_receipt_count": 9
+        },
+        {
+          "observation": "No speech captions in source. Final mix ASR used to verify opening and CTA separately; short-syllable recognition remains ambiguous in some locales. Mother-tongue approval not claimed.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "No speech captions in source. Final mix ASR used to verify opening and CTA separately; short-syllable recognition remains ambiguous in some locales. Mother-tongue approval not claimed.",
+          "outcome": "ineffective",
+          "original_receipt_count": 3
+        }
+      ],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    },
+    {
+      "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+      "name": "wow050-mixed-ui",
+      "findings": [
+        "源有五条音频主张和独立商店画面文字，按混合载体分别清点；不能只翻译字幕。",
+        "平滑商店界面可用自然重建；移动游戏微字、闪电形擦入、禁止标志及CTA分别判断。局部通知修复形成暗块曾被拒绝。",
+        "保留未译微字、CTA纹理变化和部分音频服务失败；七语共享历史账本，不按新语言预算重置。"
+      ],
+      "observed_locales": [
+        "de",
+        "es",
+        "fr",
+        "pt",
+        "th",
+        "tr",
+        "vi"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "0df9155a91c8d6ce91068d8da208ec7d9424d9e7f0ee4b2a2c632922a347fec4",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+            "target_language": "es"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "ce1cf24d145c3b8ffc88da9a432ae47cfda8ca63bbdf3fd953cff9b0357d70af",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "bd0605793ca3eb45a29a2a0b3609caa2fa60d42646f07f6770ec8607a94b4e4e",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+            "target_language": "es"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "6e05603d27145fe793740ed01a541055e7fc7339d7c2da2c1c52bfefa035165a",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+            "target_language": "fr"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "a72a17e3ede8b54fd9bd97932283f7baa33bd97599add5301cced7caa9c3e328",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+            "target_language": "de"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "100a5144a8633e0a050ee246305a0e631369dfd9f6459ac2d63c0ea8c2621bd7",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+            "target_language": "tr"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "0a6aeb0408ca65515f7c5367c0e0d2d9a5b8b76c84f2af4d949fc1a8baf2bb6e",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+            "target_language": "th"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "0f0ac9bbe160a505778968ce99009bcffd7bd9e4204513b9a5f7ecc077e8da16",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+            "target_language": "vi"
+          },
+          "historical_outcome": "observation"
+        }
+      ],
+      "case_bindings": [
+        {
+          "manifest_sha256": "2a7b3c0ad7dac94cd154e331970f8e886eb36ccf5393f2cfa231e1dc8c02b4b6",
+          "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888",
+          "video_sha256": "9b0a851c2794ec2ca71c29f9d2ad92d8d1c5e312b49f9291ecb51ecfd6c36c3c",
+          "locale": "es",
+          "verified_files": 115
+        }
+      ],
+      "scoped_use_observations": [
+        {
+          "observation": "Used to choose source-bound local UI/CTA reconstruction and separate specialist narration; preserved unresolved moving UI rather than misreport success.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Source audio contains five claims and visual store text carries independent content; classified mixed and inventoried both.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Narration captions absent in source; scene UI/CTA classified separately. Speech phrases aligned from actual generated audio; did not invent subtitle alignment.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Codex read actual frames; Whisper/UVR/Gemini generated real audio evidence. No prohibited OCR or picture model was used.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Smooth app-store surfaces supported local reconstruction; moving gameplay labels did not. Candidate retained explicit residual defects.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Applied fast-mode actual encoded per-locale frame checks; incomplete playback and untranslated small UI retained as unapproved, not passed.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "One 40.263-credit request ledger shared by all seven locales and all retries; zero-fee terminal timeouts distinguished from ambiguous audio-review charges.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "No added opaque backing used. A game-notification trial produced a dark patch and was rejected rather than adopted.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Red prohibition sign retained as foreground; native CTA icon/arrows protected. Irregular lightning wipe and moving microtext remain counterexamples to complete local mask coverage.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Final TTS transcription and real mixed WAV used. Successful Gemini final comparisons distinguished from German/Thai provider failures and unreviewed phonetics.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Deterministic per-frame composition retained source native motion; smooth UI replacements useful, but CTA repair visibly changed texture/style and is not approved.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Selected local smooth-surface reconstruction plus transparent type, separately aligned TTS and original source-timing accompaniment; stopped unsafe small-label trials.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        },
+        {
+          "observation": "Recorded repeated app-brand/platform instances in separate source time ranges; main UI and CTA typed on native 30fps mapping.",
+          "outcome": "helpful",
+          "original_receipt_count": 7
+        }
+      ],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    },
+    {
+      "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+      "name": "wow052-missed-cta",
+      "findings": [
+        "初次全音轨Whisper遗漏口播CTA，真实源音频的另一路分析发现后补入定稿及实际配音；源识别空白不能证明没有台词。",
+        "自然填补出现条纹，局部模糊仍可见，后续静态图传播又出现重影/人物冻结。历史允许的兜底和定向改善均不等于自然底片合格。",
+        "径向名字残迹、点击粒子、源配色强调及片尾动画分别记录；不复用该源阈值和运动参数，也不释放未知费用。"
+      ],
+      "observed_locales": [
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "pt"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "9b5857d890a6ead6bc2ed8547bd944ea1b2fb1063230f351ebb446f7cfd5daba",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "es",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "948c3eeaec5bc19437739c19e0a8bceb68c4db80b8e8c951fb284472c1afb57e",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "d71eb13faee50fe67ae5438668bc5750e198aba62212c22eaa22b13b1bb91409",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "de",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "784a9de8f2395c129a6516d72e7c6ae28ab38369d46084829933bd332f20b07d",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "de",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "98e41ec79592fc5f4beffbecd01a3fe57e6fa3daa45fe017536de012ea9cff94",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "6cea536aaf4a81f590b9be6db091fea1154afc70c6fca50353e24e718c11dc0c",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "hi",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "a94688190926885b19c2f166eb6fc653c4232537ef5e819ddabeb1a5bbb49d55",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "es"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "8fe2a63aaf76f157d46aea9cefb18216e7b9e8603621fe66097244ccd06ee818",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "de"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "2669cb0de3e42bd6868c4629505a93e169681655a41738861f3178ee070b5111",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "fr"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "3f7aec7c3734c7237a42cf7b556af50695a0e9d9cf58279bb8782183e870905d",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "30c144801a1461915b0196e1a4f11d52e524b36eb500cdc113044eb3f2d1f66c",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "60238dc2baf13bc7f3f47cc63d21447ac876368b2a0ab8268e6b65ea258821b2",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "fr"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "21de85fa5ab73e1dd43a6bcb99f0c70a57e2b6aa4dc0556c2ece69abdc6102a5",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "b77cb623bc2b645ac3aa9ea1750120c06bb6027d1f638b5ad0722e9d9e74a406",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "pt"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "5c428fc6c59415fbaa9e820023fb459de42d35155cf90ac96ebb7b7eb306e9f3",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "de"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "eef4288fddc5f6d0afe7dbd274c199ab794180a61d224ee72bb100effc07fd7a",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "es"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "592eddb1c97f0b0a07eb3279e7ad7d64fd828709d6a0b925b3ebe5e96dbfb27d",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "fr"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "2ac155e2a1dbc2cc775e926817537cfe7bbcda0ed5cb216390563812f46ce3b5",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "fr"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "12425e2c9c1cbcd7dac6696749e3549633bb94be65cdc6e861bd773374f97cfc",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "hi"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "f87b24833e40af0162180a5090d2d96f72dfe50409538e3685d4682d1a4a0c44",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "pt"
+          },
+          "historical_outcome": null
+        },
+        {
+          "sha256": "92e7cc34ab8494eef9926e6f362baf93eda3a4ea6d58bbab752655eb221a9ff7",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "es",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "57390fc1d8e9cd6ca83aa2b8d84bd1e1f5ca1a000c22cb54f27bce90065c5619",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "pt",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "aa7d688584f6be01ac6a10890e9cb05157929e1ca6af7fc1527e6f2d0a582e56",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "de",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "ef421b33dba0d4c8c296bba55048c9561d78678f2520f8f5f599e8bfa83a8050",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "de",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "27618097b6aa8431efddf100a4fe9ee463e6265e155ea17d1377fa58f8e24a36",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "fr",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "7341d6c51ba45752c657c11052026b1e608a78f36a15f80e8fbb8dc2637a14e5",
+          "scope": {
+            "workflow": "video-localization",
+            "target_language": "hi",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+          },
+          "historical_outcome": "revise"
+        },
+        {
+          "sha256": "f6eb825cb3ce865b9aa0ccef2561141af56c2e29768483084c2037f29692dd86",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "pt"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "c1452e931bada08393bf779ad2d5dadf317272e00e5ed23edd3d2f2fd05375e9",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "hi"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "cd84d4de9838c8f8a1939af2915f2bdf8d57211b45f0e1dcaf30fd08b937e194",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "de"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "9defe1aa9791b1cad577412ebc62796b11d46e01eaa8530cf2c3cdc921e6696f",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "fr"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "726385e2c7ad59a19ce487efd6dd0c8e66b01002bce8d8b9f5d4d94c9b4b13bf",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "es"
+          },
+          "historical_outcome": "observation"
+        },
+        {
+          "sha256": "20cd0a9454f3b4b9ef2ebf0b3f392f8d1181ed47fecdbc60c42743a450207327",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+            "target_language": "de"
+          },
+          "historical_outcome": "observation"
+        }
+      ],
+      "case_bindings": [
+        {
+          "manifest_sha256": "1365f192272ad5273c7b160d8f52163ae3b2d1ac415e8529d9c93cfd376eeab0",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "718a6e9f01d50e9a34d22a16b6fafdd8e789bccf48c48f6141238269fe757d74",
+          "locale": "es",
+          "verified_files": 171
+        },
+        {
+          "manifest_sha256": "0beb04c45146aede0e0ec21ee4d302bac7d1ccf9ff9268309338ad2a0d231405",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "226e172efbf95a09775e5daf0eea6ec023a39aeafc67ee00cf9be13ecb2ac49b",
+          "locale": "de",
+          "verified_files": 215
+        },
+        {
+          "manifest_sha256": "ab5165fa62d624cfd3e1d039c3c4ec7c8144537e5e6e49604abf8f71bbd92c8f",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "934bd29b9424a935c0501fbaa41aeb4176214b1864d6379c5011ebc5eda16483",
+          "locale": "fr",
+          "verified_files": 183
+        },
+        {
+          "manifest_sha256": "1579ec272129cdb3c7906c00d31bd7100ae647697f6b9e8ca437a9264a5b188f",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "f6925e0950992ce4f0dc67f792900126150759fa7731a2bd383cc477b11fcf0d",
+          "locale": "hi",
+          "verified_files": 130
+        },
+        {
+          "manifest_sha256": "b49a936f1515291712dc25eee219b73f6a7ba25a210e302eec2c1b228fd5e672",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "33ada7b1064b02ab83bb33fff1ae23c1eb7c725f6cf90f239ccb77d27f2ab9d0",
+          "locale": "hi",
+          "verified_files": 243
+        },
+        {
+          "manifest_sha256": "1c9687063b413ce5b1d31d449f36b9706fb42d6e20610d518b5096819287a66c",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "81fd29aa9c09655ea37610490a63faf067046216b36b5bf35f792a1a936789b8",
+          "locale": "fr",
+          "verified_files": 184
+        },
+        {
+          "manifest_sha256": "49a324289c2b31f103b5aab044a36b32206a6bbb0855be119a3b5ea588e940ac",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "e77d4051b64d667233c757bcc765a0b6bfa4b01e0072dae0725e3f4b3727c876",
+          "locale": "hi",
+          "verified_files": 184
+        },
+        {
+          "manifest_sha256": "76d568e92bc4b23478f58ec885767a2df6bd568119dd648ce4488513978c9be5",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "08a3144719c58fc493ee11150c2835fefdd7a0e0df4ede6d0beddfab109d1645",
+          "locale": "pt",
+          "verified_files": 182
+        },
+        {
+          "manifest_sha256": "accbc3c5c1f8232d042762d2a8bdc2fbc499759c1e7484b4ff9ee3f5531fd700",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "e5224d301f06fe928e74414fcd50013c9364ac6216ad542eeeb9551e3ea1ff57",
+          "locale": "de",
+          "verified_files": 290
+        },
+        {
+          "manifest_sha256": "4b1c8864f1e1ea24a5148c0b863afd21165119e7701c67b0311f073e2acb5b0c",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "042a39005e6d988c849c11a240a4d985a080c7b0f69cf59cc3b3135e57048e0e",
+          "locale": "es",
+          "verified_files": 300
+        },
+        {
+          "manifest_sha256": "5cba036d035affcfadb43430d288b0eb4cbe006265f1578c7b056e24d4d54af0",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "dbaaf24f4a1bad596fc087e0d781ef1217e2cab92426a017d30c047b6795843c",
+          "locale": "fr",
+          "verified_files": 166
+        },
+        {
+          "manifest_sha256": "0276f53684bed5412ddc77b3835e4326c85563cbd17ea6d4217039d54f69d04b",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "93baadfd3a006698cbdcae8b0c2406d44b1f15ded4824661f72b08fe515c3fc6",
+          "locale": "fr",
+          "verified_files": 283
+        },
+        {
+          "manifest_sha256": "61888b673a9fd1c1b851a45accecbdb69ebd20d6732a5ccfdf13dfe4409df15a",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "db696399732a380bbc9c6ae3388b3ddb4c6928bc3fea6a2b9635a6824031c2f9",
+          "locale": "hi",
+          "verified_files": 166
+        },
+        {
+          "manifest_sha256": "f930da11d4d25b85449991202d6219dd70add2ed933577b0e4b581a45fc7c473",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "a7e62e5c5a8c16dda381062c2a5780821ba526083615b7dd0dea836bb2b67f9e",
+          "locale": "pt",
+          "verified_files": 297
+        },
+        {
+          "manifest_sha256": "c43e03d447aeff125aaeb3ecde35e7d600bd38baf36a1db4d798b030b992601f",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "718a6e9f01d50e9a34d22a16b6fafdd8e789bccf48c48f6141238269fe757d74",
+          "locale": "es",
+          "verified_files": 32
+        },
+        {
+          "manifest_sha256": "9779896d9b8039cf4f9de997b528d6bac6e6683797bf06028f0bc13094a17aff",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "23f50be5f31eacb5d9ef94c221902be6df99ca485dcb81f0d1fcd8045360ce99",
+          "locale": "pt",
+          "verified_files": 30
+        },
+        {
+          "manifest_sha256": "7e957fe1bb721eab46e67755b99e070f1d8528278f96b51f2c6d813c4e8bc0b3",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "226e172efbf95a09775e5daf0eea6ec023a39aeafc67ee00cf9be13ecb2ac49b",
+          "locale": "de",
+          "verified_files": 32
+        },
+        {
+          "manifest_sha256": "bb6fcb17775b26185ca4cc80c44d0f8ecaec14c3a2ba2923c5fffc2b0f976691",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "402e95902c4921ca66609a253380eb51fd29230c863097414f5906440f4e8b99",
+          "locale": "de",
+          "verified_files": 32
+        },
+        {
+          "manifest_sha256": "17d28d02616c007e4aff103e940efe1c5c9f97a4d2004ea2309317ab1a805f97",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "934bd29b9424a935c0501fbaa41aeb4176214b1864d6379c5011ebc5eda16483",
+          "locale": "fr",
+          "verified_files": 32
+        },
+        {
+          "manifest_sha256": "7beb8ea89da9fb7f0752da3c19bb7c7ed08a66a5a4cdfb388a37872ce612ce76",
+          "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8",
+          "video_sha256": "f6925e0950992ce4f0dc67f792900126150759fa7731a2bd383cc477b11fcf0d",
+          "locale": "hi",
+          "verified_files": 32
+        }
+      ],
+      "scoped_use_observations": [
+        {
+          "observation": "Used condition-based routing: static cyan UI reconstructed, dynamic title trial assessed separately, alternatives and limits recorded.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Onscreen-text-led classification retained both opening narration and spoken CTA; initial ASR omission corrected by actual audio perception.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Shared target copy used for speech/subtitles; complete AV sync acceptance remains pending instead of inventing a pass.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Codex read real source images; actual Whisper, UVR and Gemini audio tasks kept separate from text understanding. No OCR/image API fallback.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Natural inpaint caused visible streaks; second minimal local blur avoided streaks but remains a visible softened area and is not quality-approved.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Actual encoded source/target frames compared; native source timing preserved. Full quality withheld due repair/AV review limits.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "All locales and retries bound to one source-duration40.611-credit request; unknown charges continue reserved.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Used transparent target glyphs and only existing UI containers. No new opaque title backing.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Source star/confetti/emoji retained at native frames; target CTA entrance simplified and defect disclosed.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Actual source ASR missed final CTA; comparative Gemini audio detected it and triggered exact-copy short-phrase TTS plus postmix verification.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Source-frame composition kept one-to-one mapping. Deterministic repaired UI/transparent letters used; natural scene reconstruction did not meet visual quality.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Local UI reconstruction chosen per stable surface; Wan4-second estimate64 exceeded whole-request cap; fallback blur selected after observed streaks, not merely to save cost.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        },
+        {
+          "observation": "Separate title, random-name prompt, form action, two result buttons and two CTA text locations recorded with native frame intervals; preserved name/keyboard/numeral instances explicit.",
+          "outcome": "helpful",
+          "original_receipt_count": 6
+        }
+      ],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    },
+    {
+      "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+      "name": "mog043-failed-still-probes",
+      "findings": [
+        "仅五张静帧的失败诊断：图像与遮罩匹配反射填充后镜像原字伪影减少；数字保护仅观察两张采样帧。",
+        "发丝接缝和CTA色带仍在，没有完整底片、连续运动、目标语言视频或音频验收。静帧局部改善不能放行中性底片。",
+        "此记录仅在精确同源西语任务作为失败诊断参考；不启用反射填充为默认算法，不继承任何通过结论。"
+      ],
+      "observed_locales": [
+        "es"
+      ],
+      "record_bindings": [
+        {
+          "sha256": "d5f7dbc909030fa8eadd6bddb1f576a5d9a081587ca797000d44266311dcc158",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+            "stage": "neutral",
+            "target_language": "es"
+          },
+          "historical_outcome": "fail"
+        },
+        {
+          "sha256": "b1c9e2f20e947f8f26f0720f88ab9a975960100c604b401bce42a3c02429948b",
+          "scope": {
+            "workflow": "video-localization",
+            "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+            "stage": "neutral",
+            "target_language": "es"
+          },
+          "historical_outcome": null
+        }
+      ],
+      "case_bindings": [],
+      "scoped_use_observations": [],
+      "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+    }
+  ],
+  "boundary": "No new customer-video approval. Do not use placeholder, repeated locale count, stale model list or historical budget as current authority."
+}

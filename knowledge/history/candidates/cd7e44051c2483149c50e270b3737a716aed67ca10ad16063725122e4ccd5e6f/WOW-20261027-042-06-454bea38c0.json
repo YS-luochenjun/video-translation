@@ -1,0 +1,30 @@
+{
+  "id": "WOW-20261027-042-06-454bea38c0",
+  "status": "candidate",
+  "created_at": "2026-10-27T10:40:35+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "nl",
+    "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131"
+  },
+  "outcome": "pass",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "WOW-20261027-042-06",
+    "video_sha256": "454bea38c0a224aa4c63ded8454206ec65228a4255bc936e4e15677246182106",
+    "quality_sha256": "fdc4da1285acb0cf491823cf283b2cb2175c856a36ce3804e66b949f09e87a1b"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "pass",
+    "failure_codes": [],
+    "reviewer": "Codex (same_agent)",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

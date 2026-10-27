@@ -31,8 +31,8 @@ async function api(url) {
 }
 
 function route() {
-  const [page='tasks', id=''] = location.hash.slice(1).split('/');
-  return {page:['tasks','knowledge','system'].includes(page) ? page : 'tasks', id:decodeURIComponent(id)};
+  const [page='ledger', id=''] = location.hash.slice(1).split('/');
+  return {page:['ledger','efficiency','tasks','knowledge','system'].includes(page) ? page : 'ledger', id:decodeURIComponent(id)};
 }
 
 function notice(message) {
@@ -55,6 +55,7 @@ async function refresh(force=false) {
     $('nav-count').textContent = next.stats.tasks;
     notice(next.warnings.length ? `有 ${next.warnings.length} 项记录暂不可读取。任务中的文件异常会单独标记，其他记录仍可查看。` : '');
     if (changed || force) renderPage();
+    if (['ledger','efficiency'].includes(route().page)) await window.LedgerUI.refresh();
     if (route().page === 'tasks') await loadDetail(false);
     if (force && route().page === 'knowledge') await loadKnowledge();
   } catch (error) {
@@ -67,10 +68,11 @@ async function refresh(force=false) {
 
 function renderPage() {
   const {page} = route();
-  const titles = {tasks:['任务与视频','查看制作进展、实际产物和仍需处理的问题。'],knowledge:['知识与调用','区分现行方法、来源案例、待验证候选和实际采用。'],system:['运行概况','查看模型分工、费用快照与维护情况。']};
+  const titles = {ledger:['需求台账','接单范围、语言进度、预计完成与实际输出。'],efficiency:['效率分析','按去重需求查看产出、交付周期与首次预计偏差。'],tasks:['任务与视频','查看制作进展、实际产物和仍需处理的问题。'],knowledge:['知识与调用','区分现行方法、来源案例、待验证候选和实际采用。'],system:['运行概况','查看模型分工、费用快照与维护情况。']};
   $('page-label').textContent = titles[page][0]; $('page-title').textContent = titles[page][0]; $('page-description').textContent = titles[page][1];
   document.querySelectorAll('[data-nav]').forEach(a=>a.setAttribute('aria-current', a.dataset.nav===page ? 'page' : 'false'));
   if (!snapshot) return;
+  if (['ledger','efficiency'].includes(page)) window.LedgerUI.show(page,route().id);
   if (page==='tasks') renderTasks();
   if (page==='knowledge') renderKnowledge();
   if (page==='system') renderSystem();

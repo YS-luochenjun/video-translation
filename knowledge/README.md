@@ -53,6 +53,8 @@
 
 `history/` 保留既有文件和原文，不参与正常方法检索。本次 [旧候选索引](curation/candidate-index-before-dedup-20261023.json) 和 [存储迁移记录](curation/evidence-storage-20261023.json) 保留迁移前的哈希，去重不会删除来源与失败判断。
 
+`current_review` 是派生索引中的当前审查链入口，包含决定文件及哈希、是否结案和现行目标；旧 `review_status` 与 outcome 继续保留历史含义。使用 `python3 bin/project_health.py` 可生成本地知识导航，按源与相同假设浏览成员，完整 scope 和每语种状态保存在 JSON 中。自动占位经验不会进入制作建议，仍能从队列补写有来源的观察。见 [维护地图](../docs/project-map.md) 与 [七组实测整理](curation/seven-source-review-20261027.json)。
+
 ## 审查、实际使用与退出候选队列
 
 `knowledge-queue` 才是当前待处理入口：它同时汇总原始候选、当前提纯版本和使用反馈。旧采纳表提供历史依据，新审查决定保存在 `curation/reviews/`（私有来源留在local），通过原文哈希和 `previous_review` 保留修订链。提纯建议与部分采纳不会自动变成正式规则。
@@ -64,3 +66,11 @@
 ## 信息载体与防漏入口
 
 [三类广告条件](rules/content-led-localization-v1.md) 说明音频主导、画面文案主导及混合型的适用条件和片段例外。旁白与对白都翻译。角色/文字事实补齐检索标签，Agent 保存分类与选路证据；必要方法完整返回，可选方法有界。普通和快速计划都冻结选择及知识版本，缺少旧记录时如实补登记，不改写历史质量或费用。
+
+本轮聊天复盘新增：[KIE API与本地核查](rules/kie-api-local-verification-v1.md)、[Fireplay自动提交与经验收尾](rules/fireplay-completion-recovery-v3.md)、[多语种制作复盘](rules/multilingual-thread-lessons-v1.md)。原候选、质量失败和源/语种范围保留；结案后不追踪YouTube进度。
+
+本轮还保留了[WOW-042德语合成案例](cases/wow042-caption-compositing-v1.md)：发光文字填充反例、gbrp颜色合成修正与逐帧字幕边界。仅限该源和德语，不扩成全语种默认算法。
+
+## 精简与复用
+
+现行入口只保留操作摘要，完整旧说明在history/instructions和history/workflows追溯；不把历史原话重复注入每次制作。证据只按相同SHA256通过storage-index共享，scope、manifest和原评审不变。新整理的[MOG044韩语控件案例](cases/mog044-record-control-ko-v2.md)保留“亮底不等于录音中”的实际源图反例，仅精确同源ko召回。运行状态和容量数字以本地审计为准。

@@ -1,0 +1,244 @@
+{
+  "name": "SHE-20261027-025-3",
+  "source_sha256": "b6dc427aa2ee990ca5093ed1e94a2e39a9db989fbc02dafd5b7c430fa25138dd",
+  "thread": {
+    "thread_id": "01a17b47-a358-7930-920f-c7455608b08e",
+    "host": "local",
+    "read_state": "unavailable_size_limit"
+  },
+  "report": {
+    "origin_label": "outputs/reports/SHE-20261027-025-3/manifest.json",
+    "sha256": "993161af113c3d4be27c1405af62d1ffd101bff0da4f8d7cdeed7ac34eedb047"
+  },
+  "findings": [
+    "16语来自同一源，不能算16个独立方法成功样本。",
+    "同一需求有多个原片和聊天同时上传；同名不能判断重复，需原片、语言、实际成片哈希/大小、素材ID及各自导入回执。"
+  ],
+  "limitations": [
+    "极小界面标签/远景招牌保留；局部片尾背景与碎纸运动有差异。",
+    "只有 zh-TW/es/pt/hi 具有成功音频模型对照，其他语种不能沿用其通过结论。",
+    "五笔音频复核超时，10 credits未知预留保留；未经独立母语验收。"
+  ],
+  "outputs": [
+    {
+      "locale": "zh-TW",
+      "video_sha256": "56e67dd051490defd026f076159bc64c6c15d45baac4036ec1da35ea74435929",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。"
+      ]
+    },
+    {
+      "locale": "es",
+      "video_sha256": "d502b8851cb6aa66fc11228be8c5b7c60abad04a1400ff047ebe1b5834a3ea29",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。"
+      ]
+    },
+    {
+      "locale": "pt",
+      "video_sha256": "3cb3fbd18424d6a3ea8b94fcfd4958b82ff65de41faaf866e0e9a250b0feff73",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。"
+      ]
+    },
+    {
+      "locale": "de",
+      "video_sha256": "de7d1eb0c085c42f56b5f4f592853553f783be7693424e06482a3414e44df1cf",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "fr",
+      "video_sha256": "9bcbeb84bf030081d5b60072f7b325a0ca7ddc0a913a3a621add737bf200ea42",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "id",
+      "video_sha256": "202563097d2cabd2e301df0842a7a9e2764ac966137f5865e913ceaec2828dc9",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "th",
+      "video_sha256": "35aaedd5815175780cffdc624dcdf53a25d1e24f18395f7c208455aae6d7b3c0",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "pl",
+      "video_sha256": "a5cca9cd677d91dc92d5915e04fe8f5e419d98c30c22f704c923dd1c2627bfe4",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "tr",
+      "video_sha256": "b7144408245660393b753d9bfa96f8ec3f241a9a2c1016c95aa6693293ba850a",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "hi",
+      "video_sha256": "cf9d98b1d5a989ef493d2295bbe4173ebb209dbdb9b92175cdc4d47f0f63b7e4",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。"
+      ]
+    },
+    {
+      "locale": "ar",
+      "video_sha256": "9c9d6cf67c6e2979c53170f2bbec47a07ddb17d38b8de5d0198848e8682804d8",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "it",
+      "video_sha256": "fb4607a6ee6d92b1852391cc4f9a879660ffe51f25fcfab2a200a103c950486f",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "vi",
+      "video_sha256": "66089a358c1163cf6337a16d3b5bcce2618630e378ce3c94474eb0e2fabef16f",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "越南语成片ASR存在同音转写分歧；音频模型复核超时，实际发音尚待人工核验。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "ja",
+      "video_sha256": "90b36bab8d6da6e1334426ce2c775821384038180cabf68c2d81a904b2ac2a2b",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "nl",
+      "video_sha256": "21defc03be28d2b1eb46fe913d774c57162a7d2a38dbe178099883ddae5c7e46",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    },
+    {
+      "locale": "ru",
+      "video_sha256": "d32dc7092e9393cc42079c0d681899e37daa379b6b0a8f16c55ba7c3cc2c7d97",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "已输出／有瑕疵",
+      "limitations": [
+        "手机桌面的极小应用标签及远景招牌保留原样。",
+        "片尾文字区域使用同源模糊底面，局部背景细节/碎纸运动有差异；保留原时刻箭头。",
+        "已添加目标语言双角色配音与字幕；未调整原角色逐字口型，未做独立母语视听验收。",
+        "本语种使用实际成片ASR、原配音转写与混音证据审核；未取得完整音频模型比较通过，不标质量通过。"
+      ]
+    }
+  ],
+  "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+  "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+  "billing_snapshot": {
+    "confirmed_credits": 21.04,
+    "unknown_reserved_credits": 10,
+    "unknown_requests": 5,
+    "credit_limit": 55.658,
+    "scope": "Five timed-out audio review responses remain unknown; no duplicate dispatch. Does not affect stored video bytes."
+  },
+  "duplicate_review": {
+    "origin_label": "outputs/reports/SHE-20261027-025-3/duplicate-verification.json",
+    "sha256": "67288acef63ba57d9832bd439d340e4f68af1f4e58eac2a207a5fce8f5807001",
+    "scope": "Historical exact-ID duplicate verification belongs to that chat; no new deletion permission.",
+    "user_condition": "请你确认是重复的，目前SHE-20261027-025不只是你一个人在传输"
+  }
+}

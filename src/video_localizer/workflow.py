@@ -102,11 +102,11 @@ def analyze(run):
 def execution_limits(run):
     settings = read_json(ROOT / "config/workspace.json")
     allowance = None
-    if settings.get('request_budget_policy') == 'source_duration':
+    if settings.get('request_budget_policy') in ('source_duration', 'per_target_language'):
         from . import budgets
         allowance = budgets.run_allowance(run)
         settings['max_estimated_credits_per_run'] = allowance['credit_limit']
-        if allowance.get('budget_basis', {}).get('policy') == 'source_duration':
+        if allowance.get('budget_basis', {}).get('policy') in ('source_duration', 'per_target_language'):
             settings['max_paid_jobs_per_run'] = budgets.job_allowance(run, allowance, settings['max_segment_seconds'])
     path = run / "inputs/budget.json"
     if not allowance and not path.exists() and (run / 'inputs/reuse-manifest.json').exists():
@@ -129,7 +129,7 @@ def execution_limits(run):
 
 @guarded
 def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only=False, voice_review=False,
-                  retry_upload=False, model_authorization=None):
+                  retry_upload=False, model_authorization=None, retry_authorization=None):
     """One journaled multimodal audio analysis; never infer speech from the video captions."""
     import json
     from .kie import AUDIO_MODELS
@@ -217,6 +217,10 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
     if candidate_record:
         descriptor.update({"kind": "audio_candidate_transcription" if transcribe_only else "audio_review", "video_sha256": candidate_record["sha256"],
                            "candidate_audio_sha256": file_hash(target_audio)})
+    if retry_authorization:
+        require(not retry_upload, 'Choose upload recovery or an explicitly authorized model retry')
+        from .audio_retry import authorized_retry
+        descriptor.update(authorized_retry(run, descriptor, retry_authorization))
     digest = object_hash(descriptor)
     journal = run / "jobs" / (digest + ".json")
     client = client or KieClient()
@@ -256,6 +260,8 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
                 <= settings["max_estimated_credits_per_run"], "Estimated credit budget reached")
         job = {**descriptor, "id": digest, "plan_id": None, "segment": "audio-analysis", "state": "preparing",
                "created_at": utc_now(), "estimated_credits": estimate}
+        if retry_authorization:
+            job['retry_authorization'] = retry_authorization
         if previous_attempts:
             job['upload_retry_history'] = previous_attempts
         from .batches import gate, reserve
@@ -363,6 +369,8 @@ def current_plan(run):
         for kind, asset in segment.get("reference_composite", {}).items():
             if kind in ("day", "night"):
                 require(file_hash(inside(run, asset["path"])) == asset["sha256"], "Reference plate changed; regenerate plan")
+    from . import typography
+    typography.verify_contract(run, plan, read_json(run / 'analysis/inventory.json'))
     return plan
 
 
@@ -551,6 +559,15 @@ def build_plan(run, experiment=None):
             "caption_contract": captions.contract(inventory),
             "caption_assets": captions.plan_assets(run, inventory, meta["duration"]),
             "execution_limits": {key: limits[key] for key in ("max_paid_jobs_per_run", "max_estimated_credits_per_run")}}
+    from . import typography
+    typography_contract = typography.contract(run, inventory)
+    if typography_contract:
+        for segment in segments:
+            if any(typography.selected(i) and i['id'] in segment['instance_ids'] for i in inventory['text_instances']):
+                require(segment['route'] in ('prepared_video', 'reference_composite') or
+                        segment.get('model_text_mode') == 'erase_then_overlay',
+                        'Remotion typography requires a clean-master route')
+        plan['typography_contract'] = typography_contract
     plan_id = object_hash(plan)[:16]
     settings = read_json(ROOT / "config/workspace.json")
     plan["id"] = plan_id
@@ -583,6 +600,8 @@ def build_plan(run, experiment=None):
         "inventory_sha256": plan["inventory_sha256"], "decision": "revise",
         "scores": {key: None for key in read_json(ROOT / "config/quality.json")["weights"]},
         "critical_defects": [],
+        "typography_fallbacks": [],
+        "typography_note": "If static fallback occurred, inspect actual output and acknowledge its receipt_sha256, accepted=true and observation here.",
         "instances": [{"id": item["id"], "decision": "pending", "evidence": [], "note": ""}
                       for item in inventory["text_instances"] + inventory["speech_segments"]],
         "coverage": {key: {"status": "pending", "evidence": []} for key in ("visual", "audio", "timing")},
@@ -863,12 +882,14 @@ def render(run, force_segments=False):
                            or item["action"] == "solid_overlay" or segment.get("model_text_mode") == "erase_then_overlay")]
         require(not local_captions or bool(plan.get("caption_assets")),
                 "Align speech captions to the selected mix with captions --alignment ... --apply before local rendering")
+    meta = {**meta, 'target_language': read_json(run / 'inputs/request.json')['target_language']}
     visuals, model_audio, audio_inputs, audio_alignment = [], [], [], []
+    font_hash_cache = {}
     for segment in plan["segments"]:
         directory = run / "outputs/segments" / plan["id"] / segment["id"]
         directory.mkdir(parents=True, exist_ok=True)
         from . import render_cache
-        cache_key = render_cache.signature(run, plan, segment, inventory, meta)
+        cache_key = render_cache.signature(run, plan, segment, inventory, meta, font_hash_cache=font_hash_cache)
         cached_visual = render_cache.restore(run, cache_key) if cache_key and not force_segments else None
         if cached_visual:
             visuals.append(cached_visual)
@@ -912,11 +933,9 @@ def render(run, force_segments=False):
             if segment.get("model_text_mode") == "erase_then_overlay":
                 edits = [item for item in inventory["text_instances"] if item["id"] in segment["instance_ids"]
                          and item["action"] != "preserve"]
-                if segment.get("tracked_typography"):
-                    from . import compositor
-                    output = compositor.text(output, segment, edits, meta, directory / "target-overlay")
-                else:
-                    output = media.render_foreground(output, segment, edits, meta, directory / "target-overlay")
+                from . import typography
+                output = typography.render(run, output, segment, edits, meta, directory / 'target-overlay',
+                                           legacy='tracked' if segment.get('tracked_typography') else 'foreground')
             if segment.get("preserve_regions"):
                 output = media.restore_regions(source_path(run), output, segment, segment["preserve_regions"],
                                                directory / "preserve-source-regions")
@@ -946,10 +965,23 @@ def render(run, force_segments=False):
                                                                     "sha256": file_hash(audio_path)},
                "model_inputs": audio_inputs, "segment_alignment": audio_alignment, "policy": audio,
                "note": "Visual intermediates are silent by design. Final audio is explicitly selected and muxed here."})
+    typography_assets = []
+    typography_fallbacks = []
+    for path in (run / 'outputs/segments' / plan['id']).rglob('typography-result.json'):
+        from . import typography
+        asset = {'path': path.relative_to(run).as_posix(), 'sha256': file_hash(path)}
+        receipt = typography.verify_receipt(run, asset)
+        typography_assets.append(asset)
+        if receipt['renderer'] == 'ffmpeg_static':
+            typography_fallbacks.append({'segment':receipt['segment'], 'reason':receipt['fallback_reason']})
+    from .typography import verify_assets
+    verify_assets(run,typography_assets,inventory)
     write_json(run / "outputs/candidate.json", {"path": destination.relative_to(run).as_posix(),
                "sha256": file_hash(destination), "plan_id": plan["id"], "inventory_sha256": plan["inventory_sha256"],
+               "typography_assets": typography_assets, "typography_fallbacks": typography_fallbacks,
                "audio_selection": {"path": audio_record.relative_to(run).as_posix(), "sha256": file_hash(audio_record)}})
-    return {"candidate": str(destination.relative_to(ROOT)), "sha256": file_hash(destination), "state": "needs_review"}
+    return {"candidate": str(destination.relative_to(ROOT)), "sha256": file_hash(destination), "state": "needs_review",
+            "typography_fallbacks": typography_fallbacks}
 
 
 @guarded
@@ -960,6 +992,11 @@ def quality(run):
         return fast_quality(run)
     candidate = read_json(run / "outputs/candidate.json")
     path = inside(run, candidate["path"])
+    from .typography import verify_receipt
+    for asset in candidate.get('typography_assets', []):
+        verify_receipt(run, asset)
+    from .typography import verify_assets
+    verify_assets(run,candidate.get('typography_assets',[]),read_json(run/'analysis/inventory.json'))
     require(file_hash(path) == candidate["sha256"] and candidate["plan_id"] == plan["id"], "Candidate/plan binding changed")
     source = read_json(run / "analysis/media.json")
     actual = media.probe(path)
@@ -1012,6 +1049,8 @@ def quality(run):
         failures.append("agent_review_missing")
     else:
         review = read_json(reviewed)
+        from .typography import review_failures as typography_review_failures
+        failures.extend(typography_review_failures(run, candidate.get('typography_assets', []), review))
         capture_path = run / "review/capture.json"
         captured_files = {}
         if capture_path.exists():

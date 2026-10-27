@@ -1,0 +1,47 @@
+{
+  "id": "fireplay-native-draft-account-selection-observations-20261027",
+  "status": "candidate",
+  "created_at": "2026-10-27T12:02:16.141780+00:00",
+  "scope": {
+    "workflow": "fireplay-intake",
+    "platform_version": "Fireplay v0.1.98",
+    "observed_date": "2026-10-27"
+  },
+  "hypothesis": "Fireplay v0.1.98 的 R2 外链卡不能等同于已丢失的本地视频草稿；原生视频卡的手动账号选择可保持自动上传请求。首次 Worker 分配前后的组显示也不能与上传人组混为一谈。",
+  "reflection_state": "observed_candidate",
+  "outcome": "bounded_operational_observations",
+  "evidence_case": {
+    "path": "knowledge/examples/fireplay-native-draft-account-selection-observations-20261027-case",
+    "manifest_sha256": "4431e34dbf1276dfda6fac99853704d7d227e2d6725ccca9544c4f679a4f5c2d"
+  },
+  "observations": [
+    {
+      "trigger": "A native-file upload draft is lost after a verified raw R2 stage",
+      "observed": "Restoring its public R2 URL through the batch-link textbox produced an external-link card without the native-file YouTube account selector and ready cover. A new native-file selection produced a local-video card with those controls.",
+      "effective_action": "Retain the prior stage receipt. In this incident a human explicitly authorized exactly one new raw stage for Japanese; the resulting material was imported once.",
+      "failure_signature": "An existing public video URL is playable but the link card has no per-video YouTube upload configuration.",
+      "limit": "Do not infer that a public URL can restore the native-file draft, and do not infer authorization to reupload unknown or already-uploaded items."
+    },
+    {
+      "trigger": "Need an explicit requirement-group YouTube account on a native-video card",
+      "observed": "Leaving the ordinary/no-YouTube checkbox unchecked retained YouTube task creation. Switching the per-card account mode from automatic to manual exposed account selection. Choosing an account whose actual account-detail group was APC yielded a task specifying that account.",
+      "effective_action": "Record real account-detail group, per-video selection screenshot, final file hash, exact imported material ID and initial task/account mapping. The account global mode was not changed.",
+      "limit": "The manual selector label describes selection, not cancellation of automatic YouTube submission. This is an observed UI behavior, not a default-account guarantee."
+    },
+    {
+      "trigger": "Task detail viewed before its first Worker claim",
+      "observed": "The task displayed the specified APC account email, but execution account was blank and the group showed the uploader group. After first claim the actual execution-account UUID and displayed group were APC. The extension metadata still carried the uploader group name.",
+      "effective_action": "Keep selected account ownership and uploader-group metadata distinct. Preserve the initial unassigned observation without fabricating execution-account or task-group verification.",
+      "limit": "This candidate does not authorize waiting for downstream completion. Current user instruction delegates upload progress to Fireplay after initial acceptance and binding."
+    }
+  ],
+  "limitations": [
+    "One observed UI version and one requirement; no broader platform compatibility claim.",
+    "User exception applied to exactly one raw stage and is not a reusable authorization.",
+    "Self-review of initial account routing and Fireplay acceptance; no claim of downstream YouTube completion."
+  ],
+  "company_preference": false,
+  "origin": "Actual APC-20261027-020 return UI and explicit one-stage recovery authorization, 2026-10-27",
+  "next_action": "Consult the concrete failure signature only when the same native-file draft recovery or account selector issue recurs; verify current UI before acting. No new paid experiment or new generic rule is requested.",
+  "knowledge_class": "project_training_candidate"
+}

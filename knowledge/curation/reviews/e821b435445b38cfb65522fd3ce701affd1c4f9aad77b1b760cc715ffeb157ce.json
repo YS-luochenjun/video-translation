@@ -1,0 +1,39 @@
+{
+  "source": {
+    "path": "knowledge/candidates/wow042-caption-compositing-observations-20261027.json",
+    "sha256": "06bb33683888880388b18edffc3b454df2d8da2b9a9d1bb009a9c3aed959a70e"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent scoped staging review",
+  "origin": "User requested synthesis and closure of current staging; these records were added by active owners during the same review.",
+  "resolution": "adopted",
+  "reason": "Adopt only the explicitly listed actual procedural/technical observation. All source/locale scope, exact parameters, media bytes, pending checks and quality judgments remain historical and unexpanded.",
+  "targets": [
+    {
+      "id": "wow042-caption-compositing-v1",
+      "path": "knowledge/cases/wow042-caption-compositing-v1.md",
+      "sha256": "f344b2ba24585ac8c8929774ba059f2fc25ee3d6207a515133a13edd2fd5eba6",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+        "target_language": "de"
+      },
+      "snapshot": "# WOW-042 德语：发光文字修复、合成颜色与逐帧字幕边界\n\n只适用于登记原片SHA256的德语案例，不作为八种语言均独立验证或所有素材默认算法。实际观察和失败范围见evidence:review。\n\n1. 本源黄色发光英文覆盖移动脖子/手部，Telea填充产生黄绿色字形块，候选被拒绝。检查须覆盖发光外沿及连续运动；此失败不能推广为所有自然重建无效。\n2. 原片、Wan输出和羽化遮罩maskedmerge时，早期合成出现灰度结果。对此实际配方统一输入format=gbrp、合成后转yuv420p恢复了彩色。结果需检查皮肤/背景颜色及修复带以外主体；不能只检查字是否消失，也不能将该配方当所有像素格式兼容性证明。\n3. 本源30fps恒帧率的字幕时间边界产生一帧偏差。实际原生解码像素测量后，首句尾边界和第三句进退场各调整一帧，采用ceil(time*30-1e-6)及gte(n,start)*lt(n,end)选择帧号范围。具体帧号和阈值只属于此源；变帧率及其他片源重新验证。\n\n编码像素区间、文字语义、最终实际配音和字幕同步分别核对；时间计划不是观察结果。实际共享底片仍有轻微肤色/纹理差异，Wan输出没有被整段无条件采用。以上为同一Agent技术复盘，未增加独立人工、母语或公司验收。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Only this source and German: rejected Telea glow blocks, corrected maskedmerge color via explicit gbrp, and independently measured one-frame CFR caption interval correction. Exact thresholds/frame numbers do not generalize."
+  ],
+  "retained_parts": [
+    "Original evidence and source/language limits, native frame thresholds and residual defects remain unchanged. No new human/independent acceptance or cross-source algorithm guarantee."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-27T11:59:52+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

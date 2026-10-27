@@ -2,9 +2,10 @@
 from pathlib import Path
 import shutil
 import hashlib
+import re
 
 from .common import ROOT, file_hash, inside, lock, object_hash, read_json, require, utc_now, write_json
-from .knowledge_records import ARCHIVE_INDEX, archives, candidate_files, non_use_only, resolve
+from .knowledge_records import ARCHIVE_INDEX, archives, candidate_files, non_use_only, resolve, placeholder_lesson, evidence_payload
 
 PUBLIC = "knowledge/curation/reviews"
 PRIVATE = "knowledge/local/curation/reviews"
@@ -60,6 +61,8 @@ def sources(root):
         for path in (root / area).rglob("*.json"):
             if path.name.startswith("index") or any(part in {"evidence", "bundle"} for part in path.relative_to(root / area).parts):
                 continue
+            if area == 'knowledge/local/feedback' and evidence_payload(path, root / area):
+                continue
             if path.is_relative_to(root / "knowledge/local/feedback/knowledge-use") and non_use_only(read_json(path)):
                 continue
             found[path.relative_to(root).as_posix()] = path
@@ -69,13 +72,36 @@ def sources(root):
 def closed_sources(root):
     """Include only inbox pointers whose exact linked candidate was reviewed closed."""
     root = Path(root)
-    closed = {key for key, record in decisions(root).items() if record["closed"]}
+    heads = decisions(root)
+    closed = {key for key, record in heads.items() if record["closed"]}
+    entries = []
+    for name in ('knowledge/index.json', 'knowledge/cases/index.json', 'config/knowledge.local.json'):
+        if (root / name).exists():
+            entries.extend(read_json(root / name).get('entries', []))
     for path in (root / "knowledge/local/inbox").glob("*.json"):
+        pointer = read_json(path)
         candidate = root / "knowledge/local/candidates" / path.name
-        if not candidate.exists() or (candidate.relative_to(root).as_posix(), file_hash(candidate)) not in closed:
+        if candidate.exists() and (candidate.relative_to(root).as_posix(), file_hash(candidate)) in closed:
+            original = read_json(candidate)
+            if pointer.get("id") == original.get("id") and pointer.get("case") == original.get("case"):
+                closed.add((path.relative_to(root).as_posix(), file_hash(path)))
+                continue
+        # Some inbox pointers reference public originals that have already been
+        # archived. Resolve their exact hash and evidence/target, not just an ID.
+        if not re.fullmatch(r'[A-Za-z0-9_-]+', pointer.get('id', '')):
             continue
-        pointer, original = read_json(path), read_json(candidate)
-        if pointer.get("id") == original.get("id") and pointer.get("case") == original.get("case"):
+        relative = pointer.get('candidate') or f'knowledge/candidates/{pointer["id"]}.json'
+        matches = [(key, record) for key, record in heads.items()
+                   if key[0] == relative and record['closed']]
+        if len(matches) != 1:
+            continue
+        (relative, digest), review = matches[0]
+        original = read_json(resolve(root, relative, digest))
+        exact_pointer = pointer.get('candidate') == relative and pointer.get('candidate_sha256') == digest
+        target_ids = {t['id'] for t in review.get('targets', [])}
+        cases = {original.get('case')} | {e.get('case') for e in entries if e['id'] in target_ids}
+        case_matches = bool(pointer.get('case') and pointer['case'] in cases)
+        if pointer.get('id') == original.get('id') and (exact_pointer or case_matches):
             closed.add((path.relative_to(root).as_posix(), file_hash(path)))
     return closed
 
@@ -97,6 +123,8 @@ def queue(root=None, include_closed=False):
                      "previous_review": decision["decision_sha256"] if decision else None,
                      "prior_adoptions": prior_adoptions.get(relative, []),
                      "adoption_proposal": value.get("adoption_proposal"),
+                     "reflection_state": ('needs_lesson' if 'hypothesis' in value and placeholder_lesson(value['hypothesis'])
+                                          else value.get('reflection_state', 'needs_review')),
                      "next_action": decision["next_action"] if decision else value.get("next_action", "Review the recorded adopted parts and remaining limitations; identify a target or concrete missing evidence instead of creating an identical candidate."),
                      "decision": decision, "record": value})
     return rows

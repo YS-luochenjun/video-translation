@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "attribution": {
+    "unassigned": true,
+    "creation_type": "unspecified",
+    "authorization_ref": "request_user_input_async/call_aa0ae8447c64492ca529b18b6b3b1bf6/0",
+    "source_quote": "都行吧。之前的对话中，请你查看，很多都是没有填写设计师"
+  },
+  "thread_policy": "one_chat_per_requirement_all_sources_and_locales",
+  "thread_policy_source": "2026-10-27用户：每一个需求需要有一个自己的对话，而不是把9个需求混为一谈。各需求独立查看视频、语种和计费。",
+  "priority_order": [
+    "P0",
+    "P1",
+    "P2"
+  ],
+  "priority_policy": {
+    "mode": "prefer_p0_without_blocking_p1",
+    "p1_waits_for_p0_completion": false,
+    "source_quote": "我说的P0优先，意思不是让P1的停止等P0",
+    "rule": "各需求持续并行推进；仅实际资源或服务并发冲突时优先安排P0。P1不因P0尚未完成而等待，不设置跨优先级付费制作屏障。"
+  },
+  "kie": {
+    "automatic_use_for_user_requested_requirements": true,
+    "authority": "user",
+    "authorization_ref": "user-fireplay-persistent-kie-consent-20261027",
+    "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+    "source_quote": "目前具体翻译对话中，总是问我，是否使用KIE。我需要在对话中，都同意使用KIE",
+    "persistence_quote": "把这些内容，包含同意kie等，都放到项目中。这个去fireplay中拿需求的流程也做到项目中",
+    "scope": "用户明确交办的Fireplay翻译需求；包含必要原片、音频、参考帧及生成媒体的KIE处理和审核",
+    "budget_scope": "one_requirement",
+    "limits": "每个需求沿用自己的真实目标语言、账本、模型限制和有限返工；不因拉取、建聊、续作或重试增加额度。未交办的列表项不启动付费制作。"
+  },
+  "submission_instruction": "入到素材库，共享到需求组开启YouTube 视频自动上传，并打上语言tag和产品tag(需求描述或者需求标题中一般有，没有就自己提炼，一到两个单词总结)，最后再绑定到当前需求。素材名称用“需求编号+语言”",
+  "publication": {
+    "youtube_auto_upload": true,
+    "share_to_requirement_group": true,
+    "language_tag": "canonical_locale",
+    "product_tag_words": [
+      1,
+      2
+    ],
+    "name_separator": "-",
+    "authority": "user",
+    "authorization_ref": "user-fireplay-fixed-submission-instruction-20261026",
+    "source_quote": "入到素材库，共享到需求组开启YouTube 视频自动上传，并打上语言tag和产品tag，最后再绑定到当前需求。素材名称用需求编号+语言",
+    "track_youtube_progress_after_submission": false
+  },
+  "status_update": false,
+  "background_polling": false
+}

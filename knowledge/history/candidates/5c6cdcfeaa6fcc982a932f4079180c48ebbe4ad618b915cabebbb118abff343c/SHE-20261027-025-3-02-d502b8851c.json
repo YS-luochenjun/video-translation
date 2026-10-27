@@ -1,0 +1,22 @@
+{
+  "id": "SHE-20261027-025-3-02-d502b8851c",
+  "status": "candidate",
+  "created_at": "2026-10-27T03:36:22+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "es",
+    "source_sha256": "b6dc427aa2ee990ca5093ed1e94a2e39a9db989fbc02dafd5b7c430fa25138dd"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "SHE-20261027-025-3-02",
+    "video_sha256": "d502b8851cb6aa66fc11228be8c5b7c60abad04a1400ff047ebe1b5834a3ea29",
+    "quality_sha256": "cf65aef0ebd1f8caac16760f15bb3ccfe532456cb40348047836fa4e6f54f839"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

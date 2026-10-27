@@ -1,0 +1,25 @@
+{
+  "id": "wow-20261026-052-02-23f50be5f3",
+  "status": "candidate",
+  "created_at": "2026-10-26T09:48:20+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "pt",
+    "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+  },
+  "outcome": "revise",
+  "hypothesis": "Source-specific observation: initial full-source Whisper missed spoken CTA; comparative real-audio check detected it. Bounded natural inpaint streaked over title; local blur completes content but visibly softens scene. No general quality or cross-source acceptance.",
+  "evidence": {
+    "run": "wow-20261026-052-02",
+    "video_sha256": "23f50be5f31eacb5d9ef94c221902be6df99ca485dcb81f0d1fcd8045360ce99",
+    "quality_sha256": "8419a847675c0943740b21b2fb2ab2c5931020b22253105802400ba627d75b09"
+  },
+  "limitations": [
+    "Best available decoded complete video; quality not approved.",
+    "Approximate UVR separation; independent AV audit absent."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

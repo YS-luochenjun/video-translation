@@ -1,0 +1,261 @@
+{
+  "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+  "name": "wow044-placement",
+  "findings": [
+    "用户指出译字离开原擦除足迹、箭头层级不对；按原评论行分别排版，最后恢复原箭头与骷髅前景。",
+    "文字位置修正不代表底片自然：衣服/头发区域的局部柔化仍明显，标题明暗及逐字效果仍简化。",
+    "短句ASR歧义和音乐音效听审限制仍在；失败兜底不能作为质量通过。"
+  ],
+  "observed_locales": [
+    "ar",
+    "de",
+    "es",
+    "fr",
+    "id",
+    "ja",
+    "nl",
+    "pt",
+    "vi"
+  ],
+  "record_bindings": [
+    {
+      "sha256": "6517c487392c471ccdfbd14eed2235f1f673da462c2a4f3ce9591aa4773ba161",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "pt"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "ec610958159a514a9005fbea36f8f7115474e910e1c218670ddccd956e29c901",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "de"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "2ab920b651068c83cf76746994e1df829d4456cd40930e0b2e311fea1e4846a2",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "fr"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "fd833ee3c7a4853c5253b78625f64f3f629745974be5fdc67de61282466384a3",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "ar"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "adb6f1f1c191c01ee9f635125659b356c7dbe0bbf4d56db2e7302b96825d8487",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "ja"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "817b23926a5c5593fb2fcea10343556504e02ab9ab6538d1d5be95ed156cf81b",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "id"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "47da57851bbbd11456f7f7a2b999fa3c5dc9710a4de465e105a4d8caa23e1798",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "vi"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "17107e7ae80961804368cfa03c2688ab4a0cdae7347df39ca72db9babece0d35",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "nl"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "555e420cfc7f2dbc3c60698d370556ae759d626fb0d93d0520bc955cbf2f1c9d",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "pt"
+      },
+      "historical_outcome": "counterexample"
+    },
+    {
+      "sha256": "802dd6f2da94af251944f59afdbb3ff334586ba1187970cfcbbcca533e527fd4",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "es"
+      },
+      "historical_outcome": "counterexample"
+    },
+    {
+      "sha256": "328bc4d93795be81b61ded1b036dabb723874b361c9f923ccacac1121b082710",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "ja"
+      },
+      "historical_outcome": "counterexample"
+    },
+    {
+      "sha256": "ee40387c9c6f8e51dad55527d0b92e0d48bac6bbf031fcfc103448b0bff4d63a",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "fr"
+      },
+      "historical_outcome": "counterexample"
+    },
+    {
+      "sha256": "9d2843c19c6ebea6cc9916d6a1cbc795aaa0433f1139661020c400c3ad9cbc62",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "de"
+      },
+      "historical_outcome": "counterexample"
+    },
+    {
+      "sha256": "ef01673cfc6de808145c6cd11e2f0635afc0cb3c9002e6acbd565f77aea71a01",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "vi"
+      },
+      "historical_outcome": "counterexample"
+    },
+    {
+      "sha256": "a9caf4d9801a97336a896a39d60f888426c2ba39f2ff7c342e85f810356982df",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "ar"
+      },
+      "historical_outcome": "counterexample"
+    },
+    {
+      "sha256": "abb1613db7168e27ce4810c51bced1b32425d8759f56aa7c375c63e96818d56d",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "nl"
+      },
+      "historical_outcome": "counterexample"
+    },
+    {
+      "sha256": "8c561bbc3ac3650d8b9735c3b7b495869ac6493bc7302afbdaa0353bdb0dd38e",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+        "target_language": "id"
+      },
+      "historical_outcome": "counterexample"
+    }
+  ],
+  "case_bindings": [
+    {
+      "manifest_sha256": "67d10aecc2040b4a72ed2c1b72a6577e7fddc22aaca0da155c094bbfff1b21fc",
+      "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+      "video_sha256": "0b298ea3e67346b90bf97fa7c0669ea7fd284dbe8e55a71c6a6ef1ddfe2894c0",
+      "locale": "pt",
+      "verified_files": 119
+    },
+    {
+      "manifest_sha256": "61a9af2edfce2f58a24779f121886ae718797ef04ebd53213637104ea527825f",
+      "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+      "video_sha256": "f30ebc39a6c7fe822b81e850d5f7a971f0a3814b75a28dbb2ba8850890afae52",
+      "locale": "de",
+      "verified_files": 100
+    },
+    {
+      "manifest_sha256": "fc28f7b3af247340b1dc515d52ada936b7af0b68804e3a4421dca462f759bcf8",
+      "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+      "video_sha256": "9fd1d8ac52de1352c816eab8d8d1f6757d73510c7ebaee2ab1b4f0e70c57a394",
+      "locale": "fr",
+      "verified_files": 118
+    },
+    {
+      "manifest_sha256": "3c295c089badb7b9394f0a12dacfa544f4d1812f5bf6167e56f0ec648e072399",
+      "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+      "video_sha256": "2446f74038ef39d72edbbf8e102bb2996bbdbba0fce90c53ca890abb132ae6d0",
+      "locale": "ar",
+      "verified_files": 118
+    },
+    {
+      "manifest_sha256": "c65fc19ee4864eae6bd1df5912d5ca5ad18bd91a36387a656f2716649f7762ec",
+      "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+      "video_sha256": "916201d8942f6256592d0c14e70c6aade02199632e8be8dc5300614edfe3e376",
+      "locale": "ja",
+      "verified_files": 120
+    },
+    {
+      "manifest_sha256": "675d215f833c8e6a71312d53ea0b324bcdfd62f0009c01655ad6e4d0e9982846",
+      "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+      "video_sha256": "365771e4cec9d39686c5c9be7c24d58f260fffca36c3dd3842c61bfbdfa5cac7",
+      "locale": "id",
+      "verified_files": 118
+    },
+    {
+      "manifest_sha256": "517ef44263c341d15482755d14b8ea40403a495a6f2c997695014ca8c7411c29",
+      "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+      "video_sha256": "5037c73104986ca4c4847383abd9e0f028f6473c2db2d2bf0952ad962f49457c",
+      "locale": "vi",
+      "verified_files": 101
+    },
+    {
+      "manifest_sha256": "dcd4c60a40034dda7f7b60da5634938f558e8235cc786d241314873df6c9580d",
+      "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c",
+      "video_sha256": "dc8284e4c3e70bdc2124aaf52ab3cf7cf2759e7415a4d303f989046def948d5b",
+      "locale": "nl",
+      "verified_files": 120
+    }
+  ],
+  "scoped_use_observations": [
+    {
+      "observation": "Applied within this source: exact source/target evidence, frozen inventory and bounded repair; output remains with disclosed issues, not independent acceptance.",
+      "outcome": "helpful",
+      "original_receipt_count": 9
+    },
+    {
+      "observation": "Complex clothing/hair natural repair failed and minimal local softness remains visibly broad. Permitted fallback did not meet visual finish; target-footprint correction only improves composition.",
+      "outcome": "ineffective",
+      "original_receipt_count": 9
+    },
+    {
+      "observation": "User identified old target position and arrow-order errors. V3 applies original line footprints, actual source arrow/skull last; native encoded frames show corrected positioning/occlusion. Softness and simplified animation remain.",
+      "outcome": "helpful",
+      "original_receipt_count": 9
+    },
+    {
+      "observation": "No speech captions in source. Final mix ASR used to verify opening and CTA separately; short-syllable recognition remains ambiguous in some locales. Mother-tongue approval not claimed.",
+      "outcome": "helpful",
+      "original_receipt_count": 6
+    },
+    {
+      "observation": "No speech captions in source. Final mix ASR used to verify opening and CTA separately; short-syllable recognition remains ambiguous in some locales. Mother-tongue approval not claimed.",
+      "outcome": "ineffective",
+      "original_receipt_count": 3
+    }
+  ],
+  "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+}

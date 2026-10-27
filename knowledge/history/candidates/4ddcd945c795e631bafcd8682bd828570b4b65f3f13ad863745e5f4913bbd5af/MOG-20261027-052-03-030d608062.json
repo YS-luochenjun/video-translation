@@ -1,0 +1,40 @@
+{
+  "id": "MOG-20261027-052-03-030d608062",
+  "status": "candidate",
+  "created_at": "2026-10-27T08:17:14+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ja",
+    "source_sha256": "0b590c48c9da106f63fa9a261d9b304f4151fba860615be37a1ff7e16ce50db4"
+  },
+  "outcome": "revise",
+  "hypothesis": "Fast movement makes a fixed ROI splice unsafe when the model changes object geometry/timing. The visible horizontal seam was caused by neutral compositing, not transparent glyph alpha. Holding old bytes prevents approved reuse; full-shot adoption removes that seam but still needs fidelity review. This exact source remains unapproved.",
+  "evidence": {
+    "run": "MOG-20261027-052-03",
+    "video_sha256": "030d60806236d3bd9a48dd6f812379a627c8aa31af732db139382b5466e1963a",
+    "quality_sha256": "5d30c6a6201d96267445ede01b53986c04a65bef88ba454195d330bb8cce9b94"
+  },
+  "limitations": [
+    "The reported horizontal seam is removed in this new complete-shot composition; the prior ROI composition and its neutral are held and cannot serve as approved reuse.",
+    "Existing Wan output changes opening motion, initial hand/cake position, face and illustration detail/timing relative to source. Source fidelity is not approved. No further paid video trials were made.",
+    "The brief tutorial is less readable than the main headline. A tiny old CTA antialias fragment may remain at extreme entry-edge frames.",
+    "Same-agent image review plus actual ASR/external audio perception; no independent human or native-speaker acceptance.",
+    "Whisper small misrecognizes the short Japanese CTA under music; actual Gemini audio review independently transcribes タップして診断 and confirms complete translation. This is external model evidence, not human listening."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "observed_candidate",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "protected_graphics_unreviewed",
+      "native_motion_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "recipe_unresolved:Opening model reconstruction alters motion/detail relative to source; source-fidelity not approved."
+    ],
+    "reviewer": "Codex same-agent",
+    "known_defect_count": null
+  },
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -1,0 +1,77 @@
+{
+  "name": "WOW-20261027-012",
+  "source_sha256": "1a08df40f46f6c221b809c44b375ed769898f89cf02c5cf80aad6553cfbc77cb",
+  "thread": {
+    "thread_id": "01a17b32-2314-7363-8279-114dbcff22f9",
+    "host": "local",
+    "read_state": "read"
+  },
+  "report": {
+    "origin_label": "outputs/reports/WOW-20261027-012/decision-record.json",
+    "sha256": "e1cebafc1f68e5f82117d03d4e0875da0d45e9463b406b30e00e1fa71bfb1769"
+  },
+  "findings": [
+    "用户明确要求先去旧字，再在原文字位置写译文；不得为避开箭头把功能文案移动到原片没有文字的位置。",
+    "匹配原片背景失焦，保留前景箭头；末尾模糊英语仍属残字。",
+    "检查实际修复边界的亮线/接缝，底片与目标字分别检查；逐词节奏按实际目标配音。"
+  ],
+  "limitations": [
+    "初版“避箭头上移文字”是反例，不能作为排版成功经验。",
+    "四语修订改善不抹去旧版接缝/供体冻结/声音未独立验收。",
+    "原历史账本101.773上限、4.66已确认和2未知预留保留；本任务不重新上传或放行旧异议。"
+  ],
+  "outputs": [
+    {
+      "locale": "de",
+      "video_sha256": "de9a4a65b6cea73a9f38910b26f497487e4db5586afabc2bc76f01663dd67235",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "pl",
+      "video_sha256": "9049fbb5bda41fad2bd3efb587cbfa78bf2bb13f178c281ad540e59d0c22c02f",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "fr",
+      "video_sha256": "e4579036fe6b86cd1c46a3c4592bd52aa088b13aca211bd3ded167826a98f0a6",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "ru",
+      "video_sha256": "d8204ea1d899feb8929c474cc772bc1c375a3d044863718ec3c9f530d52ef62b",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    }
+  ],
+  "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+  "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+  "billing_snapshot": {
+    "limit_credits": 101.773,
+    "known_charged_credits": 4.66,
+    "unknown_reservations": [
+      {
+        "job": "1e44902a033f3d214db05d4d2f00d1523c68dddcbae5292726fa0cf2b2878cad",
+        "reserved_credits": 2,
+        "state": "ambiguous"
+      }
+    ],
+    "no_ambiguous_resubmission": true
+  },
+  "feedback": {
+    "origin_label": "knowledge/local/feedback/WOW-20261027-012-visual-correction/feedback.json",
+    "sha256": "a4a8867f74cbf7f07e6e5cf052f78209226678d01b82ed55adcac4a78d2aff66",
+    "user_quote": "目前我希望，先做一遍去掉文字，然后在去掉的文字上方，写上翻译后的文字，而不是放在其他位置。切如图二，这几针不太对。第三张图片中，红框中的内容我没有在原片中看到。第四张图片中内容不对，该模糊的要模糊。且最后一点有露英语。",
+    "observed": "Image 1: smeared original word glyph area below feature title. Image 2: old/new header double exposure at badge fade. Image 3: translated prisoner feature moved above its original obscured location. Image 4: rebuilt badge headers are crisp over source defocus; ending retains blurred English feature."
+  }
+}

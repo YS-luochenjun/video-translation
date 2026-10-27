@@ -12,7 +12,7 @@
 
 ## 1. 收件
 
-宿主/主控先按真实用户消息用 `budget-open SPEC` 登记一次请求：新请求总额为原视频实际时长×3 credits（向下保留三位小数），首次与真实新复用请求均按此公式；不按语言数增加。旧账本保持原额、费用与未知占位，主控按真实用户授权用 budget-amend 修订才生效。同一请求的所有语言、模型、短片、run、批次与返工共用账本；创建run不能重置额度。子任务不得编造新用户消息以开额度，派生短片用 `budget-bind RUN --parent-run PARENT` 继承。旧run在绑定总账本前不能新增付费调用。然后用 `batch-create ID VIDEO --targets ...` 编排语言，第一语言作为代表语言；复用批次加 `--reused`。先运行 `kie-authorization` 读取本项目拥有者授权：automatic_use=true时，现有预算、笔数、模型限制内必要的KIE调用不再逐对话询问。登记用户请求是主控内部操作，不增加用户确认步骤。它不强制模型路线，不替代质量审核或宿主独立审批。用法和信任边界见 `agent/workflows/batch-production.md`。
+宿主/主控先按真实用户消息用 `budget-open SPEC` 登记一次请求：新请求总额为去重后的实际目标语言数×60 credits，budget-open 的 targets 必填并按语言别名规范化；首次与真实新复用请求同价。额度为各语言与共用底片的灵活共享池；新增语言须根据真实用户要求用 budget-amend 扩容，不能靠换批次自动增加。旧账本保持原额、费用与未知占位，主控按真实用户授权用 budget-amend 修订才生效。同一请求的所有语言、模型、短片、run、批次与返工共用账本；创建run不能重置额度。子任务不得编造新用户消息以开额度，派生短片用 `budget-bind RUN --parent-run PARENT` 继承。旧run在绑定总账本前不能新增付费调用。然后用 `batch-create ID VIDEO --targets ...` 编排语言，第一语言作为代表语言；复用批次加 `--reused`。先运行 `kie-authorization` 读取本项目拥有者授权：automatic_use=true时，现有预算、笔数、模型限制内必要的KIE调用不再逐对话询问。登记用户请求是主控内部操作，不增加用户确认步骤。它不强制模型路线，不替代质量审核或宿主独立审批。用法和信任边界见 `agent/workflows/batch-production.md`。
 
 保存原片、哈希、原始简述、目标 locale、品牌例外。长视频按实际原时长计额并分段处理，普通导入/解析不再受旧演示180秒硬限制；合成 demo 仍保留自身测试范围。用户只需给视频与目标语言，其余由 Agent 判断并记录；缺少会改变结果的品牌/语气约束时再澄清。
 
@@ -37,6 +37,8 @@
 文字识别直接由 Codex 完成：运行 `codex-packet RUN --stage recognize`，读取工作包中的实际图片、规则、偏好与命中知识正文。查看原尺寸画面和边界帧，按实例记录文字、区域、时间与疑点；用 `codex-result` 绑定真实观察，再完善 inventory。`bin/ocr.py` 仅是该工作包的兼容入口，不运行 OCR 模型。图片编辑使用同一合同的 `--stage image`，由 Codex 使用宿主图像工具完成；具体方法由 Codex 按内容选择。见 [模型与图像工作合同](model-routing.md)。
 
 ## 3. 判断与执行
+
+动态标题、CTA、关键词强调按[Remotion文字适配器](../../docs/remotion-typography.md)填写明确display.motion和绑定字体，重建计划后走现有render；简单文字沿用FFmpeg。快速流程可先用bin/render_typography.py生成已审底片上的文字，再把实际输出与typography_assets绑定进recipe。渲染失败回退静态字层，降级必须由真实成片审核确认；字体、内容和区域不合格不能借回退绕过。
 
 图片编辑由 Codex 主动选取实际原图与方法，先完成 `codex-packet --stage image` 的知识读取和真实编辑，再登记产物。移动/旋转水印按 [去水印规范](../../knowledge/rules/moving-watermark-removal-v1.md) 操作。先用 `repair-preflight RUN` 对照实际产品/姿态切点、文字模糊入场和完整画面边缘；本地配方执行与受控试验见 [修复配方](../workflows/repair-recipes.md)。原尺寸查看优先使用 `visual-pages --layer final --limit 2` 与返回的 `--after-frame` 续看，不另写查看脚本。展示游标只记录展示，不代表已审。
 

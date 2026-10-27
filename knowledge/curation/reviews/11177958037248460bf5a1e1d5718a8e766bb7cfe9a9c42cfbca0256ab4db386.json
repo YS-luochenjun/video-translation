@@ -1,0 +1,39 @@
+{
+  "source": {
+    "path": "knowledge/candidates/hand-zh-sync-002-d2cced3bb1.json",
+    "sha256": "06f9abf5735d2b5a749b35019707efd34eb6f62d63696e9c23214079e540c0d9"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent candidate/evidence review, not a new independent media review",
+  "origin": "Current explicit user continuation request; remaining-candidate consolidation and conflict audit 2026-10-27.",
+  "resolution": "duplicate",
+  "reason": "Historical source/locale facts have been accounted for; no new algorithm, wider scope, output approval or spending authority is inferred.",
+  "targets": [
+    {
+      "id": "method-spoken-caption-verification-v4",
+      "path": "knowledge/rules/method-spoken-caption-verification-v4.md",
+      "sha256": "e20eb1874113966042995c02caa3f77e15dcebe9b288ad1d1552d4a0f2890f8e",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 口播与字幕：实际混音、分歧及停止\r\n\r\n适用有人声任务。先区分对白、独白、旁白、口播字幕、独立标题/UI及配乐演唱；实际职责与用户要求决定替换范围。单人口播首选共同定稿生成真实目标语音频，字幕在裁切/变速/偏移/混音后按实际发声对齐。多角色叠加角色声线与场景方法，不默认全员同音色。\r\n\r\n首选证据是实际编码成片声音及对应字幕边界帧。检查逐句内容、完整发音、首尾、语种、音乐音效及同步。请求文字、计划时间、孤立 TTS 与成功响应不能替代最终混音。换音、改稿、变速或画面时轴改变后重新绑定相关审核。\r\n\r\nASR 空白/同音/文字系统混淆或与 Gemini 分歧：定位实际词句，保留原始结果，补真实上下文、独立分句或可用听审；必要时做一次针对疑点的音频理解。仍有分歧留 pending；只有实际错读、漏读或不可理解才补录。禁止用预期译稿替换 ASR。低能量不必然静音，短句级证据可靠时不伪造词级精度。\r\n\r\n字幕时标异常先查句前静音与混音偏移，再按实际短语定位，检查编码边界；不得为追字幕改变背景音乐速度。具体工程阈值查 quality 配置，语义和自然度仍需实际审查。\r\n\r\n停止：对应内容/同步完整且有证据；或无新补证方向/达到尝试费用能力边界。后者标明未审、已确认错误及音频可用状态，按最终输出合同处理。用户要求必须配音时字幕不代替音频。声学模型、自审、母语听审及用户验收分别记录，不保证无损分轨或逐字嘴型。\r\n\r\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\r\n"
+    }
+  ],
+  "adopted_parts": [
+    "Recognized words do not prove timestamp accuracy; inspect actual gaps before retiming captions."
+  ],
+  "retained_parts": [
+    "Original source and exact locale/stage/profile scope; actual video/plan/quality hashes; full original prose, per-method outcomes, case pointers, failure and limitation records.",
+    "All source-specific coordinates, thresholds, font choices, geometry, model/retiming parameters and prices remain historical examples. No cross-source or cross-language effectiveness claim is adopted.",
+    "Old pass/revise, later quality objections, live asset holds and unknown charges remain unchanged. Closure resolves knowledge bookkeeping, not media quality, external acceptance or the ledger."
+  ],
+  "all_material_accounted": true,
+  "next_action": "historical_record_only",
+  "remaining_disposition": "historical_only",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-27T07:54:47+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

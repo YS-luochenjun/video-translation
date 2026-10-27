@@ -1,0 +1,86 @@
+{
+  "name": "APC-20261026-040-1",
+  "source_sha256": "3dba01e02f663682cfd49c02d180777a633084383239109cb2db60082e2ef20b",
+  "thread": {
+    "thread_id": "01a17b22-e478-77f1-b3ed-de3d002973e7",
+    "host": "local",
+    "read_state": "unavailable_size_limit"
+  },
+  "report": {
+    "origin_label": "outputs/reports/APC-20261026-040-1/revision-03/delivery-summary.json",
+    "sha256": "d15c2d4050870bf36ee605c35c4185cf26e8a9acf51acbbe498fd3331554c0d0"
+  },
+  "findings": [
+    "评论须按实际容器重排，先检查行宽、缩放和可读时间。",
+    "七处失败画面采用真实 Wan 2.7 结果并保留卡片空间边界；这些坐标不跨源复用。"
+  ],
+  "limitations": [
+    "报告仍为有瑕疵，声音同步和 CTA 限制未解除。"
+  ],
+  "outputs": [
+    {
+      "locale": "tw",
+      "video_sha256": "e9bb81e1dd9ab98a5032cdc40739c53eda3a4b75548353234f6aafaef3dd05ea",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "pt",
+      "video_sha256": "e2380876216407087696441e72141ede1c574d18322220f4c15fc5f8a47c68b9",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "es",
+      "video_sha256": "39714722df9498fbad153b9d5b096844a5cd5724cfb73654dea80c17b43113cc",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "de",
+      "video_sha256": "a811a2f7ccbfc024ac354f153e5afdc5fa0aa2863fede6507abb5fafb69e3ac2",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "nl",
+      "video_sha256": "bbfbbf6b15803d24593c0d0818231b98f53a12e9b606bb9d93aca6e1c0597a79",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "fr",
+      "video_sha256": "4d436f02e3a478067d338a93cdc92ae3692c50c9f7b84a29f64e267f2c68dd95",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "th",
+      "video_sha256": "3d4201e209b02e2a700391b50b837411e04c14552a6eea3433649d48588f3d14",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    }
+  ],
+  "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+  "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+  "billing_snapshot": {
+    "billed_credits": 437.76,
+    "unknown_reserved_credits": 4,
+    "reserved_or_billed_credits": 441.76,
+    "execution_cap": 500
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "wow042-caption-compositing-observations-20261027-case",
+  "created_at": "2026-10-27T11:55:04+00:00",
+  "files": [
+    {
+      "path": "evidence/technical-observations.json",
+      "sha256": "2fb7befb2f20bf0b8299c73d60df577eb8d7ecafd0de5f1201d021c5b41b8288",
+      "bytes": 4899
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+      "target_language": "de"
+    },
+    "status": "candidate",
+    "lesson": "本源发光字幕的Telea填充留下黄绿色字形块；遮罩合成曾丢色并以统一gbrp修正；30fps德语字层改用帧号区间后，实测首句尾界和第三句进退场各修正一帧。结论仅限本源与实际检查范围。",
+    "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+    "video_sha256": "07fc2e9f7819b8095164b0d837097ae9a7ed30dcaf0da459f512eeebbcab70f2",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

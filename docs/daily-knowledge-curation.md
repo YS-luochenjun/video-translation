@@ -61,3 +61,5 @@ knowledge-queue → 主控审查采纳目标/缺证据 → knowledge-promote / k
 - 本hook没有视频、图片或语音模型提交接口，不读取.env，不制作视频、不清理runs/outputs、不提交Git、不修改全局记忆。外部媒体模型credits为0；文本推理使用当前AI账户额度，实际用量记录在engine-receipt.json，不能表述为完全无计算消耗。
 
 当前上限与时间在 `config/hooks.json`；角色提示词在 `config/hooks/knowledge-curation/prompt.md`；宿主安装回执在 `knowledge/local/curation/schedule.json`。代码与配置可随项目管理，机器路径和运行凭据保持本地。
+
+2026-10-27知识暂存整理修复：知识队列和增量Hook均排除独立案例包内副本与原始ASR证据，原文件继续保留。inbox指向已归档公开候选时，按实际候选哈希及原案例/已采纳目标核验已闭合状态，不仅按名称丢弃；无需反复提纯旧指针。当前本机在实际队列与未处理增量均归零后建立基线，不将未审来源伪装成已总结。此处不宣称已安装独立系统调度器，应用监控仍由既有定时唤醒执行。

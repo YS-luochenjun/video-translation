@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "she054-paper-observations-20261027",
+  "created_at": "2026-10-27T07:50:08+00:00",
+  "files": [
+    {
+      "path": "evidence/she054-paper.json",
+      "sha256": "fe432aee39149781b3869a66e535091000fb16da3750872cb3fa67e17be30dfc",
+      "bytes": 45349
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# she054-paper：精确同源观察\n\n- 纸面内部去字与纸张外轮廓、森林背景分开；过宽CTA修复曾伤及下边轮廓，缩到墨迹包络后改善。\n- 同源纸面与目标透明文字共同沿真实源帧缩放。旧自然填补与后续宿主图像修复为不同版本，不能互相继承验收。\n- 固定纸面文案不当作口播字幕；旁白另译。十一种语言和多轮修订仍只算一个源。\n- 仍有纸纹柔化、字体近似、断行和部分音乐音效听审限制，历史pass/revise分别保留。\n\n见 evidence:observations。仅是有来源的历史观察和复用风险；语种/成片验收沿各原始scope与视频哈希，不扩大到新语言。本轮未作完整视听验收，未放行底片、解除质量异议、结算未知费用或授权重新调用模型。\n",
+    "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/she054-paper.json"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "user-language-budget-60-20261026",
+  "created_at": "2026-10-27T03:13:15+00:00",
+  "files": [
+    {
+      "path": "evidence/user-policy-review.json",
+      "sha256": "374fe356bd08c43bb6a35af4f6ad9ab165919b38b82c24a192c6bc1ae504831e",
+      "bytes": 1218
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 请求预算：每个目标语言 60 credits\n\n适用新本地化请求。按项目用户明确要求，首次及真实新复用请求的KIE额度均为60 credits×实际去重目标语言数。3种180、10种600。唯一机器参数源为config/budget-policy.json；替代此前新请求按时长×3及更旧60/40规则。Codex宿主费用不计入KIE账本。\n\nbudget-open必须填写真实targets，先用语言别名字典规范化，再去重。ja/JA/日语等别名不重复增加额度；明确不同地区/文字标签仍保留。共用一个请求总池，供已登记语言、共用无字底片、音频、分段和返工灵活分配；不设置每语言60的独立硬分区。共用底片做一次并只计费一次，不强制每语言重做。预算是支出上限，不是花完目标。\n\n主控登记真实用户事件；换run、拆片、改模型或重试不补额度。新增用户要求的语种通过带原话、授权事件和完整targets的budget-amend调整总额，保留费用与未知占位。旧账本、已发生费用、未知占位不自动改写；不因配置更新重开旧请求。只有真实新复用请求且旧账已结清才可开新账，首次/新复用同价。总额不足时依据真实授权修订，不自行增额。\n\n预算与质量选路分开。不能仅为省额度而默认用可见模糊覆盖文字；按底面和连续帧评估自然修复与Wan 2.7的改善机会，具体见content-aware-text-restoration-v2。单语言60不保证可承担一次完整视频模型编辑；不得通过低估预留绕过预算。\n\n任务名额仍由原视频实际时长分段和已确认角色有限规划，每问题两轮返工。达到实际余额、尝试或能力边界即停止试验，按最终输出合同交付当前最佳完整结果并说明限制。超时/扣费未知先恢复任务，保留占位，不盲目重发。实际供应商计费以回执结算。\n\n依据：evidence:review。来源为用户预算偏好和开发实现审查，不是新增媒体质量、独立评审或公司验收。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/user-policy-review.json"
+    }
+  }
+}

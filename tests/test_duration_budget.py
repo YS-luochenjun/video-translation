@@ -14,7 +14,8 @@ class DurationBudgetTests(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         (self.root / 'config').mkdir()
-        shutil.copyfile(ROOT / 'config/budget-policy.json', self.root / 'config/budget-policy.json')
+        write_json(self.root / 'config/budget-policy.json', {
+            'mode': 'source_duration', 'max_credits_per_source_second': 3})
         write_json(self.root / 'config/workspace.json', {
             'request_budget_policy': 'source_duration', 'max_paid_jobs_per_run': 2,
             'max_segment_seconds': 8, 'default_workflow':'video-localization',

@@ -1,0 +1,11 @@
+{
+  "size": [480, 854],
+  "region": [90, 104, 286, 178],
+  "protected_regions": [[34, 142, 177, 70], [0, 0, 480, 125]],
+  "feather": 8,
+  "fps": 30,
+  "source_frames": 90,
+  "intervals": [[9, 86]],
+  "clips": [{"path": "actual-reviewed-repair.mp4", "source_frames": [0, 90], "actual_frames": 90, "fps": 30}],
+  "note": "Illustrative geometry only: measure each source. Probe actual clip frames/fps before preparing. No provider is selected and no paid call is made. Input 0 is source or approved base, input 1 is the reviewed clip, input 2 is looped mask.png. Map [v], preserve native frame count, then remux complete approved audio separately."
+}

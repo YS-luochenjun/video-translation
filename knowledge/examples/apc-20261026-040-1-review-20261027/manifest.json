@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "apc-20261026-040-1-review-20261027",
+  "created_at": "2026-10-27T07:22:05+00:00",
+  "files": [
+    {
+      "path": "evidence/APC-20261026-040-1-observations.json",
+      "sha256": "9f65b041773e496a7206e82087a4ca4615e51bc999448528d142482eeb020099",
+      "bytes": 3238
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "3dba01e02f663682cfd49c02d180777a633084383239109cb2db60082e2ef20b"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# APC-20261026-040-1：同源观察与返工边界\n\n仅用于精确同源的画面/操作事实和审查限制；列出语种的声音、译文及质量事实只属于该语种和成片哈希，不扩张语言验收。\n\n- 评论须按实际容器重排，先检查行宽、缩放和可读时间。\n- 七处失败画面采用真实 Wan 2.7 结果并保留卡片空间边界；这些坐标不跨源复用。\n\n限制：\n\n- 报告仍为有瑕疵，声音同步和 CTA 限制未解除。\n\n见 evidence:observations；历史路径仅来源标签。新语言稿、配音、动态文字和实际成片须重新审核，复用资产另查交付库。本次未作新的完整视听验收或平台写入。\n",
+    "source_sha256": "3dba01e02f663682cfd49c02d180777a633084383239109cb2db60082e2ef20b",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/APC-20261026-040-1-observations.json"
+    }
+  }
+}

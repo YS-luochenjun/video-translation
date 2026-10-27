@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "native_families": {
+    "Heiti SC": {"files": ["STHeiti Light.ttc", "STHeiti Medium.ttc"], "indices": [1, 1], "project_files": ["HeitiSC-Regular.ttf", "HeitiSC-Bold.ttf"]},
+    "Heiti TC": {"files": ["STHeiti Light.ttc", "STHeiti Medium.ttc"], "indices": [0, 0], "project_files": ["HeitiTC-Regular.ttf", "HeitiTC-Bold.ttf"]},
+    "Songti SC": {"files": ["Supplemental/Songti.ttc", "Supplemental/Songti.ttc"], "indices": [6, 1], "project_files": ["SongtiSC-Regular.ttf", "SongtiSC-Bold.ttf"]},
+    "Songti TC": {"files": ["Supplemental/Songti.ttc", "Supplemental/Songti.ttc"], "indices": [7, 2], "project_files": ["SongtiTC-Regular.ttf", "SongtiTC-Bold.ttf"]},
+    "Hiragino Sans": {"files": ["ヒラギノ角ゴシック W3.ttc", "ヒラギノ角ゴシック W6.ttc"], "indices": [0, 0], "project_files": ["HiraginoSans-Regular.ttf", "HiraginoSans-Bold.ttf"]},
+    "Apple SD Gothic Neo": {"files": ["AppleSDGothicNeo.ttc", "AppleSDGothicNeo.ttc"], "indices": [0, 6], "project_files": ["AppleSDGothicNeo-Regular.ttf", "AppleSDGothicNeo-Bold.ttf"]},
+    "Thonburi": {"files": ["Supplemental/Thonburi.ttc", "Supplemental/Thonburi.ttc"], "indices": [0, 1], "project_files": ["Thonburi-Regular.ttf", "Thonburi-Bold.ttf"]},
+    "Devanagari Sangam MN": {"files": ["Supplemental/Devanagari Sangam MN.ttc", "Supplemental/Devanagari Sangam MN.ttc"], "indices": [0, 1], "project_files": ["DevanagariSangamMN-Regular.ttf", "DevanagariSangamMN-Bold.ttf"]},
+    "Geeza Pro": {"files": ["GeezaPro.ttc", "GeezaPro.ttc"], "indices": [0, 1], "project_files": ["GeezaPro-Regular.ttf", "GeezaPro-Bold.ttf"]}
+  },
+  "darwin_defaults": {"latin": "Arial", "zh": "Heiti SC", "zh-TW": "Heiti TC", "ja": "Hiragino Sans", "ko": "Apple SD Gothic Neo", "th": "Thonburi", "hi": "Devanagari Sangam MN", "ar": "Arial"},
+  "samples": {"latin": "Español Português Français Deutsch Polski Tiếng Việt Русский Magyar", "zh": "立即开始测试", "zh-TW": "立即開始測試", "ja": "今すぐテストを始めよう", "ko": "지금 테스트를 시작하세요", "th": "เริ่มทดสอบตอนนี้", "hi": "अभी परीक्षण शुरू करें", "ar": "ابدأ الاختبار الآن"}
+}

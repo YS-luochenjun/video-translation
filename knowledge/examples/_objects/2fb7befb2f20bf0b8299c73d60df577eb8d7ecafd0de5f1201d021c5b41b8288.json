@@ -1,0 +1,120 @@
+{
+  "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+  "reviewer": "Codex same-agent, reinspection of retained actual images and encoded-frame measurements",
+  "observations": [
+    {
+      "trigger": "Glowing yellow English captions over moving neck and hand",
+      "attempt": "Local Telea fill",
+      "actual_result": "Clearly visible yellow/green glyph-shaped blocks; rejected before final use",
+      "next_action": "For this source, retain this failure signature and inspect glow beyond glyph interiors before adopting any fill; accepted shared neutral came from locally merged Wan output",
+      "scope": "One source; not evidence that all natural reconstruction fails"
+    },
+    {
+      "trigger": "Source, Wan output and grayscale feather mask combined with maskedmerge",
+      "actual_result": "Initial retained merged grid is grayscale; v2 image is colored and retains source face outside the repair band",
+      "effective_change": "Explicit format=gbrp for source, model and mask before maskedmerge; convert final output to yuv420p afterward",
+      "next_action": "Inspect actual composed color, not only text absence; this observed correction does not prove all pixel-format combinations equivalent"
+    },
+    {
+      "trigger": "30 fps encoded German captions with phrase boundaries not aligned to whole frames",
+      "before": {
+        "video_sha256": "3dc796f2c8f85ed0dccd1d5005576655793a9d6dec84367dd62c9d6ec094bce4",
+        "neutral_sha256": "5b1dc3c633a4a4c6dd008300d2f99e35a9376d4a0fe3d7bd7c8342f726e9827e",
+        "method": "Actual decoded native frame caption-band difference from no-text neutral, threshold mean absolute RGB difference 4; 300 frames, no timing from expected units used. Visual words are separately read from actual captured frames.",
+        "spans_frames": [
+          [
+            1,
+            66
+          ],
+          [
+            73,
+            172
+          ],
+          [
+            201,
+            267
+          ]
+        ],
+        "spans_seconds": [
+          [
+            0.03333333333333333,
+            2.2
+          ],
+          [
+            2.433333333333333,
+            5.733333333333333
+          ],
+          [
+            6.7,
+            8.9
+          ]
+        ]
+      },
+      "after": {
+        "video_sha256": "07fc2e9f7819b8095164b0d837097ae9a7ed30dcaf0da459f512eeebbcab70f2",
+        "neutral_sha256": "5b1dc3c633a4a4c6dd008300d2f99e35a9376d4a0fe3d7bd7c8342f726e9827e",
+        "method": "Actual decoded native frame caption-band difference from no-text neutral, threshold mean absolute RGB difference 4; 300 frames, no timing from expected units used. Visual words separately read from actual captured frames.",
+        "spans_frames": [
+          [
+            1,
+            65
+          ],
+          [
+            73,
+            172
+          ],
+          [
+            200,
+            266
+          ]
+        ],
+        "spans_seconds": [
+          [
+            0.03333333333333333,
+            2.1666666666666665
+          ],
+          [
+            2.433333333333333,
+            5.733333333333333
+          ],
+          [
+            6.666666666666667,
+            8.866666666666667
+          ]
+        ]
+      },
+      "effective_change": "Use ceil(time*30-1e-6) and gte(n,start)*lt(n,end) for this CFR composition",
+      "actual_result": "First active span end changed from 66 to 65; third active span changed from [201,267) to [200,266). Actual pixels were measured independently of planned caption times.",
+      "next_action": "Verify decoded boundary frames against final audio; do not reuse these frame numbers for another source or infer VFR correctness"
+    }
+  ],
+  "limitations": [
+    "Same-agent observations, no new independent or user acceptance.",
+    "Eight locales share one source and neutral; they are not eight independent sources.",
+    "Minor local skin texture/color variation remains; Wan output alone was not adopted wholesale.",
+    "Pixel difference threshold and crop are specific diagnostics; text correctness and actual speech still need separate review."
+  ],
+  "origin_evidence": [
+    {
+      "label": "natural-hard-frame.jpg",
+      "sha256": "9eaf5aa2063c8176e70d68ff8c4603baa5d3f54f44fea1f7da4e4905245b0a56"
+    },
+    {
+      "label": "merged-neutral-grid.jpg",
+      "sha256": "88433765350e1090f7a5dcf91551dc642eb64747c117c9e983f3ad3576534b0a"
+    },
+    {
+      "label": "merged-neutral-hard-v2.jpg",
+      "sha256": "a86dfa258ba32f5fdf72c108fedac13eecabbc36ab87e1101ca3c44502500f85"
+    },
+    {
+      "label": "natural-trial-review.json",
+      "sha256": "32d50148a3eebf7fde8176d708ddedfda5663a010708186c8a316baebfbbd688"
+    },
+    {
+      "label": "neutral-review-v2.json",
+      "sha256": "cc6629e8665a088bfb079e15ba053ea22b9119c53504a3e0b6f55d4479aa2979"
+    }
+  ],
+  "recorded_at": "2026-10-27T11:55:04.860033+00:00"
+}

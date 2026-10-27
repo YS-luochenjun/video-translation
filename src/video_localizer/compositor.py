@@ -20,7 +20,7 @@ def spans(item, segment):
 def header(meta):
     return ['[Script Info]', 'ScriptType: v4.00+', f"PlayResX: {meta['width']}", f"PlayResY: {meta['height']}",
             'WrapStyle: 2', '[V4+ Styles]', 'Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding',
-            'Style: Default,Microsoft YaHei,40,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1',
+            'Style: Default,Arial,40,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1',
             '[Events]', 'Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text']
 
 
@@ -81,11 +81,12 @@ def text(source, segment, items, meta, directory):
             x,y,w,h=point['bbox']
             size=point.get('font_size',display.get('font_size',40))
             angle=point.get('angle',display.get('angle',0))
-            family=display.get('font_family','Microsoft YaHei')
-            require(family in ('Microsoft YaHei','KaiTi','SimSun','Arial','Yu Gothic','Malgun Gothic'),'Unsupported typography font')
             target=point.get('target_text',item['target_text'])
-            if family=='Arial' and any('\u4e00'<=char<='\u9fff' for char in target):family='Microsoft YaHei'
+            family=display.get('font_family',layout.default_family(target,item.get('target_language') or meta.get('target_language')))
+            require(layout.supported_family(family),'Unsupported typography font')
             size=layout.font_size({'bbox':point['bbox'],'target_text':target,'font_family':family,'font_size':size,'bold':display.get('bold',True),'fit_text':True,'padding':1})
+            from .fonts import ass_name
+            family=ass_name(media.CODE_ROOT,family,display.get('bold',True),directory)
             prefix=(f"{{\\an5\\pos({x+w/2},{y+h/2})\\fn{family}\\fs{size}\\b{1 if display.get('bold',True) else 0}"
                     f"\\i{1 if display.get('italic') else 0}\\frz{-angle}\\bord{display.get('outline',2)}\\shad{display.get('shadow',0)}"
                     f"\\c&H{color(display.get('color','#FFFFFF'))}&\\3c&H{color(display.get('outline_color','#111111'))}&}}")
@@ -105,5 +106,5 @@ def text(source, segment, items, meta, directory):
             events.append(event(start,end,prefix+media.ass_text(target),len(strokes)+1))
     (directory/'tracked.ass').write_text('\n'.join(header(meta)+events+['']),encoding='utf-8-sig')
     output=directory/'visual.mp4'
-    media.ffmpeg(['-i',source,'-t',segment['end']-segment['start'],'-vf',media.ass_filter('tracked.ass'),'-an','-r','30','-c:v','libx264','-crf','16','-pix_fmt','yuv420p',output],cwd=directory)
+    media.ffmpeg(['-i',source,'-t',segment['end']-segment['start'],'-vf',media.ass_filter('tracked.ass',directory/'fonts'),'-an','-r','30','-c:v','libx264','-crf','16','-pix_fmt','yuv420p',output],cwd=directory)
     return output

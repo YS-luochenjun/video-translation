@@ -1,0 +1,519 @@
+{
+  "decision": "pass",
+  "independent_new_sources": 2,
+  "actual_assets": 4,
+  "reviewed_by": "Codex same-agent technical/visual review",
+  "versions": {
+    "pillow": "13.0.0",
+    "opencv": "5.0.0",
+    "numpy": "2.5.4"
+  },
+  "records": [
+    {
+      "name": "emoji",
+      "origin": {
+        "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+        "origin_asset": "runs/SHE-20261026-053-01/inputs/foreground/emoji-020.png",
+        "original_asset_sha256": "5494609b78830083149dcab0948e23cb116af42a967a5e104a2e8f20ce014b61",
+        "frame": 20,
+        "original_layer_sha256": "671e31751dd3e068a245b6cc6efa596a2eced3f0fad2f0f8079b4a62cad14066"
+      },
+      "size": [
+        480,
+        854
+      ],
+      "soft_edge_pixels": 0,
+      "hidden_rgb_pixels": 388383,
+      "alpha_changed_pixels": 0,
+      "visible_rgba_changed_pixels": {
+        "changed_pixels": 0,
+        "maximum_channel_difference": 0.0
+      },
+      "native_composites": {
+        "black": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "white": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "blue": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "checker": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "opencv_and_pillow_ignored_alpha": {
+        "changed_pixels": 388383,
+        "maximum_channel_difference": 255.0
+      },
+      "rgb_drop_is_not_a_composite": {
+        "changed_pixels": 388384,
+        "maximum_channel_difference": 190.0
+      },
+      "crop": {
+        "original_size": [
+          480,
+          854
+        ],
+        "origin": [
+          127,
+          213
+        ],
+        "output_size": [
+          180,
+          140
+        ],
+        "visible_bbox": [
+          129,
+          215,
+          305,
+          351
+        ],
+        "empty_foreground": false,
+        "cleared_hidden_rgb_pixels": 388383,
+        "scope": "Copy only; alpha and all alpha>0 RGBA values retained. Place cropped output at origin in original_size; recheck actual transforms/consumers.",
+        "checks": {
+          "with_origin": {
+            "changed_pixels": 0,
+            "maximum_channel_difference": 0.0
+          },
+          "without_origin": {
+            "changed_pixels": 43072,
+            "maximum_channel_difference": 195.0
+          }
+        }
+      },
+      "transforms": {
+        "resize_straight_channels": {
+          "changed_pixels": 314,
+          "maximum_channel_difference": 59.0
+        },
+        "resize_premultiplied": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "rotate_straight_channels": {
+          "changed_pixels": 609,
+          "maximum_channel_difference": 62.0
+        },
+        "rotate_premultiplied": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "pillow_resize": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "pillow_rotate": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "destructive_threshold8": {
+        "changed_pixels": 0,
+        "maximum_channel_difference": 0.0
+      },
+      "lossless_codec_roundtrips": {
+        "qtrle": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "ffv1": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "ffmpeg_native_rgb_overlay": {
+        "changed_pixels": 0,
+        "maximum_channel_difference": 0.0
+      },
+      "input_asset_sha256": "5494609b78830083149dcab0948e23cb116af42a967a5e104a2e8f20ce014b61",
+      "clean_asset_sha256": "a88cf4ef3b40c13d176abde1f6a94f725854c6d19e750f3774167b1b209227ba",
+      "tight_asset_sha256": "f42965fbee95983d97154625e35eea5254ae9a83fb0e57bf1da3ffd66e21e720"
+    },
+    {
+      "name": "empty_emoji",
+      "origin": {
+        "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+        "origin_asset": "runs/SHE-20261026-053-01/inputs/foreground/emoji-000.png",
+        "original_asset_sha256": "530f3dc23a73d094281a22819c3d9c0dd1b059cbb40083878677827d59ffd9c4",
+        "frame": 0,
+        "original_layer_sha256": "671e31751dd3e068a245b6cc6efa596a2eced3f0fad2f0f8079b4a62cad14066"
+      },
+      "size": [
+        480,
+        854
+      ],
+      "soft_edge_pixels": 0,
+      "hidden_rgb_pixels": 408105,
+      "alpha_changed_pixels": 0,
+      "visible_rgba_changed_pixels": {
+        "changed_pixels": 0
+      },
+      "native_composites": {
+        "black": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "white": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "blue": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "checker": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "opencv_and_pillow_ignored_alpha": {
+        "changed_pixels": 408105,
+        "maximum_channel_difference": 255.0
+      },
+      "rgb_drop_is_not_a_composite": {
+        "changed_pixels": 409920,
+        "maximum_channel_difference": 190.0
+      },
+      "crop": {
+        "original_size": [
+          480,
+          854
+        ],
+        "origin": [
+          0,
+          0
+        ],
+        "output_size": [
+          480,
+          854
+        ],
+        "visible_bbox": null,
+        "empty_foreground": true,
+        "cleared_hidden_rgb_pixels": 408105,
+        "scope": "Copy only; alpha and all alpha>0 RGBA values retained. Place cropped output at origin in original_size; recheck actual transforms/consumers.",
+        "checks": {
+          "with_origin": {
+            "changed_pixels": 0,
+            "maximum_channel_difference": 0.0
+          },
+          "without_origin": {
+            "changed_pixels": 0,
+            "maximum_channel_difference": 0.0
+          }
+        }
+      },
+      "transforms": {
+        "resize_straight_channels": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "resize_premultiplied": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "rotate_straight_channels": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "rotate_premultiplied": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "pillow_resize": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "pillow_rotate": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "destructive_threshold8": {
+        "changed_pixels": 0,
+        "maximum_channel_difference": 0.0
+      },
+      "lossless_codec_roundtrips": {
+        "qtrle": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "ffv1": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "ffmpeg_native_rgb_overlay": {
+        "changed_pixels": 0,
+        "maximum_channel_difference": 0.0
+      },
+      "input_asset_sha256": "530f3dc23a73d094281a22819c3d9c0dd1b059cbb40083878677827d59ffd9c4",
+      "clean_asset_sha256": "aa04be60f50030068d73dca00060938639f21b538f4444c655a0c369b372c561",
+      "tight_asset_sha256": "aa04be60f50030068d73dca00060938639f21b538f4444c655a0c369b372c561"
+    },
+    {
+      "name": "en",
+      "origin": {
+        "source_sha256": "82c08c1940b8441b50eeca9a6c6627bff03032d10a480f4339d49b125756417f",
+        "origin_asset": "work/alpha-rgb-validation-20261027/remotion-en-frame40.png",
+        "original_asset_sha256": "0d85bb32c08d90f0fc1898d0bf29f8eba8b4d11b3152f12d09f5b2553d30d571",
+        "frame": 40,
+        "layer_provenance_sha256": "3036c085d7223c7244e29fd4b484c37d6ff3fb0c8d9a5ebcb99697ebbdbc2c3e",
+        "original_layer_sha256": "5f16b71f5a58a8de134e962670d3c8d00101d6de45eb100a5dfdc00ab34c565d"
+      },
+      "size": [
+        720,
+        1280
+      ],
+      "soft_edge_pixels": 9403,
+      "hidden_rgb_pixels": 285,
+      "alpha_changed_pixels": 0,
+      "visible_rgba_changed_pixels": {
+        "changed_pixels": 0,
+        "maximum_channel_difference": 0.0
+      },
+      "native_composites": {
+        "black": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "white": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "blue": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "checker": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "opencv_and_pillow_ignored_alpha": {
+        "changed_pixels": 285,
+        "maximum_channel_difference": 2.0
+      },
+      "rgb_drop_is_not_a_composite": {
+        "changed_pixels": 915728,
+        "maximum_channel_difference": 193.0
+      },
+      "crop": {
+        "original_size": [
+          720,
+          1280
+        ],
+        "origin": [
+          114,
+          683
+        ],
+        "output_size": [
+          493,
+          432
+        ],
+        "visible_bbox": [
+          116,
+          685,
+          605,
+          1113
+        ],
+        "empty_foreground": false,
+        "cleared_hidden_rgb_pixels": 285,
+        "scope": "Copy only; alpha and all alpha>0 RGBA values retained. Place cropped output at origin in original_size; recheck actual transforms/consumers.",
+        "checks": {
+          "with_origin": {
+            "changed_pixels": 0,
+            "maximum_channel_difference": 0.0
+          },
+          "without_origin": {
+            "changed_pixels": 29647,
+            "maximum_channel_difference": 195.0
+          }
+        }
+      },
+      "transforms": {
+        "resize_straight_channels": {
+          "changed_pixels": 4,
+          "maximum_channel_difference": 1.0
+        },
+        "resize_premultiplied": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "rotate_straight_channels": {
+          "changed_pixels": 16,
+          "maximum_channel_difference": 1.0
+        },
+        "rotate_premultiplied": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "pillow_resize": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "pillow_rotate": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "destructive_threshold8": {
+        "changed_pixels": 2055,
+        "maximum_channel_difference": 8.0
+      },
+      "lossless_codec_roundtrips": {
+        "qtrle": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "ffv1": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "ffmpeg_native_rgb_overlay": {
+        "changed_pixels": 0,
+        "maximum_channel_difference": 0.0
+      },
+      "input_asset_sha256": "0d85bb32c08d90f0fc1898d0bf29f8eba8b4d11b3152f12d09f5b2553d30d571",
+      "clean_asset_sha256": "1d26f7e69814a78d44ef967982b7bd67df8c39f6c2a62c7c03c330a1fbe76d75",
+      "tight_asset_sha256": "cfc9909fdf620614308dbf0f0bad79ab1ca6361392d7cc7f8c33ca23545cf489"
+    },
+    {
+      "name": "ar",
+      "origin": {
+        "source_sha256": "82c08c1940b8441b50eeca9a6c6627bff03032d10a480f4339d49b125756417f",
+        "origin_asset": "work/alpha-rgb-validation-20261027/remotion-ar-frame60.png",
+        "original_asset_sha256": "bc5c3ec8bbd117467cb43c40c99098574b720ba8624b563e26884d1d6b287a71",
+        "frame": 60,
+        "layer_provenance_sha256": "6d5ffa26f8a5b22d9ec7c4321a43779f74aca311b5baac7db77b866b6d11fb34",
+        "original_layer_sha256": "397a4ebc2052c3cdb805d57f76bcfac1c3a492e57a6eb6137bc0b372f2ac9456"
+      },
+      "size": [
+        720,
+        1280
+      ],
+      "soft_edge_pixels": 8047,
+      "hidden_rgb_pixels": 287,
+      "alpha_changed_pixels": 0,
+      "visible_rgba_changed_pixels": {
+        "changed_pixels": 0,
+        "maximum_channel_difference": 0.0
+      },
+      "native_composites": {
+        "black": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "white": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "blue": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "checker": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "opencv_and_pillow_ignored_alpha": {
+        "changed_pixels": 287,
+        "maximum_channel_difference": 1.0
+      },
+      "rgb_drop_is_not_a_composite": {
+        "changed_pixels": 916970,
+        "maximum_channel_difference": 193.0
+      },
+      "crop": {
+        "original_size": [
+          720,
+          1280
+        ],
+        "origin": [
+          153,
+          692
+        ],
+        "output_size": [
+          434,
+          425
+        ],
+        "visible_bbox": [
+          155,
+          694,
+          585,
+          1115
+        ],
+        "empty_foreground": false,
+        "cleared_hidden_rgb_pixels": 287,
+        "scope": "Copy only; alpha and all alpha>0 RGBA values retained. Place cropped output at origin in original_size; recheck actual transforms/consumers.",
+        "checks": {
+          "with_origin": {
+            "changed_pixels": 0,
+            "maximum_channel_difference": 0.0
+          },
+          "without_origin": {
+            "changed_pixels": 24444,
+            "maximum_channel_difference": 195.0
+          }
+        }
+      },
+      "transforms": {
+        "resize_straight_channels": {
+          "changed_pixels": 3,
+          "maximum_channel_difference": 1.0
+        },
+        "resize_premultiplied": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "rotate_straight_channels": {
+          "changed_pixels": 8,
+          "maximum_channel_difference": 1.0
+        },
+        "rotate_premultiplied": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "pillow_resize": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "pillow_rotate": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "destructive_threshold8": {
+        "changed_pixels": 2131,
+        "maximum_channel_difference": 8.0
+      },
+      "lossless_codec_roundtrips": {
+        "qtrle": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        },
+        "ffv1": {
+          "changed_pixels": 0,
+          "maximum_channel_difference": 0.0
+        }
+      },
+      "ffmpeg_native_rgb_overlay": {
+        "changed_pixels": 0,
+        "maximum_channel_difference": 0.0
+      },
+      "input_asset_sha256": "bc5c3ec8bbd117467cb43c40c99098574b720ba8624b563e26884d1d6b287a71",
+      "clean_asset_sha256": "d7672da169beb920b045d9f91f6fb815bfc7e09e660601ad9f3fb9399c7cd592",
+      "tight_asset_sha256": "5a66543e71966e28a93b05b757acec8748981dd59a933401dc23a8de83e6b6b7"
+    }
+  ],
+  "conclusion": "Conditionally supported. Clear RGB only where alpha==0 on derived straight-alpha copies. Native alpha/visible pixels and correctly premultiplied transforms stay identical. Real alpha-ignoring readers expose hidden source pixels; cleanup does not make those readers alpha-aware. Straight-channel filtering and nonzero-alpha thresholding are counterexamples to unconditional cleanup. Crop retains all nonzero alpha and requires the original origin.",
+  "boundary": "Two new actual source families; English/Arabic are one source. No claim of compatibility with all consumers/color formats, artistic foreground-matte correctness, generic tracking or whole-ad quality. No original production assets changed."
+}

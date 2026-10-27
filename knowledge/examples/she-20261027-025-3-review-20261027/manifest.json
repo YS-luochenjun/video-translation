@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "she-20261027-025-3-review-20261027",
+  "created_at": "2026-10-27T07:22:05+00:00",
+  "files": [
+    {
+      "path": "evidence/SHE-20261027-025-3-observations.json",
+      "sha256": "a5ae6f69b5cc96835e64c067df485ef76def4891778afd091091e0219ffa3f7b",
+      "bytes": 13729
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "b6dc427aa2ee990ca5093ed1e94a2e39a9db989fbc02dafd5b7c430fa25138dd"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# SHE-20261027-025-3：同源观察与返工边界\n\n仅用于精确同源的画面/操作事实和审查限制；列出语种的声音、译文及质量事实只属于该语种和成片哈希，不扩张语言验收。\n\n- 16语来自同一源，不能算16个独立方法成功样本。\n- 同一需求有多个原片和聊天同时上传；同名不能判断重复，需原片、语言、实际成片哈希/大小、素材ID及各自导入回执。\n\n限制：\n\n- 极小界面标签/远景招牌保留；局部片尾背景与碎纸运动有差异。\n- 只有 zh-TW/es/pt/hi 具有成功音频模型对照，其他语种不能沿用其通过结论。\n- 五笔音频复核超时，10 credits未知预留保留；未经独立母语验收。\n\n见 evidence:observations；历史路径仅来源标签。新语言稿、配音、动态文字和实际成片须重新审核，复用资产另查交付库。本次未作新的完整视听验收或平台写入。\n",
+    "source_sha256": "b6dc427aa2ee990ca5093ed1e94a2e39a9db989fbc02dafd5b7c430fa25138dd",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/SHE-20261027-025-3-observations.json"
+    }
+  }
+}

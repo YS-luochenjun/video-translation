@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "enabled": true,
+  "remotion_kinds": ["title", "cta", "emphasis"],
+  "fps": 30,
+  "minimum_font_size": 16,
+  "timeout_seconds": 180,
+  "fallback": "ffmpeg_static",
+  "scope": "Explicit display.motion only, over a clean visual master; no speech, cloth tracking, deformation or occlusion inference"
+}

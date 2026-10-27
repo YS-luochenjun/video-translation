@@ -1,0 +1,35 @@
+{
+  "id": "MOG-20261027-044-02-5b61e3684c",
+  "status": "candidate",
+  "created_at": "2026-10-27T12:10:48+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "pt",
+    "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3"
+  },
+  "outcome": "revise",
+  "hypothesis": "On this Portuguese candidate, isolated target TTS ASR and final encoded full-audio ASR are different evidence: the latter did not recognize the new fifty reaction, while KIE full and short perceptual audits timed out/returned524. Four preset names and successful mixing do not establish distinct consistent audible roles or music fidelity. Deliver the complete actual dub with an explicit review hold; retain unknown charges and do not ask for unavailable dashboard login.",
+  "evidence": {
+    "run": "MOG-20261027-044-02",
+    "video_sha256": "5b61e3684c403d55ff5cce64b39beefa665347dc2c9cfc95805d88093d56ccef",
+    "quality_sha256": "fb20fe72b9231c31e33fb3b2ed65092ccf31c00a865025282f89c257ff11cd98"
+  },
+  "limitations": [
+    "Single source and exact locale only; no independent human review, user acceptance or automatic cross-source promotion.",
+    "No lip synchronization accepted; KIE perception remains attributed external evidence."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "observed_candidate",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "speech_complete_unreviewed",
+      "music_effects_unreviewed"
+    ],
+    "reviewer": "Codex same-agent visual/caption review; explicitly attributed external Gemini audio perception and local Whisper transcription",
+    "known_defect_count": null
+  },
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

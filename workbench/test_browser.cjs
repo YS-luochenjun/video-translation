@@ -9,7 +9,8 @@ const {chromium} = require(process.env.WORKBENCH_PLAYWRIGHT || 'playwright');
   const root = path.resolve(__dirname, '..');
   const artifacts = path.join(root,'work','test-tmp','workbench-browser');
   fs.mkdirSync(artifacts,{recursive:true});
-  const child = spawn(path.join(root,'.venv','Scripts','python.exe'),['-B',path.join(__dirname,'server.py'),'--port','0'],{cwd:root,windowsHide:true});
+  const projectPython = process.platform==='win32' ? path.join(root,'.venv','Scripts','python.exe') : path.join(root,'.venv','bin','python3');
+  const child = spawn(process.env.WORKBENCH_PYTHON || (fs.existsSync(projectPython)?projectPython:'python3'),['-B',path.join(__dirname,'server.py'),'--port','0'],{cwd:root,windowsHide:true});
   let browser;
   try {
     const base = await new Promise((resolve,reject)=>{
@@ -21,7 +22,7 @@ const {chromium} = require(process.env.WORKBENCH_PLAYWRIGHT || 'playwright');
     const page=await browser.newPage({viewport:{width:1440,height:1000}});
     const errors=[];
     page.on('pageerror',error=>errors.push(error.message));
-    await page.goto(base);
+    await page.goto(base+'/#tasks');
     await page.locator('#detail-body').waitFor({timeout:45000});
     assert(await page.locator('.task-button').count()>0,'real task records visible');
     await page.screenshot({path:path.join(artifacts,'desktop.png'),fullPage:true});

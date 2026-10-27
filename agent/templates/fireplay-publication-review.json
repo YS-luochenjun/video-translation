@@ -1,0 +1,13 @@
+{
+  "package": "outputs/REPLACE_WITH_ACTUAL_VERIFIED_PACKAGE",
+  "assessment": {
+    "reviewer": "REPLACE_WITH_REAL_REVIEWER_AND_SELF_OR_INDEPENDENT_SCOPE",
+    "reason": "REPLACE_WITH_ACTUAL_OUTPUT_OBSERVATIONS",
+    "translation_complete": true,
+    "required_audio_complete": true,
+    "watchable": true,
+    "too_many_issues": false,
+    "defects": [{"severity": "minor", "description": "REPLACE_WITH_ACTUAL_DEFECT_AND_TIME_INTERVAL"}],
+    "evidence": ["final.mp4"]
+  }
+}

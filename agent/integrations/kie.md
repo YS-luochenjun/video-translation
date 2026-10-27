@@ -12,7 +12,9 @@
 
 ## 授权、预算与凭据
 
-执行前运行 `kie-authorization`。工作区返回 `automatic_use=true` 时，在既有范围、预算和模型限制内直接执行必要调用，不重复询问。主控用 `budget-open` 登记真实用户请求；所有语言、短片、run、批次和返工共用请求账本。新请求按原视频实际时长每秒最多3 credits，总额向下保留三位小数；旧账限额及未知占位不自动变更；新建run或拆分任务不能扩大额度。新请求任务名额按原时长/角色数有限规划，两轮返工不变，见 [批次与预算](../workflows/batch-production.md)。
+执行前运行 `kie-authorization`。工作区返回 `automatic_use=true` 时，在既有范围、预算和模型限制内直接执行必要调用，不重复询问。主控用 `budget-open` 登记真实用户请求；所有语言、短片、run、批次和返工共用请求账本。新请求按 targets 中去重后的每个目标语言60 credits建共享总池，首次/新复用同价；旧账限额及未知占位不自动变更；新建run或拆分任务不能扩大额度。新请求任务名额按原时长/角色数有限规划，两轮返工不变，见 [批次与预算](../workflows/batch-production.md)。
+
+Fireplay需求沿用[接入流程](../workflows/fireplay-intake.md)和config/fireplay-intake.json.kie中的持久用户同意。用户明确交办后，fireplay-start绑定本需求独立聊天、真实请求、语种、内容版本和账本，追加独立授权记录；不再重复询问KIE或必要媒体上传。P0优先不阻塞P1制作。仍按当前模型合同、原需求额度、未知计费与宿主审批执行。
 
 三个付费入口共用预留与实际计费记录，直接绕过执行器的 KieClient 写入被阻断。逐run预算调整不能提高请求总上限。估算不构成供应商的硬账单上限；状态或计费未知时继续占位，结算超估算后停止新增调用。额度或授权范围确需扩大时再说明具体缺口并取得用户授权。
 
@@ -41,3 +43,7 @@ HTTP 200 仍可能包装业务错误。供应商业务码、`failCode` 与 `fail
 音频上传阶段的连接失败可显式 `audio-analyze ... --retry-upload --execute`，最多两轮。执行器保存旧尝试快照，并由总账确认尚无付费模型 dispatch 后复用原预留；不重复预留，也不允许借此重发结果不明的模型请求。
 
 轮询每次最多45秒。成功后下载并检查实际媒体；计费缺失继续占位，不能把账户余额变化单独当作某笔任务的费用。`doctor` 仅检查本机状态，`doctor --online` 额外证明鉴权和余额读取；两者都不证明这次视频模型生成或内容验收成功。真实结果以任务账本、媒体哈希和审核证据为准。历史实验另见 [历史说明](../../docs/history.md)，不得从旧报告恢复已停用模型的制作入口。
+
+用户只有API调用权限而不能登录后台时，不要求其登录或提供后台截图。先检查实际taskId、响应和本地日志；同步音频请求没有返回可恢复标识、且当前API不支持请求日志查询时，如实保留未知费用。只有用户在知晓旧请求状态后明确要求重试，才可用 `audio-analyze RUN --candidate --retry-authorization inputs/实际授权.json --execute` 另建一次尝试。授权绑定原journal哈希、原请求指纹、源/成片/音轨、语种、模型和原预算，`maximum_additional_attempts=1`；新尝试沿原笔数和额度预留，原未知请求不覆盖、不清零。同一原请求重复执行返回同一次重试；有可恢复taskId/response时继续恢复，不能用此入口重复扣费。此例外不是后台无法访问时的自动重试许可。 第二轮须绑定第一轮journal及其哈希，并有新的明确用户指令（retry_attempt=2、previous_retry、previous_retry_sha256）；每条授权仍只允许一次新增尝试，总计最多两轮，不因换授权文件突破限制。
+
+本项目访问约束的机器来源是 `config/kie-access.json`，`kie-authorization.task_verification` 和新聊天prompt均带出该约束。所有后续对话只用API及本地日志核查，不再要求后台登录；不得因用户无后台权限而停止其他不依赖该未知请求的工作。正式知识见 [API与本地核查](../../knowledge/rules/kie-api-local-verification-v1.md)。

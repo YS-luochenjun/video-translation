@@ -1,0 +1,39 @@
+{
+  "observed": {
+    "scope": "Actual production adapter, actual Remotion and actual missing-browser fallback; three script/kind fixtures, not full translation acceptance",
+    "results": {
+      "remotion": {
+        "video": {
+          "path": "outputs/remotion.mp4",
+          "sha256": "78671aa687953bf61e4f33669680af2f33dab0a559f4ebf4af0d74ef1c37ab4c"
+        },
+        "receipt": {
+          "path": "outputs/remotion/typography-result.json",
+          "sha256": "90f2b3266a9c4161dc8aa08ddcb563d10d1d00bbbc1517d79362b13ce3beeb0b"
+        },
+        "renderer": "remotion",
+        "fallback_reason": null,
+        "audio_pcm_identical": true
+      },
+      "fallback": {
+        "video": {
+          "path": "outputs/fallback.mp4",
+          "sha256": "ad9ab01de4ff12c7b072f339f4c96f925304a2992738f40ea484922dd1287251"
+        },
+        "receipt": {
+          "path": "outputs/fallback/typography-result.json",
+          "sha256": "62dc46e9addcc167521f2728d52f48bd5dda07db4007d3074eb422ec6d8901d4"
+        },
+        "renderer": "ffmpeg_static",
+        "fallback_reason": "Remotion browser unavailable",
+        "audio_pcm_identical": true
+      }
+    }
+  },
+  "source_sha256": "82c08c1940b8441b50eeca9a6c6627bff03032d10a480f4339d49b125756417f",
+  "new_kie_credits": 0,
+  "technical": "Both actual engines decoded150 alpha frames, bounds and intervals checked; final videos fully decoded, PCM matches original",
+  "self_review": "Viewed actual full-resolution Remotion and corrected FFmpeg fallback frames. EN/ZH readable, Arabic connected RTL order correct; initial inline-color RTL failure corrected to intact uncolored paragraph. No independent review or full normal-speed audiovisual acceptance. No complete ad localization claimed.",
+  "unit_checks": "Eight actual-font/FFmpeg Python tests and four Node input tests passed; mocked runtime cases are fixtures, separate from the actual media above.",
+  "demo": "remotion-production-smoke-20261027 generated an actual local candidate; needs_review, no quality approval"
+}

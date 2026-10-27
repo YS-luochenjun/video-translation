@@ -1,0 +1,9 @@
+{
+  "size": [480, 854],
+  "protected_regions": [[43, 177, 29, 31]],
+  "blocks": [
+    {"id": "metadata", "container": [34, 142, 177, 70], "box": [77, 153, 125, 26], "lines": ["Reply to", "Example Name"], "font": "/absolute/path/to/verified-font.ttf", "font_size": 10, "min_font_size": 10, "line_gap": 3, "color": "#505050", "align": "left"},
+    {"id": "body", "container": [34, 142, 177, 70], "box": [77, 183, 125, 23], "lines": ["Easy"], "font": "/absolute/path/to/verified-font.ttf", "font_size": 18, "min_font_size": 16, "color": "#111111", "align": "left"}
+  ],
+  "note": "Example only; measure source container and avatar. For Thai/Arabic/Indic set requires_shaping=true on each relevant block. An unavailable shaping engine is a blocker for this renderer, not permission to render broken glyphs."
+}

@@ -1,0 +1,8 @@
+{
+  "codes": ["APC-20261027-020", "MOG-20261027-051"],
+  "authority": {
+    "authority": "user",
+    "authorization_ref": "REPLACE_WITH_REAL_USER_REQUEST_REFERENCE",
+    "source_quote": "REPLACE_WITH_REAL_USER_SELECTION"
+  }
+}

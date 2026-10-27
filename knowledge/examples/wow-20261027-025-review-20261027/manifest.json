@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "wow-20261027-025-review-20261027",
+  "created_at": "2026-10-27T07:22:05+00:00",
+  "files": [
+    {
+      "path": "evidence/WOW-20261027-025-observations.json",
+      "sha256": "876283b6a5fbd3baacc9ccc77ed86da076c50a2a84f5b626af236a8a0311439e",
+      "bytes": 2785
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "8876766248b38a5ff8dc714342528b9f38db39e38bc330efcba2ba5c1741b7e8"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# WOW-20261027-025：同源观察与返工边界\n\n仅用于精确同源的画面/操作事实和审查限制；列出语种的声音、译文及质量事实只属于该语种和成片哈希，不扩张语言验收。\n\n- ko词义识别分歧通过改写和一次新TTS后，原配音、混音、编码AAC转写一致；三个阶段分别核对。\n- es最终 Haz la prueba 保留立即行动含义，但 now 未逐词显式表达；记录语义取舍，不把转写一致称母语自然。\n\n限制：\n\n- 四语均有瑕疵：原嘴型、局部衣物修复柔化、UVR音乐/音效近似。\n- 同一Agent/模型审核，没有独立完整正常播放验收。\n- 两笔超时复核仍未知，4 credits预留不释放或盲重发。\n\n见 evidence:observations；历史路径仅来源标签。新语言稿、配音、动态文字和实际成片须重新审核，复用资产另查交付库。本次未作新的完整视听验收或平台写入。\n",
+    "source_sha256": "8876766248b38a5ff8dc714342528b9f38db39e38bc330efcba2ba5c1741b7e8",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/WOW-20261027-025-observations.json"
+    }
+  }
+}

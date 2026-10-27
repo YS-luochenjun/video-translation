@@ -1,0 +1,59 @@
+{
+  "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+  "name": "she051-three-review-boundary",
+  "findings": [
+    "两份保全案例的历史审核包含59个文字实例与33段人声，不能用片头、片尾几张截图覆盖全部实例。",
+    "原记录明确：场景细字、纹理及透视近似，完整正常播放和每字幕边界仍待检查。33段实际角色TTS/ASR不等于独立母语听审。",
+    "本轮只核验案例字节与审查记录，没有重新审核这些台词、发布合格底片或继承目标语音频验收。"
+  ],
+  "observed_locales": [
+    "ja",
+    "pt"
+  ],
+  "record_bindings": [
+    {
+      "sha256": "866196f9dfb256c76e2b0a898ffe4b61dc12671e316cc4d04f7a0bbdb0fddbf2",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f"
+      },
+      "historical_outcome": "wan27_selected_for_this_source"
+    },
+    {
+      "sha256": "d4925a459d7a28d0fa4582811e8117c799547bffba5ae1da42eb64710567370d",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+        "target_language": "pt"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "1371c60c372dbc0215b46565fe9254d7533abc4121bafe6ae29312eab24ac505",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+        "target_language": "ja"
+      },
+      "historical_outcome": null
+    }
+  ],
+  "case_bindings": [
+    {
+      "manifest_sha256": "fb3f8bedb733ae3b6ff331c00e9a09f0bde0d9dcfb1f5e459ab1caea77ec1fc3",
+      "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+      "video_sha256": "5013f6294f0d86d7036193aa16d76d8a3fbc7f4858f410cfbee61a966125b08c",
+      "locale": "pt",
+      "verified_files": 528
+    },
+    {
+      "manifest_sha256": "0bea24dbe4c3448e920f32c6b9e32cd768f3c9d7a77be8a82a57b8c236893e65",
+      "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f",
+      "video_sha256": "4c98afb9f910288a27da23e88a348ac02a51ae9d615f8df78733cfcaca9ed92b",
+      "locale": "ja",
+      "verified_files": 512
+    }
+  ],
+  "scoped_use_observations": [],
+  "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+}

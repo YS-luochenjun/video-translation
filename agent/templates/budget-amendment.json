@@ -1,0 +1,11 @@
+{
+  "credit_limit": 240,
+  "authorization_ref": "REPLACE_WITH_ACTUAL_USER_AMENDMENT_EVENT",
+  "source_quote": "REPLACE_WITH_ACTUAL_USER_BUDGET_OR_ADDITIONAL_LANGUAGE_AUTHORIZATION",
+  "targets": [
+    "ja",
+    "es",
+    "pt",
+    "fr"
+  ]
+}

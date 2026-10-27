@@ -1,0 +1,37 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261027-044-vi-publication-20261027.json",
+    "sha256": "308eaffc121eb83d449570d54df55283b00556191304ca6d7a3e841b49f13923"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex主控，文档及来源复盘，未重新听看或作母语验收",
+  "origin": "2026-10-27T13:02 heartbeat，具体越语发布审查候选",
+  "resolution": "duplicate",
+  "reason": "该事件支持已有发布程序：以实际证据判断普通瑕疵并保留原revise，不是提升所有音频疑点容忍标准。信号相似性不证明语言语义已核实。",
+  "targets": [
+    {
+      "id": "fireplay-completion-recovery-v2",
+      "path": "knowledge/rules/fireplay-completion-recovery-v2.md",
+      "sha256": "9d65731d471b0166669337d25624d99bed09f3fd2aefc483b4d9e0e16ce0296c",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# Fireplay 自动提交与经验收尾\n\n适用于已承接的翻译需求产生完整成片、聊天停在本地交付或需要恢复已有提交的情况。用户2026-10-27最新明确：每次上传后不跟踪YouTube进度，相信Fireplay平台。机器来源为config/fireplay-publication.json.completion。本版替代先前持续跟踪YouTube的建议，历史查询与失败记录原样保留。\n\n1. 仅有本地成片：继续实际审核最新版，核对完整翻译、必需配音、字幕和正常播放效果。普通小瑕疵按当前发布审查接受；严重或问题过多仍阻断。未审核是下一项工作，不是永久停止理由。用户具体认可只适用于明确成片哈希，不改写旧revise、旧质量异议或公司默认。\n2. 符合发布条件：直接执行已授权固定回传，不再次询问KIE或固定提交同意。逐需求独立聊天和费用；原片编号、语种和成片哈希绑定真实提交。\n3. 初次提交：核对明确选中的需求组YouTube账号、实际任务/请求归属，以及素材名称、语言/产品tag、共享范围和需求绑定。共享组、上传人组、YouTube账号组与任务组是不同事实；shared_dept_id不能指定账号。连接器缺字段时用实际支持的显式账号网页路径，不编造参数。\n4. Fireplay已受理、素材已入库且绑定核验完成：保存回执，直接经验收尾。后续YouTube排队、账号限额、向量化或是否已出现链接交给Fireplay，不轮询、不等全部完成、不为缺链接再次入库。对外如实报告“已提交Fireplay/已请求自动上传”，不冒称YouTube已上传。\n5. 旧手工回传与不同操作者：按真实素材ID、源/成片字节及绑定回执识别已提交记录。网页和MCP身份可能不同，MCP本人任务列表为空不能证明平台未受理；不能据此重入库。已成功绑定的历史素材保留，不再因YouTube尾项发起补提、替换或删除。\n6. 外部调用超时/unknown或绑定尚未核实：只恢复该次确切请求，核实是否被平台受理；这是提交确认，不是上传后的进度追踪。先查实际记录，不重复写。原审批拒绝仍保留，不能用新轮询伪装为批准。\n\n经验收尾须提炼真实发现和失败签名，保留原scope与证据来源。重复经验关联既有知识，空白占位不进入方法召回；案例、ASR和账本是证据，不反复当新经验。按knowledge-review审查，再用candidate-archive保留原文和指纹归档；不能只为了清空队列而宣称质量通过。\n\n结案按maintain RUN --close核验交付、知识和账本。未知费用、活动锁、被引用资产或缺必要证据时保留现场并报告具体原因；知识已总结不代表可以删除生产数据。\n\n证据：evidence:review。本条由当前用户最新收尾要求和实际聊天/回执的开发者复盘支持，不是新增投放、费用或公司视觉标准授权。\n"
+    }
+  ],
+  "adopted_parts": [
+    "正式完整成片的实际小瑕疵发布审查可以与内部quality revise并存；严重度结论仍绑定本源、本vi语种、实际视频哈希和具体声音片段。"
+  ],
+  "retained_parts": [
+    "原文0.9993相关值、14.8–15.0秒插音不确定性、模型感知与同一Agent自审来源继续保留；不推广为自动声音验收或葡语通过。"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-10-27T13:07:09+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

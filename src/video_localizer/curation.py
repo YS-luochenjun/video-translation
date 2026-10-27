@@ -30,7 +30,7 @@ def settings(root):
 
 def source_files(root):
     from .knowledge_review import closed_sources
-    from .knowledge_records import non_use_only
+    from .knowledge_records import non_use_only, evidence_payload
     closed = closed_sources(root)
     files = []
     for directory in SOURCES:
@@ -40,6 +40,8 @@ def source_files(root):
                          and not p.name.startswith("index") and p.resolve().is_relative_to(base.resolve()))
     return sorted(p for p in set(files) if (p.relative_to(root).as_posix(), file_hash(p)) not in closed
                   and not any(part in {"bundle", "evidence"} for part in p.relative_to(root).parts)
+                  and not (p.is_relative_to(root / 'knowledge/local/feedback') and
+                           evidence_payload(p, root / 'knowledge/local/feedback'))
                   and not (p.is_relative_to(root / "knowledge/local/feedback/knowledge-use") and non_use_only(read_json(p))))
 
 

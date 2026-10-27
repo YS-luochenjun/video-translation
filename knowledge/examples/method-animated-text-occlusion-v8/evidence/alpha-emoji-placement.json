@@ -1,0 +1,23 @@
+{
+  "original_size": [
+    480,
+    854
+  ],
+  "origin": [
+    127,
+    213
+  ],
+  "output_size": [
+    180,
+    140
+  ],
+  "visible_bbox": [
+    129,
+    215,
+    305,
+    351
+  ],
+  "empty_foreground": false,
+  "cleared_hidden_rgb_pixels": 388383,
+  "scope": "Copy only; alpha and all alpha>0 RGBA values retained. Place cropped output at origin in original_size; recheck actual transforms/consumers."
+}

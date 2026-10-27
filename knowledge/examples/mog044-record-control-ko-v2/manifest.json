@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog044-record-control-ko-v2",
+  "created_at": "2026-10-27T13:50:02+00:00",
+  "files": [
+    {
+      "path": "evidence/control-review.json",
+      "sha256": "472227b8bb1607871098ef94dd0206872429187429752b02ce44ff4880a74110",
+      "bytes": 642
+    },
+    {
+      "path": "evidence/record-state-detail.png",
+      "sha256": "8603b71a6486ee837a549acd5687f041f4e34207cf5d7f22e725af6e8657eee5",
+      "bytes": 64893
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+      "target_language": "ko"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG044录音按钮状态观察（仅同源韩语参考）\n\n范围：原片SHA256为bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3、目标语ko。此条帮助重查同源UI文字状态，不是新一轮整片/声音验收，也不把特定颜色推广到别的产品。\n\n实际查看保留的原片按钮对照：标记12的画面是灰底Record，13是青色底Record，14是青色底带深色方块的Stop Recording。青色背景已经出现，但按钮尚可能只是可录音状态；因此“背景变亮/变青即开始录音”是本源的反例。\n\n再次使用时，对照源帧中的实际按钮文字、图形和深色停止方块，分别确定“录音”与“停止录音”的出现区间，再检查韩语字层是否随该状态切换。颜色只作辅助，保留主体图形和时间映射，不根据一次阈值检测自动决定语义。此处未记录可通用于所有场景的像素坐标、颜色阈值或模型选择。\n\n候选还记载四个角色、短数字反应及原先整片审核通过。这些是历史来源，不是本次文档复盘重新听看后的结论；相关完整性指导关联[多语种复盘](../rules/multilingual-thread-lessons-v1.md)。本次只独立查看实际源按钮对照，保留原有候选视频哈希99b04e7691ded96f0086ffee646bce329248b0093e80e8f102960cfe8f0b2c8b作为历史来源标签，不扩大到其他语种或不同源。\n\n证据：evidence:control、evidence:review。必要对照图与审查记录独立打包；原run可迁移，案例不依赖其路径长期存在。没有重新评价韩语配音、字幕时轴或整支广告质量。\n\n索引使用target_language=ko精确匹配；修正初次登记的字段名，不新增语言或视频质量结论。\n",
+    "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "control": "evidence/record-state-detail.png",
+      "review": "evidence/control-review.json"
+    }
+  }
+}

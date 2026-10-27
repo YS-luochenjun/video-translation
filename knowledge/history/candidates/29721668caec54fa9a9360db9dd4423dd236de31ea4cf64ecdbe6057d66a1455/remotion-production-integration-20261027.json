@@ -1,0 +1,27 @@
+{
+  "id": "remotion-production-integration-20261027",
+  "created_at": "2026-10-27T04:45:12+00:00",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "outcome": "bounded_typography_adapter_integrated",
+  "hypothesis": "Explicit title/CTA/emphasis uses Remotion with bound fonts/instances and full alpha checks; actual missing-browser failure emits a checked static FFmpeg layer. Keep RTL paragraphs intact in fallback: inline ASS color splits reordered Arabic words in development. Static degradation requires current receipt acknowledgement; simple text keeps legacy renderer. Prepared-neutral approval, resource locks, process timeout and archive dependency closure are retained. Single5s real clip plus synthetic tests; not a universal language/platform or ad-quality approval.",
+  "evidence": {
+    "manifest_sha256": "90de5ec4ff2df7f10db4c1ed49c110e0ea73cc9cb075822dafb7e681376906c9",
+    "media_sha256": {
+      "remotion": "78671aa687953bf61e4f33669680af2f33dab0a559f4ebf4af0d74ef1c37ab4c",
+      "fallback": "ad9ab01de4ff12c7b072f339f4c96f925304a2992738f40ea484922dd1287251"
+    }
+  },
+  "company_preference": false,
+  "limitations": [
+    "Same-agent technical/image review; no independent or normal-speed audiovisual acceptance.",
+    "Only fixed screen-space text; no cloth tracking, deformation, occlusion, speech-caption takeover or long-copy stress test.",
+    "Production organization license eligibility remains operator-managed.",
+    "Complete check still has the pre-existing Mac Windows-font cache signature failure."
+  ],
+  "promotion": "Bounded method activated from direct user authorization; this candidate preserves technical follow-up, not advertising acceptance.",
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -54,6 +54,8 @@ def _next_action(run, state, jobs):
 
 def build(run, stage=None):
     root = run.parent.parent
+    from .ledger import tracking_packet
+    ledger_tracking = tracking_packet(run)
     source_sha = file_hash(workflow.source_path(run))
     inventory_path = run / 'analysis/inventory.json'
     inventory = read_json(inventory_path) if inventory_path.exists() else {'source_sha256': source_sha}
@@ -73,7 +75,7 @@ def build(run, stage=None):
             path = inside(run, asset['path'])
             require(file_hash(path) == asset['sha256'], 'Finalization knowledge selection changed')
             selected = read_json(path)
-        return {'run': run.name, 'state_hint': 'delivered_with_issues', 'completion': completion,
+        return {'run': run.name, 'ledger_tracking': ledger_tracking, 'state_hint': 'delivered_with_issues', 'completion': completion,
                 'knowledge': selected.get('knowledge', []), 'source_references': selected.get('source_references', []),
                 'knowledge_advisories': selected.get('knowledge_advisories', []),
                 'routing_assessment': selected.get('routing_assessment'),
@@ -84,7 +86,7 @@ def build(run, stage=None):
         from . import budgets, fast_delivery
         plan = fast_delivery.validate_plan(run, read_json(run / 'plan.json'))
         budget = budgets.status(budgets.bind(run)['id'], root)
-        return {'run': run.name, 'mode': 'fast', 'plan_id': plan['id'],
+        return {'run': run.name, 'ledger_tracking': ledger_tracking, 'mode': 'fast', 'plan_id': plan['id'],
                 'knowledge': plan.get('knowledge', []), 'source_references': plan.get('source_references', []),
                 'knowledge_advisories': plan.get('knowledge_advisories', []),
                 'knowledge_context': plan.get('knowledge_context'),
@@ -162,7 +164,7 @@ def build(run, stage=None):
         issues = [{'instance':n.get('instance_id'), 'issue':n['issue']} for n in packet.get('instances',[]) if n.get('issue')]
         if issues: observations.append({'path':path.relative_to(run).as_posix(),'issues':issues})
     from .model_routing import policy
-    return {'run': run.name, 'stage': stage, 'state_hint': current['state'], 'model_routing': policy(root),
+    return {'run': run.name, 'ledger_tracking': ledger_tracking, 'stage': stage, 'state_hint': current['state'], 'model_routing': policy(root),
             'reusable_packages': reusable_packages, 'maintenance': maintenance,
             'output_policy': 'agent/workflows/always-output.md',
             'reuse_action': 'Prefer verified outputs packages before recreating assets. References and held results are not approved masters.',

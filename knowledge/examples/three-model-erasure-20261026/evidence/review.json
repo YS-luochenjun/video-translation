@@ -1,0 +1,133 @@
+{
+  "reviewer": "Codex, same-agent frame-sequence review with operational blinding only",
+  "review_type": "same_agent",
+  "reviewed_at": "2026-10-27T03:38:59+00:00",
+  "source_sha256": "007d0bb69400556825ea26e1dd70c580824629af96b441c9cdb81b080dbe2c44",
+  "protocol_sha256": "fc1b05fe73ce32dea93a5e772fe333fff38b32842ec60a753461da2e4695f12a",
+  "winner": "A",
+  "candidates": {
+    "A": {
+      "score": 94,
+      "subscores": {
+        "erasure": 40,
+        "source_motion_and_subject_fidelity": 36,
+        "visual_finish": 18
+      },
+      "reason": "CHEER absent across all 150 decoded native garment ROI frames. Thirteen full-frame samples preserve the two pink glossy characters, 8/10 and 10/10 ratings, whispering-hand lowering, phone, crossed arms, bow, trim, skirt and locker framing. Red fabric is clean and temporally coherent in the inspected sequence; fine texture is smoother and there are minor render differences. Closest to requested local edit.",
+      "hard_fail": false,
+      "evidence": [
+        "review/comparison-evidence/A-overview.jpg",
+        "review/comparison-evidence/A-05.jpg",
+        "review/comparison-evidence/A-all-frames-01.jpg",
+        "review/comparison-evidence/A-all-frames-02.jpg",
+        "review/comparison-evidence/A-all-frames-03.jpg"
+      ],
+      "coverage": {
+        "garment_roi_native_frames": [
+          0,
+          149
+        ],
+        "full_frame_sample_times": [
+          0,
+          0.4,
+          0.8,
+          1.2,
+          1.6,
+          2,
+          2.4,
+          2.8,
+          3.2,
+          3.6,
+          4,
+          4.4,
+          4.8
+        ]
+      }
+    },
+    "B": {
+      "score": 64,
+      "subscores": {
+        "erasure": 40,
+        "source_motion_and_subject_fidelity": 10,
+        "visual_finish": 14
+      },
+      "reason": "CHEER absent across all 121 native garment ROI frames, but both required forehead ratings disappear in every full-frame sample. The white V-neck is redrawn into a different lower/rounder shape, and fabric/lighting changes are visible. Gross composition and gestures remain similar, but erasure exceeds allowed scope; raw result fails protected-number requirement.",
+      "hard_fail": true,
+      "failures": [
+        "8/10 and 10/10 ratings erased",
+        "unrequested neckline/fabric changes"
+      ],
+      "evidence": [
+        "review/comparison-evidence/B-overview.jpg",
+        "review/comparison-evidence/B-05.jpg",
+        "review/comparison-evidence/B-all-frames-01.jpg",
+        "review/comparison-evidence/B-all-frames-02.jpg",
+        "review/comparison-evidence/B-all-frames-03.jpg"
+      ],
+      "coverage": {
+        "garment_roi_native_frames": [
+          0,
+          120
+        ],
+        "full_frame_sample_times": [
+          0,
+          0.4,
+          0.8,
+          1.2,
+          1.6,
+          2,
+          2.4,
+          2.8,
+          3.2,
+          3.6,
+          4,
+          4.4,
+          4.8
+        ]
+      }
+    },
+    "C": {
+      "score": 10,
+      "subscores": {
+        "erasure": 0,
+        "source_motion_and_subject_fidelity": 0,
+        "visual_finish": 10
+      },
+      "reason": "Thirteen full-frame samples show a newly generated landscape school corridor with black-haired human-looking characters, different blocking and composition. CHEER remains plainly on the cheerleader shirt, and the 10/10 number is moved onto lockers. Fails text removal, character/scene preservation and portrait framing.",
+      "hard_fail": true,
+      "failures": [
+        "CHEER remains",
+        "characters and scene recreated",
+        "portrait input becomes landscape",
+        "ratings relocated/changed"
+      ],
+      "evidence": [
+        "review/comparison-evidence/C-overview.jpg",
+        "review/comparison-evidence/C-05.jpg"
+      ],
+      "coverage": {
+        "full_frame_sample_times": [
+          0,
+          0.4,
+          0.8,
+          1.2,
+          1.6,
+          2,
+          2.4,
+          2.8,
+          3.2,
+          3.6,
+          4,
+          4.4,
+          4.8
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "One animated source and one initial task per model; not evidence for universal model ranking.",
+    "Same agent prepared and reviewed, and native aspect/fps can reveal model identity. Operational anonymization is not an independent blind study.",
+    "Review uses complete garment-frame contact sequences and 13 native full-frame samples, not a claim of continuous real-time audiovisual playback or full-frame every-pixel inspection.",
+    "Only erasure/visual fidelity compared; translated text, dubbing and full-video localization acceptance are outside scope."
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "name": "WOW-20261027-025",
+  "source_sha256": "8876766248b38a5ff8dc714342528b9f38db39e38bc330efcba2ba5c1741b7e8",
+  "thread": {
+    "thread_id": "01a17b6c-f243-7b11-8134-330ca6e3c8b7",
+    "host": "local",
+    "read_state": "unavailable_size_limit"
+  },
+  "report": {
+    "origin_label": "outputs/reports/WOW-20261027-025/delivery-summary.json",
+    "sha256": "a24dfb33fc43994fb607550c22ca47118f18c36055c2d1e6f7ce4997114a207b"
+  },
+  "findings": [
+    "ko词义识别分歧通过改写和一次新TTS后，原配音、混音、编码AAC转写一致；三个阶段分别核对。",
+    "es最终 Haz la prueba 保留立即行动含义，但 now 未逐词显式表达；记录语义取舍，不把转写一致称母语自然。"
+  ],
+  "limitations": [
+    "四语均有瑕疵：原嘴型、局部衣物修复柔化、UVR音乐/音效近似。",
+    "同一Agent/模型审核，没有独立完整正常播放验收。",
+    "两笔超时复核仍未知，4 credits预留不释放或盲重发。"
+  ],
+  "outputs": [
+    {
+      "locale": "es",
+      "video_sha256": "5f21ffa8c923ea5edfed6cb7bff70215b2f76acc89cb889febf099b60fb8d0b8",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "ko",
+      "video_sha256": "30946b1d73eab6a6e1353fce5e2306a6d8d6dbb12a0c3bc1cc10f3177856769e",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "pt",
+      "video_sha256": "0ffe202ba617c8c91de979244b4ef5461b944ff0040216e48564d67e7fda1318",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    },
+    {
+      "locale": "zh-TW",
+      "video_sha256": "c25da1574c702053f2f11f5ce21ffbe158ef7d1f8b7bc6b8ee8cbb34fab8edcf",
+      "availability_at_curation": "hash_verified",
+      "quality_passed": false,
+      "historical_state": "delivered_with_issues",
+      "limitations": []
+    }
+  ],
+  "review": "Codex structural/evidence review. Hash verification is not a new video, native-language or company acceptance.",
+  "scope": "Source-level visual/operational observations only. Locale-specific translation/audio claims remain limited to the listed original locales; no approved translated asset is supplied.",
+  "billing_snapshot": {
+    "limit_credits": 240.0,
+    "confirmed_credits": 147.62,
+    "reserved_or_billed_credits": 151.62,
+    "unknown_billing_jobs": 2,
+    "unknown_reservations_credits": 4,
+    "note": "Two timed-out audio review requests remain reserved; no blind repeats or charge assumptions."
+  }
+}

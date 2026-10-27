@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "authority": "user",
+  "authorization_ref": "user-fireplay-minor-issues-publication-20261027",
+  "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+  "source_quote": "对话与视频，不一定要没有瑕疵才进行上传，其实能最终得到成品的，到output中的，已经差不多合格了，就可以开启上传了",
+  "severity_quote": "如果效果太差的，还是不能上传，例如问题很多很多的。一般的普通有瑕疵的内容，可以进行上传",
+  "mode": "complete_outputs_with_minor_issues",
+  "major_issues_block": true,
+  "preserve_internal_quality": true,
+  "completion": {
+    "stop_after_fireplay_acceptance": true,
+    "track_youtube_progress_after_submission": false,
+    "authority": "user",
+    "authorization_ref": "user-fireplay-no-youtube-progress-20261027",
+    "source_quote": "每一次上传后，不要跟踪youtube上传进度，相信fireplay平台就好了",
+    "initial_checks": [
+      "material_import",
+      "shared_group",
+      "name_and_tags",
+      "requirement_binding",
+      "platform_acceptance"
+    ],
+    "downstream_owner": "Fireplay",
+    "routing_policy": "config/fireplay-youtube-routing.json: platform_managed"
+  }
+}

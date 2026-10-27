@@ -2,6 +2,8 @@
 
 源码、安装资产和任务数据分开保留。清空运行数据不会卸载模型；导出源码不会携带旧视频或本机授权。
 
+Remotion是可选下载依赖：源码只保留`src/remotion_renderer`的项目适配器、package.json及锁文件。按`bin/setup_remotion.py --install`下载到`.runtime/deps/remotion`；Node、浏览器和node_modules不提交GitHub。导出会跳过各层node_modules、.cache及Python缓存，但保留适配器和安装清单，已安装环境不受导出影响。
+
 | 目录 | 内容 | 进入源码 |
 | --- | --- | --- |
 | `bin/`、`src/`、`tests/` | 正式入口、实现、测试 | 是 |

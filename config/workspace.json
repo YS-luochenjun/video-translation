@@ -7,8 +7,8 @@
   "sampling_seconds": 1.0,
   "max_segment_seconds": 8.0,
   "max_paid_jobs_per_run": 2,
-  "request_budget_policy": "source_duration",
+  "request_budget_policy": "per_target_language",
   "require_target_audio_for_speech": true,
   "max_revision_rounds": 2,
-  "note": "New request limit is actual original source seconds times the rate in config/budget-policy.json, shared by all locales, models, runs and retries. Bound historical ledgers keep their original limits and spending. Clips do not create allowance. Duration-based requests derive finite task slots from source segments/known roles with two repair rounds per unit; credit reservations remain the aggregate gate. Unknown charges stay reserved."
+  "note": "New first/reuse request allowance is 60 credits per distinct normalized target language in config/budget-policy.json. The allowance is a flexible shared pool for all declared languages, shared preparation, models and retries. Historical ledgers retain their limits, spending and unknown reservations. Clips and duplicate aliases do not create allowance. Finite task slots follow original source segments/known roles and two repair rounds per unit."
 }

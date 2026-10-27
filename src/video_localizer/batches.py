@@ -13,13 +13,15 @@ def _path(batch_id, root):
 
 
 def authorization(root=ROOT):
+    from .kie_access import policy as access_policy
+    access = access_policy(root)
     path = Path(root) / 'config/kie-authorization.local.json'
     if not path.exists():
-        return {'automatic_use': False, 'reason': 'No project owner authorization configured'}
+        return {'automatic_use': False, 'reason': 'No project owner authorization configured', 'task_verification': access}
     value = read_json(path)
     require(value.get('provider') == 'KIE' and value.get('source_quote'), 'Invalid KIE authorization')
     enabled = value.get('automatic_use') is True and Path(value.get('workspace', '')).resolve() == Path(root).resolve()
-    return {**value, 'automatic_use': enabled, 'sha256': file_hash(path)}
+    return {**value, 'automatic_use': enabled, 'sha256': file_hash(path), 'task_verification': access}
 
 
 def create(batch_id, video, targets, brief, reused=False, root=ROOT):
@@ -32,6 +34,7 @@ def create(batch_id, video, targets, brief, reused=False, root=ROOT):
     names = [batch_id + '-' + str(i+1).zfill(2) for i in range(len(languages))]
     settings = read_json(Path(root) / 'config/workspace.json')
     request_budget = budgets.for_source(file_hash(video), root)
+    budgets.require_targets(request_budget, languages, root)
     require(request_budget['mode'] == ('reuse' if reused else 'first'), 'Batch mode must match the existing human request budget')
     cap = request_budget['credit_limit']
     require_number(cap, 'batch credits', minimum=1)
@@ -51,7 +54,7 @@ def create(batch_id, video, targets, brief, reused=False, root=ROOT):
             require(read_json(run / 'run.json')['source_sha256'] == source_sha, 'Source changed during batch creation')
             write_json(run / 'inputs/batch.json', {'id': batch_id, 'source_sha256': source_sha,
                        'run': name, 'origin_workspace': str(Path(root).resolve())})
-            if reused and request_budget.get('budget_basis', {}).get('policy') != 'source_duration':
+            if reused and request_budget.get('budget_basis', {}).get('policy') not in ('source_duration', 'per_target_language'):
                 write_json(run / 'inputs/budget.json', {'source_sha256': source_sha,
                     'reason': 'Explicit incremental reuse batch; lower existing workspace limit',
                     'max_paid_jobs_per_run': settings['max_paid_jobs_per_run'],

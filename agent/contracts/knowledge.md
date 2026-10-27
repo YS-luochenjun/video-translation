@@ -65,7 +65,7 @@ bin/va.ps1 candidate-archive knowledge/candidates/actual-candidate.json --execut
 
 清理runs或outputs前验证知识独立性、交付包内部依赖和未结算账本。验证以离开原目录仍可读/可恢复为准，路径指针和哈希本身不能恢复已删文件。归档到期后同源资产显示expired；再次使用需重新制作或恢复冷存储并验证。
 
-直接查阅历史规则时，先核对索引状态；`superseded` 或带 `superseded_by` 的正文仅用于追溯，沿替代关系读取当前规则。预算现行入口为 [请求总预算](../../knowledge/rules/user-request-budget-20261026.md)，历史额度和旧plan中的知识快照不构成新调用授权。
+直接查阅历史规则时，先核对索引状态；`superseded` 或带 `superseded_by` 的正文仅用于追溯，沿替代关系读取当前规则。预算现行入口为 [请求总预算](../../knowledge/rules/user-language-budget-60-20261026.md)，历史额度和旧plan中的知识快照不构成新调用授权。
 
 具体操作入口为 `.agents/skills/knowledge-curation/SKILL.md`；目录说明见 `agent/contracts/storage.md`。
 

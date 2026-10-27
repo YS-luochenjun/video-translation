@@ -196,6 +196,15 @@ def reflect(run, root=None):
                                   "quality_sha256": file_hash(run / "outputs/quality.json")},
                      "limitations": report.get("limitations", []), "company_preference": False,
                      "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval"}
+    from .knowledge_records import placeholder_lesson
+    pending_lesson = placeholder_lesson(record['hypothesis'])
+    record['reflection_state'] = 'needs_lesson' if pending_lesson else 'observed_candidate'
+    record['evidence_digest'] = {'quality_decision': result['decision'],
+                               'failure_codes': result.get('failures', []),
+                               'reviewer': report.get('reviewer'),
+                               'known_defect_count': (len(report['known_defects']) if isinstance(report.get('known_defects'), list) else None)}
+    if pending_lesson:
+        record['next_action'] = 'Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.'
     if path.exists():
         # Legacy reflection bytes remain immutable. A separate case/inbox closes the old dependency.
         previous = read_json(path)
@@ -209,5 +218,6 @@ def reflect(run, root=None):
     from .knowledge_usage import followup
     return {"candidate": str(path.relative_to(root)), "project_candidate": project_candidate,
             "case": record["case"], "inbox": queued, "status": "candidate",
+            "reflection_state": record['reflection_state'],
             "knowledge_followup": followup(run, root)}
 

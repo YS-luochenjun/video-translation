@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "she051-ui-one-observations-20261027",
+  "created_at": "2026-10-27T07:50:08+00:00",
+  "files": [
+    {
+      "path": "evidence/she051-ui-one.json",
+      "sha256": "c0e072575ce8cbfc2990bc36ce673e7172a138f07cc168772d86e924cf5ae142",
+      "bytes": 10230
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# she051-ui-one：精确同源观察\n\n- 静态白/黑/橙界面使用原容器与同源供体；源光标保持前景。回贴光标曾带回旧字，需要独立查片尾。\n- 重复标语及FAIL按实际出现区间登记，数字分数保留但逐数字起止尚未逐项审查。\n- 源音频分析记录无可辨识台词，保留原音轨；不是所有界面广告都不需要配音。字体纹理近似，未完成正常播放质量验收。\n\n见 evidence:observations。仅是有来源的历史观察和复用风险；语种/成片验收沿各原始scope与视频哈希，不扩大到新语言。本轮未作完整视听验收，未放行底片、解除质量异议、结算未知费用或授权重新调用模型。\n",
+    "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/she051-ui-one.json"
+    }
+  }
+}

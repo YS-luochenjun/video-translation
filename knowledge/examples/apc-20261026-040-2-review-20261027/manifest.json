@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "apc-20261026-040-2-review-20261027",
+  "created_at": "2026-10-27T07:22:05+00:00",
+  "files": [
+    {
+      "path": "evidence/APC-20261026-040-2-observations.json",
+      "sha256": "72696c82174267eaa53ada2daeedf1375588f6ff7df6dda51091b20b8b81f016",
+      "bytes": 3685
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "3623fbe61d44705072a566db49183e2e2762092f38f6662d58b839b7710ed16b"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# APC-20261026-040-2：同源观察与返工边界\n\n仅用于精确同源的画面/操作事实和审查限制；列出语种的声音、译文及质量事实只属于该语种和成片哈希，不扩张语言验收。\n\n- 源片前景 CTA 与箭头清晰，背景标题/问题在片尾失焦；不能把重绘背景字保持锐利。\n- 检查 CTA 到源片最后可见帧，不能按最后一句配音结束裁短。报告的1543帧及49.4秒是本源参数。\n\n限制：\n\n- 本轮仅确认用户所指片尾项改善；七语 quality_passed 仍为 false。\n- 沿用 AAC 且本轮未新增付费，不代表以前的声音或账本问题已通过。\n\n见 evidence:observations；历史路径仅来源标签。新语言稿、配音、动态文字和实际成片须重新审核，复用资产另查交付库。本次未作新的完整视听验收或平台写入。\n",
+    "source_sha256": "3623fbe61d44705072a566db49183e2e2762092f38f6662d58b839b7710ed16b",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/APC-20261026-040-2-observations.json"
+    }
+  }
+}

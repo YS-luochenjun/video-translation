@@ -3,7 +3,11 @@ import re
 from .common import ROOT, read_json, require
 
 
-def check_new_video_task(model, estimated_credits, root=None):
+def check_new_video_task(model, estimated_credits, root=None, *, run=None, authorization=None):
+    if authorization is not None:
+        from .video_tests import check_new_submission
+        check_new_submission(model, estimated_credits, run, authorization)
+        return
     from .model_routing import require_current
     path=(root or ROOT)/'config/model-policy.json'
     if not path.exists():

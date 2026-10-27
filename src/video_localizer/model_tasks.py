@@ -9,7 +9,7 @@ from . import audio, media
 from .common import file_hash, guarded, inside, lock, object_hash, read_json, require, require_number, utc_now, write_json
 from .kie import ApiError, KieClient, download
 
-VIDEO_MODELS = ('wan/2-7-videoedit', 'bytedance/seedance-2-fast', 'wan/2-6-flash-video-to-video')
+VIDEO_MODELS = ('wan/2-7-videoedit', 'bytedance/seedance-2-fast', 'wan/2-6-flash-video-to-video', 'bytedance/seedance-2-mini')
 GEMINI_TTS_MODELS = ('google/gemini-2-5-pro-tts', 'google/gemini-3-1-flash-tts', 'google/gemini-3-8-flash-lite-tts')
 
 
@@ -138,7 +138,19 @@ def packet(run, relative):
             require(audio.inspect(path)[0]['has_track'], 'Audio task asset has no audio')
     if model == 'ai-music-api/separate-vocals':
         require('audio' in data.get('assets', {}), 'Missing separation source audio')
+    if video_model and (data.get('model_authorization') or model == 'bytedance/seedance-2-mini'):
+        from .video_tests import check_packet
+        check_packet(run, data)
     return data
+
+
+def _authorized_rate_limit_retry(run, job):
+    """An explicit 429 rejection has no accepted task; keep its old cost reservation."""
+    request_path = run / 'inputs/request.json'
+    grant = read_json(request_path).get('provider_retry_authorization', {}) if request_path.exists() else {}
+    return (grant.get('allow_explicit_429') is True and bool(grant.get('authorization_ref'))
+            and bool(grant.get('source_quote')) and job.get('state') == 'failed'
+            and not job.get('task_id') and str(job.get('error', '')).startswith('KIE code 429:'))
 
 
 @guarded
@@ -153,14 +165,15 @@ def submit(run, relative, client=None, retry_failed=False):
         # first retry. Active/ambiguous attempts are reused, never duplicated.
         for retry_attempt in range(1, min(2, execution_limits(run)['max_revision_rounds']) + 1):
             failed = read_json(run / 'jobs' / (original + '.json'))
-            require(failed.get('state') in ('fail', 'failed') and failed.get('task_id') and failed.get('credits_consumed') == 0,
+            require((failed.get('state') in ('fail', 'failed') and failed.get('task_id') and failed.get('credits_consumed') == 0)
+                    or _authorized_rate_limit_retry(run, failed),
                     'Retry requires a known terminal zero-cost provider failure')
             digest = object_hash({'packet': data, 'retry_of': original})
             previous_retry = run / 'jobs' / (digest + '.json')
             if not previous_retry.exists():
                 break
             saved = read_json(previous_retry)
-            if saved.get('state') not in ('fail', 'failed') or not saved.get('task_id'):
+            if saved.get('state') not in ('fail', 'failed') or (not saved.get('task_id') and not _authorized_rate_limit_retry(run, saved)):
                 break
             original = digest
         else:
@@ -179,7 +192,8 @@ def submit(run, relative, client=None, retry_failed=False):
         require_remote_task(data['payload']['model'], run=run, authorization=data.get('model_authorization'))
         if data['payload']['model'] in VIDEO_MODELS:
             from .cost import check_new_video_task
-            check_new_video_task(data['payload']['model'],data['estimated_credits'])
+            check_new_video_task(data['payload']['model'], data['estimated_credits'],
+                                 run=run, authorization=data.get('model_authorization'))
         limits = execution_limits(run)
         jobs = [read_json(p) for p in (run / 'jobs').glob('*.json')]
         require(len(jobs) < limits['max_paid_jobs_per_run'], 'Paid job budget reached')
@@ -193,10 +207,15 @@ def submit(run, relative, client=None, retry_failed=False):
                'task_result_kind': 'video' if data['payload']['model'] in VIDEO_MODELS else 'audio',
                'execution_limits': {key: limits[key] for key in ('max_paid_jobs_per_run', 'max_estimated_credits_per_run')}}
         job['batch_budget'] = batch_budget
+        if data.get('model_authorization'):
+            job['model_authorization'] = data['model_authorization']
         if retry_failed:
             job['retry_of'] = original
             job['retry_attempt'] = retry_attempt
-            job['retry_reason'] = 'Explicit identical-packet retry after known zero-cost terminal provider failure; at most two rounds'
+            job['retry_reason'] = ('Explicit user-authorized identical-packet retry after provider 429 rejection; '
+                                   'prior billing reservation retained, at most two rounds'
+                                   if _authorized_rate_limit_retry(run, failed) else
+                                   'Explicit identical-packet retry after known zero-cost terminal provider failure; at most two rounds')
         write_json(path, job)
         try:
             job['credits_before'] = client.credits()

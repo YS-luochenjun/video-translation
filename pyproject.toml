@@ -11,6 +11,7 @@ dependencies = []
 
 [project.optional-dependencies]
 layout = ["Pillow"]
+typography = ["Pillow", "fonttools", "numpy"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

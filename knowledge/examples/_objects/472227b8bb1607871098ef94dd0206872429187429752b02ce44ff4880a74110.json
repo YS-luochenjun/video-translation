@@ -1,0 +1,14 @@
+{
+  "observed": "Source review strip labels12/13/14 show gray Record, cyan Record, cyan Stop Recording with dark square. Brightness/cyan alone is insufficient.",
+  "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+  "scope": {
+    "target_languages": [
+      "ko"
+    ]
+  },
+  "reviewed_by": "Codex actual image inspection during project knowledge cleanup; no new audio/full-video acceptance",
+  "limitations": [
+    "One source UI sequence only; labels are retained provenance, no newly reconstructed source-time guarantee.",
+    "No cross-source color thresholds or target-language quality upgrade."
+  ]
+}

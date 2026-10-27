@@ -1,0 +1,30 @@
+{
+  "review_type": "same_agent",
+  "observations": [
+    {
+      "trigger": "A native-file upload draft is lost after a verified raw R2 stage",
+      "observed": "Restoring its public R2 URL through the batch-link textbox produced an external-link card without the native-file YouTube account selector and ready cover. A new native-file selection produced a local-video card with those controls.",
+      "effective_action": "Retain the prior stage receipt. In this incident a human explicitly authorized exactly one new raw stage for Japanese; the resulting material was imported once.",
+      "failure_signature": "An existing public video URL is playable but the link card has no per-video YouTube upload configuration.",
+      "limit": "Do not infer that a public URL can restore the native-file draft, and do not infer authorization to reupload unknown or already-uploaded items."
+    },
+    {
+      "trigger": "Need an explicit requirement-group YouTube account on a native-video card",
+      "observed": "Leaving the ordinary/no-YouTube checkbox unchecked retained YouTube task creation. Switching the per-card account mode from automatic to manual exposed account selection. Choosing an account whose actual account-detail group was APC yielded a task specifying that account.",
+      "effective_action": "Record real account-detail group, per-video selection screenshot, final file hash, exact imported material ID and initial task/account mapping. The account global mode was not changed.",
+      "limit": "The manual selector label describes selection, not cancellation of automatic YouTube submission. This is an observed UI behavior, not a default-account guarantee."
+    },
+    {
+      "trigger": "Task detail viewed before its first Worker claim",
+      "observed": "The task displayed the specified APC account email, but execution account was blank and the group showed the uploader group. After first claim the actual execution-account UUID and displayed group were APC. The extension metadata still carried the uploader group name.",
+      "effective_action": "Keep selected account ownership and uploader-group metadata distinct. Preserve the initial unassigned observation without fabricating execution-account or task-group verification.",
+      "limit": "This candidate does not authorize waiting for downstream completion. Current user instruction delegates upload progress to Fireplay after initial acceptance and binding."
+    }
+  ],
+  "source_evidence_hashes": {
+    "ja-account-selection.png": "421b94792ab1be9e0d96c34c29ff3b0f68db33506120fb36cf05815dcab75ab1",
+    "ja-youtube-task.png": "1a2e452008fcbc88507053012ffb367bbd14783eb0e27e74431317c7b1e35de2",
+    "pt-import-initial-observation.json": "06101c1e87ba6f05531c98e85e8e7753dab6d3cea2bbb33db48c5cecb5f905b0",
+    "pt-task-detail.txt": "32e9bca3f9ddc922095e0f6bceabbd656277253ff244e72ad2c8855c94bb3692"
+  }
+}

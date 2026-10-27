@@ -1,0 +1,294 @@
+{
+  "reviewed_at": "2026-10-27T11:46:27+00:00",
+  "reviewer": "Codex same-agent developer synthesis, not independent acceptance",
+  "finding": "Outbox returned and legacy bound receipts previously hid unresolved YouTube progress. New read-only postdelivery tracking retains exact material IDs, forbids another import, and distinguishes availability from routing/vectorization.",
+  "live_readbacks": [
+    {
+      "schema_version": 1,
+      "code": "MOG-20261027-054",
+      "video_index": 1,
+      "binding_identity": "9aa33a9c6075dabfe2158d857b821ed70533230655e354723069e0bd0497610f",
+      "state": "uploaded",
+      "observed_at": "2026-10-27T11:39:58.003Z",
+      "recorded_at": "2026-10-27T11:39:58+00:00",
+      "materials": [
+        {
+          "material_id": "01a17c6a-de9b-7a2e-8e7f-a93567987126",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=vRU69FoaqB0"
+          ],
+          "uploaded": true,
+          "response_sha256": "e0ee469c9c24f7d122bdf1ef7fc6d326b9c06e33dd3739d09435f1e89ed54dfc"
+        },
+        {
+          "material_id": "01a17c6a-e297-7143-b556-efdafd893062",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=8Jss9P1wutE"
+          ],
+          "uploaded": true,
+          "response_sha256": "26718d9c15b6c029df42483e692244921ff00ccc247ca8261913de893e243bd7"
+        }
+      ],
+      "uploaded_count": 2,
+      "total": 2,
+      "proof_boundary": "Exact bound material video links prove upload availability, not account routing, vectorization or business acceptance. Missing URL does not prove a failed task.",
+      "no_material_reimport": true,
+      "receipt": "state/fireplay/MOG-20261027-054/youtube-observations/da7c92370dd7f5113555acda40f47edd35b11be6ac4376f31ff78391d6a26568.json",
+      "receipt_sha256": "db582b469eb2905bbaafae76d8f4ac7cfcee20dcddd780c662140b2f72d5e070"
+    },
+    {
+      "schema_version": 1,
+      "code": "MOG-20261027-052",
+      "video_index": 1,
+      "binding_identity": "a4af6b4db33fb83abca678755d44df1214da22cd323266a5cb16dcfb6ef8bd2b",
+      "state": "uploaded",
+      "observed_at": "2026-10-27T11:39:58.144Z",
+      "recorded_at": "2026-10-27T11:39:58+00:00",
+      "materials": [
+        {
+          "material_id": "01a17c8d-8fb7-7685-b3d6-b457dc189512",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=3_Y2GJq2L_0"
+          ],
+          "uploaded": true,
+          "response_sha256": "8a649c3de0b96aecaa868cf8a2b1bfe111fcf86482650ffe3535871a836b093d"
+        },
+        {
+          "material_id": "01a17c8d-8601-7115-ac70-602322cca5da",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=5p3mx6qbMVs"
+          ],
+          "uploaded": true,
+          "response_sha256": "2486fda32033562f3bdc05590a48be94c6ddcd510c08a6a7b7f42be0b51a9817"
+        },
+        {
+          "material_id": "01a17c8d-89c5-78eb-b2a8-5859876d3500",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=lzqq3KGscEg"
+          ],
+          "uploaded": true,
+          "response_sha256": "aa5d819b6e9e9664eaa391cbb23f646e6fe85bee7d3e451ed522cfdb3b12a15f"
+        }
+      ],
+      "uploaded_count": 3,
+      "total": 3,
+      "proof_boundary": "Exact bound material video links prove upload availability, not account routing, vectorization or business acceptance. Missing URL does not prove a failed task.",
+      "no_material_reimport": true,
+      "receipt": "state/fireplay/MOG-20261027-052/youtube-observations/bdaacf35f31df248416ea3e5a572dc3b6f2e42391696d30c0edca6ecbd043c16.json",
+      "receipt_sha256": "937b947d4f074ef60eb208147b88a1bbef6e07310eec305bbb0a466880c6d061"
+    },
+    {
+      "schema_version": 1,
+      "code": "MOG-20261027-046",
+      "video_index": 1,
+      "binding_identity": "e9fce4b83fc0d04b30b138bc722dda787ef96bc3771c1de87d543d47fad1b689",
+      "state": "uploaded",
+      "observed_at": "2026-10-27T11:39:58.285Z",
+      "recorded_at": "2026-10-27T11:39:58+00:00",
+      "materials": [
+        {
+          "material_id": "01a17c95-dcb9-7c84-9eab-dee7ce6f0a37",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=muOO7u6xbC8"
+          ],
+          "uploaded": true,
+          "response_sha256": "8d983aca94fe9ed43c0d253ebf69251bfe4af78fedf3c603a6d4aa1041f5941e"
+        },
+        {
+          "material_id": "01a17c95-db8f-73d6-8833-f30ebb6a6f16",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=qLhU6Bwa4z0"
+          ],
+          "uploaded": true,
+          "response_sha256": "6c2e6fd35ad6a22559844c2a5be29607de7bf2d3891d6f8f158ba19a308e0291"
+        },
+        {
+          "material_id": "01a17c95-de5f-7791-a3fc-e71a9a390fd3",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=AS1y80ooDW0"
+          ],
+          "uploaded": true,
+          "response_sha256": "2da4dfe62058ba7106a39c71ba0d1abd0ac9f30d691c0b30ec3905cb30a326a4"
+        },
+        {
+          "material_id": "01a17c95-dcd8-7f9b-bd56-f007bd8c7b95",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=tY5WrFQ8Y7Y"
+          ],
+          "uploaded": true,
+          "response_sha256": "f97b486f7205167d2629e8d880cbed2657de72dde7ee0bb01d65926455f14291"
+        },
+        {
+          "material_id": "01a17c95-e2f4-7bc1-bed8-50f0419fa1bb",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=vXNuaONn8cc"
+          ],
+          "uploaded": true,
+          "response_sha256": "3a5cb7a56cc2d5f3587f4bb6fe60e846918218018a961bda61c3786871c99ed2"
+        },
+        {
+          "material_id": "01a17c95-e4e2-799b-a1bf-ae29692fbaa9",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=gU4eBQC37vg"
+          ],
+          "uploaded": true,
+          "response_sha256": "464410f74356de88709ee2a43305bdc8ab92511e473300947a37a256b5b2328c"
+        },
+        {
+          "material_id": "01a17c95-e918-79b0-9960-05498d46adf4",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=3o08y11nIAc"
+          ],
+          "uploaded": true,
+          "response_sha256": "f633184832ccd76cdd3e0caa5038aeefeb76fe318f96cb58974a629dca33aeab"
+        }
+      ],
+      "uploaded_count": 7,
+      "total": 7,
+      "proof_boundary": "Exact bound material video links prove upload availability, not account routing, vectorization or business acceptance. Missing URL does not prove a failed task.",
+      "no_material_reimport": true,
+      "receipt": "state/fireplay/MOG-20261027-046/youtube-observations/638aa8a7eb501219d40ebffb3714e586e6b7f62188db3e2de59ce8e29727baa2.json",
+      "receipt_sha256": "1f87b53de80b7b2909f6e4e79704bead20b3fca94b6e6d4c338e2449f1018aaf"
+    },
+    {
+      "schema_version": 1,
+      "code": "MOG-20261027-045",
+      "video_index": 1,
+      "binding_identity": "3d58421482f4d0e2fe76851b34331294a2e79f6325c7031aa7b2e682afe15f33",
+      "state": "pending_or_missing_task",
+      "observed_at": "2026-10-27T11:39:57.817Z",
+      "recorded_at": "2026-10-27T11:39:57+00:00",
+      "materials": [
+        {
+          "material_id": "01a17cb8-b3a7-750a-8513-4096701ef789",
+          "youtube_urls": [],
+          "uploaded": false,
+          "response_sha256": "e27e6fe3c2676c6e62aa8dea0e1bed229fd0a69a865c90ed3cc409c847cec19f"
+        },
+        {
+          "material_id": "01a17cb8-ad2e-79b6-9aa6-3d134ee288cf",
+          "youtube_urls": [],
+          "uploaded": false,
+          "response_sha256": "7bee64b050a05a408eec1c136688aba1b02d1b0c36008eccfdb35ff3b790eea5"
+        },
+        {
+          "material_id": "01a17cb8-bc1b-7aa1-88f4-5d8511a99fbb",
+          "youtube_urls": [],
+          "uploaded": false,
+          "response_sha256": "81e3887281c2bddd265728801c3e9869cb496ef872c8e977476f6b4dad268d23"
+        },
+        {
+          "material_id": "01a17cb8-aca5-7b3e-b133-b5106aefc097",
+          "youtube_urls": [],
+          "uploaded": false,
+          "response_sha256": "df359657f7713be1a326f420d0ed6ad6b216c32a45bc1faa2f43ab308ff397ca"
+        },
+        {
+          "material_id": "01a17cb8-b38a-7a87-9bc5-6a762f26ba1d",
+          "youtube_urls": [],
+          "uploaded": false,
+          "response_sha256": "ebf015b6a67cf702ab570d644db72bde1282c1bbabaa1b82141c2d3262a42094"
+        },
+        {
+          "material_id": "01a17cb8-b6a6-78ef-80da-e2d1a981d803",
+          "youtube_urls": [],
+          "uploaded": false,
+          "response_sha256": "1bb25e38851bd4b0665d9e6632219e945447fdaa099302191bee360f0c8587d3"
+        },
+        {
+          "material_id": "01a17cb8-bd07-7f0a-9067-d66a06afa657",
+          "youtube_urls": [],
+          "uploaded": false,
+          "response_sha256": "bd357c1748d3c5612ae27d5d1a3c9313fe0511216d0495bf30a8cfd256d2dbf2"
+        }
+      ],
+      "uploaded_count": 0,
+      "total": 7,
+      "proof_boundary": "Exact bound material video links prove upload availability, not account routing, vectorization or business acceptance. Missing URL does not prove a failed task.",
+      "no_material_reimport": true,
+      "receipt": "state/fireplay/MOG-20261027-045/youtube-observations/fcb2bd0f61ecda792903ef4ee1ab8ef3bcb8fdfc3d53c7b1b1e6883909117999.json",
+      "receipt_sha256": "676f64377838e1aa8191c47e46abf9b2e2760d2c61240589be216452cef408ce"
+    },
+    {
+      "schema_version": 1,
+      "code": "WOW-20261027-042",
+      "video_index": 1,
+      "binding_identity": "a682723d2bae1c088704b132db10cf4dae7950b26a9a6fb116b93ea815c82203",
+      "state": "pending_or_missing_task",
+      "observed_at": "2026-10-27T11:39:57.616Z",
+      "recorded_at": "2026-10-27T11:39:57+00:00",
+      "materials": [
+        {
+          "material_id": "01a17ce5-27bf-772c-8068-85dc758dd962",
+          "youtube_urls": [],
+          "uploaded": false,
+          "response_sha256": "89e6457a1f720c47b1d3838314b79c2bf27143070653919042159c55ef66e3b4"
+        },
+        {
+          "material_id": "01a17ce9-159e-77ed-993c-6446043162c0",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=f2bQpdv7JEk"
+          ],
+          "uploaded": true,
+          "response_sha256": "ad2413de0048f0ac11d758eeab0e10a540f187cba4f320d1a661ddc4ba75e449"
+        },
+        {
+          "material_id": "01a17cec-00a4-7af5-a795-b6d4a786819a",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=yAtlHMhjZEQ"
+          ],
+          "uploaded": true,
+          "response_sha256": "ca9c1e620f13f719a93c2409603f7bd1fff61483df676260a182c337dc245acd"
+        },
+        {
+          "material_id": "01a17cee-6b85-7a83-a534-be369ccbe873",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=9ungIK1Cg-w"
+          ],
+          "uploaded": true,
+          "response_sha256": "f5225e531da463d4d6058efdd39c1a12df892aedc784957812cf8c2bf2551c26"
+        },
+        {
+          "material_id": "01a17cf0-cba0-775b-b200-f59ec0f8e089",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=rsLrJd5bEl4"
+          ],
+          "uploaded": true,
+          "response_sha256": "2a445da22f93954d5e305eb906a72bd2de01eb7f1da027bd3dc56469b25ccc0e"
+        },
+        {
+          "material_id": "01a17cf3-2572-7f4d-a9f5-2b50d4cf9a32",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=SS9Ec1dtxCI"
+          ],
+          "uploaded": true,
+          "response_sha256": "8a1e3680df02c7b7b5847e5a51ad773c48c3ee395dd3a2d5ca30f961104fd123"
+        },
+        {
+          "material_id": "01a17cf5-9f6d-7c0d-b367-07b826627046",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=dMQtEvYXxic"
+          ],
+          "uploaded": true,
+          "response_sha256": "ebb7e9cbf955d94a8441325410e2f169c625c228650aa473e6c3546439b4e409"
+        },
+        {
+          "material_id": "01a17cf8-1d1d-73aa-96b7-8cb063cb0c14",
+          "youtube_urls": [
+            "https://www.youtube.com/watch?v=3ZxxrNoopRg"
+          ],
+          "uploaded": true,
+          "response_sha256": "f0e09e43b83fa5e7fe382b2e0d10307f6cef8bd5a49e98fbc8b9823fb0b6f530"
+        }
+      ],
+      "uploaded_count": 7,
+      "total": 8,
+      "proof_boundary": "Exact bound material video links prove upload availability, not account routing, vectorization or business acceptance. Missing URL does not prove a failed task.",
+      "no_material_reimport": true,
+      "receipt": "state/fireplay/WOW-20261027-042/youtube-observations/ed00ca5025d8ac481b9850325f178e17250731e9f69905e9e0cf5bd889253c6b.json",
+      "receipt_sha256": "3f45c486106ee012133fb130277a5ed4c498817b7970b7fe1970064a6e78601a"
+    }
+  ],
+  "tool_schema": "material_upload_from_url exposes no explicit YouTube account selector; existing-task repair writer is not available in current connector catalog",
+  "provenance_boundary": "Live materials and preserved original receipts; no new external upload was performed in this review."
+}

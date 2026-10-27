@@ -1,0 +1,40 @@
+{
+  "origin": "User requested reduction without losing functionality, knowledge distillation, commit and push; Remotion should be an optional downloaded dependency.",
+  "approach": [
+    "One current entry per responsibility, full prior instructions archived unchanged.",
+    "Keep own renderer adapter and pinned install manifests in source; optional dependencies and webpack cache remain local.",
+    "Only SHA256-identical manifest-bound evidence compacted; scope and original acceptance preserved.",
+    "Retained active production, outputs, unknown fees, quality objections and installed runtime."
+  ],
+  "documents": [
+    {
+      "current": "AGENTS.md",
+      "history": "knowledge/history/instructions/AGENTS-20261027-before-slimming.md",
+      "before_bytes": 12956,
+      "after_bytes": 8391,
+      "original_sha256": "94024acc93a0711cec1a8dd250cfa80699538380a22b2ff15dd54058ceb6cd57"
+    },
+    {
+      "current": "agent/workflows/fireplay-intake.md",
+      "history": "knowledge/history/workflows/20261027-before-slimming-fireplay-intake.md",
+      "before_bytes": 19324,
+      "after_bytes": 8742,
+      "original_sha256": "d1ef7c10251a57cf04c2d0089d7818a9c6173d10a8e817f597e59ff77ba5dcef"
+    },
+    {
+      "current": "agent/workflows/fireplay-monitor.md",
+      "history": "knowledge/history/workflows/20261027-before-slimming-fireplay-monitor.md",
+      "before_bytes": 10487,
+      "after_bytes": 5581,
+      "original_sha256": "70ff94879788a5d5f6229a66c010e59a5230437f3cae90f400a6e2450df329c1"
+    }
+  ],
+  "remotion_adapter_bytes": 84508,
+  "cache_removed_bytes": 207448953,
+  "portable_source_bytes": 222455962,
+  "new_scoped_lesson": "mog044-record-control-ko-v2",
+  "source_scope": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3 / ko only",
+  "company_preference": false,
+  "media_acceptance_unchanged": true,
+  "reviewed_by": "Codex project cleanup; actual source control strip reviewed, no new whole-video/audio acceptance."
+}

@@ -4,5 +4,5 @@
   "automatic_use": false,
   "workspace": "REPLACE_WITH_THIS_OPERATORS_WORKSPACE",
   "source_quote": "Replace with this operator's explicit authorization before enabling.",
-  "limits": "One human request shares a fixed 60-credit first-version or 40-credit incremental reuse limit across all runs, batches, models and revisions. Run job counts and model-policy.json also apply. Unknown billing stays reserved."
+  "limits": "New first/reuse requests: 60 credits per distinct declared target language in one shared pool across all runs, models and retries. Historical limits and unknown billing stay reserved. Current model-policy.json and finite source-based job counts apply."
 }

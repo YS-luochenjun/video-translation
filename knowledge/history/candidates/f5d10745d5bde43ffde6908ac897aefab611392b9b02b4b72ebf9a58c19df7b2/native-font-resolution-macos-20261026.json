@@ -1,0 +1,86 @@
+{
+  "id": "native-font-resolution-macos-20261026",
+  "created_at": "2026-10-27T07:14:02+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "platform": "darwin",
+    "evidence_type": "synthetic_font_samples"
+  },
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "company_preference": false,
+  "outcome": "mac_native_faces_and_script_coverage_verified",
+  "hypothesis": "Resolve real native font families and exact TTC face indices for both measurement and rendering. Keep absent explicitly requested fonts as errors; optional unused Windows families must not block a ready Mac. Bind/extract genuine single faces for dynamic typography; supply selected fonts directly to libass. Font environment, language and mapping changes invalidate visual cache. On this CoreText build Arabic Geeza initially fell back through Helvetica even though cmap passed; Arial with the verified Arabic cmap and a supplied face rendered the sample without glyph fallback. Never infer renderer selection from API success or cmap alone.",
+  "evidence": {
+    "doctor_status": "ready",
+    "script_checks": [
+      {
+        "locale": "latin",
+        "family": "Arial",
+        "missing_glyph_search": false,
+        "unresolved_glyphs": false
+      },
+      {
+        "locale": "zh",
+        "family": "Heiti SC",
+        "missing_glyph_search": false,
+        "unresolved_glyphs": false
+      },
+      {
+        "locale": "zh-TW",
+        "family": "Heiti TC",
+        "missing_glyph_search": false,
+        "unresolved_glyphs": false
+      },
+      {
+        "locale": "ja",
+        "family": "Hiragino Sans",
+        "missing_glyph_search": false,
+        "unresolved_glyphs": false
+      },
+      {
+        "locale": "ko",
+        "family": "Apple SD Gothic Neo",
+        "missing_glyph_search": false,
+        "unresolved_glyphs": false
+      },
+      {
+        "locale": "th",
+        "family": "Thonburi",
+        "missing_glyph_search": false,
+        "unresolved_glyphs": false
+      },
+      {
+        "locale": "hi",
+        "family": "Devanagari Sangam MN",
+        "missing_glyph_search": false,
+        "unresolved_glyphs": false
+      },
+      {
+        "locale": "ar",
+        "family": "Arial",
+        "missing_glyph_search": false,
+        "unresolved_glyphs": false
+      }
+    ],
+    "full_tests": {
+      "count": 573,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "preview_sha256": "631841cc07bb3a7d84b900e773c9cf2e698fb3ed8d367c32fafc127a7bab23bc",
+    "implementation_sha256": {
+      "config/fonts.json": "d0b703a2adbf0544d1df0676a7ef528823e9ac4759fde3a3f1effa5359703a09",
+      "src/video_localizer/fonts.py": "b4c840d769ff90732a31cb2d402d6465145745a5ab573ff4fd83c557e330605e",
+      "src/video_localizer/layout.py": "ad7a787bb1fbdc18e992172d4ee6896ccaff818909594561cf5aa59b727d2b95",
+      "tests/test_native_fonts.py": "cb4d38cbc02ea35efc1c3212877a9030a07a90e00e998678fc4bddadbcc79aa2"
+    }
+  },
+  "limitations": [
+    "Mac host and synthetic samples only; no live Windows/Linux validation.",
+    "Eight script groups and selected faces do not prove every future glyph or layout fits.",
+    "Same-agent technical/visual review; no independent language or advertising acceptance."
+  ],
+  "evidence_boundary": "Self-contained observed technical facts and source hashes. Temporary render paths are not required to understand the hypothesis; re-run native-font tests on the target host. No rule promotion."
+}

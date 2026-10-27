@@ -1,0 +1,25 @@
+{
+  "id": "MOG-20261027-044-vi-publication-20261027",
+  "status": "candidate",
+  "created_at": "2026-10-27T12:42:39.501964+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+    "target_language": "vi"
+  },
+  "hypothesis": "For this exact Vietnamese candidate, the whole paired audit confirms full target meaning/music/effects/roles and acceptable sync but records a brief uncertain14.8–15.0s interjection. Actual narrator activity ends14.7575s;14.87–15.0s source-to-encoded correlation0.9993supports retained game audio. A scoped publication review can accept this limited transition as disclosed minor while leaving original quality revise and uncertainty unchanged. Signal similarity alone does not establish semantic correctness or universal tolerance.",
+  "outcome": "minor_issues_acceptable_for_publication_internal_quality_unchanged",
+  "reflection_state": "observed_candidate",
+  "evidence": {
+    "video_sha256": "4ca6938b581d0a6a0620e13fcba19beede23cd58dbf946dc40c098b1d0bd6e49",
+    "publication_review_sha256": "6725165b4bc95057b80ea52cbac157a723c5767935d1249c540ee0ad16a0c550"
+  },
+  "limitations": [
+    "Single source/exact Vietnamese only; same-agent publication judgment with attributed model audio evidence.",
+    "Source correspondence establishes provenance; does not resolve exact lexical content of the short interjection.",
+    "No automatic rule promotion or quality upgrade; Portuguese remains on hold."
+  ],
+  "company_preference": false,
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

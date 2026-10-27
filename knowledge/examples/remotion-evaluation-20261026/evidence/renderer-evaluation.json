@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "run": "remotion-evaluation-20261026",
+  "created_at": "2026-10-27T04:08:01+00:00",
+  "scope": "Local renderer diagnostic on one existing 5-second Wan clean master; new illustrative copy, no target-language dubbing, no production ad quality approval",
+  "source_sha256": "82c08c1940b8441b50eeca9a6c6627bff03032d10a480f4339d49b125756417f",
+  "decision": "recommend_opt_in_typography_renderer_prototype",
+  "production_default_changed": false,
+  "model_routing_changed": false,
+  "technical_result": "passed for the three tested local alpha layers and existing surface adapter",
+  "visual_review": "same Codex image review, limited scope",
+  "independent_review": "not_performed",
+  "normal_speed_audiovisual_acceptance": "not_performed",
+  "kie_new_credits": 0,
+  "observations": [
+    "Viewed all six source packet images, overview, actual transparent and encoded English/Chinese/Arabic frame60; no missing glyphs in these phrases, Arabic RTL/joining readable, protected forehead scores remain.",
+    "Viewed English all150 cropped garment frames as a contact sheet; Chinese and Arabic final50-frame crop pages. Supplied tracks remain inside the red chest area and above crossed arms; this is approximate rigid placement, visibly flat without cloth deformation/lighting.",
+    "Actual 150-frame alpha decoding per language proves headline first15, last134, specified outside regions empty and partial-alpha edges present. Frame39/40 pixel check proves highlight switch40. Repeated same-frame PNG pixels identical.",
+    "Final videos fully decode and original audio PCM hashes match. Source audio itself is shorter than the5s picture; retained unchanged, not a translation/sync acceptance.",
+    "Simple static typography baseline favors FFmpeg; richer multilingual motion is the proposed use case, with fixed fonts/specs and downstream review."
+  ],
+  "limitations": [
+    "Single short source and three short phrases; no long copy or mixed-direction number stress test.",
+    "No automatic tracking, occlusion mask, perspective warp, cloth deformation or inpainting tested.",
+    "Browser dependency required a local workaround; server/Linux and WebGL not validated.",
+    "The opt-in driver does not yet acquire project resource locks, generate a production plan or provenance automatically. Production adoption needs those adapter steps.",
+    "License eligibility for the organization is not established; development rendering is not a commercial license waiver."
+  ],
+  "evidence": {
+    "technical": "technical-result.json",
+    "render_metrics": "render-metrics.json",
+    "baseline": "ffmpeg-baseline.json",
+    "fonts": "../analysis/font-coverage.json",
+    "emphasis": "emphasis-frame-check.json"
+  },
+  "outputs": {
+    "en": {
+      "path": "outputs/en.mp4",
+      "sha256": "f92219a5b7bb77f56b98d1c8151fc5d0ebce02be53c57152d162851f72f5ce32"
+    },
+    "zh-CN": {
+      "path": "outputs/zh-CN.mp4",
+      "sha256": "102b770b37544dd0418aa21903d2335af6b2eb4e4b5eae69df3237183e33a00f"
+    },
+    "ar": {
+      "path": "outputs/ar.mp4",
+      "sha256": "b8154665b046c1a7330a2a9d1c5ad30e5310f5ed38a670bffe0995bd588bde21"
+    }
+  }
+}

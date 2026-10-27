@@ -71,6 +71,23 @@ class FreshWorkspaceTests(unittest.TestCase):
             with self.assertRaisesRegex(WorkflowError, "overlaps"):
                 workspace.export(self.source / name / "fresh", self.source)
 
+    def test_export_keeps_renderer_source_but_excludes_nested_dependencies_and_build_cache(self):
+        public = ("src/remotion_renderer/index.tsx", "src/remotion_renderer/package.json",
+                  "src/remotion_renderer/package-lock.json")
+        caches = ("src/remotion_renderer/node_modules/.cache/webpack/0.pack",
+                  "src/remotion_renderer/node_modules/remotion/index.js",
+                  "workbench/.cache/bundle.js", "docs/.cache/render.html")
+        for name in public:
+            self.put(name, b"renderer source fixture")
+        for name in caches:
+            self.put(name, b"rebuildable dependency fixture")
+        workspace.export(self.target, self.source)
+        for name in public:
+            self.assertEqual((self.target / name).read_bytes(), b"renderer source fixture")
+        for name in caches:
+            self.assertFalse((self.target / name).exists(), name)
+            self.assertTrue((self.source / name).exists(), "Export must retain installed development assets")
+
     def test_nested_configuration_and_context_survive_init_and_export(self):
         profile = "config/profiles/company-default/profile.json"
         method = "config/profiles/company-default/method.md"

@@ -8,7 +8,7 @@ from .common import ROOT, WorkflowError, lock, read_json, require, require_numbe
 
 _held = ContextVar('local_resource_leases', default=frozenset())
 HEAVY = {'workflow.analyze', 'workflow.render', 'cli.capture', 'visual_audit.generate',
-         'library.export', 'local_audio.mix', 'asr.transcribe'}
+         'library.export', 'local_audio.mix', 'asr.transcribe', 'typography.render'}
 
 
 def settings(root):

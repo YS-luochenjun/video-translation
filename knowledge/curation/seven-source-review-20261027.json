@@ -1,0 +1,247 @@
+{
+  "id": "seven-source-review-20261027",
+  "origin": "Explicit user request in current chat to improve and consolidate seven real-test chats plus existing budget/model/Remotion changes.",
+  "reviewed_by": "Codex same-agent structural/evidence review",
+  "independent_sources": 7,
+  "source_locale_pairs": 70,
+  "output_hashes_verified": 70,
+  "new_full_video_acceptance": false,
+  "thread_read_boundary": "read_thread attempted for all seven; five exceeded service response-size limits even at one turn. Those five use local hash-bound reports/feedback. No claim of a complete chat read.",
+  "visual_method": {
+    "id": "method-animated-text-occlusion-v6",
+    "path": "knowledge/rules/method-animated-text-occlusion-v6.md",
+    "method_sha256": "5ebe15ff3265f56ed511541be6015c9a8a8c19df454da0a5a8394e8e1b845dcb",
+    "case": "knowledge/examples/method-animated-text-occlusion-v6",
+    "case_manifest_sha256": "08731a15a8c0fe182c134ea7a614672761d44c198965a7231601b3ced90de3da"
+  },
+  "sources": [
+    {
+      "name": "APC-20261026-040-1",
+      "source_sha256": "3dba01e02f663682cfd49c02d180777a633084383239109cb2db60082e2ef20b",
+      "thread": {
+        "thread_id": "01a17b22-e478-77f1-b3ed-de3d002973e7",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "observed_locales": [
+        "tw",
+        "pt",
+        "es",
+        "de",
+        "nl",
+        "fr",
+        "th"
+      ],
+      "reference": {
+        "id": "apc-20261026-040-1-review-20261027",
+        "path": "knowledge/cases/apc-20261026-040-1-review-20261027.md",
+        "method_sha256": "52dcf8d6b2d3fbe21d8aae9f7b76c9733bd926a106dae5b0760163f8f1ed42bd",
+        "case": "knowledge/examples/apc-20261026-040-1-review-20261027",
+        "case_manifest_sha256": "57aac4355af6e099ddb4c44ac3b17f404c56bedfd3bf90851b2ab6d7aa58d7ee"
+      },
+      "case_reference": "evidence:observations",
+      "not_a_language_acceptance": true
+    },
+    {
+      "name": "APC-20261026-040-2",
+      "source_sha256": "3623fbe61d44705072a566db49183e2e2762092f38f6662d58b839b7710ed16b",
+      "thread": {
+        "thread_id": "01a17b25-38b7-7431-a4ba-a0ce458607f5",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "observed_locales": [
+        "zh-TW",
+        "pt",
+        "es",
+        "de",
+        "nl",
+        "fr",
+        "th"
+      ],
+      "reference": {
+        "id": "apc-20261026-040-2-review-20261027",
+        "path": "knowledge/cases/apc-20261026-040-2-review-20261027.md",
+        "method_sha256": "890fa8284bfee0c30b5613fb2434496a95bd1a5f32b355efacfefe8e7339fb04",
+        "case": "knowledge/examples/apc-20261026-040-2-review-20261027",
+        "case_manifest_sha256": "f64a980befdebb07c7039ec6cfee89148f8c321b94d0682c5671a3e79240b540"
+      },
+      "case_reference": "evidence:observations",
+      "not_a_language_acceptance": true
+    },
+    {
+      "name": "SHE-20261027-025-1",
+      "source_sha256": "89bc94ac042d9aecce720f62ded6627ce1f48945d4c8f0ddc8e8a0f4c7754fe9",
+      "thread": {
+        "thread_id": "01a17b43-fabd-71d2-b1ac-a454ba6d7df1",
+        "host": "local",
+        "read_state": "read"
+      },
+      "observed_locales": [
+        "zh-TW",
+        "es",
+        "pt",
+        "de",
+        "fr",
+        "id",
+        "th",
+        "pl",
+        "tr",
+        "hi",
+        "ar",
+        "it",
+        "vi",
+        "ja",
+        "nl",
+        "ru"
+      ],
+      "reference": {
+        "id": "she-20261027-025-1-review-20261027",
+        "path": "knowledge/cases/she-20261027-025-1-review-20261027.md",
+        "method_sha256": "5234a1633dca00a179a47a6ae27842573dc59fe3f84b2bef866e8bc148b58202",
+        "case": "knowledge/examples/she-20261027-025-1-review-20261027",
+        "case_manifest_sha256": "0f92b3fa65106bcf83310a7613c451f4631d73e0b67cba262370d317d49958bf"
+      },
+      "case_reference": "evidence:observations",
+      "not_a_language_acceptance": true
+    },
+    {
+      "name": "SHE-20261027-025-2",
+      "source_sha256": "eb6cf59fbc67569c4d4da8a991810e8d4564c3714fbe89357ae69c6128ae334e",
+      "thread": {
+        "thread_id": "01a17b47-7a73-7a00-9261-8c884c7a97ef",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "observed_locales": [
+        "zh-TW",
+        "es",
+        "pt",
+        "de",
+        "fr",
+        "id",
+        "th",
+        "pl",
+        "tr",
+        "hi",
+        "ar",
+        "it",
+        "vi",
+        "ja",
+        "nl",
+        "ru"
+      ],
+      "reference": {
+        "id": "she-20261027-025-2-review-20261027",
+        "path": "knowledge/cases/she-20261027-025-2-review-20261027.md",
+        "method_sha256": "cc8d684df4ad7b63747d78be81dfd3216d5fb00dc298cf1336c950d2457f3fc6",
+        "case": "knowledge/examples/she-20261027-025-2-review-20261027",
+        "case_manifest_sha256": "46f23e819bb67edfff125a2405640e126e1f50ff33f1c530a457160a9df67f3a"
+      },
+      "case_reference": "evidence:observations",
+      "not_a_language_acceptance": true
+    },
+    {
+      "name": "SHE-20261027-025-3",
+      "source_sha256": "b6dc427aa2ee990ca5093ed1e94a2e39a9db989fbc02dafd5b7c430fa25138dd",
+      "thread": {
+        "thread_id": "01a17b47-a358-7930-920f-c7455608b08e",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "observed_locales": [
+        "zh-TW",
+        "es",
+        "pt",
+        "de",
+        "fr",
+        "id",
+        "th",
+        "pl",
+        "tr",
+        "hi",
+        "ar",
+        "it",
+        "vi",
+        "ja",
+        "nl",
+        "ru"
+      ],
+      "reference": {
+        "id": "she-20261027-025-3-review-20261027",
+        "path": "knowledge/cases/she-20261027-025-3-review-20261027.md",
+        "method_sha256": "67a6f5b32cbf132f8a5231abfbff93fc6ec4a627e4b89a9543214c0cfc8507d2",
+        "case": "knowledge/examples/she-20261027-025-3-review-20261027",
+        "case_manifest_sha256": "5f28393bb34a93d81e4e4c2535c4766e1018ba9f7a65e67a0935a76d73a5bde2"
+      },
+      "case_reference": "evidence:observations",
+      "not_a_language_acceptance": true
+    },
+    {
+      "name": "WOW-20261027-025",
+      "source_sha256": "8876766248b38a5ff8dc714342528b9f38db39e38bc330efcba2ba5c1741b7e8",
+      "thread": {
+        "thread_id": "01a17b6c-f243-7b11-8134-330ca6e3c8b7",
+        "host": "local",
+        "read_state": "unavailable_size_limit"
+      },
+      "observed_locales": [
+        "es",
+        "ko",
+        "pt",
+        "zh-TW"
+      ],
+      "reference": {
+        "id": "wow-20261027-025-review-20261027",
+        "path": "knowledge/cases/wow-20261027-025-review-20261027.md",
+        "method_sha256": "423761acb32e33e2a2db78673ee73833d04c0456f41f591cc5db0f3555e47be9",
+        "case": "knowledge/examples/wow-20261027-025-review-20261027",
+        "case_manifest_sha256": "698a3afa37f6a87d9c9292dae90c1d340dbca48db19fc1078d35fa28020ae534"
+      },
+      "case_reference": "evidence:observations",
+      "not_a_language_acceptance": true
+    },
+    {
+      "name": "WOW-20261027-012",
+      "source_sha256": "1a08df40f46f6c221b809c44b375ed769898f89cf02c5cf80aad6553cfbc77cb",
+      "thread": {
+        "thread_id": "01a17b32-2314-7363-8279-114dbcff22f9",
+        "host": "local",
+        "read_state": "read"
+      },
+      "observed_locales": [
+        "de",
+        "pl",
+        "fr",
+        "ru"
+      ],
+      "reference": {
+        "id": "wow-20261027-012-review-20261027",
+        "path": "knowledge/cases/wow-20261027-012-review-20261027.md",
+        "method_sha256": "df3599c98b794bb93260b80e5f1b7eaaef12412b1672994f6908ce29574a0227",
+        "case": "knowledge/examples/wow-20261027-012-review-20261027",
+        "case_manifest_sha256": "1101299055e59a37f086c2f7b5491d09ea77c60f22ca5ada1bac3e98ec55deae"
+      },
+      "case_reference": "evidence:observations",
+      "not_a_language_acceptance": true
+    }
+  ],
+  "existing_capabilities": [
+    {
+      "topic": "language-budget",
+      "method_id": "user-language-budget-60-20261026",
+      "boundary": "New requests use normalized distinct language count. Historical request limits and unknown reservations remain unchanged."
+    },
+    {
+      "topic": "erasure-model-comparison",
+      "case": "knowledge/examples/three-model-erasure-20261026",
+      "boundary": "One real 5s comparison; scoped Mini/Flash test permission only, production default remains Wan 2.7."
+    },
+    {
+      "topic": "dynamic-typography",
+      "method_id": "remotion-title-cta-emphasis-v1",
+      "boundary": "Explicit dynamic titles/CTA/emphasis, checked local assets and fallback; simple text remains FFmpeg."
+    }
+  ],
+  "historical_preservation": "No source videos, output packages, quality objections or request ledgers removed or reapproved. Public placeholder archival preserves exact bytes and review chain; private originals remain."
+}

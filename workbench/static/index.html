@@ -7,18 +7,22 @@
   <title>译制工作台 · 视频本地化</title>
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="ledger.css">
+  <script src="ledger.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">跳到内容</a>
   <aside class="rail" aria-label="主导航">
-    <a class="brand" href="#tasks"><span class="brand-mark" aria-hidden="true">译</span><span>译制工作台<small>视频本地化</small></span></a>
+    <a class="brand" href="#ledger"><span class="brand-mark" aria-hidden="true">译</span><span>译制工作台<small>视频本地化</small></span></a>
     <nav>
+      <a href="#ledger" data-nav="ledger"><span aria-hidden="true">▦</span>需求台账</a>
+      <a href="#efficiency" data-nav="efficiency"><span aria-hidden="true">↗</span>效率分析</a>
       <a href="#tasks" data-nav="tasks"><span aria-hidden="true">▤</span>任务与视频<span id="nav-count" class="nav-count">—</span></a>
       <a href="#knowledge" data-nav="knowledge"><span aria-hidden="true">⌘</span>知识与调用</a>
       <a href="#system" data-nav="system"><span aria-hidden="true">◷</span>运行概况</a>
     </nav>
-    <div class="rail-note"><span class="read-dot"></span>本机 · 只读连接<p>沿用项目记录与制作流程</p></div>
+    <div class="rail-note"><span class="read-dot"></span>本机 · 台账与制作记录<p>制作继续沿用项目门禁</p></div>
   </aside>
   <div class="workspace">
     <header class="topbar">
@@ -30,7 +34,7 @@
       <section class="page-heading"><div><h1 id="page-title">任务与视频</h1><p id="page-description">查看制作进展、实际产物和仍需处理的问题。</p></div><span id="read-time" class="quiet">读取项目记录…</span></section>
       <div id="content"><div class="empty">正在读取本地任务…</div></div>
     </main>
-    <footer>记录自动刷新 · 质量结论来自对应版本的审核记录<span>页面不启动模型，不改写任务与账本</span></footer>
+    <footer>记录自动刷新 · 质量结论来自对应版本的审核记录<span>台账操作独立留痕 · 页面不启动制作或付费任务</span></footer>
   </div>
   <dialog id="document"><div class="dialog-head"><h2 id="document-title">知识正文</h2><button id="close-document">关闭</button></div><p id="document-hash" class="mono quiet"></p><pre id="document-text"></pre></dialog>
 </body>

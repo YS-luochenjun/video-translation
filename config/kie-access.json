@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "mode": "api_and_local_logs_only",
+  "dashboard_login_available": false,
+  "request_user_dashboard_login": false,
+  "authority": "user",
+  "authorization_ref": "user-kie-api-only-persistent-20261027",
+  "source_quote": "后续所有对话都通过API和本地日志核查KIE任务，不要再要求我登录KIE后台。",
+  "async_lookup": "Use the existing executor and actual taskId to query recordInfo; retain raw response and ledger evidence.",
+  "sync_timeout": "Chat requests may have no queryable taskId. Recover saved responses locally; absent an actual supported lookup, preserve unknown status and fees. No automatic duplicate submission.",
+  "credential_handling": "Only the executor reads .env; never ask for browser cookies, dashboard passwords or screenshots."
+}

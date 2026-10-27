@@ -1,0 +1,26 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261027-051-1-es-v2-ffa645de18.json",
+    "sha256": "22487ff9c8fb467ccd143e5a0fd1ae5207bed20ec47c319cfdf4d3a3027c2192"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent developer synthesis; original media acceptance remains unchanged",
+  "origin": "User 2026-10-27 requested actual synthesis and clearing of unsummarized staging records, with original scope and failures retained.",
+  "resolution": "rejected",
+  "reason": "This generated placeholder contains no actionable hypothesis. Retain its exact source/video/quality provenance as history; actual related feedback and failures are separately synthesized. No acceptance is inferred.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "All original source/locale scopes, frames, coordinates, script/voice observations, hashes, exact user wording, pending audio/quality claims and failed versions remain unchanged and are not generalized.",
+    "No source video, delivery package, quality hold, ledger, local evidence bundle or production run is deleted by this knowledge review."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-27T11:48:30+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

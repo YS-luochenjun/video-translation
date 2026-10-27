@@ -1,6 +1,7 @@
 """Bounded, scoped recall of observations, kept separate from authoritative methods."""
 from .common import ROOT, object_hash, require
 from .knowledge_review import queue
+from .knowledge_records import placeholder_lesson
 
 
 def retrieve(context, root=None, limit=3):
@@ -21,12 +22,13 @@ def retrieve(context, root=None, limit=3):
         if not exact_source and not features:
             continue
         # Synthetic and non-advertisement records need explicit review; no name-based promotion.
-        method = record.get("method", {})
-        reviewed = decision.get("advisory", {})
+        method = record.get("method") if isinstance(record.get("method"), dict) else {}
+        reviewed = decision.get("advisory") if isinstance(decision.get("advisory"), dict) else {}
         summary = reviewed.get("summary") or method.get("action") or record.get("hypothesis") or record.get("action")
-        if not isinstance(summary, str) or not summary.strip() or '\ufffd' in summary:
+        if placeholder_lesson(summary) or '\ufffd' in summary:
             continue
         limits = reviewed.get("limitations", method.get("limitations", record.get("limitations", record.get("limits", []))))
+        if not isinstance(limits, list):limits = [str(limits)] if limits else []
         item = {"path": row["path"], "storage_path": row["storage_path"], "sha256": row["sha256"],
                 "scope": scope, "validation_status": "unverified_observation", "authority": "advisory_only",
                 "historical_outcome": record.get("outcome"), "summary": summary[:900],

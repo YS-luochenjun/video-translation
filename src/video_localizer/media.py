@@ -43,8 +43,8 @@ def ffmpeg(args, cwd=None):
     return command(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", *args], cwd)
 
 
-def ass_filter(filename):
-    fonts = (CODE_ROOT / 'assets/fonts').as_posix().replace(':', r'\:').replace("'", r"'\''")
+def ass_filter(filename, fonts_directory=None):
+    fonts = Path(fonts_directory or CODE_ROOT / 'assets/fonts').as_posix().replace(':', r'\:').replace("'", r"'\''")
     return f"ass={filename}:fontsdir='{fonts}'"
 
 
@@ -164,22 +164,24 @@ def render_local(source, segment, instances, meta, directory):
         text_color = item.get("text_color", "#111111").lstrip("#")
         require(bool(re.fullmatch(r"[0-9A-Fa-f]{6}", text_color)), "Invalid text color")
         ass_color = text_color[4:6] + text_color[2:4] + text_color[0:2]
-        size = layout.font_size(item)
+        family = item.get("font_family", layout.default_family(item['target_text'], item.get('target_language') or meta.get('target_language')))
+        size = layout.font_size({**item, 'font_family': family})
+        from .fonts import ass_name
+        family = ass_name(CODE_ROOT, family, item.get('bold', False), directory)
         alignment = item.get("align", "center")
         padding = item.get("padding", 2)
         anchor = 4 if alignment == "left" else 6 if alignment == "right" else 5
         position = x + padding if alignment == "left" else x+w-padding if alignment == "right" else x+w/2
-        family = item.get("font_family", "Microsoft YaHei")
         bold = 1 if item.get("bold") else 0
         prefix = f"{{\\an{anchor}\\pos({position},{y+h/2})\\fn{family}\\b{bold}\\fs{size}\\clip({x},{y},{x+w},{y+h})\\c&H{ass_color}&}}"
         events.append(f"Dialogue: 0,{ass_time(start)},{ass_time(end)},Default,,0,0,0,,{prefix}{ass_text(item['target_text'])}")
     ass = "\n".join([
         "[Script Info]", "ScriptType: v4.00+", f"PlayResX: {width}", f"PlayResY: {height}",
         "[V4+ Styles]", "Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding",
-        "Style: Default,Microsoft YaHei,36,&H00111111,&H00111111,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1",
+        "Style: Default,Arial,36,&H00111111,&H00111111,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1",
         "[Events]", "Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text", *events, ""])
     (directory / "overlay.ass").write_text(ass, encoding="utf-8-sig")
-    filters.append(ass_filter('overlay.ass'))
+    filters.append(ass_filter('overlay.ass', directory / 'fonts'))
     ffmpeg(["-ss", segment["start"], "-i", source, "-t", segment["end"]-segment["start"],
             "-vf", ",".join(filters), "-an", "-r", "30", "-c:v", "libx264", "-crf", "18",
             "-pix_fmt", "yuv420p", "visual.mp4"], cwd=directory)
@@ -244,6 +246,15 @@ def render_foreground(source, segment, instances, meta, directory):
             continue
         x, y, width, height = item["bbox"]
         display = item.get("display", {})
+        from . import layout
+        family = display.get('font_family', layout.default_family(item['target_text'], item.get('target_language') or meta.get('target_language')))
+        require(layout.supported_family(family), 'Unsupported font family')
+        from .fonts import missing_glyphs
+        face = layout.measurement_face(CODE_ROOT, family, display.get('bold', True))
+        require(face['path'].is_file(), f'Requested font is unavailable: {family}')
+        require(not missing_glyphs(face, item['target_text']), f'Font has missing glyphs: {family}')
+        from .fonts import ass_name
+        family = ass_name(CODE_ROOT, family, display.get('bold', True), directory)
         size, outline = display.get("font_size", 64), display.get("outline", 5)
         if display.get("pill"):
             # Native ASS vector drawing: no generated lettering or raster repair.
@@ -259,7 +270,7 @@ def render_foreground(source, segment, instances, meta, directory):
             drawing = f"{{\\an7{motion}\\p1\\c&HCECEBE&\\3c&H5A5A50&\\bord3\\shad2}}{shape}"
             events.append(f"Dialogue: 0,{ass_time(start)},{ass_time(end)},Default,,0,0,0,,{drawing}")
             text_motion = f"\\move({x-width-180+width/2},{y+height/2},{x+width/2},{y+height/2},0,{slide_ms})"
-            label = f"{{\\an5{text_motion}\\fs{size}\\c&H080808&\\3c&HF7F7ED&\\bord2\\shad0}}{ass_text(item['target_text'])}"
+            label = f"{{\\an5{text_motion}\\fn{family}\\b{int(display.get('bold',True))}\\fs{size}\\c&H080808&\\3c&HF7F7ED&\\bord2\\shad0}}{ass_text(item['target_text'])}"
             events.append(f"Dialogue: 1,{ass_time(start)},{ass_time(end)},Default,,0,0,0,,{label}")
             continue
         lines = item["target_text"].split("\n")
@@ -268,7 +279,7 @@ def render_foreground(source, segment, instances, meta, directory):
         step = display.get("reveal_seconds", 0)/max(1, total)
         cursor = start
         for index, line in enumerate(lines):
-            prefix = f"{{\\an8\\pos({x+width/2},{y+index*line_height})\\fs{size}\\bord{outline}\\shad2}}"
+            prefix = f"{{\\an8\\pos({x+width/2},{y+index*line_height})\\fn{family}\\b{int(display.get('bold',True))}\\fs{size}\\bord{outline}\\shad2}}"
             if not step:
                 events.append(f"Dialogue: 1,{ass_time(start)},{ass_time(end)},Default,,0,0,0,,{prefix}{ass_text(line)}")
             else:
@@ -279,10 +290,10 @@ def render_foreground(source, segment, instances, meta, directory):
                     cursor += step
     header = ["[Script Info]", "ScriptType: v4.00+", f"PlayResX: {meta['width']}", f"PlayResY: {meta['height']}",
               "[V4+ Styles]", "Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding",
-              "Style: Default,Microsoft YaHei,64,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,5,2,8,0,0,0,1",
+              "Style: Default,Arial,64,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,5,2,8,0,0,0,1",
               "[Events]", "Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text"]
     (directory / "foreground.ass").write_text("\n".join(header+events+[""]), encoding="utf-8-sig")
-    ffmpeg(["-i", source, "-t", segment["end"]-segment["start"], "-vf", ass_filter('foreground.ass'),
+    ffmpeg(["-i", source, "-t", segment["end"]-segment["start"], "-vf", ass_filter('foreground.ass', directory / 'fonts'),
             "-an", "-r", "30", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", "visual.mp4"], cwd=directory)
     return directory / "visual.mp4"
 
@@ -319,7 +330,8 @@ def render_reference(source, segment, instances, meta, directory, run):
             "-loop", "1", "-framerate", "30", "-i", inside(run, config["night"]["path"]),
             "-filter_complex", ";\n".join(graph), "-map", "[clean]", "-t", duration,
             "-an", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", clean])
-    return render_foreground(clean, segment, instances, meta, directory / "target-overlay")
+    from . import typography
+    return typography.render(run, clean, segment, instances, meta, directory / "target-overlay", legacy='foreground')
 
 
 def assemble(visuals, audio_source, output, duration):

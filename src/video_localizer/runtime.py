@@ -6,7 +6,8 @@ from pathlib import Path
 
 
 ASSET_PATHS = ('.runtime/deps/asr', '.runtime/deps/vision', '.runtime/deps/separation',
-               '.runtime/models/asr/small', '.runtime/models/separation', 'assets/fonts')
+               '.runtime/models/asr/small', '.runtime/models/separation', 'assets/fonts',
+               '.runtime/deps/remotion', '.runtime/deps/remotion-font-tools')
 
 
 def vision_path(root):

@@ -66,7 +66,7 @@
     "method_choices": [
       {
         "domain": "visual",
-        "method_id": "route-selection-v3",
+        "method_id": "route-selection-v4",
         "reason": "",
         "alternative": "",
         "switch_when": "",

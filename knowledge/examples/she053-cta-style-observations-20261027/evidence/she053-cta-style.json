@@ -1,0 +1,84 @@
+{
+  "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+  "name": "she053-cta-style",
+  "findings": [
+    "用户要求片尾Dare You Try更醒目；已观察源、旧、改后截图：旧版细黑白译字与源片层次不匹配，修订增加粗字与彩色轮廓。",
+    "颜色、轮廓、字面高度和前景层级应按该实例观察；不把这次红黄蓝方案变为全项目字体/颜色偏好。",
+    "改后截图仍有背景标题偏锐与可见局部补丁，额头修复柔化、台词手势偏移及NL末句历史疑点不因CTA更醒目而消失。"
+  ],
+  "observed_locales": [
+    "es",
+    "nl",
+    "ru"
+  ],
+  "record_bindings": [
+    {
+      "sha256": "8863cb4043132f423a632f7831e022ef6e4f5bf2abe3ff5b3dd10f8ccc464073",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+        "target_language": "es"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "77eee2faca138a16e06cd192059a62987add9139bb4fb14c3cade513063a2215",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+        "target_language": "nl"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "e61207144486c11761b4ae0d0bca379b675bbe9b5861835310bef8648ed8f869",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+        "target_language": "ru"
+      },
+      "historical_outcome": null
+    },
+    {
+      "sha256": "201bd3cc0c86048b93ad96ffb24f3e4927ecf7969b981d82c7965c84ee9003e6",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+        "target_language": "nl"
+      },
+      "historical_outcome": null
+    }
+  ],
+  "case_bindings": [
+    {
+      "manifest_sha256": "3d007422e4f7bc5d254a61f513093d9a48f2ec43ab17411b0b494cd6c6f8c4c0",
+      "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+      "video_sha256": "496c907bb9e2520fd32a7ccfde20b0e1e76e8321b02bd64df0f66fbc678c77b8",
+      "locale": "es",
+      "verified_files": 55
+    },
+    {
+      "manifest_sha256": "8017ae942eaff264233bce279a73dd3f88a766a7214f08dc5cfc92e91f7f78ce",
+      "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+      "video_sha256": "11edecbff139836127e315b134b81c909d1336756f7614fb9a9147e171cd2257",
+      "locale": "nl",
+      "verified_files": 89
+    },
+    {
+      "manifest_sha256": "5f07988323feb02c416f45bc1b826f66dea5ae8cdfce7c65cc6cb452181010fd",
+      "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+      "video_sha256": "cdc2b608e2d1cb8224d46ef6c36191d4d2294d272587cf13b4499929d99ae0a1",
+      "locale": "ru",
+      "verified_files": 65
+    },
+    {
+      "manifest_sha256": "ea569a47650e4f8158706ec39650531c1c3cfb31815eed7c96dd9144039a25a5",
+      "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9",
+      "video_sha256": "11edecbff139836127e315b134b81c909d1336756f7614fb9a9147e171cd2257",
+      "locale": "nl",
+      "verified_files": 57
+    }
+  ],
+  "scoped_use_observations": [],
+  "boundary": "Sanitized source-level visual/review facts. Locale audio/translation observations remain limited to original scope and video hashes. Historical reports were inspected, not a new independent or full-video acceptance. No actual artwork, paid authority or quality-approved reusable asset is provided."
+}

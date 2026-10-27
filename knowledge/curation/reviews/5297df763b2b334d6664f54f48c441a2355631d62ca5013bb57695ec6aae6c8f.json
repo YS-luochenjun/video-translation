@@ -1,0 +1,38 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261027-044-partial-return-20261027.json",
+    "sha256": "dedf64886f14c1e1b14f7411c04496b0af91f040d966aedc52bac5987058f82a"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project cleanup, actual source record read; no new video/audio acceptance",
+  "origin": "User requested consolidation without losing capability; new closure events reviewed within the cleanup snapshot",
+  "retrieval_features": [],
+  "resolution": "duplicate",
+  "reason": "The new actual six-locale partial return supports the already active v3 procedure; no additional generic rule or repeated locale method is needed.",
+  "targets": [
+    {
+      "id": "fireplay-completion-recovery-v3",
+      "path": "knowledge/rules/fireplay-completion-recovery-v3.md",
+      "sha256": "9cd00a1d423aeb645f1bf6330d07c90996870825d292be968af12c279a0c79bc",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# Fireplay固定提交与经验收尾\n\n用户2026-10-27最新明确：不要在上传问题上钻牛角尖，一般按照“入到素材库，共享到需求组开启YouTube视频自动上传，并打语言tag和产品tag，最后绑定当前需求；素材名称用需求编号+语言”即可。config/fireplay-youtube-routing.json当前为platform_managed；本版替代v2中的额外账号/任务组门禁，保留历史原文和回执。\n\n1. 每份成片仍须实际审核，核对完整翻译、必需配音和正常播放。普通小瑕疵按实际fireplay-publication-review可提交；严重/过多问题、真实漏译或缺必要配音仍阻断对应版本。保留内部revise和原质量异议，不凭文件在outputs或API成功冒称质量通过。\n2. 审核满足发布条件后直接继续固定提交，不再次询问KIE或固定动作同意。素材名用需求编号加语言，多原片按-1/-2区分；语言与1至2词产品标签依据真实需求与原片。逐需求独立聊天与账本，不合并费用。\n3. 普通MCP可使用VedioSouce=YouTube请求平台自动上传，选择真实对应需求组的shared_dept_id。核验素材入库、名称、tag、共享到需求组及真实需求绑定。用户所说公开到组落实为对应组共享，不扩大到全平台公开。YouTube账号路由、任务组显示和实际上传执行交给Fireplay，不额外要求账号选择截图、等Worker领取或为后台组显示暂停合格素材。\n4. 部分语种就绪时，fireplay-return显式partial:true并仅列本批可发布packages，保留pending_locales。本批真实绑定核验后才追加未提交语言；沿同一outbox和既有操作索引，旧bind保存在binding_history。unknown或尚未绑定的批次先恢复，不覆盖、不把已提交语种再次入库。部分成功不报成整需求完成。\n5. 已入库或提交unknown时，按原确切素材ID、已保存原始响应与真实绑定证据恢复该次请求；新政策不要求补旧任务组验证。历史异常保留为观察，不冒称已修正，不改全账号所属组、不重复入库、不删除正确素材来掩盖问题。名字或相似缩略图不足以确认重复。\n6. Fireplay受理、共享/标签/绑定核验完成后就经验收尾。YouTube排队、账号限额、向量化和后续进度交平台；不轮询、不等链接、不派发催办，不因缺链接再次入库。报告“已提交Fireplay/已请求自动上传”，不冒称已在YouTube发布。\n7. 经验提炼保留原源/语种范围和真实证据，重复经验关联既有知识，空白占位不做方法召回。按knowledge-review归纳及指纹归档；maintain RUN --close完成保全，未知费用、质量异议或活动现场继续保留。知识收尾不代替视频验收。\n\n需求发现的反例：旧编号或旧基线不等于没有翻译意图。摘要没有正文时，不能把明确翻译要求强改为is_translation=false。将正文证据和发布时间不确定性分开，保留historical_translation_pending可见候选；用户明确点名053时，按真实本次授权接入，其他已做/未知项不重开聊天或预算。能证明正文新增的版本变化沿原聊天审查，不仅匹配“翻译”一词。\n\n证据：evidence:review。用户明确修正固定提交与053范围；开发者复盘和离线状态机测试证明本地门禁/恢复行为，不证明任何新视频已通过或已在YouTube完成。\n"
+    }
+  ],
+  "adopted_parts": [
+    "partial:true retains pending Portuguese, stable operations/bytes and verified binding history; known import IDs survive thumbnail warnings and are not reimported.",
+    "Latest user routing policy can be reconciled without changing actual video/manifest hashes, historical quality or unknown fees; finish after platform acceptance, no YouTube polling."
+  ],
+  "retained_parts": [
+    "All exact source and six-locale execution facts remain source-specific historical evidence, not new quality approval or authority to overwrite arbitrary acceptance judgments. Portuguese gaps, earlier strict routing and unknown KIE costs remain."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-10-27T13:56:25+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

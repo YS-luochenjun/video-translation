@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "wow042-caption-compositing-v1",
+  "created_at": "2026-10-27T11:59:52+00:00",
+  "files": [
+    {
+      "path": "evidence/technical-observations.json",
+      "sha256": "2fb7befb2f20bf0b8299c73d60df577eb8d7ecafd0de5f1201d021c5b41b8288",
+      "bytes": 4899
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+      "target_language": "de"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# WOW-042 德语：发光文字修复、合成颜色与逐帧字幕边界\n\n只适用于登记原片SHA256的德语案例，不作为八种语言均独立验证或所有素材默认算法。实际观察和失败范围见evidence:review。\n\n1. 本源黄色发光英文覆盖移动脖子/手部，Telea填充产生黄绿色字形块，候选被拒绝。检查须覆盖发光外沿及连续运动；此失败不能推广为所有自然重建无效。\n2. 原片、Wan输出和羽化遮罩maskedmerge时，早期合成出现灰度结果。对此实际配方统一输入format=gbrp、合成后转yuv420p恢复了彩色。结果需检查皮肤/背景颜色及修复带以外主体；不能只检查字是否消失，也不能将该配方当所有像素格式兼容性证明。\n3. 本源30fps恒帧率的字幕时间边界产生一帧偏差。实际原生解码像素测量后，首句尾边界和第三句进退场各调整一帧，采用ceil(time*30-1e-6)及gte(n,start)*lt(n,end)选择帧号范围。具体帧号和阈值只属于此源；变帧率及其他片源重新验证。\n\n编码像素区间、文字语义、最终实际配音和字幕同步分别核对；时间计划不是观察结果。实际共享底片仍有轻微肤色/纹理差异，Wan输出没有被整段无条件采用。以上为同一Agent技术复盘，未增加独立人工、母语或公司验收。\n",
+    "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/technical-observations.json"
+    }
+  }
+}

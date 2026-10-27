@@ -1678,6 +1678,519 @@
       "validation_level": "user_positive_feedback_scoped",
       "topic": "visual",
       "language_match": "exact"
+    },
+    {
+      "id": "apc-20261026-040-1-review-20261027",
+      "path": "knowledge/cases/apc-20261026-040-1-review-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "3dba01e02f663682cfd49c02d180777a633084383239109cb2db60082e2ef20b"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "2026-10-27 explicit project optimization request and source-bound test reports/feedback; chat read status is recorded in evidence.",
+      "reviewed_by": "Codex structural source/feedback review, no new video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:22:05+00:00",
+      "method_sha256": "52dcf8d6b2d3fbe21d8aae9f7b76c9733bd926a106dae5b0760163f8f1ed42bd",
+      "case": "knowledge/examples/apc-20261026-040-1-review-20261027",
+      "case_manifest_sha256": "57aac4355af6e099ddb4c44ac3b17f404c56bedfd3bf90851b2ab6d7aa58d7ee",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations",
+      "topic": "source"
+    },
+    {
+      "id": "apc-20261026-040-2-review-20261027",
+      "path": "knowledge/cases/apc-20261026-040-2-review-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "3623fbe61d44705072a566db49183e2e2762092f38f6662d58b839b7710ed16b"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "2026-10-27 explicit project optimization request and source-bound test reports/feedback; chat read status is recorded in evidence.",
+      "reviewed_by": "Codex structural source/feedback review, no new video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:22:05+00:00",
+      "method_sha256": "890fa8284bfee0c30b5613fb2434496a95bd1a5f32b355efacfefe8e7339fb04",
+      "case": "knowledge/examples/apc-20261026-040-2-review-20261027",
+      "case_manifest_sha256": "f64a980befdebb07c7039ec6cfee89148f8c321b94d0682c5671a3e79240b540",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations",
+      "topic": "source"
+    },
+    {
+      "id": "she-20261027-025-1-review-20261027",
+      "path": "knowledge/cases/she-20261027-025-1-review-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "89bc94ac042d9aecce720f62ded6627ce1f48945d4c8f0ddc8e8a0f4c7754fe9"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "2026-10-27 explicit project optimization request and source-bound test reports/feedback; chat read status is recorded in evidence.",
+      "reviewed_by": "Codex structural source/feedback review, no new video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:22:05+00:00",
+      "method_sha256": "5234a1633dca00a179a47a6ae27842573dc59fe3f84b2bef866e8bc148b58202",
+      "case": "knowledge/examples/she-20261027-025-1-review-20261027",
+      "case_manifest_sha256": "0f92b3fa65106bcf83310a7613c451f4631d73e0b67cba262370d317d49958bf",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations",
+      "topic": "source"
+    },
+    {
+      "id": "she-20261027-025-2-review-20261027",
+      "path": "knowledge/cases/she-20261027-025-2-review-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "eb6cf59fbc67569c4d4da8a991810e8d4564c3714fbe89357ae69c6128ae334e"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "2026-10-27 explicit project optimization request and source-bound test reports/feedback; chat read status is recorded in evidence.",
+      "reviewed_by": "Codex structural source/feedback review, no new video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:22:05+00:00",
+      "method_sha256": "cc8d684df4ad7b63747d78be81dfd3216d5fb00dc298cf1336c950d2457f3fc6",
+      "case": "knowledge/examples/she-20261027-025-2-review-20261027",
+      "case_manifest_sha256": "46f23e819bb67edfff125a2405640e126e1f50ff33f1c530a457160a9df67f3a",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations",
+      "topic": "source"
+    },
+    {
+      "id": "she-20261027-025-3-review-20261027",
+      "path": "knowledge/cases/she-20261027-025-3-review-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b6dc427aa2ee990ca5093ed1e94a2e39a9db989fbc02dafd5b7c430fa25138dd"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "2026-10-27 explicit project optimization request and source-bound test reports/feedback; chat read status is recorded in evidence.",
+      "reviewed_by": "Codex structural source/feedback review, no new video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:22:05+00:00",
+      "method_sha256": "67a6f5b32cbf132f8a5231abfbff93fc6ec4a627e4b89a9543214c0cfc8507d2",
+      "case": "knowledge/examples/she-20261027-025-3-review-20261027",
+      "case_manifest_sha256": "5f28393bb34a93d81e4e4c2535c4766e1018ba9f7a65e67a0935a76d73a5bde2",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations",
+      "topic": "source"
+    },
+    {
+      "id": "wow-20261027-025-review-20261027",
+      "path": "knowledge/cases/wow-20261027-025-review-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "8876766248b38a5ff8dc714342528b9f38db39e38bc330efcba2ba5c1741b7e8"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "2026-10-27 explicit project optimization request and source-bound test reports/feedback; chat read status is recorded in evidence.",
+      "reviewed_by": "Codex structural source/feedback review, no new video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:22:05+00:00",
+      "method_sha256": "423761acb32e33e2a2db78673ee73833d04c0456f41f591cc5db0f3555e47be9",
+      "case": "knowledge/examples/wow-20261027-025-review-20261027",
+      "case_manifest_sha256": "698a3afa37f6a87d9c9292dae90c1d340dbca48db19fc1078d35fa28020ae534",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations",
+      "topic": "source"
+    },
+    {
+      "id": "wow-20261027-012-review-20261027",
+      "path": "knowledge/cases/wow-20261027-012-review-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "1a08df40f46f6c221b809c44b375ed769898f89cf02c5cf80aad6553cfbc77cb"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "2026-10-27 explicit project optimization request and source-bound test reports/feedback; chat read status is recorded in evidence.",
+      "reviewed_by": "Codex structural source/feedback review, no new video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:22:05+00:00",
+      "method_sha256": "df3599c98b794bb93260b80e5f1b7eaaef12412b1672994f6908ce29574a0227",
+      "case": "knowledge/examples/wow-20261027-012-review-20261027",
+      "case_manifest_sha256": "1101299055e59a37f086c2f7b5491d09ea77c60f22ca5ada1bac3e98ec55deae",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations",
+      "topic": "source"
+    },
+    {
+      "id": "she054-paper-observations-20261027",
+      "path": "knowledge/cases/she054-paper-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bde8cbc183a6d07322c64a40939b7f663440480d37ca35667bc22d08a0917d39"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "973215def12f1866c743eb844a2b8e8facc4a4b29a2fdebe3f68487b58111223",
+      "case": "knowledge/examples/she054-paper-observations-20261027",
+      "case_manifest_sha256": "fc010c774d4f84310fde53858a07b5ecccd13f807a2cd0944015134d8ec07a5c",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "she058-parchment-observations-20261027",
+      "path": "knowledge/cases/she058-parchment-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "aadef086d529fbf4de5c24a3cbee724557d5d45d701581b23c836d7ad059f9f4"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "6a5075c0b0f5198d961f8b2513895231b0372011c3dbbebd7a89a20b068297ff",
+      "case": "knowledge/examples/she058-parchment-observations-20261027",
+      "case_manifest_sha256": "8d94b2d043e65d1f8ec2f999d71241523afaf9426ef17e6e62e51c164499635c",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "she051-ui-one-observations-20261027",
+      "path": "knowledge/cases/she051-ui-one-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bb5533cffc15d40d52aabb27e1564eb330eba84c430d607a3126efafe593ef04"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "3777286e0e210bb429d08f4a8c2a488324d62bde69557f8df273e56f0a953cb9",
+      "case": "knowledge/examples/she051-ui-one-observations-20261027",
+      "case_manifest_sha256": "79c2308742369803949928a1cdeb3cf57f0c874aef2f0bcb504d2603799d4e7f",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "she051-ui-two-observations-20261027",
+      "path": "knowledge/cases/she051-ui-two-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b42f8ab8c3607f58f7115fa359e293bf679032d9ed76c45eaf97f5dd99596e26"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "a7e76c35f77ea8a6c0bdd1be3ef11717842670fb2030dfaa5f9014207bc2e122",
+      "case": "knowledge/examples/she051-ui-two-observations-20261027",
+      "case_manifest_sha256": "1ea52441b63e8cc28f933b0fbe884f786d704c17c06cd91b91881ccc6e83cf3f",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "she051-three-review-boundary-observations-20261027",
+      "path": "knowledge/cases/she051-three-review-boundary-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "a78945b55f649d545c33aaee0e6f6e28650f05b4493d2989ac51cffa3365cf2f"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "ab9702c0814f99e54382a36c0b11882bf5a7d9af68a90daa8e128270d5e9feee",
+      "case": "knowledge/examples/she051-three-review-boundary-observations-20261027",
+      "case_manifest_sha256": "334705f48fa2a4724131558b905a57b53bb4222f0e37a7f09bf5675d5893b12c",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "she053-cta-style-observations-20261027",
+      "path": "knowledge/cases/she053-cta-style-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "a701c4a13380441941c0ec0cb40b67f413d0bb9c298216e14c7b1f647add61a9"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "13fee99326610ab90cb4ff7789a0e71b44b5f8c87755581d57673ce0d532d33f",
+      "case": "knowledge/examples/she053-cta-style-observations-20261027",
+      "case_manifest_sha256": "dbbb1aaf16714e36b28841a1cf4732737ba57bfbda4ea92a0b97be5de2a05f7d",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "wow044-placement-observations-20261027",
+      "path": "knowledge/cases/wow044-placement-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f1e5657acae4afd9a1de57bdd583a55ac2cca56ec048425b5a3cd7047273805c"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "0d0ae74298fc017643b2e57c4f11207c1e553efecdec19a67bb31675cf200284",
+      "case": "knowledge/examples/wow044-placement-observations-20261027",
+      "case_manifest_sha256": "a85641fef406ca9d148a8f4f403e7074bfa1d24dd2c7229080d02576d891ccf0",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "wow050-mixed-ui-observations-20261027",
+      "path": "knowledge/cases/wow050-mixed-ui-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "720d3447733c48dc7e56324d8f1977672bd033b2803cfdac29aef9ecc4b40888"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "06c9589b72cd7bb04011ef9b53d4f9d9e1678cf414dc4a8ffcd65bfc91f57c71",
+      "case": "knowledge/examples/wow050-mixed-ui-observations-20261027",
+      "case_manifest_sha256": "bd8f4887f8219c2fd7197c1c9b88d980ce1a865ec630d77c5f1184b0ed417d03",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "wow052-missed-cta-observations-20261027",
+      "path": "knowledge/cases/wow052-missed-cta-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "c71e52c324eef64ce98cfe06aea7499910b72e2e3cc904ff6ee6d9268cd29bc8"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "042ff7a9bb8381272271d8d6386e9418d8be74eba8759fa02e0c878633faf0a2",
+      "case": "knowledge/examples/wow052-missed-cta-observations-20261027",
+      "case_manifest_sha256": "faf9c1dc1f40f1091776a451ba1d7c0d430476f17acb70c048e247e657c77566",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "mog043-failed-still-probes-observations-20261027",
+      "path": "knowledge/cases/mog043-failed-still-probes-observations-20261027.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "09128805b9a650a4bcb0647dc6aee72646f2a79cd863abc6ae7e47011b55447a",
+        "target_language": "es"
+      },
+      "tags": [
+        "ads",
+        "text",
+        "timing",
+        "source_reference"
+      ],
+      "origin": "Current user request to review remaining candidates; exact-source historical records and selected user feedback.",
+      "reviewed_by": "Codex same-agent structural/evidence review; no new video approval",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T07:50:08+00:00",
+      "method_sha256": "08d68987ee1783a60fecb011cc53d254707435f3fa46e5c5329a588cf2335477",
+      "case": "knowledge/examples/mog043-failed-still-probes-observations-20261027",
+      "case_manifest_sha256": "7e2fadf122350ea36341d5e3afb2dccf33b70ad5feddcba2df604a578846fd47",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observations"
+    },
+    {
+      "id": "wow042-caption-compositing-v1",
+      "path": "knowledge/cases/wow042-caption-compositing-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131",
+        "target_language": "de"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "compositing"
+      ],
+      "origin": "Recorded same-agent source-specific WOW042 technical observations, reviewed during user-requested knowledge closure.",
+      "reviewed_by": "Codex same-agent scoped developer synthesis; not a new independent media review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T11:59:52+00:00",
+      "method_sha256": "f344b2ba24585ac8c8929774ba059f2fc25ee3d6207a515133a13edd2fd5eba6",
+      "case": "knowledge/examples/wow042-caption-compositing-v1",
+      "case_manifest_sha256": "2ed92fd2c38c27f2627a22604af8624492cd943ded66de6412879c92af9a06fb",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/wow042-caption-compositing-observations-20261027.json",
+          "sha256": "06bb33683888880388b18edffc3b454df2d8da2b9a9d1bb009a9c3aed959a70e"
+        }
+      ],
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_guidance",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "language_match": "exact"
+    },
+    {
+      "id": "mog044-record-control-ko-v1",
+      "path": "knowledge/history/cases/mog044-record-control-ko-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+        "target_languages": [
+          "ko"
+        ]
+      },
+      "tags": [
+        "text",
+        "ui",
+        "timing"
+      ],
+      "origin": "Actual source UI strip reviewed during user-requested project slimming; original MOG044 ko candidate retained, no new media acceptance.",
+      "reviewed_by": "Codex actual image inspection during project knowledge cleanup; no new audio/full-video acceptance",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-10-27T13:49:14+00:00",
+      "method_sha256": "7b09e40b10191a9cd229ac80de230d768dd9b094c26335d9e85ba508f450cf50",
+      "case": "knowledge/examples/mog044-record-control-ko-v1",
+      "case_manifest_sha256": "0165e301e83ff699a641fe5cb20ebbdf799b67a0d06b5d65514c5d8fb49d97b3",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261027-044-05-99b04e7691.json",
+          "sha256": "6c6a3a4a7337029f9249fa5921aa2d8ae204126d6b1b12b7e4aaa9c42ba80966"
+        }
+      ],
+      "knowledge_type": "source_reference",
+      "superseded_by": "mog044-record-control-ko-v2"
+    },
+    {
+      "id": "mog044-record-control-ko-v2",
+      "path": "knowledge/cases/mog044-record-control-ko-v2.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+        "target_language": "ko"
+      },
+      "tags": [
+        "text",
+        "ui",
+        "timing"
+      ],
+      "origin": "Actual source UI strip reviewed during user-requested project slimming; original MOG044 ko candidate retained, no new media acceptance.",
+      "reviewed_by": "Codex actual image inspection during project knowledge cleanup; no new audio/full-video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-27T13:50:02+00:00",
+      "method_sha256": "e81e1c687815f4eedd6a7661ac87bd7d4418d30983acb2b493ce330dfbed438f",
+      "case": "knowledge/examples/mog044-record-control-ko-v2",
+      "case_manifest_sha256": "3b4029b6d09ab2e47da78c91117fce4db5368d353b2fdda51a1251949f849c96",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261027-044-05-99b04e7691.json",
+          "sha256": "6c6a3a4a7337029f9249fa5921aa2d8ae204126d6b1b12b7e4aaa9c42ba80966"
+        }
+      ],
+      "supersedes": "mog044-record-control-ko-v1",
+      "knowledge_type": "source_reference"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

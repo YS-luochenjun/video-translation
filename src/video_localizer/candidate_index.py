@@ -8,6 +8,8 @@ from .knowledge_records import candidate_files
 
 def build(root):
     root = Path(root).resolve()
+    from .knowledge_review import decisions
+    current_reviews = decisions(root)
     reviews = defaultdict(list)
     for path in sorted((root / "knowledge/curation").glob("candidate-adoption*.json")):
         review = read_json(path)
@@ -43,6 +45,11 @@ def build(root):
                  "scope": value.get("scope", {}), "historical_outcome": value.get("outcome"),
                  "review_status": review_status,
                  "reviews": evidence}
+        current = current_reviews.get((relative, digest))
+        if current:
+            entry['current_review'] = {key: current[key] for key in
+                                      ('decision_path', 'decision_sha256', 'resolution', 'closed', 'next_action')}
+            entry['current_targets'] = [target['id'] for target in current['targets']]
         if path.relative_to(root).as_posix() != relative:
             entry["storage_path"] = path.relative_to(root).as_posix()
             entry["queue_state"] = "archived"

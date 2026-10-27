@@ -42,7 +42,11 @@ def _fingerprint(run, plan):
                           'packet_sha256', 'result', 'result_sha256', 'results')})
     from .render_cache import implementation_signature
     code = implementation_signature()
-    fonts = {p.as_posix(): file_hash(p) for p in (ROOT / 'assets/fonts').rglob('*') if p.is_file()}
+    from .typography import selected, environment_identity
+    if any(selected(i) for i in inventory.get('text_instances', [])):
+        code['typography_environment'] = environment_identity(run.parent.parent)
+    from .font_environment import fingerprint as font_fingerprint
+    fonts = font_fingerprint(run.parent.parent)
     return object_hash({'plan': plan, 'inputs': files, 'jobs': jobs, 'code': code, 'fonts': fonts,
                         'encoder': media.command(['ffmpeg', '-version']).stdout})
 
@@ -80,6 +84,7 @@ def advance(run, deliver=False, force_render=False):
     candidate_path = run / 'outputs/candidate.json'
     candidate = read_json(candidate_path) if candidate_path.exists() else {}
     reusable = (not force_render and saved.get('fingerprint') == fingerprint
+                and not candidate.get('typography_fallbacks')
                 and candidate.get('plan_id') == plan['id'] and candidate.get('sha256') == saved.get('video_sha256')
                 and inside(run, candidate.get('path', 'missing')).is_file()
                 and file_hash(inside(run, candidate['path'])) == candidate['sha256'])

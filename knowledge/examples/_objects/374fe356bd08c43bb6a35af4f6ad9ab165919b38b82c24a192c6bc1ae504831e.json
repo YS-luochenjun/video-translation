@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-26",
+  "authority": "project_user",
+  "budget_quote": "目前无论是多少种语言，一个视频都是固定xx credits预算，这是不合理的，多语言可以增加预算。每一个语言都有更多的额度就好。不要限制那么严格，60credits每一个都行",
+  "visual_question": "目前文字遮罩，也就是模糊背景文字，然后进行覆盖写文字的操作，这样可能会导致看起来效果不够好。目前是否是，credits限制太少，不愿意使用wen视频编辑模型，导致的喜欢使用模糊背景导致的。",
+  "decisions": [
+    "60 credits per distinct normalized target language in one flexible shared pool; first and new reuse requests",
+    "Retain historical ledger limits, charges and unknown reservations; add attributed amendments rather than resetting",
+    "Evaluate applicable Wan continuous editing on visual grounds before choosing blur; no mandatory known-useless paid trials"
+  ],
+  "review_type": "same_agent_developer_review",
+  "boundary": "Explicit budget instruction and concern about blur quality; no actual new media experiment, independent review, company acceptance or authorization to change the video model."
+}

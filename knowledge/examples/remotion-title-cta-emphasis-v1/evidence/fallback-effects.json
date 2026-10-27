@@ -1,0 +1,12 @@
+{
+  "requested": "remotion",
+  "actual": "ffmpeg_static",
+  "reason": "Remotion browser unavailable",
+  "lost_effects": [
+    "fade/scale",
+    "timed keyword color change",
+    "RTL word coloring; intact paragraph uses original text color"
+  ],
+  "text_and_timing_preserved": true,
+  "review_required": true
+}
