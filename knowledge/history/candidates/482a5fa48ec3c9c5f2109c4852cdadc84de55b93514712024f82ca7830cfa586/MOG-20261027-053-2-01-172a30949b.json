@@ -1,0 +1,30 @@
+{
+  "id": "MOG-20261027-053-2-01-172a30949b",
+  "status": "candidate",
+  "created_at": "2026-10-27T14:21:48+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "es",
+    "source_sha256": "9d3d0836876a481380abdda19942a1343d499debc02e828142a105f300800c37"
+  },
+  "outcome": "pass",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "MOG-20261027-053-2-01",
+    "video_sha256": "172a30949bcf3894bc30b4c9929c6631ab89e9bb8f5c3b8bcb090fb4e74a844e",
+    "quality_sha256": "2b22613a1a326c20e017bd583d9731f2df11f4b4b84697d1846cbe5a34b4063f"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "pass",
+    "failure_codes": [],
+    "reviewer": "Codex same-agent visual review, with attributed Gemini actual encoded-audio perception and Whisper evidence; no independent/user acceptance",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

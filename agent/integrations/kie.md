@@ -32,6 +32,8 @@ Fireplay需求沿用[接入流程](../workflows/fireplay-intake.md)和config/fir
 
 当前 Wan 输入合同为源视频2–10秒、宽高240–4096px、最大100MB，可附绑定文件哈希的 `reference_image`。`duration: 0` 沿用输入长度，`audio_setting: origin` 保留输入声音，`prompt_extend: false` 保留精确提示。保留原声也会保留原语言对白；需要翻译对白时另走配音、分轨和混音流程，不能把声音保留开关当作配音成功。
 
+参考图可以来自已审ImageGen结果，须实际上传并绑定哈希，提示词明确其作用；当前适配器是单图，不将原生供应商多图合同直接套入KIE载荷。参考只表达目标，连续运动、遮挡和字幕仍须实际审核，见[ImageGen优先政策](../../knowledge/rules/imagegen-first-v1.md)。
+
 超出输入合同的素材必须明确拆分与安排时间轴，不能静默变速。`packet RUN SEGMENT` 只生成本地可审查请求；`submit RUN SEGMENT --execute` 才上传并提交。估价与可用合同可能变化，必要时核对供应商当前说明；旧实验价格不是当前账单保证。模型结果仍需逐实例检查原字、背景、人物动作、产品、声音和字幕，再进行质量审查与交付。
 
 ## 失败、恢复与验证边界

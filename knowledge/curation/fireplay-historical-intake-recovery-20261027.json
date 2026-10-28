@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "fireplay-historical-intake-recovery-20261027",
+  "reviewed_by": "Codex current host agent; development self-review",
+  "reviewed_at": "2026-10-28T02:30:57+00:00",
+  "authority": {
+    "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+    "source_quote": "那就把010、063、064这三个需求都开始做，每个需求独立对话和计费。也把历史需求卡在待核对导致漏接的问题解决掉，后续不要再漏了。"
+  },
+  "scope": "Fireplay host intake, historical scope resolution and missing-language interpretation before production. No video-quality conclusion.",
+  "observations": [
+    {
+      "failure": "A genuine translation row stayed historical_translation_pending without a resolved action. A question about whether work was already done was treated as a reason to defer indefinitely.",
+      "correction": "Expose historical_review_required with a stable per-row/content resolution_key; inspect exact chat/request/budget/binding evidence, then reuse proven work or obtain one actual scope decision. Explicit human authority is bound to exact code/UUID and may release only that historical scope.",
+      "limits": "Do not claim completed from a question, screenshot status, similar filename or material thumbnail; do not auto-reproduce unauthorized history or overwrite prior requests/fees."
+    },
+    {
+      "failure": "A multilingual source brief without the literal translation keyword may initially parse no languages. Once a needs_information request existed, later Agent-resolved targets were discarded or rejected as a changed interpretation.",
+      "correction": "Accept explicit Agent-resolved languages only for an empty-target blocked preproduction request, preserving old interpretation history and the original source.",
+      "limits": "Any existing budget, dispatched/ready chat, production member/batch or return blocks reinterpretation. Nonempty target sets cannot be replaced by this path."
+    },
+    {
+      "failure": "Historical timing uncertainty was evaluated before current completion/permission status, leaving already completed requests as unresolved historical questions.",
+      "correction": "Check nontranslation/current eligibility before deciding to ask about historical scope. Actual content changes still receive review; metadata alone does not start paid work.",
+      "limits": "Existing content revisions preserve original chat and ledger and remain needs_revision_review, even with explicit new authority."
+    }
+  ],
+  "implementation": [
+    "src/video_localizer/fireplay_monitor.py",
+    "src/video_localizer/fireplay.py"
+  ],
+  "workflow": "agent/workflows/fireplay-monitor.md",
+  "template": "agent/templates/fireplay-monitor-explicit.json",
+  "regression_evidence": {
+    "file": "tests/test_fireplay_monitor.py",
+    "cases": [
+      "test_explicit_selection_releases_pending_without_spending_or_reopening_budget",
+      "test_wrong_or_incomplete_explicit_authority_cannot_release_history",
+      "test_explicit_history_does_not_bypass_done_permission_or_content_revision",
+      "test_historical_completed_is_not_a_pending_question_and_real_body_revision_admits",
+      "test_existing_content_revision_preserves_chat_and_budget",
+      "test_agent_resolves_unparsed_multilingual_brief_before_production",
+      "test_missing_language_resolution_does_not_touch_funded_or_dispatched_record"
+    ]
+  },
+  "not_claimed": [
+    "New video acceptance",
+    "Completion of the three production chats",
+    "Actual KIE spend equal to credit ceilings",
+    "Blanket authority to redo all historical requirements"
+  ]
+}

@@ -9,7 +9,7 @@ def bound_materials(record, video, root=ROOT):
     box = folder / f'return-{video["index"]}.json'
     if box.exists():
         value = read_json(box)
-        if (value.get('state') == 'returned' and
+        if (value.get('state') == 'returned' and not value.get('pending_locales') and
                 {p['locale'] for p in value['packages']} == set(video['targets']) and
                 value.get('operations', {}).get('bind', {}).get('state') == 'verified'):
             return [{'material_id': value['operations'][f'import-{i}']['result']['material_id'],

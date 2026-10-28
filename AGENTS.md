@@ -12,7 +12,7 @@
 
 ## 模型、文字与费用
 
-- [模型合同](agent/contracts/model-routing.md)是分工入口：Codex识字及直接处理图片，先codex-packet取得真实图像/知识，完成后codex-result登记实际观察/产物；图片可用宿主图像工具。新任务不用RapidOCR、GLM-OCR、LaMa；真实音频用专用模型，视频统一Wan 2.7。用户指定模型须以真实任务、原视频和逐项评审验证；本地合成是另一条路线，不冒称模型效果。
+- [模型合同](agent/contracts/model-routing.md)是分工入口：Codex识字及直接处理图片，先codex-packet取得真实图像/知识，完成后codex-result登记实际观察/产物；图片能用宿主ImageGen完成时优先使用，必要媒体操作保留脚本，见[ImageGen优先政策](knowledge/rules/imagegen-first-v1.md)。新任务不用RapidOCR、GLM-OCR、LaMa；真实音频用专用模型，视频统一Wan 2.7。用户指定模型须以真实任务、原视频和逐项评审验证；本地合成是另一条路线，不冒称模型效果。
 - 按[源文字修复](knowledge/rules/content-aware-text-restoration-v2.md)逐实例选路：静态简单底面优先自然重建，复杂运动/遮挡先评估Wan连续局部修复，不为省额度跳过；模糊仅凭实际候选或连续帧主体风险兜底，沿用试验上限。
 - KIE新请求按实际去重目标语种每种60 credits建本请求共享池，首次/新复用同价；同需求多原片共用，跨需求不合并。旧限额和未知费用保留，两轮返工不变，Codex花费不受该池限制。automatic_use=true且在用户授权范围内时直接使用KIE及必要媒体传送，不重复询问；新增范围/额度才确认，宿主审批照其策略执行。
 - KIE仅通过API、真实taskId、保存的响应及本地任务/费用日志核查，配置为config/kie-access.json。用户没有后台登录权限，不要求登录、密码、Cookie或后台截图。同步超时无可查询ID时保留未知费用，不编造查询能力或重复扣费。失败按[集成约定](agent/integrations/kie.md)区分连接/鉴权、上传、建任务、执行与内容质量。

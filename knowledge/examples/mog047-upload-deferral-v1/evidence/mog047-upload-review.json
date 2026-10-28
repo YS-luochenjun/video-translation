@@ -1,0 +1,53 @@
+{
+  "reviewed_at": "2026-10-28T02:31:53+00:00",
+  "reviewed_by": "Codex same-agent developer review; no independent or new video acceptance",
+  "source_sha256": "f0c3810c11b5347429281afe3c3f5a10db2d8e9c0a23d9f2408fbc4cb28d33ea",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f0c3810c11b5347429281afe3c3f5a10db2d8e9c0a23d9f2408fbc4cb28d33ea"
+  },
+  "raw_manifest_sha256": "88b814e891c0ff881369513710ab1f9e37d968263252353a9dd6e5ab42810eb3",
+  "verified_raw_files": [
+    {
+      "label": "upload-2-actual-timeout.json",
+      "sha256": "e2f8cbe62c8d61b6a4a20b714a9b588fe71e7874eb04a095ec5fc5a07bd271b7"
+    },
+    {
+      "label": "upload-3-actual-timeout.json",
+      "sha256": "e2f8cbe62c8d61b6a4a20b714a9b588fe71e7874eb04a095ec5fc5a07bd271b7"
+    },
+    {
+      "label": "publication-summary.json",
+      "sha256": "e614e6c6aff19343617100ae9ca117d7a4319d743b93db8864ea6daf3b3b9f24"
+    },
+    {
+      "label": "bind-actual-response-and-readback.json",
+      "sha256": "a7e8f23a5193aefb6909a3db613fceeb9f2b57da8619e4143e259ff2152e3633"
+    }
+  ],
+  "observed": {
+    "state": "partially_returned",
+    "bound_count": 5,
+    "pending_locales": [
+      "pt",
+      "vi"
+    ],
+    "unknown_operations_preserved": [
+      "upload-2",
+      "upload-3"
+    ],
+    "youtube_progress_tracking": false,
+    "requirement_status_changed": false,
+    "upload_timeout_seconds": 120
+  },
+  "sanitization": "No platform UUIDs, asset URLs, raw response bodies, customer videos or credentials exported. Hashes label private provenance; this self-contained observation is the public evidence boundary.",
+  "limits": [
+    "One original video and request",
+    "Retained historical receipts; no new platform writes",
+    "No new full-video/audio review or YouTube completion claim"
+  ],
+  "implementation": {
+    "src/video_localizer/fireplay.py": "4e300392060dbd31b57e05b8f24d8c898e4772f1998a1a5b1d8141e5359086af",
+    "tests/test_fireplay_defer.py": "1fbbc40c17ca989e9a978cb4f2b65655e9b2605d7a7a683a99e545f6c16a67a1"
+  }
+}

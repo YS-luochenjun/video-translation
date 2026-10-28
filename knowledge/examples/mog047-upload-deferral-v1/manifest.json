@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog047-upload-deferral-v1",
+  "created_at": "2026-10-28T02:31:53+00:00",
+  "files": [
+    {
+      "path": "evidence/mog047-protocol-tests.txt",
+      "sha256": "a64c9caa11190a61a14cacd3b098883246eac22a52eb9dffedb77e3735e40a75",
+      "bytes": 190
+    },
+    {
+      "path": "evidence/mog047-upload-review.json",
+      "sha256": "df413f606753b4f565291de7d399e426d92eb0287a7f802911fe00552e2d6d60",
+      "bytes": 2034
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f0c3810c11b5347429281afe3c3f5a10db2d8e9c0a23d9f2408fbc4cb28d33ea"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG047上传未知时的部分回传观察\n\n范围：原片SHA256为f0c3810c11b5347429281afe3c3f5a10db2d8e9c0a23d9f2408fbc4cb28d33ea。此参考记录同一需求的上传恢复，不推断任何新视频质量或跨来源成功率；原候选无目标语种限定，本条保持原范围。\n\n两次文件上传接口120秒超时，没有返回可核对的资源ID。原记录保留unknown，不重发同一文件；有来源的用户决定或Agent实际超时观察将对应语种暂缓。实际回执记录5种语言入库并完成绑定，pt与vi仍为pending。YouTube仅请求平台自动上传，没有核验发布完成。见evidence:review。\n\n本次有效处理步骤：\n\n1. 对照原上传操作、视频哈希和尚未入库的事实；先恢复未知操作，不能把超时解释为失败或未执行。\n2. 仅在实际决策允许暂缓时保留原unknown及其操作编号，将该语种列入pending_locales；其余语种保留原索引继续。\n3. 绑定只使用实际入库并读回核验的素材ID。已有素材复用确切ID；替代上传途径只用于尚未提交的文件，不借换路径重试未知文件。\n4. 全部暂缓时不发空绑定；部分成功报告部分完成，不能将整需求记作已交齐。原需求状态、旧回执和费用不改写。\n\n失败签名是：一个未知文件阻塞其余就绪语种、缺失import索引导致绑定错误、pending语种被误报为已回传。离线状态机测试验证unknown原文保留、拒绝无来源跳过、只绑定可用语种和全部暂缓时不发空绑定；测试不是平台新一轮写入。见evidence:tests。\n\n本次是同一Agent的代码、回执及文档审查，未重新听看广告，未做独立验收。单需求证据不足以推广为全平台成功方法。后续同源恢复先核对当时的真实回执；接口合同或决策变化时重新判断，不恢复旧未知文件的自动重试。跨来源验证应包含已有import/bind时拒绝暂缓、未知上传后迟到成功的确切ID核对，以及不重复入库的恢复证据；未完成前保留本条范围。\n\n共同提交要求继续读取[Fireplay固定提交与经验收尾](../rules/fireplay-completion-recovery-v3.md)，本案例不新增公司偏好、费用授权或视频放行标准。\n",
+    "source_sha256": "f0c3810c11b5347429281afe3c3f5a10db2d8e9c0a23d9f2408fbc4cb28d33ea",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/mog047-upload-review.json",
+      "tests": "evidence/mog047-protocol-tests.txt"
+    }
+  }
+}

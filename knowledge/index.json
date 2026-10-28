@@ -2997,6 +2997,30 @@
         "strict"
       ],
       "retrieval_role": "required"
+    },
+    {
+      "id": "imagegen-first-v1",
+      "path": "knowledge/rules/imagegen-first-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "imagegen",
+        "image",
+        "reference",
+        "wan"
+      ],
+      "origin": "Explicit project owner instruction in current chat 2026-10-27, plus documented vendor capability and existing adapter inspection; no generated-result claim.",
+      "reviewed_by": "Codex developer policy registration from explicit user preference; adapter and official documentation inspection only",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T02:42:00+00:00",
+      "method_sha256": "9c3b778cd6c5e64600ee168b8ae4095773d374186aabdde00621021062972f0d",
+      "case": "knowledge/examples/imagegen-first-v1",
+      "case_manifest_sha256": "c61728dbb2a85eacf495edc247cf5cb345cec0dba19adbed5bf4bab3d4d401b7",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_instruction",
+      "topic": "visual"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

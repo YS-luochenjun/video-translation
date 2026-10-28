@@ -151,6 +151,21 @@ def _ordered(items):
     return sorted(items, key=lambda x: (ranks.get(x.get('priority'), 3), x.get('code') or ''))
 
 
+def _explicit_authority(spec, row):
+    """Host-recorded human selection releases only this exact historical row."""
+    authority = spec.get('authority')
+    if authority is None:
+        return None
+    require(isinstance(authority, dict) and authority.get('authority') == 'user'
+            and authority.get('authorization_ref') and authority.get('source_quote')
+            and authority.get('user_request') and authority.get('source_thread_id'),
+            'Explicit intake needs the actual human request and its source')
+    require(authority.get('scope_requirement') == row['code']
+            and authority.get('requirement_id') == row['id'],
+            'Explicit authority must select this exact requirement code and UUID')
+    return authority
+
+
 def assess(code, spec, root=ROOT):
     """Record real Agent judgment on a fresh brief; no keyword-based auto-accept."""
     fireplay._code(code)
@@ -158,6 +173,7 @@ def assess(code, spec, root=ROOT):
     spec = fireplay.payload(spec)
     snap = fireplay.snapshot(code, spec['snapshot'])
     decision, row = spec['decision'], snap['row']
+    explicit = _explicit_authority(spec, row)
     require(_matches(row, config), 'Requirement is no longer assigned to the selected people')
     require(isinstance(decision.get('is_translation'), bool) and decision.get('reason')
             and decision.get('evidence'), 'Agent must judge translation scope with actual brief evidence')
@@ -176,6 +192,8 @@ def assess(code, spec, root=ROOT):
         entry = state['requirements'].get(row['id'])
         require(entry and entry['row']['code'] == code, 'Requirement was not discovered in the authorized monitor')
         require(entry['state'] in ('needs_review', 'needs_information', 'admitted', 'registered') or
+                (explicit and entry['state'] in ('baseline', 'ignored', 'historical_translation_pending',
+                                                 'newly_visible_old', 'not_eligible')) or
                 (spec.get('recheck') is True and entry['state'] in ('baseline', 'ignored', 'historical_translation_pending')),
                 'Historical/newly-visible backlog is not automatically authorized')
         old_record = Path(root) / 'state/fireplay' / code / 'request.json'
@@ -187,26 +205,27 @@ def assess(code, spec, root=ROOT):
                 write_json(path, state)
                 return {'code': code, 'state': entry['state'], 'chat': old.get('chat'), 'budget': old.get('budget')}
         uncertain_historical = False
-        if not old_record.exists() and (entry.get('reason') == 'updated_content_or_metadata' or spec.get('recheck') is True):
+        if not explicit and not old_record.exists() and (entry.get('reason') == 'updated_content_or_metadata' or spec.get('recheck') is True):
             old_brief = entry.get('assessed_brief_version')
             summary_changed = entry.get('previous_summary_version', entry.get('summary_version')) != _summary_version(row)
             # Without an old brief, unchanged summary cannot prove new content.
             if not summary_changed and (not old_brief or old_brief == snap['content_version']):
                 uncertain_historical = decision['is_translation']
         saved = {'code': code, 'requirement_id': row['id'], 'snapshot': spec['snapshot'], 'decision': decision,
-                 'assessed_at': utc_now(), 'authority': config['authority']}
+                 'assessed_at': utc_now(), 'authority': explicit or config['authority']}
         write_json(_directory(root) / 'assessments' / (object_hash(saved) + '.json'), saved)
         entry.update(assessed_brief_version=snap['content_version'], decision=decision, row=row,
                      summary_version=_summary_version(row), review_pending=False)
-        if uncertain_historical:
-            entry.update(state='historical_translation_pending',
-                         reason='Translation intent confirmed; historical content timing unproven. Keep visible for scope confirmation, do not mark non-translation or restart automatically.')
-        elif not decision['is_translation']:
+        if not decision['is_translation']:
             entry.update(state='ignored', reason=decision['reason'])
         elif row.get('status') not in config['eligible_statuses'] or row.get('canBindMaterials') is not True:
             entry.update(state='not_eligible', reason='Not in an eligible status or lacks execution permission')
+        elif uncertain_historical:
+            entry.setdefault('historical_pending_since', utc_now())
+            entry.update(state='historical_translation_pending',
+                         reason='Translation intent confirmed; resolve existing chat/delivery evidence or ask the owner once. Historical timing alone does not authorize production.')
         else:
-            authority = {**config['authority'], 'scope_update_quote': config['scope_update_quote'],
+            authority = explicit or {**config['authority'], 'scope_update_quote': config['scope_update_quote'],
                          'authorization_ref': config['authority']['authorization_ref'] + ':' + row['id'],
                          'standing_authorization_ref': config['authority']['authorization_ref'], 'mode': 'first',
                          'user_request': config['authority']['source_quote'] + '\n自动发现并独立制作：' + code,
@@ -217,6 +236,10 @@ def assess(code, spec, root=ROOT):
                 interpretation['targets'] = decision['targets']
             if old_record.exists():
                 interpretation = old.get('decision', {})
+                if not old.get('targets') and decision.get('targets'):
+                    # Agent-resolved missing languages are still preproduction.
+                    # register enforces that no chat, budget or return exists.
+                    interpretation = {**interpretation, 'targets': decision['targets']}
             result = fireplay.register(code, spec['snapshot'], interpretation, root)
             authority_file = Path(root) / 'state/fireplay' / code / 'monitor-authority.json'
             if not authority_file.exists():
@@ -360,6 +383,10 @@ def status(root=ROOT):
         if entry['state'] == 'needs_revision_review':
             revisions.append(packet)
         if entry['state'] == 'historical_translation_pending':
+            packet.update(pending_since=entry.get('historical_pending_since', entry['first_seen_at']),
+                          resolution_key=object_hash({'kind': 'historical_translation_review', 'id': row['id'],
+                                                      'content_version': entry.get('assessed_brief_version')}),
+                          next_action='Check existing exact-code chat/request/ledger and requirement bindings; reuse proven work. If scope is still unresolved, ask the owner once for this resolution_key. Record the actual reply as assess.authority; do not silently leave pending or auto-remake history.')
             historical.append(packet)
         if entry['state'] in ('admitted', 'registered'):
             p = Path(root) / 'state/fireplay' / row['code'] / 'request.json'
@@ -370,5 +397,6 @@ def status(root=ROOT):
             'visible_count': state.get('visible_count', 0), 'needs_review': _ordered(review), 'ready_to_dispatch': _ordered(queue),
             'revision_reviews': _ordered(revisions),
             'historical_translation_candidates': _ordered(historical),
+            'historical_review_required': _ordered(historical),
             'publication_followups': followups(root), 'max_active_requirements': config['max_active_requirements'],
             'p1_waits_for_p0': False, 'automatic_paid_execution_by_script': False}

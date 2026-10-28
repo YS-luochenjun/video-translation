@@ -2191,6 +2191,36 @@
       ],
       "supersedes": "mog044-record-control-ko-v1",
       "knowledge_type": "source_reference"
+    },
+    {
+      "id": "mog047-upload-deferral-v1",
+      "path": "knowledge/cases/mog047-upload-deferral-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f0c3810c11b5347429281afe3c3f5a10db2d8e9c0a23d9f2408fbc4cb28d33ea"
+      },
+      "tags": [
+        "fireplay",
+        "upload",
+        "recovery",
+        "partial"
+      ],
+      "origin": "2026-10-27 user-requested project knowledge consolidation; verified retained MOG047 manifest, sanitized receipts and fresh offline state-machine tests.",
+      "reviewed_by": "Codex same-agent developer review; no independent or new video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T02:31:53+00:00",
+      "method_sha256": "049714f348bc9eab51d4ee3a9bb6cee774dc6bb266fb7424256c28ab0670f096",
+      "case": "knowledge/examples/mog047-upload-deferral-v1",
+      "case_manifest_sha256": "b42917a7d8cb87ccfdbcd6c4e66b09ce40a5b0b39a8e5e72bec248eaefe235cf",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/mog047-independent-upload-deferral-20261027.json",
+          "sha256": "b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba"
+        }
+      ],
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_guidance"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

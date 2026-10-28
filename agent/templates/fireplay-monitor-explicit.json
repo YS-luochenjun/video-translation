@@ -1,0 +1,20 @@
+{
+  "snapshot": {"summary": "Replace with actual response", "brief": "Replace with actual response"},
+  "recheck": true,
+  "decision": {
+    "is_translation": true,
+    "reason": "Actual interpretation of source video, target languages and duplicate-work checks",
+    "evidence": ["brief.description"],
+    "targets": ["es", "pt"]
+  },
+  "authority": {
+    "authority": "user",
+    "authorization_ref": "Stable reference to the actual human instruction; not a polling ID",
+    "source_quote": "Exact human instruction authorizing this requirement",
+    "user_request": "Concrete per-requirement scope from that instruction",
+    "source_thread_id": "Actual authorizing chat ID",
+    "scope_requirement": "MOG-YYYYMMDD-NNN",
+    "requirement_id": "Actual platform requirement UUID",
+    "mode": "first"
+  }
+}

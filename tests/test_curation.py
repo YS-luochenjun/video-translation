@@ -83,6 +83,16 @@ class CurationTests(unittest.TestCase):
         write_json(path, data)
         self.assertEqual(curation.status(self.root)["new_records"], 1)
 
+    def test_no_new_sources_does_not_hide_unreviewed_distillation(self):
+        self.event("one")
+        self.run_hook()
+        status = curation.status(self.root)
+        self.assertEqual(status["new_records"], 0)
+        self.assertTrue(status["review_required"])
+        self.assertGreaterEqual(status["adoption_queue_open"], 1)
+        self.assertIn("knowledge-queue", status["review_next_action"])
+        self.assertEqual(read_json(self.root / "knowledge/index.json")["entries"], [])
+
     def test_duplicates_preserve_all_sources_and_do_not_activate(self):
         self.event("one")
         self.event("two")

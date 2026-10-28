@@ -15,9 +15,15 @@ description: Curate localization lessons, record user feedback, publish reviewed
 4. 需启用时，按 `agent/templates/knowledge-promotion.json` 准备规格，运行 `knowledge-promote SPEC`。选择必要的源/结果对照、真实字幕边界、关键声音或反馈记录入案例。样例中的历史路径只是来源标签，实际证据只从案例manifest读取；生产素材由交付库另行查询。
 5. 运行 `knowledge-audit`，并核对相应源/语言的 `context`。正文与证据哈希、scope、状态均通过才完成；自动候选不改变公司偏好或质量标准。
 
+## 无需用户提醒的收尾检查
+
+制作结案、开发修复及用户反馈处理后，主动运行 `knowledge-queue` 与 `hooks status`。`new_records=0` 只表示没有新增提纯输入；还须核对 `adoption_queue_open`、Hook的pending与本次使用反馈。按本技能完成可证实的审查/采纳，缺证据则留下具体下一步，不为归零关闭待办。直接审查并已结清的来源无需再让Hook生成重复候选。
+
+全局待审由独立[经验总结任务](../../../agent/workflows/knowledge-sweep.md)处理，Fireplay巡检只负责接入调度；`due=true` 时经验任务运行 `hooks run --due`，再处理本轮产生的审查项。文本接口不可用时保留原检查点，允许 `prepare/apply` 由当前Agent完成结构化提纯。定时服务由独立应用任务或已核验宿主触发器提供，不从enabled推断已安装或运行成功。仅无法自行解决的新缺口才请求用户输入；不得自动改变公司偏好、质量标准或扩大原scope。
+
 ## 每日项目Hook
 
-每日开发维护使用项目自己的 `bin/va.ps1 hooks` 和 `config/hooks.json`，执行规范见 `docs/daily-knowledge-curation.md`。`hooks status/run/prepare/apply` 分别负责查询、增量提纯和更换推理接口；Windows宿主只用 `bin/project-hooks.ps1` 安装入口定时器，不创建Codex应用定时任务。AI返回结构化建议，执行器验证来源、原scope和公私边界后仅写派生候选；既有规则和启用流程保持原样。
+每日开发维护使用项目自己的 `bin/va.ps1 hooks` 和 `config/hooks.json`，执行规范见 `docs/daily-knowledge-curation.md`。`hooks status/run/prepare/apply` 分别负责查询、增量提纯和更换推理接口；用户2026-10-27明确要求三项独立定时职责，当前使用独立应用任务。Windows的 `bin/project-hooks.ps1` 保留为可选宿主入口，不重复安装两套经验调度。AI返回结构化建议，执行器验证来源、原scope和公私边界后仅写派生候选；既有规则和启用流程保持原样。
 
 ## 归档与保留
 

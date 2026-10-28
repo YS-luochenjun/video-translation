@@ -21,6 +21,8 @@
 
 ## 按场景选择
 
+[ImageGen优先政策](rules/imagegen-first-v1.md)保存2026-10-27用户明确图片处理偏好，并区分Wan参考图的接口支持和待验证效果；不从静态图片推断连续视频通过。
+
 [Agent 方法选择](rules/agent-method-selection-v2.md) 统一政策优先级、主方法及辅助方法的组合。方法按实际特征和请求模式检索，家庭/医院/校园等背景不直接决定算法；特征定义在 `config/content-features.json`。角色声线、声音事件、识别分歧与时间配合分别有条件方法。Agent 在现有 reason/evidence 说明首选/备选、切换及停止依据，不从命中推断已经使用。
 
 语言 scope 默认完整匹配；经审查的基础语言 scope 才可扩大。`related_source_references` 为同源同基础语言的范围外发现线索，须重新语言审查。旧规则与未索引的选路草稿已按原字节留存，替代与迁移见 [八项整理记录](curation/selection-alignment-20261026.json)。
@@ -70,6 +72,8 @@
 本轮聊天复盘新增：[KIE API与本地核查](rules/kie-api-local-verification-v1.md)、[Fireplay自动提交与经验收尾](rules/fireplay-completion-recovery-v3.md)、[多语种制作复盘](rules/multilingual-thread-lessons-v1.md)。原候选、质量失败和源/语种范围保留；结案后不追踪YouTube进度。
 
 本轮还保留了[WOW-042德语合成案例](cases/wow042-caption-compositing-v1.md)：发光文字填充反例、gbrp颜色合成修正与逐帧字幕边界。仅限该源和德语，不扩成全语种默认算法。
+
+本次整理新增[MOG047上传暂缓参考](cases/mog047-upload-deferral-v1.md)：未知文件保留原操作、暂缓语种留pending，其余已核验语种部分绑定；只保存同源操作观察，不改变视频质量或平台发布结论。方法论和自动沉淀状态见[项目总结](../docs/project-methodology.md)，实际积压以knowledge-queue和hooks status为准。
 
 ## 精简与复用
 

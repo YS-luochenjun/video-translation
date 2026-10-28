@@ -63,6 +63,8 @@ Fireplay需求可直接给编号，或指定组/日期等读取范围，例如�
 - [Agent 执行目录](agent/README.md)：按阶段查找规则、操作步骤和模板。
 - [开发者文档](docs/README.md)：安装维护、实现说明和历史追溯。
 - [项目维护地图](docs/project-map.md)：当前能力、知识待办和实测来源的统一入口。
+- [项目方法论与知识闭环](docs/project-methodology.md)：制作判断链、经验吸收状态和自动沉淀机制。
+- [三项定时职责](docs/scheduled-tasks.md)：新需求巡检、经验总结、存储整理分别调度。
 - [全流程图](docs/project-flow.html)：阶段、分支、命令和离线来源。
 - [架构与职责](docs/architecture.md)：Codex、执行器及外部服务的分工。
 - [模板目录](agent/templates/README.md)：现行表单及历史兼容示例。

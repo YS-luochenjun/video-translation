@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261027-047-02-fbfabd5f50.json",
+    "sha256": "a72d0c5f31f3f777f6555efe13d8cb524641b34de71a312eae1ef12cc946bff1"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex主控：逐记录与现行方法文档审查；未重新听看成片，不是独立或母语验收",
+  "origin": "2026-10-27T16:09 Fireplay监控与用户持续经验收尾授权",
+  "resolution": "rejected",
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "reason": "已读自动占位与证据摘要：没有独立方法、触发条件或新变量；具体经验由七份真实knowledge-use报告逐条归入现行方法。占位不当知识，原pass/revise归因及语音审核缺口完整保留。",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "逐字原文、精确源/目标语言及成片/quality哈希、原案例均保留；不把空白needs_lesson变成方法或验收。"
+  ],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-10-27T16:12:16+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

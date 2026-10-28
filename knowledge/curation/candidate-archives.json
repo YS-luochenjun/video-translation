@@ -880,6 +880,66 @@
       "sha256": "dedf64886f14c1e1b14f7411c04496b0af91f040d966aedc52bac5987058f82a",
       "archive_path": "dedf64886f14c1e1b14f7411c04496b0af91f040d966aedc52bac5987058f82a/MOG-20261027-044-partial-return-20261027.json",
       "decision_sha256": "edf62555aac3130636611f3b67aee50f07083173c0b3cd1a46f4377b65127af3"
+    },
+    "knowledge/candidates/MOG-20261027-053-1-01-615e39dc0e.json": {
+      "sha256": "08b65a8f84c64c5b9823f89c77b38c8a7891b1bd330db9bd666edad79295ab82",
+      "archive_path": "08b65a8f84c64c5b9823f89c77b38c8a7891b1bd330db9bd666edad79295ab82/MOG-20261027-053-1-01-615e39dc0e.json",
+      "decision_sha256": "cd13e87deea772bb1dfb804eaf839ac6204819f641d9b654ae7780eeed988048"
+    },
+    "knowledge/candidates/MOG-20261027-053-1-02-b1507a82c7.json": {
+      "sha256": "10eda75543b200158c3d52e7c346fae2b5f34040623239bd8d8024604cb31bee",
+      "archive_path": "10eda75543b200158c3d52e7c346fae2b5f34040623239bd8d8024604cb31bee/MOG-20261027-053-1-02-b1507a82c7.json",
+      "decision_sha256": "d94fde67478ac62cfa9bde311d7b335c583386cede7559be018262f234ddc7d7"
+    },
+    "knowledge/candidates/MOG-20261027-053-2-01-172a30949b.json": {
+      "sha256": "482a5fa48ec3c9c5f2109c4852cdadc84de55b93514712024f82ca7830cfa586",
+      "archive_path": "482a5fa48ec3c9c5f2109c4852cdadc84de55b93514712024f82ca7830cfa586/MOG-20261027-053-2-01-172a30949b.json",
+      "decision_sha256": "ff49f66cd977240893f49e8e810ef97b59f9a0d348c1e47287612b1c312a8853"
+    },
+    "knowledge/candidates/MOG-20261027-053-2-02-d08ec35b4d.json": {
+      "sha256": "babcf8b983bdb6ff0530b0ef74cd9f5f4b0504cc7d740f3d3fa2545997777932",
+      "archive_path": "babcf8b983bdb6ff0530b0ef74cd9f5f4b0504cc7d740f3d3fa2545997777932/MOG-20261027-053-2-02-d08ec35b4d.json",
+      "decision_sha256": "f680f475c11bddf11078e997b503e8686b1d09b59cdeaabdc51dbc2020e5ef93"
+    },
+    "knowledge/candidates/MOG-20261027-047-01-0ff2b5f21c.json": {
+      "sha256": "9e1d2c8e15af4aba26077e2453c208e981e10a1d4defdeadbe0300e8d5de8da7",
+      "archive_path": "9e1d2c8e15af4aba26077e2453c208e981e10a1d4defdeadbe0300e8d5de8da7/MOG-20261027-047-01-0ff2b5f21c.json",
+      "decision_sha256": "8c212f583b8716ea3ee36a6de9e0dd24caf9bdff067313a9020fe48ab51fb380"
+    },
+    "knowledge/candidates/MOG-20261027-047-02-fbfabd5f50.json": {
+      "sha256": "a72d0c5f31f3f777f6555efe13d8cb524641b34de71a312eae1ef12cc946bff1",
+      "archive_path": "a72d0c5f31f3f777f6555efe13d8cb524641b34de71a312eae1ef12cc946bff1/MOG-20261027-047-02-fbfabd5f50.json",
+      "decision_sha256": "a6c126bc029d1a1bbea2d9e8c2a00e214bdf2d32d2fb3cea3699fce5dc419a64"
+    },
+    "knowledge/candidates/MOG-20261027-047-03-48b133852d.json": {
+      "sha256": "69526ed41cf514236d5291a2a97504d93ca556d0f6272da0bd594d4a4e7e208e",
+      "archive_path": "69526ed41cf514236d5291a2a97504d93ca556d0f6272da0bd594d4a4e7e208e/MOG-20261027-047-03-48b133852d.json",
+      "decision_sha256": "cb046d95470ca6b2777a091ade04ef485c228b553c76ccd887f2da507455135d"
+    },
+    "knowledge/candidates/MOG-20261027-047-04-3b74cfdece.json": {
+      "sha256": "bcff3888d7b267e06661751882fd810cec88a55fa5f5b744f1c931c03bfa6dc4",
+      "archive_path": "bcff3888d7b267e06661751882fd810cec88a55fa5f5b744f1c931c03bfa6dc4/MOG-20261027-047-04-3b74cfdece.json",
+      "decision_sha256": "76a5ca69d4c8dbd2c21751d025755ccd513c6dc868d5af331cfe66efe02f5082"
+    },
+    "knowledge/candidates/MOG-20261027-047-05-7f82eaf781.json": {
+      "sha256": "67cbbca914b9d8ca55a8ceb5ef6a5bd03bbc15cd8322efadbee80a0cf1ff26fe",
+      "archive_path": "67cbbca914b9d8ca55a8ceb5ef6a5bd03bbc15cd8322efadbee80a0cf1ff26fe/MOG-20261027-047-05-7f82eaf781.json",
+      "decision_sha256": "936c53f909cebe5696930704ff4b308c9da0a22119b3d1a9e33f050020bd3ec5"
+    },
+    "knowledge/candidates/MOG-20261027-047-06-680a819ed6.json": {
+      "sha256": "52fbe63679905241b7d2f9128a2f66accf481c0af63295e23d8e4f80f87d680c",
+      "archive_path": "52fbe63679905241b7d2f9128a2f66accf481c0af63295e23d8e4f80f87d680c/MOG-20261027-047-06-680a819ed6.json",
+      "decision_sha256": "3ab59e8dd90073e1f99aaa24a39d00d9e399daf978e6258c3f0e68dcc1166f7b"
+    },
+    "knowledge/candidates/MOG-20261027-047-07-2924e3e9d4.json": {
+      "sha256": "9d1a340635725741dc9cb640c4daa7ee2a0c3f97359515dbd1e0341df9595579",
+      "archive_path": "9d1a340635725741dc9cb640c4daa7ee2a0c3f97359515dbd1e0341df9595579/MOG-20261027-047-07-2924e3e9d4.json",
+      "decision_sha256": "345b9795d796c05d657eb3a65e92ee76a39e104ddb54588872cf957efd12a9e2"
+    },
+    "knowledge/candidates/mog047-independent-upload-deferral-20261027.json": {
+      "sha256": "b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba",
+      "archive_path": "b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba/mog047-independent-upload-deferral-20261027.json",
+      "decision_sha256": "5132fc3cc5e0af84300eb852e32ae133c0e3ab2263438c6b9daa3f04a9e3bc1e"
     }
   }
 }

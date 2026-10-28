@@ -1,0 +1,40 @@
+{
+  "source": {
+    "path": "knowledge/candidates/mog047-independent-upload-deferral-20261027.json",
+    "sha256": "b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent developer review; no independent or new video acceptance",
+  "origin": "2026-10-27 user-requested project knowledge consolidation; verified retained MOG047 manifest, sanitized receipts and fresh offline state-machine tests.",
+  "resolution": "adopted",
+  "reason": "Source-bounded operational observation is supported by retained verified receipts and current offline state-machine tests. Publish an exact-source reference rather than broaden the policy.",
+  "targets": [
+    {
+      "id": "mog047-upload-deferral-v1",
+      "path": "knowledge/cases/mog047-upload-deferral-v1.md",
+      "sha256": "049714f348bc9eab51d4ee3a9bb6cee774dc6bb266fb7424256c28ab0670f096",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f0c3810c11b5347429281afe3c3f5a10db2d8e9c0a23d9f2408fbc4cb28d33ea"
+      },
+      "snapshot": "# MOG047上传未知时的部分回传观察\n\n范围：原片SHA256为f0c3810c11b5347429281afe3c3f5a10db2d8e9c0a23d9f2408fbc4cb28d33ea。此参考记录同一需求的上传恢复，不推断任何新视频质量或跨来源成功率；原候选无目标语种限定，本条保持原范围。\n\n两次文件上传接口120秒超时，没有返回可核对的资源ID。原记录保留unknown，不重发同一文件；有来源的用户决定或Agent实际超时观察将对应语种暂缓。实际回执记录5种语言入库并完成绑定，pt与vi仍为pending。YouTube仅请求平台自动上传，没有核验发布完成。见evidence:review。\n\n本次有效处理步骤：\n\n1. 对照原上传操作、视频哈希和尚未入库的事实；先恢复未知操作，不能把超时解释为失败或未执行。\n2. 仅在实际决策允许暂缓时保留原unknown及其操作编号，将该语种列入pending_locales；其余语种保留原索引继续。\n3. 绑定只使用实际入库并读回核验的素材ID。已有素材复用确切ID；替代上传途径只用于尚未提交的文件，不借换路径重试未知文件。\n4. 全部暂缓时不发空绑定；部分成功报告部分完成，不能将整需求记作已交齐。原需求状态、旧回执和费用不改写。\n\n失败签名是：一个未知文件阻塞其余就绪语种、缺失import索引导致绑定错误、pending语种被误报为已回传。离线状态机测试验证unknown原文保留、拒绝无来源跳过、只绑定可用语种和全部暂缓时不发空绑定；测试不是平台新一轮写入。见evidence:tests。\n\n本次是同一Agent的代码、回执及文档审查，未重新听看广告，未做独立验收。单需求证据不足以推广为全平台成功方法。后续同源恢复先核对当时的真实回执；接口合同或决策变化时重新判断，不恢复旧未知文件的自动重试。跨来源验证应包含已有import/bind时拒绝暂缓、未知上传后迟到成功的确切ID核对，以及不重复入库的恢复证据；未完成前保留本条范围。\n\n共同提交要求继续读取[Fireplay固定提交与经验收尾](../rules/fireplay-completion-recovery-v3.md)，本案例不新增公司偏好、费用授权或视频放行标准。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Preserve unknown uploads and stable operation IDs; defer with attributed decision, retain pending locales, bind only verified material IDs and do not dispatch an empty binding.",
+    "One-request observation and its failure signatures; no cross-source algorithm or new media acceptance."
+  ],
+  "retained_parts": [
+    "Original candidate and private raw receipts remain unchanged. Website alternative was limited to not-yet-submitted files. Two unknown uploads, pending pt/vi, original costs and historic quality remain unresolved operational facts.",
+    "Cross-source testing and late-success reconciliation are future validation boundaries, not required to preserve this bounded observation."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-10-28T02:31:53+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

@@ -112,12 +112,17 @@ def due(config, state, now):
 
 
 def status(root=None, now=None):
+    from .knowledge_review import queue
     root = Path(root or ROOT)
     config, state = settings(root), checkpoint(root)
+    review_queue = queue(root)
     return {"owner": "project", "enabled": config["enabled"], "time": config["time"],
             "timezone": config["timezone"], "engine": config["engine"],
             "engine_available": bool(curation_engine.executable(root)) if config["engine"] == "codex_cli" else True,
             "new_records": len(inventory(root, state)), "pending": state.get("pending", []),
+            "adoption_queue_open": len(review_queue),
+            "review_required": bool(review_queue),
+            "review_next_action": "knowledge-queue; review evidence and adopt or record a concrete gap" if review_queue else None,
             "due": due(config, state, now or datetime.now(timezone.utc)),
             "last_successful_run_at": state.get("last_successful_run_at"),
             "lock_present": (root / STATE / "lock.json").exists(), "paid_media_model_credits": 0}

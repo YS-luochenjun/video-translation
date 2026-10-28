@@ -283,8 +283,23 @@ def register(code, spec, decision=None, root=ROOT):
         if old:
             require(old['content_version'] == snap['content_version'],
                     'Requirement content changed; preserve the original request/runs/budget and review the revision explicitly')
-            require(old['targets'] == targets and [v['source_url'] for v in old['videos']] ==
-                    [v['source_url'] for v in sources], 'Interpretation changed; explicit revision review required')
+            require([v['source_url'] for v in old['videos']] == [v['source_url'] for v in sources],
+                    'Interpretation changed; explicit revision review required')
+            if old['targets'] != targets:
+                require(not old['targets'] and targets and old.get('blockers')
+                        and not old.get('budget') and not old.get('chat')
+                        and all(not any(v.get(k) for k in ('chat', 'run', 'members', 'batch', 'batch_id'))
+                                for v in old['videos'])
+                        and not any(path.parent.glob('return-*.json')),
+                        'Interpretation changed; explicit revision review required')
+                # Resolve missing languages before production; never reinterpret
+                # an existing funded request, dispatched chat or return batch.
+                old.setdefault('interpretation_history', []).append({
+                    'targets': old['targets'], 'decision': old.get('decision'),
+                    'blockers': old['blockers'], 'resolved_at': utc_now()})
+                old['targets'] = targets
+                for member in old['videos']:
+                    member['targets'] = targets
         record = old or {'schema_version': 1, 'code': code, 'requirement_id': row['id'],
                          'content_version': snap['content_version'], 'targets': targets,
                          'requested_targets': requested, 'videos': sources, 'created_at': utc_now()}
@@ -623,14 +638,46 @@ def _collect(value, key):
     return []
 
 
+def defer_unknown_upload(code, locale, spec, root=ROOT, index=1):
+    """Keep an uncertain upload intact while allowing unrelated locales to continue."""
+    spec = payload(spec)
+    require(spec.get('authority') in {'user', 'agent'} and spec.get('authorization_ref') and spec.get('source_quote'),
+            'Deferring an unknown upload needs the actual user decision or attributed no-retry observation')
+    path = _folder(code, root) / f'return-{index}.json'
+    with lock(_folder(code, root) / 'request.lock'):
+        outbox = read_json(path)
+        matches = [(i, p) for i, p in enumerate(outbox['packages'], 1) if p['locale'] == locale]
+        require(len(matches) == 1, 'Expected one exact outbox locale')
+        number, package = matches[0]
+        operation = outbox['operations'].get(f'upload-{number}', {})
+        require(operation.get('state') == 'unknown' and f'import-{number}' not in outbox['operations'],
+                'Only an unknown file upload before material import can be deferred')
+        require('bind' not in outbox['operations'], 'Do not change a dispatched binding')
+        decision = {'locale': locale, 'operation_id': f'upload-{number}', 'authority': spec,
+                    'video_sha256': package['sha256']}
+        existing = outbox.setdefault('deferred_uploads', {}).get(locale)
+        require(existing is None or existing == decision, 'Preserve the original deferral decision')
+        outbox['deferred_uploads'][locale] = decision
+        if locale not in outbox['pending_locales']:
+            outbox['pending_locales'].append(locale)
+        write_json(path, outbox)
+        return decision
+
+
+def _active_packages(outbox):
+    return [(i, p) for i, p in enumerate(outbox['packages'], 1)
+            if p['locale'] not in outbox.get('deferred_uploads', {})]
+
+
 def _next_operation(outbox):
     operations = outbox['operations']
-    for i, item in enumerate(outbox['packages'], 1):
+    active = _active_packages(outbox)
+    for i, item in active:
         for phase in ('upload', 'import', 'verify'):
             key = f'{phase}-{i}'
             if operations.get(key, {}).get('state') != 'verified':
                 return key, phase, item
-    if operations.get('bind', {}).get('state') != 'verified':
+    if active and operations.get('bind', {}).get('state') != 'verified':
         return 'bind', 'bind', None
     return None, None, None
 
@@ -643,6 +690,9 @@ def dispatch(code, execute=False, root=ROOT, index=1):
         record, outbox = _record(code, root), read_json(path)
         key, phase, item = _next_operation(outbox)
         if not key:
+            if not _active_packages(outbox):
+                return {'state': 'deferred_uploads', 'pending_locales': outbox.get('pending_locales', []),
+                        'status_changed': False, 'next': 'All file uploads are deferred; no material binding was attempted.'}
             return {'state': 'partially_returned' if outbox.get('pending_locales') else 'returned',
                     'pending_locales': outbox.get('pending_locales', []),
                     'status_changed': False, 'youtube_status': 'requested_not_verified',
@@ -720,7 +770,7 @@ def dispatch(code, execute=False, root=ROOT, index=1):
                     folder = inside(root, package['package'])
                     require(eligible(code, folder, bundles.verify(folder), root) == package['publication_acceptance'],
                             'Publication judgment changed before binding')
-            ids = [outbox['operations'][f'import-{i}']['result']['material_id'] for i in range(1, len(outbox['packages']) + 1)]
+            ids = [outbox['operations'][f'import-{i}']['result']['material_id'] for i, _ in _active_packages(outbox)]
             arguments = {'items': [{'requirement_id': outbox['requirement_id'], 'material_ids': ids}]}
         operation = {'id': key, 'tool': tool, 'arguments': arguments, 'materialize': materialize,
                      'state': 'unknown', 'dispatched_at': utc_now(), 'content_version': outbox['content_version']}
@@ -816,7 +866,7 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
         write_json(_folder(code, root) / 'receipts' / f'{index}-{operation_id}.json', spec)
         write_json(path, outbox)
         if operation_id == 'bind':
-            for package_index, item in enumerate(outbox['packages'], 1):
+            for package_index, item in _active_packages(outbox):
                 record = _record(code, root)
                 video = _video(record, item['video_index'])
                 for name in video.get('members', []):

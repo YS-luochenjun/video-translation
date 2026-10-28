@@ -166,6 +166,67 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(read_json(authority_path), original)
         self.assertEqual(read_json(authority_path.parent / 'request.json')['decision'], interpretation)
 
+    def explicit_authority(self):
+        return {'authority': 'user', 'authorization_ref': 'actual-user-selection:' + CODE,
+                'source_quote': 'Start these explicitly selected requirements separately',
+                'source_thread_id': THREAD, 'user_request': 'Start ' + CODE,
+                'scope_requirement': CODE, 'requirement_id': RID, 'mode': 'first'}
+
+    def test_explicit_selection_releases_pending_without_spending_or_reopening_budget(self):
+        old = {**self.snap['summary']['items'][0], 'createdAt': '2025-01-01T00:00:00Z'}
+        monitor.scan(self.pages([old]), self.root)
+        monitor.assess(CODE, {**self.decision(), 'recheck': True}, self.root)
+        pending = monitor.status(self.root)['historical_review_required'][0]
+        self.assertEqual(pending['code'], CODE)
+        self.assertIn('ask the owner once', pending['next_action'])
+        authority = self.explicit_authority()
+        spec = {**self.decision(), 'authority': authority}
+        result = monitor.assess(CODE, spec, self.root)
+        self.assertEqual(result['state'], 'admitted')
+        self.assertEqual(read_json(self.root / result['authority_path']), authority)
+        self.assertEqual(monitor.status(self.root)['historical_review_required'], [])
+        p = self.root / 'state/fireplay' / CODE / 'request.json'
+        record = read_json(p)
+        record.update(budget='keep-original', chat={'state': 'ready', 'threadId': THREAD})
+        write_json(p, record)
+        monitor.assess(CODE, spec, self.root)
+        self.assertEqual(read_json(p)['budget'], 'keep-original')
+        self.assertEqual(read_json(p)['chat']['threadId'], THREAD)
+        self.assertFalse((self.root / 'state/budgets').exists())
+
+    def test_wrong_or_incomplete_explicit_authority_cannot_release_history(self):
+        old = {**self.snap['summary']['items'][0], 'createdAt': '2025-01-01T00:00:00Z'}
+        monitor.scan(self.pages([old]), self.root)
+        for field, value in [('scope_requirement', 'MOG-20261027-999'),
+                             ('requirement_id', MID), ('source_quote', '')]:
+            with self.subTest(field=field):
+                authority = {**self.explicit_authority(), field: value}
+                with self.assertRaises(WorkflowError):
+                    monitor.assess(CODE, {**self.decision(), 'authority': authority}, self.root)
+        self.assertFalse((self.root / 'state/fireplay' / CODE / 'request.json').exists())
+
+    def test_explicit_history_does_not_bypass_done_permission_or_content_revision(self):
+        for status, allowed in [('done', True), ('in_progress', True), ('not_started', False)]:
+            for view in ('brief', 'summary'):
+                self.snap[view]['items'][0].update(status=status, canBindMaterials=allowed)
+            monitor.scan(self.pages(), self.root)
+            r = monitor.assess(CODE, {**self.decision(), 'authority': self.explicit_authority()}, self.root)
+            self.assertEqual(r['state'], 'not_eligible')
+        self.assertFalse((self.root / 'state/fireplay' / CODE / 'request.json').exists())
+
+    def test_historical_completed_is_not_a_pending_question_and_real_body_revision_admits(self):
+        old = {**self.snap['summary']['items'][0], 'createdAt': '2025-01-01T00:00:00Z'}
+        monitor.scan(self.pages([old]), self.root)
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0]['status'] = 'done'
+        self.assertEqual(monitor.assess(CODE, {**self.decision(), 'recheck': True}, self.root)['state'], 'not_eligible')
+        self.assertEqual(monitor.status(self.root)['historical_review_required'], [])
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0].update(status='not_started', updatedAt=utc_now())
+        self.snap['brief']['items'][0]['description'] += '\nNew actual content revision'
+        monitor.scan(self.pages(), self.root)
+        self.assertEqual(monitor.assess(CODE, self.decision(), self.root)['state'], 'admitted')
+
     def test_existing_content_revision_preserves_chat_and_budget(self):
         monitor.scan(self.pages(), self.root)
         monitor.assess(CODE, self.decision(), self.root)
@@ -176,10 +237,45 @@ class MonitorTests(unittest.TestCase):
         for view in ['summary', 'brief']:
             self.snap[view]['items'][0].update(title='another product 翻译', updatedAt=utc_now())
         monitor.scan(self.pages(), self.root)
-        result = monitor.assess(CODE, self.decision(), self.root)
+        result = monitor.assess(CODE, {**self.decision(), 'authority': self.explicit_authority()}, self.root)
         self.assertEqual(result['state'], 'needs_revision_review')
         self.assertEqual(read_json(p)['budget'], 'original-budget')
         self.assertEqual(read_json(p)['chat']['threadId'], THREAD)
+
+    def test_agent_resolves_unparsed_multilingual_brief_before_production(self):
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0]['title'] = ''
+            self.snap[view]['items'][0]['locales'] = []
+        self.snap['brief']['items'][0]['description'] = 'family time [es/pt] https://www.youtube.com/watch?v=abcdefghijk'
+        monitor.scan(self.pages(), self.root)
+        spec = {'snapshot': self.snap, 'decision': {'is_translation': True,
+                'reason': 'Actual multilingual source video', 'evidence': ['brief.description']}}
+        self.assertEqual(monitor.assess(CODE, spec, self.root)['state'], 'needs_information')
+        spec['decision']['targets'] = ['es', 'pt']
+        self.assertEqual(monitor.assess(CODE, spec, self.root)['state'], 'admitted')
+        record = read_json(self.root / 'state/fireplay' / CODE / 'request.json')
+        self.assertEqual(record['targets'], ['es', 'pt'])
+        self.assertEqual(record['videos'][0]['targets'], ['es', 'pt'])
+        self.assertEqual(record['interpretation_history'][0]['targets'], [])
+        self.assertFalse((self.root / 'state/budgets').exists())
+
+    def test_missing_language_resolution_does_not_touch_funded_or_dispatched_record(self):
+        from video_localizer import fireplay
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0].update(title='', locales=[])
+        self.snap['brief']['items'][0]['description'] = 'family time [es/pt] https://www.youtube.com/watch?v=abcdefghijk'
+        decision = {'authorization_ref': 'actual-human-scope', 'source_quote': 'Actual request',
+                    'quantity_mode': 'one_per_locale'}
+        fireplay.register(CODE, self.snap, decision, self.root)
+        path = self.root / 'state/fireplay' / CODE / 'request.json'
+        pristine = read_json(path)
+        for field, value in [('budget', 'original-budget'), ('chat', {'state': 'unknown'})]:
+            with self.subTest(field=field):
+                old = {**pristine, field: value}
+                write_json(path, old)
+                with self.assertRaisesRegex(WorkflowError, 'revision review'):
+                    fireplay.register(CODE, self.snap, {**decision, 'targets': ['es', 'pt']}, self.root)
+                self.assertEqual(read_json(path), old)
 
     def test_independent_requirement_budgets_even_for_identical_source_bytes(self):
         original = self.root / 'source.mp4'

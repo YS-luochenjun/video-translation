@@ -1,0 +1,34 @@
+{
+  "id": "mog047-independent-upload-deferral-20261027",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f0c3810c11b5347429281afe3c3f5a10db2d8e9c0a23d9f2408fbc4cb28d33ea"
+  },
+  "hypothesis": "R2文件上传超时且尚未入库时，保存原unknown操作和固定语种编号、将该语种明确列作待回传，可以继续同一已审核批次的其他语种；绑定只包含实际入库并读回核验的素材。不能因文件上传未知重发，也不能把部分回传记作全批完成。",
+  "trigger": "已审核多语种批次中，单语种文件上传unknown且没有执行素材入库。",
+  "observed_result": "两次字节上传接口120秒超时未返回resourceId；保留未知记录并分别依据用户不重传决定/真实失败观察暂缓。其余尚未提交的四语种经平台网页文件选择器上传，实际卡片给出R2地址后沿正常入库、共享、tag、精确读回和绑定流程完成；原已入库语种复用确切material_id。",
+  "method": [
+    "暂缓仅改变本地排程与pending_locales，不改变unknown状态、包哈希、费用、操作编号或既有回执。",
+    "保留实际用户决定或Agent对真实超时的署名观察。",
+    "全部暂缓时不发空绑定，也不宣称任何平台受理；存在可用语种时仅绑定其确切已核验ID。",
+    "网页替代只用于尚未提交的文件，不能借换路径重传结果未知的同一文件。"
+  ],
+  "failure_signatures": [
+    "全批顺序被一个unknown文件永久阻断。",
+    "误把暂缓当作上传失败或成功，或者遗漏pending导致部分回传显示为完成。",
+    "重用空缺import索引造成绑定崩溃，或完整受理查询误读部分回传。"
+  ],
+  "limitations": [
+    "单个真实需求观察，尚无跨来源实证。",
+    "网页卡片URL按已记录materials/{id}.mp4方案绑定；正式入库仍以真实material_id及读回核验为准。",
+    "YouTube请求受理与完成分开；本次没有另行轮询下游上传进度。",
+    "不构成自动重传、扩大预算、视频质量通过或公司偏好变更。"
+  ],
+  "reviewed_by": "Codex same-agent production and protocol review",
+  "review_type": "same_agent",
+  "case": "knowledge/local/examples/mog047-independent-upload-deferral-20261027",
+  "case_manifest_sha256": "88b814e891c0ff881369513710ab1f9e37d968263252353a9dd6e5ab42810eb3",
+  "company_preference": false,
+  "next_action": "审查是否将明确暂缓规则并入Fireplay回传恢复指导；保留单源范围与两条unknown记录，不自动启用。"
+}
