@@ -34,6 +34,8 @@ Fireplay需求沿用[接入流程](../workflows/fireplay-intake.md)和config/fir
 
 参考图可以来自已审ImageGen结果，须实际上传并绑定哈希，提示词明确其作用；当前适配器是单图，不将原生供应商多图合同直接套入KIE载荷。参考只表达目标，连续运动、遮挡和字幕仍须实际审核，见[ImageGen优先政策](../../knowledge/rules/imagegen-first-v1.md)。
 
+`model-task`将附件分别校验：video核对实际片段时长，Wan的image核对静态PNG/JPEG/WebP、正尺寸、完整解码和原文件哈希，不要求图片具有视频时长。`ASSET:image`必须绑定image附件；未绑定的额外附件不上传。`duration:0`是Wan沿用源视频长度的参数，与静态参考图是否有时长无关。已提交任务沿原指纹恢复，不因校验修复重发；本地回归、真实参考图受理与视频质量分别举证。
+
 超出输入合同的素材必须明确拆分与安排时间轴，不能静默变速。`packet RUN SEGMENT` 只生成本地可审查请求；`submit RUN SEGMENT --execute` 才上传并提交。估价与可用合同可能变化，必要时核对供应商当前说明；旧实验价格不是当前账单保证。模型结果仍需逐实例检查原字、背景、人物动作、产品、声音和字幕，再进行质量审查与交付。
 
 ## 失败、恢复与验证边界

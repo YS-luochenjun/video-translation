@@ -940,6 +940,11 @@
       "sha256": "b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba",
       "archive_path": "b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba/mog047-independent-upload-deferral-20261027.json",
       "decision_sha256": "5132fc3cc5e0af84300eb852e32ae133c0e3ab2263438c6b9daa3f04a9e3bc1e"
+    },
+    "knowledge/candidates/wan-reference-asset-validation-20261027.json": {
+      "sha256": "ff1b3b431b4fc13f1187fdf8500aca6d4c4f815ca987f5622c5e83ae5b2e9a1b",
+      "archive_path": "ff1b3b431b4fc13f1187fdf8500aca6d4c4f815ca987f5622c5e83ae5b2e9a1b/wan-reference-asset-validation-20261027.json",
+      "decision_sha256": "04f68effe70af944bf76453239954be2374c1f4dd0e7f9c1ac52ab1b4ce443db"
     }
   }
 }

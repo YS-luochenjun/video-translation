@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 66,
-    "no_adoption_record": 120,
+    "no_adoption_record": 121,
     "synthetic_only": 4
   },
   "entries": [
@@ -5666,6 +5666,31 @@
       "storage_path": "knowledge/history/candidates/d3a061da70855bd99981533288df153c12b5ccbd267a9dc0b97927561ce3b3b3/video-1-2-es-20261020-01-46af5daaa4.json",
       "queue_state": "archived",
       "hypothesis_sha256": "52865926693a029a0355067b78eed2e4dbbbb86d9d77bf9076a85f86caca6d20"
+    },
+    {
+      "id": "wan-reference-asset-validation-20261027",
+      "path": "knowledge/candidates/wan-reference-asset-validation-20261027.json",
+      "original_sha256": "ff1b3b431b4fc13f1187fdf8500aca6d4c4f815ca987f5622c5e83ae5b2e9a1b",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "historical_outcome": null,
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/c2d145cafd87b67b7f18e285ad2f8147fd8f57cc734a04e8ead0ae28f2f078b9.json",
+        "decision_sha256": "04f68effe70af944bf76453239954be2374c1f4dd0e7f9c1ac52ab1b4ce443db",
+        "resolution": "duplicate",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "imagegen-first-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/ff1b3b431b4fc13f1187fdf8500aca6d4c4f815ca987f5622c5e83ae5b2e9a1b/wan-reference-asset-validation-20261027.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "6d48ed8578f9f95b46a438bf3b072cfd4fc7a4a2f3e806bbb83f41d503ab0cf7"
     },
     {
       "id": "wow-20261026-052-01-718a6e9f01",

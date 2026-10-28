@@ -1,0 +1,23 @@
+{
+  "id": "wan-reference-asset-validation-20261027",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "hypothesis": "Wan reference stills require type-specific validation, not video duration; use uploaded bound reference bytes and actual provider readback to distinguish adapter acceptance from video quality.",
+  "trigger": "model-task Wan packet contains video and ASSET:image",
+  "method": "Validate the video duration only for video; validate bound static reference PNG/JPEG/WebP by dimensions, verify/full decode and SHA256. Missing/unbound assets remain blocked.",
+  "observed_result": "Two real local-image packets pass corrected preflight; five offline regression checks pass; API readback confirms reference_image and success for three already-submitted URL-reference tasks. No new task dispatched by audit.",
+  "limitations": [
+    "Three existing same-request production tasks used pre-uploaded reference URLs and are not three independent sources",
+    "Five offline regression tests include actual video/image decoding and fake transport; not paid service calls",
+    "Fixed local-ASSET:image preflight passes on real 064 and 005 input packets; no duplicate live submission of these packets",
+    "Vendor success and reference acceptance do not prove visual quality"
+  ],
+  "origin": "Explicit user request to fix validation and verify Wan reference submission in current project chat",
+  "reviewed_by": "Codex same-agent code/regression and actual API readback review",
+  "company_preference": false,
+  "next_action": "Associate implemented capability and bounded verification with existing imagegen-first-v1; retain exact proof boundaries as history, not a new model-quality method.",
+  "case": "knowledge/examples/wan-reference-asset-validation-20261027",
+  "case_manifest_sha256": "f6d3d6023467752386c5ca7b3ccab44f96c2db82e1e563194762313c164537d4"
+}

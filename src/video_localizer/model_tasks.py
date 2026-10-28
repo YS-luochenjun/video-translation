@@ -13,6 +13,20 @@ VIDEO_MODELS = ('wan/2-7-videoedit', 'bytedance/seedance-2-fast', 'wan/2-6-flash
 GEMINI_TTS_MODELS = ('google/gemini-2-5-pro-tts', 'google/gemini-3-1-flash-tts', 'google/gemini-3-8-flash-lite-tts')
 
 
+def _reference_image(path):
+    from PIL import Image
+    try:
+        with Image.open(path) as image:
+            require(image.format in ('PNG', 'JPEG', 'WEBP') and not getattr(image, 'is_animated', False),
+                    'Video task reference must be a static PNG, JPEG or WebP image')
+            require(image.width > 0 and image.height > 0, 'Reference image dimensions must be positive')
+            image.verify()
+        with Image.open(path) as image:
+            image.load()
+    except (OSError, ValueError, SyntaxError):
+        require(False, 'Video task reference image cannot be decoded')
+
+
 def packet(run, relative):
     from .workflow import source_path
     data = read_json(inside(run, relative))
@@ -38,6 +52,8 @@ def packet(run, relative):
             require(len(inputs['prompt'])<=1500 and data['estimated_credits']>=int(duration)*4,'Wan Flash prompt/price reservation invalid')
         elif model == 'wan/2-7-videoedit':
             require(inputs.get('video_url') == 'ASSET:video' and inputs.get('audio_setting') == 'origin' and inputs.get('prompt_extend') is False, 'Visual diagnostic probe must keep source audio and exact prompt')
+            if inputs.get('reference_image') == 'ASSET:image':
+                require('image' in data.get('assets', {}), 'Reference image needs a bound image asset')
         else:
             require(inputs.get('reference_video_urls') == ['ASSET:video'] and inputs.get('generate_audio') is False, 'Seedance visual probe requires an explicit source video and no generated audio')
     elif model == 'ai-music-api/separate-vocals':
@@ -128,12 +144,17 @@ def packet(run, relative):
         require(normalized(actual_text) == normalized(''.join(speeches[key]['target_text'] for key in ids)),
                 'TTS copy differs from final speech script')
         validate_spoken_copy(inventory, [speeches[key] for key in ids])
-    for asset in data.get('assets', {}).values():
+    for name, asset in data.get('assets', {}).items():
         path = inside(run, asset['path'])
         require(path.is_file() and file_hash(path) == asset['sha256'], 'Audio task asset missing or changed')
-        if video_model:
+        if video_model and name == 'video':
             meta = media.probe(path)
             require(abs(meta['duration'] - (data['source_interval'][1]-data['source_interval'][0])) <= .15, 'Video probe clip duration differs from interval')
+        elif video_model:
+            require(model == 'wan/2-7-videoedit' and name == 'image'
+                    and inputs.get('reference_image') == 'ASSET:image',
+                    'Video task has an unsupported or unbound reference asset')
+            _reference_image(path)
         else:
             require(audio.inspect(path)[0]['has_track'], 'Audio task asset has no audio')
     if model == 'ai-music-api/separate-vocals':

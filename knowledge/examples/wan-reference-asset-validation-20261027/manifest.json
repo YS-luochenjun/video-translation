@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "wan-reference-asset-validation-20261027",
+  "created_at": "2026-10-28T03:16:58+00:00",
+  "files": [
+    {
+      "path": "evidence/sanitized-review.json",
+      "sha256": "d9f3f17a816448d95b5f3f8b577ffc842c72321d3a5f1599504fd5ff261d221f",
+      "bytes": 2802
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "candidate",
+    "lesson": "Wan reference stills require type-specific validation, not video duration; use uploaded bound reference bytes and actual provider readback to distinguish adapter acceptance from video quality.",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

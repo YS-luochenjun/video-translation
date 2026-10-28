@@ -1,0 +1,55 @@
+{
+  "checked_at": "2026-10-28T03:15:07+00:00",
+  "reviewed_by": "Codex same-agent code/regression and actual API readback review",
+  "failure_signature": "Input duration must be positive when model-task probes a bound PNG as a video",
+  "correction": "Validate the video duration only for video; validate bound static reference PNG/JPEG/WebP by dimensions, verify/full decode and SHA256. Missing/unbound assets remain blocked.",
+  "local_preflight": [
+    {
+      "run": "MOG-20261027-064-01",
+      "packet": "inputs/wan-waveform.json",
+      "packet_sha256": "18e1fcb62e8782469eb63c32f163afa1e09c9f33f0d9d20941d45964c60fb6ca",
+      "bound_reference_validated": true
+    },
+    {
+      "run": "MOG-20261028-005-01",
+      "packet": "inputs/wan-imagegen-01.json",
+      "packet_sha256": "0e2df5e0e4b800c7d8e56dbb178666d2279a5a4a0cf40d3acf78933972f30b53",
+      "bound_reference_validated": true
+    }
+  ],
+  "provider_tasks": [
+    {
+      "task_id": "0b405f38500ede392076fb42c4400241",
+      "state": "success",
+      "reference_sha256": "68a2e0fa7192d8beb4d5886a5699e2f64d0b83e8dd1d20e63b3ca1568224b6f1",
+      "reference_confirmed_by_provider": true,
+      "provider_receipt_sha256": "7bd710de01946c25c39af2ee636c554ae34df46fef392373d1b1d424d8265b1b"
+    },
+    {
+      "task_id": "061e6fd879e262994e16e094454ed66d",
+      "state": "success",
+      "reference_sha256": "5520bb4d9da7265b7de0f5d80a1b44eef97dad4ee0358af602d26b16d063d531",
+      "reference_confirmed_by_provider": true,
+      "provider_receipt_sha256": "98fe4ae3278c16133c783673a4b8a1da0ab439afd6c0cc7140904df9a63d846f"
+    },
+    {
+      "task_id": "56bd78dcdef25fba76b047b0d4deacbe",
+      "state": "success",
+      "reference_sha256": "2fbb59d927a04c7d18f1b3df52d6e41261800a0105a9378224afe4bde731ffe6",
+      "reference_confirmed_by_provider": true,
+      "provider_receipt_sha256": "7c30c39eff5fec8e5e9e6641691bee3555eeb9881a0f343949826f2246a99a1b"
+    }
+  ],
+  "new_model_submissions": 0,
+  "limits": [
+    "Three existing same-request production tasks used pre-uploaded reference URLs and are not three independent sources",
+    "Five offline regression tests include actual video/image decoding and fake transport; not paid service calls",
+    "Fixed local-ASSET:image preflight passes on real 064 and 005 input packets; no duplicate live submission of these packets",
+    "Vendor success and reference acceptance do not prove visual quality"
+  ],
+  "implementation": {
+    "src/video_localizer/model_tasks.py": "b3c197d8707bf503c8617a37c1cd290d431e97006543e849a6b88af3164cf578",
+    "tests/test_wan_reference_assets.py": "b7f722372e2b3b1abfdbde3ad2b884783fa3fb874507f7c041674ea56ecbe156"
+  },
+  "regression_log": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.928s\n\nOK\n"
+}
