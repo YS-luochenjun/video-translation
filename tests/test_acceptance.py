@@ -166,6 +166,8 @@ class AcceptanceTests(unittest.TestCase):
         try:
             inventory = read_json(path)
             inventory["shots"][0]["model_text_mode"] = "erase_then_overlay"
+            image = self.run_dir / 'analysis/shot-001.jpg'
+            inventory['shots'][0]['reference_image'] = {'path': 'analysis/shot-001.jpg', 'sha256': file_hash(image)}
             for item in inventory["text_instances"]:
                 item["action"] = "model_edit"
             write_json(path, inventory)
@@ -174,13 +176,44 @@ class AcceptanceTests(unittest.TestCase):
             prompt = plan["segments"][0]["prompt"]
             self.assertIn("TEXT REMOVAL pass", prompt)
             self.assertIn("ERASE, leave no lettering", prompt)
+            self.assertIn('clean background after text removal', prompt)
+            self.assertNotIn('exact target-locale letter shapes', prompt)
+            self.assertIn('Preserve the original', prompt)
+            self.assertIn('CTA button shapes, containers and unrelated icons', prompt)
             self.assertNotIn(inventory["text_instances"][0]["target_text"], prompt)
             self.assertEqual(result["routes"], ["wan_edit"])
+            packet = workflow.prepare_packet(self.run_dir, plan['segments'][0]['id'])
+            self.assertEqual(packet['payload']['input']['reference_image'], 'ASSET:image')
+            self.assertNotIn('omitted target copy', packet['payload']['input']['negative_prompt'])
+            self.assertIn('added lettering', packet['payload']['input']['negative_prompt'])
         finally:
             path.write_bytes(original)
             # Restore exact original plan, without introducing another revision.
             original_plan = read_json(self.run_dir / "plans" / self.base_candidate["plan_id"] / "plan.json")
             write_json(self.run_dir / "plan.json", original_plan)
+
+    def test_clean_reference_guidance_survives_custom_wan_prompt(self):
+        path = self.run_dir / 'analysis/inventory.json'
+        original = path.read_bytes()
+        try:
+            inventory = read_json(path)
+            shot = inventory['shots'][0]
+            shot['model_text_mode'] = 'erase_then_overlay'
+            shot['model_prompt'] = 'Focused same-shot background restoration.'
+            shot['reference_image'] = {'path':'analysis/shot-001.jpg',
+                                       'sha256':file_hash(self.run_dir / 'analysis/shot-001.jpg')}
+            for item in inventory['text_instances']:
+                item['action'] = 'model_edit'
+            write_json(path, inventory)
+            workflow.build_plan(self.run_dir)
+            prompt = read_json(self.run_dir / 'plan.json')['segments'][0]['prompt']
+            self.assertIn('Focused same-shot background restoration.',prompt)
+            self.assertIn('clean background after text removal',prompt)
+            self.assertIn('do not copy or generate lettering',prompt)
+            self.assertNotIn('exact target-locale letter shapes',prompt)
+        finally:
+            path.write_bytes(original)
+            write_json(self.run_dir / 'plan.json',read_json(self.run_dir / 'plans' / self.base_candidate['plan_id'] / 'plan.json'))
 
     def test_typesetting_preserves_duration_and_splits_no_english_cleanup(self):
         segment = {"start": 0, "end": 1}
@@ -244,6 +277,16 @@ class AcceptanceTests(unittest.TestCase):
         self.assertEqual(options["audio_setting"], "origin")
         self.assertFalse(options["prompt_extend"])
         self.assertEqual(packet["estimated_credits"], 80)
+
+    def test_wan_edit_without_reference_remains_an_available_route(self):
+        plan = {'id':'wan-independent-test', 'segments':[{'id':'s001','route':'wan_edit',
+                'start':0,'end':2,'prompt':'仅编辑原视频中的指定文字区域，保留原动作。'}]}
+        with patch.object(workflow,'current_plan',return_value=plan):
+            packet = workflow.prepare_packet(self.run_dir,'s001')
+        self.assertEqual(packet['payload']['model'],'wan/2-7-videoedit')
+        self.assertEqual(packet['payload']['input']['video_url'],'ASSET:video')
+        self.assertNotIn('reference_image',packet['payload']['input'])
+        self.assertNotIn('image',packet['assets'])
 
     def test_veo_lite_reference_packet_contains_images_without_source_video(self):
         image = self.run_dir / "analysis/shot-001.jpg"

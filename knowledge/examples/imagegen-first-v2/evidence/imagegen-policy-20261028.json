@@ -1,0 +1,6 @@
+{
+  "authority": "user",
+  "initial_quote": "图片能使用imagegen时，尽量不要使用脚本代码等方式处理图片，使用imagegen挺好。",
+  "current_quote": "可以在wan前，进行imagegen，把例子图片也传给wan，是否更好。APC-20261028-024中有相关的测试，是否能帮助到最终成品。",
+  "boundary": "Preference for preparing and binding same-shot references when appropriate; actual final effect remains source/interval dependent, no new paid budget or quality exemption"
+}

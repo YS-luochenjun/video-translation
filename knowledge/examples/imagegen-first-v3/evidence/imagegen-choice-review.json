@@ -1,0 +1,7 @@
+{
+  "authority": "user",
+  "image_preference_quote": "图片能使用imagegen时，尽量不要使用脚本代码等方式处理图片，使用imagegen挺好。",
+  "clarification_quote": "我只是说，你可以增加一个方案，不要局限于单独使用。",
+  "strengthening_quote": "可以强一点，我认为增加一个图片对wan输入进行解析，确实会更好。",
+  "adoption": "Prefer same-shot ImageGen reference plus Wan when the reference is useful for visual repair; independent Wan and other appropriate routes remain available. This is a preference, not a mandatory generation stage or universal quality proof."
+}

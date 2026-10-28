@@ -1,0 +1,43 @@
+{
+  "source": {
+    "path": "knowledge/candidates/KEY-20261028-010-fade-envelope-observation.json",
+    "sha256": "052bfe383c1f79e0e6390e98ada1510dc0922babf65989f05b496b7f5a069d5b"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent knowledge-use/case hash and scope review; no new audiovisual acceptance",
+  "origin": "User requested temporary knowledge extraction and redundancy cleanup",
+  "resolution": "adopted",
+  "reason": "Source-limited fade record is now independently packaged; no cross-source/whole-video acceptance inferred",
+  "targets": [
+    {
+      "id": "key010-de-fade-envelope-v1",
+      "path": "knowledge/cases/key010-de-fade-envelope-v1.md",
+      "sha256": "df0a0414a5df2600c5e3761ccaeebd1dfad83688aae28c159199120a3905c997",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5",
+        "target_language": "de",
+        "language_match": "exact"
+      },
+      "snapshot": "# KEY010德语：淡出残字与完整区域采用\n\n范围：原片SHA256 ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5，目标语de，新片SHA256 7b9813233768703380554730270ad9095f13449e9d8bef45252f0f27ec036ca8。仅限定本源约3.9秒的淡出修正。\n\n实际旧帧在德语字幕后方仍可见灰色英文残字；新中性帧中这些残字未见，YouTube/MP3图形保留。原记录说明仅按高亮白字选取掩模漏掉低透明度淡出边缘，后改为在原生文字完整区域采用带羽化的自然供体。见evidence:review、evidence:old、evidence:new。\n\n复用时先检查文字显隐全过程的完整空间包络，包括低透明度、描边和阴影，不以“高亮字已消失”替代边缘复查。原区域之外的景物和图形保护仍独立验证；静态供体不能自动推广到相机/人物运动区域。\n\n旧成片与底片仍保持原quality-hold；本次只看了必要旧/新图与绑定记录，没有重新听审整片，也没有扩大到其他源或语种。后续语种各自定稿/配音/边界与完整上传继续按原门禁。通用入口沿用[动态文字与遮挡](../rules/method-animated-text-occlusion-v8.md)，不复制新通用算法。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Exact-source German fade-envelope observation with necessary old/new evidence"
+  ],
+  "retained_parts": [
+    "All original source/locale observations and exact quality results remain unchanged",
+    "not_used remains not_used; helpful remains a historical same-agent attribution, not independent verification",
+    "Superseded selected snapshots and source-specific counts, fees, retry/quality holds and submission states stay historical; no new rule or quality waiver",
+    "Any statements about other languages are retained as context, not evidence for this locale"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-10-28T10:08:13+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

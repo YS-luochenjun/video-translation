@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "enabled": true,
-  "interval_minutes": 30,
+  "interval_minutes": 60,
   "activated_at": "2026-10-27T08:51:04+00:00",
   "query": {"scope": "all", "view": "summary", "asset_type": "video", "pagination": "cursor", "limit": 200, "offset": 0},
   "group_policy": "translation_intent_in_all_visible_groups",
@@ -13,7 +13,7 @@
   "scope_update_quote": "不是要你看所有的视频需求，需要有排除，目前是先看看luochenjun和zoubing的，是吗，目前只有他们俩接翻译，后续可能会有其他的方式排出。",
   "latest_scope_quote": "如果你认为用人员筛选不靠谱，可以去掉。只需要你进行查找到翻译的需求",
   "eligible_statuses": ["not_started"],
-  "max_active_requirements": 3,
+  "max_active_requirements": 8,
   "reserve_p1_slot": true,
   "quantity_mode": "one_per_locale",
   "conditional_intakes": [
@@ -40,5 +40,10 @@
     "source_quote": "就按你推荐的方案实现，先监控APC和MOG两组（还有很多组，例如KEY、SHE、WOW等，都有可能提出需求。主要是看承接面板中，需求有没有新增翻译相关内容。），每30分钟检查一次，符合条件的新需求直接开始制作，每个需求独立对话和计费，P0优先但P1不要停下来等。"
   },
   "publication_policy": "complete_outputs_with_acceptable_minor_issues_auto_submit; major_or_many_issues_block",
-  "notify": "new_intake_completion_failure_or_required_input_only"
+  "notify": "new_intake_completion_failure_or_required_input_only",
+  "schedule_revision": {
+    "authority": "user",
+    "authorization_ref": "user-schedule-change-20261028",
+    "source_quote": "轮训从半小时修改为一小时，且洛杉矶时间18.00和18.30，修改到上海时间的18.00和18.30"
+  }
 }

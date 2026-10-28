@@ -1,0 +1,24 @@
+{
+  "id": "KEY-20261028-010-fade-envelope-observation",
+  "status": "candidate",
+  "created_at": "2026-10-28T08:51:16+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5",
+    "target_language": "de",
+    "language_match": "exact"
+  },
+  "hypothesis": "For this exact seven-second source, high-white glyph masks left low-opacity English fade remnants near3.9seconds. Full native text-envelope adoption with a feathered natural plate removed the visible remnants; compare preserved old/new3.9second crops. Old video and neutral master remain quality-held. This single-source correction does not establish general model erasure success, strict pixel fidelity or independent listening acceptance.",
+  "evidence": {
+    "video_sha256": "7b9813233768703380554730270ad9095f13449e9d8bef45252f0f27ec036ca8",
+    "case_manifest_sha256": "d1dc545411647ce611f0e036b15c0478c9a8bfbf549aabc502b5a3e1edba6f38"
+  },
+  "limitations": [
+    "One exact source and same-agent image review. Localized texture and simplified subtitle entrance remain minor.",
+    "No user/company or independent audiovisual acceptance."
+  ],
+  "company_preference": false,
+  "next_action": "Review this source-limited fade observation alongside existing animated-text and neutral-visual rules; do not count its multilingual versions as independent sources.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -8,9 +8,51 @@ import sys
 from pathlib import Path
 
 from . import media
-from .common import file_hash, require, write_json
+from .common import file_hash, read_json, require, write_json
 
 SAMPLE_RATE = 16000
+
+
+def model_review_check(run, candidate, source_sha256, captured):
+    """Consume an existing audio review in both delivery modes; never call a model."""
+    path = run / 'review' / candidate['sha256'][:12] / 'audio-model-review.json'
+    if not path.exists():
+        return {'decision': 'not_requested', 'failures': []}
+    failures = []
+    try:
+        report = read_json(path)
+    except (OSError, ValueError):
+        return {'decision': 'revise', 'failures': ['audio_model_review_invalid']}
+    if not isinstance(report, dict) or not isinstance(report.get('analysis'), dict):
+        return {'decision': 'revise', 'failures': ['audio_model_review_invalid']}
+    if report.get('video_sha256') != candidate['sha256'] or report.get('source_sha256') != source_sha256:
+        failures.append('audio_model_review_binding_mismatch')
+    digest = file_hash(path)
+    if (captured.get('video_sha256') != candidate['sha256']
+            or captured.get('files', {}).get(path.relative_to(run).as_posix()) != digest):
+        failures.append('audio_model_review_not_captured_or_changed')
+    findings = report['analysis']
+    for field, decision, failure in (
+            ('background_music', 'same_track', 'background_music_not_verified_preserved'),
+            ('sound_effects', 'preserved', 'sound_effects_not_verified_preserved'),
+            ('dialogue_translation', 'complete', 'dialogue_not_verified_translated'),
+            ('sync', 'acceptable', 'audio_sync_not_verified')):
+        value = findings.get(field)
+        if not isinstance(value, dict) or value.get(decision) is not True:
+            failures.append(failure)
+    if findings.get('foreign_speech_remaining'):
+        failures.append('foreign_speech_remaining')
+    if findings.get('uncertain_intervals'):
+        failures.append('audio_model_review_uncertain')
+    if 'character_voices' in findings:
+        voices = findings['character_voices']
+        if not isinstance(voices, dict) or voices.get('distinct') is not True or voices.get('consistent') is not True:
+            failures.append('character_voices_unverified')
+        if isinstance(voices, dict) and (voices.get('confusable_pairs') or voices.get('uncertain_intervals')):
+            failures.append('character_voices_uncertain')
+    return {'decision': 'pass' if not failures else 'revise', 'failures': failures,
+            'review_sha256': digest,
+            'proof_boundary': 'Existing attributed model audio observations; no automatic listening or visual lip-sync claim'}
 
 
 def decode(path):

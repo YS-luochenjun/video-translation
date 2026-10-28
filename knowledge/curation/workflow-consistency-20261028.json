@@ -1,0 +1,91 @@
+{
+  "authority": "user current request",
+  "references": [
+    {
+      "thread_id": "01a1814a-f0eb-7543-b07b-441e1b1894eb",
+      "title": "梳理项目全流程规范"
+    },
+    {
+      "thread_id": "01a18178-fead-7563-981e-ea2bb48db0d1",
+      "title": "APC-20261028-024"
+    }
+  ],
+  "closed_implementation_gaps": [
+    {
+      "area": "fast audio/caption gates",
+      "result": "Current uncommitted implementation verified to share real caption evaluate and existing audio-model negative/uncertain/character checks; preserve original author changes",
+      "files": [
+        "src/video_localizer/fast_delivery.py",
+        "src/video_localizer/audio.py",
+        "tests/test_fast_audio_quality.py"
+      ],
+      "implementation_hashes": {
+        "src/video_localizer/fast_delivery.py": "c11ececc92e4e7dcd2729df589c6a7499f406bd2e763b29b99a3b317c8152c9c",
+        "src/video_localizer/audio.py": "776334b6098a3808a15a5673eae63bec00bf0068bc4f8b4895f76c0f5fcf7baf",
+        "tests/test_fast_audio_quality.py": "69f1ccccc88ed6d4926854a7abf63bbc9981d221312dfbc9eb0ac1433bc6bb16"
+      }
+    },
+    {
+      "area": "Wan clean reference purpose",
+      "result": "Default clean-reference distinction already fixed; custom model_prompt now also retains exact reference purpose",
+      "files": [
+        "src/video_localizer/workflow.py",
+        "tests/test_acceptance.py"
+      ],
+      "implementation_hashes": {
+        "src/video_localizer/workflow.py": "64f4d5e0b558446a5b62119c58158f1181ef940fae0649ed7f32305338bcd96d",
+        "tests/test_acceptance.py": "1b6aabca1c3687c866025e9b3107eddd3140fb6a8c12f701c5b931a12f6765ee"
+      }
+    },
+    {
+      "area": "all-source all-locale submission closure",
+      "result": "Added explicit current platform read completion-check and bind-time full requirement check; pending or done labels do not prove complete submission",
+      "files": [
+        "src/video_localizer/fireplay_submission.py",
+        "src/video_localizer/fireplay.py",
+        "tests/test_fireplay_submission.py"
+      ],
+      "implementation_hashes": {
+        "src/video_localizer/fireplay_submission.py": "43fddde84d1dbc119da217a405f65c140894b1a910a7c57d2c033689e3ad26ec",
+        "src/video_localizer/fireplay.py": "e097580fe840c2cedea174635a2413b0bf119a1c35c44b6658b0397a30f1c76b",
+        "tests/test_fireplay_submission.py": "c3e223f5c67eb5f2dcfd04b08e9cb8f1a66f89a06af0acfa3ec33a23cada0176"
+      }
+    }
+  ],
+  "retained_boundaries": [
+    "No automatic target lip-sync implementation or independent second-agent audiovisual acceptance is claimed",
+    "Existing model audio reports are checked when present; no automatic paid review call is introduced",
+    "APC024 trial is two seconds of a cropped upper band; no complete final video approval",
+    "Unknown costs, old failures, source scopes and in-progress run evidence preserved"
+  ],
+  "curation": {
+    "reviewed_records": 56,
+    "new_source_cases": [
+      "apc024-ja-imagegen-wan-upper-trial-v1",
+      "key010-de-fade-envelope-v1"
+    ],
+    "new_policy": "imagegen-first-v2",
+    "newly_archived_originals": 9
+  },
+  "validation": {
+    "checks": {
+      "checked_at": "2026-10-28T10:16:17.436411+00:00",
+      "total_seconds": 66.7697,
+      "sum_case_seconds": 58.3181,
+      "mean_case_seconds": 0.082838,
+      "maximum_case_seconds": 4.417691,
+      "count": 704,
+      "failures": 0,
+      "errors": 0,
+      "skips": 1,
+      "proof_boundary": "Execution contracts and synthetic media integration; no automatic business-quality acceptance"
+    },
+    "synthetic_demo": {
+      "id": "imagegen-reference-flow-20261028-01",
+      "state": "needs_review",
+      "boundary": "Synthetic local encoding, no paid generation or real-ad acceptance"
+    },
+    "knowledge_audit": "pass",
+    "repository_check": "pass"
+  }
+}

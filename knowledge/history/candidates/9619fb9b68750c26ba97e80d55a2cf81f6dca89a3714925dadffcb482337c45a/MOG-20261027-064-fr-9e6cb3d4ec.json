@@ -1,0 +1,29 @@
+{
+  "id": "MOG-20261027-064-fr-9e6cb3d4ec",
+  "status": "candidate",
+  "created_at": "2026-10-28T07:38:01+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "fr",
+    "source_sha256": "6f7e06d4d586dbc22f2bc0b1cb1eeae7807d55b560a2eb7862ca1e4d6ffc637e"
+  },
+  "outcome": "revise",
+  "hypothesis": "Exact-source observation: rigid translated wall layers and broad chroma/value foreground masks caused letters on clothing/reflection and perspective mismatch. Two actual Wan phone trials changed captured UI; bounded local blur left source outlines, while second-results text timing ended early. Stop reuse as a clean master and retain failed full-video evidence. Target narration exists, but automatic transcripts are not native listening acceptance and the retained short source sample remains unresolved.",
+  "evidence": {
+    "run": "MOG-20261027-064-03",
+    "video_sha256": "9e6cb3d4ecd02aa4e8860f0e433da41c5bebfc284f86d3afb5955773b3b96d89",
+    "completion_sha256": "7690fabfbbee46de7254f37cd27e06585e27fa724b195126a48bbcf06a198c6b",
+    "publication_review_sha256": "43a13fd30c37855350a7e5a0c2d5201d4654c25f088721229339ca35e90c75fa"
+  },
+  "limitations": [
+    "Single source; eight locales share the same unapproved visual repair, not eight independent sources.",
+    "Same-agent actual encoded frame sampling plus actual model transcription; normal-speed whole-video audiovisual and independent/native/user acceptance not established.",
+    "Unknown original KIE fee remains reserved; output completion is not quality approval."
+  ],
+  "company_preference": false,
+  "promotion": "Candidate only; requires scoped review and independent necessary evidence before activation. No policy change.",
+  "reflection_state": "observed_candidate",
+  "next_action": "Review actual source/outcome comparisons for restoration, occlusion and result-screen boundary failures; obtain exact-language listening evidence before widening claims.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

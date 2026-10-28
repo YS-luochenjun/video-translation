@@ -55,6 +55,9 @@ class CodexVisualTests(unittest.TestCase):
     def test_result_binds_real_output_and_never_approves_inventory(self):
         from video_localizer import codex_visual
         packet = self.make_packet('image')
+        instructions = read_json(self.run / packet['packet'])['execution']
+        self.assertIn('ImageGen first', instructions)
+        self.assertIn('record the concrete reason', instructions)
         Image.new('RGB', (80, 40), 'blue').save(self.run / 'edited.png')
         before = file_hash(self.run / 'analysis/inventory.json')
         report = self.report(packet, outputs=['edited.png'])

@@ -1,0 +1,50 @@
+{
+  "source": {
+    "path": "knowledge/candidates/WOW-20261028-045-08-f8649103c9.json",
+    "sha256": "11ca15cf0b7bc7622b2c4401f191f784ea42389529f0ab9eadf9faa4a3df3939"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent original review, independent-bundle hash and source/locale review; no new full audiovisual acceptance",
+  "origin": "User requested temporary knowledge extraction and redundancy cleanup",
+  "resolution": "duplicate",
+  "reason": "Automatic placeholder contains no additional hypothesis. Actual source record describes natural reconstruction of static poster text and publisher mark with protected illusion, already covered by current methods. Each language keeps its own original result/voice/quality evidence; eight locales are one visual source.",
+  "targets": [
+    {
+      "id": "content-aware-text-restoration-v2",
+      "path": "knowledge/rules/content-aware-text-restoration-v2.md",
+      "sha256": "8f970734922bfc49ff135b0eb64a5f3b60d6782ff93c0409cce1c1e46e5f1c4b",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 文字修复：自然底面、连续编辑与局部模糊兜底\n\n适用全部必译文字实例。保留简单/复杂画面的内容判断，并依据本次用户对可见模糊效果的担忧修订默认倾向。用户询问原因不代表已证实某条视频因为预算而选错路线，也不保证视频模型必定优于其它修复。\n\n| 实际条件 | 首选 | 备选、切换依据 |\n| --- | --- | --- |\n| 平色、渐变、稳定卡片、按钮、界面标签 | 核验同源干净供体、Codex宿主编辑或原容器自然重建；透明译字独立 | 先修底面/接缝；无需为简单底面强制调用视频模型，单个传统算法失败不足以用可见模糊 |\n| 界面稳定但手指、数字、图标变化 | 共用干净静态底面，动态区域按对应源帧保护 | 只修实际污染区域，不冻结动态内容或整张界面模糊 |\n| 文字跨移动人物、头发、强纹理、多次遮挡 | 基于真实连续帧评估自然修复；有改善依据时正常使用Wan 2.7连续局部编辑，可直接作为主方法 | 转模糊前在reason/evidence记录Wan是否适用、待改善问题、预计费用及采用/未采用原因。连续帧明确显示自然重建或模型编辑危及主体、或实际候选不佳时，比较一个最小局部模糊候选；不强制明知无益的付费试验 |\n| 移动、旋转、边缘进出的水印 | 独立实例、跟踪并组合移动水印方法 | 核验入出场、边缘、转场、片尾；源帧回贴防止水印复现 |\n\n技术掩模只界定处理区域，不等于可见模糊。透明译字叠加也不必然降低质量；关键是底面是否自然、原字是否清净、运动和主体是否保留。每处记录区间、区域、保护对象、连续帧/候选依据和停止条件。时间紧、连接失败、节省credits、额度不足均不能单独授权模糊；有明确改进方向、模型适用且有预算时，不因节省而跳过模型。\n\n模型需要2–10秒原视频输入，先packet核对实际片段、提示和预留，保留原音轨并保护文字区外主体。允许只采用有效局部，按原时轴合成，核验帧率、帧数、时刻、边界、残字和运动。可共用的无字视频只制作一次，各语言单独制作字层与声音并检查实际成片；模型生成译字不保证精确拼写。\n\n仍遵守代表困难片段最多两次有明确变量的试验、两轮返工及请求账本。五分钟是初始判断时间盒，不能被解释为跳过有希望的模型方案。合格即停止；无有据改进方向或达到边界即走最终输出，披露实际缺陷。评估允许不代表质量通过，局部模糊仍须接受正常播放的质量审查。\n\n依据：evidence:review。开发者选路修订；没有新模型实验或新增真实视频验收。研究替代模型不改变当前Wan 2.7生产路由或历史限制。\n"
+    },
+    {
+      "id": "publisher-watermark-removal-v2",
+      "path": "knowledge/rules/publisher-watermark-removal-v2.md",
+      "sha256": "e86097912cd12ef0e8f4742c0cacd106ea1a86bd41cb73d5a414404ae245a81a",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 发布者水印识别、关联片尾与去除\n\n来源：用户2026-10-27明确要求，发现视频水印就去除，并解析其文字/内容；片尾出现和水印相同的商标也去除。两张指示图显示小字“Apkzonic”和片尾“APKZONIC”为同一发布者。见evidence:instruction、evidence:watermark、evidence:endcard。这是项目执行要求，不是已完成视频去除或质量验收。\n\n本版替代moving-watermark-removal-v1中“只处理另行明确指定水印”的默认。新制作及续作需按当前要求重新判断；旧计划、成片与原验收保留历史，不静默改写。移动/旋转处理经验沿用其已观察边界，见evidence:previous。\n\n## 识别与关联\n\n1. 全片检查水印，包括半透明小字、角落标记、站点/账号名、图形标识和移动/旋转/模糊入场。由Codex实际看图识字，记录原文、可辨图形、位置、区间及不确定项；不能以文件名或ASR代替视觉识别。\n2. 为确认的发布者建立规范身份，保留原始拼写、大小写和样式变体。Apkzonic与APKZONIC在本示例明确关联为apkzonic；其他拼写差异、缩写或图形是否同源须结合真实画面判断，不仅凭相似颜色或字母自动合并。\n3. 发现水印后必须检查片尾及最后转场，寻找同一身份的文字、商标和图形组合。小水印、片尾大字、同一发布者的图形标志各自建实例并共享身份；仅文字一致不能自动推断周围所有图形都属于它。已确认同一发布者的图形也去除，身份未确认先补证。\n4. 默认去除已识别的发布者水印及匹配片尾商标，不再逐次请求同意，不翻译或补上另一个标志。用户本次明确要求保留的例外记录真实指令来源。产品本体、应用内容、其他品牌、人物、字幕和CTA分别分类，不因出现品牌文字就一并删除。\n\n## 记录与执行\n\n使用text_role=publisher_mark、publisher_identity、mark_form分别记录watermark/endcard_wordmark/endcard_logo；去除项target_text为空，动作选实际model_edit、reference_plate或已核验对应路线。publisher_mark_review记录身份判断、片尾matched/no_match及实际帧证据。参数格式见[示例](../../agent/templates/publisher-marks-example.json)，坐标/时间只是占位，不可套用到其他原片。\n\n图片可用时优先ImageGen自然重建；复杂运动、遮挡和纹理按实际条件选择Wan连续修复，可用已审同镜头参考图指导。原片提供运动和时序，不能把一张干净参考铺满动态片段。产品切镜、姿态、文字变化和模糊边缘各自定位，不跨镜头/姿态借供体，不默认用色块、模糊或裁切整段片尾代替去除。\n\n模型提示明确“去掉该发布者标识且不补字”，保护无关产品品牌及动作；泛化的“保留logo”不得覆盖这些去除项。自定义提示词同样保留实例约束。平面静态区域可用同镜头干净供体；人物和动态纹理须保留真实运动。模型、图片或API成功都不能直接放行。\n\n## 审核、停止与复用\n\n按实例查无字底片和最终编码，覆盖水印首末、半透明/描边/模糊字、画面边缘、旋转极值、遮挡和切镜两侧，片尾同身份标识单独复查。检查无残字/图标、无明显补丁/闪烁、主体与运动完整；同源各语言实际输出都核对。漏掉片尾同标、把水印当应保留品牌、移除一个位置却漏另一个、模型重新画回标识都记作失败，不以minor标签掩盖明确遗漏。\n\n修正只改有证据的局部变量，沿原预算、未知费用和两轮返工上限；达到边界仍按完整输出合同交当前最佳版本并披露水印残留，不声称合格。保存必要源/结果对照、原评审及实际哈希。用户否定版本按quality-hold处理；本条指令不自动否定或删除所有旧交付，也不自动重做历史任务。\n\n本示例只支持水印身份和去除范围的明确指示；未在此进行图片编辑、付费模型实验或整片视听验收。遮挡重建不能承诺恢复真实隐藏像素。其他原片的区域、轨迹、图形关联与方法效果必须重新判断。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Static-surface natural reconstruction and protection of original illusion/arrow follow existing content-aware repair guidance",
+    "Publisher text is inventoried, removed and checked at the ending under the existing publisher-mark policy"
+  ],
+  "retained_parts": [
+    "MindJournal publisher wordmark and all English copy absent in encoded first/middle/end frames.",
+    "Original narration, language-specific text/audio review, browser failure/static typography fallback, small style loss and source hashes remain historical in independent case",
+    "Shared visual donor is not eight independent validations; no new cross-source proof or statement that all final details have been independently rechecked",
+    "Original unknown fees, submissions, quality and source outcomes remain unchanged"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-10-28T10:10:42+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

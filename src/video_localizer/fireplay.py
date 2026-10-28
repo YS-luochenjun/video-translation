@@ -940,6 +940,11 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
                             'publication': outbox['publication'], 'tags': item['tags'], 'name': item['display_name'],
                             'outbox': str(path.relative_to(root)), 'binding_receipt': operation['receipt_sha256'],
                             'status': 'bound_verified', 'requirement_status_changed': False, 'at': utc_now()})
+        if operation_id == 'bind':
+            from .fireplay_submission import verify_completion
+            completion = verify_completion(code, spec['verification'], root)
+            operation['requirement_complete'] = completion['complete']
+            write_json(path, outbox)
         return operation
 
 

@@ -1,0 +1,19 @@
+{
+  "id": "MOG-20261027-044-pt-phrase-repair-20261028",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+    "target_language": "pt",
+    "language_match": "exact"
+  },
+  "hypothesis": "MOG044 Portuguese recovery: global/merged TTS ASR phrase cuts retained next-word phonemes and created repeated audible onsets despite isolated intended text. Actual single-take ASR located a003 complete invitation end1.84s and trailingPai2.22..2.36s. Tail-only cleanup of existing voices, number-pause shortening/local bed ducking and actual invitation caption correction yielded a new full final with pairedFlash transcription50?MeuDeus!, complete translation, retainedBGM/SFX, distinct voices and caption/qualitypass. Exact seventh material was added and allseven bindings read back.",
+  "status": "candidate",
+  "created_at": "2026-10-28T10:02:28+00:00",
+  "failure_signature": "Trailing next-word syllables after individually intended utterances; wholemixedASR numeric omission despite isolated50recognition.",
+  "limitations": "Same source/Portuguese/generatedtakes only. Actual local bed RMS and source windows justify this gain/cut recipe; do not generalize cut offsets, atempo, duck gain orvoiceidentity to othermedia. One Pro failure diagnosis and one newhash Flash acceptance, both external perception; no independent human/lip-sync acceptance. Original unknown fees and internalVIrevise unchanged.",
+  "next_falsification": "Recheck actual isolated tails and fullmix in another independently sourced multiutterance TTS request before broadening method.",
+  "case_manifest_sha256": "7103245a806eca9b91760f9a3aa1eecaff6db62409a56fbc121fe6876a094f93",
+  "company_preference": false,
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -1,0 +1,29 @@
+{
+  "user_quote": "且目前我有一个知识需要写到项目中：图片能使用imagegen时，尽量不要使用脚本代码等方式处理图片，使用imagegen挺好。对于传递给wan的提示词中，是否也可以传输一点imagegen出来的图片作为参考，效果会好吗",
+  "source_thread_id": "01a18056-0960-7800-bba1-943d025e3989",
+  "recorded_at": "2026-10-28T02:42:00+00:00",
+  "authority": "explicit project owner instruction",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "distinction": "ImageGen-first is an explicit preference. Whether Wan reference images improve results is a user question and remains unverified, not a user-declared fact.",
+  "vendor_capability": {
+    "checked_on": "2026-10-27",
+    "source": "https://www.alibabacloud.com/help/en/model-studio/wan-video-editing-api-reference",
+    "observed": "Official API documents source-video editing with optional reference images. Native vendor and KIE payloads differ.",
+    "kie_document": "https://docs.kie.ai/market/wan/2-7-videoedit",
+    "kie_document_limit": "Public page opened; schema body was not exposed by web text extraction. Do not infer native-provider multi-image fields for KIE."
+  },
+  "adapter_review": {
+    "file": "src/video_localizer/workflow.py",
+    "sha256": "ba1faa106db14df2e0489774eb6acd0774f2baed6e452369580c35b558127d74",
+    "observed": "wan_edit packet verifies reference_image file hash, adds image asset and maps input.reference_image to ASSET:image. Prompt already limits reference use to layout/text while preserving source motion.",
+    "test_file": "tests/test_acceptance.py",
+    "test_sha256": "0de6a81178353cf0550076c6b7cc76b2d5b4bc39a748e7c4f92e9c1e0ba5c6f8"
+  },
+  "limits": [
+    "No ImageGen generation or new Wan task submitted during this policy review",
+    "No new quality or superiority claim",
+    "User preference does not expand KIE budget or retry limits"
+  ]
+}

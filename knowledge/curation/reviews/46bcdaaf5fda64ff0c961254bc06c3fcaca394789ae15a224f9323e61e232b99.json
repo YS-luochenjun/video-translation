@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261027-064-pt-5166f9380e.json",
+    "sha256": "e0e8682be2c9b36b7f0fc0e23c993595fe84fc4617ed5cd8ee2d11e161266a8d"
+  },
+  "previous_review": null,
+  "review_type": "explicit_user_feedback",
+  "reviewed_by": "User instruction recorded by Codex; exclusion administration only",
+  "origin": "Current chat: 我听起来挺好的，哪里有问题呢。此次可以上传fireplay，不作为经验积累",
+  "resolution": "rejected",
+  "reason": "User explicitly excludes this request from experience accumulation. Do not use this candidate to learn, promote rules or broaden quality claims. Keep original observations/evidence unchanged as historical production records. Current publication is exact-output user approval, not a reusable method.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "Original evidence, fees and historical observations retained only for audit; excluded from future learning/adoption."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-10-28T09:34:40+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

@@ -2,7 +2,7 @@
 import unittest
 import test_fireplay as fixtures
 from video_localizer import fireplay, fireplay_monitor, fireplay_submission, batches
-from video_localizer.common import write_json
+from video_localizer.common import WorkflowError, utc_now, write_json
 
 
 class SubmissionClosureTests(unittest.TestCase):
@@ -67,6 +67,34 @@ class SubmissionClosureTests(unittest.TestCase):
         result=fireplay.dispatch(fixtures.CODE, root=self.root)
         self.assertEqual(result['state'],'returned')
         self.assertIn('do not poll',result['next'])
+
+    def completion(self, rows=None):
+        write_json(self.folder/'user-approved-return-1.json', {'requirement_id':fixtures.RID,
+                   'state':'returned_user_approved','items':self.rows})
+        return fireplay_submission.verify_completion(fixtures.CODE, {'serverTime':utc_now(),
+            'items':[{'id':fixtures.RID, 'status':'done', 'materials':rows if rows is not None else
+                      [{'id':r['material_id']} for r in self.rows]}]}, self.root)
+
+    def test_current_platform_read_checks_every_requested_locale(self):
+        self.assertTrue(self.completion()['complete'])
+        result = self.completion([{'id':fixtures.MID}])
+        self.assertFalse(result['complete'])
+        self.assertEqual([(r['locale'],r['reason']) for r in result['missing']],
+                         [('ko','material_not_in_current_platform_binding')])
+
+    def test_completion_requires_all_sources_and_does_not_trust_done_status(self):
+        record = self.record()
+        record['videos'].append({**record['videos'][0], 'index':2, 'targets':['es']})
+        self.save(record)
+        result = self.completion()
+        self.assertFalse(result['complete'])
+        self.assertEqual(result['expected_count'],3)
+        self.assertEqual(result['missing'][0]['video_index'],2)
+
+    def test_completion_rejects_stale_platform_read(self):
+        with self.assertRaisesRegex(WorkflowError,'stale'):
+            fireplay_submission.verify_completion(fixtures.CODE, {'serverTime':'2020-01-01T00:00:00Z',
+                'items':[{'id':fixtures.RID,'materials':[]}]}, self.root)
 
     def test_access_contract_does_not_grant_spending_permission(self):
         auth=batches.authorization(self.root)

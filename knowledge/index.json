@@ -3014,14 +3014,15 @@
       "origin": "Explicit project owner instruction in current chat 2026-10-27, plus documented vendor capability and existing adapter inspection; no generated-result claim.",
       "reviewed_by": "Codex developer policy registration from explicit user preference; adapter and official documentation inspection only",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-28T02:42:00+00:00",
       "method_sha256": "9c3b778cd6c5e64600ee168b8ae4095773d374186aabdde00621021062972f0d",
       "case": "knowledge/examples/imagegen-first-v1",
       "case_manifest_sha256": "c61728dbb2a85eacf495edc247cf5cb345cec0dba19adbed5bf4bab3d4d401b7",
       "knowledge_type": "project_policy",
       "validation_level": "explicit_user_instruction",
-      "topic": "visual"
+      "topic": "visual",
+      "superseded_by": "imagegen-first-v2"
     },
     {
       "id": "publisher-watermark-removal-v2",
@@ -3134,6 +3135,63 @@
         "strict"
       ],
       "retrieval_role": "required"
+    },
+    {
+      "id": "imagegen-first-v2",
+      "path": "knowledge/rules/imagegen-first-v2.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "visual",
+        "text",
+        "imagegen",
+        "wan"
+      ],
+      "origin": "Explicit user ImageGen priority and ImageGen-before-Wan request; actual bounded APC024/MOG005 records",
+      "reviewed_by": "User execution preference; Codex same-agent source/constraint review",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-10-28T10:06:50+00:00",
+      "method_sha256": "aa174a04599886c1906ae4eaf79884e5a8605405f4337689f3de6947cd95ba36",
+      "case": "knowledge/examples/imagegen-first-v2",
+      "case_manifest_sha256": "1c5a8a9443d4c7d4bd3a80acd96a5531466aedb9ec7d4568dc2895aab97760ea",
+      "supersedes": "imagegen-first-v1",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_preference_with_scoped_trials",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "superseded_by": "imagegen-first-v3"
+    },
+    {
+      "id": "imagegen-first-v3",
+      "path": "knowledge/rules/imagegen-first-v3.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "visual",
+        "text",
+        "imagegen",
+        "wan"
+      ],
+      "origin": "Explicit user clarification and stronger preference for useful ImageGen/Wan combinations, without restricting independent routes",
+      "reviewed_by": "User explicit route preference; Codex scope and prior trial review, no new video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T10:25:07+00:00",
+      "method_sha256": "f756d8e814439e0288a1a63df56c06b3d170fa3fa4dfb77c8f2c12e8c7a33055",
+      "case": "knowledge/examples/imagegen-first-v3",
+      "case_manifest_sha256": "8c5689d242289cd7d5f8f0338e3b3bcc6467e1e255944e18c92df2d381419509",
+      "supersedes": "imagegen-first-v2",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_preference_with_scoped_trials",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ]
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

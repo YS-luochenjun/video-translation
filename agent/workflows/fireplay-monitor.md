@@ -1,6 +1,6 @@
 # Fireplay新翻译需求巡检
 
-宿主应用每30分钟唤醒主控；本流程不另装系统cron。用户授权范围、组/人员策略、并发和静默通知规则在config/fireplay-monitor.json；制作/回传执行[编号接入](fireplay-intake.md)，模型/费用/质量与固定提交政策读根AGENTS.md及对应config。全部可见组均覆盖，人员只提示，不能只查APC/MOG或只搜“翻译”。
+宿主应用每60分钟唤醒主控；本流程不另装系统cron。用户授权范围、组/人员策略、并发和静默通知规则在config/fireplay-monitor.json；制作/回传执行[编号接入](fireplay-intake.md)，模型/费用/质量与固定提交政策读根AGENTS.md及对应config。全部可见组均覆盖，人员只提示，不能只查APC/MOG或只搜“翻译”。
 
 本定时任务只负责发现、范围判断、接入和调度。具体制作/回传由原需求聊天继续；全局经验总结与全局存储整理分别按[三项定时职责](../../docs/scheduled-tasks.md)独立执行，巡检轮次不兼做这两项。
 
@@ -21,7 +21,7 @@
 1. 新建、待开始且可绑定的实际翻译需求，经assess登记独立request与state/fireplay/CODE/monitor-authority.json。它引用真实持续授权及平台UUID，不伪造新用户消息。每原片每去重语种一版，数量/多套含糊先处理本项，不开跨需求语言总池。
 2. 先按编号接入下载全部原片，复用已登记ready聊天。unknown先查list_threads/read_thread；确需新建时list_projects匹配本项目，project/local按需求编号建一个聊天，完整fireplay-chat prompt附authority路径，保存真实threadId。所有原片/语言由此聊天管理，-1/-2区分文件/run，不改模型或建worktree。
 3. 负责聊天对各原片fireplay-start，使用真实去重语言×60的本需求共享池；持续KIE同意按config/fireplay-intake.json.kie绑定。未知费用/旧限额保留，API及本地日志恢复，不问后台登录，不因轮询/重试补额度。
-4. 默认最多3个新需求并行，wait_threads(timeoutMs=0)判断真实活动。P0先用冲突资源；P1持续推进，有排队P1时保留可用名额，不等待全部P0。已有P1不被新P0中断；制作已完成、只待平台异步上传的任务不因YouTube进度占制作名额。排队保留ready_to_dispatch，下轮恢复而非重开请求。
+4. 并发需求上限读取config/fireplay-monitor.json的max_active_requirements，wait_threads(timeoutMs=0)判断真实活动。P0先用冲突资源；P1持续推进，有排队P1时保留可用名额，不等待全部P0。已有P1不被新P0中断；制作已完成、只待平台异步上传的任务不因YouTube进度占制作名额。排队保留ready_to_dispatch，下轮恢复而非重开请求。
 
 ## 补交与经验收尾
 

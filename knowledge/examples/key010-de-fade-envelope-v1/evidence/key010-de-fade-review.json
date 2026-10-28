@@ -1,0 +1,21 @@
+{
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5",
+    "target_language": "de",
+    "language_match": "exact"
+  },
+  "video_sha256": "7b9813233768703380554730270ad9095f13449e9d8bef45252f0f27ec036ca8",
+  "source_candidate_sha256": "052bfe383c1f79e0e6390e98ada1510dc0922babf65989f05b496b7f5a069d5b",
+  "original_case_manifest_sha256": "d1dc545411647ce611f0e036b15c0478c9a8bfbf549aabc502b5a3e1edba6f38",
+  "observations": [
+    "Actual old3.9second frame shows faint gray English remnants behind German caption",
+    "New neutral3.9second frame removes those remnants while keeping the visible YouTube/MP3 graphics",
+    "Original record identifies high-white glyph masking as missing lower-opacity fade envelope; new local natural plate adopts full envelope"
+  ],
+  "limits": [
+    "Single source/locale/time-point comparison, not independent audiovisual acceptance or cross-source model proof",
+    "Old master/video quality holds, unknown fees and original verdicts remain unchanged",
+    "Shared visual corrections across languages do not add independent sources"
+  ]
+}

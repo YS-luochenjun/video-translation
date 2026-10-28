@@ -264,7 +264,7 @@ def main(argv=None):
     command.add_argument('code')
     command.add_argument('--snapshot')
     command.add_argument('--decision')
-    for action in ('source', 'chat', 'start', 'return', 'dispatch', 'receipt', 'retry-upload', 'status'):
+    for action in ('source', 'chat', 'start', 'return', 'dispatch', 'receipt', 'retry-upload', 'completion-check', 'status'):
         command = commands.add_parser('fireplay-' + action)
         command.add_argument('code')
         if action in ('source', 'chat', 'start', 'dispatch', 'receipt', 'retry-upload'):
@@ -277,7 +277,7 @@ def main(argv=None):
             command.add_argument('--execute', action='store_true', help='Journal dispatch BEFORE the host connector call; does not itself call Fireplay/Codex')
         if action == 'retry-upload':
             command.add_argument('locale')
-        if action in ('start', 'return', 'receipt', 'retry-upload'):
+        if action in ('start', 'return', 'receipt', 'retry-upload', 'completion-check'):
             if action == 'receipt':
                 command.add_argument('operation')
             command.add_argument('spec')
@@ -493,6 +493,9 @@ def main(argv=None):
             elif name == 'fireplay-retry-upload':
                 from .fireplay_retry import retry_upload
                 result = retry_upload(args.code, args.locale, args.spec, args.execute, ROOT, args.video)
+            elif name == 'fireplay-completion-check':
+                from .fireplay_submission import verify_completion
+                result = verify_completion(args.code, args.spec, ROOT)
             elif name == 'fireplay-receipt':
                 result = fireplay.receipt(args.code, args.operation, args.spec, ROOT, args.video)
             else:

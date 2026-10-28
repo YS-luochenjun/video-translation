@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "imagegen-first-v3",
+  "created_at": "2026-10-28T10:25:07+00:00",
+  "files": [
+    {
+      "path": "evidence/apc024-trial-review.json",
+      "sha256": "b337e867a308ee948899d4d97ff07c731ee3e35846a8e61b15544ec14cc65267",
+      "bytes": 2775
+    },
+    {
+      "path": "evidence/imagegen-choice-review.json",
+      "sha256": "cccc8cc280b9dd42c3b61fbaf4dfc9998e3e20578b7c018f787887ce9fa048e2",
+      "bytes": 643
+    },
+    {
+      "path": "evidence/previous-interface-review.json",
+      "sha256": "319a0614a3538a812e0ecaec21251b2ae0243cba55d1cdcf68da5f3007b0fc08",
+      "bytes": 1922
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# ImageGen图片优先与Wan组合优先选路\n\n来源：用户2026-10-27明确图片能由ImageGen完成时优先使用；2026-10-28进一步说明“我只是说，你可以增加一个方案，不要局限于单独使用”，并补充“可以强一点，我认为增加一个图片对wan输入进行解析，确实会更好”。本版替代v2中容易被理解为固定前置步骤的表述，将带图组合列为明确优先方案，同时保留按内容独立或组合选路。用户的效果判断是执行偏好，不是所有视频必然改善的实验结论。见evidence:instruction。\n\n## 图片处理与路线选择\n\n自然图片创作、去字、背景/纹理修复、对象编辑和图片视觉适配，宿主ImageGen可满足时优先使用。先看真实原图，说明允许改变的区域及必须保护的产品、人物、结构与alpha；保存版本化产物，并按codex-packet/codex-result登记真实输入、知识和输出。\n\nFFmpeg抽帧、裁切/缩放、编码、时轴、混音以及必要的精确字层合成继续保留。ImageGen不可用、真实失败或不能满足精确约束时，记录具体理由后选择必要的确定性替代。不为方便默认采用脚本涂抹或暗中换图片API。\n\n| 当前内容与目的 | 优先考虑的方案 | 验证重点 |\n| --- | --- | --- |\n| 静态简单底面、独立图片视觉修复 | ImageGen清底或设计，再做精确排版/合成 | 文字、纹理、保护区和实际采用范围 |\n| 连续视频去字、背景重建，目标外观可由同镜头图片表达 | 优先采用ImageGen同镜头参考图＋Wan原视频编辑 | 图像身份、实际传图、运动/遮挡与连续结果 |\n| 原视频及文字指令已充分、参考图失真/不适合，或已有Wan结果足够 | Wan单独编辑，或沿已验证路线复用 | 简短说明不采用参考的实际依据，仍审查成片 |\n\n组合是优先方案，不是唯一流水线。Codex按镜头、内容、工具可用性、实际候选效果与原预算选择，记录首选、备选及切换/停止条件；不要求每条视频都先生成一批图片，也不要求把两条路线都付费试一遍。\n\n## 选择带图时如何执行\n\n1. 从当前镜头真实帧编辑参考，保持人物、产品、视角和构图；按镜头、姿态、遮挡和片尾差异准备必要版本，不跨镜头套同一图。当前适配器每次请求只传单张图，多镜头分别选择对应图片。原视频始终提供动作、时序和遮挡，不能用一张静帧冻结整个动态片段。\n2. 清底参考不含译字，只说明背景恢复目标；译后设计参考先校对字形、拼写和布局，限定其约束作用。Wan默认及自定义提示均须保留实际用途，不能一边要求去字一边要求复制目标文案。\n3. 在shot.reference_image明确填写真实path和SHA256，检查packet.assets.image及input.reference_image，提交后保留taskId、请求与结果哈希。只写本地路径、展示图片、登记codex-result，都不等于作为附件传给Wan。当前接口与绑定实现证据见evidence:interface。\n4. 提示说明源片段、编辑区域、参考用途、文字进出与验收条件；保护人物、手部、产品、镜头、CTA容器及无关图标。已确认发布者标记仍按其专门规则处理。\n\n## 效果边界与停止\n\n[MOG005局部采用](../cases/mog005-en-imagegen-wan-local-adoption-v1.md)和[APC024两秒试片](../cases/apc024-ja-imagegen-wan-upper-trial-v1.md)提供有边界的实作。APC024带图结果清除了旧候选残留的小字，但额头/眉毛细节有变化，且裁切、时长、提示也不同，不是严格单变量对照。组合可能更清楚表达目标外观，不能据此宣称整片必然更好、效率必然更高或可以跳过审核。见evidence:trial。\n\n对原尺寸连续帧、正常播放、首尾/切镜/字形边缘、主体身份、运动、时长、残字及闪烁作实际判断。只在已审的同源、同镜头和同区间局部采用结果；图像好看、API成功或局部去字成功都不放行整片。遇到失真或运动问题，保留失败并在原预算与返工边界内修正或换路。\n\n原任务、未知费用和失败不重置；不因组合偏好新增额度、无限返工或重复提交。新语言仍独立定稿、配音、字层、同步和完整交付核验。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "instruction": "evidence/imagegen-choice-review.json",
+      "interface": "evidence/previous-interface-review.json",
+      "trial": "evidence/apc024-trial-review.json"
+    }
+  }
+}

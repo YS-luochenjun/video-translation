@@ -64,6 +64,16 @@ class CaptionContractTests(unittest.TestCase):
     def test_independent_button_does_not_need_to_repeat_narration(self):
         self.assertEqual(captions.contract(self.inventory)["caption_ids"], ["t001"])
 
+    def test_publisher_mark_does_not_become_a_spoken_caption(self):
+        self.inventory["text_instances"].append({
+            "id": "t003", "text_role": "publisher_mark", "action": "reference_plate",
+            "publisher_identity": "mindjournal", "mark_form": "watermark",
+            "source_text": "MindJournal", "target_text": ""})
+        self.assertEqual(captions.contract(self.inventory)["caption_ids"], ["t001"])
+        self.inventory["text_instances"][0]["target_text"] = "Unrelated copy"
+        with self.assertRaisesRegex(WorkflowError, "differs from final speech"):
+            captions.contract(self.inventory)
+
     def test_uncaptioned_speech_requires_explicit_reason(self):
         self.inventory["text_instances"][0]["text_role"] = "scene_text"
         self.inventory["speech_segments"][0].update(caption_policy="none", caption_ids=[])

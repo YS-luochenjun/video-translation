@@ -2389,6 +2389,65 @@
       "knowledge_type": "source_reference",
       "validation_level": "same_agent_recorded_observations",
       "language_match": "exact"
+    },
+    {
+      "id": "apc024-ja-imagegen-wan-upper-trial-v1",
+      "path": "knowledge/cases/apc024-ja-imagegen-wan-upper-trial-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "22875924fda0edce5e2ab8383cfc6f34226274156dcb6a5fabba19ef85fddfc9",
+        "target_language": "ja"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "imagegen",
+        "wan"
+      ],
+      "origin": "User requested review of APC024 ImageGen plus Wan trial and project knowledge retention",
+      "reviewed_by": "Codex same-agent source/result image and local task hash review; no whole-video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T10:06:20+00:00",
+      "method_sha256": "02b03c26b1a232645e343ce9d5f89ad1646cd9815238a354f1f79f549c6be499",
+      "case": "knowledge/examples/apc024-ja-imagegen-wan-upper-trial-v1",
+      "case_manifest_sha256": "cb668db3e6de1696b1fe52c72df7b2c37190c230768bd90c86d7533932fcf611",
+      "reference_video_sha256": "4f473f2c9b17bbaf74fabcea81b1b316fa9b63f8dbb4eb183951cc70dcbf5ef1",
+      "knowledge_type": "source_reference",
+      "validation_level": "same_agent_visual_trial",
+      "language_match": "exact"
+    },
+    {
+      "id": "key010-de-fade-envelope-v1",
+      "path": "knowledge/cases/key010-de-fade-envelope-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5",
+        "target_language": "de",
+        "language_match": "exact"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "fade"
+      ],
+      "origin": "User requested extraction of temporary project lessons; actual retained fade images reviewed",
+      "reviewed_by": "Codex same-agent old/new native-frame and original-case hash review; no new full-video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T10:08:12+00:00",
+      "method_sha256": "df0a0414a5df2600c5e3761ccaeebd1dfad83688aae28c159199120a3905c997",
+      "case": "knowledge/examples/key010-de-fade-envelope-v1",
+      "case_manifest_sha256": "386d59d1b15503424b3e62e15ddaf3694e58952f37f433befe7cf362a043fe11",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/KEY-20261028-010-fade-envelope-observation.json",
+          "sha256": "052bfe383c1f79e0e6390e98ada1510dc0922babf65989f05b496b7f5a069d5b"
+        }
+      ],
+      "reference_video_sha256": "7b9813233768703380554730270ad9095f13449e9d8bef45252f0f27ec036ca8",
+      "knowledge_type": "source_reference",
+      "validation_level": "same_agent_source_specific_observation"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

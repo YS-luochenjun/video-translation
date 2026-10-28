@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "key010-de-fade-envelope-v1",
+  "created_at": "2026-10-28T10:08:12+00:00",
+  "files": [
+    {
+      "path": "evidence/key010-de-fade-review.json",
+      "sha256": "a7a4dc4ccff900ea92c62d1268e4fc61372c88839974ba927eb9326aa6454b45",
+      "bytes": 1162
+    },
+    {
+      "path": "evidence/new-neutral-fade-3.9.jpg",
+      "sha256": "1b454ba392e31e3e6272ecd7627cb3322aba5c12ffa43b317070614f817d83de",
+      "bytes": 60798
+    },
+    {
+      "path": "evidence/old-de-fade-3.9.jpg",
+      "sha256": "520777b8878c9a2e0a85ddf83a25c2d9fed54f34297be386bd8cfbb6acab50df",
+      "bytes": 64027
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5",
+      "target_language": "de",
+      "language_match": "exact"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# KEY010德语：淡出残字与完整区域采用\n\n范围：原片SHA256 ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5，目标语de，新片SHA256 7b9813233768703380554730270ad9095f13449e9d8bef45252f0f27ec036ca8。仅限定本源约3.9秒的淡出修正。\n\n实际旧帧在德语字幕后方仍可见灰色英文残字；新中性帧中这些残字未见，YouTube/MP3图形保留。原记录说明仅按高亮白字选取掩模漏掉低透明度淡出边缘，后改为在原生文字完整区域采用带羽化的自然供体。见evidence:review、evidence:old、evidence:new。\n\n复用时先检查文字显隐全过程的完整空间包络，包括低透明度、描边和阴影，不以“高亮字已消失”替代边缘复查。原区域之外的景物和图形保护仍独立验证；静态供体不能自动推广到相机/人物运动区域。\n\n旧成片与底片仍保持原quality-hold；本次只看了必要旧/新图与绑定记录，没有重新听审整片，也没有扩大到其他源或语种。后续语种各自定稿/配音/边界与完整上传继续按原门禁。通用入口沿用[动态文字与遮挡](../rules/method-animated-text-occlusion-v8.md)，不复制新通用算法。\n",
+    "source_sha256": "ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5",
+    "video_sha256": "7b9813233768703380554730270ad9095f13449e9d8bef45252f0f27ec036ca8",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/key010-de-fade-review.json",
+      "old": "evidence/old-de-fade-3.9.jpg",
+      "new": "evidence/new-neutral-fade-3.9.jpg"
+    }
+  }
+}

@@ -34,8 +34,8 @@ def contract(inventory, check_timing=True):
         return {"version": 1, "required": False, "speech": [], "caption_ids": []}
     require(bool(speeches), "Caption synchronization needs the actual speech inventory")
     for item in texts:
-        require(item.get("text_role") in ("speech_caption", "scene_text", "preserve"),
-                "Classify text_role as speech_caption/scene_text/preserve: " + item["id"])
+        require(item.get("text_role") in ("speech_caption", "scene_text", "preserve", "publisher_mark"),
+                "Classify text_role as speech_caption/scene_text/preserve/publisher_mark: " + item["id"])
         require(item.get("text_role") != "preserve" or item.get("action") == "preserve",
                 "Preserved text must use the preserve action")
         if item.get("text_role") == "speech_caption" and check_timing:

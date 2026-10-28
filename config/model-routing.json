@@ -4,7 +4,7 @@
   "text_recognition": "codex",
   "image_editing": "codex",
   "image_editing_tool": "imagegen",
-  "image_editing_preference": "ImageGen first when capable; scripts remain for necessary deterministic media operations. Explicit project owner instruction 2026-10-27; see knowledge/rules/imagegen-first-v1.md.",
+  "image_editing_preference": "ImageGen first for suitable image work. Prefer a reviewed same-shot ImageGen reference with Wan when it helps define the intended visual repair; independent Wan and other suitable routes remain available. See knowledge/rules/imagegen-first-v3.md.",
   "asr": "small",
   "audio_analysis": "gemini-3-8-flash-openai",
   "separation": "uvr-inst-hq3",

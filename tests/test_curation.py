@@ -226,11 +226,12 @@ class CurationTests(unittest.TestCase):
 
     def test_time_zone_and_once_per_day_gate(self):
         config, state = curation.settings(self.root), curation.checkpoint(self.root)
-        self.assertFalse(curation.due(config, state, datetime(2026, 10, 21, 0, 59, tzinfo=timezone.utc)))
-        self.assertTrue(curation.due(config, state, datetime(2026, 10, 21, 1, 0, tzinfo=timezone.utc)))
-        state["last_successful_run_at"] = "2026-10-21T01:00:01+00:00"
-        self.assertFalse(curation.due(config, state, datetime(2026, 10, 21, 5, 0, tzinfo=timezone.utc)))
-        self.assertTrue(curation.due(config, state, datetime(2026, 10, 22, 1, 0, tzinfo=timezone.utc)))
+        self.assertEqual((config['time'],config['timezone']),('18:00','Asia/Shanghai'))
+        self.assertFalse(curation.due(config, state, datetime(2026, 10, 21, 9, 59, tzinfo=timezone.utc)))
+        self.assertTrue(curation.due(config, state, datetime(2026, 10, 21, 10, 0, tzinfo=timezone.utc)))
+        state["last_successful_run_at"] = "2026-10-21T10:00:01+00:00"
+        self.assertFalse(curation.due(config, state, datetime(2026, 10, 21, 15, 0, tzinfo=timezone.utc)))
+        self.assertTrue(curation.due(config, state, datetime(2026, 10, 22, 10, 0, tzinfo=timezone.utc)))
 
     def test_existing_lock_blocks_concurrent_sweep(self):
         write_json(self.root / curation.STATE / "lock.json", {"owner": "other job"})

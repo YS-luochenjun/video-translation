@@ -1,0 +1,64 @@
+{
+  "source_sha256": "22875924fda0edce5e2ab8383cfc6f34226274156dcb6a5fabba19ef85fddfc9",
+  "target_language": "ja",
+  "task_id": "fdc595c9d863680535791ed1060f3f7a",
+  "job_state": "success",
+  "credits_consumed": 32.0,
+  "packet_sha256": "839ac0201cece5fba44240477a65387d2f926ae31f6e9d88062fb7539218d2af",
+  "source_interval": [
+    14.966666666666667,
+    16.966666666666665
+  ],
+  "reference_image_sha256": "ac38c9ab6bfb6a3940c43037ef2749a46fd4e76c96e0f4fe87ab3cea931ce99e",
+  "model_video_sha256": "4f473f2c9b17bbaf74fabcea81b1b316fa9b63f8dbb4eb183951cc70dcbf5ef1",
+  "technical": {
+    "source": {
+      "duration": 2.0,
+      "fps": 30.0,
+      "width": 1080,
+      "height": 360,
+      "frames": null
+    },
+    "result": {
+      "duration": 2.0,
+      "fps": 30.0,
+      "width": 1662,
+      "height": 554,
+      "frames": null
+    }
+  },
+  "review": {
+    "reviewer": "Codex same-agent review of actual 4fps source/result sheets and local submission/result identities",
+    "observed": [
+      "Impossible Win and You Lose! absent in eight reviewed result samples",
+      "Expression, hair and diagonal foreground continue changing; samples are not proof against all motion defects",
+      "Forehead/brow texture and shape differ; result must be evaluated before local adoption"
+    ],
+    "limits": [
+      "Two-second upper-band trial, not complete localized advertisement or neutral-master acceptance",
+      "Old no-reference trials differ in crop, prompt and duration; not a single-variable causal comparison",
+      "Original ambiguous audio review and costs stay unchanged",
+      "No new paid task was submitted for this curation"
+    ]
+  },
+  "actual_packet_has_video_and_image": true,
+  "old_trials": [
+    {
+      "decision": "revise",
+      "observations": [
+        "Top title absent across inspected native frames and 2fps temporal sheet.",
+        "Lower Unless IQ > 100 and original dark panel remain throughout; You Lose remains at 10.5/15.0 events. Not a complete neutral master.",
+        "Native 30fps/240frames/8s retained. Source motion outside proposed bands will be protected by local merge."
+      ]
+    },
+    {
+      "decision": "partial_regions_usable_not_neutral_approval",
+      "observations": [
+        "Top Impossible Win absent in all viewed 2fps samples and native frames; window/hair/forehead restored, some texture softness.",
+        "Bottom Unless IQ > 100 and dark rectangle removed in all viewed samples; moving jacket/hair preserved as continuous texture.",
+        "You Lose! remains at both events; model ignored this smaller moving text in both bounded trials. Full neutral approval withheld.",
+        "Actual output1176x784,30fps,240frames,8s; reversible scale to input1080x720; no time stretching."
+      ]
+    }
+  ]
+}

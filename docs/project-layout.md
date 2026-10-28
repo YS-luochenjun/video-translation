@@ -31,7 +31,7 @@ bin/va.ps1 workspace-export dist/source
 bin/va.ps1 workspace-verify dist/source
 ```
 
-目标必须不存在。导出使用代码中的公开目录清单，不复制整棵工作目录；保留原始字节，并生成 `fresh-workspace.json` 供核验。`knowledge/history/` 随源码保留，确保替代链可追溯。本机授权、私有证据、生产视频、Git 历史、模型和字体不会导出。
+目标必须不存在。导出使用代码中的公开目录清单，不复制整棵工作目录；保留原始字节，并在导出副本生成 `fresh-workspace.json` 供核验；主仓库不维护过期的导出清单，该生成文件不进入Git。`knowledge/history/` 随源码保留，确保替代链可追溯。本机授权、私有证据、生产视频、Git 历史、模型和字体不会导出。
 
 副本安装方式见 [README](../README.md)。`workspace-init` 复制公共配置、操作文档、技能和知识，执行器仍在代码目录；配合 `VIDEO_LOCALIZER_WORKSPACE` 可隔离工作区。`workspace-export` 包含可独立安装的完整源码。
 

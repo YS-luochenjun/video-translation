@@ -23,3 +23,6 @@ __pycache__/
 node_modules/
 .cache/
 
+
+# Generated export manifests belong to their individual source snapshots.
+/fresh-workspace.json

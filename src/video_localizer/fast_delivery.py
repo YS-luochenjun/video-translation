@@ -211,6 +211,16 @@ def quality(run):
         shutil.copyfile(review_path, run / 'review/review.json')
     inv = read_json(run / 'analysis/inventory.json')
     failures = review_failures(review, candidate, inv, run, policy(run.parent.parent)['review_checks'])
+    # Fast delivery retains the common audio/caption contract. A pass checkbox
+    # cannot replace actual AV timing evidence or override a negative model review.
+    from . import audio, captions
+    capture_path = run / 'review/capture.json'
+    captured = read_json(capture_path) if capture_path.exists() else {}
+    caption_check = captions.evaluate(run, candidate, inv, captured,
+        read_json(run.parent.parent / 'config/quality.json')['caption_sync'], plan)
+    failures.extend(caption_check['failures'])
+    model_audio_check = audio.model_review_check(run, candidate, plan['source_sha256'], captured)
+    failures.extend(model_audio_check['failures'])
     from .typography import review_failures as typography_review_failures
     failures.extend(typography_review_failures(run,plan.get('typography_assets',[]),review))
     failures.extend(visual_finish_failures(review, run, policy(run.parent.parent).get('visual_acceptance')))
@@ -247,6 +257,7 @@ def quality(run):
     failures.extend(cached['failures'])
     result = {'decision': 'pass' if not failures else 'revise', 'scope': 'fast-basic',
               'video_sha256': candidate['sha256'], 'plan_id': plan['id'], 'failures': failures,
+              'caption_check': caption_check, 'audio_model_check': model_audio_check,
               'review_sha256': file_hash(review_path) if review_path.exists() else None,
               'independent_review': False, 'user_acceptance': False,
               'boundary': policy(run.parent.parent)['boundary']}

@@ -12,7 +12,7 @@
 
 ## 模型、文字与费用
 
-- [模型合同](agent/contracts/model-routing.md)是分工入口：Codex识字及直接处理图片，先codex-packet取得真实图像/知识，完成后codex-result登记实际观察/产物；图片能用宿主ImageGen完成时优先使用，必要媒体操作保留脚本，见[ImageGen优先政策](knowledge/rules/imagegen-first-v1.md)。新任务不用RapidOCR、GLM-OCR、LaMa；真实音频用专用模型，视频统一Wan 2.7。用户指定模型须以真实任务、原视频和逐项评审验证；本地合成是另一条路线，不冒称模型效果。
+- [模型合同](agent/contracts/model-routing.md)是分工入口：Codex识字及直接处理图片，先codex-packet取得真实图像/知识，完成后codex-result登记实际观察/产物；图片能用宿主ImageGen完成时优先使用，必要媒体操作保留脚本，见[ImageGen优先政策](knowledge/rules/imagegen-first-v3.md)。新任务不用RapidOCR、GLM-OCR、LaMa；真实音频用专用模型，视频统一Wan 2.7。用户指定模型须以真实任务、原视频和逐项评审验证；本地合成是另一条路线，不冒称模型效果。
 - 按[源文字修复](knowledge/rules/content-aware-text-restoration-v2.md)逐实例选路：静态简单底面优先自然重建，复杂运动/遮挡先评估Wan连续局部修复，不为省额度跳过；模糊仅凭实际候选或连续帧主体风险兜底，沿用试验上限。
 - 发现发布者水印默认去除，解析原文/图形与身份，片尾同一身份的文字/商标也去除；逐实例记录关联和实际审核。用户明确保留例外与无关产品品牌分开，见[水印与片尾同标规则](knowledge/rules/publisher-watermark-removal-v2.md)。
 - KIE新请求按实际去重目标语种每种60 credits建本请求共享池，首次/新复用同价；同需求多原片共用，跨需求不合并。旧限额和未知费用保留，两轮返工不变，Codex花费不受该池限制。automatic_use=true且在用户授权范围内时直接使用KIE及必要媒体传送，不重复询问；新增范围/额度才确认，宿主审批照其策略执行。
@@ -23,7 +23,7 @@
 
 [编号接入](agent/workflows/fireplay-intake.md)管理真实快照、原片下载、聊天、制作与回传。每需求一个编号命名聊天，全部原片/语言在其中管理；多原片用-1/-2区分文件/run。续作复用threadId、原请求和本需求账本，不重开。KIE持续同意来源为config/fireplay-intake.json.kie，fireplay-start绑定实际需求、内容版本、语种、原账本及kie-user-authorization.json。P0只优先冲突资源，P1持续并行，不设付费制作屏障。
 
-[巡检流程](agent/workflows/fireplay-monitor.md)每30分钟检查全部可见组，人员仅提示；实际读正文、原片及语种判断翻译，排除原创/换人物/新开头。新翻译需求按持续授权独立建聊和计费；旧基线不自动重做，明确翻译但发布时间不明保留historical_translation_pending，不强改成非翻译。内容修订沿原聊天和预算审查。主控可向已交办负责聊天派发制作、恢复及固定回传；未知创建/发送/上传先核查，不重复执行。
+[巡检流程](agent/workflows/fireplay-monitor.md)每60分钟检查全部可见组，人员仅提示；实际读正文、原片及语种判断翻译，排除原创/换人物/新开头。新翻译需求按持续授权独立建聊和计费；旧基线不自动重做，明确翻译但发布时间不明保留historical_translation_pending，不强改成非翻译。内容修订沿原聊天和预算审查。主控可向已交办负责聊天派发制作、恢复及固定回传；未知创建/发送/上传先核查，不重复执行。
 
 用户最新固定提交：**入素材库 → 共享需求组并请求YouTube自动上传 → 语言tag与1至2词产品tag → 编号加语言命名 → 绑定当前需求**。执行人中除罗晨钧、邹彬外的人员填为设计师，标记二创并追加“二创”tag；无其他人员才可留空，见[设计师归属规则](knowledge/rules/fireplay-designer-attribution-v1.md)。不改需求状态或投放。config/fireplay-youtube-routing.json采用platform_managed：普通MCP按平台路由，不强制账号截图或任务组核验，不因后台组显示卡住合格成片。仍核验真实入库、共享、名称、标签及绑定，unknown恢复原请求；真实上传超时按持续授权有界重传并保留原记录，已知资源/素材复用ID、不重入库。正式完整outputs的普通小瑕疵经真实fireplay-publication-review可提交；严重/过多问题、漏译、缺必需配音或有效质量异议仍阻断，不改写内部revise。partial:true仅作中间批次，保留pending_locales并持续补交；[全部原片及全部目标语种](knowledge/rules/fireplay-complete-delivery-v2.md)真实入库/共享/标签/绑定核验后才可整项结案，不能上传一半就结束。保留旧操作/绑定历史。全项受理绑定后经验收尾，YouTube进度/排队/限额/向量化交平台，不为缺链接重传、替换或删除；保留旧异常，不冒称已修正或改整个账号组。完整政策见config/fireplay-publication.json及[提交知识](knowledge/rules/fireplay-completion-recovery-v3.md)。
 

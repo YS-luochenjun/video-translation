@@ -482,9 +482,6 @@ def build_plan(run, experiment=None):
                      "Reconstruct this shot using the supplied keyframe; visual/motion fidelity must be reviewed." if route == "regenerate" else
                      "Composite reviewed clean reference plates only in the explicit erase regions; plate animation is an approximation." if route == "reference_composite" else
                      "Use the exact reviewed time intervals and flat background rectangles.")
-        if route == "wan_edit" and "reference_image" in shot:
-            lines.append("The reference image specifies the exact target-locale letter shapes, line breaks and layout. "
-                         "Use it as text/layout guidance; retain source style, motion, framing and the per-instance timing below.")
         if route == "video_reference":
             lines = [f"Create a {round(shot['end']-shot['start'])}-second {request['target_language']} version of the supplied reference video.",
                      "Keep the source visual style, identities, framing, actions, cuts and timing.",
@@ -493,11 +490,13 @@ def build_plan(run, experiment=None):
         if shot.get("localization_instructions"):
             lines.append(shot["localization_instructions"])
         if erase_then_overlay:
-            lines.append("This is a TEXT REMOVAL pass. Erase all specified advertising text, outlines, shadows "
-                         "and CTA button graphics for the entire shot. Restore the illustrated background behind them. "
+            lines.append("This is a TEXT REMOVAL pass. Erase only the inventoried text, outlines, shadows "
+                         "and explicitly inventoried publisher marks over their full source intervals. Restore the background behind them. "
                          "Do not add replacement text, subtitles, logos or buttons. A separate compositor adds the "
                          "target language later. Preserve the original frame-by-frame objects, motion, lighting, "
-                         "camera and transitions. Do not add or remove unrelated scene objects.")
+                         "camera, transitions, CTA button shapes, containers and unrelated icons. "
+                         "Only remove a graphic when it is explicitly inventoried as a publisher mark. "
+                         "Do not add or remove unrelated scene objects.")
         if route != "local_overlay" and any(item["action"] == "solid_overlay" for item in edits):
             lines.append("Fixed UI text will be localized by a separate compositor; keep that source UI and named brands unchanged.")
         for item in edits:
@@ -542,6 +541,14 @@ def build_plan(run, experiment=None):
                     lines.append(f"Remove publisher mark {item['source_text']!r} ({item['publisher_identity']}) "
                                  f"at {start:.2f}-{end:.2f}s in bbox {item['bbox']}; "
                                  "restore the background, no replacement text/logo; preserve source motion and unrelated product branding.")
+        if route == "wan_edit" and "reference_image" in shot:
+            if erase_then_overlay:
+                lines.append("The reference image shows the clean background after text removal in this same shot. "
+                             "Use it only as background-restoration guidance; do not copy or generate lettering. "
+                             "Retain the source objects, motion, framing and per-instance removal timing below.")
+            else:
+                lines.append("The reference image specifies the exact target-locale letter shapes, line breaks and layout. "
+                             "Use it as text/layout guidance; retain source style, motion, framing and the per-instance timing below.")
         prompt = "\n".join(lines)
         if route == "model_edit":
             require(len(prompt) <= 3072, "Kling prompt exceeds 3072 characters; split edit scope")
@@ -671,11 +678,16 @@ def prepare_packet(run, segment_id):
                        "video_urls": ["ASSET:video"], "duration": str(round(segment["end"]-segment["start"])),
                        "resolution": "720p", "audio": False, "multi_shots": False}}
         elif segment["route"] == "wan_edit":
+            removal = segment.get('model_text_mode') == 'erase_then_overlay'
             payload = {"model": "wan/2-7-videoedit", "input": {"prompt": segment["prompt"],
                        "video_url": "ASSET:video", "duration": 0, "resolution": "720p",
                        "aspect_ratio": "9:16" if meta["height"] > meta["width"] else "16:9",
                        "audio_setting": "auto" if audio_policy["strategy"] == "model" else "origin", "prompt_extend": False,
-                       "negative_prompt": "untranslated specified text, omitted target copy, gibberish, changed subject identity, changed visual style, unrequested camera motion or reframing"}}
+                       "negative_prompt": ("remaining source lettering, added lettering or subtitles, invented buttons, "
+                                           "damaged containers or icons, changed subject identity, changed visual style, "
+                                           "unrequested camera motion or reframing" if removal else
+                                           "untranslated specified text, omitted target copy, gibberish, changed subject identity, "
+                                           "changed visual style, unrequested camera motion or reframing")}}
             if "reference_image" in segment:
                 asset = segment["reference_image"]
                 require(file_hash(inside(run, asset["path"])) == asset["sha256"], "Reference image changed")
@@ -1101,22 +1113,6 @@ def quality(run):
                     failures.append("source_speech_unverified")
                 if review.get("audio_checks", {}).get("dialogue_translation", {}).get("decision") != "pass":
                     failures.append("dialogue_translation_unverified")
-            model_report = run / "review" / candidate["sha256"][:12] / "audio-model-review.json"
-            if model_report.exists():
-                report = read_json(model_report)
-                if report.get("video_sha256") != candidate["sha256"] or report.get("source_sha256") != file_hash(source_path(run)):
-                    failures.append("audio_model_review_binding_mismatch")
-                findings = report.get("analysis", {})
-                for field, decision, failure in (("background_music", "same_track", "background_music_not_verified_preserved"),
-                                                  ("sound_effects", "preserved", "sound_effects_not_verified_preserved"),
-                                                  ("dialogue_translation", "complete", "dialogue_not_verified_translated"),
-                                                  ("sync", "acceptable", "audio_sync_not_verified")):
-                    if findings.get(field, {}).get(decision) is not True:
-                        failures.append(failure)
-                if findings.get("foreign_speech_remaining"):
-                    failures.append("foreign_speech_remaining")
-                if findings.get("uncertain_intervals"):
-                    failures.append("audio_model_review_uncertain")
         policy = read_json(ROOT / "config/quality.json")
         require(abs(sum(require_number(weight, "quality weight", maximum=1) for weight in policy["weights"].values())-1) < 0.000001,
                 "Quality weights must sum to one")
@@ -1130,11 +1126,13 @@ def quality(run):
                 failures.append("score_below_threshold")
         if review.get("critical_defects") or review.get("decision") != "pass":
             failures.append("critical_defect_or_revision_required")
+    model_audio_check = audio_tools.model_review_check(run, candidate, file_hash(source_path(run)), captured)
+    failures.extend(model_audio_check['failures'])
     result = {"schema_version": 1, "video_sha256": candidate["sha256"], "plan_id": plan["id"],
               "checked_at": utc_now(), "decision": "pass" if not failures else "revise", "score": score,
               "review_sha256": file_hash(reviewed) if reviewed.exists() else None,
               "audio_check": audio_check, "text_visual_audit": visual_audit,
-              "caption_check": caption_check,
+              "caption_check": caption_check, "audio_model_check": model_audio_check,
               "failures": failures, "proof_boundary": "Technical checks plus attributed agent review; no business or company preference approval"}
     if reviewed.exists():
         history = run / "review/history" / candidate["sha256"][:12] / (result["review_sha256"] + ".json")

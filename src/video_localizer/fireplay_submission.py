@@ -1,6 +1,6 @@
 """Recognize verified Fireplay acceptance without tracking downstream YouTube progress."""
 from pathlib import Path
-from .common import ROOT, read_json
+from .common import ROOT, file_hash, object_hash, read_json, require, utc_now, write_json
 
 
 
@@ -88,3 +88,55 @@ def coverage(record, video, root=ROOT):
     accepted = {r['locale'] for r in materials} & expected
     return {'expected_locales': sorted(expected), 'bound_locales': sorted(accepted),
             'missing_locales': sorted(expected - accepted), 'complete': expected == accepted and bool(expected)}
+
+
+def verify_completion(code, spec, root=ROOT):
+    """Bind full requirement coverage to a current platform read, never its status label."""
+    from datetime import datetime, timezone
+    from . import fireplay
+    value = fireplay.payload(spec)
+    verification = fireplay.payload(value['verification']) if 'verification' in value else value
+    record = fireplay._record(code, root)
+    rows = [r for r in verification.get('items', []) if r.get('id') == record['requirement_id']]
+    require(len(rows) == 1, 'Completion needs one exact requirement delivery read-back')
+    try:
+        observed = datetime.fromisoformat(verification.get('serverTime', '').replace('Z', '+00:00'))
+        age = (datetime.now(timezone.utc) - observed).total_seconds()
+    except (ValueError, TypeError):
+        require(False, 'Completion needs a current timezone-aware platform timestamp')
+    require(-60 <= age <= 600, 'Completion platform read-back is stale; refresh delivery view')
+    row = rows[0]
+    actual = {m['id'] for m in row.get('materials', [])}
+    missing, verified, seen = [], [], set()
+    for video in record['videos']:
+        bound = bound_materials(record, video, root)
+        for locale in video['targets']:
+            matches = [m for m in bound if m.get('locale') == locale]
+            reason = None
+            if row.get('materialSelection', {}).get('status') == 'waiting_selection':
+                reason = 'platform_user_selection_required'
+            elif len(matches) != 1:
+                reason = 'source_locale_not_fully_bound'
+            else:
+                material = matches[0]
+                digest = material.get('sha256') or ''
+                mid = material['material_id']
+                if len(digest) != 64 or any(c not in '0123456789abcdef' for c in digest):
+                    reason = 'missing_reviewed_video_identity'
+                elif mid not in actual:
+                    reason = 'material_not_in_current_platform_binding'
+                elif mid in seen:
+                    reason = 'material_reused_for_different_source_locale'
+                else:
+                    seen.add(mid)
+                    verified.append({'video_index': video['index'], **material})
+            if reason:
+                missing.append({'video_index': video['index'], 'locale': locale, 'reason': reason})
+    result = {'code': code, 'requirement_id': record['requirement_id'], 'content_version': record['content_version'],
+              'complete': not missing and bool(verified), 'expected_count': sum(len(v['targets']) for v in record['videos']),
+              'verified_count': len(verified), 'verified': verified, 'missing': missing,
+              'verification_sha256': object_hash(verification), 'platform_read_at': verification['serverTime'],
+              'checked_at': utc_now(), 'request_sha256': file_hash(fireplay._folder(code, root) / 'request.json'),
+              'scope': 'Current Fireplay binding of every requested source/locale; no downstream YouTube publication proof'}
+    write_json(fireplay._folder(code, root) / 'completion-check.json', result)
+    return result
