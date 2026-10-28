@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog005-en-imagegen-wan-local-adoption-v1",
+  "created_at": "2026-10-28T06:21:08+00:00",
+  "files": [
+    {
+      "path": "evidence/mog005-en-imagegen-wan-local-adoption-v1-en-wan-v3-contact.jpg",
+      "sha256": "ca31238677033abdf9d824f3f06a014f519aa2affe6bf4dc0c03cd8efe8fbd3e",
+      "bytes": 412688
+    },
+    {
+      "path": "evidence/mog005-en-imagegen-wan-local-adoption-v1-review.json",
+      "sha256": "aba2bd05ae8b937da030a9b7bc74faebac673c7091488cde07199d0f95ec21eb",
+      "bytes": 6748
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805",
+      "target_language": "en"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG005英语：ImageGen参考图进入Wan后的局部采用\n\n范围：原片SHA256 feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805，目标语 en，历史成片SHA256 5550c6d7f20e867d4aa44469189de2d24476f6010a9ca6acab7b5c71d85bc1b8。本次审查独立保全案例和原始回执，不新增整片质量验收。\n\n三份真实Wan视频编辑任务均成功，实际输入包含reference_image；参考图、提交包和连续结果的本地字节哈希均已核对。累计已知费用256 credits只描述这三份历史任务，不是新调用报价或预算授权。实际采用记录将连续结果限制在原黄色字形/描边区域，外部运动、人物和UI继续取原帧。见evidence:review与evidence:sequence。\n\n原记录指出单张参考的静态传播不足，生成整帧也可能漂移；最终同Agent自审仍披露额头/地图纹理轻微软化。不能把模型成功或参考图清洁等同于连续视频无损，不能把整幅生成图铺满动态片段。后续同源复用先核对镜头、实际运动、字形边缘及切镜，目标语重新定稿、配音和审核。\n\n英语下方六条口播字幕与较早出现、持续显示的CTA分开计时。原音频理解模型时间戳超过真实片长，不能用其时间标签替代实际编码音轨ASR和帧边界。没有新增独立听审或口型合成。\n\n本源两份当前output有用户明确“本次output，不用去水印”的限定例外，Apkzonic及匹配片尾标识因此保留；这不是默认去水印政策的反例或取消。未知音频费用和英语上传unknown沿原账本保留，不由本案例结清。\n\n现行通用入口继续使用[按内容选路](../rules/content-led-localization-v1.md)、[图片优先](../rules/imagegen-first-v1.md)和[实际口播字幕核对](../rules/method-spoken-caption-verification-v4.md)。本条只补限定观察，不重复发布通用规则。\n",
+    "source_sha256": "feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805",
+    "video_sha256": "5550c6d7f20e867d4aa44469189de2d24476f6010a9ca6acab7b5c71d85bc1b8",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/mog005-en-imagegen-wan-local-adoption-v1-review.json",
+      "sequence": "evidence/mog005-en-imagegen-wan-local-adoption-v1-en-wan-v3-contact.jpg"
+    }
+  }
+}

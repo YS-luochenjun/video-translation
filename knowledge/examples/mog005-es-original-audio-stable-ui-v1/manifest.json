@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog005-es-original-audio-stable-ui-v1",
+  "created_at": "2026-10-28T06:21:08+00:00",
+  "files": [
+    {
+      "path": "evidence/mog005-es-original-audio-stable-ui-v1-es-imagegen-contact.jpg",
+      "sha256": "b9b7dc70ad6faa04e127c8a397533d422b8bd54a60a1d49e3364f08354742122",
+      "bytes": 427453
+    },
+    {
+      "path": "evidence/mog005-es-original-audio-stable-ui-v1-review.json",
+      "sha256": "25c6ef9bdd1d75c25af8ba22172e9c17ea06004531329f969b31f3079f9e5f1b",
+      "bytes": 4064
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805",
+      "target_language": "es"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG005西语：保留原音轨与稳定UI局部修复\n\n范围：原片SHA256 feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805，目标语 es，历史成片SHA256 57094da01e69b467030868849fba2edeb7dc1b8960c909b42ba0ecce7b96da21。本次审查独立保全案例和原始回执，不新增整片质量验收。\n\n原片本身已有西语口播、下方字幕及CTA，本次主要替换英语UI标签/地理行。ImageGen供体仅用于稳定蓝色面板的标签区；实时计数、孩子、地图与其他运动沿用原帧。原记录用整个编码音频包哈希一致核对保留的原Opus人声、音乐、音效和片尾。见evidence:review与evidence:sequence。\n\n原字幕ha empezado与ASR识别ha comenzado同义但不逐字相同，另一行拆开está；内部精确字幕同步仍有revise，不能因原声保留就宣称逐字一致。新语种不沿用西语定稿与音轨，移动UI也不能套用静态供体。\n\n本源两份当前output有用户明确“本次output，不用去水印”的限定例外，Apkzonic及匹配片尾标识因此保留；这不是默认去水印政策的反例或取消。未知音频费用和英语上传unknown沿原账本保留，不由本案例结清。\n\n现行通用入口继续使用[按内容选路](../rules/content-led-localization-v1.md)、[图片优先](../rules/imagegen-first-v1.md)和[实际口播字幕核对](../rules/method-spoken-caption-verification-v4.md)。本条只补限定观察，不重复发布通用规则。\n",
+    "source_sha256": "feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805",
+    "video_sha256": "57094da01e69b467030868849fba2edeb7dc1b8960c909b42ba0ecce7b96da21",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/mog005-es-original-audio-stable-ui-v1-review.json",
+      "sequence": "evidence/mog005-es-original-audio-stable-ui-v1-es-imagegen-contact.jpg"
+    }
+  }
+}

@@ -312,22 +312,18 @@ def followups(root=ROOT):
             chat = video.get('chat') or record.get('chat', {})
             if chat.get('state') != 'ready':
                 continue
-            from .fireplay_submission import bound_materials
+            from .fireplay_submission import coverage
             # User 2026-10-27: stop after Fireplay acceptance; downstream
             # YouTube queues and retries belong to Fireplay, not this monitor.
-            if bound_materials(record, video, root):
+            progress = coverage(record, video, root)
+            if progress['complete']:
                 continue
             box = path.parent / f'return-{video["index"]}.json'
             pending_locales = None
-            manual = path.parent / f'user-approved-return-{video["index"]}.json'
-            if manual.exists() and read_json(manual).get('state') == 'returned_user_approved':
-                continue
             if box.exists():
                 outbox = read_json(box)
                 if outbox.get('state') == 'returned':
-                    pending_locales = outbox.get('pending_locales')
-                    if not pending_locales:
-                        continue
+                    pending_locales = progress['missing_locales']
             if box.exists() and pending_locales is None:
                 operations = outbox.get('operations', {})
                 operations = operations.values() if isinstance(operations, dict) else operations
@@ -343,37 +339,40 @@ def followups(root=ROOT):
                     latest[package.get('target_language')] = package
                 matching = list(latest.values())
                 if set(p.get('target_language') for p in matching) != set(pending_locales or video['targets']):
-                    continue
-                # Historical browser submissions may predate the canonical
-                # outbox. Match actual bytes/IDs and verified binding, not names.
-                submitted = False
-                for receipt_path in path.parent.glob('*/verified-*-materials.json'):
-                    verified = read_json(receipt_path)
-                    if (verified.get('bound_requirement') != record['requirement_id'] or
-                            verified.get('source_sha256') != video.get('source', {}).get('sha256')):
+                    action = 'complete_delivery'
+                    identity = object_hash({'coverage': progress, 'ready_packages': matching})
+                else:
+                    # Historical browser submissions may predate the canonical
+                    # outbox. Match actual bytes/IDs and verified binding, not names.
+                    submitted = False
+                    for receipt_path in path.parent.glob('*/verified-*-materials.json'):
+                        verified = read_json(receipt_path)
+                        if (verified.get('bound_requirement') != record['requirement_id'] or
+                                verified.get('source_sha256') != video.get('source', {}).get('sha256')):
+                            continue
+                        actual = {r.get('locale'): r for r in verified.get('rows', []) if fireplay._uuid(r.get('material_id'))
+                                  and all(r.get(k) is True for k in ('name_verified','tags_verified','sharing_verified','byte_identity_verified'))}
+                        if all(p['target_language'] in actual and
+                               actual[p['target_language']].get('sha256') == p.get('video_sha256') for p in matching):
+                            submitted = True
+                            break
+                    if submitted:
                         continue
-                    actual = {r.get('locale'): r for r in verified.get('rows', []) if fireplay._uuid(r.get('material_id'))
-                              and all(r.get(k) is True for k in ('name_verified','tags_verified','sharing_verified','byte_identity_verified'))}
-                    if all(p['target_language'] in actual and
-                           actual[p['target_language']].get('sha256') == p.get('video_sha256') for p in matching):
-                        submitted = True
-                        break
-                if submitted:
-                    continue
-                action, identity = 'auto_return', object_hash(matching)
-                blocked = False
-                for package in matching:
-                    if package.get('status') == 'delivered_with_issues':
-                        digest = package.get('video_sha256') or ''
-                        review_file = path.parent / 'publication-reviews' / (digest + '.json')
-                        if not review_file.exists():
-                            action = 'review_publication'
-                        elif read_json(review_file).get('decision') != 'minor_issues_acceptable':
-                            blocked = True
-                if blocked:
-                    continue
+                    action, identity = 'auto_return', object_hash(matching)
+                    blocked = False
+                    for package in matching:
+                        if package.get('status') == 'delivered_with_issues':
+                            digest = package.get('video_sha256') or ''
+                            review_file = path.parent / 'publication-reviews' / (digest + '.json')
+                            if not review_file.exists():
+                                action = 'review_publication'
+                            elif read_json(review_file).get('decision') != 'minor_issues_acceptable':
+                                blocked = True
+                    if blocked:
+                        action = 'resolve_delivery_blockers'
             task = {'code': record['code'], 'video_index': video['index'], 'threadId': chat['threadId'],
-                    'hostId': chat.get('hostId', 'local'), 'action': action, 'artifact_identity': identity}
+                    'hostId': chat.get('hostId', 'local'), 'action': action, 'artifact_identity': identity,
+                    'missing_locales': progress['missing_locales']}
             task['key'] = object_hash(task)
             note = _directory(root) / 'signals' / (task['key'] + '.json')
             task['signal_state'] = read_json(note)['state'] if note.exists() else 'prepared'
@@ -401,11 +400,11 @@ def signal(spec, root=ROOT):
         from .kie_access import instruction as kie_access_instruction
         from .fireplay_youtube import instruction as youtube_instruction
         message = (f'按已授权项目流程继续需求{task["code"]}第{task["video_index"]}个原片的回传。'
-                   f'当前待办：{task["action"]}。复用既有run、素材ID、outbox和真实回执；未知写入先核查，不重复上传。'
+                   f'当前待办：{task["action"]}，缺少语种：{task["missing_locales"]}。复用既有run、素材ID、outbox和真实回执；未知写入先核查，不重复上传。'
                    '用户已允许正式outputs完整成品的普通小瑕疵，按fireplay-publication-review记录实际严重度；合格或小瑕疵直接提交，不再询问固定动作。严重/多项影响观看的问题、漏译或缺少必需配音阻止上传，保留质量结论。'
                    + kie_access_instruction(root) +
                    youtube_instruction(root) +
-                   'Fireplay受理并核验共享、标签及绑定后就收尾；不跟踪YouTube进度，不因排队/限额重入库。'
+                   '逐项核对本需求全部原片与全部目标语种；只有全部入库、共享、标签和绑定核验后才可结案。partial和unknown继续恢复，不以部分成功收尾；不跟踪YouTube进度，不因排队/限额重入库。'
                    + fireplay.submission_instruction(root))
         value = {'state': 'unknown', 'task': task, 'dispatched_at': utc_now(),
                  'host_action': {'tool': 'send_message_to_thread', 'arguments': {

@@ -1,0 +1,59 @@
+{
+  "source_sha256": "feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805",
+  "target_language": "es",
+  "video_sha256": "57094da01e69b467030868849fba2edeb7dc1b8960c909b42ba0ecce7b96da21",
+  "original_case_manifest_sha256": "2e1a796601ac3aff394c1c37a053f9c9435c4e44dc896ac38c50b9ab83e77563",
+  "original_review_sha256": "4e990f0bc9ceb4864666f164954c74294780a6fb7d35561ba5fb4fb41d3e1441",
+  "reviewer": "Codex same-agent visual/semantic review with actual model attribution",
+  "original_review_method": "Inspected actual final native 2.5s/7s frames, all-time 2fps contact and individual caption boundary frames; source/model continuous galleries and native frame/provenance checked. Browser actually completed full 1x playback with 10 captured visual samples, but this is not a human full real-time listening claim.",
+  "historical_checks": {
+    "translation": {
+      "decision": "pass",
+      "observation": "Source already Spanish; original Spanish speech, lower captions and CTA retained. Only English app labels/location line replaced with precise Spanish, with original live gift counter pixels."
+    },
+    "source_text_removed": {
+      "decision": "pass",
+      "observation": "ImageGen clean original stable blue panel used only in label region. Original child, captions, map motion, live counter and brand/outro retained. No original-label fragments seen in native UI frame; small source subtitle split word remains."
+    },
+    "protected_graphics": {
+      "decision": "pass",
+      "observation": "Source-frame comparison confirms the Santa/reindeer, child body, map data/icons, moving publisher watermark and APKZONIC outro retained; edits stay inside specified text areas."
+    },
+    "native_motion": {
+      "decision": "pass",
+      "observation": "All 689 original source frames at30fps, scene cuts, child/sleigh and map motion retained. Only stable UI text region uses an appearance reference; no source people or map are frozen."
+    },
+    "speech_complete": {
+      "decision": "pass",
+      "observation": "Entire original Opus encoded packet hash equals candidate audio packet hash, proving full original speech/music/effects and tail retained. Source Whisper small detected es and seven complete lines. No new synthesized Spanish voice and no direct human listening claimed."
+    },
+    "head_tail_audio": {
+      "decision": "pass",
+      "observation": "Full original Opus packet content exactly equals source including first line, seven spoken lines and logo tail."
+    },
+    "music_effects": {
+      "decision": "pass",
+      "observation": "Entire original Opus encoded packet hash equals candidate audio packet hash, proving full original speech/music/effects and tail retained. Source Whisper small detected es and seven complete lines. No new synthesized Spanish voice and no direct human listening claimed."
+    },
+    "caption_sync": {
+      "decision": "revise",
+      "observation": "Original Spanish lower captions retained. Source sentence2 has synonymous wording versus ASR and exact boundary/copy agreement is not claimed; internal caption check remains revise although translation meaning and complete original audio are retained."
+    }
+  },
+  "curation_review": "Same-agent source-record and independent-bundle hash review; no new full audiovisual/native-speaker/company acceptance",
+  "limits": [
+    "Single source and exact locale only",
+    "Original failures, quality decisions, fees and platform pending states remain unchanged",
+    "Selected images are necessary observations, not exhaustive frame/audio proof"
+  ],
+  "publisher_exception": {
+    "authority": "user",
+    "authorization_ref": "request_user_input_async/call_99afbc3647c7415496dcce4d96a7ebb4/0",
+    "source_quote": "本次output，不用去水印",
+    "scope": "MOG-20261028-005 current en/es outputs only; no general policy change",
+    "output_sha256": {
+      "en": "5550c6d7f20e867d4aa44469189de2d24476f6010a9ca6acab7b5c71d85bc1b8",
+      "es": "57094da01e69b467030868849fba2edeb7dc1b8960c909b42ba0ecce7b96da21"
+    }
+  }
+}

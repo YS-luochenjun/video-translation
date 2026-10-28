@@ -27,7 +27,7 @@
 
 负责聊天按编号接入的质量、partial:true、固定入库/共享/标签/命名/绑定及unknown保护继续；不在deliver后再问已授权提交同意。当前platform_managed路由不强制账号/任务组核验，受理绑定后不跟踪YouTube进度，不为缺链接重传。严重质量问题仍阻断对应版本，普通小瑕疵需真实发布审查，内部revise保留。
 
-status.publication_followups只导航尚未提交/绑定的成片。活跃负责聊天自行继续；空闲且signal_state=prepared时，先signal {key}登记unknown，再执行返回的已授权send_message_to_thread，随后signal {key,response:真实发送回执}。sent不重发，unknown查原聊天/原请求；输入身份变化重新读取status。主控可向已交办负责聊天派发制作、恢复及固定回传，不向无关聊天/第三人发消息。精确素材/绑定已完整的旧任务不再因YouTube状态唤醒。
+status.publication_followups导航所有尚未完整交付的原片/语种，包括成片未齐的complete_delivery、质量待解的resolve_delivery_blockers和unknown恢复。按[全项交付规则](../../knowledge/rules/fireplay-complete-delivery-v2.md)，partial仅是中间状态，不等全部缺项就绪才补漏，也不因手工回执写returned就停止；以全部语种真实绑定为准。活跃负责聊天自行继续；空闲且signal_state=prepared时，先signal {key}登记unknown，再执行返回的已授权send_message_to_thread，随后signal {key,response:真实发送回执}。sent不重发，unknown查原聊天/原请求；媒体上传真实超时按持续授权有界重传，旧unknown留存；输入身份变化重新读取status。主控可向已交办负责聊天派发制作、恢复及固定回传，不向无关聊天/第三人发消息。精确素材/绑定已完整的旧任务不再因YouTube状态唤醒。
 
 负责聊天完成本次交付的候选、实际使用反馈与必要记录，按既有门禁完成maintain RUN --close；未知费用、异议、活动现场及必要证据保留。全局knowledge-queue/hooks审查交[独立经验任务](knowledge-sweep.md)，跨任务容量与回收交[独立存储任务](storage-sweep.md)。巡检只派发必要补漏，不在此展开全局提纯或清理。
 

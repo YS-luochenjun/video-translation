@@ -1,0 +1,42 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261028-005-01-5550c6d7f2.json",
+    "sha256": "43378b9e5fb642b1c0d878182e7a2bea610b9581812729c1da5983962c02dc91"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent source-record/hash curation; no new native-speaker or independent video acceptance",
+  "origin": "User requested another project consolidation; actual retained cases and current feedback reviewed",
+  "resolution": "adopted",
+  "reason": "Actual source-specific observations are independently packaged in the exact source/locale case. Repeated generic method-use summaries do not create new rules or independent proof.",
+  "targets": [
+    {
+      "id": "mog005-en-imagegen-wan-local-adoption-v1",
+      "path": "knowledge/cases/mog005-en-imagegen-wan-local-adoption-v1.md",
+      "sha256": "838b2c2492ee9477e10d58fcd35873e7555b7c7653f9271dda959b7bbce4ab58",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805",
+        "target_language": "en"
+      },
+      "snapshot": "# MOG005英语：ImageGen参考图进入Wan后的局部采用\n\n范围：原片SHA256 feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805，目标语 en，历史成片SHA256 5550c6d7f20e867d4aa44469189de2d24476f6010a9ca6acab7b5c71d85bc1b8。本次审查独立保全案例和原始回执，不新增整片质量验收。\n\n三份真实Wan视频编辑任务均成功，实际输入包含reference_image；参考图、提交包和连续结果的本地字节哈希均已核对。累计已知费用256 credits只描述这三份历史任务，不是新调用报价或预算授权。实际采用记录将连续结果限制在原黄色字形/描边区域，外部运动、人物和UI继续取原帧。见evidence:review与evidence:sequence。\n\n原记录指出单张参考的静态传播不足，生成整帧也可能漂移；最终同Agent自审仍披露额头/地图纹理轻微软化。不能把模型成功或参考图清洁等同于连续视频无损，不能把整幅生成图铺满动态片段。后续同源复用先核对镜头、实际运动、字形边缘及切镜，目标语重新定稿、配音和审核。\n\n英语下方六条口播字幕与较早出现、持续显示的CTA分开计时。原音频理解模型时间戳超过真实片长，不能用其时间标签替代实际编码音轨ASR和帧边界。没有新增独立听审或口型合成。\n\n本源两份当前output有用户明确“本次output，不用去水印”的限定例外，Apkzonic及匹配片尾标识因此保留；这不是默认去水印政策的反例或取消。未知音频费用和英语上传unknown沿原账本保留，不由本案例结清。\n\n现行通用入口继续使用[按内容选路](../rules/content-led-localization-v1.md)、[图片优先](../rules/imagegen-first-v1.md)和[实际口播字幕核对](../rules/method-spoken-caption-verification-v4.md)。本条只补限定观察，不重复发布通用规则。\n"
+    }
+  ],
+  "adopted_parts": [
+    "The exact locale historical production decisions, failures, local restoration/voice-caption boundary observations and their explicit limitations, as recorded in the linked case"
+  ],
+  "retained_parts": [
+    "All original records and quality decisions remain unchanged",
+    "Statements about another locale are retained as historical context, not promoted to this locale",
+    "No new cross-source/independent acceptance, general watermark exemption, cost settlement or platform completion is inferred",
+    "not_used entries remain not_used; helpful is a historical same-agent report, not new proof"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-10-28T06:29:33+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

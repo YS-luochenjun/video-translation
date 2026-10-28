@@ -22,6 +22,23 @@
       "platform_acceptance"
     ],
     "downstream_owner": "Fireplay",
-    "routing_policy": "config/fireplay-youtube-routing.json: platform_managed"
+    "routing_policy": "config/fireplay-youtube-routing.json: platform_managed",
+    "coverage": {
+      "mode": "all_sources_all_requested_locales",
+      "partial_is_intermediate_only": true,
+      "close_only_after_all_materials_bound": true,
+      "authority": "user",
+      "authorization_ref": "user-fireplay-complete-delivery-20261028",
+      "policy": "knowledge/rules/fireplay-complete-delivery-v2.md",
+      "source_quote": "目前增加知识，完成视频翻译后，一定要上传所有内容，不要只上传一半内容，请你务必上传时，要上传所有内容。"
+    },
+    "upload_timeout_retry": {
+      "authority": "user",
+      "authorization_ref": "user-fireplay-timeout-reupload-20261028",
+      "source_quote": "其他之前的上传内容，我不清楚是否有缺少。以后的内容需要注意不能进行缺少。上传超时就重新传，其他的语言都能传上去，怎么会就这个语言上不去呢。",
+      "max_additional_attempts": 2,
+      "preserve_unknown_original": true,
+      "scope": "Media file uploads only, before any material import; known resource/material IDs are reused"
+    }
   }
 }

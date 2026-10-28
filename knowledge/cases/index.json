@@ -2254,6 +2254,141 @@
       "reference_video_sha256": "08d5f7c40311baed390060337ba1ca3834a77451983ed057d577e79f8d4b9743",
       "knowledge_type": "source_reference",
       "validation_level": "developer_reviewed_guidance"
+    },
+    {
+      "id": "mog005-en-imagegen-wan-local-adoption-v1",
+      "path": "knowledge/cases/mog005-en-imagegen-wan-local-adoption-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805",
+        "target_language": "en"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "visual",
+        "speech"
+      ],
+      "origin": "User requested project consolidation; same-agent review of actual retained source records and bounded lessons",
+      "reviewed_by": "Codex source/receipt/hash curation review; no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T06:21:08+00:00",
+      "method_sha256": "838b2c2492ee9477e10d58fcd35873e7555b7c7653f9271dda959b7bbce4ab58",
+      "case": "knowledge/examples/mog005-en-imagegen-wan-local-adoption-v1",
+      "case_manifest_sha256": "b527ba8dbf1cfeebf531578c46a432bce42f6a6c017baf4adef6abba3751c293",
+      "reference_video_sha256": "5550c6d7f20e867d4aa44469189de2d24476f6010a9ca6acab7b5c71d85bc1b8",
+      "knowledge_type": "source_reference",
+      "validation_level": "same_agent_recorded_observations",
+      "language_match": "exact"
+    },
+    {
+      "id": "mog005-es-original-audio-stable-ui-v1",
+      "path": "knowledge/cases/mog005-es-original-audio-stable-ui-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805",
+        "target_language": "es"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "visual",
+        "speech"
+      ],
+      "origin": "User requested project consolidation; same-agent review of actual retained source records and bounded lessons",
+      "reviewed_by": "Codex source/receipt/hash curation review; no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T06:21:08+00:00",
+      "method_sha256": "7a28d1829e4054215bad393819595044456787f035fdac3ff0c540f5d6fef5e0",
+      "case": "knowledge/examples/mog005-es-original-audio-stable-ui-v1",
+      "case_manifest_sha256": "5c31f797a88e515374f448782f2fcc0d2b05a41d789056a1f0502524bf986be6",
+      "reference_video_sha256": "57094da01e69b467030868849fba2edeb7dc1b8960c909b42ba0ecce7b96da21",
+      "knowledge_type": "source_reference",
+      "validation_level": "same_agent_recorded_observations",
+      "language_match": "exact"
+    },
+    {
+      "id": "mog063-es-straw-and-phone-boundaries-v1",
+      "path": "knowledge/cases/mog063-es-straw-and-phone-boundaries-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "762b4b1d0c10fe4649c5360e2aeabe730d38f7903f07191eef86fd02ab7ac622",
+        "target_language": "es"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "visual",
+        "speech"
+      ],
+      "origin": "User requested project consolidation; same-agent review of actual retained source records and bounded lessons",
+      "reviewed_by": "Codex source/receipt/hash curation review; no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T06:21:08+00:00",
+      "method_sha256": "ca7a1bb80b6b6df8e63d7f4fcddd65bf592f5547a167195e84b10e393c760f3a",
+      "case": "knowledge/examples/mog063-es-straw-and-phone-boundaries-v1",
+      "case_manifest_sha256": "7171fb51efe2af5a9f271e88c85a984fa853cd7c0ea3f7620f0dacf5972f16c5",
+      "reference_video_sha256": "d3025bbc02af36bb37c9d149361ad59d568182efad1f31a0ec048ddad7084abe",
+      "knowledge_type": "source_reference",
+      "validation_level": "same_agent_recorded_observations",
+      "language_match": "exact"
+    },
+    {
+      "id": "mog063-hi-straw-and-phone-boundaries-v1",
+      "path": "knowledge/cases/mog063-hi-straw-and-phone-boundaries-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "762b4b1d0c10fe4649c5360e2aeabe730d38f7903f07191eef86fd02ab7ac622",
+        "target_language": "hi"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "visual",
+        "speech"
+      ],
+      "origin": "User requested project consolidation; same-agent review of actual retained source records and bounded lessons",
+      "reviewed_by": "Codex source/receipt/hash curation review; no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T06:21:08+00:00",
+      "method_sha256": "5520cca285e49d7f2425b8db8c22234fc36df4eba8e2cdfdbe229fcf3fed8ec0",
+      "case": "knowledge/examples/mog063-hi-straw-and-phone-boundaries-v1",
+      "case_manifest_sha256": "37a0ce2db9f0eae89b8de2fef57a8ed5faabd34185e9f3a37f86740793b2d223",
+      "reference_video_sha256": "e1ffd93dd631a97e49d25b464ea7ca4d762d50ceea8f1c9f8000c039f8d115ce",
+      "knowledge_type": "source_reference",
+      "validation_level": "same_agent_recorded_observations",
+      "language_match": "exact"
+    },
+    {
+      "id": "mog063-pt-straw-and-phone-boundaries-v1",
+      "path": "knowledge/cases/mog063-pt-straw-and-phone-boundaries-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "762b4b1d0c10fe4649c5360e2aeabe730d38f7903f07191eef86fd02ab7ac622",
+        "target_language": "pt"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "visual",
+        "speech"
+      ],
+      "origin": "User requested project consolidation; same-agent review of actual retained source records and bounded lessons",
+      "reviewed_by": "Codex source/receipt/hash curation review; no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T06:21:08+00:00",
+      "method_sha256": "c660e76137618a1f22c5b6fbeb54db59e12447e9bc422d2f5623edb48e43f848",
+      "case": "knowledge/examples/mog063-pt-straw-and-phone-boundaries-v1",
+      "case_manifest_sha256": "0218b02e92d9a79b2f3e2b9c5e2a40191f7df98fde60dde59e2a1b9fdea96f3d",
+      "reference_video_sha256": "d137799a21fbb87873e49ba4a686f36b8126a86f423ff3be7d501ae496956c2e",
+      "knowledge_type": "source_reference",
+      "validation_level": "same_agent_recorded_observations",
+      "language_match": "exact"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

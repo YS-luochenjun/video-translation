@@ -558,35 +558,6 @@ def _fresh(record):
     require(record['snapshot']['row'].get('canBindMaterials') is True, 'No current material binding permission')
 
 
-def _publication(record, spec, defaults):
-    policy = defaults.get('publication', {})
-    require(policy.get('authority') == 'user' and policy.get('authorization_ref') and
-            policy.get('youtube_auto_upload') is True and policy.get('share_to_requirement_group') is True,
-            'Missing the user-approved Fireplay publication policy')
-    options = payload(spec['sharing_receipt']).get('departments', [])
-    row = record['snapshot']['row']
-    # Only use an ID actually returned by the sharing tool, never construct one.
-    source_id = row['deptId']
-    candidates = [d for d in options if d.get('deptName') == row.get('deptName') and
-                  d.get('deptId') in (source_id, source_id[3:] if source_id.startswith('od-') else source_id)]
-    require(len(candidates) == 1, 'Read current material_sharing_departments and resolve the exact requirement group')
-    product = spec.get('product_tag')
-    if not product:
-        for field in ('title', 'description'):
-            text = record['snapshot']['brief'].get(field) or ''
-            if '翻译' in text:
-                candidate = text.split('翻译', 1)[0].strip()
-                if candidate and not re.search(r'https?://|[【\[\n]', candidate):
-                    product = candidate
-                    break
-    require(isinstance(product, str) and 1 <= len(product.strip().split()) <= 2 and
-            len(product.strip()) <= 80 and not re.search(r'https?://|[\n\r]', product),
-            'Agent must derive a one- or two-word product tag from the brief or actual video')
-    return {'policy': policy, 'shared_dept_id': candidates[0]['deptId'], 'dept_name': candidates[0]['deptName'],
-            'product_tag': product.strip(), 'sharing_receipt_sha256': object_hash(payload(spec['sharing_receipt'])),
-            'youtube_status': 'requested_not_verified', 'instruction': defaults.get('submission_instruction', '')}
-
-
 def prepare_return(code, spec, root=ROOT):
     """Freeze reviewed deliveries; explicit partial batches retain pending locales."""
     from . import bundles
@@ -604,22 +575,9 @@ def prepare_return(code, spec, root=ROOT):
                 set(authority.get('actions', [])) >= {'upload', 'import', 'bind'}, 'Need attributed authority to upload, import and bind after review')
         defaults_path = Path(root) / 'config/fireplay-intake.json'
         defaults = read_json(defaults_path) if defaults_path.exists() else {}
-        publication = _publication(record, spec, defaults)
-        attribution = spec.get('attribution') or record.get('decision', {}).get('attribution') or defaults.get('attribution', {})
-        require(attribution.get('authorization_ref') and attribution.get('source_quote'),
-                'Specify the human-confirmed designer DID(s), or explicitly choose unassigned attribution')
-        dids = attribution.get('designer_dids')
-        if dids:
-            require(isinstance(dids, str) and re.fullmatch(r'D\d+(?:\+D\d+)*', dids), 'Invalid designer DID naming suffix')
-            suffix = '_' + dids
-        else:
-            require(attribution.get('unassigned') is True,
-                    'Missing verified designer DID; resolve requirement assignees under the user attribution policy or record no designer')
-            suffix = ''
-        creation = attribution.get('creation_type', 'unspecified')
-        require(creation in ('unspecified', 'original', 'derivative'), 'Invalid creation attribution')
-        require(creation == 'unspecified' or dids, 'Creation attribution needs confirmed designer DID(s)')
-        suffix += {'unspecified': '', 'original': '_$', 'derivative': '_#'}[creation]
+        from . import fireplay_materials as material_policy
+        publication = material_policy.publication(record, spec, defaults, payload(spec['sharing_receipt']))
+        attribution, suffix = material_policy.attribution(record, spec, defaults)
         packages = []
         selected_video = _video(record, index)
         expected = {(index, lang) for lang in selected_video['targets']}
@@ -654,7 +612,7 @@ def prepare_return(code, spec, root=ROOT):
                              'file': str(movie.relative_to(root)), 'name': display_name + suffix, 'display_name': display_name,
                              **({'publication_acceptance': acceptance} if acceptance else {}),
                              'tags': list(dict.fromkeys([item['locale'], publication['product_tag']]
-                                     + (['二创'] if creation == 'derivative' else [])))})
+                                     + (['二创'] if attribution.get('creation_type') == 'derivative' else [])))})
         require(seen and (seen == expected or spec.get('partial') is True),
                 'All requested languages for this video must have reviewed deliveries before return; use partial=true for a reviewed subset')
         pending = [lang for lang in selected_video['targets'] if (index, lang) not in seen]
@@ -667,6 +625,8 @@ def prepare_return(code, spec, root=ROOT):
             old = read_json(path)
             require(old['publication'] == publication and old['content_version'] == value['content_version'],
                     'An outbox already exists for different deliverables; preserve and reconcile it first')
+            require(material_policy.identity(old.get('attribution', {})) == material_policy.identity(attribution),
+                    'An outbox already exists with different attribution; preserve and reconcile it first')
             if old['packages'] == packages:
                 return old
             # A batch containing only explicitly deferred unknown uploads has
@@ -743,7 +703,8 @@ def _next_operation(outbox):
     operations = outbox['operations']
     active = _active_packages(outbox)
     for i, item in active:
-        for phase in ('upload', 'import', 'verify'):
+        phases = ('upload', 'import', 'attribute', 'verify') if outbox.get('attribution', {}).get('designer_ids') else ('upload', 'import', 'verify')
+        for phase in phases:
             key = f'{phase}-{i}'
             if operations.get(key, {}).get('state') != 'verified':
                 return key, phase, item
@@ -766,7 +727,10 @@ def dispatch(code, execute=False, root=ROOT, index=1):
             return {'state': 'partially_returned' if outbox.get('pending_locales') else 'returned',
                     'pending_locales': outbox.get('pending_locales', []),
                     'status_changed': False, 'youtube_status': 'requested_not_verified',
-                    'next': 'Fireplay acceptance is verified. Record external submission and maintain RUN --close; YouTube execution is delegated to Fireplay, do not poll downstream progress.'}
+                    'next': ('Partial batch is bound; continue every pending locale before requirement closure. '
+                             'Do not poll downstream YouTube progress.' if outbox.get('pending_locales') else
+                             'Fireplay acceptance is verified. Record external submission and maintain RUN --close; '
+                             'YouTube execution is delegated to Fireplay, do not poll downstream progress.')}
         existing = outbox['operations'].get(key)
         if phase == 'verify':
             material_id = outbox['operations'][key.replace('verify', 'import')]['result']['material_id']
@@ -823,6 +787,13 @@ def dispatch(code, execute=False, root=ROOT, index=1):
                 arguments = {'VedioSouce': 'YouTube', 'items': [{'url': upload['publicUrl'], 'resource_id': upload['resourceId'],
                              'already_in_r2': True, 'type': 'video', 'source': 'MCP', 'name': item['name'],
                              'shared_dept_id': outbox['publication']['shared_dept_id'], 'tags': item['tags']}]}
+        elif phase == 'attribute':
+            materialize = None
+            tool = 'material_attribution_update'
+            material_id = outbox['operations'][key.replace('attribute', 'import')]['result']['material_id']
+            arguments = {'material_ids': [material_id], 'designer_ids': outbox['attribution']['designer_ids']}
+            if outbox['attribution'].get('creation_type', 'unspecified') != 'unspecified':
+                arguments['creation_type'] = outbox['attribution']['creation_type']
         else:
             tool, materialize = 'requirement_bind_materials', None
             # Recheck every hash/quality hold before the association, including
@@ -844,6 +815,8 @@ def dispatch(code, execute=False, root=ROOT, index=1):
             arguments = {'items': [{'requirement_id': outbox['requirement_id'], 'material_ids': ids}]}
         operation = {'id': key, 'tool': tool, 'arguments': arguments, 'materialize': materialize,
                      'state': 'unknown', 'dispatched_at': utc_now(), 'content_version': outbox['content_version']}
+        if phase == 'upload' and outbox.get('upload_attempts', {}).get(key):
+            operation['attempt'] = len(outbox['upload_attempts'][key]) + 1
         if youtube_route:
             operation['youtube_route'] = youtube_route
         if execute:
@@ -888,7 +861,8 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
         if operation_id.startswith('upload-'):
             result = {}
             for field in ('publicUrl', 'resourceId'):
-                values = _collect(raw, field)
+                alias = {'publicUrl': 'public_url', 'resourceId': 'resource_id'}[field]
+                values = list(dict.fromkeys(_collect(raw, field) + _collect(raw, alias)))
                 require(len(values) == 1, 'Upload receipt is missing or ambiguous')
                 result[field] = values[0]
             from .kie import public_url
@@ -905,6 +879,17 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
                 from .fireplay_youtube import policy
                 field = 'youtube_task_verification' if policy(root).get('require_requirement_group') else 'youtube_task_observation'
                 result[field] = spec['youtube_task_verification']
+        elif operation_id.startswith('attribute-'):
+            require(not raw.get('preview') and not raw.get('isPreview'), 'Attribution preview is not an executed write')
+            material = payload(spec['verification']).get('material', {})
+            expected_id = operation['arguments']['material_ids'][0]
+            require(material.get('id') == expected_id, 'Attribution material identity read-back differs')
+            from .fireplay_materials import verify_attribution
+            verify_attribution(material, operation['arguments'],
+                               'Attribution needs exact material designer read-back',
+                               'Attribution creation type read-back differs')
+            result = {'material_id': expected_id, 'designer_ids': material['designerIds'],
+                      'creation_type': material.get('creationType')}
         elif operation_id.startswith('verify-'):
             material = raw.get('material', raw)
             package = outbox['packages'][int(operation_id.split('-')[1]) - 1]
@@ -914,6 +899,10 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             require(material.get('isPublic') is False and material.get('sharedDeptId') == outbox['publication']['shared_dept_id'],
                     'Material read-back does not match sharing to the requirement group')
             require(set(package['tags']).issubset(tags), 'Material read-back is missing language or product tags')
+            from .fireplay_materials import verify_attribution
+            verify_attribution(material, outbox.get('attribution', {}),
+                               'Material read-back lost verified designer attribution',
+                               'Material read-back lost verified designer attribution')
             result = {'material_id': material['id'], 'name': material['name'], 'tags': sorted(tags),
                       'shared_dept_id': material['sharedDeptId'], 'youtube_status': 'requested_not_verified'}
         else:
@@ -932,6 +921,8 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
                     'Binding verification must be a current read-after-write response')
             result = {'material_ids': sorted(expected), 'verification_sha256': object_hash(verification)}
             outbox['state'] = 'returned'
+            accepted = {p['locale'] for _, p in _active_packages(outbox)}
+            outbox['pending_locales'] = [lang for lang in _video(record, index)['targets'] if lang not in accepted]
         operation.update(state='verified', result=result, receipt_sha256=object_hash(spec), verified_at=utc_now())
         write_json(_folder(code, root) / 'receipts' / f'{index}-{operation_id}.json', spec)
         write_json(path, outbox)
@@ -970,4 +961,7 @@ def status(code, root=ROOT):
     result['returns'] = {index: ('partially_returned' if box['state'] == 'returned'
                                 and box.get('pending_locales') else box['state']) for index, box in boxes.items()}
     result['return_pending_locales'] = {index: box.get('pending_locales', []) for index, box in boxes.items()}
+    from .fireplay_submission import coverage
+    result['delivery_coverage'] = {v['index']: coverage(record, v, root) for v in record['videos']}
+    result['submission_complete'] = all(v['complete'] for v in result['delivery_coverage'].values())
     return result

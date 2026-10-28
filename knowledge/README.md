@@ -21,7 +21,11 @@
 
 ## 按场景选择
 
+[全项交付与超时恢复](rules/fireplay-complete-delivery-v2.md)要求逐项核对全部原片/语种。部分批次不能当整项完成，真实文件上传超时按持续授权有界重传，原unknown和已有素材ID继续保留。
+
 [ImageGen优先政策](rules/imagegen-first-v1.md)保存2026-10-27用户明确图片处理偏好，并区分Wan参考图的接口支持和待验证效果；不从静态图片推断连续视频通过。
+
+实际采用的补充记录见[MOG005英语ImageGen参考图与Wan局部结果](cases/mog005-en-imagegen-wan-local-adoption-v1.md)、[同源西语稳定UI与原音轨](cases/mog005-es-original-audio-stable-ui-v1.md)，以及MOG063的[西语](cases/mog063-es-straw-and-phone-boundaries-v1.md)、[印地语](cases/mog063-hi-straw-and-phone-boundaries-v1.md)、[葡语](cases/mog063-pt-straw-and-phone-boundaries-v1.md)失败取舍和手机边界。各自保持精确源/语种范围；共用底片不增加独立视觉复验数，用户限定保留水印的例外不改变默认政策。
 
 [水印与片尾同标](rules/publisher-watermark-removal-v2.md)替代旧移动水印规则的默认范围：解析发布者身份、逐实例去除，并检查片尾同名文字/商标。静态与移动均按条件召回；用户两张Apkzonic指示图是范围证据，不是已完成视频修复的证明。
 

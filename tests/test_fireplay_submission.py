@@ -30,6 +30,31 @@ class SubmissionClosureTests(unittest.TestCase):
                    'state': 'pending', 'items': self.rows})
         self.assertEqual(fireplay_submission.bound_materials(self.record(), self.record()['videos'][0], self.root), [])
 
+    def test_partial_manual_return_does_not_hide_missing_locales(self):
+        write_json(self.folder/'user-approved-return-1.json', {'requirement_id': fixtures.RID,
+                   'state': 'returned_user_approved', 'items': self.rows[:1]})
+        progress = fireplay_submission.coverage(self.record(), self.record()['videos'][0], self.root)
+        self.assertEqual(progress['bound_locales'], ['es'])
+        self.assertEqual(progress['missing_locales'], ['ko'])
+        tasks = fireplay_monitor.followups(self.root)
+        self.assertEqual(tasks[0]['action'], 'complete_delivery')
+        self.assertEqual(tasks[0]['missing_locales'], ['ko'])
+
+    def test_missing_outputs_still_get_a_completion_followup(self):
+        task = fireplay_monitor.followups(self.root)[0]
+        self.assertEqual(task['action'], 'complete_delivery')
+        self.assertEqual(task['missing_locales'], ['es', 'ko'])
+
+    def test_returned_label_and_empty_pending_do_not_hide_unknown_import(self):
+        write_json(self.folder/'return-1.json', {'state':'returned', 'pending_locales':[],
+                   'packages':[{'locale':r['locale'],'sha256':r['sha256']} for r in self.rows],
+                   'operations':{'bind':{'state':'verified','result':{'material_ids':[fixtures.MID]}},
+                                 'import-1':{'state':'verified','result':{'material_id':fixtures.MID}},
+                                 'verify-1':{'state':'verified'}, 'import-2':{'state':'unknown'}}})
+        self.assertEqual(fireplay_submission.bound_materials(self.record(), self.record()['videos'][0], self.root), [])
+        self.assertEqual(fireplay_submission.coverage(self.record(), self.record()['videos'][0], self.root)['missing_locales'], ['ko'])
+        self.assertEqual(fireplay_monitor.followups(self.root)[0]['missing_locales'], ['ko'])
+
     def test_canonical_returned_outbox_never_polls_youtube(self):
         box = {'state': 'returned', 'packages': [{'locale': r['locale'], 'sha256': r['sha256']} for r in self.rows],
                'operations': {'bind': {'state': 'verified'}}}

@@ -1,0 +1,35 @@
+{
+  "authority": "user",
+  "source_quote": "目前增加知识，完成视频翻译后，一定要上传所有内容，不要只上传一半内容，请你务必上传时，要上传所有内容。",
+  "reported_missing": {
+    "MOG-20261027-044": [
+      "pt"
+    ],
+    "MOG-20261027-063": [
+      "vn",
+      "jp",
+      "de"
+    ],
+    "MOG-20261027-047": [
+      "vn",
+      "pt"
+    ]
+  },
+  "normalized_missing": {
+    "MOG-20261027-044": [
+      "pt"
+    ],
+    "MOG-20261027-063": [
+      "vi",
+      "ja",
+      "de"
+    ],
+    "MOG-20261027-047": [
+      "vi",
+      "pt"
+    ]
+  },
+  "same_agent_local_outbox_review": "Exact request targets, returned batches, pending locales and unknown uploads checked; original journals retained",
+  "quality_and_billing": "Not changed; completeness is distinct from paid retry permission or quality acceptance",
+  "repair_status": "Recovery dispatched to original owner chats; not proof of completed upload"
+}

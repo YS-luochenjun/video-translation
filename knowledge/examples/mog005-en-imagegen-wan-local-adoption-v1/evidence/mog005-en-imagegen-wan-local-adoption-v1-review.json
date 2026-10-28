@@ -1,0 +1,107 @@
+{
+  "source_sha256": "feab6f58be7d4edd70625966047da03975db6dfb624fc998c7e742cdb99ad805",
+  "target_language": "en",
+  "video_sha256": "5550c6d7f20e867d4aa44469189de2d24476f6010a9ca6acab7b5c71d85bc1b8",
+  "original_case_manifest_sha256": "fffeaac092fb44f87d1aa7c247293ea21b9f4e16f200e871a765c7049d4181c3",
+  "original_review_sha256": "5751f78b5b0fedea366ec5ab2a40959f6e199f00c14d6e370c94a73ed2ecca7c",
+  "reviewer": "Codex same-agent visual/semantic review with actual model attribution",
+  "original_review_method": "Inspected actual final native 2.5s/7s frames, all-time 2fps contact and individual caption boundary frames; source/model continuous galleries and native frame/provenance checked. Browser actually completed full 1x playback with 10 captured visual samples, but this is not a human full real-time listening claim.",
+  "historical_checks": {
+    "translation": {
+      "decision": "pass",
+      "observation": "Seven English spoken lines fully translated and observed in actual encoded-audio ASR; six lower captions and independent early/persistent CTA match final English copy; original English UI/geography retained."
+    },
+    "source_text_removed": {
+      "decision": "pass",
+      "observation": "ImageGen reference plus actual Wan continuous repair adopted only inside current old yellow glyph/outline masks; no observed old yellow Spanish text remains; source body, eyes/mouth outside erased letters, sleigh, sparks, map, UI counters, publisher watermark and outro preserved. Very slight repaired texture/color softness in forehead/map is minor at normal full-frame scale."
+    },
+    "protected_graphics": {
+      "decision": "pass",
+      "observation": "Source-frame comparison confirms the Santa/reindeer, child body, map data/icons, moving publisher watermark and APKZONIC outro retained; edits stay inside specified text areas."
+    },
+    "native_motion": {
+      "decision": "pass",
+      "observation": "All 689 original source frames at30fps preserved. Wan first/second inputs return158/188 frames; third returns150 instead of151, and the missing last frame is beyond the actual last yellow caption(frame490), so original frame496 onward is retained. No short clip stretched, duplicated, blended or frame-interpolated."
+    },
+    "speech_complete": {
+      "decision": "pass",
+      "observation": "Actual final encoded WAV ASR confirms English all seven lines through CTA end20.18s; comparative Gemini Flash reports same festive instrumental, original FX preservation and complete faithful English. Its coarse timestamps extend to25.5s beyond actual23.0335s, therefore its timestamps and sync opinion are NOT used as alignment evidence. Actual encoded-WAV ASR and caption boundary pixels are used for sync."
+    },
+    "head_tail_audio": {
+      "decision": "pass",
+      "observation": "Full candidate audio decoded and captured; actual ASR includes initial Christmas line and final spoken CTA; original source outro sound retained. No silence/half-line substitute."
+    },
+    "music_effects": {
+      "decision": "pass",
+      "observation": "Actual final encoded WAV ASR confirms English all seven lines through CTA end20.18s; comparative Gemini Flash reports same festive instrumental, original FX preservation and complete faithful English. Its coarse timestamps extend to25.5s beyond actual23.0335s, therefore its timestamps and sync opinion are NOT used as alignment evidence. Actual encoded-WAV ASR and caption boundary pixels are used for sync."
+    },
+    "caption_sync": {
+      "decision": "pass",
+      "observation": "Six actual encoded sentence captions inspected at before/start/mid/end/after frames, compared with actual encoded-WAV ASR; see caption-sync.json. Persistent top CTA is independent scene text, shown from4.767..20.4 as in source, not a timed lower caption."
+    }
+  },
+  "curation_review": "Same-agent source-record and independent-bundle hash review; no new full audiovisual/native-speaker/company acceptance",
+  "limits": [
+    "Single source and exact locale only",
+    "Original failures, quality decisions, fees and platform pending states remain unchanged",
+    "Selected images are necessary observations, not exhaustive frame/audio proof"
+  ],
+  "verified_model_jobs": [
+    {
+      "job": "6b2a7cd0f1447beb15687d677ccce1d94034e9ce14008ac1edc4bf897b68f125",
+      "task_id": "0b405f38500ede392076fb42c4400241",
+      "state": "success",
+      "model": "wan/2-7-videoedit",
+      "credits_consumed": 80.0,
+      "packet_sha256": "6b2a7cd0f1447beb15687d677ccce1d94034e9ce14008ac1edc4bf897b68f125",
+      "reference_image_sha256": "68a2e0fa7192d8beb4d5886a5699e2f64d0b83e8dd1d20e63b3ca1568224b6f1",
+      "reference_image_present_in_actual_packet": true,
+      "source_frames": [
+        0,
+        158
+      ],
+      "model_video_sha256": "751bc17decaa6700004b397edb7dc1d1d607f70c2c728f6f8693878cb96dfc43"
+    },
+    {
+      "job": "b5a1fd3c50c27f692706201ae181a417eacb2fc4fb772521a483899673b2148f",
+      "task_id": "061e6fd879e262994e16e094454ed66d",
+      "state": "success",
+      "model": "wan/2-7-videoedit",
+      "credits_consumed": 96.0,
+      "packet_sha256": "b5a1fd3c50c27f692706201ae181a417eacb2fc4fb772521a483899673b2148f",
+      "reference_image_sha256": "5520bb4d9da7265b7de0f5d80a1b44eef97dad4ee0358af602d26b16d063d531",
+      "reference_image_present_in_actual_packet": true,
+      "source_frames": [
+        158,
+        346
+      ],
+      "model_video_sha256": "40f010456356f5c0cc97437a8277790174cf95ad7c497c9503dc3b9caa7a9226"
+    },
+    {
+      "job": "f88a37428320068c6762f279b5aea8e5880cefb39c381e2392d95a6e1b875804",
+      "task_id": "56bd78dcdef25fba76b047b0d4deacbe",
+      "state": "success",
+      "model": "wan/2-7-videoedit",
+      "credits_consumed": 80.0,
+      "packet_sha256": "f88a37428320068c6762f279b5aea8e5880cefb39c381e2392d95a6e1b875804",
+      "reference_image_sha256": "2fbb59d927a04c7d18f1b3df52d6e41261800a0105a9378224afe4bde731ffe6",
+      "reference_image_present_in_actual_packet": true,
+      "source_frames": [
+        346,
+        496
+      ],
+      "model_video_sha256": "dcb5fde34255ea8bf4b6b19295e52e3c311e44bbbd3ca28c639bafc1bf259ad7"
+    }
+  ],
+  "adoption_record_sha256": "00fd5e8da3f54d40e548a81eea5a7abef67ca37832c5827e28a1f70d73061160",
+  "publisher_exception": {
+    "authority": "user",
+    "authorization_ref": "request_user_input_async/call_99afbc3647c7415496dcce4d96a7ebb4/0",
+    "source_quote": "本次output，不用去水印",
+    "scope": "MOG-20261028-005 current en/es outputs only; no general policy change",
+    "output_sha256": {
+      "en": "5550c6d7f20e867d4aa44469189de2d24476f6010a9ca6acab7b5c71d85bc1b8",
+      "es": "57094da01e69b467030868849fba2edeb7dc1b8960c909b42ba0ecce7b96da21"
+    }
+  }
+}

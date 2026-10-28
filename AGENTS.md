@@ -25,7 +25,7 @@
 
 [巡检流程](agent/workflows/fireplay-monitor.md)每30分钟检查全部可见组，人员仅提示；实际读正文、原片及语种判断翻译，排除原创/换人物/新开头。新翻译需求按持续授权独立建聊和计费；旧基线不自动重做，明确翻译但发布时间不明保留historical_translation_pending，不强改成非翻译。内容修订沿原聊天和预算审查。主控可向已交办负责聊天派发制作、恢复及固定回传；未知创建/发送/上传先核查，不重复执行。
 
-用户最新固定提交：**入素材库 → 共享需求组并请求YouTube自动上传 → 语言tag与1至2词产品tag → 编号加语言命名 → 绑定当前需求**。执行人中除罗晨钧、邹彬外的人员填为设计师，标记二创并追加“二创”tag；无其他人员才可留空，见[设计师归属规则](knowledge/rules/fireplay-designer-attribution-v1.md)。不改需求状态或投放。config/fireplay-youtube-routing.json采用platform_managed：普通MCP按平台路由，不强制账号截图或任务组核验，不因后台组显示卡住合格成片。仍核验真实入库、共享、名称、标签及绑定，unknown恢复原请求，已知素材不重入库。正式完整outputs的普通小瑕疵经真实fireplay-publication-review可提交；严重/过多问题、漏译、缺必需配音或有效质量异议仍阻断，不改写内部revise。允许partial:true先交合格语种，保留pending_locales和旧操作/绑定历史。受理绑定后经验收尾，YouTube进度/排队/限额/向量化交平台，不为缺链接重传、替换或删除；保留旧异常，不冒称已修正或改整个账号组。完整政策见config/fireplay-publication.json及[提交知识](knowledge/rules/fireplay-completion-recovery-v3.md)。
+用户最新固定提交：**入素材库 → 共享需求组并请求YouTube自动上传 → 语言tag与1至2词产品tag → 编号加语言命名 → 绑定当前需求**。执行人中除罗晨钧、邹彬外的人员填为设计师，标记二创并追加“二创”tag；无其他人员才可留空，见[设计师归属规则](knowledge/rules/fireplay-designer-attribution-v1.md)。不改需求状态或投放。config/fireplay-youtube-routing.json采用platform_managed：普通MCP按平台路由，不强制账号截图或任务组核验，不因后台组显示卡住合格成片。仍核验真实入库、共享、名称、标签及绑定，unknown恢复原请求；真实上传超时按持续授权有界重传并保留原记录，已知资源/素材复用ID、不重入库。正式完整outputs的普通小瑕疵经真实fireplay-publication-review可提交；严重/过多问题、漏译、缺必需配音或有效质量异议仍阻断，不改写内部revise。partial:true仅作中间批次，保留pending_locales并持续补交；[全部原片及全部目标语种](knowledge/rules/fireplay-complete-delivery-v2.md)真实入库/共享/标签/绑定核验后才可整项结案，不能上传一半就结束。保留旧操作/绑定历史。全项受理绑定后经验收尾，YouTube进度/排队/限额/向量化交平台，不为缺链接重传、替换或删除；保留旧异常，不冒称已修正或改整个账号组。完整政策见config/fireplay-publication.json及[提交知识](knowledge/rules/fireplay-completion-recovery-v3.md)。
 
 ## 数据、知识与维护
 

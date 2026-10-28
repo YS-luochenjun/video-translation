@@ -391,6 +391,10 @@ class MonitorTests(unittest.TestCase):
         write_json(self.root / 'outputs/index.json', {'entries':entries})
         self.assertEqual(monitor.followups(self.root)[0]['action'], 'review_publication')
         write_json(self.root/'state/fireplay'/CODE/'user-approved-return-1.json', {'state':'returned_user_approved'})
+        self.assertTrue(monitor.followups(self.root))
+        write_json(self.root/'state/fireplay'/CODE/'user-approved-return-1.json', {
+                   'state':'returned_user_approved', 'requirement_id':RID,
+                   'items':[{'locale':lang,'material_id':MID,'bound_verified':True} for lang in ['es','ko']]})
         self.assertEqual(monitor.followups(self.root), [])
 
     def test_cli_and_mcp_monitor_status(self):
@@ -412,7 +416,8 @@ class MonitorTests(unittest.TestCase):
         write_json(folder / 'request.json', record)
         write_json(folder / 'return-1.json', {'state': 'returned', 'pending_locales': ['ko'],
                    'packages': [{'locale': 'es', 'sha256': 'b'*64}], 'operations': {
-                       'bind': {'state': 'verified'}, 'import-1': {'result': {'material_id': MID}}}})
+                       'bind': {'state': 'verified'}, 'import-1': {'state':'verified','result': {'material_id': MID}},
+                       'verify-1': {'state':'verified'}}})
         entries = [{'origin_run_id': 'fixture-'+lang, 'target_language': lang, 'source_sha256': 'a'*64,
                     'status': 'delivered', 'video_sha256': ('b' if lang == 'es' else 'c')*64}
                    for lang in ['es', 'ko']]
@@ -426,7 +431,7 @@ class MonitorTests(unittest.TestCase):
         entries[1]['status'] = 'delivered_with_issues'
         write_json(self.root / 'outputs/index.json', {'entries': entries})
         write_json(folder / 'publication-reviews' / ('c'*64 + '.json'), {'decision': 'blocked'})
-        self.assertEqual(monitor.followups(self.root), [])
+        self.assertEqual(monitor.followups(self.root)[0]['action'], 'resolve_delivery_blockers')
 
 
 if __name__ == '__main__':

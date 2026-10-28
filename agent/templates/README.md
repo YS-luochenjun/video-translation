@@ -33,3 +33,5 @@ knowledge-promotion 的 delivery_modes 仅限定适用模式；language_match �
 routing_assessment 的三类条件与保留源内容分支见 [信息载体方法](../../knowledge/rules/content-led-localization-v1.md)。清单中的 pending 示例不能直接通过：替换实际 primary_type、reason、evidence，按 speech/visual 填 method_choices 的首选、备选、切换及停止依据；每句 speech_role 标明旁白/对白等职责及稳定 character_id。retrieval_role=required 的方法在适用时完整返回，选择调用仍由 Agent 判断。
 
 Fireplay YouTube 显式账号选择使用 `fireplay-youtube-route.json`：只填写实际界面选中的账号、真实账号组、观察时间与任务目录内截图哈希，再执行 `fireplay-youtube-route CODE SPEC --video N`。它不执行外部上传。导入回执另附 `youtube_task_verification` 的实际素材、任务、账号及账号组/任务组；共享组不能代替此核验。详见 [按编号接入](../workflows/fireplay-intake.md)。
+
+`fireplay-upload-timeout-retry.json`用于已有原包的真实文件上传超时。填写实际超时回执路径，先`fireplay-retry-upload CODE LOCALE SPEC --video N`预览，再带`--execute`登记新尝试，随后正常dispatch。持续授权来自`config/fireplay-publication.json`，无需每次确认；每项最多额外两次，旧unknown和每次超时均保留。该模板不用于付费模型或重复入库。

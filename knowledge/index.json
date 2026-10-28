@@ -3080,6 +3080,60 @@
       "knowledge_type": "project_policy",
       "validation_level": "explicit_user_instruction",
       "topic": "delivery"
+    },
+    {
+      "id": "fireplay-complete-delivery-v1",
+      "path": "knowledge/rules/fireplay-complete-delivery-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "delivery",
+        "workflow"
+      ],
+      "origin": "Direct user correction of incomplete Fireplay language uploads; actual local pending lists checked",
+      "reviewed_by": "User explicit completion policy; Codex source/state review, no video acceptance",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-10-28T06:22:21+00:00",
+      "method_sha256": "e83aa0251fd04e1e12dec865c0008edac06a21d7c12e0c4cc251bd4c72eca0eb",
+      "case": "knowledge/examples/fireplay-complete-delivery-v1",
+      "case_manifest_sha256": "bb845b9102bedd81352706f1f4ca9cf7b22d888a5b56d3985d91f5c926752ca4",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_feedback",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required",
+      "superseded_by": "fireplay-complete-delivery-v2"
+    },
+    {
+      "id": "fireplay-complete-delivery-v2",
+      "path": "knowledge/rules/fireplay-complete-delivery-v2.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "delivery",
+        "workflow"
+      ],
+      "origin": "Direct user complete-delivery requirement and standing instruction to retransmit timed-out media uploads",
+      "reviewed_by": "User explicit completion policy; Codex source/state review, no video acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T06:28:50+00:00",
+      "method_sha256": "6860fb0bb5a7c10a8b369167e36d7a163d96d25ad976cdaecc03270c08b4184a",
+      "case": "knowledge/examples/fireplay-complete-delivery-v2",
+      "case_manifest_sha256": "7ac771a6994d0430dac8a04c1b06ce58a899c89192008ecc749719932da93103",
+      "supersedes": "fireplay-complete-delivery-v1",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_feedback",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

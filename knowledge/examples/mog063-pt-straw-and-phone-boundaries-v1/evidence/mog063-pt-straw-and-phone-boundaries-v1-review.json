@@ -1,0 +1,49 @@
+{
+  "source_sha256": "762b4b1d0c10fe4649c5360e2aeabe730d38f7903f07191eef86fd02ab7ac622",
+  "target_language": "pt",
+  "video_sha256": "d137799a21fbb87873e49ba4a686f36b8126a86f423ff3be7d501ae496956c2e",
+  "original_case_manifest_sha256": "6a83ad7b61a003546d9a4e96ce57233b6b08a6662d7a30ff2663aebaab8fc8f9",
+  "original_review_sha256": "2a12d15b5136dbdbba5e03b5e194142dcb0d93b9d2cf003a741f3736856ab57a",
+  "reviewer": "Codex same-agent, attributed external audio-model perception; no independent/company/user acceptance",
+  "original_review_method": "Observed actual encoded full-duration contact sheets, native-size targeted frames and exact before/on/last/off caption frames; compared source and selected/rejected continuous Wan evidence. Audio perception is separately attributed to real model response, with actual waveform alignment. Full decode is a technical check, not visual approval.",
+  "historical_checks": {
+    "translation": {
+      "decision": "pass",
+      "observation": "All actual advertising copy, store functional labels, Morning/Evening/Children HUD, phone Download tracks and endcard title/CTA are localized. Source publisher, literal search and faux app names/numerical ratings retained intentionally. Target phrase subtitles match the finalized target speech, including all narration."
+    },
+    "source_text_removed": {
+      "decision": "pass",
+      "observation": "English ad captions removed in reviewed Wan pilot/middle/grass portions. After two actual rejected straw candidates, remaining word windows use a disclosed localized blur; no readable English survives. Each visible phone-button track/occlusion fragment is enumerated and receives foreground-protected target lettering."
+    },
+    "protected_graphics": {
+      "decision": "pass",
+      "observation": "Wolf mother/children, gameplay, original search, red phone cross/finger, ratings icons and downward CTA arrow remain. Transparent lettering stays within source UI containers. Original small particles below CTA differ slightly after local donor restoration; cosmetic variation recorded."
+    },
+    "native_motion": {
+      "decision": "pass",
+      "observation": "Actual native 732-frame source timing retained. Only locally reviewed model envelopes adopted; bad 150-versus151-frame straw output excluded. No source-wide freeze, frame insertion, motion stretch or model audio adoption. Source motion/phone foreground protected outside actual local restoration."
+    },
+    "speech_complete": {
+      "decision": "pass",
+      "observation": "Actual target audio transcription/model comparison establishes all eight turns, including first male developer line, female reaction, narration and spoken final CTA. Separate configured speakers are documented; no unsupported independent gender or lip-sync approval is asserted."
+    },
+    "head_tail_audio": {
+      "decision": "pass",
+      "observation": "Actual aligned narration provenance includes complete first/last lines, clipped leading silence only, bounded atempo; final captured audio includes spoken CTA and original ending bed. Real audio comparison reports no missing/clipped words or ending. Full decode/signal check remains separate."
+    },
+    "music_effects": {
+      "decision": "pass",
+      "observation": "Actual original UVR accompaniment is mixed under target lines. Attributed source-versus-candidate audio model reports same track/tempo/arrangement and preserved game effects, without residual foreign narration."
+    },
+    "caption_sync": {
+      "decision": "pass",
+      "observation": "Five whole-phrase captions match independently transcribed target speech. Actual aligned PCM envelopes establish timing; encoded integer frames before/on/last/off establish displayed timing. All observed errors are within a frame. Independent scene CTA is not duplicated as a spoken-caption track."
+    }
+  },
+  "curation_review": "Same-agent source-record and independent-bundle hash review; no new full audiovisual/native-speaker/company acceptance",
+  "limits": [
+    "Single source and exact locale only",
+    "Original failures, quality decisions, fees and platform pending states remain unchanged",
+    "Selected images are necessary observations, not exhaustive frame/audio proof"
+  ]
+}

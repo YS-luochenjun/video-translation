@@ -264,18 +264,20 @@ def main(argv=None):
     command.add_argument('code')
     command.add_argument('--snapshot')
     command.add_argument('--decision')
-    for action in ('source', 'chat', 'start', 'return', 'dispatch', 'receipt', 'status'):
+    for action in ('source', 'chat', 'start', 'return', 'dispatch', 'receipt', 'retry-upload', 'status'):
         command = commands.add_parser('fireplay-' + action)
         command.add_argument('code')
-        if action in ('source', 'chat', 'start', 'dispatch', 'receipt'):
+        if action in ('source', 'chat', 'start', 'dispatch', 'receipt', 'retry-upload'):
             command.add_argument('--video', type=int, default=1)
         if action in ('source', 'chat'):
             command.add_argument('--receipt')
         if action == 'source':
             command.add_argument('--download', action='store_true')
-        if action in ('chat', 'dispatch'):
+        if action in ('chat', 'dispatch', 'retry-upload'):
             command.add_argument('--execute', action='store_true', help='Journal dispatch BEFORE the host connector call; does not itself call Fireplay/Codex')
-        if action in ('start', 'return', 'receipt'):
+        if action == 'retry-upload':
+            command.add_argument('locale')
+        if action in ('start', 'return', 'receipt', 'retry-upload'):
             if action == 'receipt':
                 command.add_argument('operation')
             command.add_argument('spec')
@@ -488,6 +490,9 @@ def main(argv=None):
                 result = fireplay.prepare_return(args.code, args.spec, ROOT)
             elif name == 'fireplay-dispatch':
                 result = fireplay.dispatch(args.code, args.execute, ROOT, args.video)
+            elif name == 'fireplay-retry-upload':
+                from .fireplay_retry import retry_upload
+                result = retry_upload(args.code, args.locale, args.spec, args.execute, ROOT, args.video)
             elif name == 'fireplay-receipt':
                 result = fireplay.receipt(args.code, args.operation, args.spec, ROOT, args.video)
             else:
