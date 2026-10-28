@@ -38,6 +38,19 @@ def _matches(row, config):
     return bool(set(row.get('assigneeIds') or []) & set(config['query']['assignee_ids']))
 
 
+def _conditional_intake(row, config):
+    rules = config.get('conditional_intakes', [])
+    matches = [r for r in rules if r.get('code') == row.get('code') or r.get('requirement_id') == row.get('id')]
+    require(len(matches) <= 1, 'Duplicate conditional intake rule')
+    if not matches:
+        return None
+    rule = matches[0]
+    require(rule.get('code') == row['code'] and rule.get('requirement_id') == row['id']
+            and isinstance(rule.get('assignee_id'), str) and rule['assignee_id'],
+            'Conditional intake must bind an exact requirement and assignee ID')
+    return rule
+
+
 def _state(root):
     path = _directory(root) / 'state.json'
     return read_json(path) if path.exists() else {'schema_version': 1, 'requirements': {}}
@@ -112,12 +125,15 @@ def scan(spec=None, root=ROOT):
                 state['requirements'][row['id']] = entry
                 continue
             registered = (Path(root) / 'state/fireplay' / code / 'request.json').is_file()
+            conditional = _conditional_intake(row, config)
             if registered:
                 registered_record = read_json(Path(root) / 'state/fireplay' / code / 'request.json')
                 entry['state'] = 'needs_information' if registered_record.get('blockers') else 'registered'
                 if previous and (previous['row'].get('updatedAt') != row.get('updatedAt') or
                                  previous['summary_version'] != _summary_version(row)):
                     entry['review_pending'] = True
+            elif conditional and (not previous or previous.get('conditional_policy_version') != object_hash(conditional)):
+                entry.update(state='needs_review', reason='human_conditional_intake_policy')
             elif previous is None:
                 if (_time(row.get('createdAt')) or 0) >= activation:
                     entry.update(state='needs_review', reason='newly_created')
@@ -127,7 +143,10 @@ def scan(spec=None, root=ROOT):
             elif not _matches(previous['row'], config):
                 entry.update(state='needs_review', reason='new_assignment_in_scope')
                 fresh.append(code)
-            elif previous['row'].get('updatedAt') != row.get('updatedAt') or previous['summary_version'] != _summary_version(row):
+            elif (previous['row'].get('updatedAt') != row.get('updatedAt')
+                  or previous['summary_version'] != _summary_version(row)
+                  or (_conditional_intake(row, config)
+                      and set(previous['row'].get('assigneeIds') or []) != set(row.get('assigneeIds') or []))):
                 # Changes can be status-only. The Agent compares actual brief
                 # content; an updated timestamp alone never starts paid work.
                 entry.update(state='needs_review', reason='updated_content_or_metadata',
@@ -174,6 +193,13 @@ def assess(code, spec, root=ROOT):
     snap = fireplay.snapshot(code, spec['snapshot'])
     decision, row = spec['decision'], snap['row']
     explicit = _explicit_authority(spec, row)
+    conditional = _conditional_intake(row, config)
+    waiting_assignment = False
+    if conditional and not explicit:
+        conditional_authority = _explicit_authority({'authority': conditional['authority']}, row)
+        waiting_assignment = conditional['assignee_id'] not in (row.get('assigneeIds') or [])
+        if not waiting_assignment:
+            explicit = conditional_authority
     require(_matches(row, config), 'Requirement is no longer assigned to the selected people')
     require(isinstance(decision.get('is_translation'), bool) and decision.get('reason')
             and decision.get('evidence'), 'Agent must judge translation scope with actual brief evidence')
@@ -192,6 +218,8 @@ def assess(code, spec, root=ROOT):
         entry = state['requirements'].get(row['id'])
         require(entry and entry['row']['code'] == code, 'Requirement was not discovered in the authorized monitor')
         require(entry['state'] in ('needs_review', 'needs_information', 'admitted', 'registered') or
+                (conditional and entry['state'] in ('baseline', 'ignored', 'historical_translation_pending',
+                                                    'newly_visible_old', 'not_eligible', 'waiting_for_assignment')) or
                 (explicit and entry['state'] in ('baseline', 'ignored', 'historical_translation_pending',
                                                  'newly_visible_old', 'not_eligible')) or
                 (spec.get('recheck') is True and entry['state'] in ('baseline', 'ignored', 'historical_translation_pending')),
@@ -216,10 +244,15 @@ def assess(code, spec, root=ROOT):
         write_json(_directory(root) / 'assessments' / (object_hash(saved) + '.json'), saved)
         entry.update(assessed_brief_version=snap['content_version'], decision=decision, row=row,
                      summary_version=_summary_version(row), review_pending=False)
+        if conditional:
+            entry['conditional_policy_version'] = object_hash(conditional)
         if not decision['is_translation']:
             entry.update(state='ignored', reason=decision['reason'])
         elif row.get('status') not in config['eligible_statuses'] or row.get('canBindMaterials') is not True:
             entry.update(state='not_eligible', reason='Not in an eligible status or lacks execution permission')
+        elif waiting_assignment and not old_record.exists():
+            entry.update(state='waiting_for_assignment',
+                         reason='User authorized this exact requirement only after the specified assignee is assigned')
         elif uncertain_historical:
             entry.setdefault('historical_pending_since', utc_now())
             entry.update(state='historical_translation_pending',
@@ -369,7 +402,7 @@ def signal(spec, root=ROOT):
 
 def status(root=ROOT):
     config, state = policy(root), _state(root)
-    review, queue, revisions, historical = [], [], [], []
+    review, queue, revisions, historical, waiting = [], [], [], [], []
     for entry in state['requirements'].values():
         row = entry['row']
         if not _matches(row, config):
@@ -382,6 +415,12 @@ def status(root=ROOT):
             review.append(packet)
         if entry['state'] == 'needs_revision_review':
             revisions.append(packet)
+        if entry['state'] == 'waiting_for_assignment':
+            rule = _conditional_intake(row, config)
+            if rule:
+                packet.update(assignee_id=rule['assignee_id'],
+                              next_action='Keep scanning actual assigneeIds; when assigned, refresh brief/summary and assess under the stored conditional human authority. Do not ask again or create a request before then.')
+                waiting.append(packet)
         if entry['state'] == 'historical_translation_pending':
             packet.update(pending_since=entry.get('historical_pending_since', entry['first_seen_at']),
                           resolution_key=object_hash({'kind': 'historical_translation_review', 'id': row['id'],
@@ -398,5 +437,6 @@ def status(root=ROOT):
             'revision_reviews': _ordered(revisions),
             'historical_translation_candidates': _ordered(historical),
             'historical_review_required': _ordered(historical),
+            'waiting_for_assignment': _ordered(waiting),
             'publication_followups': followups(root), 'max_active_requirements': config['max_active_requirements'],
             'p1_waits_for_p0': False, 'automatic_paid_execution_by_script': False}

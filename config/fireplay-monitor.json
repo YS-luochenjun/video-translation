@@ -16,6 +16,23 @@
   "max_active_requirements": 3,
   "reserve_p1_slot": true,
   "quantity_mode": "one_per_locale",
+  "conditional_intakes": [
+    {
+      "code": "KEY-20261026-024",
+      "requirement_id": "af0a0cd9-9fd2-5706-b81f-01596dcb841e",
+      "assignee_id": "c74b62d9",
+      "authority": {
+        "authority": "user",
+        "authorization_ref": "user-family024-when-assigned-luochenjun-20261027",
+        "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+        "source_quote": "后续如果这一条需求，被分给了罗晨钧，那也需要做",
+        "user_request": "KEY-20261026-024（Family）分配给罗晨钧后自动接入，全部真实原片和目标语言各一版，独立聊天与账本；未分配时等待，不重复询问。",
+        "scope_requirement": "KEY-20261026-024",
+        "requirement_id": "af0a0cd9-9fd2-5706-b81f-01596dcb841e",
+        "mode": "first"
+      }
+    }
+  ],
   "authority": {
     "authority": "user",
     "authorization_ref": "user-fireplay-autonomous-intake-20261027",

@@ -172,6 +172,56 @@ class MonitorTests(unittest.TestCase):
                 'source_thread_id': THREAD, 'user_request': 'Start ' + CODE,
                 'scope_requirement': CODE, 'requirement_id': RID, 'mode': 'first'}
 
+    def configure_conditional_intake(self):
+        person = self.config['assignees'][0]['id']
+        self.config['conditional_intakes'] = [{'code': CODE, 'requirement_id': RID,
+                                             'assignee_id': person, 'authority': self.explicit_authority()}]
+        write_json(self.root / 'config/fireplay-monitor.json', self.config)
+        return person
+
+    def test_conditional_assignment_releases_history_even_without_timestamp_change(self):
+        person = self.configure_conditional_intake()
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0].update(assigneeIds=['other-person'], createdAt='2025-01-01T00:00:00Z')
+        initial = monitor.scan(self.pages(), self.root)
+        self.assertEqual(initial['needs_review'][0]['code'], CODE)
+        self.assertEqual(monitor.assess(CODE, self.decision(), self.root)['state'], 'waiting_for_assignment')
+        s = monitor.status(self.root)
+        self.assertEqual(s['historical_review_required'], [])
+        self.assertEqual(s['waiting_for_assignment'][0]['assignee_id'], person)
+        self.assertFalse((self.root / 'state/fireplay' / CODE / 'request.json').exists())
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0]['assigneeIds'] = ['other-person', person]
+        # Same title, body, status and updatedAt; the assignment itself is material.
+        self.assertEqual(monitor.scan(self.pages(), self.root)['needs_review'][0]['code'], CODE)
+        r = monitor.assess(CODE, self.decision(), self.root)
+        self.assertEqual(r['state'], 'admitted')
+        self.assertEqual(read_json(self.root / r['authority_path']), self.explicit_authority())
+        self.assertFalse((self.root / 'state/budgets').exists())
+        self.assertEqual(len(monitor.status(self.root)['ready_to_dispatch']), 1)
+        monitor.assess(CODE, self.decision(), self.root)
+        self.assertEqual(len(monitor.status(self.root)['ready_to_dispatch']), 1)
+
+    def test_conditional_assignment_still_requires_eligibility(self):
+        self.configure_conditional_intake()
+        for status, permission in [('done', True), ('in_progress', True), ('not_started', False)]:
+            with self.subTest(status=status, permission=permission):
+                for view in ('brief', 'summary'):
+                    self.snap[view]['items'][0].update(status=status, canBindMaterials=permission)
+                monitor.scan(self.pages(), self.root)
+                self.assertEqual(monitor.assess(CODE, self.decision(), self.root)['state'], 'not_eligible')
+        self.assertFalse((self.root / 'state/fireplay' / CODE / 'request.json').exists())
+
+    def test_conditional_rule_does_not_become_global_assignee_filter(self):
+        self.configure_conditional_intake()
+        other = copy.deepcopy(self.snap)
+        other_code = 'MOG-20261027-999'
+        for view in ('brief', 'summary'):
+            other[view]['items'][0].update(id=MID, code=other_code, assigneeIds=['other-person'])
+        monitor.scan(self.pages(other['summary']['items']), self.root)
+        spec = {**self.decision(), 'snapshot': other}
+        self.assertEqual(monitor.assess(other_code, spec, self.root)['state'], 'admitted')
+
     def test_explicit_selection_releases_pending_without_spending_or_reopening_budget(self):
         old = {**self.snap['summary']['items'][0], 'createdAt': '2025-01-01T00:00:00Z'}
         monitor.scan(self.pages([old]), self.root)
