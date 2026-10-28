@@ -5,6 +5,32 @@ import re
 from .common import WorkflowError, file_hash, inside, require, require_number
 
 
+def validate_publisher_marks(inventory, run):
+    marks = [t for t in inventory.get('text_instances', []) if t.get('text_role') == 'publisher_mark']
+    if not marks:
+        return
+    review = inventory.get('publisher_mark_review', {})
+    require(review.get('status') == 'reviewed' and review.get('endcard_check') in ('matched', 'no_match')
+            and review.get('reason') and review.get('evidence'),
+            'Publisher marks require identity and endcard review with evidence')
+    for path in review['evidence']:
+        require(inside(run, path).is_file(), 'Missing publisher/endcard review evidence')
+    require((review['endcard_check'] == 'matched') == any(
+        t.get('mark_form') in ('endcard_wordmark', 'endcard_logo') for t in marks),
+        'Endcard match decision must agree with inventoried publisher marks')
+    for item in marks:
+        require(isinstance(item.get('publisher_identity'), str) and bool(item['publisher_identity'].strip())
+                and item.get('mark_form') in ('watermark', 'endcard_wordmark', 'endcard_logo'),
+                'Describe publisher identity and mark form for every publisher instance')
+        if item.get('action') == 'preserve':
+            require(item.get('preserve_authorization_ref') and item.get('target_text') == item.get('source_text'),
+                    'Preserving a publisher mark needs an explicit user instruction and unchanged source content')
+        else:
+            require(item.get('action') in ('model_edit', 'reference_plate', 'regenerate')
+                    and item.get('target_text') == '',
+                    'Publisher removal must leave no replacement text or solid text panel')
+
+
 def validate_inventory(inventory, run, meta):
     require(inventory.get("schema_version") == 1, "Unsupported inventory schema")
     for kind in ("visual", "speech", "timeline"):
@@ -84,7 +110,8 @@ def validate_inventory(inventory, run, meta):
         start = require_number(item["start"], "text.start", maximum=meta["duration"])
         end = require_number(item["end"], "text.end", maximum=meta["duration"] + 0.01)
         require(end > start, "Text interval is empty")
-        require(item.get("source_text") and item.get("target_text") and item.get("reason"),
+        require(item.get("source_text") and (item.get("target_text") or
+                item.get('text_role') == 'publisher_mark' and item.get('target_text') == '') and item.get("reason"),
                 "Each text needs source, target, and decision reason")
         require(item.get("action") in ("solid_overlay", "model_edit", "regenerate", "reference_plate", "preserve"), "Unknown text action")
         bbox = item.get("bbox", [])
@@ -116,6 +143,7 @@ def validate_inventory(inventory, run, meta):
         require(bool(item.get("evidence")), "Text instance needs frame evidence")
         for path in item["evidence"]:
             require(inside(run, path).is_file(), "Missing text evidence")
+    validate_publisher_marks(inventory, run)
     audio = inventory.get("audio", {})
     require(isinstance(audio.get("has_speech"), bool) or audio.get("has_speech") is None and audio.get("strategy") == "model",
             "Speech presence is unknown; delegate explicitly to model audio or obtain a transcript")

@@ -475,7 +475,8 @@ def build_plan(run, experiment=None):
         require(not erase_then_overlay or route in ("model_edit", "wan_edit", "seedance_edit", "prepared_video"), "Text erasure requires the source-video editing or prepared repair route")
         lines = [f"Target locale: {request['target_language']}. Video localization of this single advertisement shot.",
                  f"Shot description: {shot['description']}",
-                 "Preserve product identity, logo, camera motion, composition, action, ad claims and shot timing.",
+                 "Preserve product identity and product logos, camera motion, composition, action, ad claims and shot timing; "
+                 "remove explicitly inventoried publisher watermarks and matching endcard marks as directed below.",
                  "Do not invent new products, people, claims or text. Keep the same layout and typography hierarchy."]
         lines.append("Edit the supplied source video directly." if route in ("model_edit", "wan_edit") else
                      "Reconstruct this shot using the supplied keyframe; visual/motion fidelity must be reviewed." if route == "regenerate" else
@@ -496,7 +497,7 @@ def build_plan(run, experiment=None):
                          "and CTA button graphics for the entire shot. Restore the illustrated background behind them. "
                          "Do not add replacement text, subtitles, logos or buttons. A separate compositor adds the "
                          "target language later. Preserve the original frame-by-frame objects, motion, lighting, "
-                         "camera and transitions. Do not add or remove scene objects.")
+                         "camera and transitions. Do not add or remove unrelated scene objects.")
         if route != "local_overlay" and any(item["action"] == "solid_overlay" for item in edits):
             lines.append("Fixed UI text will be localized by a separate compositor; keep that source UI and named brands unchanged.")
         for item in edits:
@@ -510,10 +511,12 @@ def build_plan(run, experiment=None):
                 continue
             start = max(item["start"], shot["start"])-shot["start"]
             end = min(item["end"], shot["end"])-shot["start"]
-            translation = "ERASE, leave no lettering" if erase_then_overlay and item["action"] != "preserve" else repr(item['target_text'])
+            publisher_removal = item.get('text_role') == 'publisher_mark' and item['action'] != 'preserve'
+            translation = "ERASE, leave no lettering" if publisher_removal or erase_then_overlay and item["action"] != "preserve" else repr(item['target_text'])
             lines.append(f"{item['id']} at {start:.2f}-{end:.2f}s, bbox pixels {item['bbox']}: "
                          f"{item['source_text']!r} -> {translation}. "
-                         + ("Preserve this named brand exactly." if item["action"] == "preserve" else
+                         + ("Remove this publisher watermark/wordmark/logo completely; restore the background, add no replacement text or logo." if publisher_removal else
+                            "Preserve this named brand exactly." if item["action"] == "preserve" else
                             "Remove the full text and its dark shadow; reconstruct clean background." if erase_then_overlay else
                             "Remove original lettering completely; show target only within this interval and region."))
             if item.get("trajectory"):
@@ -532,6 +535,13 @@ def build_plan(run, experiment=None):
             lines = [shot["model_prompt"],
                      f"声音要求：最终成片保留原背景音乐和音效；对白、独白、旁白和片尾口播均须翻译为 {request['target_language']}。"
                      "此任务只处理画面，目标语配音和回混由独立音频链路完成；此视觉任务不生成声音。"]
+            for item in edits:
+                if item.get('text_role') == 'publisher_mark' and item['action'] != 'preserve':
+                    start = max(item['start'], shot['start']) - shot['start']
+                    end = min(item['end'], shot['end']) - shot['start']
+                    lines.append(f"Remove publisher mark {item['source_text']!r} ({item['publisher_identity']}) "
+                                 f"at {start:.2f}-{end:.2f}s in bbox {item['bbox']}; "
+                                 "restore the background, no replacement text/logo; preserve source motion and unrelated product branding.")
         prompt = "\n".join(lines)
         if route == "model_edit":
             require(len(prompt) <= 3072, "Kling prompt exceeds 3072 characters; split edit scope")

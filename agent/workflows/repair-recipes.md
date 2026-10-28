@@ -1,6 +1,6 @@
 # 本地去字／去水印配方与风险预检查
 
-本功能执行已解释、绑定源片的局部修复；不自动理解水印、挑选供体或认定效果合格。方法正文见 `knowledge/rules/moving-watermark-removal-v1.md`。已有 prepared、资源锁、视觉审核和质量异议继续有效，不另建模型任务系统。
+本功能执行已解释、绑定源片的局部修复；不自动理解水印、挑选供体或认定效果合格。方法正文见 `knowledge/rules/publisher-watermark-removal-v2.md`。已有 prepared、资源锁、视觉审核和质量异议继续有效，不另建模型任务系统。
 
 ```powershell
 bin/va.ps1 repair-preflight RUN

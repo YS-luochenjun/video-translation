@@ -26,7 +26,8 @@ def observations(inventory):
              for s in inventory.get("shots", [])]
     text = []
     for item in inventory.get("text_instances", []):
-        record = {k: copy.deepcopy(item[k]) for k in ("id", "source_text", "bbox", "text_role", "trajectory") if k in item}
+        record = {k: copy.deepcopy(item[k]) for k in ("id", "source_text", "bbox", "text_role", "trajectory",
+                                                     "publisher_identity", "mark_form") if k in item}
         interval = item.get("source_interval", [item.get("start"), item.get("end")])
         record.update(start=interval[0], end=interval[1])
         text.append(record)

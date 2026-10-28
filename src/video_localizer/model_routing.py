@@ -41,8 +41,8 @@ def require_audio_analysis_model(model, run=None, authorization=None):
             and grant.get('capability') == 'audio_analysis'
             and request['target_language'] in grant.get('target_languages', []),
             'Audio model authorization does not cover this source/model/language')
-    from .budgets import for_source
-    require(for_source(source, run.parent.parent)['id'] == grant.get('request_budget'),
+    from .budgets import bind
+    require(bind(run)['id'] == grant.get('request_budget'),
             'Audio model authorization does not match this request budget')
 
 

@@ -1392,7 +1392,7 @@
       "origin": "Direct user feedback in thread 01a15d75-c0bd-7fd3-bbba-6a5268b13f10 on 2026-10-22; watermark scope only",
       "reviewed_by": "User approved removal result; Codex scoped and reviewed the method",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-22T02:28:14+00:00",
       "method_sha256": "a42ebc6c0fe48e0736b863e62fc1f29018ce4239752ccf1a43a553bf5fd63211",
       "case": "knowledge/examples/moving-watermark-removal-v1",
@@ -1409,7 +1409,8 @@
       "selection_review": {
         "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
         "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
-      }
+      },
+      "superseded_by": "publisher-watermark-removal-v2"
     },
     {
       "id": "user-no-solid-text-panels-20261022",
@@ -3021,6 +3022,64 @@
       "knowledge_type": "project_policy",
       "validation_level": "explicit_user_instruction",
       "topic": "visual"
+    },
+    {
+      "id": "publisher-watermark-removal-v2",
+      "path": "knowledge/rules/publisher-watermark-removal-v2.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "watermark",
+        "ads"
+      ],
+      "origin": "Explicit user instruction 2026-10-27 and two actual attached watermark/endcard screenshots; retains old moving-watermark method history.",
+      "reviewed_by": "Codex same-agent visual identification and policy registration from direct user request; no new media acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T03:51:00+00:00",
+      "method_sha256": "e86097912cd12ef0e8f4742c0cacd106ea1a86bd41cb73d5a414404ae245a81a",
+      "case": "knowledge/examples/publisher-watermark-removal-v2",
+      "case_manifest_sha256": "c9644baa253a6caeebde28f8e6905d9d5e8cad147ac0dd0bba56acd016079b78",
+      "supersedes": "moving-watermark-removal-v1",
+      "requires_any_features": [
+        "publisher_watermark",
+        "moving_watermark"
+      ],
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "retrieval_role": "required",
+      "selection_review": {
+        "path": "knowledge/curation/policies/publisher-watermark-policy-20261027.json",
+        "sha256": "82d8fee367c011562d55eeca390794ff6d6d523a1be23f63446fd0033c0baeff"
+      }
+    },
+    {
+      "id": "fireplay-designer-attribution-v1",
+      "path": "knowledge/rules/fireplay-designer-attribution-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "fireplay",
+        "designer",
+        "submission",
+        "derivative"
+      ],
+      "origin": "Explicit user addition to Fireplay submission instructions on 2026-10-27; exact source quote preserved in evidence and config.",
+      "reviewed_by": "Codex same-agent policy registration and offline submission tests; no real material edited",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T04:24:26+00:00",
+      "method_sha256": "373f01d17b3bbfac60b809a98a0e1c77d27eb7b6e535c9871d2f23cca660c5e5",
+      "case": "knowledge/examples/fireplay-designer-attribution-v1",
+      "case_manifest_sha256": "3e424f24d176bd46bb0f8e14145cced804fa2544c97fe9b73ed88197c6cfc62d",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_instruction",
+      "topic": "delivery"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

@@ -35,7 +35,7 @@ class AuthorizedAudioReviewTests(unittest.TestCase):
 
     def test_authorized_route_uses_documented_audio_media_structure(self):
         client = KieClient(key='synthetic-key')
-        with patch('video_localizer.budgets.for_source', return_value={'id': 'fixture-budget'}), \
+        with patch('video_localizer.budgets.bind', return_value={'id': 'fixture-budget'}), \
                 patch.object(client, '_request', return_value={'choices': [{}]}) as request:
             client.analyze_audio('https://example.org/actual.wav', 'Actual transcription', 'gemini-3.1-pro',
                                  run=self.run, model_authorization=self.binding())
@@ -46,7 +46,7 @@ class AuthorizedAudioReviewTests(unittest.TestCase):
     def test_grant_cannot_cross_source_language_capability_or_budget(self):
         for key, invalid in [('source_sha256', 'b' * 64), ('target_languages', ['vi']),
                              ('capability', 'tts'), ('request_budget', 'other-budget')]:
-            with self.subTest(key=key), patch('video_localizer.budgets.for_source', return_value={'id': 'fixture-budget'}):
+            with self.subTest(key=key), patch('video_localizer.budgets.bind', return_value={'id': 'fixture-budget'}):
                 original = self.grant[key]
                 self.grant[key] = invalid
                 with self.assertRaises(WorkflowError):
@@ -59,3 +59,21 @@ class AuthorizedAudioReviewTests(unittest.TestCase):
         self.binding()
         with self.assertRaisesRegex(WorkflowError, 'authorization changed'):
             require_audio_analysis_model('gemini-3.1-pro', self.run, binding)
+
+    def test_requirement_scoped_budget_needs_no_global_source_allowance(self):
+        root = self.run.parent.parent
+        source = self.run / 'inputs/source.mp4'
+        source.write_bytes(b'synthetic source, no media model call')
+        digest = file_hash(source)
+        scope = 'b' * 32
+        write_json(self.run / 'run.json', {'source_sha256': digest, 'source': 'inputs/source.mp4'})
+        write_json(self.run / 'inputs/fireplay.json', {'code': 'TEST-001'})
+        write_json(root / 'state/budgets/index.json', {
+            'sources': {}, 'authorizations': {},
+            'requirement_sources': {'TEST-001': {digest: scope}},
+            'runs': {'fixture': {'scope': scope, 'source_sha256': digest}}})
+        write_json(root / f'state/budgets/{scope}.json', {
+            'id': scope, 'state': 'open', 'scope_requirement': 'TEST-001',
+            'sources': [digest], 'runs': {'fixture': digest}, 'reservations': {}, 'credit_limit': 480})
+        self.grant.update(source_sha256=digest, request_budget=scope)
+        require_audio_analysis_model('gemini-3.1-pro', self.run, self.binding())

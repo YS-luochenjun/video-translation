@@ -1,0 +1,38 @@
+{
+  "publisher_mark_review": {
+    "status": "reviewed",
+    "endcard_check": "matched",
+    "reason": "Example only: actual inspection links small Apkzonic watermark and final APKZONIC wordmark to the same publisher; inspect each source before using.",
+    "evidence": ["analysis/watermark-frame.png", "analysis/endcard-frame.png"]
+  },
+  "text_instances": [
+    {
+      "id": "t101",
+      "text_role": "publisher_mark",
+      "publisher_identity": "apkzonic",
+      "mark_form": "watermark",
+      "source_text": "Apkzonic",
+      "target_text": "",
+      "action": "model_edit",
+      "start": 0,
+      "end": 2,
+      "bbox": [40, 400, 280, 100],
+      "reason": "Remove identified publisher watermark, no replacement text; coordinates and times are placeholders.",
+      "evidence": ["analysis/watermark-frame.png"]
+    },
+    {
+      "id": "t102",
+      "text_role": "publisher_mark",
+      "publisher_identity": "apkzonic",
+      "mark_form": "endcard_wordmark",
+      "source_text": "APKZONIC",
+      "target_text": "",
+      "action": "model_edit",
+      "start": 2,
+      "end": 3,
+      "bbox": [200, 1000, 600, 200],
+      "reason": "Same publisher shown in final wordmark; remove without replacing or trimming unrelated content.",
+      "evidence": ["analysis/endcard-frame.png"]
+    }
+  ]
+}

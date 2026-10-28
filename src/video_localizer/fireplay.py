@@ -245,6 +245,13 @@ def _languages(row, root):
     return targets, structured or prose, blockers, warnings
 
 
+def _unstarted(record, folder):
+    return (not record.get('budget') and not record.get('chat')
+            and all(not any(v.get(k) for k in ('chat', 'run', 'members', 'batch', 'batch_id'))
+                    for v in record['videos'])
+            and not any(folder.glob('return-*.json')))
+
+
 def register(code, spec, decision=None, root=ROOT):
     """Freeze real summary/brief responses; no writes to Fireplay or paid calls."""
     snap = snapshot(code, spec)
@@ -272,14 +279,45 @@ def register(code, spec, decision=None, root=ROOT):
             seen.add(key)
     if not sources:
         blockers.append('No supported source video URL; inspect attachments/source material via connector')
-    if row.get('quantity') != len(targets) * len(sources) and decision.get('quantity_mode') != 'one_per_locale':
-        blockers.append('Confirm quantity semantics: one version per source video and distinct locale')
     if row.get('status') == 'done':
         blockers.append('Requirement is already done; no automatic reproduction')
     for i, source in enumerate(sources, 1):
         source.update(index=i, title=code if len(sources) == 1 else f'{code}-{i}', targets=targets)
+    source_targets = decision.get('source_targets')
+    if source_targets is not None:
+        from .budgets import target_languages
+        require(isinstance(source_targets, dict) and set(source_targets) == {v['source_url'] for v in sources},
+                'Source targets must cover exactly the actual source URLs')
+        for source in sources:
+            source['targets'] = target_languages(source_targets[source['source_url']], root)
+        require(set(targets) == {language for source in sources for language in source['targets']},
+                'Requirement targets must equal the union of actual source targets')
+    if row.get('quantity') != sum(len(v['targets']) for v in sources) and decision.get('quantity_mode') != 'one_per_locale':
+        blockers.append('Confirm quantity semantics: one version per source video and distinct locale')
     with lock(path.with_suffix('.lock')):
         old = read_json(path) if path.exists() else None
+        if old and old['content_version'] != snap['content_version'] and decision.get('reviewed_content_version'):
+            require(decision['reviewed_content_version'] == old['content_version'] and decision.get('revision_reason'),
+                    'Revision review must identify the exact previous version and actual differences')
+            require(_unstarted(old, path.parent) and row.get('status') == 'not_started'
+                    and row.get('canBindMaterials') is True,
+                    'Only an unstarted request without chat, budget, production or return can accept this revision')
+            archive = path.parent / 'revisions' / (object_hash(old) + '.json')
+            write_json(archive, old)
+            old_sources = {v.get('youtube_video_id') or v['source_url']: v for v in old['videos']}
+            for source in sources:
+                previous_source = old_sources.get(source.get('youtube_video_id') or source['source_url'], {})
+                for key in ('resolved', 'source', 'source_detail', 'source_metadata_review'):
+                    if previous_source.get(key):
+                        source[key] = previous_source[key]
+            history = [*old.get('revision_history', []), {
+                'content_version': old['content_version'], 'object_sha256': object_hash(old),
+                'path': archive.relative_to(root).as_posix(), 'reason': decision['revision_reason'],
+                'reviewed_at': utc_now()}]
+            old = {'schema_version': 1, 'code': code, 'requirement_id': row['id'],
+                   'content_version': snap['content_version'], 'targets': targets,
+                   'requested_targets': requested, 'videos': sources, 'created_at': old['created_at'],
+                   'revision_history': history, 'source_storage_revision': snap['content_version']}
         if old:
             require(old['content_version'] == snap['content_version'],
                     'Requirement content changed; preserve the original request/runs/budget and review the revision explicitly')
@@ -287,10 +325,7 @@ def register(code, spec, decision=None, root=ROOT):
                     'Interpretation changed; explicit revision review required')
             if old['targets'] != targets:
                 require(not old['targets'] and targets and old.get('blockers')
-                        and not old.get('budget') and not old.get('chat')
-                        and all(not any(v.get(k) for k in ('chat', 'run', 'members', 'batch', 'batch_id'))
-                                for v in old['videos'])
-                        and not any(path.parent.glob('return-*.json')),
+                        and _unstarted(old, path.parent),
                         'Interpretation changed; explicit revision review required')
                 # Resolve missing languages before production; never reinterpret
                 # an existing funded request, dispatched chat or return batch.
@@ -300,6 +335,8 @@ def register(code, spec, decision=None, root=ROOT):
                 old['targets'] = targets
                 for member in old['videos']:
                     member['targets'] = targets
+            require([v['targets'] for v in old['videos']] == [v['targets'] for v in sources],
+                    'Source language interpretation changed; explicit revision review required')
         record = old or {'schema_version': 1, 'code': code, 'requirement_id': row['id'],
                          'content_version': snap['content_version'], 'targets': targets,
                          'requested_targets': requested, 'videos': sources, 'created_at': utc_now()}
@@ -334,6 +371,8 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
                     (rows[0]['material_id'], rows[0].get('source_resource_id')),
                     'Source material/resource changed; review before replacing it')
             video['resolved'] = rows[0]
+            if result.get('material_detail'):
+                video['source_detail'] = result['material_detail']
             write_json(_folder(code, root) / f'source-{index}-receipt.json', result)
         url = video.get('resolved', {}).get('video_r2_url') or (video['source_url'] if not video['youtube_video_id'] else None)
         if not url:
@@ -341,7 +380,9 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
                     'arguments': {'youtube_urls': [video['source_url']]}, 'external_write': False}
         public_url(url)
         if download:
-            local = inside(root, f'work/runs/{video["title"]}-01/fireplay-source.mp4')
+            source_folder = (video['title'] + '-source-' + record['source_storage_revision'][:16]
+                             if record.get('source_storage_revision') else video['title'] + '-01')
+            local = inside(root, f'work/runs/{source_folder}/fireplay-source.mp4')
             if video.get('source'):
                 local = inside(root, video['source']['path'])
                 require(file_hash(local) == video['source']['sha256'], 'Downloaded source changed')
@@ -354,8 +395,25 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
                 resolved = video.get('resolved', {})
                 require(not resolved.get('duration') or abs(metadata['duration'] - resolved['duration']) < 1,
                         'Downloaded duration differs from the source lookup; inspect the actual original')
-                require(not resolved.get('width') or (metadata['width'], metadata['height']) ==
-                        (resolved['width'], resolved['height']), 'Downloaded dimensions differ from source lookup')
+                if resolved.get('width') and (metadata['width'], metadata['height']) != (resolved['width'], resolved['height']):
+                    # Some legacy YouTube dimensions are only HD classifications.
+                    # Accept actual bytes only with an exact resource/size binding
+                    # and an explicit platform statement that dimensions are not exact.
+                    detail = video.get('source_detail', {}).get('material', {})
+                    resources = [r for r in detail.get('resources', [])
+                                 if r.get('id') == resolved.get('source_resource_id')
+                                 and r.get('backupUrl') == url
+                                 and r.get('youtubeVideoId') == video['youtube_video_id']]
+                    require(detail.get('id') == resolved.get('material_id') and len(resources) == 1
+                            and resources[0].get('fileSize') == local.stat().st_size
+                            and resources[0].get('extraInfo', {}).get('youtube', {}).get('resolution', {}).get('hasExactDimensions') is False,
+                            'Downloaded dimensions differ from source lookup')
+                    video['source_metadata_review'] = {
+                        'reason': 'Platform dimensions are classification-only; exact R2 resource and byte size match',
+                        'material_detail_sha256': object_hash(video['source_detail']),
+                        'resource_id': resolved['source_resource_id'], 'bytes': local.stat().st_size,
+                        'reported_dimensions': [resolved['width'], resolved['height']],
+                        'actual_dimensions': [metadata['width'], metadata['height']], 'reviewed_at': utc_now()}
                 video['source'] = {'path': local.relative_to(root).as_posix(), 'sha256': file_hash(local),
                                    'duration': metadata['duration'], 'width': metadata['width'], 'height': metadata['height']}
         write_json(path, record)
@@ -391,11 +449,12 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT):
         from .kie_access import instruction as kie_access_instruction
         from .fireplay_youtube import instruction as youtube_instruction
         packet = {'title': title, 'project_path': str(Path(root).resolve()),
-                  'targets': video['targets'], 'state': 'prepared',
+                  'targets': record['targets'] if per_requirement else video['targets'], 'state': 'prepared',
                   'host_actions': ['list_projects: match this workspace', 'create_thread: project/local',
                                    'set_thread_title: exact title; record ready threadId with fireplay-chat'],
                   'prompt': (f'承接 Fireplay 需求 {code} 的{subject}。聊天名称必须为 {title}。'
-                             f'在这个聊天内管理全部目标语言 {", ".join(video["targets"])}，不要按语言另开聊天。'
+                             f'在这个聊天内管理全部目标语言 {", ".join(record["targets"] if per_requirement else video["targets"])}，不要按语言另开聊天。'
+                             '各原片只制作fireplay-status中对应videos[].targets指定的语种，不将需求语言并集与全部原片交叉相乘。'
                              f'先读 agent/workflows/fireplay-intake.md，运行 fireplay-status {code}。'
                              '按现有知识、模型、预算和实际审核流程制作；审核后才回传。'
                              '质量通过或正式outputs完整成品仅有普通小瑕疵时，直接继续固定回传，不重复询问是否提交。'
@@ -554,7 +613,8 @@ def prepare_return(code, spec, root=ROOT):
             require(isinstance(dids, str) and re.fullmatch(r'D\d+(?:\+D\d+)*', dids), 'Invalid designer DID naming suffix')
             suffix = '_' + dids
         else:
-            require(attribution.get('unassigned') is True, 'Missing designer DID; login/assignee is not designer attribution')
+            require(attribution.get('unassigned') is True,
+                    'Missing verified designer DID; resolve requirement assignees under the user attribution policy or record no designer')
             suffix = ''
         creation = attribution.get('creation_type', 'unspecified')
         require(creation in ('unspecified', 'original', 'derivative'), 'Invalid creation attribution')
@@ -593,7 +653,8 @@ def prepare_return(code, spec, root=ROOT):
             packages.append({**item, 'sha256': meta['video_sha256'], 'manifest_sha256': file_hash(folder / 'manifest.json'),
                              'file': str(movie.relative_to(root)), 'name': display_name + suffix, 'display_name': display_name,
                              **({'publication_acceptance': acceptance} if acceptance else {}),
-                             'tags': [item['locale'], publication['product_tag']]})
+                             'tags': list(dict.fromkeys([item['locale'], publication['product_tag']]
+                                     + (['二创'] if creation == 'derivative' else [])))})
         require(seen and (seen == expected or spec.get('partial') is True),
                 'All requested languages for this video must have reviewed deliveries before return; use partial=true for a reviewed subset')
         pending = [lang for lang in selected_video['targets'] if (index, lang) not in seen]
@@ -608,21 +669,30 @@ def prepare_return(code, spec, root=ROOT):
                     'An outbox already exists for different deliverables; preserve and reconcile it first')
             if old['packages'] == packages:
                 return old
-            # Extend only after the previous batch has a verified binding. Keep
-            # stable operation indices so accepted media are never re-uploaded.
-            require(old.get('state') == 'returned' and old.get('pending_locales') and
-                    old.get('operations', {}).get('bind', {}).get('state') == 'verified',
+            # A batch containing only explicitly deferred unknown uploads has
+            # no active materials to bind. Preserve those operations and allow
+            # unrelated reviewed locales to proceed under new stable indices.
+            active = _active_packages(old)
+            deferred_only = (bool(old['packages']) and not active and
+                             'bind' not in old.get('operations', {}) and
+                             all(old['operations'].get(f'upload-{i}', {}).get('state') == 'unknown'
+                                 and f'import-{i}' not in old['operations']
+                                 for i in range(1, len(old['packages']) + 1)))
+            require((deferred_only or old.get('state') == 'returned' and
+                    old.get('operations', {}).get('bind', {}).get('state') == 'verified')
+                    and old.get('pending_locales'),
                     'An outbox already exists for different deliverables; preserve and reconcile it first')
             previous_locales = {p['locale'] for p in old['packages']}
             require(not previous_locales.intersection(p['locale'] for p in packages),
                     'Previously submitted locales cannot be uploaded again')
             require(all(old['operations'].get(f'{phase}-{i}', {}).get('state') == 'verified'
-                        for i in range(1, len(old['packages']) + 1) for phase in ('upload', 'import', 'verify')),
+                        for i, _ in active for phase in ('upload', 'import', 'verify')),
                     'Previous partial submission is not fully verified')
-            old.setdefault('binding_history', []).append(old['operations'].pop('bind'))
+            if 'bind' in old['operations']:
+                old.setdefault('binding_history', []).append(old['operations'].pop('bind'))
             old['packages'].extend(packages)
             old['pending_locales'] = [lang for lang in selected_video['targets']
-                                      if lang not in {p['locale'] for p in old['packages']}]
+                                      if lang not in {p['locale'] for _, p in _active_packages(old)}]
             old.update(state='ready', extended_at=utc_now())
             write_json(path, old)
             return old

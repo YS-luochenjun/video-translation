@@ -8,7 +8,7 @@
 
 工作包中的 `knowledge_advisories` 是待验证观察，和正式 `knowledge` 分开。按需读其原文，用作风险提醒或试验依据，不能直接作为通过标准。结案时按 `knowledge_followup` 用 `knowledge-use` 记录实际采用、未采用及效果，再审查 `knowledge-queue` 中本次新增或受反例影响的内容，具体见 [知识合同](knowledge.md)。
 
-已有诊断预览、重复修复或正式候选尚未交付时，按 [制作收口](../workflows/production-completion.md) 处理：先完成 `next_action` 指出的当前缺口，复用已核验资产；当前候选待审则补实际审核，quality通过则直接deliver。水印／发布者标记的保留或去除，在定稿前对照当前要求与同源反馈明确记录。
+已有诊断预览、重复修复或正式候选尚未交付时，按 [制作收口](../workflows/production-completion.md) 处理：先完成 `next_action` 指出的当前缺口，复用已核验资产；当前候选待审则补实际审核，quality通过则直接deliver。水印／发布者标记默认去除，识别其文字/图形身份并检查片尾同标；用户本次明确要求保留的例外记录来源，旧评审不覆盖。
 
 ## 1. 收件
 
@@ -26,6 +26,8 @@
 
 先按 [Agent 选路](../../knowledge/rules/agent-method-selection-v2.md) 判断政策、主方法和辅助检查；在现有 reason/evidence 说明适用条件、首选与备选、切换及停止依据。家庭/医院/校园等剧情背景不直接决定算法。特征定义及同义映射见 `config/content-features.json`，多人对白用 multi_character_dialogue（multi_speaker 同义），短剧用 short_drama；未知身份保留疑点。
 
+全片及片尾执行[水印识别与同标去除](../../knowledge/rules/publisher-watermark-removal-v2.md)。确认的发布者水印/商标用text_role=publisher_mark、统一publisher_identity及mark_form单列，target_text为空表示去除不补字；publisher_mark_review保留片尾matched/no_match与实际帧证据。静态水印也补publisher_watermark特征，不能仅移动水印才召回；产品品牌与发布者标记分别判断。格式见[水印清单示例](../templates/publisher-marks-example.json)。
+
 特征按观察填写：艺术字用 `artistic_typography`，拍摄手机界面用 `filmed_phone_ui`，前景遮挡用 `foreground_occlusion`，需要贴合表面的字层用 `surface_typography`。这些场景即使没有文字动画也可命中视觉方法；普通静态平面文字不必添加这些特征。
 
 所有任务先按 `agent/contracts/audio.md` 明确音乐、音效与对白分工；控制 AI 无法听音时仍向视频模型传递声音要求，证据不足保留 pending。
@@ -40,7 +42,7 @@
 
 动态标题、CTA、关键词强调按[Remotion文字适配器](../../docs/remotion-typography.md)填写明确display.motion和绑定字体，重建计划后走现有render；简单文字沿用FFmpeg。快速流程可先用bin/render_typography.py生成已审底片上的文字，再把实际输出与typography_assets绑定进recipe。渲染失败回退静态字层，降级必须由真实成片审核确认；字体、内容和区域不合格不能借回退绕过。
 
-图片编辑由 Codex 主动选取实际原图与方法，先完成 `codex-packet --stage image` 的知识读取和真实编辑，再登记产物。移动/旋转水印按 [去水印规范](../../knowledge/rules/moving-watermark-removal-v1.md) 操作。先用 `repair-preflight RUN` 对照实际产品/姿态切点、文字模糊入场和完整画面边缘；本地配方执行与受控试验见 [修复配方](../workflows/repair-recipes.md)。原尺寸查看优先使用 `visual-pages --layer final --limit 2` 与返回的 `--after-frame` 续看，不另写查看脚本。展示游标只记录展示，不代表已审。
+图片编辑由 Codex 主动选取实际原图与方法，先完成 `codex-packet --stage image` 的知识读取和真实编辑，再登记产物。静态及移动/旋转水印按 [去水印规范](../../knowledge/rules/publisher-watermark-removal-v2.md) 操作。先用 `repair-preflight RUN` 对照实际产品/姿态切点、文字模糊入场和完整画面边缘；本地配方执行与受控试验见 [修复配方](../workflows/repair-recipes.md)。原尺寸查看优先使用 `visual-pages --layer final --limit 2` 与返回的 `--after-frame` 续看，不另写查看脚本。展示游标只记录展示，不代表已审。
 
 匹配有效知识；生成可审查计划。图片工作由 Codex 完成，连续视频需要模型时统一使用 Wan 2.7；本地合成负责把已审图片/字层与原片结合。按模型实际限制合并/拆分片段，不把30秒直接塞进8秒接口。检查 payload、附件与成本估算后执行。
 

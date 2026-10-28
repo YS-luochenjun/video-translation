@@ -25,6 +25,7 @@
     "static_text_surface": "Stable observed surface/container, separately protect dynamic fingers/numbers/icons.",
     "animated_text": "Text itself changes position/scale/rotation/opacity/shape, not camera motion alone.",
     "foreground_occlusion": "Actual object passes in front of text/repair area and needs time-dependent layering.",
+    "publisher_watermark": "Observed publisher watermark or a confirmed matching endcard wordmark/logo; static or moving. Identity is an Agent observation, not a filename guess.",
     "moving_watermark": "Observed publisher mark changes position/rotation or enters/leaves frame.",
     "speech_captions": "Text actually representing spoken content, distinct from independent title/UI.",
     "artistic_typography": "Observed decorative, textured, outlined or expressive letterforms requiring style judgment, not any large font.",

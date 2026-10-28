@@ -1,0 +1,58 @@
+{
+  "reviewed_at": "2026-10-28T04:33:52+00:00",
+  "reviewed_by": "Codex same-agent document/hash and selected image inspection; no new full AV or independent/native review",
+  "source_sha256": "483414a4c996dc613e3004f9ecf0ed2b76a4f72572dadcba1951479a635ff8bf",
+  "target_language": "ja",
+  "video_sha256": "08d5f7c40311baed390060337ba1ca3834a77451983ed057d577e79f8d4b9743",
+  "private_case_manifest_sha256": "b49f65de74a0c31b968681aca2724bb909a2cd09d614752f54fbde28edc3a0cd",
+  "original_candidate": {
+    "path": "knowledge/candidates/MOG-20261027-010-01-08d5f7c403.json",
+    "sha256": "a8247a150e3f271976968d3b31e342944a28b71d55419d62246d84e23952bf16"
+  },
+  "observed_imagegen_application": {
+    "application": "Native top stationary wall/shelf only, frames495–527; actual generated raw/native images registered. No Wan reference_image used.",
+    "raw_and_native_hashes": [
+      {
+        "path": "inputs/imagegen/tail-header-native-v1.png",
+        "sha256": "0903693c043e1701e771e0f4584af3dbf0e535d0fcc9853224159fed14566a40"
+      },
+      {
+        "path": "inputs/imagegen/tail-header-v1.png",
+        "sha256": "741b331d758de33836ff3a2e30fdd8375a678da04c2a73d8a02b275e2225e56a"
+      }
+    ],
+    "current_image_inspection": "Viewed native donor and retained multi-frame neutral tail sheet: top wall/shelf no pink title; moving face/arrow remain visible across the sequence. This is not an exhaustive framewise acceptance.",
+    "wan_reference_image_used": false
+  },
+  "prior_failure": {
+    "reviewer": "Codex same-agent",
+    "decision": "revise",
+    "header": "Pink heading cleared over shelves; candidate uses exact 134 frames / 30fps and 4.466667 sec.",
+    "cta": "Failed: central Test now remains through final frames, with flying fragments. Do not adopt this region.",
+    "next_variable": "Scope second Wan trial to 2 sec CTA-only clip, no multiple-text instruction.",
+    "evidence": "outputs/9ce32c629cbd863759b136a7414b33c8cb3eb06594a3f8880e9c475cb48ba856.mp4"
+  },
+  "timing_disagreement": {
+    "attributed_model_video_sha256": "4f546ae8e2bbf2932e69c51d0e88b9a6453c2160d5b2dea3e4af1056e1a40e1a",
+    "attributed_model_segments": [
+      {
+        "start": 0.0,
+        "end": 3.1,
+        "source_text": "名前を家にしたら、どんな家？"
+      },
+      {
+        "start": 6.9,
+        "end": 8.1,
+        "source_text": "今すぐ試して！"
+      }
+    ],
+    "mix_plan_cta_start": 16.28,
+    "limits": "Reported model labels and mix instructions are not measured AV timing. No new native listening or exact-time acceptance in this consolidation."
+  },
+  "retained_limits": [
+    "One source, ja reference only; other four locales are not independent visual replications",
+    "Historical pass/softness and self-review attribution preserved",
+    "Unknown source audio fee reservation retained; no budget/quality mutation",
+    "Cross-source/moving-background and independent/native validation not performed"
+  ]
+}

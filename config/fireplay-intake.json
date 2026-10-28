@@ -1,5 +1,18 @@
 {
   "schema_version": 1,
+  "designer_selection": {
+    "mode": "requirement_assignees_except_named_operators",
+    "excluded_names": ["罗晨钧", "邹彬"],
+    "multiple_designers": "include_all_resolved_remaining_assignees",
+    "creation_type": "derivative",
+    "tag": "二创",
+    "no_remaining_assignees": "unassigned",
+    "identity_resolution": "Current requirement assignees and live member/designer DID mapping; never infer from login or invent a DID",
+    "authority": "user",
+    "authorization_ref": "user-fireplay-assignee-designer-20261027",
+    "rule": "提交素材时，执行人排除罗晨钧、邹彬，其余人员填为设计师，创作类型为二创，并追加二创tag。",
+    "source_quote": "目前增加一个提交上传的内容：如果你看到，在“执行人”一栏，发现了除了“罗晨钧 邹彬”之外的其他人，说明他就是设计师。需要在提交时，把设计师加入设计师一项中：“上传素材的设计师就用这个设计师名并打上二创的标记”，tag里面加上“二创”标记。"
+  },
   "attribution": {
     "unassigned": true,
     "creation_type": "unspecified",

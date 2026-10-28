@@ -14,6 +14,7 @@
 
 - [模型合同](agent/contracts/model-routing.md)是分工入口：Codex识字及直接处理图片，先codex-packet取得真实图像/知识，完成后codex-result登记实际观察/产物；图片能用宿主ImageGen完成时优先使用，必要媒体操作保留脚本，见[ImageGen优先政策](knowledge/rules/imagegen-first-v1.md)。新任务不用RapidOCR、GLM-OCR、LaMa；真实音频用专用模型，视频统一Wan 2.7。用户指定模型须以真实任务、原视频和逐项评审验证；本地合成是另一条路线，不冒称模型效果。
 - 按[源文字修复](knowledge/rules/content-aware-text-restoration-v2.md)逐实例选路：静态简单底面优先自然重建，复杂运动/遮挡先评估Wan连续局部修复，不为省额度跳过；模糊仅凭实际候选或连续帧主体风险兜底，沿用试验上限。
+- 发现发布者水印默认去除，解析原文/图形与身份，片尾同一身份的文字/商标也去除；逐实例记录关联和实际审核。用户明确保留例外与无关产品品牌分开，见[水印与片尾同标规则](knowledge/rules/publisher-watermark-removal-v2.md)。
 - KIE新请求按实际去重目标语种每种60 credits建本请求共享池，首次/新复用同价；同需求多原片共用，跨需求不合并。旧限额和未知费用保留，两轮返工不变，Codex花费不受该池限制。automatic_use=true且在用户授权范围内时直接使用KIE及必要媒体传送，不重复询问；新增范围/额度才确认，宿主审批照其策略执行。
 - KIE仅通过API、真实taskId、保存的响应及本地任务/费用日志核查，配置为config/kie-access.json。用户没有后台登录权限，不要求登录、密码、Cookie或后台截图。同步超时无可查询ID时保留未知费用，不编造查询能力或重复扣费。失败按[集成约定](agent/integrations/kie.md)区分连接/鉴权、上传、建任务、执行与内容质量。
 - Remotion仅用于清单中明确的动态标题、CTA和关键词强调，见[文字动效](docs/remotion-typography.md)。简单文字走FFmpeg；必须先有干净底片并绑定实际字体字形/字号/区域/定稿。浏览器或渲染失败只回退静态并记录，缺字、越界、不可读须修正；不承担去字、配音、跟踪或遮挡修复。
@@ -24,7 +25,7 @@
 
 [巡检流程](agent/workflows/fireplay-monitor.md)每30分钟检查全部可见组，人员仅提示；实际读正文、原片及语种判断翻译，排除原创/换人物/新开头。新翻译需求按持续授权独立建聊和计费；旧基线不自动重做，明确翻译但发布时间不明保留historical_translation_pending，不强改成非翻译。内容修订沿原聊天和预算审查。主控可向已交办负责聊天派发制作、恢复及固定回传；未知创建/发送/上传先核查，不重复执行。
 
-用户最新固定提交：**入素材库 → 共享需求组并请求YouTube自动上传 → 语言tag与1至2词产品tag → 编号加语言命名 → 绑定当前需求**。设计师默认可空，不改需求状态或投放。config/fireplay-youtube-routing.json采用platform_managed：普通MCP按平台路由，不强制账号截图或任务组核验，不因后台组显示卡住合格成片。仍核验真实入库、共享、名称、标签及绑定，unknown恢复原请求，已知素材不重入库。正式完整outputs的普通小瑕疵经真实fireplay-publication-review可提交；严重/过多问题、漏译、缺必需配音或有效质量异议仍阻断，不改写内部revise。允许partial:true先交合格语种，保留pending_locales和旧操作/绑定历史。受理绑定后经验收尾，YouTube进度/排队/限额/向量化交平台，不为缺链接重传、替换或删除；保留旧异常，不冒称已修正或改整个账号组。完整政策见config/fireplay-publication.json及[提交知识](knowledge/rules/fireplay-completion-recovery-v3.md)。
+用户最新固定提交：**入素材库 → 共享需求组并请求YouTube自动上传 → 语言tag与1至2词产品tag → 编号加语言命名 → 绑定当前需求**。执行人中除罗晨钧、邹彬外的人员填为设计师，标记二创并追加“二创”tag；无其他人员才可留空，见[设计师归属规则](knowledge/rules/fireplay-designer-attribution-v1.md)。不改需求状态或投放。config/fireplay-youtube-routing.json采用platform_managed：普通MCP按平台路由，不强制账号截图或任务组核验，不因后台组显示卡住合格成片。仍核验真实入库、共享、名称、标签及绑定，unknown恢复原请求，已知素材不重入库。正式完整outputs的普通小瑕疵经真实fireplay-publication-review可提交；严重/过多问题、漏译、缺必需配音或有效质量异议仍阻断，不改写内部revise。允许partial:true先交合格语种，保留pending_locales和旧操作/绑定历史。受理绑定后经验收尾，YouTube进度/排队/限额/向量化交平台，不为缺链接重传、替换或删除；保留旧异常，不冒称已修正或改整个账号组。完整政策见config/fireplay-publication.json及[提交知识](knowledge/rules/fireplay-completion-recovery-v3.md)。
 
 ## 数据、知识与维护
 

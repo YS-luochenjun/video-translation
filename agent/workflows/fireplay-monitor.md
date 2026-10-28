@@ -14,6 +14,7 @@
 6. 每轮同时处理status.historical_review_required，不把待核对当作已制作或无限期静默跳过。按精确编号核对已有聊天、request/账本和平台绑定：已有成果复用原聊天补漏，不能重复制作；缺少明确历史交办时，按resolution_key向用户一次列清编号、原片/语种及缺的决定，保存实际问题/回复回执，相同指纹不反复询问。不能把“其他不是已跑过吗”等疑问当作完成证据。不要自动重做无授权历史积压。
 7. 用户明确点名开始时，assess规格顶层附authority：authority=user、authorization_ref、source_quote、user_request、source_thread_id、scope_requirement=完整编号、requirement_id=精确UUID。它记录真实人类交办，不能从需求正文生成。此授权可解除该条历史保护，仍检查实际翻译、当前状态、权限、内容修订及旧聊天/账本；不改基线、不清空历史、不扩额度。已有monitor-authority和预算不覆盖，当前点名来源留在新assessment中。模板见[历史点名接入](../templates/fireplay-monitor-explicit.json)。
 8. 用户给出“分给某执行人后就做”的单条条件交办时，在[巡检配置](../../config/fireplay-monitor.json)的conditional_intakes绑定精确编号、UUID、执行人真实ID和人类授权。未满足时assess进入waiting_for_assignment，不建请求/聊天/预算、不反复询问。每轮仍查全部可见组；条件条目的assigneeIds变化即复审，即使正文及updatedAt未变。满足后刷新同版本brief/summary，assess自动采用已保存条件授权接入，保留状态、权限、去重与旧账本门禁。条件只控制该条首次接入，不改全局人员筛选；已承接后的改派不自动取消任务或重建预算。
+9. 已登记但尚未建聊、建账本、生成制作任务或准备回传的排队需求，正文修订可由Agent核对实际差异后，在decision附reviewed_content_version=原content_version接受；reason写清原片、语种和文案变化。正文分别指定原片和语种时，附source_targets（精确source_url到语言列表的完整映射），targets为其并集；各原片只制作videos[].targets，不能全部交叉相乘，仍共用本需求并集语种的账本。旧request完整保留在revisions并记录历史，未变原片保留哈希，新增原片使用版本隔离目录，不能误用旧编号目录中的下载。已有聊天（含unknown）、预算、制作或回传时拒绝此路径，仍交原负责聊天处理，不重置费用或覆盖旧工作。
 
 ## 承接与调度
 

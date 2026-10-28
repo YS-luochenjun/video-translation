@@ -2221,6 +2221,39 @@
       ],
       "knowledge_type": "source_reference",
       "validation_level": "developer_reviewed_guidance"
+    },
+    {
+      "id": "mog010-ja-static-donor-and-cta-v1",
+      "path": "knowledge/cases/mog010-ja-static-donor-and-cta-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "ja",
+        "source_sha256": "483414a4c996dc613e3004f9ecf0ed2b76a4f72572dadcba1951479a635ff8bf"
+      },
+      "tags": [
+        "imagegen",
+        "static_surface",
+        "cta",
+        "audio",
+        "timing"
+      ],
+      "origin": "2026-10-27 user requested temporary knowledge consolidation; reviewed original MOG010 records, actual image artifacts and bound final bytes.",
+      "reviewed_by": "Codex same-agent document/hash and selected image inspection; no new full AV or independent/native review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T04:33:52+00:00",
+      "method_sha256": "4f65adf29d47512cd19080b0aee9f08b4d7aa166f14a38bec1f06fd23affe7ad",
+      "case": "knowledge/examples/mog010-ja-static-donor-and-cta-v1",
+      "case_manifest_sha256": "906e3583f03dc6fc7e6fb9c40a946d55ec7e3b6da0bd6a242fd1c17d1a162fc7",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261027-010-01-08d5f7c403.json",
+          "sha256": "a8247a150e3f271976968d3b31e342944a28b71d55419d62246d84e23952bf16"
+        }
+      ],
+      "reference_video_sha256": "08d5f7c40311baed390060337ba1ca3834a77451983ed057d577e79f8d4b9743",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_guidance"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

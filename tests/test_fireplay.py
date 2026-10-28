@@ -98,6 +98,29 @@ class FireplayTests(unittest.TestCase):
             self.register()
         self.assertIn('pagination', str(fireplay.lookup_packet(CODE)))
 
+    def test_source_specific_languages_keep_one_requirement_pool(self):
+        second = 'https://www.youtube.com/shorts/abcdefghijk'
+        self.snap['brief']['items'][0]['description'] += '\n' + second
+        decision = {'authorization_ref': 'test:scope', 'source_quote': 'Synthetic source-specific languages',
+                    'targets': ['es', 'ko'], 'source_targets': {URL: ['es'], second: ['kr']}}
+        result = self.register(decision)
+        self.assertEqual(result['blockers'], [])
+        self.assertEqual([v['targets'] for v in result['videos']], [['es'], ['ko']])
+        packet = fireplay.chat(CODE, root=self.root)
+        self.assertCountEqual(packet['targets'], ['es', 'ko'])
+        self.assertIn('videos[].targets', packet['prompt'])
+        changed = copy.deepcopy(decision)
+        changed['source_targets'] = {URL: ['ko'], second: ['es']}
+        with self.assertRaisesRegex(WorkflowError, 'explicit revision review'):
+            self.register(changed)
+        self.assertEqual(self.record()['decision'], decision)
+
+    def test_source_targets_require_exact_sources_and_language_union(self):
+        for mapping in ({}, {URL: ['es']}, {URL: ['es', 'ko'], 'https://example.com/extra.mp4': ['es']}):
+            with self.subTest(mapping=mapping), self.assertRaises(WorkflowError):
+                self.register({'authorization_ref': 'test:scope', 'source_quote': 'Synthetic invalid mapping',
+                               'targets': ['es', 'ko'], 'source_targets': mapping})
+
     def pull_spec(self, codes=None):
         return {'codes': codes or [CODE], 'authority': {'authority': 'user',
                 'authorization_ref': 'test:queue-user', 'source_quote': 'Synthetic scoped intake; P0 first'}}
@@ -244,6 +267,65 @@ class FireplayTests(unittest.TestCase):
             self.register()
         self.assertEqual(self.record()['content_version'], before)
 
+    def test_reviewed_unstarted_revision_preserves_old_sources_and_isolates_new_downloads(self):
+        self.register()
+        cached = self.root / f'work/runs/{CODE}-01/fireplay-source.mp4'
+        cached.parent.mkdir(parents=True)
+        cached.write_bytes(b'old cached source')
+        old = self.record()
+        old['videos'][0]['source'] = {'path': cached.relative_to(self.root).as_posix(),
+                                     'sha256': file_hash(cached), 'duration': 5, 'width': 320, 'height': 240}
+        self.save(old)
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0]['locales'] = ['es', 'pt', 'fr']
+        self.snap['brief']['items'][0]['description'] = 'https://youtu.be/abcdefghijk\n' + URL
+        decision = {'authorization_ref': 'actual-standing-request', 'source_quote': 'Translate actual requirements',
+                    'quantity_mode': 'one_per_locale', 'reviewed_content_version': old['content_version'],
+                    'revision_reason': 'Add one source before the original and expand actual languages'}
+        self.register(decision)
+        new = self.record()
+        self.assertCountEqual(new['targets'], ['es', 'pt', 'fr'])
+        self.assertEqual(new['videos'][1]['source'], old['videos'][0]['source'])
+        self.assertEqual(read_json(self.root / new['revision_history'][0]['path']), old)
+        receipt = {'items': [{'youtube_url': 'https://youtu.be/abcdefghijk', 'youtube_video_id': 'abcdefghijk',
+                             'status': 'found', 'material_id': MID, 'video_r2_url': 'https://example.org/new.mp4'}]}
+        def fetch(url, local):
+            local.parent.mkdir(parents=True, exist_ok=True)
+            local.write_bytes(b'new cached source')
+        with patch('video_localizer.kie.download', side_effect=fetch), patch('video_localizer.media.probe',
+                return_value={'duration': 5, 'width': 320, 'height': 240}):
+            fireplay.source(CODE, receipt, download=True, root=self.root)
+        source = self.record()['videos'][0]['source']
+        self.assertIn('-source-' + new['content_version'][:16], source['path'])
+        self.assertEqual(cached.read_bytes(), b'old cached source')
+        self.register(decision)
+        self.assertEqual(len(self.record()['revision_history']), 1)
+        self.assertFalse((self.root / 'state/budgets').exists())
+
+    def test_unstarted_revision_rejects_wrong_version_and_any_production_state(self):
+        self.register()
+        old = self.record()
+        self.snap['brief']['items'][0]['description'] += ' new copy'
+        decision = {'authorization_ref': 'actual-standing-request', 'source_quote': 'Translate actual requirements',
+                    'quantity_mode': 'one_per_locale', 'reviewed_content_version': 'wrong', 'revision_reason': 'Changed copy'}
+        with self.assertRaisesRegex(WorkflowError, 'exact previous version'):
+            self.register(decision)
+        self.assertEqual(self.record(), old)
+        decision['reviewed_content_version'] = old['content_version']
+        for kind in ('budget', 'unknown_chat', 'members', 'return'):
+            with self.subTest(kind=kind):
+                record = copy.deepcopy(old)
+                if kind == 'budget': record['budget'] = 'keep-original'
+                if kind == 'unknown_chat': record['chat'] = {'state': 'unknown'}
+                if kind == 'members': record['videos'][0]['members'] = ['already-started']
+                return_path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+                if kind == 'return': write_json(return_path, {'state': 'unknown'})
+                self.save(record)
+                with self.assertRaisesRegex(WorkflowError, 'Only an unstarted'):
+                    self.register(decision)
+                self.assertEqual(self.record(), record)
+                return_path.unlink(missing_ok=True)
+
     def test_status_time_and_assignee_edits_do_not_change_content_version(self):
         before = self.register()['content_version']
         self.snap['summary']['items'][0].update(status='in_progress', assigneeIds=['new'], updatedAt=utc_now())
@@ -288,6 +370,28 @@ class FireplayTests(unittest.TestCase):
         path.write_bytes(b'tampered')
         with self.assertRaisesRegex(WorkflowError, 'changed'):
             fireplay.source(CODE, download=True, root=self.root)
+
+    def test_classification_only_dimensions_need_exact_resource_and_file_size(self):
+        self.register()
+        response = {'items': [{'youtube_video_id': 'Z6AJoQe5wI0', 'youtube_url': URL, 'status': 'found',
+                    'material_id': MID, 'source_resource_id': RESOURCE,
+                    'video_r2_url': 'https://example.com/source.mp4', 'duration': 8, 'width': 1080, 'height': 1920}]}
+        path = self.root / f'work/runs/{CODE}-01/fireplay-source.mp4'
+        path.parent.mkdir(parents=True)
+        path.write_bytes(b'synthetic downloaded bytes')
+        resource = {'id': RESOURCE, 'backupUrl': 'https://example.com/source.mp4',
+                    'youtubeVideoId': 'Z6AJoQe5wI0', 'fileSize': path.stat().st_size,
+                    'extraInfo': {'youtube': {'resolution': {'hasExactDimensions': False}}}}
+        with patch('video_localizer.media.probe', return_value={'duration': 7.7, 'width': 608, 'height': 1080}):
+            for detail in (None, {'material': {'id': MID, 'resources': [{**resource, 'fileSize': 1}]}},
+                           {'material': {'id': MID, 'resources': [{**resource, 'id': 'wrong'}]}}):
+                with self.subTest(detail=detail), self.assertRaisesRegex(WorkflowError, 'dimensions differ'):
+                    fireplay.source(CODE, {**response, 'material_detail': detail}, download=True, root=self.root)
+            fireplay.source(CODE, {**response, 'material_detail': {'material': {'id': MID, 'resources': [resource]}}},
+                            download=True, root=self.root)
+        video = self.record()['videos'][0]
+        self.assertEqual(video['source']['sha256'], file_hash(path))
+        self.assertEqual(video['source_metadata_review']['actual_dimensions'], [608, 1080])
 
     def test_chat_preview_no_create_unknown_does_not_create_twice(self):
         self.register()
@@ -391,6 +495,28 @@ class FireplayTests(unittest.TestCase):
         self.assertEqual(path.read_bytes(), before)
         with self.assertRaisesRegex(WorkflowError, 'All requested languages'):
             fireplay.prepare_return(CODE, {**spec, 'partial': True, 'packages': []}, self.root)
+
+    def test_deferred_only_partial_can_append_without_retrying_unknown_upload(self):
+        spec = self.partial_setup()
+        first = {**spec, 'partial': True, 'packages': spec['packages'][:1]}
+        fireplay.prepare_return(CODE, first, self.root)
+        fireplay.dispatch(CODE, True, self.root)
+        decision = {'authority': 'agent', 'authorization_ref': 'test:actual-timeout',
+                    'source_quote': 'Synthetic timeout, no resource identifier; preserve unknown and do not retry.'}
+        fireplay.defer_unknown_upload(CODE, 'es', decision, self.root)
+        path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        before = read_json(path)
+        extended = fireplay.prepare_return(CODE, {**spec, 'partial': True, 'packages': spec['packages'][1:]}, self.root)
+        self.assertEqual(extended['operations']['upload-1'], before['operations']['upload-1'])
+        self.assertEqual(extended['deferred_uploads'], before['deferred_uploads'])
+        self.assertEqual(extended['packages'][0], before['packages'][0])
+        self.assertEqual(extended['pending_locales'], ['es'])
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root)['operation']['id'], 'upload-2')
+        with self.assertRaises(WorkflowError):
+            fireplay.prepare_return(CODE, first, self.root)
+        self.complete_partial_locale(2, 'ko', MID, [MID])
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root)['state'], 'partially_returned')
+        self.assertEqual(read_json(path)['operations']['upload-1']['state'], 'unknown')
 
     def test_partial_return_cannot_bypass_a_quality_hold(self):
         spec = self.partial_setup()

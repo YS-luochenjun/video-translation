@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "publisher-watermark-removal-v2",
+  "created_at": "2026-10-28T03:51:00+00:00",
+  "files": [
+    {
+      "path": "evidence/moving-watermark-removal-v1.md",
+      "sha256": "a42ebc6c0fe48e0736b863e62fc1f29018ce4239752ccf1a43a553bf5fd63211",
+      "bytes": 2149
+    },
+    {
+      "path": "evidence/publisher-watermark-policy-20261027.json",
+      "sha256": "82d8fee367c011562d55eeca390794ff6d6d523a1be23f63446fd0033c0baeff",
+      "bytes": 1556
+    },
+    {
+      "path": "evidence/user-endcard.png",
+      "sha256": "e3611921ae325bb073927d2983575fd5ea749026de5fdab5f2ace2dbcdfb0b64",
+      "bytes": 51808
+    },
+    {
+      "path": "evidence/user-watermark.png",
+      "sha256": "ed87c40ee5efdff5e005ee3d67d8576fe0366a4ffe08a2825310339d7796ac4f",
+      "bytes": 154429
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 发布者水印识别、关联片尾与去除\n\n来源：用户2026-10-27明确要求，发现视频水印就去除，并解析其文字/内容；片尾出现和水印相同的商标也去除。两张指示图显示小字“Apkzonic”和片尾“APKZONIC”为同一发布者。见evidence:instruction、evidence:watermark、evidence:endcard。这是项目执行要求，不是已完成视频去除或质量验收。\n\n本版替代moving-watermark-removal-v1中“只处理另行明确指定水印”的默认。新制作及续作需按当前要求重新判断；旧计划、成片与原验收保留历史，不静默改写。移动/旋转处理经验沿用其已观察边界，见evidence:previous。\n\n## 识别与关联\n\n1. 全片检查水印，包括半透明小字、角落标记、站点/账号名、图形标识和移动/旋转/模糊入场。由Codex实际看图识字，记录原文、可辨图形、位置、区间及不确定项；不能以文件名或ASR代替视觉识别。\n2. 为确认的发布者建立规范身份，保留原始拼写、大小写和样式变体。Apkzonic与APKZONIC在本示例明确关联为apkzonic；其他拼写差异、缩写或图形是否同源须结合真实画面判断，不仅凭相似颜色或字母自动合并。\n3. 发现水印后必须检查片尾及最后转场，寻找同一身份的文字、商标和图形组合。小水印、片尾大字、同一发布者的图形标志各自建实例并共享身份；仅文字一致不能自动推断周围所有图形都属于它。已确认同一发布者的图形也去除，身份未确认先补证。\n4. 默认去除已识别的发布者水印及匹配片尾商标，不再逐次请求同意，不翻译或补上另一个标志。用户本次明确要求保留的例外记录真实指令来源。产品本体、应用内容、其他品牌、人物、字幕和CTA分别分类，不因出现品牌文字就一并删除。\n\n## 记录与执行\n\n使用text_role=publisher_mark、publisher_identity、mark_form分别记录watermark/endcard_wordmark/endcard_logo；去除项target_text为空，动作选实际model_edit、reference_plate或已核验对应路线。publisher_mark_review记录身份判断、片尾matched/no_match及实际帧证据。参数格式见[示例](../../agent/templates/publisher-marks-example.json)，坐标/时间只是占位，不可套用到其他原片。\n\n图片可用时优先ImageGen自然重建；复杂运动、遮挡和纹理按实际条件选择Wan连续修复，可用已审同镜头参考图指导。原片提供运动和时序，不能把一张干净参考铺满动态片段。产品切镜、姿态、文字变化和模糊边缘各自定位，不跨镜头/姿态借供体，不默认用色块、模糊或裁切整段片尾代替去除。\n\n模型提示明确“去掉该发布者标识且不补字”，保护无关产品品牌及动作；泛化的“保留logo”不得覆盖这些去除项。自定义提示词同样保留实例约束。平面静态区域可用同镜头干净供体；人物和动态纹理须保留真实运动。模型、图片或API成功都不能直接放行。\n\n## 审核、停止与复用\n\n按实例查无字底片和最终编码，覆盖水印首末、半透明/描边/模糊字、画面边缘、旋转极值、遮挡和切镜两侧，片尾同身份标识单独复查。检查无残字/图标、无明显补丁/闪烁、主体与运动完整；同源各语言实际输出都核对。漏掉片尾同标、把水印当应保留品牌、移除一个位置却漏另一个、模型重新画回标识都记作失败，不以minor标签掩盖明确遗漏。\n\n修正只改有证据的局部变量，沿原预算、未知费用和两轮返工上限；达到边界仍按完整输出合同交当前最佳版本并披露水印残留，不声称合格。保存必要源/结果对照、原评审及实际哈希。用户否定版本按quality-hold处理；本条指令不自动否定或删除所有旧交付，也不自动重做历史任务。\n\n本示例只支持水印身份和去除范围的明确指示；未在此进行图片编辑、付费模型实验或整片视听验收。遮挡重建不能承诺恢复真实隐藏像素。其他原片的区域、轨迹、图形关联与方法效果必须重新判断。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "instruction": "evidence/publisher-watermark-policy-20261027.json",
+      "watermark": "evidence/user-watermark.png",
+      "endcard": "evidence/user-endcard.png",
+      "previous": "evidence/moving-watermark-removal-v1.md"
+    }
+  }
+}

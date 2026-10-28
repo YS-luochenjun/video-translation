@@ -17,7 +17,7 @@
 | [图片修复与连续视频](../knowledge/rules/method-source-neutral-preparation-v5.md) | Codex定修复参考和译文字形，按源帧合成；需要连续重建的区域交给Wan，声音单独翻译 | 逐帧合成与逐帧生成的区别，原运动/前景/特效，模型实际采用范围，独立音频检查 |
 | [文字、前景与遮挡](../knowledge/rules/method-animated-text-occlusion-v8.md) | animated_text、artistic_typography、filmed_phone_ui、foreground_occlusion、surface_typography 任一命中；分层、排版和连续编码检查 | 实际字体、取帧范围、原文字平面、背景失焦、片尾时长、动态承载面及有条件的透明资产导出 |
 | [口播与字幕](../knowledge/rules/method-spoken-caption-verification-v4.md) | speech；定稿、识别分歧、句间停顿及实际混音边界 | 新语言文案、音色、时间轴与听感 |
-| [移动水印](../knowledge/rules/moving-watermark-removal-v1.md) | 模糊入场、边缘、旋转与镜头切换检查 | 授权去除范围、实际轨迹和干净供体 |
+| [水印与片尾同标](../knowledge/rules/publisher-watermark-removal-v2.md) | 识别发布者身份，默认去除静态/移动水印及匹配片尾商标；检查模糊入场、边缘、旋转和切镜 | 实际身份关联、产品品牌区别、用户保留例外、轨迹和干净供体 |
 
 共同政策包括 [视觉门禁](../knowledge/rules/neutral-visual-and-animation-gate-v4.md)、[口播字幕统一](../knowledge/rules/user-caption-audio-sync-20261019.md)、[请求总预算](../knowledge/rules/user-language-budget-60-20261026.md)、[语言别名](../knowledge/rules/language-aliases-v2.md) 和 [不以实色块盖字](../knowledge/rules/user-no-solid-text-panels-20261022.md)。参数与状态由当前配置及索引决定。
 

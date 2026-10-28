@@ -1,0 +1,24 @@
+{
+  "reviewed_at": "2026-10-28T03:51:00+00:00",
+  "reviewed_by": "Codex same-agent reading of actual attached screenshots and explicit current user instruction; no image/video editing or quality acceptance",
+  "source_thread_id": "01a18056-0960-7800-bba1-943d025e3989",
+  "source_quote": "目前如果发现视频中有水印，就进行去水印操作，且需要对水印的字和内容进行解析，当视频最后，出现了和水印一样的商标时，也进行去掉。如图中内容红框中。",
+  "observed": {
+    "first": "Small semitransparent Apkzonic watermark in red box",
+    "second": "Small Apkzonic watermark and large APKZONIC endcard wordmark in red boxes; blue stylized graphic is visible nearby",
+    "link": "User explicitly links the text marks to one publisher; inventory each appearance. Graphics require actual identity confirmation, not proximity alone."
+  },
+  "images": [
+    {
+      "label": "user-watermark.png",
+      "sha256": "ed87c40ee5efdff5e005ee3d67d8576fe0366a4ffe08a2825310339d7796ac4f"
+    },
+    {
+      "label": "user-endcard.png",
+      "sha256": "e3611921ae325bb073927d2983575fd5ea749026de5fdab5f2ace2dbcdfb0b64"
+    }
+  ],
+  "change": "Default removal for identified publisher marks and matching endcard, preserving unrelated product branding; required retrieval includes static publisher marks.",
+  "supersedes": "moving-watermark-removal-v1",
+  "proof_boundary": "Instruction and identity/range illustration only; no claim of successful removal, hidden-pixel restoration, or whole-video acceptance."
+}

@@ -87,6 +87,8 @@ def register(run, recipe_relative):
     root = run.parent.parent
     request = read_json(run / 'inputs/request.json')
     inventory = read_json(run / 'analysis/inventory.json')
+    from .contracts import validate_publisher_marks
+    validate_publisher_marks(inventory, run)
     meta_path = run / 'analysis/media.json'
     if request.get('routing_contract_version', 0) >= 1:
         from .contracts import validate_inventory

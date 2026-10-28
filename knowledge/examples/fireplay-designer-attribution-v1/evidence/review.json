@@ -1,0 +1,26 @@
+{
+  "reviewed_at": "2026-10-28T04:24:26+00:00",
+  "reviewed_by": "Codex same-agent policy registration and offline submission tests; no real material edited",
+  "source_thread_id": "01a18056-0960-7800-bba1-943d025e3989",
+  "user_quote": "目前增加一个提交上传的内容：如果你看到，在“执行人”一栏，发现了除了“罗晨钧 邹彬”之外的其他人，说明他就是设计师。需要在提交时，把设计师加入设计师一项中：“上传素材的设计师就用这个设计师名并打上二创的标记”，tag里面加上“二创”标记。",
+  "concise_rule": "提交素材时，执行人排除罗晨钧、邹彬，其余人员填为设计师，创作类型为二创，并追加二创tag。",
+  "identity_rule": {
+    "exclude_names": [
+      "罗晨钧",
+      "邹彬"
+    ],
+    "remaining": "all other actual assignees, matched to live member/designer DID mapping",
+    "none": "unassigned",
+    "ambiguous_identity": "resolve actual mapping, never invent DID"
+  },
+  "platform_contract_review": {
+    "tool": "material_upload_from_url",
+    "schema_version": "19ea3313da07c6aa935eaf1655117f3de0da5174555650d16af31a112535ec43",
+    "observed": "Designers/creation are encoded by name/file attribution suffix; derivative _# and multiple DIDs supported. No direct designer_name upload parameter. Existing displayed material name strips the suffix."
+  },
+  "offline_tests": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.076s\n\nOK\n",
+  "limits": [
+    "No real upload, material metadata change, requirement status change or historical re-attribution in this review",
+    "Actual assignee names and DID mappings must be resolved for each current requirement; policy is not an identity directory"
+  ]
+}

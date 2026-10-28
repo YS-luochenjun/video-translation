@@ -23,6 +23,9 @@ def context_for(request, inventory, root=None):
         "Feature aliases must map directly to canonical names, without chains")
     features = {aliases.get(feature, feature) for feature in supplied}
     inferred = {}
+    if any(t.get('text_role') == 'publisher_mark' for t in inventory.get('text_instances', [])):
+        features.add('publisher_watermark')
+        inferred['publisher_watermark'] = 'Explicitly identified publisher-mark instances; identity and endcard matching require actual visual review'
     if inventory.get("audio", {}).get("has_speech") or inventory.get("speech_segments"):
         features.add("speech")
     if any(t.get("trajectory") for t in inventory.get("text_instances", [])):

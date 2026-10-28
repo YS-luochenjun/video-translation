@@ -218,6 +218,7 @@ def assess(code, spec, root=ROOT):
         entry = state['requirements'].get(row['id'])
         require(entry and entry['row']['code'] == code, 'Requirement was not discovered in the authorized monitor')
         require(entry['state'] in ('needs_review', 'needs_information', 'admitted', 'registered') or
+                (entry['state'] == 'needs_revision_review' and decision.get('reviewed_content_version')) or
                 (conditional and entry['state'] in ('baseline', 'ignored', 'historical_translation_pending',
                                                     'newly_visible_old', 'not_eligible', 'waiting_for_assignment')) or
                 (explicit and entry['state'] in ('baseline', 'ignored', 'historical_translation_pending',
@@ -228,10 +229,21 @@ def assess(code, spec, root=ROOT):
         if old_record.exists():
             old = read_json(old_record)
             if old['content_version'] != snap['content_version']:
-                entry.update(state='needs_revision_review', reason='Existing requirement changed; preserve its chat, budget and work',
-                             proposed_content_version=snap['content_version'], review_pending=False)
-                write_json(path, state)
-                return {'code': code, 'state': entry['state'], 'chat': old.get('chat'), 'budget': old.get('budget')}
+                if decision.get('reviewed_content_version') and decision['is_translation']:
+                    interpretation = {**old.get('decision', {}),
+                                      'reviewed_content_version': decision['reviewed_content_version'],
+                                      'revision_reason': decision['reason']}
+                    if decision.get('targets'):
+                        interpretation['targets'] = decision['targets']
+                    if 'source_targets' in decision:
+                        interpretation['source_targets'] = decision['source_targets']
+                    fireplay.register(code, spec['snapshot'], interpretation, root)
+                    old = read_json(old_record)
+                else:
+                    entry.update(state='needs_revision_review', reason='Existing requirement changed; preserve its chat, budget and work',
+                                 proposed_content_version=snap['content_version'], review_pending=False)
+                    write_json(path, state)
+                    return {'code': code, 'state': entry['state'], 'chat': old.get('chat'), 'budget': old.get('budget')}
         uncertain_historical = False
         if not explicit and not old_record.exists() and (entry.get('reason') == 'updated_content_or_metadata' or spec.get('recheck') is True):
             old_brief = entry.get('assessed_brief_version')
@@ -267,6 +279,8 @@ def assess(code, spec, root=ROOT):
                               'quantity_mode': config['quantity_mode']}
             if decision.get('targets'):
                 interpretation['targets'] = decision['targets']
+            if 'source_targets' in decision:
+                interpretation['source_targets'] = decision['source_targets']
             if old_record.exists():
                 interpretation = old.get('decision', {})
                 if not old.get('targets') and decision.get('targets'):

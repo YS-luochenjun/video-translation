@@ -1,0 +1,91 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261027-010-02-ae4b291791.json",
+    "sha256": "02498d0e2aa2d6a6ea1bdf6e1e8737270bb99781a9f4502631ff76ec41bae3a1"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent; source/candidate pixels and attributed Gemini/Whisper evidence",
+  "origin": "MOG-20261027-010 actual five-locale completion; no user/native-speaker acceptance",
+  "resolution": "duplicate",
+  "reason": "Actual use/non-use and quality observations are consistent with the cited active guidance. Locale font/TTS/own-review differences are retained as source-specific history; five languages share one visual source and are not five independent visual replications. No rule/preference change is justified.",
+  "targets": [
+    {
+      "id": "user-no-solid-text-panels-20261022",
+      "path": "knowledge/rules/user-no-solid-text-panels-20261022.md",
+      "sha256": "7dffb37a5c3c2bb20e56a37fbc64572a30e43c6f541b743a923b5eba5b343863",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 不使用实心文字条遮盖原文\n\n本项目视频本地化不得新增实心或实色文字条、不透明矩形底板来遮住原文后放入译文。应修复原文字区域的背景，并在透明字层中呈现译文，保留人物、产品、数字特效和运动。保留原本就存在的按钮或界面容器不属于新增遮挡。\n\n来源：用户在 2026-10-22 明确要求：“不要使用实心文字条，请你顺便删除相关的内容，一定不要使用”。该要求撤销本次任务引用的旧实色文字条确认。源文件 MOG-20261022-043.mp4 的旧条状底片不能继续制作或扩语。\n\n无法可靠恢复背景时，保持未通过并说明具体问题；不能用扩大遮挡范围替代修复，也不能因预算或时间不足自动改用实心文字条。用户没有认可未审的去字、配音或成片。\n\n证据：evidence:feedback。这是直接用户要求，不是修复算法效果的结论，也不是公司整体偏好推断。\n"
+    },
+    {
+      "id": "imagegen-first-v1",
+      "path": "knowledge/rules/imagegen-first-v1.md",
+      "sha256": "9c3b778cd6c5e64600ee168b8ae4095773d374186aabdde00621021062972f0d",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 图片优先使用ImageGen\n\n来源：项目拥有者2026-10-27明确指示：“图片能使用imagegen时，尽量不要使用脚本代码等方式处理图片，使用imagegen挺好。”这是项目执行偏好，不是ImageGen或Wan已完成质量验收的结论。见evidence:instruction。\n\n## 适用动作\n\n图片创作、自然背景修复、去除/替换图片对象、纹理重建及图片内文案适配，ImageGen能完成时优先使用宿主ImageGen。先看真实原图，说明允许改变的区域、定稿和必须保留的产品/人物/结构；图像版本保存到项目，按codex-packet/codex-result绑定真实输入、知识及输出。需要透明素材时明确生成透明背景并保留alpha。\n\n不为了操作方便先编写涂抹、拼贴、画底图或像素修复脚本来替代可用的ImageGen。FFmpeg抽帧、裁切、尺寸/格式转换、时轴、编码、混音以及必要的精确字层合成继续保留。遇到工具不可用、真实生成失败，或像素/字体/版式等精确约束无法满足时，记录具体原因和审核依据，再选择必要的确定性处理；不将例外变成默认路线，也不暗中另换图片API。\n\n## ImageGen图像作为Wan参考\n\n可以将审核过的ImageGen图像作为Wan 2.7视频编辑的目标示意，源视频继续提供原运动、镜头和时序。当前项目适配器已支持单张reference_image，绑定图片路径及SHA256并上传为真实附件；提示词单写本地路径不会传入图像。官方Wan支持参考图片，原生供应商的多图数量不等于当前KIE适配器已支持多图。见evidence:reference、evidence:adapter。\n\n优先从同一镜头的真实帧编辑出参考，保持人物、产品、视角与构图一致。清底路线使用已去原字且不含译字的参考；目标文字/布局路线先校对拼写、字形和行分布，注明参考只约束这些元素。静态设计图不作为整段平移/冻结原画面的依据，不跨镜头套同一图。\n\n提示词同时说明：编辑哪个源片段、参考图负责什么、只允许改变哪些区域、保留什么运动/前景遮挡、文字何时进出以及如何验收。例如：“编辑输入视频，仅清除所列文字区域；参考图展示相同视角下该区域去字后的背景。保留源视频的人物、手部、产品、镜头运动、遮挡和时长；不添加文字、不定格整帧。”这是提示写法示例，不是成功模板。\n\n参考图可能减少目标外观歧义，但能否改善连续修复是待实测假设。单张干净图片不能证明去字、遮挡、字形或运动正确；原尺寸连续帧、正常播放、文字起止边界和音频按既有质量合同审核。图像已审不等于底片已放行。存在主体变化、冻结、残字或闪烁则记录失败并有界修正。\n\n当前没有针对本次新偏好的新增付费对比实验，不能声称效果一定更好。后续在真实需求原预算和两轮返工边界内，以同源同区间保存原片、参考图、实际payload、taskId、成片哈希和逐项审核；比较方案时明确只改变参考图等单一变量，不因本条自动发起两笔任务或增加费用。未知旧任务先恢复。\n"
+    },
+    {
+      "id": "method-spoken-caption-verification-v4",
+      "path": "knowledge/rules/method-spoken-caption-verification-v4.md",
+      "sha256": "e20eb1874113966042995c02caa3f77e15dcebe9b288ad1d1552d4a0f2890f8e",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 口播与字幕：实际混音、分歧及停止\r\n\r\n适用有人声任务。先区分对白、独白、旁白、口播字幕、独立标题/UI及配乐演唱；实际职责与用户要求决定替换范围。单人口播首选共同定稿生成真实目标语音频，字幕在裁切/变速/偏移/混音后按实际发声对齐。多角色叠加角色声线与场景方法，不默认全员同音色。\r\n\r\n首选证据是实际编码成片声音及对应字幕边界帧。检查逐句内容、完整发音、首尾、语种、音乐音效及同步。请求文字、计划时间、孤立 TTS 与成功响应不能替代最终混音。换音、改稿、变速或画面时轴改变后重新绑定相关审核。\r\n\r\nASR 空白/同音/文字系统混淆或与 Gemini 分歧：定位实际词句，保留原始结果，补真实上下文、独立分句或可用听审；必要时做一次针对疑点的音频理解。仍有分歧留 pending；只有实际错读、漏读或不可理解才补录。禁止用预期译稿替换 ASR。低能量不必然静音，短句级证据可靠时不伪造词级精度。\r\n\r\n字幕时标异常先查句前静音与混音偏移，再按实际短语定位，检查编码边界；不得为追字幕改变背景音乐速度。具体工程阈值查 quality 配置，语义和自然度仍需实际审查。\r\n\r\n停止：对应内容/同步完整且有证据；或无新补证方向/达到尝试费用能力边界。后者标明未审、已确认错误及音频可用状态，按最终输出合同处理。用户要求必须配音时字幕不代替音频。声学模型、自审、母语听审及用户验收分别记录，不保证无损分轨或逐字嘴型。\r\n\r\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\r\n"
+    },
+    {
+      "id": "fireplay-completion-recovery-v3",
+      "path": "knowledge/rules/fireplay-completion-recovery-v3.md",
+      "sha256": "9cd00a1d423aeb645f1bf6330d07c90996870825d292be968af12c279a0c79bc",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# Fireplay固定提交与经验收尾\n\n用户2026-10-27最新明确：不要在上传问题上钻牛角尖，一般按照“入到素材库，共享到需求组开启YouTube视频自动上传，并打语言tag和产品tag，最后绑定当前需求；素材名称用需求编号+语言”即可。config/fireplay-youtube-routing.json当前为platform_managed；本版替代v2中的额外账号/任务组门禁，保留历史原文和回执。\n\n1. 每份成片仍须实际审核，核对完整翻译、必需配音和正常播放。普通小瑕疵按实际fireplay-publication-review可提交；严重/过多问题、真实漏译或缺必要配音仍阻断对应版本。保留内部revise和原质量异议，不凭文件在outputs或API成功冒称质量通过。\n2. 审核满足发布条件后直接继续固定提交，不再次询问KIE或固定动作同意。素材名用需求编号加语言，多原片按-1/-2区分；语言与1至2词产品标签依据真实需求与原片。逐需求独立聊天与账本，不合并费用。\n3. 普通MCP可使用VedioSouce=YouTube请求平台自动上传，选择真实对应需求组的shared_dept_id。核验素材入库、名称、tag、共享到需求组及真实需求绑定。用户所说公开到组落实为对应组共享，不扩大到全平台公开。YouTube账号路由、任务组显示和实际上传执行交给Fireplay，不额外要求账号选择截图、等Worker领取或为后台组显示暂停合格素材。\n4. 部分语种就绪时，fireplay-return显式partial:true并仅列本批可发布packages，保留pending_locales。本批真实绑定核验后才追加未提交语言；沿同一outbox和既有操作索引，旧bind保存在binding_history。unknown或尚未绑定的批次先恢复，不覆盖、不把已提交语种再次入库。部分成功不报成整需求完成。\n5. 已入库或提交unknown时，按原确切素材ID、已保存原始响应与真实绑定证据恢复该次请求；新政策不要求补旧任务组验证。历史异常保留为观察，不冒称已修正，不改全账号所属组、不重复入库、不删除正确素材来掩盖问题。名字或相似缩略图不足以确认重复。\n6. Fireplay受理、共享/标签/绑定核验完成后就经验收尾。YouTube排队、账号限额、向量化和后续进度交平台；不轮询、不等链接、不派发催办，不因缺链接再次入库。报告“已提交Fireplay/已请求自动上传”，不冒称已在YouTube发布。\n7. 经验提炼保留原源/语种范围和真实证据，重复经验关联既有知识，空白占位不做方法召回。按knowledge-review归纳及指纹归档；maintain RUN --close完成保全，未知费用、质量异议或活动现场继续保留。知识收尾不代替视频验收。\n\n需求发现的反例：旧编号或旧基线不等于没有翻译意图。摘要没有正文时，不能把明确翻译要求强改为is_translation=false。将正文证据和发布时间不确定性分开，保留historical_translation_pending可见候选；用户明确点名053时，按真实本次授权接入，其他已做/未知项不重开聊天或预算。能证明正文新增的版本变化沿原聊天审查，不仅匹配“翻译”一词。\n\n证据：evidence:review。用户明确修正固定提交与053范围；开发者复盘和离线状态机测试证明本地门禁/恢复行为，不证明任何新视频已通过或已在YouTube完成。\n"
+    },
+    {
+      "id": "multilingual-thread-lessons-v1",
+      "path": "knowledge/rules/multilingual-thread-lessons-v1.md",
+      "sha256": "d18aac944db9ea3c932fdc20dc4db322d49d30d305324baa92fb23725c94c285",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 多语种制作的跨聊天复盘要点\n\n适用于有人声或画面文案的本地化。以下是对已发生失败和修正的指导，具体画面仍按内容选路，不照抄案例坐标、字体大小、遮罩或音色。\n\n- 完整清单先于批量配音。角色对白、数字反应、旁白和片尾号召都要逐项核对；广告画面分数与角色说出的整数可能不同，不能相互替代。MOG-044在模型对照后补出短数字惊叹，说明首轮转写不能直接充当完整清单。\n- 源语去除范围依据原声，而非只用新TTS区间。源语可能比目标语更早开口，间隙会留下残词；逐段检查真实混音，去除原人声时保留实际音乐和音效。单独TTS发音正确不代表混入音乐后无遗漏或无原声。\n- 字幕使用定稿和实际混音对齐。低置信度ASR异写须结合真实音频模型结果、定稿和编码音轨/边界帧核对；不能为了迁就一次转写误差把正确稿件改错。程序测得时间不是Agent已听过或独立人工通过的证据。\n- 文字有用途之分。广告文案、CTA和操作提示翻译；游戏/人物/道具专名、实际搜索输入、玩家名与署名按清单说明保留。不能只因英文存在就擦除，也不能把真实漏译藏在“专名保留”里。\n- 每原片可复用已经核验的共用去字底片，目标语言仍各自定稿、字形、配音、字幕和成片审核。源动作和原声事实不能因为共用底片而免检；同源不同需求也不合并预算。\n- 修复按连续实际画面评估。底片拼接错位可能横穿主体，单帧去字好看不能证明整片稳定；动态文字要覆盖入场、转场、退出的短暂残影。保留失败版本和范围，别用更多覆盖掩盖结构性错位。\n- 字体检查绑定真实家族、字面与稿件。描边、字号、动画时段与原版信息层级分别检查。Remotion运行失败可按既有授权回退静态，但不能把缺字或越界当正常降级。\n- 配音语义、音乐保留、字幕同步和整体可观看性分别记录。KIE同步请求超时或JSON包装失败先恢复API/本地证据，未知费用继续占位；只补一个可恢复字段不应重做整个语言。\n\n评价来源如实注明同一Codex自审、模型感知或用户反馈，不把采样观察写成人类实时观看或母语验收。轻微修复偏软可按现行正常播放标准判断；严重错位、漏译、缺必要配音等仍阻断发布。单源成功或用户接受某版不推广为所有素材的公司偏好。\n\n证据：evidence:review。多个独立原片的文字/音频失败记录支持这些程序性检查；没有据本次文字复盘扩大任何历史视频的质量通过范围。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Retain shared source preparation while independently reviewing every locale voice/font/output.",
+    "Use actual ImageGen only for observed still background surfaces and preserve native moving subjects.",
+    "Validate actual end-CTA placement separately from model transcript timestamps and recover exact accepted Fireplay material IDs before any repeat submission."
+  ],
+  "retained_parts": [
+    "Failed Wan ending CTA, successful bounded CTA-only trial, pre-policy Guava cleanup, and all exact task/cost history remain unchanged.",
+    "Actual ImageGen raw/native image hashes and final movie evidence retained; no Wan reference_image was used.",
+    "Minor local softness and simplified per-letter typography; no independent/native-human or user acceptance.",
+    "Gemini full audio CTA time labels8–10s are not adopted as measured times; narration-plan16.28s and cropped-tail audio establish location.",
+    "Unknown initial source-audio2-credit reservation remains unsettled."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [
+    "animated_text",
+    "speech"
+  ],
+  "advisory": {
+    "summary": "For this exact528-frame house-filter source, a host ImageGen donor adopted only in the stationary blurred top wall/shelf at frames495–527 removed residual pink heading after continuous Wan repairs. Protected moving face/body/arrow remained video. Simple ASS fades/fixed tilt have minor cosmetic variance. Actual source/candidate Gemini comparison supports complete translated speech/music/effects but supplied erroneous8–10s CTA time labels across locales; actual mixer16.28s and isolated tail evidence were used. Fireplay browser batch imports were recovered using exact real resource/material IDs plus downloaded SHA256 identity, then bound/read back all five locales without duplication.",
+    "limitations": [
+      "One visual source only; five locales do not establish broader visual validity.",
+      "Same-agent visual review and attributed models, no native-human/user acceptance.",
+      "Donor is not suitable for moving backgrounds without new continuity evidence; no Wan reference_image experiment occurred."
+    ],
+    "next_check": "For any reuse, recheck donor surface continuity and independently review new locale script/voice/font/actual encoded movie."
+  },
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-10-28T03:39:51+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

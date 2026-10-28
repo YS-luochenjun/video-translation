@@ -292,6 +292,24 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(read_json(p)['budget'], 'original-budget')
         self.assertEqual(read_json(p)['chat']['threadId'], THREAD)
 
+    def test_reviewed_queue_revision_accepts_new_scope_without_creating_budget(self):
+        monitor.scan(self.pages(), self.root)
+        monitor.assess(CODE, self.decision(), self.root)
+        p = self.root / 'state/fireplay' / CODE / 'request.json'
+        old = read_json(p)
+        self.snap['brief']['items'][0]['description'] += '\nUpdated actual copy'
+        self.assertEqual(monitor.assess(CODE, self.decision(), self.root)['state'], 'needs_revision_review')
+        spec = self.decision()
+        spec['decision'].update(reviewed_content_version=old['content_version'], targets=['es', 'pt', 'fr'])
+        spec['decision']['source_targets'] = {old['videos'][0]['source_url']: ['es', 'pt', 'fr']}
+        self.assertEqual(monitor.assess(CODE, spec, self.root)['state'], 'admitted')
+        new = read_json(p)
+        self.assertCountEqual(new['targets'], ['es', 'pt', 'fr'])
+        self.assertCountEqual(new['videos'][0]['targets'], ['es', 'pt', 'fr'])
+        self.assertEqual(new['decision']['source_targets'], spec['decision']['source_targets'])
+        self.assertEqual(read_json(self.root / new['revision_history'][0]['path']), old)
+        self.assertFalse((self.root / 'state/budgets').exists())
+
     def test_agent_resolves_unparsed_multilingual_brief_before_production(self):
         for view in ('brief', 'summary'):
             self.snap[view]['items'][0]['title'] = ''

@@ -4,6 +4,12 @@
   "content_features": [
     "static_text_surface"
   ],
+  "publisher_mark_review": {
+    "status": "pending",
+    "endcard_check": null,
+    "reason": "Inspect the whole source and final transition for publisher identity and matching endcard marks; use publisher-marks-example.json when found.",
+    "evidence": []
+  },
   "coverage": {
     "visual": {
       "status": "pending",

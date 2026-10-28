@@ -1,0 +1,30 @@
+{
+  "id": "MOG-20261027-010-03-e4f55e6da1",
+  "status": "candidate",
+  "created_at": "2026-10-28T03:37:37+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "th",
+    "source_sha256": "483414a4c996dc613e3004f9ecf0ed2b76a4f72572dadcba1951479a635ff8bf"
+  },
+  "outcome": "pass",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "MOG-20261027-010-03",
+    "video_sha256": "e4f55e6da15a72cd27284fe3bb7b9ca66fd1bea786590b1f467f436a39b41b24",
+    "quality_sha256": "a28cf79ee4a8861ff1d37a5cf936832ba38ec104b31cedcadf8d550c0f647bab"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "pass",
+    "failure_codes": [],
+    "reviewer": "Codex same-agent; actual encoded images plus attributed Gemini/Whisper audio evidence",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

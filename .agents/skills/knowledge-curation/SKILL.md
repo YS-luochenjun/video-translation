@@ -15,6 +15,8 @@ description: Curate localization lessons, record user feedback, publish reviewed
 4. 需启用时，按 `agent/templates/knowledge-promotion.json` 准备规格，运行 `knowledge-promote SPEC`。选择必要的源/结果对照、真实字幕边界、关键声音或反馈记录入案例。样例中的历史路径只是来源标签，实际证据只从案例manifest读取；生产素材由交付库另行查询。
 5. 运行 `knowledge-audit`，并核对相应源/语言的 `context`。正文与证据哈希、scope、状态均通过才完成；自动候选不改变公司偏好或质量标准。
 
+已有证据足以支持单源观察时，先建立精确同源/语种案例，不必为等待跨源复验一直保留空白经验。跨源验证只作为扩大结论的条件；缺失的当前必要证据仍留pending。候选正文、原失败和审查链不改写，费用/质量待办在各自系统继续保留，不能因知识归档假称这些问题已解决。
+
 ## 无需用户提醒的收尾检查
 
 制作结案、开发修复及用户反馈处理后，主动运行 `knowledge-queue` 与 `hooks status`。`new_records=0` 只表示没有新增提纯输入；还须核对 `adoption_queue_open`、Hook的pending与本次使用反馈。按本技能完成可证实的审查/采纳，缺证据则留下具体下一步，不为归零关闭待办。直接审查并已结清的来源无需再让Hook生成重复候选。

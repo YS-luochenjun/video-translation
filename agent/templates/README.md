@@ -6,6 +6,7 @@
 | --- | --- |
 | [预算请求](budget-request.json) | 主控为真实用户请求登记共用预算 |
 | [实例清单](inventory-example.json) | 记录镜头、文字、人声与覆盖范围 |
+| [水印与片尾同标](publisher-marks-example.json) | 记录发布者身份、大小写变体、分立实例及去除不补字 |
 | [图像任务](codex-visual-task.json)、[图像回执](codex-visual-report.json) | Codex 看图和编辑任务及真实产物登记 |
 | [字幕对齐](caption-alignment-example.json) | 记录实际最终混音中的字词时间 |
 | [动态文字](motion-typography.json) | 标题/CTA/关键词强调的明确动效与字体绑定，失败回退记录见文字适配器文档 |
