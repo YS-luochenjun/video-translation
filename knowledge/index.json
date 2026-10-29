@@ -3280,6 +3280,30 @@
         "strict"
       ],
       "retrieval_role": "required"
+    },
+    {
+      "id": "fireplay-youtube-enqueue-verification-v1",
+      "path": "knowledge/rules/fireplay-youtube-enqueue-verification-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "fireplay",
+        "submission",
+        "youtube",
+        "ads"
+      ],
+      "origin": "Direct user correction and live uploader-owned material/task audit, 2026-10-29.",
+      "reviewed_by": "Codex same-agent implementation and actual MCP receipt review; no remote internal-code or audiovisual acceptance claim",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T07:16:22+00:00",
+      "method_sha256": "f1a6c89a0b4806b1877524ea21d0db3fa741246b44a80501d5324b3288f4a6a5",
+      "case": "knowledge/examples/fireplay-youtube-enqueue-verification-v1",
+      "case_manifest_sha256": "f66954c121995974f69c81ad1dcaa64f0ae4ceecfbb9925b602c69bf3d381a60",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_feedback",
+      "topic": "delivery"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

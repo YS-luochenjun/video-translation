@@ -19,7 +19,8 @@
       "shared_group",
       "name_and_tags",
       "requirement_binding",
-      "platform_acceptance"
+      "platform_acceptance",
+      "youtube_enqueue_acceptance_evidence"
     ],
     "downstream_owner": "Fireplay",
     "routing_policy": "config/fireplay-youtube-routing.json: platform_managed",
@@ -39,7 +40,8 @@
       "max_additional_attempts": 2,
       "preserve_unknown_original": true,
       "scope": "Media file uploads only, before any material import; known resource/material IDs are reused"
-    }
+    },
+    "enqueue_authorization_ref": "user-youtube-auto-upload-recovery-20261029"
   },
   "previous_authorization_ref": "user-fireplay-minor-issues-publication-20261027",
   "bounded_best_available": {

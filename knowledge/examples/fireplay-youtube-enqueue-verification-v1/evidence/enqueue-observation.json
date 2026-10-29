@@ -1,0 +1,28 @@
+{
+  "authority": "user",
+  "authorization_ref": "user-youtube-auto-upload-recovery-20261029",
+  "source_quote": "我希望打开自动上传到youtube中，我再项目上传部分写清楚的，请你去看看项目中，我是否写清楚了。且对于之前没有上传的内容，也即是素材库中没有链接youtube内容的视频，都进行重传，因为这是上传必须要的内容。",
+  "observed_at": "2026-10-29T07:04:05.405Z",
+  "observations": {
+    "uploader_video_records": 217,
+    "records_with_youtube_url": 154,
+    "records_without_youtube_url": 63,
+    "recent_import_request": {
+      "VedioSouce": "YouTube",
+      "already_in_r2": true
+    },
+    "actual_recent_import_receipt": "Returned material_id, video_r2_url, thumbnail and sharing; no upload-task ID or enqueue acknowledgment.",
+    "current_owner_task_list": {
+      "items": [],
+      "next_offset": null
+    },
+    "known_browser_history": "Separate historical web receipts do contain actual task_id and material/resource identity. Their existence does not prove a recent R2 import enqueued anything."
+  },
+  "root_cause": "The local import/verification handler assigned requested_not_verified unconditionally, without actual enqueue evidence. The remote internal branch behavior is not independently established.",
+  "recovery_scope": "All 63 missing-link uploader-owned videos; preserve existing IDs, bindings, attribution, tags and raw records. Recover or create only the required YouTube handoff through a supported existing-material entry point. Do not blindly duplicate a queued/unknown task.",
+  "limits": [
+    "Read-only audit does not create or retry upload tasks.",
+    "The 63 missing URLs are not by themselves proof of failed tasks; one material remains video-upload and needs task reconciliation.",
+    "No claim of YouTube completion, independent video quality acceptance, paid media call or remote server repair."
+  ]
+}

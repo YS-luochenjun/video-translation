@@ -1,0 +1,5 @@
+{
+  "video_sha256": "Actual submitted video SHA256 from the original outbox or bound receipt",
+  "material_receipt": "state/fireplay/CODE/actual-material-detail.json",
+  "task_receipt": "state/fireplay/CODE/actual-youtube-task-response.json"
+}

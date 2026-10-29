@@ -28,6 +28,7 @@
 | 发布者水印和片尾同标 | [去除范围](rules/publisher-watermark-removal-v2.md) | 逐实例解析身份；产品品牌与用户明确保留例外单列 |
 | 配音、角色和字幕时轴 | [最终混音核查](rules/method-spoken-caption-verification-v4.md)、[角色声线](rules/short-drama-character-voices-v2.md) | 孤立TTS、模型语义时间和预设名不能替代实际混音及编码边界 |
 | 全部原片/语种提交与恢复 | [全项交付](rules/fireplay-complete-delivery-v3.md)、[固定提交与收尾](rules/fireplay-completion-recovery-v4.md) | 部分批次继续补交；真实平台读回后结案，不跟踪YouTube进度 |
+| YouTube自动上传与历史补传 | [真实初始受理](rules/fireplay-youtube-enqueue-verification-v1.md) | R2入库不等于已入队；精确素材/视频资源任务ID或当前链接才是受理证据 |
 | 设计师身份与KIE核查 | [设计师归属](rules/fireplay-designer-attribution-v2.md)、[API与本地日志](rules/kie-api-local-verification-v1.md) | 自行查询真实成员，持续授权沿原需求账本，不索要后台登录或DID |
 
 语言scope默认完整匹配；审查过的基础语言scope才可扩大。`related_source_references`只是同源其他语言标签的发现线索，须重新审查。条件方法按实际特征命中；背景场景和候选存在本身不决定算法。

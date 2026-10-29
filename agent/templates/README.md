@@ -16,6 +16,7 @@
 | [方法发布](knowledge-promotion.json)、[同源参考](source-reference.json) | 按知识合同发布已审查内容，保持范围 |
 | [候选审查](knowledge-review.json)、[使用反馈](knowledge-use.json) | 决定采纳目标与剩余内容；记录本次真实使用或未使用、效果和反证 |
 | [版本选择](prune-versions-example.json) | 清理预览时明确选择历史完整视频 |
+| [YouTube初始受理](fireplay-youtube-handoff.json) | 真实material_detail、精确当前视频资源的任务回执或当前YouTube链接，绑定原视频哈希；只登记，不上传 |
 | [实验记录](experiment.md) | 记录问题、单一变量、观察、限制与后续验证 |
 
 执行规则见 [制作工作流](../contracts/workflow.md)、[知识合同](../contracts/knowledge.md) 和 [存储合同](../contracts/storage.md)。字段校验由执行器负责，命令参数以 CLI 帮助为准。

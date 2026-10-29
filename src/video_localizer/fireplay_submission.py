@@ -94,6 +94,7 @@ def verify_completion(code, spec, root=ROOT):
     """Bind full requirement coverage to a current platform read, never its status label."""
     from datetime import datetime, timezone
     from . import fireplay
+    from .fireplay_youtube_handoff import required as youtube_required, accepted as youtube_accepted
     value = fireplay.payload(spec)
     verification = fireplay.payload(value['verification']) if 'verification' in value else value
     record = fireplay._record(code, root)
@@ -127,6 +128,8 @@ def verify_completion(code, spec, root=ROOT):
                     reason = 'material_not_in_current_platform_binding'
                 elif mid in seen:
                     reason = 'material_reused_for_different_source_locale'
+                elif youtube_required(root) and not youtube_accepted(record, material, root):
+                    reason = 'youtube_enqueue_not_evidenced'
                 else:
                     seen.add(mid)
                     verified.append({'video_index': video['index'], **material})
@@ -155,7 +158,12 @@ def completion_gate(record, root=ROOT):
     complete = (value.get('complete') is True and value.get('content_version') == record['content_version']
                 and value.get('requirement_id') == record['requirement_id'] and set(actual) == expected
                 and len(value.get('verified', [])) == len(expected) and actual == current and bool(expected))
+    from .fireplay_youtube_handoff import coverage as youtube_coverage
+    youtube = [youtube_coverage(record, video, root) for video in record['videos']]
+    missing_youtube = [row for item in youtube for row in item['missing']]
+    complete = complete and not missing_youtube
     return {'can_close': complete, 'expected_count': len(expected), 'verified_count': len(actual) if complete else 0,
+            'youtube_enqueue_missing': missing_youtube,
             'next_action': 'fireplay-close ' + record['code'] if complete else
                            'Complete missing source/locales, then fireplay-completion-check with actual current platform delivery view',
             'completion_record': str(path.relative_to(root)) if path.exists() else None}

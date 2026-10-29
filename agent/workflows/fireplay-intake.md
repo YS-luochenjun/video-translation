@@ -33,9 +33,15 @@
 4. 本批逐语种upload → import → verify，全部核验后bind。upload使用material_r2_upload_from_bytes，实际base64参数文件不打印；单文件超过50MB或宿主传输受限时走平台支持的预签名/网页路径并留真实回执。import使用普通MCP的VedioSouce=YouTube请求平台自动上传，实际shared_dept_id与[语言tag,产品tag,符合归属规则时的二创tag]随项填写；组共享不等于全平台is_public。素材名需求编号-语言，多原片为编号-N-语言。
 5. verify通过material_detail读回实际material_id、名称、共享组与tag，并核对已指定的设计师及二创类型；缺失则按真实ID修正并重读，不重入库。bind使用真实素材ID，不操作设计订单；回执另附当前requirement_list(view=delivery)读后验证，确认精确需求包含本批全部素材。平台要求用户选材时展示selection URL并等待，不自选。绑定后各run写external-submission.json并引用持久state回执，不自动改需求状态或投放。
 
+## YouTube自动上传的真实初始受理
+
+这是固定提交的必需动作。按[受理规则](../../knowledge/rules/fireplay-youtube-enqueue-verification-v1.md)区分入库和上传任务：`VedioSouce=YouTube`、`already_in_r2=true`、素材ID、勾选状态或本地requested均不代替受理回执。读取当前material_detail以及真实上传任务；取得当前视频资源的YouTube链接，或精确material_id/video_resource_id/task_id与受理状态。以`agent/templates/fireplay-youtube-handoff.json`填写真实回执，执行`fireplay-youtube-handoff CODE SPEC`登记；批量逐素材处理。旧入库/绑定保留，不重做视频。
+
+缺少受理时，status/dispatch/巡检返回`needs_youtube_enqueue`或`enable_youtube_upload`，不能执行整项close。沿当前已有素材ID使用平台支持的“增加YouTube上传”/任务恢复入口；当前MCP若没有该能力，使用已授权原生页面，不用重复入库替代原素材补传。unknown先核查，进行中的任务复用。真实初始受理后才适用下述不跟踪后续进度约定。
+
 ## 平台路由与结案
 
-用户最新明确固定话术即可：当前platform_managed模式由Fireplay负责YouTube账号路由，不强制逐视频选账号、截图、等待Worker或核对任务组显示。显式账号路径仅在用户另行要求时使用，不是默认门禁。旧import为unknown但已入库时恢复原确切material_id和保存响应，交receipt继续核验；不要求补旧任务组字段，不因后台显示或缺YouTube链接重传。历史异常原样保留，不冒称已修正，不修改整个账号所属组、不删除正确库记录掩盖问题。
+用户最新明确固定话术即可：当前platform_managed模式由Fireplay负责YouTube账号路由，不强制逐视频选账号、截图、等待Worker或核对任务组显示。显式账号路径仅在用户另行要求时使用，不是默认门禁。旧import为unknown但已入库时恢复原确切material_id和保存响应，交receipt继续核验；不要求补旧任务组字段，不因后台显示盲目重传；缺真实初始受理按上节补传，进行中或unknown先核对原任务。历史异常原样保留，不冒称已修正，不修改整个账号所属组、不删除正确库记录掩盖问题。
 
 精确素材ID、源/成片SHA256、字节数和绑定回执共同确认身份；相同名称或相似缩略图不足以判定重复。跨聊天同需求的不同原片不得按名称批量删除、替换或重绑；SHE多聊天实测来源见[七组复盘](../../knowledge/curation/seven-source-review-20261027.json)。
 

@@ -15,7 +15,9 @@ def instruction(root=ROOT):
     if not policy(root).get('require_requirement_group'):
         return ('按用户最新固定流程入库、共享到需求组、请求YouTube自动上传、打语言/产品tag并绑定需求。'
                 'YouTube账号路由交给Fireplay，账号/任务组显示不作为上传门禁；入库共享和绑定仍须核验。'
-                '既有素材和unknown先恢复原回执，不重复入库；受理绑定后不跟踪YouTube进度。')
+                'R2入库、VedioSouce=YouTube、勾选开关或requested标记不证明平台创建上传任务；必须读取精确素材/视频资源的真实任务ID或已有YouTube链接，执行fireplay-youtube-handoff登记。'
+                '缺受理证据时保留待补传，沿已有素材ID启用/恢复YouTube上传，不重复入库或重做视频；未知写入先核查。'
+                '取得真实初始受理后不跟踪YouTube后续进度；仅有入库绑定不能整项结案。')
     return ('上传必须显式核验需求组、实际YouTube账号组和任务组；没有实际支持的路径只暂停上传，不默认选账号。')
 
 
