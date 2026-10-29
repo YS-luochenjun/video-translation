@@ -1,0 +1,49 @@
+{
+  "source": {
+    "path": "knowledge/candidates/SHE-20261028-044-2-01-62b08d046d.json",
+    "sha256": "2423d89eeef098ce7e8c171c733d5d9e37e715dbba7d81d29ac762e205a84f28"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent source/evidence curation; not independent audiovisual or native-speaker acceptance",
+  "origin": "User requested project knowledge consolidation and publication; source observations and verified independent case bundles reviewed, 2026-10-28.",
+  "targets": [
+    {
+      "id": "she044-2-ko-voice-diagnostic-v1",
+      "path": "knowledge/cases/she044-2-ko-voice-diagnostic-v1.md",
+      "sha256": "751b5a53bbd6e559a7bee9a59e4f5366563e2996a6f4d2b90b708929848d8836",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "ko",
+        "source_sha256": "1b6dea4a41ffd4c4bff0c383a0c384416e438b8ea1b798d6e779a37079cafe87"
+      },
+      "snapshot": "# SHE044第二原片韩语：角色声音判断分歧\n\n范围：源 SHA256 1b6dea4a41ffd4c4bff0c383a0c384416e438b8ea1b798d6e779a37079cafe87；目标语 ko；成片 SHA256 62b08d046de3a35f785011e91e686a0b3a4db17d68a36f6c68988ec1189018b4。\n\n宽泛的混音比较报告在 distinct/consistent 为真时，将 helper 写成男声；针对实际孤立 helper 配音和相同最终混音的聚焦诊断则判断为较低音区女声，并认定两角色可区分且稳定。两份矛盾观察和实际音频同时保留；不能从预设名、音高或一个布尔字段推断性别与质量通过。此处是外部模型感知的有来源分歧，不是 Codex 或人类亲耳确认；新素材仍须按实际角色及声音核查。\n\n本次仅整理原制作的同一执行者观察、模型结果及哈希证据，没有重新完成正常播放、人类听审或公司验收。各语种分别保留原评审；同源多语不增加独立源数量。具体参数仅供追溯，不能直接套用其它素材；未知费用、旧失败和质量异议继续保留。\n\n依据：evidence:broad、evidence:focused、evidence:helper_take、evidence:final_audio、evidence:observation。manifest 中的文件构成独立证据，旧路径仅为来源标签。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Only the explicitly covered procedure or matching exact-source/locale observation is associated with these targets. Original hypothesis and every limitation remain historical; no global success claim."
+  ],
+  "retained_parts": [
+    "Original scope, outcome, limitations, media/quality hashes, failure observations and unknown charges remain unchanged. No video acceptance, model permission or company-preference expansion.",
+    {
+      "hypothesis": "For this exact Korean two-female-character source, a broad mixed-audio review produced a contradictory helper gender label despite distinct/consistent booleans. A focused check of the real isolated helper take and actual final mix identified the same lower-register female voice. Preserve both observations; do not infer gender from preset names or silently overwrite the first report.",
+      "limitations": [],
+      "historical_outcome": "pass",
+      "evidence": {
+        "run": "SHE-20261028-044-2-01",
+        "video_sha256": "62b08d046de3a35f785011e91e686a0b3a4db17d68a36f6c68988ec1189018b4",
+        "quality_sha256": "7aff0ed8877c8534053402df6f971280ff376ecd92c6b0b3681b54b0869829ce"
+      }
+    }
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "resolution": "duplicate",
+  "reason": "Preserve the conflicting broad and focused model observations and actual audio. Preset labels and distinct/consistent flags alone do not establish the requested character voice; no direct human listening is claimed.",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-29T06:26:58+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

@@ -1,0 +1,69 @@
+{
+  "source": {
+    "path": "knowledge/candidates/SHE-20261028-043-02-closure-71f487755d.json",
+    "sha256": "ab8074179141641aa78d6503a76642985240025780467dcddb0467d17b73ee00"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent source/evidence curation; not independent audiovisual or native-speaker acceptance",
+  "origin": "User requested project knowledge consolidation and publication; source observations and verified independent case bundles reviewed, 2026-10-28.",
+  "targets": [
+    {
+      "id": "content-aware-text-restoration-v2",
+      "path": "knowledge/rules/content-aware-text-restoration-v2.md",
+      "sha256": "8f970734922bfc49ff135b0eb64a5f3b60d6782ff93c0409cce1c1e46e5f1c4b",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 文字修复：自然底面、连续编辑与局部模糊兜底\n\n适用全部必译文字实例。保留简单/复杂画面的内容判断，并依据本次用户对可见模糊效果的担忧修订默认倾向。用户询问原因不代表已证实某条视频因为预算而选错路线，也不保证视频模型必定优于其它修复。\n\n| 实际条件 | 首选 | 备选、切换依据 |\n| --- | --- | --- |\n| 平色、渐变、稳定卡片、按钮、界面标签 | 核验同源干净供体、Codex宿主编辑或原容器自然重建；透明译字独立 | 先修底面/接缝；无需为简单底面强制调用视频模型，单个传统算法失败不足以用可见模糊 |\n| 界面稳定但手指、数字、图标变化 | 共用干净静态底面，动态区域按对应源帧保护 | 只修实际污染区域，不冻结动态内容或整张界面模糊 |\n| 文字跨移动人物、头发、强纹理、多次遮挡 | 基于真实连续帧评估自然修复；有改善依据时正常使用Wan 2.7连续局部编辑，可直接作为主方法 | 转模糊前在reason/evidence记录Wan是否适用、待改善问题、预计费用及采用/未采用原因。连续帧明确显示自然重建或模型编辑危及主体、或实际候选不佳时，比较一个最小局部模糊候选；不强制明知无益的付费试验 |\n| 移动、旋转、边缘进出的水印 | 独立实例、跟踪并组合移动水印方法 | 核验入出场、边缘、转场、片尾；源帧回贴防止水印复现 |\n\n技术掩模只界定处理区域，不等于可见模糊。透明译字叠加也不必然降低质量；关键是底面是否自然、原字是否清净、运动和主体是否保留。每处记录区间、区域、保护对象、连续帧/候选依据和停止条件。时间紧、连接失败、节省credits、额度不足均不能单独授权模糊；有明确改进方向、模型适用且有预算时，不因节省而跳过模型。\n\n模型需要2–10秒原视频输入，先packet核对实际片段、提示和预留，保留原音轨并保护文字区外主体。允许只采用有效局部，按原时轴合成，核验帧率、帧数、时刻、边界、残字和运动。可共用的无字视频只制作一次，各语言单独制作字层与声音并检查实际成片；模型生成译字不保证精确拼写。\n\n仍遵守代表困难片段最多两次有明确变量的试验、两轮返工及请求账本。五分钟是初始判断时间盒，不能被解释为跳过有希望的模型方案。合格即停止；无有据改进方向或达到边界即走最终输出，披露实际缺陷。评估允许不代表质量通过，局部模糊仍须接受正常播放的质量审查。\n\n依据：evidence:review。开发者选路修订；没有新模型实验或新增真实视频验收。研究替代模型不改变当前Wan 2.7生产路由或历史限制。\n"
+    },
+    {
+      "id": "method-animated-text-occlusion-v8",
+      "path": "knowledge/rules/method-animated-text-occlusion-v8.md",
+      "sha256": "9b039ebe99e35c81eb011db059e740a05de03fb3f1cf2e1b7901af0116b1263a",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 文字、界面与前景：按对象分层，保留风格并检查实际编码帧\n\n按内容选读：animated_text、artistic_typography、filmed_phone_ui、foreground_occlusion、surface_typography 任一特征命中。静态界面只执行相关的表面/对象检查，不虚构动画；镜头运动本身不代表文字动画。证据来自多个独立源的改善与失败，不表示各源均已整片验收。\n\n## 三层分别处理\n\n1. **旧字层**：擦除包络覆盖进场、稳定、出场、缩放、抗锯齿、描边、阴影、光晕及拖影。源字擦除区间独立于目标字显示区间。OCR和颜色阈值只提供候选，灰化边缘和半个字需原尺寸核对；不要把案例中的亮度阈值复制为默认。\n2. **背景与前景层**：先看无译文底片。恢复纹理时按同一照片、姿态、镜像方向和实际擦入位置配准参考；文字光晕内的合成边界可能带回色污染，应局部验证边界而非无限扩大矩形。图标、箭头、手部、骷髅分别作为前景，保留完整轮廓和半透明入场；相同颜色不等于同一对象。供体里重画的图标须先处理，避免源图标叠回后重复；从旧译文成片截前景可能带回旧字。\n3. **目标字层**：测量目标语言的字形、行宽与换行，重建入场/回弹/稳定/退场、颜色、透明度及遮挡顺序。口播字幕按实际目标配音对齐；独立标题/UI按其画面语义。表情或箭头与短语有关时重查关联时机，不能只把所有效果替换为固定颜色字幕。省略图标或近似光效须记录偏差，不能因正文译对就称动画保真。\n\n## 仅在对应场景执行\n\n- **艺术字**：分别观察字形、填充纹理、描边和有方向的立体偏移，再处理运动。先保证目标字形可读；仅改成相同颜色不能复现纹理，同心描边不能代替偏移阴影。逐实例核对纹理尺度、轮廓比例、边界与遮挡。已有照片广告对照证明了该例的改善；新源能否重建纹理仍需试制，原字体恢复未获证明。\n- **手机界面或相交对象**：同名标题在主界面、缩略图及字幕胶囊中分别绑定对象与层级。前景保护不能因肤色/亮度相同而吸收缩略照片或背景；译字留出图标间距后，还要单独检查无字表面。若填补把白色图标拖入背景，应先将图标排除出填补供体，再按原轮廓与透明度复原，检查运动中的遮挡与接缝。不要只继续增大文字间距或擦除矩形。\n\n- **显隐转场**：分别观察对象的几何位置/字面高度与可见边界。对象不动而可见区收缩时，保持字形几何并匹配源遮罩/透明度；确认对象本身缩放才同步变换字层，两者同时发生则分别建模。用跨区域源像素和连续边界帧核对，单条颜色扫描可能把照片误认成光环。检查提前消失、重新闪现和遮罩越界；遮罩形状及变化是否单调按原片确定。静态海报本身不能推出圆形遮罩。\n\n## 时间与实现检查\n\n- 固定帧率用整数帧和明确的左闭右开区间记录边界；变帧率用实际时间戳。模型裁切、变速或插帧后核对帧数、PTS、首尾和原镜头切换。目标语言的字幕时间不复制源语言逐词节奏。\n- 实际编码文件才是检查对象。概览图定位后，检查原尺寸问题区域、无字底片、透明字层和连续边界帧。30 fps 每0.2秒取样步长为6帧，只覆盖同一奇偶相位；检查周期性异常需补相位偏移或整段连续帧。OCR为空只表示未识别到，不能证明无残字、无接缝或无闪烁。\n- 跨帧复用数组前确认操作是否会原地修改。项目所用 OpenCV 5.0.0 的 seamlessClone 已通过合成探针复现遮罩变化；需要保留遮罩时传副本或逐帧新建。不要把该观测描述成所有版本的 API 承诺。复制控制通过后，仍须复查编码奇偶帧；参数安全不等于视觉合格。\n\n## 失败签名与验证范围\n\n仍露字形/光晕 → 检查完整包络与时间末帧；方块或明暗接缝 → 检查参考姿态和色彩/亮度；冻结/双手/重影 → 检查静态供体及模型重画；表情截边/重复 → 检查轮廓、alpha和供体副本；隔帧回闪 → 检查可变状态与取样相位。每次选可定位的一项原因做有界修正，再查底片和目标成片。\n\nevidence:observations 保留四源状态、正反例及适用范围；evidence:mask_probe 保存运行时探针。可迁移的是分层、时序覆盖和检查程序。隐藏纹理、具体遮罩、字体尺寸、固定前景模板和单次模型成功均不跨源保证；新源须重新验证。纯视觉修复不替代声音审查。\n\n新增检查的来源与边界见 evidence:adoption：艺术字、图标供体和层级有源限定对照，推广的是识别与核验步骤，不是该素材的坐标、模板或成功保证。透明像素隐藏 RGB 的兼容性已完成两个不同于原手部素材的新源验证；适用条件与反例见文末“透明资产导出”。\n\n本次显隐判断补充见 evidence:cta_transition：一个新源的局部反例和修正记录，四语为同源派生。CTA残字、容器归属与前景层级已由现有检查覆盖，仅合并证据。圆心/半径、颜色阈值与单调拟合仍限原素材；局部改善不解除旧成片质量异议。\n\n\n## 原位置、原失焦层和片尾可见时间\n\n源片已有的标题/功能文案先去旧字，再在同一对象和文字平面复建译文。不能为躲箭头或遮挡，把文案移到原片没有字的位置；需恢复前景轮廓/alpha和原遮挡次序。译文确实放不下时，依据目标语言缩排、换行或有依据改写；仍不可读则记录瑕疵，不能用移位掩盖问题。\n\n分开判断背景失焦与主动遮旧字的模糊。源片在片尾失焦的背景标题/问题、其译文字层应匹配同一层级和变化；前景 CTA/箭头仍按源片保持清晰。先自然去字或有界视频修复，不能用全画面模糊把尚清晰的主体一并盖掉。具体半径、坐标和起始帧只对该源有效。\n\n分别检查源字擦除全包络与目标字显示区间；末尾仍露模糊英语也要登记。CTA保持到源片实际最后可见帧，不按配音结束提前消失。检查最后一帧和进/出场连续帧，并在真实编码结果查亮边、块边、重影及漏出的半字。单张截图不确定对应帧时保留定位不确定性。\n\nevidence:seven_source_review 及 evidence:tail_feedback/evidence:erasure_feedback/evidence:placement_feedback 保存2026-10-27七源整理和三组直接反馈，配套截图为反例/观察。其余四源只在报告所示范围内支持检查程序；70种语言派生不算70次独立验证。修正项通过、样片推广授权或素材入库均不解除旧质量异议、声音限制或未知费用。正文更新不改写既有冻结计划。\n\n\n## 字体、取帧与承载平面的检查\n\n测量与渲染须绑定同一个真实字体文件、字重及TTC face。字体家族名称或cmap覆盖通过不证明渲染器实际选用了该字形；检查实际编码文字、缺字和替代日志。显式所需字体缺失先修输入；未用到的可选平台字体不阻断任务。导出独立单face资产，并在字体字节、映射、目标语种或运行环境改变时使缓存失效。evidence:font_observation/evidence:font_preview 仅为Mac合成样例和开发者观察，不保证其它宿主、长句或母语排版。\n\n源截图、修复对照和最终检查须使用同一色彩/范围解释。AV1有限范围转JPEG时曾因范围映射产生误导；先核对取帧设置和实际源图，不把取帧偏差判断为模型调色。AAC可能长于视频，片尾图按真实视频流末帧取，核验文件确实生成；容器总时长不保证末帧存在。具体旧缺陷见 evidence:capture_review。\n\n原文字位于转动纸张等平面时，擦字区与目标字共同跟随源平面，背景卷边、前景水印和退场独立处理。给定的仿射轨迹不证明自动跟踪、非刚性形变或遮挡修复；Remotion的固定屏幕区域能力仍按其合同使用。全局中位数供体的页边接缝、静态图传播的双影/冻结、宽CTA掩模损伤纸张轮廓，都须在无字底片及连续边界帧检查。局部改好一项不放行其它区域。\n\nevidence:remaining_review 保存本轮十个源的限定观察与124组使用观察的审查范围。SHE053的源/旧/改后CTA截图仅支持样式改进，改后仍有背景锐度和补丁问题；不把红黄蓝或特定字重作为全局偏好。旧LaMa/OCR、模型排行榜和低预算变速试验仅历史，不构成新调用方案。新方法选路仍服从当前Codex/Wan、预算和正常播放质量合同。\n\n\n## 透明资产导出：仅清理完全透明 RGB，并验证下游\n\n触发：导出/复用带透明区域的前景或字层，或下游丢弃alpha、缩放/旋转、转换格式。先明确straight/premultiplied、位深、色彩及真实消费方式。alpha隐藏不代表RGB已删除；Pillow直接转RGB或OpenCV按彩色读取，已在实际前景中露出原片英语。会忽略alpha的消费者应先在明确底色上正确合成，不能把清零后的黑底RGB当作透明结果。\n\n对明确的8位straight-alpha RGBA派生副本，可只将`alpha == 0`位置的RGB清零；alpha及所有`alpha > 0`像素的RGBA保持原值。不能把低alpha阈值、去背景、抠图轮廓修正或可见文字擦除混入这一步。保持原始绑定资产不变，新文件单独登记哈希和来源；辅助实现为video_localizer.alpha_assets.sanitize，默认不裁切，也未强制接入现有制作链。\n\n清理优先作为导出末步。还需空间滤波时，先采用正确预乘颜色与alpha的缩放/旋转，再转换回所需存储格式；核对实际消费链。实测普通OpenCV逐通道插值在清理前后会改变边缘，故不能宣称任意缩放后仍等价。PNG/QTRLE/FFV1的本轮无损往返不外推到有损编码、其它色彩空间、高位深或其它应用。\n\n紧裁切只能依据全部非零alpha的外接框，保留必要留白，并记录原尺寸及裁切原点，合成时恢复原锚点。全透明层明确为空，不能猜锚点。外接框裁切不会修正错误的前景遮罩：本例表情掩模保留的小块背景仍在，不能称为精确抠图。\n\n验证与停止：对比原/清理副本的alpha和可见RGBA，按实际原点还原裁切，至少在深、浅及棋盘格背景检查；继续核对实际变换、编码与消费者。原尺寸及正确预乘路径的结果应一致；出现黑边、颜色/透明度变化、错位或可见像素变化就撤回该操作并检查alpha解释与滤波。不能只查文件更小或RGB不再含文字。\n\nevidence:alpha_compatibility 保存四个实际资产的验证、源/层/帧哈希及边界：两个新源，英文/阿语字层同属一个源，不算独立复验。SHE053表情PNG在alpha被忽略时暴露隐藏原片；Remotion字层含9403/8047个软alpha像素。仅清零alpha=0，原尺寸四背景、实际FFmpeg RGB合成、已测预乘变换和无损往返均保持像素一致。alpha≤8阈值则改变2055/2131个合成像素；逐通道缩放/旋转也是反例。evidence:alpha_preview/evidence:alpha_resampling 是已观察对照。该技术结论不批准任何旧视频、不承诺通用抠图或所有工具兼容。\n"
+    },
+    {
+      "id": "method-spoken-caption-verification-v4",
+      "path": "knowledge/rules/method-spoken-caption-verification-v4.md",
+      "sha256": "e20eb1874113966042995c02caa3f77e15dcebe9b288ad1d1552d4a0f2890f8e",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 口播与字幕：实际混音、分歧及停止\r\n\r\n适用有人声任务。先区分对白、独白、旁白、口播字幕、独立标题/UI及配乐演唱；实际职责与用户要求决定替换范围。单人口播首选共同定稿生成真实目标语音频，字幕在裁切/变速/偏移/混音后按实际发声对齐。多角色叠加角色声线与场景方法，不默认全员同音色。\r\n\r\n首选证据是实际编码成片声音及对应字幕边界帧。检查逐句内容、完整发音、首尾、语种、音乐音效及同步。请求文字、计划时间、孤立 TTS 与成功响应不能替代最终混音。换音、改稿、变速或画面时轴改变后重新绑定相关审核。\r\n\r\nASR 空白/同音/文字系统混淆或与 Gemini 分歧：定位实际词句，保留原始结果，补真实上下文、独立分句或可用听审；必要时做一次针对疑点的音频理解。仍有分歧留 pending；只有实际错读、漏读或不可理解才补录。禁止用预期译稿替换 ASR。低能量不必然静音，短句级证据可靠时不伪造词级精度。\r\n\r\n字幕时标异常先查句前静音与混音偏移，再按实际短语定位，检查编码边界；不得为追字幕改变背景音乐速度。具体工程阈值查 quality 配置，语义和自然度仍需实际审查。\r\n\r\n停止：对应内容/同步完整且有证据；或无新补证方向/达到尝试费用能力边界。后者标明未审、已确认错误及音频可用状态，按最终输出合同处理。用户要求必须配音时字幕不代替音频。声学模型、自审、母语听审及用户验收分别记录，不保证无损分轨或逐字嘴型。\r\n\r\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\r\n"
+    }
+  ],
+  "adopted_parts": [
+    "Only the explicitly covered procedure or matching exact-source/locale observation is associated with these targets. Original hypothesis and every limitation remain historical; no global success claim."
+  ],
+  "retained_parts": [
+    "Original scope, outcome, limitations, media/quality hashes, failure observations and unknown charges remain unchanged. No video acceptance, model permission or company-preference expansion.",
+    {
+      "hypothesis": "在此精确源片，实际video/API成功和零缺字都不能替代连续局部运动及最终排版审查；同源未批准底面可以复用计算，但每语种需要独立真配音、实际ASR时轴和编码稿。15/15当前绑定已核验。",
+      "limitations": [
+        "单源观察，不扩大到其他源/语言或公司默认。",
+        "普通修复柔化、静态短语pop和same_agent评审边界保留。",
+        "法语2credit比较审核未知记录保持；不把提交完成当作解决未知费用或独立人类验收。"
+      ],
+      "historical_outcome": "pass",
+      "evidence": {
+        "run": "SHE-20261028-043-02",
+        "video_sha256": "71f487755dd023749e9373c53a3cae36d39c5cf3c26848d17121ff2256b1d44c",
+        "quality_sha256": "befbe2de9a3461b2712e79e372b021c94aeca77ac694903e8abc414dfce9bd12"
+      }
+    }
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "resolution": "duplicate",
+  "reason": "The repeated procedural finding is already covered: compare continuous native-frame repair, inspect actual final lettering, and separately establish each locale voice/mix/caption timing. Source-specific coordinates, defect intervals, styles and output states remain historical and are not promoted as general parameter recipes.",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-29T06:26:48+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

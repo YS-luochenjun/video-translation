@@ -1,0 +1,43 @@
+{
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "3b979d3a1ee9ae1ccb93a82b9102eadf9f214deac1f21ca373da493f8d69f5c6",
+    "target_language": "es"
+  },
+  "video_sha256": "9cfce006375b1338daac521321f37565c8dc264270d24a5506ed52e7c858bfc9",
+  "review_boundary": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+  "original_case_manifest_sha256": "277dda7cb4a711560833184dd6376182718d67f153bbeb9be36be6183f0bf676",
+  "evidence_origins": [
+    {
+      "origin": "evidence/result/review/fast-review.json",
+      "sha256": "43e9b11a67a30fa857b17fb0dab337dd92867c3497ddab980aa3f51765336177",
+      "evidence_label": "review"
+    },
+    {
+      "origin": "evidence/observations/review/9cfce006375b/audio-model-review.json",
+      "sha256": "4d23b0da3aa88877203819bd0584854b85312ae2512ec5f9e60b5de9803f7946",
+      "evidence_label": "model"
+    },
+    {
+      "origin": "evidence/observations/review/9cfce006375b/caption-sync.json",
+      "sha256": "62be907dfa28674ab60daa35479a97f972d9056c879b4af84e6654b4ab38b696",
+      "evidence_label": "caption_policy"
+    },
+    {
+      "origin": "evidence/observations/review/9cfce006375b/contact-sheet.jpg",
+      "sha256": "b66a8ba01c5963d62ba36badb073ca049e45304c2cf55f1cc2b3ec85a4c318f1",
+      "evidence_label": "timeline"
+    },
+    {
+      "origin": "evidence/observations/review/9cfce006375b/audio.wav",
+      "sha256": "0c8713cdcd9ad8b33e9b59f1541bebf511d24857fd3fb021457eb16d07973a86",
+      "evidence_label": "final_audio"
+    }
+  ],
+  "original_candidates": [],
+  "observation": "静态海报的五处场景文案与实际旁白语义不同，分别翻译；不能因为画面文字完整就遗漏独立旁白，也不能把常驻海报文字强配成逐句口播字幕。去除发布者 MindJournal 同标，保留树/动物剪影、问号、分隔线与红箭头。实际浏览器失败后用静态可读 CTA，披露丢失轻微缩放脉冲，纸纹和描边差异继续保留。声音证据来自实际最终音轨 ASR 与有来源的模型比较，不是独立人类听审或健康宣称核验。",
+  "limitations": [
+    "Exact source and locale only; no new listening, independent review or video-quality approval.",
+    "Other locale executions are not independent source replications. Unknown charges and original failures remain."
+  ]
+}

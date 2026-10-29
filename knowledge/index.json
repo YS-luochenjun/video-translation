@@ -2984,7 +2984,7 @@
       "origin": "Direct user latest 2026-10-27: standard import/share/group/YouTube auto-request/tags/binding is sufficient; avoid overchecking task/account group. User explicitly identifies missed MOG053.",
       "reviewed_by": "Codex same-agent developer review; no new audiovisual quality acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-27T13:35:07+00:00",
       "method_sha256": "9cd00a1d423aeb645f1bf6330d07c90996870825d292be968af12c279a0c79bc",
       "case": "knowledge/examples/fireplay-completion-recovery-v3",
@@ -2997,7 +2997,8 @@
         "fast",
         "strict"
       ],
-      "retrieval_role": "required"
+      "retrieval_role": "required",
+      "superseded_by": "fireplay-completion-recovery-v4"
     },
     {
       "id": "imagegen-first-v1",
@@ -3073,14 +3074,15 @@
       "origin": "Explicit user addition to Fireplay submission instructions on 2026-10-27; exact source quote preserved in evidence and config.",
       "reviewed_by": "Codex same-agent policy registration and offline submission tests; no real material edited",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-28T04:24:26+00:00",
       "method_sha256": "373f01d17b3bbfac60b809a98a0e1c77d27eb7b6e535c9871d2f23cca660c5e5",
       "case": "knowledge/examples/fireplay-designer-attribution-v1",
       "case_manifest_sha256": "3e424f24d176bd46bb0f8e14145cced804fa2544c97fe9b73ed88197c6cfc62d",
       "knowledge_type": "project_policy",
       "validation_level": "explicit_user_instruction",
-      "topic": "delivery"
+      "topic": "delivery",
+      "superseded_by": "fireplay-designer-attribution-v2"
     },
     {
       "id": "fireplay-complete-delivery-v1",
@@ -3122,7 +3124,7 @@
       "origin": "Direct user complete-delivery requirement and standing instruction to retransmit timed-out media uploads",
       "reviewed_by": "User explicit completion policy; Codex source/state review, no video acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-28T06:28:50+00:00",
       "method_sha256": "6860fb0bb5a7c10a8b369167e36d7a163d96d25ad976cdaecc03270c08b4184a",
       "case": "knowledge/examples/fireplay-complete-delivery-v2",
@@ -3134,7 +3136,8 @@
         "fast",
         "strict"
       ],
-      "retrieval_role": "required"
+      "retrieval_role": "required",
+      "superseded_by": "fireplay-complete-delivery-v3"
     },
     {
       "id": "imagegen-first-v2",
@@ -3192,6 +3195,91 @@
         "fast",
         "strict"
       ]
+    },
+    {
+      "id": "fireplay-complete-delivery-v3",
+      "path": "knowledge/rules/fireplay-complete-delivery-v3.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "delivery",
+        "workflow"
+      ],
+      "origin": "Direct user 2026-10-28 bounded-best publication, autonomous identity lookup and standing KIE consent; same-agent offline recovery/closure implementation review",
+      "reviewed_by": "Codex same-agent policy and code-contract review; no new production-video or independent acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T04:32:52+00:00",
+      "method_sha256": "cea728f25d351510ceb40584a12f5b04cc443f510a46b401bc170830103e6ad2",
+      "case": "knowledge/examples/fireplay-complete-delivery-v3",
+      "case_manifest_sha256": "b0508b1bed377072a0405777ee33283ede44153e3ae45104bae985449c160eb9",
+      "supersedes": "fireplay-complete-delivery-v2",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_instruction_and_offline_contract_tests",
+      "topic": "delivery",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
+    },
+    {
+      "id": "fireplay-designer-attribution-v2",
+      "path": "knowledge/rules/fireplay-designer-attribution-v2.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "fireplay",
+        "designer",
+        "submission",
+        "derivative"
+      ],
+      "origin": "Direct user 2026-10-28 bounded-best publication, autonomous identity lookup and standing KIE consent; same-agent offline recovery/closure implementation review",
+      "reviewed_by": "Codex same-agent policy and code-contract review; no new production-video or independent acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T04:32:52+00:00",
+      "method_sha256": "86355626281d0db2add7c56c5fbbf0b01d667186ca29e144bc7db7fc4f7b7dd5",
+      "case": "knowledge/examples/fireplay-designer-attribution-v2",
+      "case_manifest_sha256": "f39b26f962314b648a6fe2dfc4f804d78f283601f3043efdfd3982084e12b745",
+      "supersedes": "fireplay-designer-attribution-v1",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_instruction_and_offline_contract_tests",
+      "topic": "delivery",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ]
+    },
+    {
+      "id": "fireplay-completion-recovery-v4",
+      "path": "knowledge/rules/fireplay-completion-recovery-v4.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "delivery",
+        "workflow"
+      ],
+      "origin": "Direct user 2026-10-28 bounded-best publication, autonomous identity lookup and standing KIE consent; same-agent offline recovery/closure implementation review",
+      "reviewed_by": "Codex same-agent policy and code-contract review; no new production-video or independent acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T04:32:52+00:00",
+      "method_sha256": "dfb6effc7c35e253ee320444778b9d16211033bd75deda34f03b107d9dfb8e28",
+      "case": "knowledge/examples/fireplay-completion-recovery-v4",
+      "case_manifest_sha256": "7c53755d8ec25f6f4f0349fefa53ff0956ac88fd10aa5da1950a4634353d507b",
+      "supersedes": "fireplay-completion-recovery-v3",
+      "knowledge_type": "method",
+      "validation_level": "explicit_user_instruction_and_offline_contract_tests",
+      "topic": "delivery",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

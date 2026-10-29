@@ -1,0 +1,88 @@
+{
+  "source_sha256": "1b6dea4a41ffd4c4bff0c383a0c384416e438b8ea1b798d6e779a37079cafe87",
+  "video_sha256": "62b08d046de3a35f785011e91e686a0b3a4db17d68a36f6c68988ec1189018b4",
+  "audio_sha256": "d28ee8d88ec9174c878292dba29f87a0c517f831b0869c66c279aedcefcbf13d",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "ko",
+    "speech_segments": [
+      {
+        "start": 0.3,
+        "end": 2.7,
+        "source_text": "큰일났네, 충전기 어디 있지?"
+      },
+      {
+        "start": 3.0,
+        "end": 4.1,
+        "source_text": "충전기가 왜 필요해?"
+      },
+      {
+        "start": 4.3,
+        "end": 5.8,
+        "source_text": "네 폰도 밧데리 없잖아?"
+      },
+      {
+        "start": 5.9,
+        "end": 7.2,
+        "source_text": "충전 안 해도 돼?"
+      },
+      {
+        "start": 8.2,
+        "end": 9.4,
+        "source_text": "어떻게 한 거야?"
+      },
+      {
+        "start": 9.6,
+        "end": 12.8,
+        "source_text": "버튼만 누르면 고속 충전되는 앱을 찾았어."
+      },
+      {
+        "start": 13.2,
+        "end": 15.6,
+        "source_text": "어디서든 폰을 완충 상태로 유지해 줘."
+      },
+      {
+        "start": 15.8,
+        "end": 17.3,
+        "source_text": "지금 아래 링크를 눌러 봐."
+      }
+    ],
+    "background_music": {
+      "same_track": true,
+      "reason": "Audio B uses the exact same upbeat electronic background music track, arrangement, and tempo as Audio A."
+    },
+    "sound_effects": {
+      "preserved": true,
+      "reason": "Original sound effects, including the initial low-battery alert chime and the transition whoosh/sparkle effect around 7.4s–8.1s, are retained at the same timing."
+    },
+    "dialogue_translation": {
+      "complete": true,
+      "reason": "All spoken lines, including questions, explanatory statements, and the concluding CTA, are fully and faithfully translated into Korean without omitted lines, clipped speech, or invented claims."
+    },
+    "foreign_speech_remaining": [],
+    "sync": {
+      "acceptable": true,
+      "reason": "The Korean dialogue pacing matches the source video timing windows closely, fitting cleanly within each character's respective dialogue window."
+    },
+    "uncertain_intervals": [],
+    "character_voices": {
+      "distinct": true,
+      "consistent": true,
+      "observations": [
+        {
+          "character": "anxious",
+          "observation": "Spoken by a higher-pitched female voice conveying panic and confusion; timbre and persona remain consistent across all four scene intervals."
+        },
+        {
+          "character": "helper",
+          "observation": "Spoken by a clear male voice (differing from the female voice Aoede in original Audio A) delivering calm responses, promotional explanation, and the call to action with consistent timbre throughout."
+        }
+      ],
+      "confusable_pairs": [],
+      "uncertain_intervals": [],
+      "reason": "Characters are clearly distinguishable by vocal timbre and gender (female for 'anxious' vs. male for 'helper'). Each voice remains consistent throughout its dialogue turns with natural speed, complete lines, and no confusable delivery."
+    },
+    "summary": "Audio B provides a complete, accurate Korean localization of Audio A. The original BGM and sound effects are fully preserved and synchronized. The anxious character is voiced consistently by a female speaker, while the helper role has been recast with a distinct male voice."
+  },
+  "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"
+}

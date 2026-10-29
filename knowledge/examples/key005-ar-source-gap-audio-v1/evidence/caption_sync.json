@@ -1,0 +1,7 @@
+{
+  "source_sha256": "357b6f7c84ac723c9e8f85dd071b892bb05bdecc88e43211b2dcb23f8d293198",
+  "video_sha256": "2b5516f78d4ead2678dc63342389bb35cb708a0b135114b5b4506d9c1ce39815",
+  "reviewer": "Codex same-agent",
+  "decision": "pass",
+  "method": "New decoded video frames hash-equal to previously observed video; 300 PTS and encoded-packet hashes equal. Current final target-only audio has unchanged actual isolated voice units/offsets, verified by fresh Whisper. No source signal retained. Prior Gemini native voice-semantic result remains historical only."
+}

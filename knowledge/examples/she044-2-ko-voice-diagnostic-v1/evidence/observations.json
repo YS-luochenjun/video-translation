@@ -1,0 +1,43 @@
+{
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ko",
+    "source_sha256": "1b6dea4a41ffd4c4bff0c383a0c384416e438b8ea1b798d6e779a37079cafe87"
+  },
+  "video_sha256": "62b08d046de3a35f785011e91e686a0b3a4db17d68a36f6c68988ec1189018b4",
+  "review_boundary": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+  "original_case_manifest_sha256": "461ce08296912141dec5718b1df320aef2dc4f56579d7cf8a88ad5e79026568f",
+  "evidence_origins": [
+    {
+      "origin": "evidence/observations/review/62b08d046de3/audio-model-review.json",
+      "sha256": "edc68f4e4d58065c4266c7e35622d242de523535bee2fcdbed8986bf05754cbf",
+      "evidence_label": "broad"
+    },
+    {
+      "origin": "evidence/observations/review/62b08d046de3/voice-gender-diagnostic.json",
+      "sha256": "58f329065e5417b74fb0a0c4c0bd9e6fb5352b6c71e3992bf79a94f911718b3c",
+      "evidence_label": "focused"
+    },
+    {
+      "origin": "evidence/observations/review/62b08d046de3/helper-diagnostic-take.wav",
+      "sha256": "985a85d2ecdb7916c2157e4963d6c8647a822be9652b56b52d20dae549a690c3",
+      "evidence_label": "helper_take"
+    },
+    {
+      "origin": "evidence/observations/review/62b08d046de3/audio.wav",
+      "sha256": "28fc602e8271eed414552483e093fe9bace883c030d91454e2fed64ac0952380",
+      "evidence_label": "final_audio"
+    }
+  ],
+  "original_candidates": [
+    {
+      "path": "knowledge/candidates/SHE-20261028-044-2-01-62b08d046d.json",
+      "sha256": "2423d89eeef098ce7e8c171c733d5d9e37e715dbba7d81d29ac762e205a84f28"
+    }
+  ],
+  "observation": "宽泛的混音比较报告在 distinct/consistent 为真时，将 helper 写成男声；针对实际孤立 helper 配音和相同最终混音的聚焦诊断则判断为较低音区女声，并认定两角色可区分且稳定。两份矛盾观察和实际音频同时保留；不能从预设名、音高或一个布尔字段推断性别与质量通过。此处是外部模型感知的有来源分歧，不是 Codex 或人类亲耳确认；新素材仍须按实际角色及声音核查。",
+  "limitations": [
+    "Exact source and locale only; no new listening, independent review or video-quality approval.",
+    "Other locale executions are not independent source replications. Unknown charges and original failures remain."
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "she039-es-reference-wan-boundaries-v1",
+  "created_at": "2026-10-28T11:19:19+00:00",
+  "files": [
+    {
+      "path": "evidence/audio.wav",
+      "sha256": "2f9905dabaa08582ff91b4b044367db1bb7e779a80c44d014e31c0215567c450",
+      "bytes": 583364
+    },
+    {
+      "path": "evidence/caption-boundary-gallery.jpg",
+      "sha256": "001911823743e0d6287515629dda9fac19e501250386603a5b2583bcc86f58d3",
+      "bytes": 448153
+    },
+    {
+      "path": "evidence/caption-sync.json",
+      "sha256": "16444500e57e29bcc9e219684dfa4211a05e8e3a332c28b7b8e34dd192e6efe0",
+      "bytes": 14775
+    },
+    {
+      "path": "evidence/closeup-clean-imagegen.png",
+      "sha256": "1efac3707d981a84723196f8c89ae6ca1318d41c6ae1ddb62ba1b3eb645fcb51",
+      "bytes": 1423218
+    },
+    {
+      "path": "evidence/exact-boundaries.jpg",
+      "sha256": "51a51084096c86804cb72ac212b413dbee06664d103671c990cb4eac872fa0ea",
+      "bytes": 356969
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "d7e4571e1b8485526af610b2fbe82528249d1d8ec3556d83ff7a55769860b21d",
+      "bytes": 2185
+    },
+    {
+      "path": "evidence/opening-clean-imagegen.png",
+      "sha256": "4e698c0aa8be1538108adc8430091c5a9515965a7f024ba6c4b99e91b3c839ae",
+      "bytes": 1639119
+    },
+    {
+      "path": "evidence/raw-contact.jpg",
+      "sha256": "bcc9bee327193f4b8f1fdcfbea57f5edec2ee27eed307d701f98bee304890ff5",
+      "bytes": 627641
+    },
+    {
+      "path": "evidence/raw-video-review.json",
+      "sha256": "84716ff7c489065661a4c7878267da710e7983c7a3ae9a6ed6bd27adf4879702",
+      "bytes": 3453
+    },
+    {
+      "path": "evidence/source-model-pairs.jpg",
+      "sha256": "957b4aab51e72ee8adcd5b3715f12ff59c1673d42e936184c2063875d01e6982",
+      "bytes": 476238
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24",
+      "target_language": "es"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 同源西语：带图 Wan 清底与真实帧边界（2026-10-28）\n\n范围仅为源 SHA 7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24 的 es 本地化。成片 4ca56a9726001675bcbf56db88ecb7e5a4c5fe3761274a8384bbe6f4137e742b 通过 Codex 同一执行者 fast-basic 审核，视觉完成度3/5；无独立、人类或公司验收。\n\n复杂运动字幕覆盖人物和桥面时，本次先以实际同源帧生成两张 ImageGen 清底参考，再将参考图和对应原视频同时传给 Wan 2.7。两次真实任务各输出90帧、3秒，分别对应原片0–3秒和7–10秒。保存的提供方 recordInfo 确认两项输入均已接收。静态参考不能冻结为运动底片；API成功也不等于清底通过。真实输出需与原片连续运动、人物、手机图标及游戏控制逐项比较。\n\n旧候选的局部模型片叠接出现明显横向硬边。本轮检查完整输出后整段采用，减少该接缝。人物细小轮廓、大小与控制图标仍略有变化，中段局部木纹有柔化，HUD/片尾底色更暗，均保留为minor，不能称为像素保真。参考图、提示词、片段边界及采用方法同时改变，不能将改善单独归因于ImageGen，也不能推广到其它原片。\n\n近似时段5.2/7.0/16.5秒曾导致原文Morning短暂残留或片尾覆盖过早。实际按30fps源帧核验：HUD[0,161)，商店横幅[161,209)，HUD[209,501)，片尾[501,545)。西语覆盖使用这些真实切换点，成片重点检查160/161、208/209、500/501帧及模型片接点；不能仅凭稀疏抽帧认定无残字。\n\n最终六句真实西语配音和字幕使用同一份定稿。实际编码后的完整WAV经ASR、源/成片音频比较及40张字幕边界图复核，最大字幕起点差0.1267秒。模型粗粒度听写时间不用于帧级同步。本次保留完整18.227664秒音轨及原背景音乐/音效，声音通过不自动授予画面通过。\n\n证据见案例manifest内的observation、source_pairs、raw_contact、final_boundaries、caption_boundaries、opening_reference、closeup_reference、final_audio等标签。历史路径仅为来源标签；需要复用实际成片/底片时须另查同源交付包并核验哈希和保留期限。\n",
+    "source_sha256": "7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24",
+    "video_sha256": "4ca56a9726001675bcbf56db88ecb7e5a4c5fe3761274a8384bbe6f4137e742b",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observation": "evidence/observations.json",
+      "source_pairs": "evidence/source-model-pairs.jpg",
+      "raw_contact": "evidence/raw-contact.jpg",
+      "final_boundaries": "evidence/exact-boundaries.jpg",
+      "caption_boundaries": "evidence/caption-boundary-gallery.jpg",
+      "opening_reference": "evidence/opening-clean-imagegen.png",
+      "closeup_reference": "evidence/closeup-clean-imagegen.png",
+      "final_audio": "evidence/audio.wav",
+      "caption_sync": "evidence/caption-sync.json",
+      "raw_review": "evidence/raw-video-review.json"
+    }
+  }
+}

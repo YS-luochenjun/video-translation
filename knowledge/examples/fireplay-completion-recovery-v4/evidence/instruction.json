@@ -1,0 +1,19 @@
+{
+  "authority": "user",
+  "source_thread_id": "01a18056-0960-7800-bba1-943d025e3989",
+  "client_date": "2026-10-28",
+  "publication_authorization_ref": "user-bounded-best-available-publication-20261028",
+  "publication_quote": "如果在有限的条件下，已经做到最好了，可以进行提交。也就是，在有限的条件下，有普通不合格是可以提交的。如果是画面大面积撕裂等大问题，允许不提交。",
+  "designer_authorization_ref": "user-agent-resolves-fireplay-designers-20261028",
+  "designer_quote": "查验设计师后，会让我提供准确的类似ID，我一般也不知道，需要你去fireplay中自己看，并相信自己的判断。",
+  "kie_authorization_ref": "user-kie-audio-video-standing-consent-20261028",
+  "kie_quote": "在对话开始时，会询问我是否使用KIE的音频或视频工具，我需要你确定，点击需要，点击同意使用。",
+  "implementation_request": "然后结合你上述的方案，对项目进行优化。",
+  "scope_limits": [
+    "Ordinary bounded best available publication; severe damage and incomplete translation/required audio remain blocked.",
+    "Actual Fireplay identity evidence, not invented IDs.",
+    "Existing per-requirement budgets and model limits; host approvals remain effective.",
+    "Same-source visual sharing does not prove all locale audio/layout/render quality."
+  ],
+  "verification": "Same-agent developer contract review and offline targeted tests; no new paid media task or external material write."
+}

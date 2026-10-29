@@ -7,7 +7,22 @@
     "required_audio_complete": true,
     "watchable": true,
     "too_many_issues": false,
-    "defects": [{"severity": "minor", "description": "REPLACE_WITH_ACTUAL_DEFECT_AND_TIME_INTERVAL"}],
-    "evidence": ["final.mp4"]
+    "defects": [
+      {
+        "severity": "minor",
+        "description": "REPLACE_WITH_ACTUAL_DEFECT_AND_TIME_INTERVAL",
+        "publication_impact": "ordinary"
+      }
+    ],
+    "evidence": [
+      "final.mp4"
+    ],
+    "best_available": {
+      "stop_condition": "no_evidence_backed_improvement",
+      "reason": "REPLACE_WITH_ACTUAL_BOUNDED_STOPPING_REASON; remove this object for a normal minor-only review",
+      "evidence": [
+        "REPLACE_WITH_ACTUAL_PACKAGE_BOUND_FINALIZATION_OR_REPAIR_RECORD"
+      ]
+    }
   }
 }

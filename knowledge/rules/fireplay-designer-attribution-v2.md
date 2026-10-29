@@ -1,0 +1,13 @@
+# Agent自行核对设计师并登记二创
+
+来源：用户2026-10-28明确表示不知道准确ID，要求Agent去Fireplay查看并自行判断。见evidence:instruction。本版替代v1中容易导致重复索要DID/单独身份授权的处理；人员范围、二创要求和历史记录保留。
+
+提交时刷新当前需求执行人。排除罗晨钧、邹彬，剩余人员全部作为设计师，创作类型二创，并保留语言、产品标签及追加“二创”。没有剩余人员才留空，不能因为DID未查到而默认无设计师。
+
+按当前tool_catalog获取requirement_field_options_query合同，include_members=true并使用需求中的真实member_ids；按next_offset完整翻页。真实成员记录的feishuUserId绑定username，再与当前assigneeIds逐项核对。目录为空、部分返回或人员缺失时继续查实际需求组、成员范围或Fireplay原生页面；不要求用户提供其不知道的DID/用户ID，不根据登录者、岗位或相似姓名猜归属。
+
+回传规格附designer_receipt实际成员响应，项目核对当前身份后自动采用用户已授权的verified_user_id路径，不再为同一已核验ID索要单独人类同意。已有真实DID映射也可走命名归属；多个设计师全部保留。具体选路和唯一参数源为config/fireplay-intake.json.designer_selection。
+
+真实用户ID写入沿已入库material_id执行material_attribution_update并读回designerIds/creationType；命名DID路径也须核对平台真实归属，不能只靠后缀或tag判成功。遵守实际工具预览/执行和权限合同，不把preview当落库、不伪造confirmed执行回执；必要时使用平台原生编辑界面。平台拒绝或权限缺失作为具体执行阻塞处理，不转成向用户索要ID。
+
+已绑定/结果未知素材保留原ID、原归属和操作历史，按确切身份恢复，不能为更改归属重复上传。用户明确的其他归属例外仍保留。此知识记录查询及写入合同，不声明本次已修改任何实际素材归属。

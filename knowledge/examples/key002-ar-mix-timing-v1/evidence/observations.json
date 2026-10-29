@@ -1,0 +1,48 @@
+{
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ar",
+    "source_sha256": "762441498a0ef3d6656063de2067f4d2497a308d6daaef0b1fc0ba29fa221c33"
+  },
+  "video_sha256": "f6b1b6218a2c88692c6e831f55f1dd215243e21bb8f860d696e2703271390db3",
+  "review_boundary": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+  "original_case_manifest_sha256": "b160ce06306b17a1896969df1f635bb284cb06a368893a5f0afc19a219f670c5",
+  "evidence_origins": [
+    {
+      "origin": "evidence/observations/review/f6b1b6218a2c/caption-sync.json",
+      "sha256": "9b19fb5660c3a95b88ebfbb1a56dc607ab5e73c4d95d631982145cca9b3f91dc",
+      "evidence_label": "caption_sync"
+    },
+    {
+      "origin": "evidence/observations/review/f6b1b6218a2c/boundary-start.jpg",
+      "sha256": "558b5104c9ccffcb6d5a9bb595eb007d2529615b125ddb6b7ba442227a028376",
+      "evidence_label": "final_start"
+    },
+    {
+      "origin": "evidence/observations/review/f6b1b6218a2c/boundary-end.jpg",
+      "sha256": "69fa7ad91ff76ac3291e2f5afd7d59d3b0c3b8cc9c3c1a90705a56bd2ec5609f",
+      "evidence_label": "final_end"
+    },
+    {
+      "origin": "evidence/observations/review/f6b1b6218a2c/audio.wav",
+      "sha256": "d56ea4436aeae092e244a058422b94e0bc508629ad28d08990346eca67aaa33c",
+      "evidence_label": "final_audio"
+    },
+    {
+      "origin": "evidence/observations/review/f6b1b6218a2c/audio-model-review.json",
+      "sha256": "caf80e78460d2abe2bb3462c4d073778e02e003a043b6db37585844df18f69cc",
+      "evidence_label": "model_observation"
+    }
+  ],
+  "original_candidates": [
+    {
+      "path": "knowledge/candidates/KEY-20261029-002-01-f6b1b6218a.json",
+      "sha256": "1e16b5cc9906dfa267e2b6a981aeeb7d0e89900e4dd9bbe70249cdd9830f06a0"
+    }
+  ],
+  "observation": "四句声音与五个文字片段分开核对。实际 TTS、混音和编码音轨的 ASR，加上编码字幕起止帧，构成该版本的同步依据。比较模型的语义时间可能比实际混音偏移数秒，保留其原结果，不直接用于字幕定位。人物与头发上的矩形回贴、字形接缝或渐变修补曾出现几何接缝/字形曝光残影；有界尝试后采用同源连续 Wan 片段。局部纹理/对比变化仍是限制，不能由此认定整帧生成适用于所有素材。",
+  "limitations": [
+    "Exact source and locale only; no new listening, independent review or video-quality approval.",
+    "Other locale executions are not independent source replications. Unknown charges and original failures remain."
+  ]
+}

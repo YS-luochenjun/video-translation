@@ -2448,6 +2448,451 @@
       "reference_video_sha256": "7b9813233768703380554730270ad9095f13449e9d8bef45252f0f27ec036ca8",
       "knowledge_type": "source_reference",
       "validation_level": "same_agent_source_specific_observation"
+    },
+    {
+      "id": "she039-es-reference-wan-boundaries-v1",
+      "path": "knowledge/cases/she039-es-reference-wan-boundaries-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24",
+        "target_language": "es"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "speech",
+        "ads"
+      ],
+      "origin": "Actual source-bound reference-guided Wan and final-frame/audio review for SHE-20261028-039; single-source same-agent review only",
+      "reviewed_by": "Codex same-agent scoped technical evidence review; no company preference change",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-28T11:19:19+00:00",
+      "method_sha256": "63486a54e133bad2e599e2c60a5a965d4ff5e917c9048434030f679f1fed4b54",
+      "case": "knowledge/examples/she039-es-reference-wan-boundaries-v1",
+      "case_manifest_sha256": "2e21f4e7449b1d76be3362ad4f2ef5e1be584896cc3865b5db1770451566798d",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/SHE-20261028-039-02-4ca56a9726.json",
+          "sha256": "e55d26c627479ced478cd55231f673444ba03930181c6870204dec3f9c776c00"
+        }
+      ],
+      "reference_video_sha256": "4ca56a9726001675bcbf56db88ecb7e5a4c5fe3761274a8384bbe6f4137e742b",
+      "source_run": "SHE-20261028-039-02",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast"
+      ],
+      "language_match": "exact",
+      "evidence_supplements": [
+        {
+          "path": "knowledge/examples/supplements/she039-es-reference-wan-boundaries-v1/0c47b9ddb8cd2b79ac4e69a48b696cff09c116f37eb9c5e7a75627b7e77289a2",
+          "manifest_sha256": "92b489317447a604115051791528aa3c48de9993e5e056c792198b8d8bc8a9f4"
+        }
+      ],
+      "required_evidence": [
+        "old_v5_closeup",
+        "old_v5_identity",
+        "old_v5_opening",
+        "old_v5_review",
+        "source_closeup",
+        "source_opening"
+      ]
+    },
+    {
+      "id": "key002-ar-mix-timing-v1",
+      "path": "knowledge/cases/key002-ar-mix-timing-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "ar",
+        "source_sha256": "762441498a0ef3d6656063de2067f4d2497a308d6daaef0b1fc0ba29fa221c33"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:24:03+00:00",
+      "method_sha256": "093004b7b057375b43cdb9698311e040e68c112dffa4887c9ceaa2bf6962c4af",
+      "case": "knowledge/examples/key002-ar-mix-timing-v1",
+      "case_manifest_sha256": "2b1a15911a2add9f721157fc2bdd807e2f4a13658c00389dff30c6f0f7fb0467",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/KEY-20261029-002-01-f6b1b6218a.json",
+          "sha256": "1e16b5cc9906dfa267e2b6a981aeeb7d0e89900e4dd9bbe70249cdd9830f06a0"
+        }
+      ],
+      "reference_video_sha256": "f6b1b6218a2c88692c6e831f55f1dd215243e21bb8f860d696e2703271390db3",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "key005-ar-source-gap-audio-v1",
+      "path": "knowledge/cases/key005-ar-source-gap-audio-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "ar",
+        "source_sha256": "357b6f7c84ac723c9e8f85dd071b892bb05bdecc88e43211b2dcb23f8d293198"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:24:03+00:00",
+      "method_sha256": "bde91f5ec2d76d4696226aaf477e412a11ae55bbda2af4e42cc4f32a7a0f516f",
+      "case": "knowledge/examples/key005-ar-source-gap-audio-v1",
+      "case_manifest_sha256": "13633f176e7e37458111de2c712e3a1b7dd1d015f159017f0bcad280bd1bd5fc",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/KEY-20261029-005-01-2b5516f78d.json",
+          "sha256": "a7e00a6122435440d2984a408f46cca9fe8c96fda3f72416dffdc608d0b86576"
+        }
+      ],
+      "reference_video_sha256": "2b5516f78d4ead2678dc63342389bb35cb708a0b135114b5b4506d9c1ce39815",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "key008-ja-caption-switch-v1",
+      "path": "knowledge/cases/key008-ja-caption-switch-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "6b7b6750d9460e15a173e84102ec259a452de301d7fa351b44b5a6ca1c54f9cc",
+        "target_language": "ja"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:24:03+00:00",
+      "method_sha256": "935686c4d78b980d347b7f99a692ad962e7fb57381b5052dff301001ce1c96c6",
+      "case": "knowledge/examples/key008-ja-caption-switch-v1",
+      "case_manifest_sha256": "de8377b9cd4b0aea36dc7d68a8840ce27ba1df7c0f38b32fa53acf7d740a60ec",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/KEY-20261029-008-06-closure-97f8834093.json",
+          "sha256": "4ccfeb6736080226da0d67cab9a00c26fd28cc34a36842562f4118bd735cab83"
+        }
+      ],
+      "reference_video_sha256": "97f8834093a904c9ccc570f1e682c86631bf3d6b62af02a946ec003df3c1a95c",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "mog044-pt-utterance-tail-v1",
+      "path": "knowledge/history/cases/mog044-pt-utterance-tail-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+        "target_language": "pt",
+        "language_match": "exact"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-10-29T06:24:03+00:00",
+      "method_sha256": "d5879939229f2c0764e7697b634327bfcddaa151b32591c740fb004975cdb715",
+      "case": "knowledge/examples/mog044-pt-utterance-tail-v1",
+      "case_manifest_sha256": "2fd86f8053695aa7c1151bd4f052bf4d2f7bdba89f95632dc0c3c5b95d2b233b",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261027-044-pt-phrase-repair-20261028.json",
+          "sha256": "685aff24fc1680957b79fdacda7555523c5ee161171badb7ab951f7ebaf9b2c1"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261027-044-pt-recovery-20261027.json",
+          "sha256": "50680e8fde623cc5d9c2c4da69a9bd5ee488292239f07dcfbe4bcfc3047cd56a"
+        }
+      ],
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact",
+      "superseded_by": "mog044-pt-utterance-tail-v2"
+    },
+    {
+      "id": "she043-ar-shared-base-boundaries-v1",
+      "path": "knowledge/cases/she043-ar-shared-base-boundaries-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "68d78a3611f72ef89d314a02f6c55b8306773d2eeff8712490fc3730c676830f",
+        "target_language": "ar"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:24:03+00:00",
+      "method_sha256": "5d3c4536c9dec631303fb278b4f93a0bb5f41694286312bd513d2456eab02b45",
+      "case": "knowledge/examples/she043-ar-shared-base-boundaries-v1",
+      "case_manifest_sha256": "9ce1bb68561777b3f639b8ccd280de218bf049c52054f468b3b9955e89583d58",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/SHE-20261028-043-01-9b75a36a20.json",
+          "sha256": "838d6ecbc36f022af277d4ca71525bb8ae0237911e1a7e78457d61fa8c6bd2bd"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261028-043-01-closure-9b75a36a20.json",
+          "sha256": "627e5f4a2b6f94ff31c6d8f236f9c250186c0827b4c63147d9a735a7e44d7d69"
+        }
+      ],
+      "reference_video_sha256": "9b75a36a20eafa1e308b3d4ddea4f605aa0e3f28d8a2ffb256987ff0ed0d2a46",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "she044-2-ko-voice-diagnostic-v1",
+      "path": "knowledge/cases/she044-2-ko-voice-diagnostic-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "ko",
+        "source_sha256": "1b6dea4a41ffd4c4bff0c383a0c384416e438b8ea1b798d6e779a37079cafe87"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:24:03+00:00",
+      "method_sha256": "751b5a53bbd6e559a7bee9a59e4f5366563e2996a6f4d2b90b708929848d8836",
+      "case": "knowledge/examples/she044-2-ko-voice-diagnostic-v1",
+      "case_manifest_sha256": "1b24360a18fe08b066079e8924542a51c348243b9c95520d35da3ba75cf035be",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/SHE-20261028-044-2-01-62b08d046d.json",
+          "sha256": "2423d89eeef098ce7e8c171c733d5d9e37e715dbba7d81d29ac762e205a84f28"
+        }
+      ],
+      "reference_video_sha256": "62b08d046de3a35f785011e91e686a0b3a4db17d68a36f6c68988ec1189018b4",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "mog044-pt-utterance-tail-v2",
+      "path": "knowledge/cases/mog044-pt-utterance-tail-v2.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+        "target_language": "pt",
+        "language_match": "exact"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:24:49+00:00",
+      "method_sha256": "74c8ec6cebce0f85834fe00c0e2e4d8e535beb5f85a449e05b47a88da16db3c7",
+      "case": "knowledge/examples/mog044-pt-utterance-tail-v2",
+      "case_manifest_sha256": "612bd490c737e5ce0030df247ffc852633f4de924b3084af0a095f1b8260615e",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261027-044-pt-phrase-repair-20261028.json",
+          "sha256": "685aff24fc1680957b79fdacda7555523c5ee161171badb7ab951f7ebaf9b2c1"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261027-044-pt-recovery-20261027.json",
+          "sha256": "50680e8fde623cc5d9c2c4da69a9bd5ee488292239f07dcfbe4bcfc3047cd56a"
+        }
+      ],
+      "reference_video_sha256": "5b2ed8d646f40aa6aaa9e59b7b1464eba4cb31d83daf7e0e64242df8a6a71602",
+      "supersedes": "mog044-pt-utterance-tail-v1",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "key021-hi-prop-plane-v1",
+      "path": "knowledge/cases/key021-hi-prop-plane-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "670be70408876edcc0ea83b712ee51a525954cc1d7bda141b9a7774127cab584",
+        "target_language": "hi"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:29:18+00:00",
+      "method_sha256": "742be53174c34a4df4573dea779cd99c5b0958e8b785050102af8d50eceddea2",
+      "case": "knowledge/examples/key021-hi-prop-plane-v1",
+      "case_manifest_sha256": "37bb2f727ea475251c9ef99f7cebb67b2d288027e512d4f0fe32fb4e2d74a4f8",
+      "reference_video_sha256": "aa4eb0d57424a6dd1963d2aff1ef7cd4db6a26bd28962479a7e6e9258b96a6ff",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "key010-1-en-fade-boundary-v1",
+      "path": "knowledge/cases/key010-1-en-fade-boundary-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5",
+        "target_language": "en"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:29:18+00:00",
+      "method_sha256": "cc925aefd3d7a9a7f506de41f02ee26030d523a6f6bb5cfdfa9eb543bb8a844f",
+      "case": "knowledge/examples/key010-1-en-fade-boundary-v1",
+      "case_manifest_sha256": "2c97686885edcf3347ba59a5bdcacd0f8293ef7157b81b021b4fc3e804a6bfa0",
+      "reference_video_sha256": "8ed1e6c8beca73ee3cac2d934666e4fada05cae589b2319091ccf33a499c8115",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "key010-2-es-source-scope-v1",
+      "path": "knowledge/cases/key010-2-es-source-scope-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "1db4961f4f34013b9c16d556a85f0635fd05e34188f17774acf82b8453a7ca5e",
+        "target_language": "es"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:29:18+00:00",
+      "method_sha256": "eb7c3fa03870e90f97aa88e5ea9065ba0cd47b4082febc7df857ce70ba53cea8",
+      "case": "knowledge/examples/key010-2-es-source-scope-v1",
+      "case_manifest_sha256": "3a2e7e1373f2bb7717c715665a79828c0e79577042ce8b6fc4922796924576fa",
+      "reference_video_sha256": "f68c0fc0f76eb489f1d7b95c71e4171820dfcf5f7a360d1b3ddfaa61e18fba30",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "mog054-pt-name-asr-v1",
+      "path": "knowledge/cases/mog054-pt-name-asr-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "8de144038bf135fcf19320c532093421d0c7eeaed10eaa6219ca52c4ef6d543c",
+        "target_language": "pt"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:29:18+00:00",
+      "method_sha256": "9cf5e0e1550c80e41000f645770805ff7d97f3e8d59e959bd883eb19db0be3ec",
+      "case": "knowledge/examples/mog054-pt-name-asr-v1",
+      "case_manifest_sha256": "5e51b3326b6b7e8a86957e1fa5983a84239aa3357e2f16893ccaecf6fddff697",
+      "reference_video_sha256": "8dece65d3bb53a5b45a8eba2cff5a316bae8f4a88128c7463e5ab16311a909aa",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
+    },
+    {
+      "id": "wow045-es-scene-copy-v1",
+      "path": "knowledge/cases/wow045-es-scene-copy-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "3b979d3a1ee9ae1ccb93a82b9102eadf9f214deac1f21ca373da493f8d69f5c6",
+        "target_language": "es"
+      },
+      "tags": [
+        "speech",
+        "text",
+        "timing",
+        "visual"
+      ],
+      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
+      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-29T06:29:18+00:00",
+      "method_sha256": "abd274649ebd08d687170e6b2eb92cd04582dcddf7c46f425f7441d2a4fca319",
+      "case": "knowledge/examples/wow045-es-scene-copy-v1",
+      "case_manifest_sha256": "55b2860ee409bfe4b721e44b6fd3e50e978df33d5f9a2a8e66acc5f5e211ff65",
+      "reference_video_sha256": "9cfce006375b1338daac521321f37565c8dc264270d24a5506ed52e7c858bfc9",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_observation",
+      "topic": "localization",
+      "language_match": "exact"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

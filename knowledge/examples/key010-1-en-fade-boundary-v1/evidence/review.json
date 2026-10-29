@@ -1,0 +1,43 @@
+{
+  "video_sha256": "8ed1e6c8beca73ee3cac2d934666e4fada05cae589b2319091ccf33a499c8115",
+  "reviewer": "Codex same-agent self-review",
+  "method": "Actual native encoded lettering/boundary/timeline image inspection plus independent Whisper evidence and complete audio decode. Same-agent review, no user or independent acceptance.",
+  "checks": {
+    "translation": {
+      "decision": "pass",
+      "observation": "Directly read current English board: Videos are easier to watch, And operations are simpler, Update now. Source itself is English and direct-translation meaning is preserved. Independent mixed Whisper recognizes all four clauses; final Update now completes through final native frame."
+    },
+    "source_text_removed": {
+      "decision": "pass",
+      "observation": "Actual current native encoded frames and fade/boundary sequence show required original glyphs removed. Earlier source1 v1 master/video with gray fade remnants is held; current neutral-v2 includes full fade envelopes. five original scenic shots and cuts, person and product graphics outside text regions retained."
+    },
+    "protected_graphics": {
+      "decision": "pass",
+      "observation": "Current actual encoded sequence retains five original scenic shots and cuts, person and product graphics; YouTube and MP3 product marks are preservation instances, no independent publisher mark observed through ending. No graphic adopted from generated donor outside designated text blocks."
+    },
+    "native_motion": {
+      "decision": "pass",
+      "observation": "209 native source video frames at30fps retained, each neutral frame corresponds to same source time. Current encoded sequence preserves five original scenic shots and cuts, person and product graphics; localized natural texture variations remain minor."
+    },
+    "speech_complete": {
+      "decision": "pass",
+      "observation": "Directly read current English board: Videos are easier to watch, And operations are simpler, Update now. Source itself is English and direct-translation meaning is preserved. Independent mixed Whisper recognizes all four clauses; final Update now completes through final native frame. Actual raw and mixed audio evidence retained. No human or independent mother-tongue listening claimed."
+    },
+    "head_tail_audio": {
+      "decision": "pass",
+      "observation": "Complete7.028s PCM mixed timeline is independently transcribed. Every required clause and full CTA samples are included; actual CTA ends6.94seconds so caption stays on last video frame. No source narration is used as an unlocalized voice input."
+    },
+    "music_effects": {
+      "decision": "pass",
+      "observation": "Actual source audio analysis establishes no background music or separate nonverbal effects in sources1-3. Target mix consists of only the complete target narration; no originally required music/effect omitted."
+    },
+    "caption_sync": {
+      "decision": "pass",
+      "observation": "Directly inspected actual encoded subtitle content and boundary frames. Caption units follow final-mix raw-ASR/PCM mapping; independent complete mixed ASR confirms phrase content. Actual boundaries are within frame/AV timing tolerances; merged ASR sentences are not treated as word-level observations."
+    }
+  },
+  "known_variations": [
+    "Typeface/entrance animation simplified to stable transparent subtitles.",
+    "Small localized natural texture differences within original text blocks."
+  ]
+}

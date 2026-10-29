@@ -4,8 +4,51 @@ The intake/outbox owns operation identity, locks and at-most-once recovery.
 These helpers validate already-unwrapped connector data without mutating it.
 """
 import re
+from datetime import datetime, timezone
 
 from .common import object_hash, require
+
+
+def resolve_assignees(record, receipt, defaults):
+    """Resolve current assignees from actual Fireplay members, without asking for IDs."""
+    policy = defaults.get('designer_selection', {})
+    require(policy.get('automatic_verified_user_ids') is True and policy.get('authority') == 'user'
+            and policy.get('authorization_ref') and policy.get('source_quote'), 'Missing automatic designer resolution authority')
+    directory = receipt.get('member_directory', {})
+    try:
+        observed = datetime.fromisoformat(directory['query_meta']['observed_at'].replace('Z', '+00:00'))
+        age = (datetime.now(timezone.utc) - observed).total_seconds()
+    except (KeyError, TypeError, ValueError):
+        require(False, 'Read the current Fireplay member directory before resolving designers')
+    require(-60 <= age <= 600, 'Refresh the current Fireplay member directory')
+    assignees = record['snapshot']['row'].get('assigneeIds', [])
+    members = directory.get('members', [])
+    resolved = []
+    for identifier in assignees:
+        matches = [m for m in members if m.get('feishuUserId') == identifier]
+        require(len(matches) == 1 and matches[0].get('username'),
+                'Query Fireplay for each unresolved assignee; a partial/empty directory does not mean no designer. Do not ask the user for an ID')
+        resolved.append(matches[0])
+    designers = [m for m in resolved if m['username'].strip() not in policy.get('excluded_names', [])]
+    value = {'authorization_ref': policy['authorization_ref'], 'source_quote': policy['source_quote'],
+             'identity_evidence': {'member_receipt_sha256': object_hash(receipt),
+                                   'observed_at': directory['query_meta']['observed_at'],
+                                   'assignees': [{'id': m['feishuUserId'], 'name': m['username']} for m in resolved]}}
+    if designers:
+        value.update(designer_ids=[m['feishuUserId'] for m in designers],
+                     designer_names=[m['username'] for m in designers], identity_route='verified_user_id',
+                     identity_authorization_ref=policy['authorization_ref'], creation_type='derivative')
+    else:
+        value.update(unassigned=True, creation_type='unspecified')
+    return value
+
+
+def attribution_instruction():
+    return ('设计师由Agent读取当前需求执行人及Fireplay真实成员目录自行确定，排除罗晨钧、邹彬，其余全部填为设计师并标二创。'
+            '用requirement_field_options_query(include_members=true,member_ids=真实assigneeIds)查询并完整翻页；'
+            '空目录或部分目录不表示没有设计师，继续按真实组/当前执行人查询或查看Fireplay原生页面，不要求用户提供DID/用户ID。'
+            '回传spec可附designer_receipt实际成员响应，项目按feishuUserId/username核对后采用用户已授权的真实ID归属路径；'
+            '若已有真实DID映射也可使用命名归属。归属写入必须遵守实际接口的预览/执行及权限合同，读回designerIds和二创状态，不能把预览算成功。')
 
 
 def publication(record, spec, defaults, sharing):
@@ -39,7 +82,12 @@ def publication(record, spec, defaults, sharing):
 
 def attribution(record, spec, defaults):
     """Validate an explicit attribution route and return its import-name suffix."""
-    value = spec.get('attribution') or record.get('decision', {}).get('attribution') or defaults.get('attribution', {})
+    value = (resolve_assignees(record, spec['designer_receipt'], defaults) if 'designer_receipt' in spec else
+             spec.get('attribution') or record.get('decision', {}).get('attribution'))
+    if not value:
+        require(not defaults.get('designer_selection', {}).get('automatic_verified_user_ids'),
+                'Read Fireplay members and supply designer_receipt; do not ask the user for an ID or silently use legacy unassigned attribution')
+        value = defaults.get('attribution', {})
     require(value.get('authorization_ref') and value.get('source_quote'),
             'Specify the human-confirmed designer DID(s), or explicitly choose unassigned attribution')
     dids = value.get('designer_dids')

@@ -1,0 +1,48 @@
+{
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ar",
+    "source_sha256": "357b6f7c84ac723c9e8f85dd071b892bb05bdecc88e43211b2dcb23f8d293198"
+  },
+  "video_sha256": "2b5516f78d4ead2678dc63342389bb35cb708a0b135114b5b4506d9c1ce39815",
+  "review_boundary": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+  "original_case_manifest_sha256": "3ac7bb101b6836b26603afc7b55a13eca8f0f001fe5ea4dbf1b9d928d7bd19d9",
+  "evidence_origins": [
+    {
+      "origin": "evidence/observations/review/2b5516f78d4e/visual-reuse-proof.json",
+      "sha256": "6247e3b3637e9a4e9638adb6555555c10b337ebf017c34a4f8c278cdc9f7e6ee",
+      "evidence_label": "reuse"
+    },
+    {
+      "origin": "evidence/observations/review/2b5516f78d4e/actual-review-observations.json",
+      "sha256": "79ce51b4b78cd9e855ea8293e77caf9700afe2a2901c8dc64270da2d0f875a28",
+      "evidence_label": "review"
+    },
+    {
+      "origin": "evidence/observations/review/2b5516f78d4e/caption-sync.json",
+      "sha256": "3a968a5967e1c9df63bb62fdb2bb54cbd76175f986b045366594bdd1c45c4186",
+      "evidence_label": "caption_sync"
+    },
+    {
+      "origin": "evidence/observations/review/2b5516f78d4e/boundary-start.jpg",
+      "sha256": "b3b3b0e33bb70cf8b97ad35df54e719b877107ff79538d7ff8374876bde7699e",
+      "evidence_label": "final_start"
+    },
+    {
+      "origin": "evidence/observations/review/2b5516f78d4e/audio.wav",
+      "sha256": "84750936002e6f7aa519c00564c08e40bf20ed3dd6bb7347d03b7701052b0415",
+      "evidence_label": "final_audio"
+    }
+  ],
+  "original_candidates": [
+    {
+      "path": "knowledge/candidates/KEY-20261029-005-01-2b5516f78d.json",
+      "sha256": "a7e00a6122435440d2984a408f46cca9fe8c96fda3f72416dffdc608d0b86576"
+    }
+  ],
+  "observation": "粗略分句消音后，原片句间仍有源语残音。仅因本源已确认无音乐/音效，最终使用目标声轨与静音替换整个源音轨；这不授权对有配乐或音效的素材整轨消音。当前与前版的300个编码视频包和 PTS 相同，允许保留原画面观察的来源，但新音轨仍重新做实际 ASR 和边界检查，旧模型报告不复制成新哈希的报告。窄修复范围曾留下英文边缘，扩大本源区域后仍有下巴/手指轻微软化、整短语字幕及未做口型同步等限制。",
+  "limitations": [
+    "Exact source and locale only; no new listening, independent review or video-quality approval.",
+    "Other locale executions are not independent source replications. Unknown charges and original failures remain."
+  ]
+}

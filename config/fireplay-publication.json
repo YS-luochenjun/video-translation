@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "authority": "user",
-  "authorization_ref": "user-fireplay-minor-issues-publication-20261027",
+  "authorization_ref": "user-bounded-best-available-publication-20261028",
   "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
   "source_quote": "对话与视频，不一定要没有瑕疵才进行上传，其实能最终得到成品的，到output中的，已经差不多合格了，就可以开启上传了",
   "severity_quote": "如果效果太差的，还是不能上传，例如问题很多很多的。一般的普通有瑕疵的内容，可以进行上传",
-  "mode": "complete_outputs_with_minor_issues",
+  "mode": "bounded_best_available",
   "major_issues_block": true,
   "preserve_internal_quality": true,
   "completion": {
@@ -29,7 +29,7 @@
       "close_only_after_all_materials_bound": true,
       "authority": "user",
       "authorization_ref": "user-fireplay-complete-delivery-20261028",
-      "policy": "knowledge/rules/fireplay-complete-delivery-v2.md",
+      "policy": "knowledge/rules/fireplay-complete-delivery-v3.md",
       "source_quote": "目前增加知识，完成视频翻译后，一定要上传所有内容，不要只上传一半内容，请你务必上传时，要上传所有内容。"
     },
     "upload_timeout_retry": {
@@ -40,5 +40,17 @@
       "preserve_unknown_original": true,
       "scope": "Media file uploads only, before any material import; known resource/material IDs are reused"
     }
+  },
+  "previous_authorization_ref": "user-fireplay-minor-issues-publication-20261027",
+  "bounded_best_available": {
+    "authority": "user",
+    "authorization_ref": "user-bounded-best-available-publication-20261028",
+    "source_quote": "如果在有限的条件下，已经做到最好了，可以进行提交。也就是，在有限的条件下，有普通不合格是可以提交的。如果是画面大面积撕裂等大问题，允许不提交。",
+    "require_complete_translation": true,
+    "require_required_audio": true,
+    "require_watchable": true,
+    "keep_internal_quality": true,
+    "defect_count_alone_blocks": false,
+    "shared_base_does_not_prove_locale_acceptance": true
   }
 }

@@ -1,0 +1,8 @@
+{
+  "method": "Actual encoded video packet bytes and PTS compared by FFprobe; new file changes audio only. Current caption and full-frame captures independently match prior observed video frames.",
+  "current_video_sha256": "2b5516f78d4ead2678dc63342389bb35cb708a0b135114b5b4506d9c1ce39815",
+  "previous_video_sha256": "ebdd47e3d93c4d2f2b5ffbbeaaf65d5ce2f3ba4a51198a39ee1932fe395cc178",
+  "matching_native_video_packets": 300,
+  "pts_and_sha256_equal": true,
+  "audio_review": "New full-target-only mixture transcribed with Whisper; exact same hash-bound isolated target takes and timing retained. Source trace removed because source has no music/effects; prior model voice-semantic evidence remains historical, not copied as a new model response."
+}

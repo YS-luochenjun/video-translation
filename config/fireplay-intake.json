@@ -2,16 +2,21 @@
   "schema_version": 1,
   "designer_selection": {
     "mode": "requirement_assignees_except_named_operators",
-    "excluded_names": ["罗晨钧", "邹彬"],
+    "excluded_names": [
+      "罗晨钧",
+      "邹彬"
+    ],
     "multiple_designers": "include_all_resolved_remaining_assignees",
     "creation_type": "derivative",
     "tag": "二创",
     "no_remaining_assignees": "unassigned",
     "identity_resolution": "Current requirement assignees and live member/designer DID mapping; never infer from login or invent a DID",
     "authority": "user",
-    "authorization_ref": "user-fireplay-assignee-designer-20261027",
+    "authorization_ref": "user-agent-resolves-fireplay-designers-20261028",
     "rule": "提交素材时，执行人排除罗晨钧、邹彬，其余人员填为设计师，创作类型为二创，并追加二创tag。",
-    "source_quote": "目前增加一个提交上传的内容：如果你看到，在“执行人”一栏，发现了除了“罗晨钧 邹彬”之外的其他人，说明他就是设计师。需要在提交时，把设计师加入设计师一项中：“上传素材的设计师就用这个设计师名并打上二创的标记”，tag里面加上“二创”标记。"
+    "source_quote": "目前增加一个提交上传的内容：如果你看到，在“执行人”一栏，发现了除了“罗晨钧 邹彬”之外的其他人，说明他就是设计师。需要在提交时，把设计师加入设计师一项中：“上传素材的设计师就用这个设计师名并打上二创的标记”，tag里面加上“二创”标记。",
+    "automatic_verified_user_ids": true,
+    "autonomous_resolution_quote": "查验设计师后，会让我提供准确的类似ID，我一般也不知道，需要你去fireplay中自己看，并相信自己的判断。"
   },
   "attribution": {
     "unassigned": true,
@@ -41,7 +46,12 @@
     "persistence_quote": "把这些内容，包含同意kie等，都放到项目中。这个去fireplay中拿需求的流程也做到项目中",
     "scope": "用户明确交办的Fireplay翻译需求；包含必要原片、音频、参考帧及生成媒体的KIE处理和审核",
     "budget_scope": "one_requirement",
-    "limits": "每个需求沿用自己的真实目标语言、账本、模型限制和有限返工；不因拉取、建聊、续作或重试增加额度。未交办的列表项不启动付费制作。"
+    "limits": "每个需求沿用自己的真实目标语言、账本、模型限制和有限返工；不因拉取、建聊、续作或重试增加额度。未交办的列表项不启动付费制作。",
+    "project_consent_default": "approved",
+    "repeat_project_consent_question": false,
+    "current_authorization_ref": "user-kie-audio-video-standing-consent-20261028",
+    "current_source_quote": "在对话开始时，会询问我是否使用KIE的音频或视频工具，我需要你确定，点击需要，点击同意使用。",
+    "host_approval_policy_applies": true
   },
   "submission_instruction": "入到素材库，共享到需求组开启YouTube 视频自动上传，并打上语言tag和产品tag(需求描述或者需求标题中一般有，没有就自己提炼，一到两个单词总结)，最后再绑定到当前需求。素材名称用“需求编号+语言”",
   "publication": {

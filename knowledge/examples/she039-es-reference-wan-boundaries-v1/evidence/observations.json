@@ -1,0 +1,68 @@
+{
+  "source_sha256": "7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24",
+  "video_sha256": "4ca56a9726001675bcbf56db88ecb7e5a4c5fe3761274a8384bbe6f4137e742b",
+  "plan_id": "a70a04e8eb3a05ec",
+  "reviewer": "Codex same-agent actual observation",
+  "quality_scope": "fast-basic, pass; visual finish 3/5, minor issues remain; no independent/user/company acceptance",
+  "reference_image_sha256": [
+    "4e698c0aa8be1538108adc8430091c5a9515965a7f024ba6c4b99e91b3c839ae",
+    "1efac3707d981a84723196f8c89ae6ca1318d41c6ae1ddb62ba1b3eb645fcb51"
+  ],
+  "wan": [
+    {
+      "source_interval": [
+        0,
+        3
+      ],
+      "taskId": "fae4d3c9482f51f0214643c0c0d64c02",
+      "actual_credits": 48,
+      "actual_frames": 90
+    },
+    {
+      "source_interval": [
+        7,
+        10
+      ],
+      "taskId": "c6b4381dec393db3768450c23196c2f4",
+      "actual_credits": 48,
+      "actual_frames": 90
+    }
+  ],
+  "transmission_check": "Saved actual provider recordInfo has nonempty input.video_url and input.reference_image for both jobs; task creation alone is not this proof.",
+  "scene_frames": {
+    "hud_1": [
+      0,
+      161
+    ],
+    "banner": [
+      161,
+      209
+    ],
+    "hud_2": [
+      209,
+      501
+    ],
+    "endcard": [
+      501,
+      545
+    ],
+    "fps": 30
+  },
+  "audio": {
+    "duration": 18.227664,
+    "wav_sha256": "2f9905dabaa08582ff91b4b044367db1bb7e779a80c44d014e31c0215567c450",
+    "all_six_final_asr_and_model_comparison_agree": true,
+    "max_caption_start_difference_sec": 0.1267
+  },
+  "remaining_minor": [
+    "Small contour/apparent-scale/control/emoji differences in Wan segments",
+    "Local middle bridge wood texture softness",
+    "Darker HUD and endcard backing style differences"
+  ],
+  "limits": [
+    "Single original and exact es only",
+    "Reference images, prompts, segment bounds and whole-clip adoption changed together; no controlled A/B attribution",
+    "Still frames and bounded contact sheets support observations, not exhaustive independent temporal verification",
+    "Whole source/final videos remain delivery/recovery assets; public case stores required observed frames/audio and records only"
+  ]
+}

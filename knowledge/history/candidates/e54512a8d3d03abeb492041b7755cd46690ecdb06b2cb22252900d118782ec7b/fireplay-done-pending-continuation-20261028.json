@@ -1,0 +1,27 @@
+{
+  "id": "fireplay-done-pending-continuation-20261028",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "hypothesis": "A requirement changing to done during an authorized pending-locale production must not automatically erase the existing continuation authority. The intake now accepts only an attributed explicit continue_pending_delivery decision tied to the unchanged content version, existing budget and production members, pending return locales and current bind permission. Default done discovery still blocks automatic reproduction.",
+  "outcome": "offline regression and actual scoped continuation succeeded",
+  "evidence": {
+    "targeted_tests": 55,
+    "full_check_tests": 707,
+    "full_check_failures": 0,
+    "full_check_errors": 0,
+    "full_check_skips": 1,
+    "contract": "agent/workflows/fireplay-intake.md",
+    "implementation": "src/video_localizer/fireplay.py",
+    "tests": "tests/test_fireplay.py",
+    "check_log": "work/state/SHE-20261028-039-continuation-check.log"
+  },
+  "limitations": [
+    "Implementation/continuation observation only; no broader permission to reproduce done requests",
+    "External status and old binding history must remain unchanged; platform permissions are independently rechecked",
+    "No media/model chain changes; existing tests include synthetic integration"
+  ],
+  "company_preference": false,
+  "next_action": "During the separate knowledge review, assess whether this narrow implemented contract needs a general active method; retain the test/authorization boundaries and do not broaden done-request automation."
+}

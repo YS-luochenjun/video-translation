@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-evidence",
+  "identity": "0c47b9ddb8cd2b79ac4e69a48b696cff09c116f37eb9c5e7a75627b7e77289a2",
+  "created_at": "2026-10-28T11:21:46+00:00",
+  "files": [
+    {
+      "path": "evidence/review/history/fast-review-v5.json",
+      "sha256": "578e17d0c58d4bccfd764ada1dc328fc749bb05d71eef94c493662f6b8ce04e1",
+      "bytes": 11228
+    },
+    {
+      "path": "evidence/review/wan-reference-v6/old-v5-2.4.jpg",
+      "sha256": "18b26346db547dec5228f72f68708a298c2c61bc3b72bd82805de26bf36a7d71",
+      "bytes": 79743
+    },
+    {
+      "path": "evidence/review/wan-reference-v6/old-v5-9.4.jpg",
+      "sha256": "cb099b3c2d6545d96d989b8076aaf24ba7071f6d3fd527e6444c4f449ea23528",
+      "bytes": 69929
+    },
+    {
+      "path": "evidence/review/wan-reference-v6/old-v5-identity.json",
+      "sha256": "f3a688615959fcb71b0c5846c83df7466a13b0a6588777872a2f8f79d1d996f8",
+      "bytes": 644
+    },
+    {
+      "path": "evidence/review/wan-retry-v1/pair-source-1.jpg",
+      "sha256": "a1f31e958304ef19aef2584c0e7476431c5393ea58b7f78f775337e27ff91fd9",
+      "bytes": 167261
+    },
+    {
+      "path": "evidence/review/wan-retry-v1/pair-source-4.jpg",
+      "sha256": "130c00d07545b0dae38a57e7044cfbacca9538029e26fb2731f33b2a7d1ebcba",
+      "bytes": 145069
+    }
+  ],
+  "metadata": {
+    "entry_id": "she039-es-reference-wan-boundaries-v1",
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24",
+      "target_language": "es"
+    },
+    "case_manifest_sha256": "2e21f4e7449b1d76be3362ad4f2ef5e1be584896cc3865b5db1770451566798d",
+    "source_sha256": "7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24",
+    "video_sha256": "4ca56a9726001675bcbf56db88ecb7e5a4c5fe3761274a8384bbe6f4137e742b",
+    "references": {
+      "old_v5_identity": "evidence/review/wan-reference-v6/old-v5-identity.json",
+      "old_v5_opening": "evidence/review/wan-reference-v6/old-v5-2.4.jpg",
+      "old_v5_closeup": "evidence/review/wan-reference-v6/old-v5-9.4.jpg",
+      "old_v5_review": "evidence/review/history/fast-review-v5.json",
+      "source_opening": "evidence/review/wan-retry-v1/pair-source-1.jpg",
+      "source_closeup": "evidence/review/wan-retry-v1/pair-source-4.jpg"
+    },
+    "reviewed_by": "Codex same-agent historical failure evidence review; old failures unchanged",
+    "recorded_at": "2026-10-28T11:21:46+00:00",
+    "proof_boundary": "Preserved historical evidence, not a new video review, independent acceptance or wider scope."
+  }
+}

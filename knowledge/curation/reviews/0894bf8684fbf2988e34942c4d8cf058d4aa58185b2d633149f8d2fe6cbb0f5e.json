@@ -1,0 +1,30 @@
+{
+  "source": {
+    "path": "knowledge/candidates/KEY-20261029-005-06-83a01e5591.json",
+    "sha256": "a870f777cfdd10d37a80f2ab3063739bb5608c9b651b3fa66743197f8fea6ca4"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent scoped production review; no independent listener or user acceptance",
+  "origin": "Actual KEY-20261029-005 completed14-locale production, current video-bound review and Fireplay14/14 binding receipts.",
+  "resolution": "pending",
+  "reason": "Same-source observations substantiate transparent phrase captions and native timing, bounded Wan local repair, target-only audio after detected source-gap leakage, and preservation of vendor null/contradictory audio reports. Fourteen languages share one source and are not independent cross-source replications. Original candidate and vendor failures remain unchanged.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "All actual per-locale quality, output, model and platform receipts. No policy, quality standard or company preference changed.",
+    "New source-gap mute lesson applies only when source music/effects absence is actually verified."
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "Use the recorded same-source observation in state/fireplay/KEY-20261029-005/closure-lessons.json and independent feedback/case bundle; before promotion test a different source with real music/effects and independently verify vendor audio timing/null behavior. Do not replay ambiguous paid requests or count languages as independent sources.",
+  "retrieval_features": [
+    "onscreen_text",
+    "artistic_typography",
+    "foreground_occlusion"
+  ],
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-10-29T04:59:32+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

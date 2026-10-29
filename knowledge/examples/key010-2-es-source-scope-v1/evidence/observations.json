@@ -1,0 +1,43 @@
+{
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "1db4961f4f34013b9c16d556a85f0635fd05e34188f17774acf82b8453a7ca5e",
+    "target_language": "es"
+  },
+  "video_sha256": "f68c0fc0f76eb489f1d7b95c71e4171820dfcf5f7a360d1b3ddfaa61e18fba30",
+  "review_boundary": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+  "original_case_manifest_sha256": "ec93a96b843c32576279d49bcb3b931d6d4589a391ddf253273184728faf83a9",
+  "evidence_origins": [
+    {
+      "origin": "evidence/result/review/fast-review.json",
+      "sha256": "01360e111b258cf9a116f9da3f8439cbc31044a49bbcfc9b408b784b8c4de335",
+      "evidence_label": "review"
+    },
+    {
+      "origin": "evidence/observations/review/f68c0fc0f76e/current-caption-board.jpg",
+      "sha256": "5d2b6e7fac655ff9745879cd31f86c1159b3db7135df0887671b46d1d5cfdf95",
+      "evidence_label": "captions"
+    },
+    {
+      "origin": "evidence/observations/review/f68c0fc0f76e/caption-sync.json",
+      "sha256": "51c1a37ca53f6ebb55bbba8a3bd042a25661c9bf8cf97c0ffeeafd0fbf6fc166",
+      "evidence_label": "caption_sync"
+    },
+    {
+      "origin": "evidence/observations/review/f68c0fc0f76e/boundary-end.jpg",
+      "sha256": "17bb8774a7c755597ab043b3dc2159855c5afb7257947783c8278ecb856b0c54",
+      "evidence_label": "final_end"
+    },
+    {
+      "origin": "evidence/observations/review/f68c0fc0f76e/audio.wav",
+      "sha256": "61285aeb9c3a487c5c7a383c1059c661fe4640d3e549c9eb8856237a51582db7",
+      "evidence_label": "final_audio"
+    }
+  ],
+  "original_candidates": [],
+  "observation": "第二原片保留夜间草地、靴子、云与原图标，与第一原片的场景不可混同。西语标题、三段口播字幕和两行 CTA 按本源209帧及完整7.028秒混音定位；最后 CTA 保留完整词句到末帧。实际 ASR 中 videos/vídeos 的拼写分歧作为正字差异保留，不静默改写原识别。淡出残字检查、透明字层与真实源时轴的程序可参考现有方法，本源坐标和本语种定稿、声音/画面验收分别建立。",
+  "limitations": [
+    "Exact source and locale only; no new listening, independent review or video-quality approval.",
+    "Other locale executions are not independent source replications. Unknown charges and original failures remain."
+  ]
+}

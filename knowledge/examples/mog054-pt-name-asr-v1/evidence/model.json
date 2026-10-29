@@ -1,0 +1,71 @@
+{
+  "source_sha256": "8de144038bf135fcf19320c532093421d0c7eeaed10eaa6219ca52c4ef6d543c",
+  "video_sha256": "8dece65d3bb53a5b45a8eba2cff5a316bae8f4a88128c7463e5ab16311a909aa",
+  "audio_sha256": "cdba1a9a88354abe0c7db99625e7dabcff162b60018784087ad29a72db5dd687",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "pt",
+    "speech_segments": [
+      {
+        "start": 0.0,
+        "end": 2.37,
+        "source_text": "Como seria seu nome em uma bandeira?"
+      },
+      {
+        "start": 4.14,
+        "end": 7.15,
+        "source_text": "Vou digitar meu nome aqui. Meu nome é Brandon."
+      },
+      {
+        "start": 7.42,
+        "end": 9.21,
+        "source_text": "Bom, nada mal para começar."
+      },
+      {
+        "start": 9.47,
+        "end": 14.85,
+        "source_text": "A, N, D, O, O, N."
+      },
+      {
+        "start": 15.65,
+        "end": 17.06,
+        "source_text": "Quer saber?"
+      },
+      {
+        "start": 18.06,
+        "end": 20.08,
+        "source_text": "Na verdade, eu até gostei."
+      },
+      {
+        "start": 20.44,
+        "end": 23.95,
+        "source_text": "É meio esquisita, mas não é a pior coisa do mundo."
+      },
+      {
+        "start": 24.89,
+        "end": 26.39,
+        "source_text": "Experimente agora!"
+      }
+    ],
+    "background_music": {
+      "same_track": true,
+      "reason": "The subtle background atmosphere and track match Audio A."
+    },
+    "sound_effects": {
+      "preserved": true,
+      "reason": "All original sound effects, including typing sounds, transition swooshes, and the ending chime, are accurately retained at the same timestamps."
+    },
+    "dialogue_translation": {
+      "complete": true,
+      "reason": "All spoken lines, monologues, spelling out of letters, and call to action have been faithfully translated into Portuguese without omission."
+    },
+    "foreign_speech_remaining": [],
+    "sync": {
+      "acceptable": true,
+      "reason": "The timing and pacing of the localized Portuguese narration match the original video and audio timeline closely."
+    },
+    "uncertain_intervals": [],
+    "summary": "The candidate audio is a complete, well-synchronized, and accurate Portuguese localization of Audio A, with sound effects preserved."
+  },
+  "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"
+}

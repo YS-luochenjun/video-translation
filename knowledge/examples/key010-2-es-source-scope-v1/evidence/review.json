@@ -1,0 +1,43 @@
+{
+  "video_sha256": "f68c0fc0f76eb489f1d7b95c71e4171820dfcf5f7a360d1b3ddfaa61e18fba30",
+  "reviewer": "Codex same-agent self-review",
+  "method": "Actual native encoded lettering/boundary/timeline image inspection plus independent Whisper evidence and complete audio decode. Same-agent review, no user or independent acceptance.",
+  "checks": {
+    "translation": {
+      "decision": "pass",
+      "observation": "Directly read Spanish headline Actualiza a la última versión and captions Es más fácil ver vídeos; Y usarlo es más sencillo; Consigue la última versión ahora. All accents and two-line CTA readable within frame. Raw/mixed ASR recognizes all complete propositions and revised get-latest CTA; videos/vídeos ASR spelling is logged as orthographic variation. Separately inspected this locale actual full-composition timeline and pre/middle caption frames: night meadow, moving clouds, grass and boots and original red play/MP3 icons/pointer retained; no remaining Chinese seen including former fade intervals."
+    },
+    "source_text_removed": {
+      "decision": "pass",
+      "observation": "Actual current native encoded frames and fade/boundary sequence show required original glyphs removed. Earlier source1 v1 master/video with gray fade remnants is held; current neutral-v2 includes full fade envelopes. night meadow, boots, clouds and original icons outside text regions retained."
+    },
+    "protected_graphics": {
+      "decision": "pass",
+      "observation": "Current actual encoded sequence retains night meadow, boots, clouds and original icons; YouTube and MP3 product marks are preservation instances, no independent publisher mark observed through ending. No graphic adopted from generated donor outside designated text blocks."
+    },
+    "native_motion": {
+      "decision": "pass",
+      "observation": "209 native source video frames at30fps retained, each neutral frame corresponds to same source time. Current encoded sequence preserves night meadow, boots, clouds and original icons; localized natural texture variations remain minor."
+    },
+    "speech_complete": {
+      "decision": "pass",
+      "observation": "Directly read Spanish headline Actualiza a la última versión and captions Es más fácil ver vídeos; Y usarlo es más sencillo; Consigue la última versión ahora. All accents and two-line CTA readable within frame. Raw/mixed ASR recognizes all complete propositions and revised get-latest CTA; videos/vídeos ASR spelling is logged as orthographic variation. Separately inspected this locale actual full-composition timeline and pre/middle caption frames: night meadow, moving clouds, grass and boots and original red play/MP3 icons/pointer retained; no remaining Chinese seen including former fade intervals. Actual raw and mixed audio evidence retained. No human or independent mother-tongue listening claimed."
+    },
+    "head_tail_audio": {
+      "decision": "pass",
+      "observation": "Complete7.028s PCM mixed timeline is independently transcribed. Every required clause and full CTA samples are included; actual CTA ends6.94seconds so caption stays on last video frame. No source narration is used as an unlocalized voice input."
+    },
+    "music_effects": {
+      "decision": "pass",
+      "observation": "Actual source audio analysis establishes no background music or separate nonverbal effects in sources1-3. Target mix consists of only the complete target narration; no originally required music/effect omitted."
+    },
+    "caption_sync": {
+      "decision": "pass",
+      "observation": "Directly inspected actual encoded subtitle content and boundary frames. Caption units follow final-mix raw-ASR/PCM mapping; independent complete mixed ASR confirms phrase content. Actual boundaries are within frame/AV timing tolerances; merged ASR sentences are not treated as word-level observations."
+    }
+  },
+  "known_variations": [
+    "Typeface/entrance animation simplified to stable transparent subtitles.",
+    "Small localized natural texture differences within original text blocks."
+  ]
+}

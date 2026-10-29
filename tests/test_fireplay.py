@@ -260,6 +260,35 @@ class FireplayTests(unittest.TestCase):
         self.snap['summary']['items'][0]['status'] = 'done'
         self.assertIn('already done', str(self.register()['blockers']))
 
+    def test_done_explicit_continuation_only_finishes_existing_pending_delivery(self):
+        self.returned_setup()
+        record = self.record()
+        record['budget'] = 'existing-funded-pool'
+        record['videos'][0]['members'] = ['existing-run']
+        self.save(record)
+        box_path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        box = read_json(box_path)
+        box['pending_locales'] = ['ko']
+        write_json(box_path, box)
+        self.snap['summary']['items'][0]['status'] = 'done'
+        decision = {'authorization_ref': 'human:finish-pending', 'source_quote': 'Continue and finish',
+                    'continue_pending_delivery': True, 'continuation_content_version': record['content_version']}
+        self.assertFalse(self.register(decision)['blockers'])
+        self.assertEqual(self.record()['budget'], 'existing-funded-pool')
+        self.assertEqual(read_json(box_path), box)
+        box['pending_locales'] = []
+        write_json(box_path, box)
+        with self.assertRaisesRegex(WorkflowError, 'Continuation needs'):
+            self.register(decision)
+
+    def test_done_continuation_cannot_start_new_production(self):
+        record = self.register()
+        self.snap['summary']['items'][0]['status'] = 'done'
+        with self.assertRaisesRegex(WorkflowError, 'Continuation needs'):
+            self.register({'authorization_ref': 'human:finish', 'source_quote': 'Continue',
+                           'continue_pending_delivery': True,
+                           'continuation_content_version': record['content_version']})
+
     def test_content_change_does_not_overwrite_existing_request(self):
         before = self.register()['content_version']
         self.snap['brief']['items'][0]['description'] += ' new copy'
@@ -631,9 +660,12 @@ class FireplayTests(unittest.TestCase):
     def test_designer_attribution_cannot_be_guessed_from_login(self):
         spec = self.returned_setup()
         spec.pop('attribution')
-        # Current user-authorized default deliberately leaves attribution blank.
-        self.assertTrue(fireplay.prepare_return(CODE, spec, self.root)['attribution']['unassigned'])
+        # The current policy requires Agent-resolved platform identity rather
+        # than silently applying the historical unassigned default.
+        with self.assertRaisesRegex(WorkflowError, 'Read Fireplay members'):
+            fireplay.prepare_return(CODE, spec, self.root)
         defaults = read_json(self.root / 'config/fireplay-intake.json')
+        defaults['designer_selection']['automatic_verified_user_ids'] = False
         defaults.pop('attribution')
         write_json(self.root / 'config/fireplay-intake.json', defaults)
         with self.assertRaisesRegex(WorkflowError, 'human-confirmed designer'):

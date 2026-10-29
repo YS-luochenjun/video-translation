@@ -1,0 +1,13 @@
+{
+  "video_sha256": "97f8834093a904c9ccc570f1e682c86631bf3d6b62af02a946ec003df3c1a95c",
+  "reviewer": "Codex same-agent",
+  "actual_observations": {
+    "captions": "Read each of four actual encoded target captions; all text visible, correct glyphs/diacritics, no missing line or offscreen glyph. Checked native before/on/last/off crops; off sample can still contain last frame due centisecond ASS rounding; actual edge scan records real exit.",
+    "cta": "Read actual final left-swipe CTA and original turquoise chevrons; location and contrast clear.",
+    "motion": "Actual browser1x playback end and segment-boundary observations plus same-source reviewed285-frame neutral. Character head/eyes/hair/snow/chevrons retain motion. Slight local hair/knit softness and stable whole-phrase subtitle style remain minor.",
+    "specific": "Rejected one-frame double-caption overlap, changed touching phrase switch to3.20s; new actual crops show one caption only. Japanese lines now break at phrase boundaries."
+  },
+  "limitations": [
+    "Same-agent visual review, no native-speaker/human or company acceptance. No exact lip-sync claim."
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "key010-2-es-source-scope-v1",
+  "created_at": "2026-10-29T06:29:18+00:00",
+  "files": [
+    {
+      "path": "evidence/caption_sync.json",
+      "sha256": "cd681ff126756b6b00644e260231e5ba25af30ab66cbafa3d6b0b61fb4b789a0",
+      "bytes": 504
+    },
+    {
+      "path": "evidence/captions.jpg",
+      "sha256": "5d2b6e7fac655ff9745879cd31f86c1159b3db7135df0887671b46d1d5cfdf95",
+      "bytes": 227420
+    },
+    {
+      "path": "evidence/final_audio.wav",
+      "sha256": "61285aeb9c3a487c5c7a383c1059c661fe4640d3e549c9eb8856237a51582db7",
+      "bytes": 224974
+    },
+    {
+      "path": "evidence/final_end.jpg",
+      "sha256": "17bb8774a7c755597ab043b3dc2159855c5afb7257947783c8278ecb856b0c54",
+      "bytes": 119957
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "370e75167b5bdf27ade2453275bf28058e22158d96842b03f99f1b2178956bff",
+      "bytes": 2341
+    },
+    {
+      "path": "evidence/review.json",
+      "sha256": "54732014614aa5c66829a91f201e6c92d6e4e884e41725b3215d4f15b467374d",
+      "bytes": 4072
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "1db4961f4f34013b9c16d556a85f0635fd05e34188f17774acf82b8453a7ca5e",
+      "target_language": "es"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# KEY010第二原片西语：同编号不同源与时轴\n\n范围：源 SHA256 1db4961f4f34013b9c16d556a85f0635fd05e34188f17774acf82b8453a7ca5e；目标语 es；成片 SHA256 f68c0fc0f76eb489f1d7b95c71e4171820dfcf5f7a360d1b3ddfaa61e18fba30。\n\n第二原片保留夜间草地、靴子、云与原图标，与第一原片的场景不可混同。西语标题、三段口播字幕和两行 CTA 按本源209帧及完整7.028秒混音定位；最后 CTA 保留完整词句到末帧。实际 ASR 中 videos/vídeos 的拼写分歧作为正字差异保留，不静默改写原识别。淡出残字检查、透明字层与真实源时轴的程序可参考现有方法，本源坐标和本语种定稿、声音/画面验收分别建立。\n\n本次仅整理原制作的同一执行者观察、模型结果及哈希证据，没有重新完成正常播放、人类听审或公司验收。各语种分别保留原评审；同源多语不增加独立源数量。具体参数仅供追溯，不能直接套用其它素材；未知费用、旧失败和质量异议继续保留。\n\n依据：evidence:review、evidence:captions、evidence:caption_sync、evidence:final_end、evidence:final_audio、evidence:observation。manifest 中的文件构成独立证据，旧路径仅为来源标签。\n",
+    "source_sha256": "1db4961f4f34013b9c16d556a85f0635fd05e34188f17774acf82b8453a7ca5e",
+    "video_sha256": "f68c0fc0f76eb489f1d7b95c71e4171820dfcf5f7a360d1b3ddfaa61e18fba30",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/review.json",
+      "captions": "evidence/captions.jpg",
+      "caption_sync": "evidence/caption_sync.json",
+      "final_end": "evidence/final_end.jpg",
+      "final_audio": "evidence/final_audio.wav",
+      "observation": "evidence/observations.json"
+    }
+  }
+}

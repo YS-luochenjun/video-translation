@@ -1,0 +1,27 @@
+{
+  "id": "KEY-20261029-008-05-closure-7cb0a2ca63",
+  "status": "candidate",
+  "created_at": "2026-10-29T05:07:05+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "6b7b6750d9460e15a173e84102ec259a452de301d7fa351b44b5a6ca1c54f9cc",
+    "target_language": "it"
+  },
+  "outcome": "revise",
+  "hypothesis": "For this9.541s moving-character source, actual continuous Wan repair plus source-time local masking supported complete target text/voice. Thin source CTA entry and one-frame Japanese double-caption were caught in real native evidence and corrected; final stable phrase styling and local texture softness remain minor. Full locale-specific ASR/frame timing reviews matter. Model absence/null or unavailable-acoustic reports are not independent listening proof; preserve unknown fees and limitations. Exact12/12material readback closes the fixed Fireplay submission; no YouTube monitoring.",
+  "evidence": {
+    "run": "KEY-20261029-008-05",
+    "video_sha256": "7cb0a2ca6304a738bc676b7ba510e4360d8cb73b0eb503f5f670848f5007e529",
+    "closure_notes_sha256": "bbc7b0d204a40b79ac623ec3ef758b50605e973a570d240c10bba474d16c6e98"
+  },
+  "limitations": [
+    "One exact source only; these12language executions are not12independent sources.",
+    "No native-speaker/human/company acceptance. Japanese external review unknown and Dutch external acoustic-access limitation retained.",
+    "No automatic policy promotion or quality-decision changes."
+  ],
+  "company_preference": false,
+  "promotion": "Exact-source observation only; requires scoped evidence review, no automatic activation",
+  "reflection_state": "observed_candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

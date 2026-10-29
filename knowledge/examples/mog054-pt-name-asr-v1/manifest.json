@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog054-pt-name-asr-v1",
+  "created_at": "2026-10-29T06:29:18+00:00",
+  "files": [
+    {
+      "path": "evidence/boundaries.jpg",
+      "sha256": "9e532f0defc4b8e65736ff814ad9878bad65b9ade0286bda1881cc054c187949",
+      "bytes": 354566
+    },
+    {
+      "path": "evidence/caption_sync.json",
+      "sha256": "ac3d107304c73d29721963ec798f6c84e65b807ebc94eea61d8b948082b6e6c8",
+      "bytes": 583
+    },
+    {
+      "path": "evidence/final_audio.wav",
+      "sha256": "ebac5e512238c9fc360fda61b2c363bcd0170a2d8eb37e3230f31b358eb2ab27",
+      "bytes": 861310
+    },
+    {
+      "path": "evidence/model.json",
+      "sha256": "1c80f03b3ad249d4be468f78756851a76a7a81749693ac6e6163d64432011437",
+      "bytes": 2411
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "e8e3f0b419c93138441e1adde1933fa3634343737a1a45d3e40c3c2ef3995bff",
+      "bytes": 2427
+    },
+    {
+      "path": "evidence/review.json",
+      "sha256": "1161c13256ffae06b809fa3ce58d43065a5a517fef1a297c19177efaa290f877",
+      "bytes": 2765
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "8de144038bf135fcf19320c532093421d0c7eeaed10eaa6219ca52c4ef6d543c",
+      "target_language": "pt"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG054葡语：专名识别分歧与独立CTA\n\n范围：源 SHA256 8de144038bf135fcf19320c532093421d0c7eeaed10eaa6219ca52c4ef6d543c；目标语 pt；成片 SHA256 8dece65d3bb53a5b45a8eba2cff5a316bae8f4a88128c7463e5ab16311a909aa。\n\nWhisper 将 Brandon 识别成 Brenda，原制作通过实际最终音轨的聚焦语义证据及拼字上下文核对，没有凭预期稿替换识别结果。源分析认为无音乐而候选模型描述细微音乐，分类分歧原样保留；打字/机械音效由源时间轴与伴奏链保留，不声称新增音乐。六段口播字幕按本语种实际配音边界，标题和 CTA 作为独立场景文案。仅采用同源对应的局部 Wan 帧，静态 CTA 退化保留原箭头动画；局部纹理差异、近似分离和无独立人类听审均保留。\n\n本次仅整理原制作的同一执行者观察、模型结果及哈希证据，没有重新完成正常播放、人类听审或公司验收。各语种分别保留原评审；同源多语不增加独立源数量。具体参数仅供追溯，不能直接套用其它素材；未知费用、旧失败和质量异议继续保留。\n\n依据：evidence:review、evidence:model、evidence:caption_sync、evidence:boundaries、evidence:final_audio、evidence:observation。manifest 中的文件构成独立证据，旧路径仅为来源标签。\n",
+    "source_sha256": "8de144038bf135fcf19320c532093421d0c7eeaed10eaa6219ca52c4ef6d543c",
+    "video_sha256": "8dece65d3bb53a5b45a8eba2cff5a316bae8f4a88128c7463e5ab16311a909aa",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/review.json",
+      "model": "evidence/model.json",
+      "caption_sync": "evidence/caption_sync.json",
+      "boundaries": "evidence/boundaries.jpg",
+      "final_audio": "evidence/final_audio.wav",
+      "observation": "evidence/observations.json"
+    }
+  }
+}

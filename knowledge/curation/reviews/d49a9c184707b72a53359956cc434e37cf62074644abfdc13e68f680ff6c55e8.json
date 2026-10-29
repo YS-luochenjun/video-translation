@@ -1,0 +1,53 @@
+{
+  "source": {
+    "path": "knowledge/candidates/KEY-20261029-008-06-closure-97f8834093.json",
+    "sha256": "4ccfeb6736080226da0d67cab9a00c26fd28cc34a36842562f4118bd735cab83"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent source/evidence curation; not independent audiovisual or native-speaker acceptance",
+  "origin": "User requested project knowledge consolidation and publication; source observations and verified independent case bundles reviewed, 2026-10-28.",
+  "targets": [
+    {
+      "id": "key008-ja-caption-switch-v1",
+      "path": "knowledge/cases/key008-ja-caption-switch-v1.md",
+      "sha256": "935686c4d78b980d347b7f99a692ad962e7fb57381b5052dff301001ce1c96c6",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "6b7b6750d9460e15a173e84102ec259a452de301d7fa351b44b5a6ca1c54f9cc",
+        "target_language": "ja"
+      },
+      "snapshot": "# KEY008日语：一帧双字幕与源时轴保护\n\n范围：源 SHA256 6b7b6750d9460e15a173e84102ec259a452de301d7fa351b44b5a6ca1c54f9cc；目标语 ja；成片 SHA256 97f8834093a904c9ccc570f1e682c86631bf3d6b62af02a946ec003df3c1a95c。\n\n9.541秒源片中，原始 CTA 的细入场与日语相邻字幕的一帧重叠在编码证据中被发现。字幕切换调整到本版3.20秒，并按短语重排。全285帧的字形像素扫描用于定位存在区间，仍需实际边界图确认文字身份；扫描阈值不是跨素材通用值。Wan 连续结果仅按源时轴局部采用，保护原青色箭头及人物动作。仍保留局部头发/针织纹理柔化、整短语样式及日语外部音频审核未知，不把12语种提交完成当成独立听审。\n\n本次仅整理原制作的同一执行者观察、模型结果及哈希证据，没有重新完成正常播放、人类听审或公司验收。各语种分别保留原评审；同源多语不增加独立源数量。具体参数仅供追溯，不能直接套用其它素材；未知费用、旧失败和质量异议继续保留。\n\n依据：evidence:review、evidence:pixel_intervals、evidence:caption_sync、evidence:boundaries、evidence:final_audio、evidence:observation。manifest 中的文件构成独立证据，旧路径仅为来源标签。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Only the explicitly covered procedure or matching exact-source/locale observation is associated with these targets. Original hypothesis and every limitation remain historical; no global success claim."
+  ],
+  "retained_parts": [
+    "Original scope, outcome, limitations, media/quality hashes, failure observations and unknown charges remain unchanged. No video acceptance, model permission or company-preference expansion.",
+    {
+      "hypothesis": "For this9.541s moving-character source, actual continuous Wan repair plus source-time local masking supported complete target text/voice. Thin source CTA entry and one-frame Japanese double-caption were caught in real native evidence and corrected; final stable phrase styling and local texture softness remain minor. Full locale-specific ASR/frame timing reviews matter. Model absence/null or unavailable-acoustic reports are not independent listening proof; preserve unknown fees and limitations. Exact12/12material readback closes the fixed Fireplay submission; no YouTube monitoring.",
+      "limitations": [
+        "One exact source only; these12language executions are not12independent sources.",
+        "No native-speaker/human/company acceptance. Japanese external review unknown and Dutch external acoustic-access limitation retained.",
+        "No automatic policy promotion or quality-decision changes."
+      ],
+      "historical_outcome": "pass",
+      "evidence": {
+        "run": "KEY-20261029-008-06",
+        "video_sha256": "97f8834093a904c9ccc570f1e682c86631bf3d6b62af02a946ec003df3c1a95c",
+        "closure_notes_sha256": "72f9619d0d5458e918e480167585474ab7328d8c0a84dd708ab8740b79f45b4a"
+      }
+    }
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "resolution": "duplicate",
+  "reason": "The exact-source and exact-locale observation is now independently packaged in the scoped reference. Its case evidence and limitations do not transfer to other languages.",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-29T06:26:42+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

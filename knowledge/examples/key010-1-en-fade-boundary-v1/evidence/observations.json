@@ -1,0 +1,43 @@
+{
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ff7b439e6230a90edbaafa7ac1f5daa2b11eb14ee8fd96a0cf1e89599f487cb5",
+    "target_language": "en"
+  },
+  "video_sha256": "8ed1e6c8beca73ee3cac2d934666e4fada05cae589b2319091ccf33a499c8115",
+  "review_boundary": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+  "original_case_manifest_sha256": "0df63768f3160c75219d919b002be0c802e888651c061ef0cbaf3216aed15bb8",
+  "evidence_origins": [
+    {
+      "origin": "evidence/result/review/fast-review.json",
+      "sha256": "6829dd9295cb0ccad5d4f03c46f63434dc57f66f6805d5bfdf306b62967c9421",
+      "evidence_label": "review"
+    },
+    {
+      "origin": "evidence/observations/review/8ed1e6c8beca/current-caption-board.jpg",
+      "sha256": "deaac9d0314820299128a4b02e3411a88cbf0c2a86a5f4617108bdd3d9c8f4c3",
+      "evidence_label": "captions"
+    },
+    {
+      "origin": "evidence/observations/review/8ed1e6c8beca/caption-sync.json",
+      "sha256": "c40520e992be868ae57c19ee4123c3d791532d9c89d6a8e8bb3dfc73346d8d97",
+      "evidence_label": "caption_sync"
+    },
+    {
+      "origin": "evidence/observations/review/8ed1e6c8beca/boundary-end.jpg",
+      "sha256": "4e9d3a4b9d6d32f31ebf53a8e19432d9454e399c64b4b25df5c17244c1dbf2b6",
+      "evidence_label": "final_end"
+    },
+    {
+      "origin": "evidence/observations/review/8ed1e6c8beca/audio.wav",
+      "sha256": "34c5f71e26200840ade374edb356c2a3d68a658fa5c6a18c187386322d1a3e0f",
+      "evidence_label": "final_audio"
+    }
+  ],
+  "original_candidates": [],
+  "observation": "此前底片在文字灰色淡出时仍残字，旧版本继续受质量限制；新版覆盖完整淡入/淡出包络，并在同一源时刻保留五个场景与产品图标。字体入场缩放简化和局部纹理变化仍保留。四句实际完整混音 ASR 与编码边界共同核对，CTA 发音到6.94秒，字幕保留到末个原生视频帧；合并句 ASR 不伪装成词级实测。本案例为英语，旧德语观察仍是独立语种范围，不继承其验收。",
+  "limitations": [
+    "Exact source and locale only; no new listening, independent review or video-quality approval.",
+    "Other locale executions are not independent source replications. Unknown charges and original failures remain."
+  ]
+}

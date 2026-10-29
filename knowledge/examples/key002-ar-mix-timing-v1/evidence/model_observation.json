@@ -1,0 +1,46 @@
+{
+  "source_sha256": "762441498a0ef3d6656063de2067f4d2497a308d6daaef0b1fc0ba29fa221c33",
+  "video_sha256": "f6b1b6218a2c88692c6e831f55f1dd215243e21bb8f860d696e2703271390db3",
+  "audio_sha256": "964ea99af7f286512609aa17585ad9522f2859227b12fe870bdb8a241ba823de",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "ar",
+    "speech_segments": [
+      {
+        "start": 0.08,
+        "end": 3.32,
+        "source_text": "ربما من الأفضل ألا تشاهد هذا والآخرون حولك."
+      },
+      {
+        "start": 3.45,
+        "end": 6.42,
+        "source_text": "حين تتاح لك دقيقة لوحدك، اسحب لليسار وتفقد الخيار الأول."
+      },
+      {
+        "start": 6.64,
+        "end": 7.85,
+        "source_text": "قد يفاجئك."
+      }
+    ],
+    "background_music": {
+      "same_track": true,
+      "reason": "Audio B uses the exact same background music track, tempo, mixing level, and arrangement as Audio A."
+    },
+    "sound_effects": {
+      "preserved": true,
+      "reason": "There are no distinct standalone sound effects in Audio A beyond the musical track, and this audio landscape is preserved identically in Audio B."
+    },
+    "dialogue_translation": {
+      "complete": true,
+      "reason": "All dialogue and call-to-action lines from Audio A are accurately and faithfully translated into Arabic with no omissions, additions, or semantic drift."
+    },
+    "foreign_speech_remaining": [],
+    "sync": {
+      "acceptable": true,
+      "reason": "The Arabic voiceover closely matches the timing, phrasing, and natural pauses of the original English track."
+    },
+    "uncertain_intervals": [],
+    "summary": "Audio B is a complete and faithful Arabic localization of Audio A. The background music is identical, speech synchronization is well maintained, and all spoken content is translated accurately without any leftover foreign speech."
+  },
+  "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"
+}

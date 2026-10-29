@@ -1,0 +1,46 @@
+{
+  "source_sha256": "3b979d3a1ee9ae1ccb93a82b9102eadf9f214deac1f21ca373da493f8d69f5c6",
+  "video_sha256": "9cfce006375b1338daac521321f37565c8dc264270d24a5506ed52e7c858bfc9",
+  "audio_sha256": "e3a765c4ae0cdf87de6ab922b06f6521784bb706c34aec54b14fe4667914f850",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "es",
+    "speech_segments": [
+      {
+        "start": 0.0,
+        "end": 1.7,
+        "source_text": "Test de demencia."
+      },
+      {
+        "start": 2.0,
+        "end": 6.8,
+        "source_text": "Si respondes correctamente a todas las preguntas, no tienes demencia."
+      },
+      {
+        "start": 7.0,
+        "end": 8.7,
+        "source_text": "Empieza el test."
+      }
+    ],
+    "background_music": {
+      "same_track": true,
+      "reason": "The background music track, tempo, and instrumentation are identical to Audio A."
+    },
+    "sound_effects": {
+      "preserved": true,
+      "reason": "All ambient sound effects embedded with the music track match the original timing."
+    },
+    "dialogue_translation": {
+      "complete": true,
+      "reason": "All spoken lines from the English original are accurately and completely translated into Spanish without omissions."
+    },
+    "foreign_speech_remaining": [],
+    "sync": {
+      "acceptable": true,
+      "reason": "Speech timing and pacing closely align with the original audio."
+    },
+    "uncertain_intervals": [],
+    "summary": "The localized Spanish audio faithfully translates all dialogue from the original English source, while preserving the background music track and timing."
+  },
+  "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"
+}

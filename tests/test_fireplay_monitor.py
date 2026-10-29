@@ -389,13 +389,16 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(monitor.signal({'key':task['key'],'response':{'threadId':THREAD}}, self.root)['state'], 'sent')
         entries[0].update(status='delivered_with_issues',technical_decision='revise')
         write_json(self.root / 'outputs/index.json', {'entries':entries})
-        self.assertEqual(monitor.followups(self.root)[0]['action'], 'review_publication')
+        pending = monitor.followups(self.root)[0]
+        self.assertEqual(pending['action'], 'auto_return')
+        self.assertEqual(pending['review_locales'], ['es'])
+        self.assertEqual(pending['ready_locales'], ['ko'])
         write_json(self.root/'state/fireplay'/CODE/'user-approved-return-1.json', {'state':'returned_user_approved'})
         self.assertTrue(monitor.followups(self.root))
         write_json(self.root/'state/fireplay'/CODE/'user-approved-return-1.json', {
                    'state':'returned_user_approved', 'requirement_id':RID,
                    'items':[{'locale':lang,'material_id':MID,'bound_verified':True} for lang in ['es','ko']]})
-        self.assertEqual(monitor.followups(self.root), [])
+        self.assertEqual(monitor.followups(self.root)[0]['action'], 'verify_completion')
 
     def test_cli_and_mcp_monitor_status(self):
         r = subprocess.run([sys.executable, 'bin/va.py', 'fireplay-monitor', 'scan'],cwd=PROJECT,capture_output=True,text=True)

@@ -1,0 +1,7 @@
+{
+  "source_sha256": "1db4961f4f34013b9c16d556a85f0635fd05e34188f17774acf82b8453a7ca5e",
+  "video_sha256": "f68c0fc0f76eb489f1d7b95c71e4171820dfcf5f7a360d1b3ddfaa61e18fba30",
+  "reviewer": "Codex same-agent self-review",
+  "decision": "pass",
+  "method": "Direct actual encoded boundary-frame inspection; independent raw and complete mixed-audio Whisper evidence. Actual raw phrase timestamps transformed by recorded PCM trim/tempo/offset locate phrase units; no expected script substituted into ASR."
+}

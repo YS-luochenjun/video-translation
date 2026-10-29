@@ -63,6 +63,53 @@ class KnowledgeHousekeepingTests(unittest.TestCase):
         write_json(pointer,{'id':'generated','candidate':self.public,'candidate_sha256':'0'*64})
         self.assertNotIn((key[0],file_hash(pointer)),knowledge_review.closed_sources(self.root))
 
+    def test_hashed_feedback_bundle_keeps_event_and_unlisted_feedback_once(self):
+        base=self.root/'knowledge/local/feedback/event'
+        write_json(base/'feedback.json',{'quote':'Accept only these exact versions'})
+        write_json(base/'receipts/readback.json',{'complete':True})
+        write_json(base/'additional.json',{'quote':'A new independent correction'})
+        write_json(base/'manifest.json',{'files':{name:file_hash(base/name)
+                   for name in ['feedback.json','receipts/readback.json']}})
+        for paths in [{r['path'] for r in knowledge_review.queue(self.root)},
+                      {p.relative_to(self.root).as_posix() for p in curation.source_files(self.root)}]:
+            self.assertIn('knowledge/local/feedback/event/feedback.json',paths)
+            self.assertIn('knowledge/local/feedback/event/additional.json',paths)
+            self.assertNotIn('knowledge/local/feedback/event/manifest.json',paths)
+            self.assertNotIn('knowledge/local/feedback/event/receipts/readback.json',paths)
+        write_json(base/'receipts/readback.json',{'complete':False})
+        for scan in [knowledge_review.queue,curation.source_files]:
+            with self.assertRaisesRegex(WorkflowError,'Feedback evidence manifest differs'):
+                scan(self.root)
+
+    def test_sanitized_public_inbox_resolves_exact_private_case_manifest(self):
+        from video_localizer import bundles
+        folder=self.root/'knowledge/local/examples/fixture'
+        bundles.create(folder,'knowledge-case','fixture',{'observation.json':folder/'evidence.json'},
+                       {'scope':self.scope,'video_sha256':'b'*64,'lesson':self.value['hypothesis']})
+        value=copy.deepcopy(self.value)
+        value['evidence']['case_manifest_sha256']=file_hash(folder/'manifest.json')
+        write_json(self.root/self.public,value)
+        knowledge_review.review({'source':{'path':self.public,'sha256':file_hash(self.root/self.public)},
+            'review_type':'developer_review','reviewed_by':'fixture','origin':'Exact sanitized public case',
+            'resolution':'rejected','reason':'Placeholder only','targets':[],'adopted_parts':[],
+            'retained_parts':['Original case preserved'],'all_material_accounted':True,
+            'remaining_disposition':'historical_only','next_action':'historical_record_only'},self.root)
+        pointer=self.root/'knowledge/local/inbox/generated.json'
+        key=(pointer.relative_to(self.root).as_posix(),file_hash(pointer))
+        self.assertIn(key,knowledge_review.closed_sources(self.root))
+        manifest=read_json(folder/'manifest.json')
+        manifest['metadata']['scope']['target_language']='fr'
+        write_json(folder/'manifest.json',manifest)
+        self.assertNotIn(key,knowledge_review.closed_sources(self.root))
+
+    def test_feedback_manifest_cannot_hide_evidence_outside_its_bundle(self):
+        base=self.root/'knowledge/local/feedback/event'
+        write_json(base/'feedback.json',{'quote':'Actual feedback'})
+        write_json(base/'manifest.json',{'files':{'feedback.json':file_hash(base/'feedback.json'),
+                   '../outside.json':'0'*64}})
+        for scan in [knowledge_review.queue,curation.source_files]:
+            with self.assertRaises(WorkflowError):scan(self.root)
+
     def test_retained_case_pointer_is_not_an_actionable_advisory(self):
         value=copy.deepcopy(self.value)
         value['hypothesis']='Preserved source observations, decisions and failure records await distillation.'

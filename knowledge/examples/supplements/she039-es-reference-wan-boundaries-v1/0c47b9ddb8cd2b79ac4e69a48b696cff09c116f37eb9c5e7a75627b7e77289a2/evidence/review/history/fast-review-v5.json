@@ -1,0 +1,286 @@
+{
+  "video_sha256": "17dfd5f6b9017ab4a600b7c0fb92c1d19930e5e4136b62a11fd26b27b223c754",
+  "plan_id": "06e619595748434b",
+  "reviewer": "Codex (same_agent)",
+  "method": "Actual complete1x IAB playback through ended18.227664, dense final/source/Wan frame contacts, native full-size2.4s and9.4s frames, all40 encoded caption boundaries, full decoded final WAV ASR and comparative Flash. Same-agent evidence review; no independent human/company acceptance.",
+  "typography_fallbacks": [],
+  "covered_text_ids": [
+    "t001",
+    "t002",
+    "t003",
+    "t004",
+    "t005",
+    "t006",
+    "t007",
+    "t008",
+    "t009",
+    "t010",
+    "t011",
+    "t012",
+    "t013",
+    "t014",
+    "t015",
+    "t016",
+    "t017",
+    "t018"
+  ],
+  "covered_speech_ids": [
+    "a001",
+    "a002",
+    "a003",
+    "a004",
+    "a005",
+    "a006"
+  ],
+  "checks": {
+    "translation": {
+      "decision": "pass",
+      "observation": "All six exact Spanish statements and independent Morning/store/download instructions are translated; product Family Time and store names intentionally retained.",
+      "evidence": [
+        {
+          "path": "review/v5-initial/contact.jpg",
+          "sha256": "f902ee71f272a0e843b975b71a7c1ce05ebb1b8de78248058d55bd8b4fa3c619"
+        },
+        {
+          "path": "review/v5-initial/frame-04.jpg",
+          "sha256": "a27424ba11ca846568e44ae2fa8f1c39b1d6afca981f6f9cb49d9da640d6e4ae"
+        },
+        {
+          "path": "review/v5-initial/frame-15.jpg",
+          "sha256": "071944a56029c4e3801fedb99c4e426ed8b450e9a582092518b9988846234063"
+        },
+        {
+          "path": "review/v5-initial/playback-end.png",
+          "sha256": "df5efd512c30919a1fd04f5fedee6bbe07fcd6a3646ceac112f1083a2a6c450f"
+        },
+        {
+          "path": "review/v5-initial/observations.json",
+          "sha256": "a7488bc92cf08a0550bd61be227dbc3f22525b17cc642df1f7f7cb453b4525ca"
+        }
+      ]
+    },
+    "source_text_removed": {
+      "decision": "pass",
+      "observation": "Inspected native frames, contacts and caption boundaries show no remaining readable English ad claims; brand/store/control identities retained. Raw Wan red English and rejected v1 source-hole residual are not in selected output.",
+      "evidence": [
+        {
+          "path": "review/v5-initial/contact.jpg",
+          "sha256": "f902ee71f272a0e843b975b71a7c1ce05ebb1b8de78248058d55bd8b4fa3c619"
+        },
+        {
+          "path": "review/v5-initial/frame-04.jpg",
+          "sha256": "a27424ba11ca846568e44ae2fa8f1c39b1d6afca981f6f9cb49d9da640d6e4ae"
+        },
+        {
+          "path": "review/v5-initial/frame-15.jpg",
+          "sha256": "071944a56029c4e3801fedb99c4e426ed8b450e9a582092518b9988846234063"
+        },
+        {
+          "path": "review/v5-initial/playback-end.png",
+          "sha256": "df5efd512c30919a1fd04f5fedee6bbe07fcd6a3646ceac112f1083a2a6c450f"
+        },
+        {
+          "path": "review/v5-initial/observations.json",
+          "sha256": "a7488bc92cf08a0550bd61be227dbc3f22525b17cc642df1f7f7cb453b4525ca"
+        }
+      ]
+    },
+    "protected_graphics": {
+      "decision": "fail",
+      "observation": "Arrow, chain, phone, product and toolbar remain meaningful; lower character/body and bridge boundaries show major repair color band/steps, especially0.3–2.7s.",
+      "evidence": [
+        {
+          "path": "review/v5-initial/contact.jpg",
+          "sha256": "f902ee71f272a0e843b975b71a7c1ce05ebb1b8de78248058d55bd8b4fa3c619"
+        },
+        {
+          "path": "review/v5-initial/frame-04.jpg",
+          "sha256": "a27424ba11ca846568e44ae2fa8f1c39b1d6afca981f6f9cb49d9da640d6e4ae"
+        },
+        {
+          "path": "review/v5-initial/frame-15.jpg",
+          "sha256": "071944a56029c4e3801fedb99c4e426ed8b450e9a582092518b9988846234063"
+        },
+        {
+          "path": "review/v5-initial/playback-end.png",
+          "sha256": "df5efd512c30919a1fd04f5fedee6bbe07fcd6a3646ceac112f1083a2a6c450f"
+        },
+        {
+          "path": "review/v5-initial/observations.json",
+          "sha256": "a7488bc92cf08a0550bd61be227dbc3f22525b17cc642df1f7f7cb453b4525ca"
+        }
+      ]
+    },
+    "native_motion": {
+      "decision": "pass",
+      "observation": "Full545 native frames at30fps retained, source durations and exact90/120-frame same-time repair clips; no static freeze, retiming or timeline padding. Local modeled anatomy/seam defects are separately failed.",
+      "evidence": [
+        {
+          "path": "review/v5-initial/contact.jpg",
+          "sha256": "f902ee71f272a0e843b975b71a7c1ce05ebb1b8de78248058d55bd8b4fa3c619"
+        },
+        {
+          "path": "review/v5-initial/frame-04.jpg",
+          "sha256": "a27424ba11ca846568e44ae2fa8f1c39b1d6afca981f6f9cb49d9da640d6e4ae"
+        },
+        {
+          "path": "review/v5-initial/frame-15.jpg",
+          "sha256": "071944a56029c4e3801fedb99c4e426ed8b450e9a582092518b9988846234063"
+        },
+        {
+          "path": "review/v5-initial/playback-end.png",
+          "sha256": "df5efd512c30919a1fd04f5fedee6bbe07fcd6a3646ceac112f1083a2a6c450f"
+        },
+        {
+          "path": "review/v5-initial/observations.json",
+          "sha256": "a7488bc92cf08a0550bd61be227dbc3f22525b17cc642df1f7f7cb453b4525ca"
+        }
+      ]
+    },
+    "speech_complete": {
+      "decision": "pass",
+      "observation": "Final actual WAV Whisper and comparative Flash both recognize all six exact current Spanish statements, including Juega desde el enlace de abajo and Descarga ahora; no remaining English narration.",
+      "evidence": [
+        {
+          "path": "review/17dfd5f6b901/audio.wav",
+          "sha256": "2f9905dabaa08582ff91b4b044367db1bb7e779a80c44d014e31c0215567c450"
+        },
+        {
+          "path": "review/17dfd5f6b901/audio-model-review.json",
+          "sha256": "7ecc12b0025f1df489e9854c6da75edecd6b451b7997fe57754b8371b6b27118"
+        },
+        {
+          "path": "review/17dfd5f6b901/offline-asr-audio.json",
+          "sha256": "2f4df5c86f85cf86610a9227a10ca460ba98343d042c0868997fc469800fd865"
+        },
+        {
+          "path": "outputs/audio-mix/3b539da6fef01f6b68f3/provenance.json",
+          "sha256": "607cca033fa887aa19e06fb9fa247246f9d4648646df6ecff217f36144155365"
+        }
+      ]
+    },
+    "head_tail_audio": {
+      "decision": "pass",
+      "observation": "Complete18.227664s audio decoded; exact actual CTA16.48–17.58 is complete, full separately encoded AAC remux avoids prior frame-limit tail truncation.",
+      "evidence": [
+        {
+          "path": "review/17dfd5f6b901/audio.wav",
+          "sha256": "2f9905dabaa08582ff91b4b044367db1bb7e779a80c44d014e31c0215567c450"
+        },
+        {
+          "path": "review/17dfd5f6b901/audio-model-review.json",
+          "sha256": "7ecc12b0025f1df489e9854c6da75edecd6b451b7997fe57754b8371b6b27118"
+        },
+        {
+          "path": "review/17dfd5f6b901/offline-asr-audio.json",
+          "sha256": "2f4df5c86f85cf86610a9227a10ca460ba98343d042c0868997fc469800fd865"
+        },
+        {
+          "path": "outputs/audio-mix/3b539da6fef01f6b68f3/provenance.json",
+          "sha256": "607cca033fa887aa19e06fb9fa247246f9d4648646df6ecff217f36144155365"
+        }
+      ]
+    },
+    "music_effects": {
+      "decision": "pass",
+      "observation": "Original complete soundtrack retained outside voice windows, actual source-bound UVR bed beneath narration; native music time scale1. Comparative model reports same track/effects. Generic model timestamps/effects wording are not used for exact timing.",
+      "evidence": [
+        {
+          "path": "review/17dfd5f6b901/audio.wav",
+          "sha256": "2f9905dabaa08582ff91b4b044367db1bb7e779a80c44d014e31c0215567c450"
+        },
+        {
+          "path": "review/17dfd5f6b901/audio-model-review.json",
+          "sha256": "7ecc12b0025f1df489e9854c6da75edecd6b451b7997fe57754b8371b6b27118"
+        },
+        {
+          "path": "review/17dfd5f6b901/offline-asr-audio.json",
+          "sha256": "2f4df5c86f85cf86610a9227a10ca460ba98343d042c0868997fc469800fd865"
+        },
+        {
+          "path": "outputs/audio-mix/3b539da6fef01f6b68f3/provenance.json",
+          "sha256": "607cca033fa887aa19e06fb9fa247246f9d4648646df6ecff217f36144155365"
+        }
+      ]
+    },
+    "caption_sync": {
+      "decision": "pass",
+      "observation": "All eight final encoded phrase captions match current exact final-WAV ASR; observed native boundaries within limits. a004 earlier lexical ambiguity is fixed by the new actual shorter Kore take.",
+      "evidence": [
+        {
+          "path": "review/17dfd5f6b901/caption-sync.json",
+          "sha256": "9c5836f200aab731d8927a495238475bbb0850c83c5b3d9e456db3d9c0b1cf77"
+        },
+        {
+          "path": "review/v5-initial/caption-boundary-gallery.jpg",
+          "sha256": "a6c466d8c7efcc8b307ed19ebcc26fff4853134b4a9fca0807059ab279601283"
+        }
+      ]
+    }
+  },
+  "known_variations": [
+    "Static phrase captions replace source progressive emphasis.",
+    "Darker HUD container interior and store/endcard patch backing differ.",
+    "Wan+classical residual glyph finish is an actual hybrid repair, not a clean raw Wan result."
+  ],
+  "visual_finish": {
+    "score": 2,
+    "normal_speed_observation": "Complete readable video and intact Spanish audio; lower-character warm rectangular band and geometry steps distract at normal1x playback and remain major. This is the selected best complete candidate, not publication-ready.",
+    "evidence": [
+      {
+        "path": "review/v5-initial/contact.jpg",
+        "sha256": "f902ee71f272a0e843b975b71a7c1ce05ebb1b8de78248058d55bd8b4fa3c619"
+      },
+      {
+        "path": "review/v5-initial/frame-04.jpg",
+        "sha256": "a27424ba11ca846568e44ae2fa8f1c39b1d6afca981f6f9cb49d9da640d6e4ae"
+      },
+      {
+        "path": "review/v5-initial/frame-15.jpg",
+        "sha256": "071944a56029c4e3801fedb99c4e426ed8b450e9a582092518b9988846234063"
+      },
+      {
+        "path": "review/v5-initial/playback-end.png",
+        "sha256": "df5efd512c30919a1fd04f5fedee6bbe07fcd6a3646ceac112f1083a2a6c450f"
+      },
+      {
+        "path": "review/v5-initial/observations.json",
+        "sha256": "a7488bc92cf08a0550bd61be227dbc3f22525b17cc642df1f7f7cb453b4525ca"
+      }
+    ],
+    "defects": [
+      {
+        "severity": "major",
+        "time_range": [
+          0.3,
+          2.7
+        ],
+        "observation": "Large warm red/orange band and horizontal lower-body/leg seam from actual Wan inserted-red-text cleanup and regional merge."
+      },
+      {
+        "severity": "major",
+        "time_range": [
+          8.8,
+          9.85
+        ],
+        "observation": "Repair region edges step across source/model hair/body; brief old local stripe at9.8–9.85 remains."
+      },
+      {
+        "severity": "minor",
+        "time_range": [
+          3.0,
+          7.03
+        ],
+        "observation": "Local wood softening and residual warm glow; scene/action still readable."
+      },
+      {
+        "severity": "minor",
+        "time_range": [
+          16.5,
+          18.1667
+        ],
+        "observation": "Existing CTA/store containers translated but backdrop color/edges differ slightly."
+      }
+    ]
+  }
+}

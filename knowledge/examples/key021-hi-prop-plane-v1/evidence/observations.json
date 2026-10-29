@@ -1,0 +1,43 @@
+{
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "670be70408876edcc0ea83b712ee51a525954cc1d7bda141b9a7774127cab584",
+    "target_language": "hi"
+  },
+  "video_sha256": "aa4eb0d57424a6dd1963d2aff1ef7cd4db6a26bd28962479a7e6e9258b96a6ff",
+  "review_boundary": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+  "original_case_manifest_sha256": "dd471136a18e7aa22e17b8f7ad6f248b3d2d300ce4d458ef3021cee52e937774",
+  "evidence_origins": [
+    {
+      "origin": "evidence/observations/review/actual-v7-observations.json",
+      "sha256": "cd61c8b038c61ff1ade56e8cace6b06449294633e5f32b8ab2465b5937917a97",
+      "evidence_label": "review"
+    },
+    {
+      "origin": "evidence/observations/review/aa4eb0d57424/caption-sync.json",
+      "sha256": "f1099c380bc4be1443db8493c7f404b362a15a73cd324b9a32f1cffb43a8d322",
+      "evidence_label": "caption_sync"
+    },
+    {
+      "origin": "evidence/observations/review/aa4eb0d57424/boundary-end.jpg",
+      "sha256": "85bc8238ccfbff3f6074b874dc959493bc21096a1610f6495fe8f4958ca7d67f",
+      "evidence_label": "final_end"
+    },
+    {
+      "origin": "evidence/observations/review/aa4eb0d57424/contact-sheet.jpg",
+      "sha256": "f2478917814c5a127ba28a14ce7d5342a0a1d906986f7ee5a92bd08afef10291",
+      "evidence_label": "timeline"
+    },
+    {
+      "origin": "evidence/observations/review/aa4eb0d57424/audio.wav",
+      "sha256": "52e4c0c7131ba5348bc038edee8f2b6dc27418e163dfa03b333cb4a015df6120",
+      "evidence_label": "final_audio"
+    }
+  ],
+  "original_candidates": [],
+  "observation": "74秒余长片包含34个人声轮次。封面文字需分别跟随原书面运动平面；本版早先的 Algebra 覆盖相邻书本问题，通过实际 libass 字形测量与比例字号修正。保留奶盒奶牛、原数字、衣服图形与表情，不能把原容器重建当成新增遮字条。原无字 CTA 缩放段恢复，局部修复只覆盖原文字的真实区间。完整解码与当前 WAV 哈希绑定区别于末尾采样或沿用旧音轨报告；声音结论仍归属原外部模型和同一执行者，保留UVR近似分离、局部柔化及未生成口型的限制。",
+  "limitations": [
+    "Exact source and locale only; no new listening, independent review or video-quality approval.",
+    "Other locale executions are not independent source replications. Unknown charges and original failures remain."
+  ]
+}

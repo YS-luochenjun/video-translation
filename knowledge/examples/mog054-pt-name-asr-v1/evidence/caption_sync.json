@@ -1,0 +1,7 @@
+{
+  "source_sha256": "8de144038bf135fcf19320c532093421d0c7eeaed10eaa6219ca52c4ef6d543c",
+  "video_sha256": "8dece65d3bb53a5b45a8eba2cff5a316bae8f4a88128c7463e5ab16311a909aa",
+  "reviewer": "Codex same-agent using actual encoded boundary pixels, actual Whisper small transcription and attributed Gemini Flash final-audio perception",
+  "decision": "pass",
+  "method": "Phrase content transcribed from actual final mix; audible take extents after real trim/atempo/placement. Each five-frame boundary row inspected for absent/present/full words and exit. No inferred per-word times."
+}

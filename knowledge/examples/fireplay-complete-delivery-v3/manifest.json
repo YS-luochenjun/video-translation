@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "fireplay-complete-delivery-v3",
+  "created_at": "2026-10-29T04:32:52+00:00",
+  "files": [
+    {
+      "path": "evidence/fireplay-complete-delivery-v2-original.md",
+      "sha256": "6860fb0bb5a7c10a8b369167e36d7a163d96d25ad976cdaecc03270c08b4184a",
+      "bytes": 3118
+    },
+    {
+      "path": "evidence/instruction.json",
+      "sha256": "ddb4f86844c789d18f17f313381630e7452a590dfe7c27dd88dd7912786ec461",
+      "bytes": 1537
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 有界最佳成品提交与全部原片、全部语种闭环\n\n来源：用户2026-10-28明确允许“在有限的条件下，已经做到最好”的完整成品带普通不合格提交，大面积撕裂等大问题允许不提交，并授权结合交付闭环方案优化。见evidence:instruction。本版替代v2，保留其全原片/语种、文件超时额外两次重传及原unknown保护。唯一发布参数源为config/fireplay-publication.json；补漏期限和次数在config/fireplay-monitor.json。\n\n## 普通不合格与严重阻断\n\n完整翻译、必需配音齐全、实际可观看的成品，在预算、返工、能力边界内已做到最好时，普通质量不达标可以提交。内部revise、未达严格保真、评分或普通瑕疵数量，均不单独决定禁止发布；内部质量记录保持原样。按fireplay-publication-review记录实际缺陷、publication_impact=ordinary、best_available停止条件/理由及包内证据，不要求用户逐版批准普通瑕疵。\n\n大面积撕裂、无法观看、严重主体损坏、文件损坏、错误语种、实质漏译、缺必需配音、核心文案不可读，仍阻断对应版本。不能将严重影响改名普通以凑全。缺必要证据继续补查，达到边界仍给出具体缺项及解决动作，不冒称验收。\n\n同源多语共用底片可帮助定位共同缺陷，但一个语种可提交不能证明其他语种无严重问题；配音、译字、排版和合成各自可能失败。共用缺陷集中修复并复用同源结果；语种特有问题只修受影响项，保持原账本与有界重试。\n\n旧发布否决可在当前政策下重新看实际同一版本，明确reassess_under_current_policy；只有完整、可观看且普通问题的有界最佳版本可追加新决定。原否决和内部quality/用户质量异议保留，不通过无意义重编码制造新版本，也不自动撤销有效质量异议。\n\n## 逐项提交和恢复\n\n1. 以冻结请求各原片自己的目标语种建立清单，不错误交叉相乘。vn/vi、jp/ja按别名去重，不重新计费。各项分别记录制作、发布资格、传输、入库、共享/标签/设计师归属、需求绑定和真实素材ID。\n2. 已可提交项先交，其他项继续制作/修复/恢复；partial只是中间批次。已绑定素材沿原ID恢复，不重入库；未知旧批次先核查，按既有明确暂缓协议释放不相关项，保留原操作及绑定历史。\n3. 真实文件上传超时先找已产生的资源/素材ID，有则沿原ID继续；无可用结果且尚未入库时，fireplay-retry-upload使用真实新超时回执准备重传。每项最多额外两次自动尝试；未知原记录保留，耗尽则定位传输/大小/编码/服务故障并升级。此授权不覆盖未知付费模型重发、无限重传或重复入库。\n4. 补漏消息sent只表示送达。120分钟租约到期时，先用wait_threads/read_thread保存真实负责聊天状态；正在运行则续租，空闲/错误才允许重新派发。未知发送先对账；最多两次停滞重派后升级具体阻塞，不能无限发提示或把任务移出未完成清单。时间和次数以配置为准。\n5. 聊天结束、某轮重试停止或部分绑定成功不算整项结案。fireplay-status显示各原片语种覆盖与completion_gate；全项真实平台delivery读回通过fireplay-completion-check，再fireplay-close记录本地结案。没有完整平台回执时，巡检产生verify_completion待办。最终报告列已交/应交与具体缺项，不能只写完成。\n\nFireplay受理、共享/标签/归属/绑定核验完成即收尾，YouTube排队、账号路由及后续发布交平台，不为缺链接重新上传。经验及存储维护不代替提交完整性。该规则是有来源的执行授权及代码合同，不代表任何积压视频已经补交、任何新质量通过或无限预算。\n\n## 已授权的执行选择\n\n用户同时明确同意已交办需求使用KIE音频/视频及必要媒体传送。项目是否需要/同意KIE的选择按持续授权直接确定为需要、同意；缺本需求绑定时先fireplay-start绑定原账本，不再让用户重复点击。新增范围、超额或未知付费任务重发不因此放开；宿主强制审批不能代用户点击。设计师自行查证按fireplay-designer-attribution-v2执行，不再索要用户不知道的ID。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "instruction": "evidence/instruction.json",
+      "previous": "evidence/fireplay-complete-delivery-v2-original.md"
+    }
+  }
+}

@@ -99,6 +99,23 @@ class KnowledgeRoutingTests(unittest.TestCase):
                     with self.assertRaisesRegex(WorkflowError, key):
                         knowledge.validate_feature_requirements({key: invalid})
 
+    def test_legacy_nested_language_policy_retains_exact_source_and_locale(self):
+        with tempfile.TemporaryDirectory(dir=TEMP) as temporary:
+            root=Path(temporary)
+            (root/'knowledge').mkdir()
+            (root/'knowledge/case.md').write_text('Exact-source historical observation')
+            entry={'id':'legacy','path':'knowledge/case.md','status':'active',
+                   'scope':{'source_sha256':'a'*64,'target_language':'de','language_match':'exact'}}
+            write_json(root/'knowledge/index.json',{'entries':[entry]})
+            for source,locale,expected in [('a'*64,'de',True),('a'*64,'DE',True),
+                                            ('a'*64,'de-DE',False),('b'*64,'de',False)]:
+                with self.subTest(source=source,locale=locale):
+                    result=knowledge.retrieve({'source_sha256':source,'target_language':locale},root=root)
+                    self.assertEqual([e['id'] for e in result],['legacy'] if expected else [])
+            entry['scope']['language_match']='base'
+            with self.assertRaisesRegex(WorkflowError,'agree with the reviewed'):
+                knowledge.validate_feature_requirements(entry)
+
     def test_speaker_synonym_selects_detailed_method_without_inventing_a_scene(self):
         context = knowledge.context_for({'target_language':'es','delivery_mode':'fast'},
             {'content_features':['multi_speaker','hospital'], 'audio':{'has_speech':True}},PROJECT)

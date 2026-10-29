@@ -1,0 +1,44 @@
+{
+  "video_sha256": "8dece65d3bb53a5b45a8eba2cff5a316bae8f4a88128c7463e5ab16311a909aa",
+  "reviewer": "Codex same-agent fast review; not independent or native-speaker human acceptance",
+  "method": "Actual encoded full-timeline frames plus native boundary crops, exact source-frame merge provenance, complete decode, Whisper small and attributed Gemini Flash final-audio comparison.",
+  "checks": {
+    "translation": {
+      "decision": "pass",
+      "observation": "All eight spoken lines translated, including prompt, Brandon spelling, reaction and final CTA. Scene text and six dialogue captions exact; BRANDON, keyboard, incidental mirrored poster and mic brand retained."
+    },
+    "source_text_removed": {
+      "decision": "pass",
+      "observation": "Original English headline and CTA erased across their full envelopes and exits; native first/last frames inspected."
+    },
+    "protected_graphics": {
+      "decision": "pass",
+      "observation": "Flag colors, QWERTY keys, source selfie and red arrow retained; no opaque text strip."
+    },
+    "native_motion": {
+      "decision": "pass",
+      "observation": "807 source-timed frames at30fps; masks adopt corresponding first60 and tail75 Wan frames only. Source objects outside letter envelope use exact source frames."
+    },
+    "speech_complete": {
+      "decision": "pass",
+      "observation": "Actual final Gemini Flash transcribes every Portuguese line, including Brandon, and spelling A/N/D/O/O/N. This resolves local Whisper small misrecognition of Brandon as Brenda; no foreign speech residue and no uncertain interval in final model evidence."
+    },
+    "head_tail_audio": {
+      "decision": "pass",
+      "observation": "Actual question and CTA present from final WAV, complete words and tail; no muting."
+    },
+    "music_effects": {
+      "decision": "pass",
+      "observation": "Typing/mechanical effects retained by original mix outside speech and source UVR accompaniment within speech. Source analysis found no music; candidate model calls subtle music identical, a classification discrepancy retained without claiming new music. No music generated."
+    },
+    "caption_sync": {
+      "decision": "pass",
+      "observation": "Six actual boundary rows show exact full phrases, absent-before/present/absent-after. Audio extents from actual final-mix aligned take and final audio perception; <=one-frame visual quantization. Header and CTA remain scene callouts across source visual windows."
+    }
+  },
+  "known_variations": [
+    "Approximate font/ornament hidden texture; source actor lips retained, no lip synthesis.",
+    "CTA static text fallback; original red arrow animation retained.",
+    "UVR separation approximate; no direct human/native-speaker listening."
+  ]
+}

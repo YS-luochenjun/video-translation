@@ -264,7 +264,7 @@ def main(argv=None):
     command.add_argument('code')
     command.add_argument('--snapshot')
     command.add_argument('--decision')
-    for action in ('source', 'chat', 'start', 'return', 'dispatch', 'receipt', 'retry-upload', 'completion-check', 'status'):
+    for action in ('source', 'chat', 'start', 'return', 'dispatch', 'receipt', 'retry-upload', 'completion-check', 'close', 'status'):
         command = commands.add_parser('fireplay-' + action)
         command.add_argument('code')
         if action in ('source', 'chat', 'start', 'dispatch', 'receipt', 'retry-upload'):
@@ -473,6 +473,9 @@ def main(argv=None):
             elif name == 'fireplay-publication-review':
                 from .fireplay_publication import review
                 result = review(args.code, args.spec, ROOT)
+            elif name == 'fireplay-close':
+                from .fireplay_submission import close_delivery
+                result = close_delivery(args.code, ROOT)
             elif name == 'fireplay-youtube-route':
                 from .fireplay_youtube import record_route
                 result = record_route(args.code, args.spec, args.video, ROOT)

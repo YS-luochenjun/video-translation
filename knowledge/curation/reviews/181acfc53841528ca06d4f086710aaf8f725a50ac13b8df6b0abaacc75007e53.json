@@ -1,0 +1,46 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261027-044-pt-phrase-repair-20261028.json",
+    "sha256": "685aff24fc1680957b79fdacda7555523c5ee161171badb7ab951f7ebaf9b2c1"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent source/evidence curation; not independent audiovisual or native-speaker acceptance",
+  "origin": "User requested project knowledge consolidation and publication; source observations and verified independent case bundles reviewed, 2026-10-28.",
+  "targets": [
+    {
+      "id": "mog044-pt-utterance-tail-v2",
+      "path": "knowledge/cases/mog044-pt-utterance-tail-v2.md",
+      "sha256": "74c8ec6cebce0f85834fe00c0e2e4d8e535beb5f85a449e05b47a88da16db3c7",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+        "target_language": "pt",
+        "language_match": "exact"
+      },
+      "snapshot": "# MOG044葡语：句尾串音与短反应可懂度\n\n范围：源 SHA256 bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3；目标语 pt；成片 SHA256 5b2ed8d646f40aa6aaa9e59b7b1464eba4cb31d83daf7e0e64242df8a6a71602。\n\n全局或拼接 TTS 的 ASR 切句留下下一句音节，形成重复起音。实际单句 a003 的主句结束于1.84秒，后续2.22–2.36秒识别到 Pai；清理仅去除有证据的尾部，保留主句与余量，沿用原声线。数字反应在孤立音轨中可识别，在最终混音中曾漏识别；有界缩短内停顿并只在实际反应窗口降低原伴奏，重新核对最终混音和字幕。案例保存原/清理后的单句与新旧模型观察；新报告支持该版本，不改写旧失败。剪切点、增益和角色听感均不得外推。\n\n本次仅整理原制作的同一执行者观察、模型结果及哈希证据，没有重新完成正常播放、人类听审或公司验收。各语种分别保留原评审；同源多语不增加独立源数量。具体参数仅供追溯，不能直接套用其它素材；未知费用、旧失败和质量异议继续保留。\n\n依据：evidence:take_before、evidence:take_after、evidence:failure、evidence:model_before、evidence:model_after、evidence:caption_sync、evidence:observation。manifest 中的文件构成独立证据，旧路径仅为来源标签。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Only the explicitly covered procedure or matching exact-source/locale observation is associated with these targets. Original hypothesis and every limitation remain historical; no global success claim."
+  ],
+  "retained_parts": [
+    "Original scope, outcome, limitations, media/quality hashes, failure observations and unknown charges remain unchanged. No video acceptance, model permission or company-preference expansion.",
+    {
+      "hypothesis": "MOG044 Portuguese recovery: global/merged TTS ASR phrase cuts retained next-word phonemes and created repeated audible onsets despite isolated intended text. Actual single-take ASR located a003 complete invitation end1.84s and trailingPai2.22..2.36s. Tail-only cleanup of existing voices, number-pause shortening/local bed ducking and actual invitation caption correction yielded a new full final with pairedFlash transcription50?MeuDeus!, complete translation, retainedBGM/SFX, distinct voices and caption/qualitypass. Exact seventh material was added and allseven bindings read back.",
+      "limitations": "Same source/Portuguese/generatedtakes only. Actual local bed RMS and source windows justify this gain/cut recipe; do not generalize cut offsets, atempo, duck gain orvoiceidentity to othermedia. One Pro failure diagnosis and one newhash Flash acceptance, both external perception; no independent human/lip-sync acceptance. Original unknown fees and internalVIrevise unchanged.",
+      "historical_outcome": null,
+      "evidence": {}
+    }
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "resolution": "duplicate",
+  "reason": "Preserve the exact Portuguese before/after observations: isolated-take tails, final-mix reaction intelligibility, failed/unknown model requests and bounded repair. Historical unreviewed versions are not overwritten by the later result.",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-29T06:26:45+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

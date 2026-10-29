@@ -1,0 +1,414 @@
+{
+  "schema_version": 1,
+  "video_sha256": "4ca56a9726001675bcbf56db88ecb7e5a4c5fe3761274a8384bbe6f4137e742b",
+  "plan_id": "a70a04e8eb3a05ec",
+  "source_sha256": "7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24",
+  "inventory_sha256": "bfb4932609a44808c06590b942854f9bf0e633b39853aad1749ce7963622d6f4",
+  "track_sha256": "5efd3e1e5a416938bed6948697b194bb67ab9bdc9038a2d547ede16969119447",
+  "audio": {
+    "path": "review/4ca56a972600/audio.wav",
+    "sha256": "2f9905dabaa08582ff91b4b044367db1bb7e779a80c44d014e31c0215567c450"
+  },
+  "reviewer": "Codex (same_agent)",
+  "method": "Viewed all40 actual encoded caption boundary crops and final native scene-text frame boundaries, normal1x full playback, actual complete final-WAV ASR and source/candidate Flash. ASR word times supply audio observations; Flash approximate times are not precise alignment evidence. No independent human acceptance.",
+  "decision": "pass",
+  "evidence": [
+    "review/4ca56a972600/audio.wav",
+    "review/4ca56a972600/offline-asr-audio.json",
+    "review/4ca56a972600/caption-t001-000-0.jpg",
+    "review/4ca56a972600/caption-t001-000-1.jpg",
+    "review/4ca56a972600/caption-t001-000-2.jpg",
+    "review/4ca56a972600/caption-t001-000-3.jpg",
+    "review/4ca56a972600/caption-t001-000-4.jpg",
+    "review/4ca56a972600/caption-t002-000-0.jpg",
+    "review/4ca56a972600/caption-t002-000-1.jpg",
+    "review/4ca56a972600/caption-t002-000-2.jpg",
+    "review/4ca56a972600/caption-t002-000-3.jpg",
+    "review/4ca56a972600/caption-t002-000-4.jpg",
+    "review/4ca56a972600/caption-t003-000-0.jpg",
+    "review/4ca56a972600/caption-t003-000-1.jpg",
+    "review/4ca56a972600/caption-t003-000-2.jpg",
+    "review/4ca56a972600/caption-t003-000-3.jpg",
+    "review/4ca56a972600/caption-t003-000-4.jpg",
+    "review/4ca56a972600/caption-t004-000-0.jpg",
+    "review/4ca56a972600/caption-t004-000-1.jpg",
+    "review/4ca56a972600/caption-t004-000-2.jpg",
+    "review/4ca56a972600/caption-t004-000-3.jpg",
+    "review/4ca56a972600/caption-t004-000-4.jpg",
+    "review/4ca56a972600/caption-t005-000-0.jpg",
+    "review/4ca56a972600/caption-t005-000-1.jpg",
+    "review/4ca56a972600/caption-t005-000-2.jpg",
+    "review/4ca56a972600/caption-t005-000-3.jpg",
+    "review/4ca56a972600/caption-t005-000-4.jpg",
+    "review/4ca56a972600/caption-t006-000-0.jpg",
+    "review/4ca56a972600/caption-t006-000-1.jpg",
+    "review/4ca56a972600/caption-t006-000-2.jpg",
+    "review/4ca56a972600/caption-t006-000-3.jpg",
+    "review/4ca56a972600/caption-t006-000-4.jpg",
+    "review/4ca56a972600/caption-t007-000-0.jpg",
+    "review/4ca56a972600/caption-t007-000-1.jpg",
+    "review/4ca56a972600/caption-t007-000-2.jpg",
+    "review/4ca56a972600/caption-t007-000-3.jpg",
+    "review/4ca56a972600/caption-t007-000-4.jpg",
+    "review/4ca56a972600/caption-t008-000-0.jpg",
+    "review/4ca56a972600/caption-t008-000-1.jpg",
+    "review/4ca56a972600/caption-t008-000-2.jpg",
+    "review/4ca56a972600/caption-t008-000-3.jpg",
+    "review/4ca56a972600/caption-t008-000-4.jpg"
+  ],
+  "instances": [
+    {
+      "id": "t001",
+      "speech_id": "a001",
+      "units": [
+        {
+          "start": 0,
+          "end": 1.98,
+          "text": "Todos juegan a Family Time."
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 0,
+          "end": 1.98,
+          "text": "Todos juegan a Family Time."
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "Todos juegan a Family Time.",
+          "start": 0.0,
+          "end": 2.0
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "Todos juegan a Family Time.",
+          "start": 0.0,
+          "end": 2.0
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final caption before/on/middle/before-end/after-end images show phrase transitions; actual final-WAV ASR words show speech boundaries. Native frame timestamps bracket observed text changes.",
+      "evidence": [
+        "review/4ca56a972600/audio.wav",
+        "review/4ca56a972600/offline-asr-audio.json",
+        "review/4ca56a972600/caption-t001-000-0.jpg",
+        "review/4ca56a972600/caption-t001-000-1.jpg",
+        "review/4ca56a972600/caption-t001-000-2.jpg",
+        "review/4ca56a972600/caption-t001-000-3.jpg",
+        "review/4ca56a972600/caption-t001-000-4.jpg"
+      ],
+      "observation": "Actual displayed words agree with current common voice copy; maximum measured start error0.1267s for a002, all other observed boundaries within one native frame."
+    },
+    {
+      "id": "t002",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 2.36,
+          "end": 2.92,
+          "text": "¿Quieres jugar"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 2.36,
+          "end": 2.92,
+          "text": "¿Quieres jugar"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "¿Quieres jugar",
+          "start": 2.24,
+          "end": 2.92
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "¿Quieres jugar",
+          "start": 2.3666666666666667,
+          "end": 2.933333333333333
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final caption before/on/middle/before-end/after-end images show phrase transitions; actual final-WAV ASR words show speech boundaries. Native frame timestamps bracket observed text changes.",
+      "evidence": [
+        "review/4ca56a972600/audio.wav",
+        "review/4ca56a972600/offline-asr-audio.json",
+        "review/4ca56a972600/caption-t002-000-0.jpg",
+        "review/4ca56a972600/caption-t002-000-1.jpg",
+        "review/4ca56a972600/caption-t002-000-2.jpg",
+        "review/4ca56a972600/caption-t002-000-3.jpg",
+        "review/4ca56a972600/caption-t002-000-4.jpg"
+      ],
+      "observation": "Actual displayed words agree with current common voice copy; maximum measured start error0.1267s for a002, all other observed boundaries within one native frame."
+    },
+    {
+      "id": "t003",
+      "speech_id": "a002",
+      "units": [
+        {
+          "start": 2.92,
+          "end": 3.52,
+          "text": "en tu móvil?"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 2.92,
+          "end": 3.52,
+          "text": "en tu móvil?"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "en tu móvil?",
+          "start": 2.92,
+          "end": 3.52
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "en tu móvil?",
+          "start": 2.933333333333333,
+          "end": 3.533333333333333
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final caption before/on/middle/before-end/after-end images show phrase transitions; actual final-WAV ASR words show speech boundaries. Native frame timestamps bracket observed text changes.",
+      "evidence": [
+        "review/4ca56a972600/audio.wav",
+        "review/4ca56a972600/offline-asr-audio.json",
+        "review/4ca56a972600/caption-t003-000-0.jpg",
+        "review/4ca56a972600/caption-t003-000-1.jpg",
+        "review/4ca56a972600/caption-t003-000-2.jpg",
+        "review/4ca56a972600/caption-t003-000-3.jpg",
+        "review/4ca56a972600/caption-t003-000-4.jpg"
+      ],
+      "observation": "Actual displayed words agree with current common voice copy; maximum measured start error0.1267s for a002, all other observed boundaries within one native frame."
+    },
+    {
+      "id": "t004",
+      "speech_id": "a003",
+      "units": [
+        {
+          "start": 4.0,
+          "end": 4.76,
+          "text": "No busques más."
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 4.0,
+          "end": 4.76,
+          "text": "No busques más."
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "No busques más.",
+          "start": 4.02,
+          "end": 4.78
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "No busques más.",
+          "start": 4.0,
+          "end": 4.766666666666667
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final caption before/on/middle/before-end/after-end images show phrase transitions; actual final-WAV ASR words show speech boundaries. Native frame timestamps bracket observed text changes.",
+      "evidence": [
+        "review/4ca56a972600/audio.wav",
+        "review/4ca56a972600/offline-asr-audio.json",
+        "review/4ca56a972600/caption-t004-000-0.jpg",
+        "review/4ca56a972600/caption-t004-000-1.jpg",
+        "review/4ca56a972600/caption-t004-000-2.jpg",
+        "review/4ca56a972600/caption-t004-000-3.jpg",
+        "review/4ca56a972600/caption-t004-000-4.jpg"
+      ],
+      "observation": "Actual displayed words agree with current common voice copy; maximum measured start error0.1267s for a002, all other observed boundaries within one native frame."
+    },
+    {
+      "id": "t005",
+      "speech_id": "a004",
+      "units": [
+        {
+          "start": 5.34,
+          "end": 6.32,
+          "text": "Juega desde el enlace"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 5.34,
+          "end": 6.32,
+          "text": "Juega desde el enlace"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "Juega desde el enlace",
+          "start": 5.34,
+          "end": 6.32
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "Juega desde el enlace",
+          "start": 5.366666666666666,
+          "end": 6.333333333333333
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final caption before/on/middle/before-end/after-end images show phrase transitions; actual final-WAV ASR words show speech boundaries. Native frame timestamps bracket observed text changes.",
+      "evidence": [
+        "review/4ca56a972600/audio.wav",
+        "review/4ca56a972600/offline-asr-audio.json",
+        "review/4ca56a972600/caption-t005-000-0.jpg",
+        "review/4ca56a972600/caption-t005-000-1.jpg",
+        "review/4ca56a972600/caption-t005-000-2.jpg",
+        "review/4ca56a972600/caption-t005-000-3.jpg",
+        "review/4ca56a972600/caption-t005-000-4.jpg"
+      ],
+      "observation": "Actual displayed words agree with current common voice copy; maximum measured start error0.1267s for a002, all other observed boundaries within one native frame."
+    },
+    {
+      "id": "t006",
+      "speech_id": "a004",
+      "units": [
+        {
+          "start": 6.32,
+          "end": 6.7,
+          "text": "de abajo."
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 6.32,
+          "end": 6.7,
+          "text": "de abajo."
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "de abajo.",
+          "start": 6.32,
+          "end": 6.68
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "de abajo.",
+          "start": 6.333333333333333,
+          "end": 6.7
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final caption before/on/middle/before-end/after-end images show phrase transitions; actual final-WAV ASR words show speech boundaries. Native frame timestamps bracket observed text changes.",
+      "evidence": [
+        "review/4ca56a972600/audio.wav",
+        "review/4ca56a972600/offline-asr-audio.json",
+        "review/4ca56a972600/caption-t006-000-0.jpg",
+        "review/4ca56a972600/caption-t006-000-1.jpg",
+        "review/4ca56a972600/caption-t006-000-2.jpg",
+        "review/4ca56a972600/caption-t006-000-3.jpg",
+        "review/4ca56a972600/caption-t006-000-4.jpg"
+      ],
+      "observation": "Actual displayed words agree with current common voice copy; maximum measured start error0.1267s for a002, all other observed boundaries within one native frame."
+    },
+    {
+      "id": "t007",
+      "speech_id": "a005",
+      "units": [
+        {
+          "start": 7.06,
+          "end": 8.34,
+          "text": "Es una partida real"
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 7.06,
+          "end": 8.34,
+          "text": "Es una partida real"
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "Es una partida real",
+          "start": 7.04,
+          "end": 8.34
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "Es una partida real",
+          "start": 7.066666666666666,
+          "end": 8.366666666666667
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final caption before/on/middle/before-end/after-end images show phrase transitions; actual final-WAV ASR words show speech boundaries. Native frame timestamps bracket observed text changes.",
+      "evidence": [
+        "review/4ca56a972600/audio.wav",
+        "review/4ca56a972600/offline-asr-audio.json",
+        "review/4ca56a972600/caption-t007-000-0.jpg",
+        "review/4ca56a972600/caption-t007-000-1.jpg",
+        "review/4ca56a972600/caption-t007-000-2.jpg",
+        "review/4ca56a972600/caption-t007-000-3.jpg",
+        "review/4ca56a972600/caption-t007-000-4.jpg"
+      ],
+      "observation": "Actual displayed words agree with current common voice copy; maximum measured start error0.1267s for a002, all other observed boundaries within one native frame."
+    },
+    {
+      "id": "t008",
+      "speech_id": "a005",
+      "units": [
+        {
+          "start": 8.34,
+          "end": 9.58,
+          "text": "grabada en mi móvil."
+        }
+      ],
+      "planned_units": [
+        {
+          "start": 8.34,
+          "end": 9.58,
+          "text": "grabada en mi móvil."
+        }
+      ],
+      "audio_units": [
+        {
+          "text": "grabada en mi móvil.",
+          "start": 8.34,
+          "end": 9.58
+        }
+      ],
+      "visual_units": [
+        {
+          "text": "grabada en mi móvil.",
+          "start": 8.366666666666667,
+          "end": 9.6
+        }
+      ],
+      "decision": "pass",
+      "method": "Actual final caption before/on/middle/before-end/after-end images show phrase transitions; actual final-WAV ASR words show speech boundaries. Native frame timestamps bracket observed text changes.",
+      "evidence": [
+        "review/4ca56a972600/audio.wav",
+        "review/4ca56a972600/offline-asr-audio.json",
+        "review/4ca56a972600/caption-t008-000-0.jpg",
+        "review/4ca56a972600/caption-t008-000-1.jpg",
+        "review/4ca56a972600/caption-t008-000-2.jpg",
+        "review/4ca56a972600/caption-t008-000-3.jpg",
+        "review/4ca56a972600/caption-t008-000-4.jpg"
+      ],
+      "observation": "Actual displayed words agree with current common voice copy; maximum measured start error0.1267s for a002, all other observed boundaries within one native frame."
+    }
+  ],
+  "limitation": "Planned units are instructions, not observations. Review actual WAV and caption boundary frames/full playback."
+}

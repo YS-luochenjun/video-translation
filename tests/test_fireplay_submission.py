@@ -22,6 +22,8 @@ class SubmissionClosureTests(unittest.TestCase):
         write_json(self.folder/'user-approved-return-1.json', {'requirement_id': fixtures.RID,
                    'state': 'imported_bound_youtube_unverified_approval_required', 'items': self.rows})
         self.assertEqual(len(fireplay_submission.bound_materials(self.record(), self.record()['videos'][0], self.root)), 2)
+        self.assertEqual(fireplay_monitor.followups(self.root)[0]['action'], 'verify_completion')
+        self.completion()
         self.assertEqual(fireplay_monitor.followups(self.root), [])
 
     def test_unbound_items_are_not_mistaken_for_completed_submission(self):
@@ -63,6 +65,8 @@ class SubmissionClosureTests(unittest.TestCase):
             box['operations'][f'upload-{i}'] = {'state': 'verified'}
             box['operations'][f'verify-{i}'] = {'state': 'verified'}
         write_json(self.folder/'return-1.json',box)
+        self.assertEqual(fireplay_monitor.followups(self.root)[0]['action'], 'verify_completion')
+        self.completion()
         self.assertEqual(fireplay_monitor.followups(self.root), [])
         result=fireplay.dispatch(fixtures.CODE, root=self.root)
         self.assertEqual(result['state'],'returned')

@@ -1,0 +1,32 @@
+{
+  "video_sha256": "97f8834093a904c9ccc570f1e682c86631bf3d6b62af02a946ec003df3c1a95c",
+  "method": "Actual encoded full285-frame crop decode; count candidate white glyph pixels over corresponding same-frame neutral pixels, threshold400; native boundary crop reading still required for semantic identity.",
+  "caption_frame_intervals": [
+    [
+      7,
+      52
+    ],
+    [
+      73,
+      194
+    ],
+    [
+      214,
+      276
+    ]
+  ],
+  "seconds": [
+    [
+      0.23333333333333334,
+      1.7333333333333334
+    ],
+    [
+      2.433333333333333,
+      6.466666666666667
+    ],
+    [
+      7.133333333333334,
+      9.2
+    ]
+  ]
+}

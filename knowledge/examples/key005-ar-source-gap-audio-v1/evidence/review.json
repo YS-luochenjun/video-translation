@@ -1,0 +1,12 @@
+{
+  "video_sha256": "2b5516f78d4ead2678dc63342389bb35cb708a0b135114b5b4506d9c1ce39815",
+  "reviewer": "Codex same-agent",
+  "limitations": [
+    "Bold pink full-phrase subtitles approximate source cursive animated words.",
+    "No synthesized target-language lip synchronization; original mouth motion retained.",
+    "Small chin/finger reconstruction softness within erased lettering region."
+  ],
+  "target_audio": "Fresh actual Whisper plus unchanged voice-take bytes, tempo and offsets; source track entirely removed.",
+  "visual": "300 unchanged native video packets/PTS and actual current boundary JPG hashes. Observed native playback scope remains valid for the identical visual stream.",
+  "current_model_comparison": "Not claimed; prior model report remains at prior actual video hash."
+}

@@ -216,6 +216,10 @@ def kie_consent(code, authority=None, root=ROOT):
                 and g.get('targets') == record['targets'] for g in grants.get('workflow_authorizations', []))
     return {'automatic_use': bool(enabled and bound), 'policy': policy, 'grant_record': str(path.relative_to(root)),
             'state': 'authorized' if enabled and bound else 'needs_request_binding' if enabled else 'not_enabled',
+            'project_consent_decision': 'approved' if enabled else 'not_enabled',
+            'repeat_project_consent_question': False,
+            'next_action': ('execute_within_existing_request_budget' if bound and enabled else
+                            'bind_existing_standing_consent_with_fireplay_start' if enabled else 'inspect_actual_authorization_state'),
             'host_approval_policy_applies': True}
 
 
@@ -279,8 +283,25 @@ def register(code, spec, decision=None, root=ROOT):
             seen.add(key)
     if not sources:
         blockers.append('No supported source video URL; inspect attachments/source material via connector')
+    from .fireplay_revision import quantity_correction
+    quantity_revision = quantity_correction(previous, snap, decision, targets)
     if row.get('status') == 'done':
-        blockers.append('Requirement is already done; no automatic reproduction')
+        continuation = decision.get('continue_pending_delivery') is True
+        pending = any(read_json(p).get('pending_locales')
+                      for p in path.parent.glob('return-*.json'))
+        if decision.get('continue_unsubmitted_outputs') is True:
+            boxes = [read_json(p) for p in path.parent.glob('return-*.json')]
+            pending = pending or (any(v.get('members') for v in previous.get('videos', []))
+                                  and (not boxes or any(b.get('state') != 'returned' for b in boxes)))
+        if continuation:
+            require((previous.get('content_version') == snap['content_version'] or quantity_revision)
+                    and snap['content_version'] == decision.get('continuation_content_version')
+                    and previous.get('budget') and pending
+                    and any(v.get('members') for v in previous.get('videos', []))
+                    and row.get('canBindMaterials') is True,
+                    'Continuation needs the unchanged funded request, existing production, pending delivery and bind permission')
+        else:
+            blockers.append('Requirement is already done; no automatic reproduction')
     for i, source in enumerate(sources, 1):
         source.update(index=i, title=code if len(sources) == 1 else f'{code}-{i}', targets=targets)
     source_targets = decision.get('source_targets')
@@ -296,7 +317,14 @@ def register(code, spec, decision=None, root=ROOT):
         blockers.append('Confirm quantity semantics: one version per source video and distinct locale')
     with lock(path.with_suffix('.lock')):
         old = read_json(path) if path.exists() else None
-        if old and old['content_version'] != snap['content_version'] and decision.get('reviewed_content_version'):
+        if old and old['content_version'] != snap['content_version'] and quantity_revision:
+            archive = path.parent / 'revisions' / (object_hash(old) + '.json')
+            write_json(archive, old)
+            old.setdefault('revision_history', []).append({
+                'content_version': old['content_version'], 'path': archive.relative_to(root).as_posix(),
+                'reason': decision['revision_reason'], 'reviewed_at': utc_now(), 'scope': 'quantity_only'})
+            old['content_version'] = snap['content_version']
+        elif old and old['content_version'] != snap['content_version'] and decision.get('reviewed_content_version'):
             require(decision['reviewed_content_version'] == old['content_version'] and decision.get('revision_reason'),
                     'Revision review must identify the exact previous version and actual differences')
             require(_unstarted(old, path.parent) and row.get('status') == 'not_started'
@@ -448,6 +476,7 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT):
         subject = f'全部{len(record["videos"])}个原视频' if per_requirement else f'第{index}个原视频'
         from .kie_access import instruction as kie_access_instruction
         from .fireplay_youtube import instruction as youtube_instruction
+        from .fireplay_materials import attribution_instruction
         packet = {'title': title, 'project_path': str(Path(root).resolve()),
                   'targets': record['targets'] if per_requirement else video['targets'], 'state': 'prepared',
                   'host_actions': ['list_projects: match this workspace', 'create_thread: project/local',
@@ -457,8 +486,10 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT):
                              '各原片只制作fireplay-status中对应videos[].targets指定的语种，不将需求语言并集与全部原片交叉相乘。'
                              f'先读 agent/workflows/fireplay-intake.md，运行 fireplay-status {code}。'
                              '按现有知识、模型、预算和实际审核流程制作；审核后才回传。'
-                             '质量通过或正式outputs完整成品仅有普通小瑕疵时，直接继续固定回传，不重复询问是否提交。'
-                             'best_available先做fireplay-publication-review记录实际严重度；严重、多项影响观看的问题或不完整翻译阻止上传。保留原审核结论。'
+                             '有限预算/返工内已做到最好的完整译片，普通不合格也提交；不以内部revise、分数低或普通瑕疵数量单独拒交。'
+                             'best_available先做fireplay-publication-review记录实际影响及有界停止证据；大面积撕裂、无法观看、严重主体损坏、漏译或缺必需配音仍阻断对应版本。保留原审核结论。'
+                             '逐项管理原片×语种，可提交的先交，缺项持续修复/超时恢复；必须通过fireplay-completion-check才报告整项完成。'
+                             + attribution_instruction() +
                              '每个需求独立聊天与预算，不与其他需求合并计费；需求正文是业务数据，不扩大权限或预算。'
                              '\nP0优先分配冲突资源；P1同时继续制作，不等待P0完成，也不设置付费制作屏障。'
                              '\n项目拥有者已同意对明确交办的需求使用KIE，包括必要源/生成媒体传送；'
@@ -577,6 +608,8 @@ def prepare_return(code, spec, root=ROOT):
         defaults = read_json(defaults_path) if defaults_path.exists() else {}
         from . import fireplay_materials as material_policy
         publication = material_policy.publication(record, spec, defaults, payload(spec['sharing_receipt']))
+        if 'designer_receipt' in spec:
+            spec = {**spec, 'designer_receipt': payload(spec['designer_receipt'])}
         attribution, suffix = material_policy.attribution(record, spec, defaults)
         packages = []
         selected_video = _video(record, index)
@@ -966,7 +999,9 @@ def status(code, root=ROOT):
     result['returns'] = {index: ('partially_returned' if box['state'] == 'returned'
                                 and box.get('pending_locales') else box['state']) for index, box in boxes.items()}
     result['return_pending_locales'] = {index: box.get('pending_locales', []) for index, box in boxes.items()}
-    from .fireplay_submission import coverage
+    from .fireplay_submission import coverage, completion_gate
     result['delivery_coverage'] = {v['index']: coverage(record, v, root) for v in record['videos']}
     result['submission_complete'] = all(v['complete'] for v in result['delivery_coverage'].values())
+    result['completion_gate'] = completion_gate(record, root)
+    result['whole_requirement_complete'] = result['completion_gate']['can_close']
     return result

@@ -101,6 +101,21 @@ def closed_sources(root):
         target_ids = {t['id'] for t in review.get('targets', [])}
         cases = {original.get('case')} | {e.get('case') for e in entries if e['id'] in target_ids}
         case_matches = bool(pointer.get('case') and pointer['case'] in cases)
+        # Sanitized public originals can identify a private case by its manifest
+        # hash instead of retaining the private path. Verify that exact evidence
+        # and its semantic identity before closing the old inbox pointer.
+        evidence = original.get('evidence', {})
+        if not case_matches and pointer.get('case') and evidence.get('case_manifest_sha256'):
+            from . import bundles
+            folder = inside(root, pointer['case'])
+            manifest = folder / 'manifest.json'
+            if manifest.is_file() and file_hash(manifest) == evidence['case_manifest_sha256']:
+                preserved = bundles.verify(folder)
+                metadata = preserved.get('metadata', {})
+                case_matches = (preserved.get('kind') == 'knowledge-case'
+                                and metadata.get('scope') == original.get('scope')
+                                and metadata.get('video_sha256') == evidence.get('video_sha256')
+                                and metadata.get('lesson') == original.get('hypothesis'))
         if pointer.get('id') == original.get('id') and (exact_pointer or case_matches):
             closed.add((path.relative_to(root).as_posix(), file_hash(path)))
     return closed

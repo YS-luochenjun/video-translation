@@ -31,7 +31,7 @@ knowledge-queue → 主控审查采纳目标/缺证据 → knowledge-promote / k
 ```powershell
 .\bin\va.ps1 hooks status
 .\bin\va.ps1 hooks run                 # 手动执行一次
-.\bin\va.ps1 hooks run --due           # 已到9点且今天尚未完成才执行
+.\bin\va.ps1 hooks run --due           # 按config/hooks.json的上海时区到期判断执行
 .\bin\project-hooks.ps1 -Action Install
 .\bin\project-hooks.ps1 -Action Status
 .\bin\project-hooks.ps1 -Action Uninstall

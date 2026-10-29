@@ -140,3 +140,42 @@ def verify_completion(code, spec, root=ROOT):
               'scope': 'Current Fireplay binding of every requested source/locale; no downstream YouTube publication proof'}
     write_json(fireplay._folder(code, root) / 'completion-check.json', result)
     return result
+
+
+def completion_gate(record, root=ROOT):
+    """A returned batch is insufficient: require one full platform-bound receipt."""
+    folder = Path(root) / 'state/fireplay' / record['code']
+    path = folder / 'completion-check.json'
+    value = read_json(path) if path.exists() else {}
+    expected = {(v['index'], locale) for v in record['videos'] for locale in v['targets']}
+    actual = {(r.get('video_index'), r.get('locale')): (r.get('material_id'), r.get('sha256'))
+              for r in value.get('verified', [])}
+    current = {(v['index'], m['locale']): (m['material_id'], m.get('sha256'))
+               for v in record['videos'] for m in bound_materials(record, v, root)}
+    complete = (value.get('complete') is True and value.get('content_version') == record['content_version']
+                and value.get('requirement_id') == record['requirement_id'] and set(actual) == expected
+                and len(value.get('verified', [])) == len(expected) and actual == current and bool(expected))
+    return {'can_close': complete, 'expected_count': len(expected), 'verified_count': len(actual) if complete else 0,
+            'next_action': 'fireplay-close ' + record['code'] if complete else
+                           'Complete missing source/locales, then fireplay-completion-check with actual current platform delivery view',
+            'completion_record': str(path.relative_to(root)) if path.exists() else None}
+
+
+def close_delivery(code, root=ROOT):
+    from . import fireplay
+    from .common import lock
+    folder = fireplay._folder(code, root)
+    with lock(folder / 'request.lock'):
+        record = fireplay._record(code, root)
+        gate = completion_gate(record, root)
+        require(gate['can_close'], 'Whole requirement is incomplete or lacks platform completion verification; do not close after a partial batch')
+        check = folder / 'completion-check.json'
+        value = {'code': code, 'content_version': record['content_version'], 'requirement_id': record['requirement_id'],
+                 'complete': True, 'completion_check_sha256': file_hash(check),
+                 'expected_count': gate['expected_count'], 'verified_count': gate['verified_count'],
+                 'scope': 'Fireplay accepted every requested source/locale; no YouTube publication or quality-pass assertion'}
+        receipt = folder / 'delivery-closures' / (object_hash(value) + '.json')
+        if not receipt.exists():
+            write_json(receipt, {**value, 'closed_at': utc_now()})
+        write_json(folder / 'delivery-closure.json', {'receipt': str(receipt.relative_to(root)), 'sha256': file_hash(receipt)})
+        return read_json(receipt)

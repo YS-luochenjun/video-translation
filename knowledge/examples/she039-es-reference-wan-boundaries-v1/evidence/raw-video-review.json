@@ -1,0 +1,57 @@
+{
+  "decision": "adopt_whole_clips",
+  "reviewer": "Codex (same_agent)",
+  "source_sha256": "7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24",
+  "scope": "Two actual source-bound3s visual intermediates only; final encoded Spanish review is still required.",
+  "method": "Actual KIE accepted reference-image parameter receipts, decoded90-frame30fps probes,20 temporal source/model candidate views, native720p2.4s body/hair images, source-matched pairs and two IABsource/model normal1x playthroughs endedat3s. No independent human acceptance.",
+  "observations": {
+    "opening": "Large advertising words and green/red glow are absent; reconstructed black legs/body and bridge are continuous without the prior color rectangles. Identity, hands, joystick/stopwatch, top UI and toolbar remain meaningful. Fine contour/ornament details and character scale near fast turn differ from original; no static freeze or stretched playback.",
+    "closeup": "All THIS ISDIRECT GAMEPLAY/FOOTAGE FROMMY PHONE overlays are absent in inspected times; phone emoji, cursor, black hair/body, bridge and UI remain meaningful. Native hair/body join is continuous without the previous horizontal regional edge. Minor contour/camera-phase/phone-screen details differ.",
+    "adoption": "Use whole actual90-frame clips at source[0,3] and[7,10] in native timeline, preserving the original outside those windows. This avoids the previously failed hard regional source/model boundaries. Spanish UI/captions and exact full audio are overlaid independently.",
+    "final_checks_required": "Inspect actual final transitions at3,7,10s at normal1x and frame boundaries; all Spanish text/brand/voice coverage, audio completeness and AV sync still require final-video hashes."
+  },
+  "remaining_defects": [
+    {
+      "severity": "minor",
+      "description": "Source/model contour, tiny control/emoji details and apparent scale vary slightly through fast camera movement. Final stitched cut impact still pending."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "review/wan-reference-v6/raw-contact.jpg",
+      "sha256": "bcc9bee327193f4b8f1fdcfbea57f5edec2ee27eed307d701f98bee304890ff5"
+    },
+    {
+      "path": "review/wan-reference-v6/source-model-pairs.jpg",
+      "sha256": "957b4aab51e72ee8adcd5b3715f12ff59c1673d42e936184c2063875d01e6982"
+    },
+    {
+      "path": "review/wan-reference-v6/opening-08.jpg",
+      "sha256": "ccae569584517cb856435c626c0133cf032e58dd68f9c1420ea89edab9f6534a"
+    },
+    {
+      "path": "review/wan-reference-v6/closeup-08.jpg",
+      "sha256": "832da0c54dd9254765fa77b44ce1f5b86fe4d427bc44c716e971600c7c51e303"
+    },
+    {
+      "path": "review/wan-reference-v6/opening-playback-end.png",
+      "sha256": "68586ca013e15d873fe5082edcfd1109fff158f1b74c720dad73b40ad06d2eb5"
+    },
+    {
+      "path": "review/wan-reference-v6/closeup-playback-end.png",
+      "sha256": "850161c70dfd6018419dd991fd9d6cac76cbe9defe3f415ed5471095f9df6fed"
+    },
+    {
+      "path": "review/wan-reference-v6/opening-probe.json",
+      "sha256": "30fbe92099c179e5f7745fc4f3b19fb6e78861794a4507ce0bd721a6a3929100"
+    },
+    {
+      "path": "review/wan-reference-v6/closeup-probe.json",
+      "sha256": "ea81a257d327c6235d31448f3f3c9b3d40d4adec20f86e0c9535ac77aca65264"
+    },
+    {
+      "path": "inputs/wan-reference-v6/reference-transmission-proof.json",
+      "sha256": "b5f994bbe2822d75925f62a0f4179d2e3426b6ca963ed886dfc4c5bab12fdf5a"
+    }
+  ]
+}

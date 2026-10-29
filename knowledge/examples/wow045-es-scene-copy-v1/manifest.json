@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "wow045-es-scene-copy-v1",
+  "created_at": "2026-10-29T06:29:18+00:00",
+  "files": [
+    {
+      "path": "evidence/caption_policy.json",
+      "sha256": "a52395c076672a104a2315d8a413201d988eb0f8e5a09f9b6fe8e8dc91ef49b5",
+      "bytes": 235
+    },
+    {
+      "path": "evidence/final_audio.wav",
+      "sha256": "0c8713cdcd9ad8b33e9b59f1541bebf511d24857fd3fb021457eb16d07973a86",
+      "bytes": 316030
+    },
+    {
+      "path": "evidence/model.json",
+      "sha256": "e0f39c42f67b676cc6096bcf2864d06f0425959c8b036f23650005ed95654c62",
+      "bytes": 1736
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "21f113985a9b24c752d0b479f274aaa981969700bce4c275bc36bd884d954b49",
+      "bytes": 2375
+    },
+    {
+      "path": "evidence/review.json",
+      "sha256": "84f4c1816707b95ae782e51a2a4ee8092b2aeb19b5f1bcb1580188a8a3f6a794",
+      "bytes": 3103
+    },
+    {
+      "path": "evidence/timeline.jpg",
+      "sha256": "b66a8ba01c5963d62ba36badb073ca049e45304c2cf55f1cc2b3ec85a4c318f1",
+      "bytes": 185210
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "3b979d3a1ee9ae1ccb93a82b9102eadf9f214deac1f21ca373da493f8d69f5c6",
+      "target_language": "es"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# WOW045西语：海报场景文案与旁白分轨\n\n范围：源 SHA256 3b979d3a1ee9ae1ccb93a82b9102eadf9f214deac1f21ca373da493f8d69f5c6；目标语 es；成片 SHA256 9cfce006375b1338daac521321f37565c8dc264270d24a5506ed52e7c858bfc9。\n\n静态海报的五处场景文案与实际旁白语义不同，分别翻译；不能因为画面文字完整就遗漏独立旁白，也不能把常驻海报文字强配成逐句口播字幕。去除发布者 MindJournal 同标，保留树/动物剪影、问号、分隔线与红箭头。实际浏览器失败后用静态可读 CTA，披露丢失轻微缩放脉冲，纸纹和描边差异继续保留。声音证据来自实际最终音轨 ASR 与有来源的模型比较，不是独立人类听审或健康宣称核验。\n\n本次仅整理原制作的同一执行者观察、模型结果及哈希证据，没有重新完成正常播放、人类听审或公司验收。各语种分别保留原评审；同源多语不增加独立源数量。具体参数仅供追溯，不能直接套用其它素材；未知费用、旧失败和质量异议继续保留。\n\n依据：evidence:review、evidence:model、evidence:caption_policy、evidence:timeline、evidence:final_audio、evidence:observation。manifest 中的文件构成独立证据，旧路径仅为来源标签。\n",
+    "source_sha256": "3b979d3a1ee9ae1ccb93a82b9102eadf9f214deac1f21ca373da493f8d69f5c6",
+    "video_sha256": "9cfce006375b1338daac521321f37565c8dc264270d24a5506ed52e7c858bfc9",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/review.json",
+      "model": "evidence/model.json",
+      "caption_policy": "evidence/caption_policy.json",
+      "timeline": "evidence/timeline.jpg",
+      "final_audio": "evidence/final_audio.wav",
+      "observation": "evidence/observations.json"
+    }
+  }
+}

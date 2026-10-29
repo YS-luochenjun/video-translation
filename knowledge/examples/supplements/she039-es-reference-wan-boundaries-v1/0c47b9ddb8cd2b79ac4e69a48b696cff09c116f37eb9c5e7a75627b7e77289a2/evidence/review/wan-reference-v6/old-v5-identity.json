@@ -1,0 +1,7 @@
+{
+  "source_sha256": "7c634fc449b0240b1726e639b94dc4e0ae8a0bb03eac2affe825ee6df848fb24",
+  "old_video_sha256": "17dfd5f6b9017ab4a600b7c0fb92c1d19930e5e4136b62a11fd26b27b223c754",
+  "new_video_sha256": "4ca56a9726001675bcbf56db88ecb7e5a4c5fe3761274a8384bbe6f4137e742b",
+  "old_quality": "revise, major warm band and regional body/hair seams; original judgment retained",
+  "observations": "Two native frames extracted from the exact failed encoded v5 at2.4s and9.4s; stills show historical geometry/glow problems and do not replace normal-speed temporal review. Subsequent v8 is different clip/reference/adoption route, not a controlled A/B."
+}

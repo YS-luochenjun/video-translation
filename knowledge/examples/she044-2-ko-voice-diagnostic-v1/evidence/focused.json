@@ -1,0 +1,18 @@
+{
+  "source_sha256": "1b6dea4a41ffd4c4bff0c383a0c384416e438b8ea1b798d6e779a37079cafe87",
+  "video_sha256": "62b08d046de3a35f785011e91e686a0b3a4db17d68a36f6c68988ec1189018b4",
+  "analysis": {
+    "has_speech": true,
+    "isolated_helper_gender": "female",
+    "isolated_helper_confidence": 0.95,
+    "mixed_helper_gender": "female",
+    "mixed_helper_confidence": 0.94,
+    "other_speaker_gender": "female",
+    "helper_same_voice_in_a_b": true,
+    "voices_distinct": true,
+    "voices_consistent": true,
+    "observations": "Audio A features an isolated dry vocal take of a conversational Korean female voice with mid-register pitch (~185–215 Hz) and female formant dispersion. While grounded and calm in delivery, it displays natural female vocal tract resonance rather than male laryngeal depth or chest resonance. In Audio B, two clearly distinct female voices interact: the distressed first speaker operates in a noticeably higher, brighter register (~260–330 Hz), whereas the helper speaker (~3.0–4.5s, ~9.6–12.5s, ~13.0–15.8s, ~16.0–17.5s) maintains a steady, cool, mid-register female timbre. The helper's line at ~9.6–12.5s is the exact same voice take heard in Audio A, integrated into the mix with music and sound effects. Both characters remain timbrally stable across all turns.",
+    "uncertain_intervals": []
+  },
+  "proof_boundary": "Focused external model perceptual evidence, not human listening. Preserve earlier contradictory response."
+}

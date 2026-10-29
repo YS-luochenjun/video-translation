@@ -1,0 +1,29 @@
+{
+  "id": "SHE-20261028-044-2-01-62b08d046d",
+  "status": "candidate",
+  "created_at": "2026-10-29T02:19:58+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ko",
+    "source_sha256": "1b6dea4a41ffd4c4bff0c383a0c384416e438b8ea1b798d6e779a37079cafe87"
+  },
+  "outcome": "pass",
+  "hypothesis": "For this exact Korean two-female-character source, a broad mixed-audio review produced a contradictory helper gender label despite distinct/consistent booleans. A focused check of the real isolated helper take and actual final mix identified the same lower-register female voice. Preserve both observations; do not infer gender from preset names or silently overwrite the first report.",
+  "evidence": {
+    "run": "SHE-20261028-044-2-01",
+    "video_sha256": "62b08d046de3a35f785011e91e686a0b3a4db17d68a36f6c68988ec1189018b4",
+    "quality_sha256": "7aff0ed8877c8534053402df6f971280ff376ecd92c6b0b3681b54b0869829ce"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "observed_candidate",
+  "evidence_digest": {
+    "quality_decision": "pass",
+    "failure_codes": [],
+    "reviewer": "Codex same-agent visual review with attributed Gemini audio comparison, focused gender-perception diagnostic and Whisper recognition",
+    "known_defect_count": null
+  },
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

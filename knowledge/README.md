@@ -21,17 +21,32 @@
 
 ## 按场景选择
 
-[全项交付与超时恢复](rules/fireplay-complete-delivery-v2.md)要求逐项核对全部原片/语种。部分批次不能当整项完成，真实文件上传超时按持续授权有界重传，原unknown和已有素材ID继续保留。
+| 问题 | 现行入口 | 使用边界 |
+| --- | --- | --- |
+| 内容分类与主/辅助路线 | [Agent方法选择](rules/agent-method-selection-v2.md)、[三类广告](rules/content-led-localization-v1.md) | 按实际音频、文案、运动及遮挡选路；记录首选、备选、切换和停止条件 |
+| 图片与连续视频修复 | [ImageGen优先](rules/imagegen-first-v3.md)、[自然修复选路](rules/content-aware-text-restoration-v2.md) | 参考图须实际绑定并审核；静态供体、局部采用与连续运动分别判断 |
+| 发布者水印和片尾同标 | [去除范围](rules/publisher-watermark-removal-v2.md) | 逐实例解析身份；产品品牌与用户明确保留例外单列 |
+| 配音、角色和字幕时轴 | [最终混音核查](rules/method-spoken-caption-verification-v4.md)、[角色声线](rules/short-drama-character-voices-v2.md) | 孤立TTS、模型语义时间和预设名不能替代实际混音及编码边界 |
+| 全部原片/语种提交与恢复 | [全项交付](rules/fireplay-complete-delivery-v3.md)、[固定提交与收尾](rules/fireplay-completion-recovery-v4.md) | 部分批次继续补交；真实平台读回后结案，不跟踪YouTube进度 |
+| 设计师身份与KIE核查 | [设计师归属](rules/fireplay-designer-attribution-v2.md)、[API与本地日志](rules/kie-api-local-verification-v1.md) | 自行查询真实成员，持续授权沿原需求账本，不索要后台登录或DID |
 
-[ImageGen优先政策](rules/imagegen-first-v3.md)保存2026-10-27用户明确图片处理偏好，将适用时的ImageGen同镜头参考＋Wan列为优先方案，保留独立选路；选择带图时须审核并实际绑定参考。已有MOG005与APC024的限定实作，不将它们推广为整片必然更好。
+语言scope默认完整匹配；审查过的基础语言scope才可扩大。`related_source_references`只是同源其他语言标签的发现线索，须重新审查。条件方法按实际特征命中；背景场景和候选存在本身不决定算法。
 
-实际采用的补充记录见[MOG005英语ImageGen参考图与Wan局部结果](cases/mog005-en-imagegen-wan-local-adoption-v1.md)、[同源西语稳定UI与原音轨](cases/mog005-es-original-audio-stable-ui-v1.md)，以及MOG063的[西语](cases/mog063-es-straw-and-phone-boundaries-v1.md)、[印地语](cases/mog063-hi-straw-and-phone-boundaries-v1.md)、[葡语](cases/mog063-pt-straw-and-phone-boundaries-v1.md)失败取舍和手机边界。各自保持精确源/语种范围；共用底片不增加独立视觉复验数，用户限定保留水印的例外不改变默认政策。
+## 源限定案例导航
 
-[水印与片尾同标](rules/publisher-watermark-removal-v2.md)替代旧移动水印规则的默认范围：解析发布者身份、逐实例去除，并检查片尾同名文字/商标。静态与移动均按条件召回；用户两张Apkzonic指示图是范围证据，不是已完成视频修复的证明。
+每行保持正文登记的源SHA、语种和版本范围；同源其他语种仍须独立定稿、配音、时轴和审核。这里只按主题分组，不复制规则或合并验收。
 
-[Agent 方法选择](rules/agent-method-selection-v2.md) 统一政策优先级、主方法及辅助方法的组合。方法按实际特征和请求模式检索，家庭/医院/校园等背景不直接决定算法；特征定义在 `config/content-features.json`。角色声线、声音事件、识别分歧与时间配合分别有条件方法。Agent 在现有 reason/evidence 说明首选/备选、切换及停止依据，不从命中推断已经使用。
+| 主题 | 案例入口 |
+| --- | --- |
+| ImageGen参考与Wan局部采用 | [APC024日语上部试片](cases/apc024-ja-imagegen-wan-upper-trial-v1.md)、[MOG005英语](cases/mog005-en-imagegen-wan-local-adoption-v1.md)、[SHE039西语](cases/she039-es-reference-wan-boundaries-v1.md) |
+| 残字、供体与边界 | [MOG010日语](cases/mog010-ja-static-donor-and-cta-v1.md)、[MOG044韩语控件](cases/mog044-record-control-ko-v2.md)、[KEY008日语一帧切换](cases/key008-ja-caption-switch-v1.md) |
+| 最终混音和角色分歧 | [KEY002阿语时轴](cases/key002-ar-mix-timing-v1.md)、[KEY005阿语源语漏音](cases/key005-ar-source-gap-audio-v1.md)、[MOG044葡语句尾串音](cases/mog044-pt-utterance-tail-v2.md)、[SHE044第二原片韩语声线](cases/she044-2-ko-voice-diagnostic-v1.md) |
+| 同源复用与逐语种检查 | [MOG005西语原音轨/UI](cases/mog005-es-original-audio-stable-ui-v1.md)、[SHE043阿语共用底片](cases/she043-ar-shared-base-boundaries-v1.md) |
+| 有界取舍与字幕合成 | MOG063[西语](cases/mog063-es-straw-and-phone-boundaries-v1.md)、[印地语](cases/mog063-hi-straw-and-phone-boundaries-v1.md)、[葡语](cases/mog063-pt-straw-and-phone-boundaries-v1.md)；[WOW042德语合成](cases/wow042-caption-compositing-v1.md) |
+| 保全包提炼与特殊边界 | [KEY021印地语道具](cases/key021-hi-prop-plane-v1.md)、KEY010[第一原片英语](cases/key010-1-en-fade-boundary-v1.md)/[第二原片西语](cases/key010-2-es-source-scope-v1.md)、[MOG054葡语专名分歧](cases/mog054-pt-name-asr-v1.md)、[WOW045西语场景文案](cases/wow045-es-scene-copy-v1.md) |
+| 上传暂缓与原操作恢复 | [MOG047](cases/mog047-upload-deferral-v1.md) |
 
-语言 scope 默认完整匹配；经审查的基础语言 scope 才可扩大。`related_source_references` 为同源同基础语言的范围外发现线索，须重新语言审查。旧规则与未索引的选路草稿已按原字节留存，替代与迁移见 [八项整理记录](curation/selection-alignment-20261026.json)。
+完整清单以[cases/index.json](cases/index.json)为准。本轮新增来源与采纳关系见[融合记录](curation/consolidation-20261028.json)；已有七组来源与历史迁移仍由各自curation记录追溯，不按语言数量增加独立复验数。
 
 ## 证据存储与旧路径
 
@@ -71,20 +86,10 @@
 
 已完全处理的候选可以从此目录移除：`candidate-archive` 先预览，再带指纹执行，原始字节保存在 `history/candidates/`。`candidate-archives.json` 保持旧来源路径可追溯；索引里的 `storage_path` 是实际文件位置，`queue_state=archived` 表示已退出默认队列。原始status/outcome保留历史含义，当前处理状态以审查链为准。只有部分采纳的内容仍保留待办，不批量删除。详细命令与表单见 [知识合同](../agent/contracts/knowledge.md)。
 
-## 信息载体与防漏入口
+## 整理与维护
 
-[三类广告条件](rules/content-led-localization-v1.md) 说明音频主导、画面文案主导及混合型的适用条件和片段例外。旁白与对白都翻译。角色/文字事实补齐检索标签，Agent 保存分类与选路证据；必要方法完整返回，可选方法有界。普通和快速计划都冻结选择及知识版本，缺少旧记录时如实补登记，不改写历史质量或费用。
+相同含义且scope一致的过程经验关联现行方法；单源新事实按精确语种建独立案例。未提取经验的保全包保留具体审查入口，不把占位句当结论，也不因等待跨源复验而阻止单源案例整理。[融合记录](curation/consolidation-20261028.json)保留本轮公开来源、原文哈希和审查关系；私有记录继续留在local。
 
-本轮聊天复盘新增：[KIE API与本地核查](rules/kie-api-local-verification-v1.md)、[Fireplay自动提交与经验收尾](rules/fireplay-completion-recovery-v3.md)、[多语种制作复盘](rules/multilingual-thread-lessons-v1.md)。原候选、质量失败和源/语种范围保留；结案后不追踪YouTube进度。
+反馈包中，`feedback.json`是事件，经过哈希manifest核验的声明成员是该事件的证据。队列与Hook只排除已声明且核验一致的证据成员；未列入清单的新反馈仍进入待审。清单缺文件、哈希改变或路径越界会报错，不能静默隐藏。原文件不因去重计数而删除。
 
-本轮还保留了[WOW-042德语合成案例](cases/wow042-caption-compositing-v1.md)：发光文字填充反例、gbrp颜色合成修正与逐帧字幕边界。仅限该源和德语，不扩成全语种默认算法。
-
-本次整理新增[MOG047上传暂缓参考](cases/mog047-upload-deferral-v1.md)：未知文件保留原操作、暂缓语种留pending，其余已核验语种部分绑定；只保存同源操作观察，不改变视频质量或平台发布结论。方法论和自动沉淀状态见[项目总结](../docs/project-methodology.md)，实际积压以knowledge-queue和hooks status为准。
-
-[执行人设计师归属](rules/fireplay-designer-attribution-v1.md)：排除罗晨钧、邹彬，其余执行人填为设计师，标记二创并追加“二创”标签；无其他人员才可留空。
-
-本轮将[MOG010日语静态供体与CTA分歧](cases/mog010-ja-static-donor-and-cta-v1.md)整理为同源限定案例：实际ImageGen局部供体与Wan参考图分开记，模型时间标签不作为实测字幕/发声边界。原占位、失败、费用未知和前一份pending审查均保留在历史；没有扩大为跨源方法。
-
-## 精简与复用
-
-现行入口只保留操作摘要，完整旧说明在history/instructions和history/workflows追溯；不把历史原话重复注入每次制作。证据只按相同SHA256通过storage-index共享，scope、manifest和原评审不变。新整理的[MOG044韩语控件案例](cases/mog044-record-control-ko-v2.md)保留“亮底不等于录音中”的实际源图反例，仅精确同源ko召回。运行状态和容量数字以本地审计为准。
+操作步骤见[知识合同](../agent/contracts/knowledge.md)，职责和工具见[维护地图](../docs/project-map.md)。实际积压读取`knowledge-queue`、`hooks status`与`project_health.py`；目录数量和历史“已整理”说明不能替代当前状态。证据只按相同SHA256共享，现行正文、历史原文、manifest与原评审分别保留。

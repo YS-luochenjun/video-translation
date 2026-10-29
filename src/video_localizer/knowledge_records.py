@@ -34,8 +34,22 @@ def evidence_payload(path, base):
         if parent == base or not parent.is_relative_to(base):
             break
         manifest = parent / 'manifest.json'
-        if manifest.is_file() and read_json(manifest).get('kind') == 'knowledge-case':
-            return True
+        if manifest.is_file():
+            record = read_json(manifest)
+            if record.get('kind') == 'knowledge-case':
+                return True
+            # A feedback event may retain its receipts in a simple hash manifest.
+            # Only declared, verified members are evidence; the event itself and
+            # unlisted new feedback must still reach both review and distillation.
+            files = record.get('files')
+            if isinstance(files, dict) and 'feedback.json' in files:
+                for relative, digest in files.items():
+                    member = inside(parent, relative)
+                    require(member.is_file() and file_hash(member) == digest,
+                            'Feedback evidence manifest differs from its files')
+                relative = path.relative_to(parent).as_posix()
+                if path == manifest or relative in files and relative != 'feedback.json':
+                    return True
     return False
 
 

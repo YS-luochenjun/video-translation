@@ -60,6 +60,9 @@ def validate_feature_requirements(entry):
             isinstance(value, str) and re.fullmatch(r"[a-z][a-z0-9_]{0,63}", value)
             for value in values), f"{key} must be a list of short feature names")
     require(entry.get('language_match', 'exact') in ('exact', 'base'), 'language_match must be exact or base')
+    nested_match = entry.get('scope', {}).get('language_match')
+    require(nested_match is None or nested_match == entry.get('language_match', 'exact'),
+            'Scope language_match must agree with the reviewed entry policy')
     require(entry.get('retrieval_role', 'optional') in ('required', 'optional'), 'Invalid knowledge retrieval_role')
     if entry.get('language_match') == 'base':
         require(bool(re.fullmatch(r'[a-z]{2,3}', entry.get('scope', {}).get('target_language', ''))),
@@ -71,6 +74,11 @@ def validate_feature_requirements(entry):
 
 def _scope_matches(entry, context):
     for key, expected in entry.get('scope', {}).items():
+        if key == 'language_match':
+            # Older scoped observations retained this policy inside scope.
+            # It is not an input fact; target_language still enforces exact/base
+            # matching below, and validation rejects conflicting policies.
+            continue
         actual = context.get(key)
         if expected == '*':
             continue

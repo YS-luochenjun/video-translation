@@ -1,0 +1,65 @@
+{
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+    "target_language": "pt",
+    "language_match": "exact"
+  },
+  "video_sha256": null,
+  "review_boundary": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
+  "original_case_manifest_sha256": "7103245a806eca9b91760f9a3aa1eecaff6db62409a56fbc121fe6876a094f93",
+  "evidence_origins": [
+    {
+      "origin": "evidence/source-records/MOG-20261027-044-02/outputs/voice-takes-pt/a003.wav",
+      "sha256": "5f4320aa58c05b9598083ae86d4c3c1e703722e83e12972cc4ec88e850f95d33",
+      "evidence_label": "take_before"
+    },
+    {
+      "origin": "evidence/source-records/MOG-20261027-044-02/outputs/pt-phrase-tail-repair-v2/a003-clean.wav",
+      "sha256": "4d48c6d865e4d77104bc2a9de1138d852889bdd0c6ebb8ec53cdb3f143582b86",
+      "evidence_label": "take_after"
+    },
+    {
+      "origin": "evidence/source-records/MOG-20261027-044-02/review/5b61e3684c40/pro-audio-assessment.json",
+      "sha256": "a2b5a535836e451062b5b00dfc956c75fd03ee6537d756f7096d036e332343e7",
+      "evidence_label": "failure"
+    },
+    {
+      "origin": "evidence/source-records/MOG-20261027-044-02/review/5b61e3684c40/audio-model-review.json",
+      "sha256": "1725a0af06d82e8d32fb6a1c21ce7c13f60f3106169d6f6e1fb89caf0f0166ba",
+      "evidence_label": "model_before"
+    },
+    {
+      "origin": "evidence/source-records/MOG-20261027-044-02/review/5b2ed8d646f4/audio-model-review.json",
+      "sha256": "76dd8835b55293830f3c5f931da8366cb29c439dee548b39800b6831542f34d8",
+      "evidence_label": "model_after"
+    },
+    {
+      "origin": "evidence/source-records/MOG-20261027-044-02/review/5b2ed8d646f4/caption-sync.json",
+      "sha256": "90b0a029cf5be68d8fc89dec6dfd8e02d97641865a527018cd1c714c1bc7020f",
+      "evidence_label": "caption_sync"
+    }
+  ],
+  "original_candidates": [
+    {
+      "path": "knowledge/candidates/MOG-20261027-044-pt-phrase-repair-20261028.json",
+      "sha256": "685aff24fc1680957b79fdacda7555523c5ee161171badb7ab951f7ebaf9b2c1"
+    },
+    {
+      "path": "knowledge/candidates/MOG-20261027-044-pt-recovery-20261027.json",
+      "sha256": "50680e8fde623cc5d9c2c4da69a9bd5ee488292239f07dcfbe4bcfc3047cd56a"
+    }
+  ],
+  "observation": "全局或拼接 TTS 的 ASR 切句留下下一句音节，形成重复起音。实际单句 a003 的主句结束于1.84秒，后续2.22–2.36秒识别到 Pai；清理仅去除有证据的尾部，保留主句与余量，沿用原声线。数字反应在孤立音轨中可识别，在最终混音中曾漏识别；有界缩短内停顿并只在实际反应窗口降低原伴奏，重新核对最终混音和字幕。案例保存原/清理后的单句与新旧模型观察；新报告支持该版本，不改写旧失败。剪切点、增益和角色听感均不得外推。",
+  "limitations": [
+    "Exact source and locale only; no new listening, independent review or video-quality approval.",
+    "Other locale executions are not independent source replications. Unknown charges and original failures remain."
+  ],
+  "measured_tail": {
+    "main_phrase_end_seconds": 1.84,
+    "unwanted_tail_seconds": [
+      2.22,
+      2.36
+    ]
+  }
+}

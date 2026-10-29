@@ -1,0 +1,58 @@
+{
+  "id": "APC-20261028-024-08-a83eda8191",
+  "status": "candidate",
+  "created_at": "2026-10-28T11:38:53+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "it",
+    "source_sha256": "22875924fda0edce5e2ab8383cfc6f34226274156dcb6a5fabba19ef85fddfc9"
+  },
+  "outcome": "revise",
+  "hypothesis": "For this source, ImageGen+Wan native upper2s repair removed text better locally; static still body patches caused geometric seams and were rejected. Retain only background crops within same shot; no causal universal benefit asserted. Full-language real voices and best-available output are distinct from visual acceptance.",
+  "evidence": {
+    "run": "APC-20261028-024-08",
+    "video_sha256": "a83eda8191e06a1bc9c3d9756208ecb19560d62b95cc1624cefdc791ae7a3ede",
+    "quality_sha256": "597c6d720747b6659960e8000a7af3ec8b083370f777df8694deac2c9ac2c4f8"
+  },
+  "limitations": [
+    "Moving game-over text remains partly readable/soft around 10.5–11.67,16.97–17.57,21.5–22.83 seconds; final target glyphs may overlap residual English.",
+    "Opening lower panel has dark/soft repair. Static reconstructed upper background and end lower-fabric local crops can have seams or texture differences.",
+    "Actual 2s ImageGen+Wan upper repair changes brow/skin details slightly; native source retained outside patches.",
+    "Endcard CTA uses documented static fallback if browser motion rendering fails.",
+    "No independent/user quality approval. Full decode and sampled native visual/ASR evidence do not establish all-frame perceptual or normal-playback acceptance.",
+    "CTA motion unavailable after actual Remotion browser launch failure; static readable localized CTA retained.",
+    "Final and raw actual voice ASR contain all clauses, but render QI as qui and join superi cento phonetically. Abbreviation pronunciation not independently confirmed. Full ending audible to recognizer6.34s; accented è and target CTA display."
+  ],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "observed_candidate",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "source_text_removed_unreviewed",
+      "protected_graphics_unreviewed",
+      "native_motion_unreviewed",
+      "speech_complete_unreviewed",
+      "head_tail_audio_unreviewed",
+      "music_effects_unreviewed",
+      "caption_sync_review_missing",
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_playback_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "visual_finish_blocking_or_unspecified_defect",
+      "visual_finish_blocking_or_unspecified_defect",
+      "visual_finish_blocking_or_unspecified_defect",
+      "visual_finish_blocking_or_unspecified_defect",
+      "visual_finish_blocking_or_unspecified_defect",
+      "visual_finish_blocking_or_unspecified_defect",
+      "recipe_unresolved:Moving game-over text remains partly readable/soft around 10.5–11.67,16.97–17.57,21.5–22.83 seconds; final target glyphs may overlap residual English.",
+      "recipe_unresolved:Opening lower panel has dark/soft repair. Static reconstructed upper background and end lower-fabric local crops can have seams or texture differences.",
+      "recipe_unresolved:Actual 2s ImageGen+Wan upper repair changes brow/skin details slightly; native source retained outside patches.",
+      "recipe_unresolved:Endcard CTA uses documented static fallback if browser motion rendering fails."
+    ],
+    "reviewer": "Codex (same_agent)",
+    "known_defect_count": null
+  },
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

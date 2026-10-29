@@ -1,0 +1,7 @@
+{
+  "source_sha256": "670be70408876edcc0ea83b712ee51a525954cc1d7bda141b9a7774127cab584",
+  "video_sha256": "aa4eb0d57424a6dd1963d2aff1ef7cd4db6a26bd28962479a7e6e9258b96a6ff",
+  "reviewer": "Codex same_agent",
+  "decision": "pass",
+  "method": "Actual decoded native boundary frames compared with same-frame clean master, explicit native boundary contact visually checked; complete target CTA supported by actual full-audio model transcript and independently measured aligned-take waveform. No planned units relabeled as observed."
+}

@@ -3,16 +3,37 @@
   "enabled": true,
   "interval_minutes": 60,
   "activated_at": "2026-10-27T08:51:04+00:00",
-  "query": {"scope": "all", "view": "summary", "asset_type": "video", "pagination": "cursor", "limit": 200, "offset": 0},
+  "query": {
+    "scope": "all",
+    "view": "summary",
+    "asset_type": "video",
+    "pagination": "cursor",
+    "limit": 200,
+    "offset": 0
+  },
   "group_policy": "translation_intent_in_all_visible_groups",
   "assignee_mode": "hint_only",
   "assignees": [
-    {"input_name": "luochenjun", "account_name": "luochenjun", "display_name": "罗晨钧", "id": "c74b62d9", "resolved_via": "requirement_field_options_query.member_directory"},
-    {"input_name": "zoubing", "account_name": "zoubin", "display_name": "邹彬", "id": "b2fbcgab", "resolved_via": "material_detail.uploaderId/uploaderInfo; exact existing requirement assigneeIds"}
+    {
+      "input_name": "luochenjun",
+      "account_name": "luochenjun",
+      "display_name": "罗晨钧",
+      "id": "c74b62d9",
+      "resolved_via": "requirement_field_options_query.member_directory"
+    },
+    {
+      "input_name": "zoubing",
+      "account_name": "zoubin",
+      "display_name": "邹彬",
+      "id": "b2fbcgab",
+      "resolved_via": "material_detail.uploaderId/uploaderInfo; exact existing requirement assigneeIds"
+    }
   ],
   "scope_update_quote": "不是要你看所有的视频需求，需要有排除，目前是先看看luochenjun和zoubing的，是吗，目前只有他们俩接翻译，后续可能会有其他的方式排出。",
   "latest_scope_quote": "如果你认为用人员筛选不靠谱，可以去掉。只需要你进行查找到翻译的需求",
-  "eligible_statuses": ["not_started"],
+  "eligible_statuses": [
+    "not_started"
+  ],
   "max_active_requirements": 8,
   "reserve_p1_slot": true,
   "quantity_mode": "one_per_locale",
@@ -39,11 +60,19 @@
     "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
     "source_quote": "就按你推荐的方案实现，先监控APC和MOG两组（还有很多组，例如KEY、SHE、WOW等，都有可能提出需求。主要是看承接面板中，需求有没有新增翻译相关内容。），每30分钟检查一次，符合条件的新需求直接开始制作，每个需求独立对话和计费，P0优先但P1不要停下来等。"
   },
-  "publication_policy": "complete_outputs_with_acceptable_minor_issues_auto_submit; major_or_many_issues_block",
+  "publication_policy": "bounded_best_available_complete_outputs_auto_submit; severe_damage_or_incomplete_block",
   "notify": "new_intake_completion_failure_or_required_input_only",
   "schedule_revision": {
     "authority": "user",
     "authorization_ref": "user-schedule-change-20261028",
     "source_quote": "轮训从半小时修改为一小时，且洛杉矶时间18.00和18.30，修改到上海时间的18.00和18.30"
+  },
+  "delivery_followup": {
+    "lease_minutes": 120,
+    "max_stalled_redispatches": 2,
+    "require_fresh_owner_observation": true,
+    "unknown_send_requires_reconciliation": true,
+    "ready_locales_first": true,
+    "close_only_after_verified_coverage": true
   }
 }

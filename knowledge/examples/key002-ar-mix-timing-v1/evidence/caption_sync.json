@@ -1,0 +1,7 @@
+{
+  "source_sha256": "762441498a0ef3d6656063de2067f4d2497a308d6daaef0b1fc0ba29fa221c33",
+  "video_sha256": "f6b1b6218a2c88692c6e831f55f1dd215243e21bb8f860d696e2703271390db3",
+  "reviewer": "Codex same-agent",
+  "decision": "pass",
+  "method": "ASR of actual encoded WAV crosschecked with exact final script and native caption boundary frames; common Arabic contraction/spacing/diacritics normalized by Codex, original ASR retained. No direct human listening claimed."
+}

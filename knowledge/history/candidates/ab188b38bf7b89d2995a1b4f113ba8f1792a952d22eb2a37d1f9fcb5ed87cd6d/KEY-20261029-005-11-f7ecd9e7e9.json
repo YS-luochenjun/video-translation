@@ -1,0 +1,33 @@
+{
+  "id": "KEY-20261029-005-11-f7ecd9e7e9",
+  "status": "candidate",
+  "created_at": "2026-10-29T04:58:30+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "th",
+    "source_sha256": "357b6f7c84ac723c9e8f85dd071b892bb05bdecc88e43211b2dcb23f8d293198"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "KEY-20261029-005-11",
+    "video_sha256": "f7ecd9e7e90aadd0b2cf59263fe3be8e48dccc2781d087cde1e69aa0aef627c5",
+    "quality_sha256": "e92597897b021c889dcd17b277e59dc711d2dc5471567de6b26dc6b962814d8e"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "background_music_not_verified_preserved",
+      "sound_effects_not_verified_preserved"
+    ],
+    "reviewer": "Codex same-agent",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

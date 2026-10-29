@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "key008-ja-caption-switch-v1",
+  "created_at": "2026-10-29T06:24:03+00:00",
+  "files": [
+    {
+      "path": "evidence/boundaries.jpg",
+      "sha256": "0cdd49311f2f9cb630c2caaf72cbdcd696ecde4ae691a26fd3491a1d4b9c364a",
+      "bytes": 876443
+    },
+    {
+      "path": "evidence/caption_sync.json",
+      "sha256": "2ef1919c11dba52a5b636fdde578ecac535b0a4a3c003a0c4a6ba736a122b55f",
+      "bytes": 443
+    },
+    {
+      "path": "evidence/final_audio.wav",
+      "sha256": "acc519c32e4fbb6f954d50d144e51ef6242d47af0ae6b66b4a5aa05e5947a2b8",
+      "bytes": 305390
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "ab292cdfd53c94dfc60093e23fa89d47548cf805a235d1a2f41f31dba603aedf",
+      "bytes": 2571
+    },
+    {
+      "path": "evidence/pixel_intervals.json",
+      "sha256": "397a854aa4ac6ad1a17c250f8399747c3671e2e65a5d9ee2f096ca7d33a672d1",
+      "bytes": 635
+    },
+    {
+      "path": "evidence/review.json",
+      "sha256": "2994783983a6aaf7481f069279cac8186b5f43f19e11d5bdee9cc7a8aed76bcb",
+      "bytes": 1141
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "6b7b6750d9460e15a173e84102ec259a452de301d7fa351b44b5a6ca1c54f9cc",
+      "target_language": "ja"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# KEY008日语：一帧双字幕与源时轴保护\n\n范围：源 SHA256 6b7b6750d9460e15a173e84102ec259a452de301d7fa351b44b5a6ca1c54f9cc；目标语 ja；成片 SHA256 97f8834093a904c9ccc570f1e682c86631bf3d6b62af02a946ec003df3c1a95c。\n\n9.541秒源片中，原始 CTA 的细入场与日语相邻字幕的一帧重叠在编码证据中被发现。字幕切换调整到本版3.20秒，并按短语重排。全285帧的字形像素扫描用于定位存在区间，仍需实际边界图确认文字身份；扫描阈值不是跨素材通用值。Wan 连续结果仅按源时轴局部采用，保护原青色箭头及人物动作。仍保留局部头发/针织纹理柔化、整短语样式及日语外部音频审核未知，不把12语种提交完成当成独立听审。\n\n本次仅整理原制作的同一执行者观察、模型结果及哈希证据，没有重新完成正常播放、人类听审或公司验收。各语种分别保留原评审；同源多语不增加独立源数量。具体参数仅供追溯，不能直接套用其它素材；未知费用、旧失败和质量异议继续保留。\n\n依据：evidence:review、evidence:pixel_intervals、evidence:caption_sync、evidence:boundaries、evidence:final_audio、evidence:observation。manifest 中的文件构成独立证据，旧路径仅为来源标签。\n",
+    "source_sha256": "6b7b6750d9460e15a173e84102ec259a452de301d7fa351b44b5a6ca1c54f9cc",
+    "video_sha256": "97f8834093a904c9ccc570f1e682c86631bf3d6b62af02a946ec003df3c1a95c",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/review.json",
+      "pixel_intervals": "evidence/pixel_intervals.json",
+      "caption_sync": "evidence/caption_sync.json",
+      "boundaries": "evidence/boundaries.jpg",
+      "final_audio": "evidence/final_audio.wav",
+      "observation": "evidence/observations.json"
+    }
+  }
+}

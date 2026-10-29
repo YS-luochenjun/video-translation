@@ -1,0 +1,53 @@
+{
+  "source": {
+    "path": "knowledge/candidates/SHE-20261028-043-01-closure-9b75a36a20.json",
+    "sha256": "627e5f4a2b6f94ff31c6d8f236f9c250186c0827b4c63147d9a735a7e44d7d69"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent source/evidence curation; not independent audiovisual or native-speaker acceptance",
+  "origin": "User requested project knowledge consolidation and publication; source observations and verified independent case bundles reviewed, 2026-10-28.",
+  "targets": [
+    {
+      "id": "she043-ar-shared-base-boundaries-v1",
+      "path": "knowledge/cases/she043-ar-shared-base-boundaries-v1.md",
+      "sha256": "5d3c4536c9dec631303fb278b4f93a0bb5f41694286312bd513d2456eab02b45",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "68d78a3611f72ef89d314a02f6c55b8306773d2eeff8712490fc3730c676830f",
+        "target_language": "ar"
+      },
+      "snapshot": "# SHE043阿语：共用底片与逐语种审核分离\n\n范围：源 SHA256 68d78a3611f72ef89d314a02f6c55b8306773d2eeff8712490fc3730c676830f；目标语 ar；成片 SHA256 9b75a36a20eafa1e308b3d4ddea4f605aa0e3f28d8a2ffb256987ff0ed0d2a46。\n\n本片的6句旁白、8个口播字幕实例及场景文字分别登记；字幕按实际变速后配音及混音偏移对齐，编码边界和真实字体字形再检查。API成功、零缺字或同源底片复用都不证明连续运动及最终排版通过。保留红/蓝史莱姆修复柔化、人物纹理差异和整短语字幕等原观察。原正常速度记录是同一执行者浏览器播放及采样，并非连续人类观看或独立验收；15语种已提交也不解决法语未知审核费用。\n\n本次仅整理原制作的同一执行者观察、模型结果及哈希证据，没有重新完成正常播放、人类听审或公司验收。各语种分别保留原评审；同源多语不增加独立源数量。具体参数仅供追溯，不能直接套用其它素材；未知费用、旧失败和质量异议继续保留。\n\n依据：evidence:review、evidence:caption_sync、evidence:boundaries、evidence:final_audio、evidence:observation。manifest 中的文件构成独立证据，旧路径仅为来源标签。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Only the explicitly covered procedure or matching exact-source/locale observation is associated with these targets. Original hypothesis and every limitation remain historical; no global success claim."
+  ],
+  "retained_parts": [
+    "Original scope, outcome, limitations, media/quality hashes, failure observations and unknown charges remain unchanged. No video acceptance, model permission or company-preference expansion.",
+    {
+      "hypothesis": "在此精确源片，实际video/API成功和零缺字都不能替代连续局部运动及最终排版审查；同源未批准底面可以复用计算，但每语种需要独立真配音、实际ASR时轴和编码稿。15/15当前绑定已核验。",
+      "limitations": [
+        "单源观察，不扩大到其他源/语言或公司默认。",
+        "普通修复柔化、静态短语pop和same_agent评审边界保留。",
+        "法语2credit比较审核未知记录保持；不把提交完成当作解决未知费用或独立人类验收。"
+      ],
+      "historical_outcome": "revise",
+      "evidence": {
+        "run": "SHE-20261028-043-01",
+        "video_sha256": "9b75a36a20eafa1e308b3d4ddea4f605aa0e3f28d8a2ffb256987ff0ed0d2a46",
+        "quality_sha256": "327e1012452f5077fbcd37abf22050ca6fee0bf55e71d37d1a2eb8a464cf96a0"
+      }
+    }
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "resolution": "duplicate",
+  "reason": "The exact-source and exact-locale observation is now independently packaged in the scoped reference. Its case evidence and limitations do not transfer to other languages.",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-10-29T06:26:47+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

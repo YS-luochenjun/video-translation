@@ -1,0 +1,14 @@
+{
+  "video_sha256": "5b61e3684c403d55ff5cce64b39beefa665347dc2c9cfc95805d88093d56ccef",
+  "reviewer": "Codex same-agent assessment of attributed KIE gemini-3.1-pro perception and actual isolated-take Whisper evidence",
+  "decision": "revise",
+  "confirmed": [
+    "Pro heard duplicate Gente/Pare/Clique and did not hear50 in the original mix.",
+    "Local isolated-take ASR hears trailing Pai at2.22..2.36 in a003, after complete invitation ends1.84, confirming next-word fragment contamination.",
+    "All isolated utterance transcriptions retain canonical main meaning; numeric take itself recognizes50 and Meu Deus.",
+    "Pro confirms original music/effects and distinct/consistent voices."
+  ],
+  "model_caveat": "Pro labels Buzz/look/an alien mistranslated, while original source transcription and target literal Portuguese preserve that meaning. No speculative rewrite made. Duplicate syllables and mixed number intelligibility are actionable failures independent of that semantic claim.",
+  "planned_bounded_fix": "Remove only observed next-utterance tail material; preserve existing voices. Shorten only numeric reaction internal pause and raise reaction3dB. Rebuild final mix/caption timing and verify actual new encoded result.",
+  "old_quality_unchanged": true
+}

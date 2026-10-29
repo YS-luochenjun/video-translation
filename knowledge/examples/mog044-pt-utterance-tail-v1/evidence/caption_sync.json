@@ -1,0 +1,7 @@
+{
+  "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
+  "video_sha256": "5b2ed8d646f40aa6aaa9e59b7b1464eba4cb31d83daf7e0e64242df8a6a71602",
+  "reviewer": "Codex same-agent actual frame/phrase review with explicitly attributed Flash perception and Whisper transcription",
+  "decision": "pass",
+  "method": "Read actual encoded pre/start/middle/last/end caption crops. Complete canonical phrases confirmed by actual final Flash transcript; aligned target waveform activity mapped into final mix and validated against complete encoded WAV at zero lag. This corrects old invitation end; no planned-only or lip-sync claim."
+}

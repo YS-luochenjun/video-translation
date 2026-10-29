@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "key002-ar-mix-timing-v1",
+  "created_at": "2026-10-29T06:24:03+00:00",
+  "files": [
+    {
+      "path": "evidence/caption_sync.json",
+      "sha256": "4819763bd981afbf62e2d80bf3eca9ac5c36793081014e4d8cff281cd3430bff",
+      "bytes": 470
+    },
+    {
+      "path": "evidence/final_audio.wav",
+      "sha256": "d56ea4436aeae092e244a058422b94e0bc508629ad28d08990346eca67aaa33c",
+      "bytes": 325530
+    },
+    {
+      "path": "evidence/final_end.jpg",
+      "sha256": "69fa7ad91ff76ac3291e2f5afd7d59d3b0c3b8cc9c3c1a90705a56bd2ec5609f",
+      "bytes": 124984
+    },
+    {
+      "path": "evidence/final_start.jpg",
+      "sha256": "558b5104c9ccffcb6d5a9bb595eb007d2529615b125ddb6b7ba442227a028376",
+      "bytes": 145513
+    },
+    {
+      "path": "evidence/model_observation.json",
+      "sha256": "93d0a314465831448c7f3fe6e9693c95bcd2d83935a11a8866bf66165c59a4e4",
+      "bytes": 2080
+    },
+    {
+      "path": "evidence/observations.json",
+      "sha256": "e7344a8dfb296bcaca0e901b447a5dcd858669d828404bf5248bed19ab3523ca",
+      "bytes": 2578
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "target_language": "ar",
+      "source_sha256": "762441498a0ef3d6656063de2067f4d2497a308d6daaef0b1fc0ba29fa221c33"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# KEY002阿语：最终混音与字幕真实边界\n\n范围：源 SHA256 762441498a0ef3d6656063de2067f4d2497a308d6daaef0b1fc0ba29fa221c33；目标语 ar；成片 SHA256 f6b1b6218a2c88692c6e831f55f1dd215243e21bb8f860d696e2703271390db3。\n\n四句声音与五个文字片段分开核对。实际 TTS、混音和编码音轨的 ASR，加上编码字幕起止帧，构成该版本的同步依据。比较模型的语义时间可能比实际混音偏移数秒，保留其原结果，不直接用于字幕定位。人物与头发上的矩形回贴、字形接缝或渐变修补曾出现几何接缝/字形曝光残影；有界尝试后采用同源连续 Wan 片段。局部纹理/对比变化仍是限制，不能由此认定整帧生成适用于所有素材。\n\n本次仅整理原制作的同一执行者观察、模型结果及哈希证据，没有重新完成正常播放、人类听审或公司验收。各语种分别保留原评审；同源多语不增加独立源数量。具体参数仅供追溯，不能直接套用其它素材；未知费用、旧失败和质量异议继续保留。\n\n依据：evidence:caption_sync、evidence:final_start、evidence:final_end、evidence:final_audio、evidence:model_observation、evidence:observation。manifest 中的文件构成独立证据，旧路径仅为来源标签。\n",
+    "source_sha256": "762441498a0ef3d6656063de2067f4d2497a308d6daaef0b1fc0ba29fa221c33",
+    "video_sha256": "f6b1b6218a2c88692c6e831f55f1dd215243e21bb8f860d696e2703271390db3",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "caption_sync": "evidence/caption_sync.json",
+      "final_start": "evidence/final_start.jpg",
+      "final_end": "evidence/final_end.jpg",
+      "final_audio": "evidence/final_audio.wav",
+      "model_observation": "evidence/model_observation.json",
+      "observation": "evidence/observations.json"
+    }
+  }
+}

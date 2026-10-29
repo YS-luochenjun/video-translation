@@ -300,6 +300,7 @@ def assess(code, spec, root=ROOT):
 
 def followups(root=ROOT):
     """Navigation only. Existing return gates still verify every actual package."""
+    from .fireplay_submission import coverage, bound_materials, completion_gate
     config = policy(root)
     index_path = Path(root) / 'outputs/index.json'
     packages = read_json(index_path).get('entries', []) if index_path.exists() else []
@@ -312,7 +313,6 @@ def followups(root=ROOT):
             chat = video.get('chat') or record.get('chat', {})
             if chat.get('state') != 'ready':
                 continue
-            from .fireplay_submission import coverage
             # User 2026-10-27: stop after Fireplay acceptance; downstream
             # YouTube queues and retries belong to Fireplay, not this monitor.
             progress = coverage(record, video, root)
@@ -320,6 +320,7 @@ def followups(root=ROOT):
                 continue
             box = path.parent / f'return-{video["index"]}.json'
             pending_locales = None
+            matching, ready, review, blocked = [], [], [], []
             if box.exists():
                 outbox = read_json(box)
                 if outbox.get('state') == 'returned':
@@ -332,13 +333,13 @@ def followups(root=ROOT):
             else:
                 matching = [p for p in packages if p.get('origin_run_id') in video.get('members', [])
                             and p.get('source_sha256') == video.get('source', {}).get('sha256')
-                            and (pending_locales is None or p.get('target_language') in pending_locales)
+                            and p.get('target_language') in progress['missing_locales']
                             and p.get('status') in ('delivered', 'delivered_with_issues')]
                 latest = {}
                 for package in sorted(matching, key=lambda p: p.get('archived_at') or ''):
                     latest[package.get('target_language')] = package
                 matching = list(latest.values())
-                if set(p.get('target_language') for p in matching) != set(pending_locales or video['targets']):
+                if not matching:
                     action = 'complete_delivery'
                     identity = object_hash({'coverage': progress, 'ready_packages': matching})
                 else:
@@ -359,24 +360,55 @@ def followups(root=ROOT):
                     if submitted:
                         continue
                     action, identity = 'auto_return', object_hash(matching)
-                    blocked = False
+                    ready, review, blocked = [], [], []
                     for package in matching:
+                        locale = package['target_language']
                         if package.get('status') == 'delivered_with_issues':
                             digest = package.get('video_sha256') or ''
                             review_file = path.parent / 'publication-reviews' / (digest + '.json')
                             if not review_file.exists():
-                                action = 'review_publication'
-                            elif read_json(review_file).get('decision') != 'minor_issues_acceptable':
-                                blocked = True
-                    if blocked:
+                                review.append(locale)
+                            else:
+                                from .fireplay_publication import publication_decision, ACCEPTABLE
+                                if publication_decision(record['code'], digest, root) in ACCEPTABLE:
+                                    ready.append(locale)
+                                else:
+                                    blocked.append(locale)
+                        else:
+                            ready.append(locale)
+                    if ready:
+                        action = 'auto_return'
+                    elif review:
+                        action = 'review_publication'
+                    elif blocked:
                         action = 'resolve_delivery_blockers'
             task = {'code': record['code'], 'video_index': video['index'], 'threadId': chat['threadId'],
                     'hostId': chat.get('hostId', 'local'), 'action': action, 'artifact_identity': identity,
                     'missing_locales': progress['missing_locales']}
             task['key'] = object_hash(task)
+            # One ready locale is actionable even when another still needs production.
+            if action not in ('reconcile_return', 'resume_return'):
+                task['available_locales'] = sorted(p['target_language'] for p in matching)
+                task['production_locales'] = sorted(set(progress['missing_locales']) - set(task['available_locales']))
+                if matching:
+                    task.update(ready_locales=sorted(ready), review_locales=sorted(review), blocked_locales=sorted(blocked))
             note = _directory(root) / 'signals' / (task['key'] + '.json')
-            task['signal_state'] = read_json(note)['state'] if note.exists() else 'prepared'
+            from .fireplay_followup import state as signal_state
+            task['signal_state'] = signal_state(read_json(note) if note.exists() else None, config)
             result.append(task)
+        # Batch receipts do not replace the final full platform read-back.
+        if record['videos'] and all(coverage(record, v, root)['complete'] for v in record['videos']):
+            chat = record.get('chat') or record['videos'][0].get('chat', {})
+            if chat.get('state') == 'ready' and not completion_gate(record, root)['can_close']:
+                task = {'code': record['code'], 'video_index': record['videos'][0]['index'],
+                        'threadId': chat['threadId'], 'hostId': chat.get('hostId', 'local'),
+                        'action': 'verify_completion', 'artifact_identity': object_hash([
+                            bound_materials(record, v, root) for v in record['videos']]), 'missing_locales': []}
+                task['key'] = object_hash(task)
+                note = _directory(root) / 'signals' / (task['key'] + '.json')
+                from .fireplay_followup import state as signal_state
+                task['signal_state'] = signal_state(read_json(note) if note.exists() else None, config)
+                result.append(task)
     return result
 
 
@@ -391,22 +423,53 @@ def signal(spec, root=ROOT):
         old = read_json(path) if path.exists() else None
         if old:
             if spec.get('response'):
+                require(old.get('attempt', 1) == 1 or spec.get('attempt') == old['attempt'],
+                        'Record the matching delivery follow-up attempt with the send receipt')
+                if old['state'] == 'sent':
+                    require(old.get('receipt') == spec['response'], 'A sent follow-up already has its immutable send receipt')
+                    return old
                 response = fireplay.payload(spec['response'])
                 require(response.get('threadId') == task['threadId'], 'Follow-up receipt belongs to another chat')
                 old.update(state='sent', receipt=spec['response'], receipt_at=utc_now())
                 write_json(path, old)
-            return old
+                return old
+            if not spec.get('owner_observation'):
+                return old
+            from .fireplay_followup import observe, state as signal_state
+            observation = observe(spec, task, root)
+            current = signal_state(old, policy(root))
+            if observation['status'] == 'running':
+                old.update(owner_observation=observation, owner_checked_at=utc_now())
+                write_json(path, old)
+                return old
+            require(old['state'] == 'sent', 'Reconcile an unknown send before redispatching')
+            if current != 'owner_check_required' or observation['status'] not in {'idle', 'error'}:
+                old['owner_observation'] = observation
+                write_json(path, old)
+                return {**old, 'next_action': 'Resolve the concrete owner blocker; delivery remains incomplete'}
+            # The old send stays immutable in history. A lease permits a recovery
+            # prompt only; it never retries a paid job or platform write itself.
+            history = _directory(root) / 'signals/history' / task['key'] / f'{old.get("attempt", 1)}.json'
+            if not history.exists():
+                write_json(history, old)
         require(not spec.get('response'), 'Journal follow-up dispatch before recording the receipt')
         from .kie_access import instruction as kie_access_instruction
         from .fireplay_youtube import instruction as youtube_instruction
+        from .fireplay_materials import attribution_instruction
         message = (f'按已授权项目流程继续需求{task["code"]}第{task["video_index"]}个原片的回传。'
                    f'当前待办：{task["action"]}，缺少语种：{task["missing_locales"]}。复用既有run、素材ID、outbox和真实回执；未知写入先核查，不重复上传。'
-                   '用户已允许正式outputs完整成品的普通小瑕疵，按fireplay-publication-review记录实际严重度；合格或小瑕疵直接提交，不再询问固定动作。严重/多项影响观看的问题、漏译或缺少必需配音阻止上传，保留质量结论。'
+                   '用户已允许有限预算/返工内做到最好的完整成品带普通不合格提交；按fireplay-publication-review记录实际影响和best_available证据，内部revise不等于禁止提交。大面积撕裂、无法观看、严重主体损坏、漏译或缺必需配音仍阻断对应版本。'
+                   f'先交本次可提交语种{task.get("ready_locales", [])}，同时继续其余缺项，不等待全部制作完成。'
+                   '真实文件上传超时先恢复已有ID；无可用结果时按fireplay-retry-upload的既有额外两次授权重传，不能把此权限用于重发未知付费模型。'
+                   '设计师从当前执行人和Fireplay真实成员目录自行核对，可使用已核验用户ID归属；不要求用户提供DID。KIE已有持续授权，在本需求原账本和模型范围内直接使用，不再次弹项目同意问题。'
                    + kie_access_instruction(root) +
+                   attribution_instruction() +
                    youtube_instruction(root) +
                    '逐项核对本需求全部原片与全部目标语种；只有全部入库、共享、标签和绑定核验后才可结案。partial和unknown继续恢复，不以部分成功收尾；不跟踪YouTube进度，不因排队/限额重入库。'
                    + fireplay.submission_instruction(root))
         value = {'state': 'unknown', 'task': task, 'dispatched_at': utc_now(),
+                 'attempt': old.get('attempt', 1) + 1 if old else 1,
+                 **({'previous_dispatch': str(history.relative_to(root)), 'owner_observation': observation} if old else {}),
                  'host_action': {'tool': 'send_message_to_thread', 'arguments': {
                      'threadId': task['threadId'], 'hostId': task['hostId'], 'prompt': message}}}
         write_json(path, value)

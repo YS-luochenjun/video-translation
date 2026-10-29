@@ -85,6 +85,37 @@ class PublicationTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError,'target audio'):
             publication.review(fixtures.CODE,{'package':spec['packages'][0]['package'],'assessment':assessment},self.root)
 
+    def test_exact_user_acceptance_preserves_major_review_and_internal_quality(self):
+        spec, assessment = self.complete_output('major', many=True)
+        for item in spec['packages']:
+            prior = publication.review(fixtures.CODE, {'package': item['package'], 'assessment': assessment}, self.root)
+            before = read_json(self.root / 'state/fireplay' / fixtures.CODE / 'publication-reviews' / (prior['video_sha256'] + '.json'))
+            approval = {'authority': 'user', 'accepted': True, 'authorization_ref': 'actual-user-message',
+                        'source_quote': 'I accept these repair imperfections; upload these versions',
+                        'video_sha256': prior['video_sha256']}
+            publication.review(fixtures.CODE, {'package': item['package'], 'user_acceptance': approval}, self.root)
+            self.assertEqual(read_json(self.root / 'state/fireplay' / fixtures.CODE / 'publication-reviews' /
+                                      (prior['video_sha256'] + '.json')), before)
+        box = fireplay.prepare_return(fixtures.CODE, spec, self.root)
+        self.assertTrue(all(x['publication_acceptance']['mode'] == 'exact_version_user_acceptance' for x in box['packages']))
+        self.assertTrue(all(x['publication_acceptance']['quality_passed'] is False for x in box['packages']))
+
+    def test_user_visual_acceptance_rejects_wrong_hash_or_missing_translation(self):
+        spec, assessment = self.complete_output('major')
+        item = spec['packages'][0]
+        prior = publication.review(fixtures.CODE, {'package': item['package'], 'assessment': assessment}, self.root)
+        approval = {'authority': 'user', 'accepted': True, 'authorization_ref': 'user-message',
+                    'source_quote': 'Accept', 'video_sha256': '0' * 64}
+        with self.assertRaisesRegex(WorkflowError, 'exact video hash'):
+            publication.review(fixtures.CODE, {'package': item['package'], 'user_acceptance': approval}, self.root)
+        approval['video_sha256'] = prior['video_sha256']
+        prior_path = self.root / 'state/fireplay' / fixtures.CODE / 'publication-reviews' / (prior['video_sha256'] + '.json')
+        stored = read_json(prior_path)
+        stored['assessment']['translation_complete'] = False
+        write_json(prior_path, stored)
+        with self.assertRaisesRegex(WorkflowError, 'cannot waive incomplete'):
+            publication.review(fixtures.CODE, {'package': item['package'], 'user_acceptance': approval}, self.root)
+
 
 if __name__ == '__main__':
     unittest.main()

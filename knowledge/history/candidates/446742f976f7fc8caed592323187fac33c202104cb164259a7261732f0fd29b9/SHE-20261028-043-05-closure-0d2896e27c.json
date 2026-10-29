@@ -1,0 +1,28 @@
+{
+  "id": "SHE-20261028-043-05-closure-0d2896e27c",
+  "status": "candidate",
+  "created_at": "2026-10-28T13:03:08+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "68d78a3611f72ef89d314a02f6c55b8306773d2eeff8712490fc3730c676830f",
+    "target_language": "hi"
+  },
+  "hypothesis": "在此精确源片，实际video/API成功和零缺字都不能替代连续局部运动及最终排版审查；同源未批准底面可以复用计算，但每语种需要独立真配音、实际ASR时轴和编码稿。15/15当前绑定已核验。",
+  "outcome": "pass",
+  "limitations": [
+    "单源观察，不扩大到其他源/语言或公司默认。",
+    "普通修复柔化、静态短语pop和same_agent评审边界保留。",
+    "法语2credit比较审核未知记录保持；不把提交完成当作解决未知费用或独立人类验收。"
+  ],
+  "company_preference": false,
+  "reflection_state": "observed_candidate",
+  "evidence": {
+    "run": "SHE-20261028-043-05",
+    "video_sha256": "0d2896e27cb7ab78582ca9ecd304b94b2357817caf36a3ffff4e52c5d3f87287",
+    "quality_sha256": "ab56dcc67d6ab4e89962078b7a6ae24a6643295e79cdd6c8b1e54bb0497443ea"
+  },
+  "supersedes_placeholder_for_learning_only": "SHE-20261028-043-05-0d2896e27c",
+  "promotion": "Candidate only; current source/locale evidence, no quality or company preference change.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

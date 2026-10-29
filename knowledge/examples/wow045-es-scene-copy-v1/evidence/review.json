@@ -1,0 +1,44 @@
+{
+  "video_sha256": "9cfce006375b1338daac521321f37565c8dc264270d24a5506ed52e7c858bfc9",
+  "reviewer": "Codex (same_agent)",
+  "method": "Direct full-size encoded frames and timeline sample sequence; actual final-mix Whisper transcript compared with script plus attributed Gemini Flash perception of this exact encoded audio. Same-agent visual review; no independent human listening.",
+  "checks": {
+    "translation": {
+      "decision": "pass",
+      "observation": "All five scene-copy instances translated; source dementia narration is independent of poster claim and is fully retained in target language."
+    },
+    "source_text_removed": {
+      "decision": "pass",
+      "observation": "MindJournal publisher wordmark and all English copy absent in encoded first/middle/end frames."
+    },
+    "protected_graphics": {
+      "decision": "pass",
+      "observation": "Original black tree/animal silhouette, question mark, divider and original red arrow retained; source pixels used outside text patches."
+    },
+    "native_motion": {
+      "decision": "pass",
+      "observation": "296 original frames at 30fps; source poster has no subject/camera movement. CTA pulse omitted after actual browser failure; static text readable, disclosed minor style loss."
+    },
+    "speech_complete": {
+      "decision": "pass",
+      "observation": "Actual final-mix ASR and source/candidate Gemini perception agree on complete target narration, no foreign speech, retained original music/effects and acceptable timing. The localized Spanish audio faithfully translates all dialogue from the original English source, while preserving the background music track and timing."
+    },
+    "head_tail_audio": {
+      "decision": "pass",
+      "observation": "Actual final-mix ASR and source/candidate Gemini perception agree on complete target narration, no foreign speech, retained original music/effects and acceptable timing. The localized Spanish audio faithfully translates all dialogue from the original English source, while preserving the background music track and timing."
+    },
+    "music_effects": {
+      "decision": "pass",
+      "observation": "Actual final-mix ASR and source/candidate Gemini perception agree on complete target narration, no foreign speech, retained original music/effects and acceptable timing. The localized Spanish audio faithfully translates all dialogue from the original English source, while preserving the background music track and timing."
+    },
+    "caption_sync": {
+      "decision": "pass",
+      "observation": "All visible text is persistent independent scene copy, not timed speech captions. Source dementia narration has no captions; caption_policy=none has explicit reason. No lip sync applicable to static illustration."
+    }
+  },
+  "known_variations": [
+    "Parchment texture slightly different in repaired text areas; original silhouette preserved.",
+    "CTA font/outline styling differs; static fallback loses subtle scale pulse.",
+    "Audio checked through actual Whisper/Gemini model perception; no independent human/native-speaker acceptance."
+  ]
+}
