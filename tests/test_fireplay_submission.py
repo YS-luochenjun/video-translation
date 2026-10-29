@@ -1,5 +1,6 @@
 """Fireplay acceptance closes the owner workflow; YouTube runs on the platform."""
 import unittest
+import json
 import test_fireplay as fixtures
 from video_localizer import fireplay, fireplay_monitor, fireplay_submission, batches
 from video_localizer.common import WorkflowError, utc_now, write_json
@@ -71,6 +72,16 @@ class SubmissionClosureTests(unittest.TestCase):
         result=fireplay.dispatch(fixtures.CODE, root=self.root)
         self.assertEqual(result['state'],'returned')
         self.assertIn('do not poll',result['next'])
+
+    def test_current_project_policy_delegates_youtube_after_complete_handoff(self):
+        policy=json.loads((fixtures.PROJECT/'config/fireplay-youtube-routing.json').read_text())
+        write_json(self.root/'config/fireplay-youtube-routing.json',policy)
+        self.assertFalse(policy.get('require_enqueue_evidence',False))
+        self.assertFalse(policy.get('require_completed_upload',False))
+        self.assertTrue(json.loads((fixtures.PROJECT/'config/fireplay-intake.json').read_text())['publication']['youtube_auto_upload'])
+        self.assertTrue(self.completion()['complete'])
+        self.assertTrue(fireplay_submission.completion_gate(self.record(),self.root)['can_close'])
+        self.assertEqual(fireplay_monitor.followups(self.root),[])
 
     def completion(self, rows=None):
         write_json(self.folder/'user-approved-return-1.json', {'requirement_id':fixtures.RID,

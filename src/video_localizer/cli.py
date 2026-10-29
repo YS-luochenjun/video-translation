@@ -260,9 +260,6 @@ def main(argv=None):
     command.add_argument('code')
     command.add_argument('spec')
     command.add_argument('--video', type=int, default=1)
-    command = commands.add_parser('fireplay-youtube-handoff', help='Record actual initial YouTube task acceptance or URL for an existing submitted material')
-    command.add_argument('code')
-    command.add_argument('spec')
     command = commands.add_parser('fireplay', help='Read/register an exact Fireplay requirement through the authenticated host connector')
     command.add_argument('code')
     command.add_argument('--snapshot')
@@ -482,9 +479,6 @@ def main(argv=None):
             elif name == 'fireplay-youtube-route':
                 from .fireplay_youtube import record_route
                 result = record_route(args.code, args.spec, args.video, ROOT)
-            elif name == 'fireplay-youtube-handoff':
-                from .fireplay_youtube_handoff import record_receipt
-                result = record_receipt(args.code, args.spec, ROOT)
             elif name == 'fireplay-pull':
                 result = fireplay.pull(args.spec, ROOT)
             elif name == 'fireplay':

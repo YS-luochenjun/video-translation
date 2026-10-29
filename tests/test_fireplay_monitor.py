@@ -398,8 +398,7 @@ class MonitorTests(unittest.TestCase):
         write_json(self.root/'state/fireplay'/CODE/'user-approved-return-1.json', {
                    'state':'returned_user_approved', 'requirement_id':RID,
                    'items':[{'locale':lang,'material_id':MID,'bound_verified':True} for lang in ['es','ko']]})
-        # Current policy requires actual enqueue evidence after library binding.
-        self.assertEqual(monitor.followups(self.root)[0]['action'], 'enable_youtube_upload')
+        self.assertEqual(monitor.followups(self.root)[0]['action'], 'verify_completion')
 
     def test_cli_and_mcp_monitor_status(self):
         r = subprocess.run([sys.executable, 'bin/va.py', 'fireplay-monitor', 'scan'],cwd=PROJECT,capture_output=True,text=True)

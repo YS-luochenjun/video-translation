@@ -313,23 +313,10 @@ def followups(root=ROOT):
             chat = video.get('chat') or record.get('chat', {})
             if chat.get('state') != 'ready':
                 continue
-            # Initial YouTube task acceptance is mandatory (2026-10-29).
-            # After that handoff, downstream progress belongs to Fireplay.
+            # User 2026-10-27: stop after Fireplay acceptance; downstream
+            # YouTube queues and retries belong to Fireplay, not this monitor.
             progress = coverage(record, video, root)
             if progress['complete']:
-                from .fireplay_youtube_handoff import coverage as youtube_coverage
-                handoff = youtube_coverage(record, video, root)
-                if handoff['missing']:
-                    task = {'code': record['code'], 'video_index': video['index'],
-                            'threadId': chat['threadId'], 'hostId': chat.get('hostId', 'local'),
-                            'action': 'enable_youtube_upload', 'missing_locales': [],
-                            'artifact_identity': object_hash(handoff['missing']),
-                            'youtube_missing': handoff['missing']}
-                    task['key'] = object_hash(task)
-                    note = _directory(root) / 'signals' / (task['key'] + '.json')
-                    from .fireplay_followup import state as signal_state
-                    task['signal_state'] = signal_state(read_json(note) if note.exists() else None, config)
-                    result.append(task)
                 continue
             box = path.parent / f'return-{video["index"]}.json'
             pending_locales = None
@@ -412,8 +399,7 @@ def followups(root=ROOT):
         # Batch receipts do not replace the final full platform read-back.
         if record['videos'] and all(coverage(record, v, root)['complete'] for v in record['videos']):
             chat = record.get('chat') or record['videos'][0].get('chat', {})
-            gate = completion_gate(record, root)
-            if chat.get('state') == 'ready' and not gate['can_close'] and not gate['youtube_enqueue_missing']:
+            if chat.get('state') == 'ready' and not completion_gate(record, root)['can_close']:
                 task = {'code': record['code'], 'video_index': record['videos'][0]['index'],
                         'threadId': chat['threadId'], 'hostId': chat.get('hostId', 'local'),
                         'action': 'verify_completion', 'artifact_identity': object_hash([

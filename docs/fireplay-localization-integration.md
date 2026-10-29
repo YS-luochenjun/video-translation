@@ -31,18 +31,10 @@
 
 字体环境已接入Mac真实家族及TTC字面，见[字体说明](fonts.md)：doctor可验证中日韩、泰语、印地语、阿拉伯语及拉丁/西里尔文字的常规/粗体样例。正式制作仍按实际稿件检查缺字和成片；明确指定但缺失的字体不自动替换。macOS系统Python 3.9不能加载已安装的3.12二进制依赖，宿主应选用doctor验证过的解释器。需要宿主Agent持续执行观察、翻译、图片与审核；工作包不等于推理完成，应用定时任务状态按state/fireplay/monitor中的真实回执核对，不宣称独立服务器已部署。真实回传仍须用正式审过的样片验证归属、上传传输、绑定读回及权限；不能用本地mock冒充线上闭环。
 
-当前收尾约定：Fireplay入库、共享、标签、需求绑定及YouTube真实初始受理核验后即完成经验收尾，不再追踪后续上传进度；排队、限额和向量化交给Fireplay。尚无初始受理证据的历史素材沿原素材ID补建/恢复上传，已受理素材不为缺链接重复入库。机器政策为config/fireplay-publication.json.completion；[自动提交与经验收尾](../knowledge/rules/fireplay-completion-recovery-v4.md)与新增[初始受理规则](../knowledge/rules/fireplay-youtube-enqueue-verification-v1.md)结合使用。KIE核查仅用API和本地日志，访问限制读取config/kie-access.json。
+用户最新收尾约定：Fireplay受理、入库、共享、标签和需求绑定核验后即完成经验收尾，不再追踪YouTube上传进度；排队、限额和向量化交给Fireplay。已入库绑定的历史素材不为缺链接重复入库或补提。机器政策为config/fireplay-publication.json.completion，当前正式知识为[自动提交与经验收尾](../knowledge/rules/fireplay-completion-recovery-v4.md)。KIE核查仅用API和本地日志，访问限制读取config/kie-access.json。
 
 ## 已有制作的续作与结案
 
 平台状态变为done不自动重做。对用户明确要求的未交付续作，按执行合同登记真实来源、当前内容版本和continuation决定；复用已有制作成员、账本、原outbox及待交语种，并重查绑定权限。只更正数量时，`fireplay_revision.quantity_correction`要求原稿、原片范围、语种与one_per_locale解释不变，当前数量等于已登记原片目标组合数，且显式审阅旧版本并保留快照；不借数量修正追加素材或额度。回归入口为`tests/test_fireplay_quantity_review.py`。
 
 本地分批绑定齐全后，还须用真实当前delivery视图执行`fireplay-completion-check`，再`fireplay-close`保存本地结案回执；不修改平台需求状态。`fireplay_followup`维护已派发负责聊天的租约：unknown先核对原发送，sent到期须读取真实聊天状态再有界恢复，不能据消息已送达推断制作完成，也不能由此重发未知付费任务。完整参数和执行顺序仍以[接入](../agent/workflows/fireplay-intake.md)及[巡检](../agent/workflows/fireplay-monitor.md)为准。
-
-## YouTube初始受理与历史补传（2026-10-29）
-
-项目原固定话术已经要求开启自动上传，但此前执行器把R2直传入库成功直接记作requested_not_verified，没有检查任务是否真正建立。实际MCP请求虽含VedioSouce=YouTube，返回素材ID与R2地址仍不足以证明入队；本地缺少这一核验是本次已确认的实现问题。远端内部为何未建任务仍须平台证据，不能从本地参数推断。
-
-新门禁将material_id、当前video_resource_id、真实task_id/受理状态或已有YouTube链接绑定原成片哈希。`fireplay-youtube-handoff`只登记实际平台证据，不调用或重发上传。缺少受理时保留原入库与绑定，巡检派发enable_youtube_upload；completion-check和close保持未完成。完成初始受理后不持续轮询后续进度。
-
-本次只读素材审计：当前上传者罗晨钧共217条视频，154条有链接，63条无链接。原始分页、详情、任务查询和补传清单存本地state/fireplay/youtube-recovery-20261029；没有链接不等于全部已失败。仅通过支持的已有素材上传入口恢复，避免重复素材。现行要求见[YouTube受理规则](../knowledge/rules/fireplay-youtube-enqueue-verification-v1.md)。

@@ -19,7 +19,7 @@ def schema(properties=None, required=None):
 RUN = schema({"run": {"type": "string"}}, ["run"])
 TOOLS = [
     {"name": "localizer_fireplay_monitor", "description": "Discover all visible groups from complete real summary pages; record actual Agent translation assessment, per-requirement authority and deduplicated owner follow-ups. Host performs connector calls and production.", "inputSchema": schema({"action": {"type": "string", "enum": ["status", "scan", "assess", "signal"]}, "spec": {"type": "string"}, "code": {"type": "string"}}, ["action"])},
-    {"name": "localizer_fireplay", "description": "Prepare scoped P0-first intake, bind one chat and budget per requirement with standing KIE consent, and resume intake/outbox. Host executes connectors and actual review.", "inputSchema": schema({"code": {"type": "string"}, "action": {"type": "string", "enum": ["pull", "lookup", "register", "status", "source", "chat", "start", "return", "dispatch", "receipt", "retry_upload", "completion_check", "close", "publication_review", "youtube_route", "youtube_handoff"]}, "spec": {"type": "string"}, "decision": {"type": "string"}, "video": {"type": "string"}, "operation": {"type": "string"}, "locale": {"type": "string"}, "mode": {"type": "string", "enum": ["preview", "execute"]}}, ["action"])},
+    {"name": "localizer_fireplay", "description": "Prepare scoped P0-first intake, bind one chat and budget per requirement with standing KIE consent, and resume intake/outbox. Host executes connectors and actual review.", "inputSchema": schema({"code": {"type": "string"}, "action": {"type": "string", "enum": ["pull", "lookup", "register", "status", "source", "chat", "start", "return", "dispatch", "receipt", "retry_upload", "completion_check", "close", "publication_review", "youtube_route"]}, "spec": {"type": "string"}, "decision": {"type": "string"}, "video": {"type": "string"}, "operation": {"type": "string"}, "locale": {"type": "string"}, "mode": {"type": "string", "enum": ["preview", "execute"]}}, ["action"])},
     {"name": "localizer_knowledge_queue", "description": "Read unresolved knowledge adoption and revision work with attribution", "inputSchema": schema(), "annotations": {"readOnlyHint": True}},
     {"name": "localizer_knowledge_advisories", "description": "Recall at most three scoped unverified observations; separate from active rules", "inputSchema": schema({"target_language": {"type": "string"}, "source_sha256": {"type": "string"}, "features": {"type": "string"}}, ["target_language"]), "annotations": {"readOnlyHint": True}},
     {"name": "localizer_knowledge_use", "description": "Record actual knowledge use or non-use against frozen plan, video and durable evidence; no rule activation", "inputSchema": schema({"run": {"type": "string"}, "spec": {"type": "string"}}, ["run", "spec"])},
@@ -112,9 +112,6 @@ def handle(message):
                 elif action == 'youtube_route':
                     from video_localizer.fireplay_youtube import record_route
                     value = record_route(code, spec_path, index)
-                elif action == 'youtube_handoff':
-                    from video_localizer.fireplay_youtube_handoff import record_receipt
-                    value = record_receipt(code, spec_path)
                 elif action == 'return':
                     value = fireplay.prepare_return(code, spec_path)
                 elif action == 'dispatch':

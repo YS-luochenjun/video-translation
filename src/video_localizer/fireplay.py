@@ -757,15 +757,9 @@ def dispatch(code, execute=False, root=ROOT, index=1):
             if not _active_packages(outbox):
                 return {'state': 'deferred_uploads', 'pending_locales': outbox.get('pending_locales', []),
                         'status_changed': False, 'next': 'All file uploads are deferred; no material binding was attempted.'}
-            from .fireplay_youtube_handoff import coverage as youtube_coverage
-            handoff = youtube_coverage(record, _video(record, index), root)
-            if handoff['missing']:
-                return {'state': 'needs_youtube_enqueue', 'youtube_handoff': handoff,
-                        'status_changed': False, 'external_call_executed': False,
-                        'next': 'Use the exact existing material IDs to enable/recover YouTube upload; record actual task acceptance with fireplay-youtube-handoff. Do not reimport or report complete from R2 alone.'}
             return {'state': 'partially_returned' if outbox.get('pending_locales') else 'returned',
                     'pending_locales': outbox.get('pending_locales', []),
-                    'status_changed': False, 'youtube_status': 'enqueue_verified' if handoff['required'] else 'requested_not_verified',
+                    'status_changed': False, 'youtube_status': 'requested_not_verified',
                     'next': ('Partial batch is bound; continue every pending locale before requirement closure. '
                              'Do not poll downstream YouTube progress.' if outbox.get('pending_locales') else
                              'Fireplay acceptance is verified. Record external submission and maintain RUN --close; '
@@ -775,7 +769,7 @@ def dispatch(code, execute=False, root=ROOT, index=1):
             material_id = outbox['operations'][key.replace('verify', 'import')]['result']['material_id']
             operation = {'id': key, 'tool': 'material_detail', 'arguments': {'material_id': material_id},
                          'state': 'awaiting_read', 'read_only': True,
-                         'next': 'Read back name, language/product tags and shared group. R2 import alone does not prove YouTube was queued: record the exact existing material/resource task or YouTube URL with fireplay-youtube-handoff. Do not reimport known materials or track downstream progress after real enqueue acceptance.'}
+                         'next': 'Read back name, language/product tags and shared group. Verify the initial selected account/task group when required; do not track downstream YouTube progress after Fireplay acceptance.'}
             if execute:
                 outbox['operations'][key] = operation
                 write_json(path, outbox)
@@ -912,9 +906,8 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             require(len(ids) == 1 and _uuid(ids[0]), 'Import receipt needs one real material_id')
             from .fireplay_youtube import verify_task
             verify_task(_record(code, root), operation, spec, ids[0], root)
-            from .fireplay_youtube_handoff import required as youtube_evidence_required
             result = {'material_id': ids[0], 'warnings': _collect(raw, 'warnings'), 'check_url': raw.get('check_url'),
-                      'youtube_status': 'enqueue_not_evidenced' if youtube_evidence_required(root) else 'requested_not_verified'}
+                      'youtube_status': 'requested_not_verified'}
             if spec.get('youtube_task_verification'):
                 from .fireplay_youtube import policy
                 field = 'youtube_task_verification' if policy(root).get('require_requirement_group') else 'youtube_task_observation'
@@ -943,11 +936,8 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             verify_attribution(material, outbox.get('attribution', {}),
                                'Material read-back lost verified designer attribution',
                                'Material read-back lost verified designer attribution')
-            from .fireplay_youtube_handoff import required as youtube_evidence_required
             result = {'material_id': material['id'], 'name': material['name'], 'tags': sorted(tags),
-                      'shared_dept_id': material['sharedDeptId'], 'youtube_status':
-                      'enqueue_not_evidenced' if youtube_evidence_required(root) else 'requested_not_verified',
-                      'video_resource_id': material.get('currentVideoResourceId') or material.get('videoResourceId')}
+                      'shared_dept_id': material['sharedDeptId'], 'youtube_status': 'requested_not_verified'}
         else:
             verification = payload(spec['verification'])
             rows = [r for r in verification.get('items', []) if r.get('id') == outbox['requirement_id']]
@@ -1013,7 +1003,5 @@ def status(code, root=ROOT):
     result['delivery_coverage'] = {v['index']: coverage(record, v, root) for v in record['videos']}
     result['submission_complete'] = all(v['complete'] for v in result['delivery_coverage'].values())
     result['completion_gate'] = completion_gate(record, root)
-    from .fireplay_youtube_handoff import coverage as youtube_coverage
-    result['youtube_handoff'] = {v['index']: youtube_coverage(record, v, root) for v in record['videos']}
     result['whole_requirement_complete'] = result['completion_gate']['can_close']
     return result

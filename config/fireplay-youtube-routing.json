@@ -3,8 +3,8 @@
   "require_requirement_group": false,
   "allow_unverified_default_account": true,
   "authority": "user",
-  "authorization_ref": "user-youtube-auto-upload-recovery-20261029",
-  "source_quote": "我希望打开自动上传到youtube中，我再项目上传部分写清楚的，请你去看看项目中，我是否写清楚了。且对于之前没有上传的内容，也即是素材库中没有链接youtube内容的视频，都进行重传，因为这是上传必须要的内容。",
+  "authorization_ref": "user-fireplay-correct-handoff-delegation-20261029",
+  "source_quote": "不用持续关注状态，交给fireplay处理就好，只要能正确的交给fireplay，给出正确的内容。",
   "finding": "shared_dept_id controls material sharing, not the YouTube upload account. Current ordinary MCP import exposes no explicit account/group selector.",
   "allowed_explicit_route": "host_web_account_selection",
   "selection_max_age_seconds": 600,
@@ -30,6 +30,5 @@
   ],
   "mode": "platform_managed",
   "require_task_department_match": false,
-  "rule": "YouTube自动上传是必需提交动作。R2入库、共享、绑定和请求参数不证明任务受理。读取精确素材/视频资源的真实任务ID或当前YouTube链接并记录fireplay-youtube-handoff后才能结案；无证据沿原素材ID补传，不因平台路由显示重入库。真正受理后执行交Fireplay，不逐轮跟踪进度。",
-  "require_enqueue_evidence": true
+  "rule": "Verify the complete source/locale content, YouTube upload mode, library import, group sharing, naming/tags, designer attribution and requirement binding. Then hand asynchronous YouTube execution to Fireplay; task-list visibility, final-link delay and downstream progress do not block closure or trigger duplicate imports."
 }
