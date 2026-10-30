@@ -3280,6 +3280,45 @@
         "strict"
       ],
       "retrieval_role": "required"
+    },
+    {
+      "id": "source-led-visual-localization-v1",
+      "path": "knowledge/rules/source-led-visual-localization-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "visual",
+        "text",
+        "typography",
+        "imagegen",
+        "wan"
+      ],
+      "origin": "Explicit owner approval of MOG056 source1 Japanese V3 picture/lettering and instruction to use its approach for future translation",
+      "reviewed_by": "Codex same-agent provenance review; direct owner visual approval; no new audio/company acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-30T08:38:43+00:00",
+      "method_sha256": "1a6b588aa97632cb97fbd4a61a2e87f3c2a3d235a06fadd7bdcf6e116371c759",
+      "case": "knowledge/examples/source-led-visual-localization-v1",
+      "case_manifest_sha256": "056eda338b4a10ca0f54403848e039f31bcfc7aa0a4df95d9fb56f2a8f0a533c",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/mog056-ja-style-user-feedback-20261030.json",
+          "sha256": "4a5ec4089cb7ac101f4f1999345775200891726daa31c8427b67f43598f35e31"
+        }
+      ],
+      "reference_video_sha256": "42de93bf087622a2623e1b4300b98fa7d8d38c970b1f6acc17af9b4301dfd990",
+      "requires_features": [
+        "onscreen_text"
+      ],
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_default_workflow_with_single_source_visual_feedback",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ]
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

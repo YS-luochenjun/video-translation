@@ -20,6 +20,8 @@
 
 ## 从提纯到采纳，再回到制作
 
+制作中的新修复/反例还可按[有界改进循环](../workflows/continuous-improvement.md)使用 `improvement-record RUN SPEC`：绑定当前成片及之前版本、前后与未改区证据、漏检原因和下一次审查问题。证据独立保存至本地feedback并进入同一knowledge-queue，原scope和隐私保留；不会自动发布方法、改写质量或用户验收。相同反馈幂等，不为普通瑕疵输出额外增加知识等待门槛。
+
 1. `hooks` 提纯新增来源，建议合并目标、限定案例、新方法或缺证据项；这些建议保持candidate。`knowledge-queue` 汇总原始候选、当前提纯版本和使用反馈，显示历史采纳表、当前审查与具体下一步。不要为已处理来源换个标题再次生成候选。
 2. 主控按 `agent/templates/knowledge-review.json` 审查。`knowledge-review SPEC` 记录原文哈希、审查者、来源、采纳部分、保留部分、目标版本和下一步。`adopted/partial/duplicate` 必须指向已启用且哈希匹配的方法/案例；新方法或修订先走 `knowledge-promote`，可用 `candidate_sources` 绑定候选来源，再登记采纳。公司偏好和质量标准变化仍遵守原有授权范围。
 3. 方法的使用效果用 `agent/templates/knowledge-use.json` 记录，执行 `knowledge-use RUN SPEC`（SPEC相对run）。只能绑定冻结计划中实际选中的正式知识、同源参考或候选，分别报告 `helpful/ineffective/counterexample/not_used`。实际使用需要真实证据；未使用需要解释，不能从检索命中推断使用或成功。当前计划、输入和视频哈希必须匹配，证据复制到独立本地反馈包。

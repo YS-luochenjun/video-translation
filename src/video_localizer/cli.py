@@ -92,11 +92,13 @@ def capture(run):
             wav = directory / "audio.wav"
             asset = {"path": wav.relative_to(run).as_posix(), "sha256": file_hash(wav)} if wav.is_file() else {}
             write_json(report, captions.review_template(run, candidate, inventory, asset))
-    record = {"video_sha256": file_hash(source), "files": {path.relative_to(run).as_posix(): file_hash(path)
+    from .review_probes import generate as whole_scene_probes
+    probes = whole_scene_probes(run, candidate)
+    record = {"video_sha256": file_hash(source), "review_probes": probes, "files": {path.relative_to(run).as_posix(): file_hash(path)
               for path in sorted(directory.rglob('*')) if path.is_file()},
               "sampling_fps": 2, "limitation": "Sampling can miss transient defects; inspect boundary frames/full playback as needed"}
     write_json(run / "review/capture.json", record)
-    return {"capture": str(directory.relative_to(ROOT)), "files": len(record["files"])}
+    return {"capture": str(directory.relative_to(ROOT)), "files": len(record["files"]), "review_probes": probes}
 
 
 def status(run):
@@ -309,6 +311,10 @@ def main(argv=None):
     command = commands.add_parser('fast-register', help='Bind a native-timing composition and open basic review; never auto-pass')
     command.add_argument('run')
     command.add_argument('recipe')
+    command = commands.add_parser('style-layer', help='Batch bound-font phrases and a few reviewed artwork PNGs into a native-timing alpha layer; no models or source erasure')
+    command.add_argument('run')
+    command.add_argument('spec')
+    command.add_argument('--apply', action='store_true', help='Bind selected target instances and shot surface layer; replan and review remain required')
     command = commands.add_parser('finalize', help='Deliver the best complete translated video with disclosed issues, without quality approval')
     command.add_argument('run')
     command.add_argument('spec', nargs='?', default='review/finalization.json')
@@ -337,6 +343,9 @@ def main(argv=None):
     command.add_argument('run')
     command.add_argument('--deliver', action='store_true')
     command.add_argument('--force-render', action='store_true')
+    command = commands.add_parser('improvement-record', help='Preserve observed before/after/control evidence and a missed-review cause in the knowledge queue; never auto-approve')
+    command.add_argument('run')
+    command.add_argument('spec')
     command = commands.add_parser('timing', help='Report measured stage durations and unobserved gaps')
     command.add_argument('run')
     command = commands.add_parser('tts-packet', help='Build a reusable exact-copy TTS packet without calling KIE')
@@ -696,6 +705,9 @@ def main(argv=None):
             elif name == 'production':
                 from .production import advance
                 result = advance(run, args.deliver, args.force_render)
+            elif name == 'improvement-record':
+                from .improvement import record
+                result = record(run, args.spec)
             elif name == 'timing':
                 from .timing import report
                 result = report([run])
@@ -705,6 +717,9 @@ def main(argv=None):
             elif name == 'fast-register':
                 from .fast_delivery import register
                 result = register(run, args.recipe)
+            elif name == 'style-layer':
+                from .style_layers import render
+                result = render(run, args.spec, args.apply)
             elif name == 'maintain':
                 from .maintenance import maintain
                 result = maintain(run, close=args.close)

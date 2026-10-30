@@ -6,6 +6,8 @@
 
 续作和切换阶段时优先运行 `work-packet RUN [--stage source|translation|neutral|render|review|delivery]`，从现有状态取得待办、任务恢复提示与知识入口，不另写重复进度日志。它只导航，不替代知识正文、真实观察或审核。制作的缓存、资源限制和兼容入口见 [缓存与执行恢复](../../docs/workflow-optimization.md)。
 
+制作、返工和用户反馈时主动按[有界改进循环](../workflows/continuous-improvement.md)执行工作包的 `improvement_loop`：完整播放与听审、原片/译片整幅对照、提出具体反例、定位漏检原因、单变量修复、前后及未改区验证、知识反馈。`capture`自动生成最多12组原生整幅探针；只生成证据，不提供通过结论。普通瑕疵与到界收口继续按原完整输出/提交政策，不以改进循环延长边界。
+
 工作包中的 `knowledge_advisories` 是待验证观察，和正式 `knowledge` 分开。按需读其原文，用作风险提醒或试验依据，不能直接作为通过标准。结案时按 `knowledge_followup` 用 `knowledge-use` 记录实际采用、未采用及效果，再审查 `knowledge-queue` 中本次新增或受反例影响的内容，具体见 [知识合同](knowledge.md)。
 
 已有诊断预览、重复修复或正式候选尚未交付时，按 [制作收口](../workflows/production-completion.md) 处理：先完成 `next_action` 指出的当前缺口，复用已核验资产；当前候选待审则补实际审核，quality通过则直接deliver。水印／发布者标记默认去除，识别其文字/图形身份并检查片尾同标；用户本次明确要求保留的例外记录来源，旧评审不覆盖。

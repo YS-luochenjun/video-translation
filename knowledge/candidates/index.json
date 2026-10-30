@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 66,
-    "no_adoption_record": 262,
+    "no_adoption_record": 263,
     "synthetic_only": 4
   },
   "entries": [
@@ -8522,6 +8522,34 @@
       "storage_path": "knowledge/history/candidates/b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba/mog047-independent-upload-deferral-20261027.json",
       "queue_state": "archived",
       "hypothesis_sha256": "1a992a3b7a72cd8f8de267806566c7d27baa46f7c8a2dab5e34290b210c704ff"
+    },
+    {
+      "id": "mog056-ja-style-user-feedback-20261030",
+      "path": "knowledge/candidates/mog056-ja-style-user-feedback-20261030.json",
+      "original_sha256": "4a5ec4089cb7ac101f4f1999345775200891726daa31c8427b67f43598f35e31",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259",
+        "target_language": "ja"
+      },
+      "historical_outcome": "explicit_visual_approval",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/02326e0769503aed2ab27c2296ce8654ac6a652929d216e9d5d1ddcdd73670bd.json",
+        "decision_sha256": "8b245bc72a4c62e8792134e2bff2b6f68c8ae9db4a6ebdb516312138c447d768",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "source-led-visual-localization-v1",
+        "mog056-ja-style-v3-user-accepted-20261030"
+      ],
+      "storage_path": "knowledge/history/candidates/4a5ec4089cb7ac101f4f1999345775200891726daa31c8427b67f43598f35e31/mog056-ja-style-user-feedback-20261030.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "7f1a0ca1608538266ee490b6216cc2bfca9dc778b03b0b3a0155e5fb471423e0"
     },
     {
       "id": "native-font-resolution-macos-20261026",

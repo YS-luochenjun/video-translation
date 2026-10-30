@@ -81,7 +81,7 @@ def copy_project_knowledge(project, destination):
     target = destination / "knowledge"
     target.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(project / "knowledge/index.json", target / "index.json")
-    for name in ("rules", "cases", "examples", "history"):
+    for name in ("rules", "cases", "examples", "history", "candidates", "curation", "distillations"):
         if (project / "knowledge" / name).is_dir():
             shutil.copytree(project / "knowledge" / name, target / name, dirs_exist_ok=True)
     # Reviewed retrieval metadata is an explicit permanent dependency, too.

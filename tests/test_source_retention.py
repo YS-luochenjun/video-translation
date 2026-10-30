@@ -68,6 +68,35 @@ class SourceRetentionTests(unittest.TestCase):
         other = self.make_run("different", "ja-JP", b"changed-source")
         self.assertIsNone(source_state.restore(other, self.root))
 
+    def test_source_save_keeps_frozen_original_bytes_after_source_interval_refinement(self):
+        first = source_state.save(self.run, self.root)
+        original = self.run / 'analysis/source-observations.json'
+        original_bytes = original.read_bytes()
+        frozen_hash = file_hash(original)
+        write_json(self.run/'plan.json', {'assets':[{'path':'analysis/source-observations.json','sha256':frozen_hash}]})
+        inventory = read_json(self.run/'analysis/inventory.json')
+        inventory['text_instances'][0]['source_interval'] = [2.1, 5.9]
+        write_json(self.run/'analysis/inventory.json', inventory)
+        second = source_state.save(self.run, self.root)
+        self.assertEqual(original.read_bytes(), original_bytes)
+        self.assertEqual(file_hash(original), frozen_hash)
+        self.assertNotEqual(first['snapshot'], second['snapshot'])
+        self.assertIn('source-observation-versions/', second['observations_asset']['path'])
+        payload = self.root / second['snapshot'] / 'payload/analysis/source-observations.json'
+        self.assertEqual(read_json(payload)['text_instances'][0]['start'], 2.1)
+        other = self.make_run('refined-reuse', 'es')
+        source_state.restore(other, self.root)
+        self.assertEqual(read_json(other/'analysis/inventory.json')['text_instances'][0]['start'], 2.1)
+        self.assertEqual(source_state.save(self.run,self.root)['snapshot'], second['snapshot'])
+
+    def test_semantically_equal_source_observations_do_not_get_reformatted(self):
+        import json
+        path = self.run/'analysis/source-observations.json'
+        path.write_text(json.dumps(source_state.observations(read_json(self.run/'analysis/inventory.json'))))
+        before = path.read_bytes()
+        source_state.save(self.run,self.root)
+        self.assertEqual(path.read_bytes(),before)
+
     def test_optional_ocr_candidates_survive_source_snapshot_without_new_locale_approval(self):
         from video_localizer.ocr_supplement import context
         rapid = {'source_sha256': self.sha, 'complete': True, 'frames': []}

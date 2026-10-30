@@ -40,6 +40,27 @@ def observations(inventory):
             "proof_boundary": "Historical source observations for inspection; no target copy, voice, layout or new-locale approval."}
 
 
+def _observation_file(run, neutral):
+    """Source-save must not invalidate a plan by rewriting a frozen dependency.
+
+    Later caption alignment may refine source intervals. Publish those facts in
+    a new immutable revision, while source snapshots retain their canonical
+    payload layout for portable restoration.
+    """
+    original = run / 'analysis/source-observations.json'
+    if not original.exists():
+        write_json(original, neutral)
+        return original
+    if read_json(original) == neutral:
+        return original  # Preserve the original bytes, including formatting.
+    revision = run / 'analysis/source-observation-versions' / (object_hash(neutral) + '.json')
+    if revision.exists():
+        require(read_json(revision) == neutral, 'Immutable source observation revision changed')
+    else:
+        write_json(revision, neutral)
+    return revision
+
+
 @guarded
 def save(run, root=None):
     root, run = Path(root or ROOT), Path(run)
@@ -51,8 +72,7 @@ def save(run, root=None):
     inventory = read_json(run / "analysis/inventory.json")
     require(inventory["source_sha256"] == record["source_sha256"], "Source analysis belongs to another video")
     neutral = observations(inventory)
-    neutral_path = run / "analysis/source-observations.json"
-    write_json(neutral_path, neutral)
+    neutral_path = _observation_file(run, neutral)
     sources = {record["source"]: source, "analysis/source-observations.json": neutral_path}
     for path in (run / "analysis").rglob("*"):
         if not path.is_file():
@@ -81,7 +101,8 @@ def save(run, root=None):
         index = read_json(index_path) if index_path.exists() else {"schema_version": 1, "entries": []}
         index["entries"] = [e for e in index["entries"] if e["id"] != identity] + [entry]
         write_json(index_path, index)
-    return {**entry, "files": len(manifest["files"]), "source_sha256": record["source_sha256"]}
+    return {**entry, "files": len(manifest["files"]), "source_sha256": record["source_sha256"],
+            "observations_asset": {"path": neutral_path.relative_to(run).as_posix(), "sha256": file_hash(neutral_path)}}
 
 
 def verify(entry, root, source_sha256):

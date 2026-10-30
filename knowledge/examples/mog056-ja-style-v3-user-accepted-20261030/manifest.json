@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog056-ja-style-v3-user-accepted-20261030",
+  "created_at": "2026-10-30T08:38:43+00:00",
+  "files": [
+    {
+      "path": "evidence/mog056-style-prompts.json",
+      "sha256": "53282fd743102472797fcebd67b9c6d60a67aeb9d378468ab4a86c6645946101",
+      "bytes": 3155
+    },
+    {
+      "path": "evidence/mog056-visual-style-user-feedback.json",
+      "sha256": "ed46e5d34ab8bd6a0ddec0daf9c45599071d9bea698676cb1cee77241e21b5c9",
+      "bytes": 3048
+    },
+    {
+      "path": "evidence/new-body.png",
+      "sha256": "fbbc04467df472fbd1889a870da5a3a65a81e53a54172d7c268498d1f85bae04",
+      "bytes": 2283158
+    },
+    {
+      "path": "evidence/new-cta.png",
+      "sha256": "d02c81f3115fef3b2f3a2a2a208de0074f7e86406a28faf5cebaafe9434db360",
+      "bytes": 983574
+    },
+    {
+      "path": "evidence/new-hook.png",
+      "sha256": "cf78f527b57957c19019799b8ed7b9a86fccdd78006a0b36216174a9069d9c9d",
+      "bytes": 1818845
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259",
+      "target_language": "ja"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG-20261029-056第1片日语V3：用户认可的画面与字体\n\n实际源：0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259；目标ja；实际成片：42de93bf087622a2623e1b4300b98fa7d8d38c970b1f6acc17af9b4301dfd990。项目拥有者看过该日语输出，明确认可“画面和字体的翻译，很好”。这是对应版本的视觉反馈，不是跨语种、母语声音或公司全面验收。[原话与校验][approval]。\n\n旧版使用底部小号整句、简单开头/CTA，源视觉层次损失。V3保留源样式记录，用少量ImageGen资产分别制作黑色粗斜开头、黄色多层描边CTA和同镜头去字参考；正文以实际支持日语的重字重字面，按目标配音对齐为73个自然短语，批量合成。[开头][opening]、[正文][body]、[片尾][cta]。\n\n一段短Wan片尾局部修复与ImageGen参考结合，只采用文字所在窄区域，保留原片表情/箭头；复查发现4.5–7.8秒字幕遮脸后，仅调整对应三个短语位置，重新编码完整视频。成片采用原配音、音乐和音效，未以此声称新增听审。73、W9字面、原生30fps、具体坐标/时间及32 credits均是本例参数，不推广为默认。\n\n内部质量仍为revise，局部偏软、动作适配、旧声音混淆疑点和未完成实时整片视听等限制保留。用户新的视觉认可作为追加反馈，不重写这些记录，也不撤销针对旧版或其他范围的异议。无须为学习复制整片到知识库；所需观察独立保全，生产恢复走独立交付包。\n\n[approval]: evidence:approval\n[opening]: evidence:opening\n[body]: evidence:body\n[cta]: evidence:cta\n",
+    "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259",
+    "video_sha256": "42de93bf087622a2623e1b4300b98fa7d8d38c970b1f6acc17af9b4301dfd990",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "approval": "evidence/mog056-visual-style-user-feedback.json",
+      "prompts": "evidence/mog056-style-prompts.json",
+      "opening": "evidence/new-hook.png",
+      "body": "evidence/new-body.png",
+      "cta": "evidence/new-cta.png"
+    }
+  }
+}
