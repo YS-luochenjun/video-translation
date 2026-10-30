@@ -302,7 +302,10 @@ def followups(root=ROOT):
     """Navigation only. Existing return gates still verify every actual package."""
     from .fireplay_submission import coverage, bound_materials, completion_gate
     config = policy(root)
-    index_path = Path(root) / 'outputs/index.json'
+    from .delivery_layout import catalog
+    index_path = catalog(Path(root))
+    if not index_path.exists():
+        index_path = Path(root) / 'outputs/index.json'
     packages = read_json(index_path).get('entries', []) if index_path.exists() else []
     result = []
     for path in (Path(root) / 'state/fireplay').glob('*/request.json'):

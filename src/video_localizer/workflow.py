@@ -30,6 +30,7 @@ def profile_path(run):
 
 
 def create_run(video, target, brief, name, source_url=None):
+    require(not (ROOT / 'state/project-storage.lock').exists(), 'Project storage maintenance is active')
     import re
     from .languages import resolve
     require(bool(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}", name)), "Invalid run id")
@@ -47,6 +48,7 @@ def create_run(video, target, brief, name, source_url=None):
     shutil.copyfile(source, local)
     write_json(run / "run.json", {"schema_version": 1, "id": name, "created_at": utc_now(),
                                  "source": local.relative_to(run).as_posix(), "source_sha256": file_hash(local),
+                                 "source_name": source.name,
                                  "source_url": source_url, "state": "created",
                                  "visual_storage": "comparisons-v3"})
     defaults = read_json(ROOT / "config/workspace.json")

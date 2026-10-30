@@ -1,0 +1,37 @@
+{
+  "source": {
+    "path": "knowledge/candidates/source-style-snapshot-font-binding-dev-20261029.json",
+    "sha256": "d3bcc7c408d4be3c5dfce2868b80de8b62ec307a190c1f5eeb1c8f715aacc93d"
+  },
+  "previous_review": "b6cbd55944fa3d93da77c5fb21dac7d05197dbef8f8a841e8c46b175604c4bdb",
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent source/manifest review during user-requested knowledge optimization",
+  "origin": "Current user requested absorption, duplicates and conflict review; previous owner scope and explicit exclusions preserved",
+  "resolution": "adopted",
+  "reason": "Technical source-style/font/plan/current-evidence contracts are implemented and already covered by the owner-authorized active workflow. Later exact Japanese V3 visual approval is independently preserved. Cross-source, full listening and exact motion claims remain outside the adopted guidance; they are scope limits, not a reason to keep this already implemented design pending.",
+  "targets": [
+    {
+      "id": "source-led-visual-localization-v1",
+      "path": "knowledge/rules/source-led-visual-localization-v1.md",
+      "sha256": "1a6b588aa97632cb97fbd4a61a2e87f3c2a3d235a06fadd7bdcf6e116371c759",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 默认保留源片视觉语言，按语言适配并批量制作\n\n来源：项目拥有者在观看MOG-20261029-056第1片日语V3后明确表示“画面和字体的翻译，很好”，要求以后沿用其做法。这里启用的是用户要求的制作方向；实际成品认可限定在该源、日语和该版本，不声称任意视频、字体或语种已复验。[来源与范围][approval]。\n\n## 触发与步骤\n\n适用于需要替换画面文字的后续本地化。擦字前先按[源样式合同](../../docs/source-typography.md)保存实际源帧、字形类别、粗细、斜体、色彩、描边/阴影、大小占比、分行、构图和运动。禁止把标题、正文、CTA统一变成默认字体的小号底部字幕。\n\n1. **按视觉角色分工。** 普通正文/短语以真实字面、目标文字支持和原视觉分量选字体；显眼艺术标题、CTA优先评估少量ImageGen透明字/装饰资产，逐字检查；复杂运动另依原片及实际参考评估Wan连续局部处理。不强制每条视频都调用模型。\n2. **按目标语音呈现。** 原片是短词弹出时，将共同定稿按实际目标配音/已审对齐分成自然短语。由Agent确定语言断句并审ASR边界，批量生成字层；不能按字符数均分时间、改译稿凑时长或复制别的语言时轴。原片静态整句则保留其信息层级，不强行拆词。\n3. **局部修复、保全主体。** 修复范围针对真实原字，目标排版可以另选安全位置。整幅检查脸、人物、产品、箭头、表情及片尾；近景压脸时有据调整对应短语/区间，不把所有字幕一律移到底部。源擦字框与目标字框分开。模型同镜头参考不意味着可用整帧替换原主体。\n4. **一次资产，多次自动合成。** 艺术字按风格/用途制作少量资产，普通文字按语言短语批量排版。用style-layer或既有surface/Remotion接口生成有绑定的字层，接原本render/fast-register及真实评审；普通编码、抽帧是媒体操作，不是逐帧AI制作。禁止逐帧生图、逐帧像素精修、每短语发起模型请求或重复编写素材专用的字体渲染器。\n5. **代表片先验证，再扩语言。** 同源可复用已核验源设计和可用底片，各语言仍独立核对稿件、字形、配音、排版、时轴及实际成片。对照原片/旧版/新版的整幅和字层，查首尾、主体及运动；不能只看局部字体。一般艺术字装饰或动效差异可有据适配，不追逐像素一致。\n\n## 有界停止与反证\n\n沿用原预算、未知费用、两轮返工和完整输出。普通不合格到界后披露并按现行publication-review判断best_available，不增加“风格完美”提交门槛。大面积撕裂、主体损坏、漏译或必需配音缺失仍按原政策阻断对应版本。对保护对象有新遮挡、短语不可读/过快、字面不实或修复引入新破坏时应修订本次选择；源案例成功不能抵消这些反例。\n\n字体、字号、坐标、时间、短语数量和付款数都不是通用默认。056只提供一种已被用户认可的组合，其他源和语种须实际验证；不承诺原字体文件恢复、任意艺术字完全一致或声音/运动自动验收。历史revise及视听限制保留，用户本次认可的是画面和字体。[限定案例][case]。\n\n[approval]: evidence:approval\n[case]: ../cases/mog056-ja-style-v3-user-accepted-20261030.md\n"
+    }
+  ],
+  "adopted_parts": [
+    "Technical source-style/font/plan/current-evidence contracts are implemented and already covered by the owner-authorized active workflow. Later exact Japanese V3 visual approval is independently preserved. Cross-source, full listening and exact motion claims remain outside the adopted guidance; they are scope limits, not a reason to keep this already implemented design pending."
+  ],
+  "retained_parts": [
+    "All original bytes, scope, privacy, actual video hashes, negative/uncertain quality observations and unknown charges remain historical facts; no media deletion or new acceptance is asserted by this review."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-10-30T09:24:48+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

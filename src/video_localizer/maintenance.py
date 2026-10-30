@@ -127,9 +127,30 @@ def maintain(run, close=False, stage='manual'):
     if not policy.get('enabled'):
         return {'state': 'disabled'}
     from . import retention
+    from . import delivery_layout, project_storage
+    if close and project_storage.authorized(root) and delivery_layout.settings(root).get('enabled'):
+        # Managed expiry already has an independent, bounded delivery package.
+        # Legacy preserve would add a permanent full-source copy in state.
+        from . import learning, library
+        with run_operation(run):
+            require(not list((root / 'state/resources').glob('*.lock')), 'Heavy work is active')
+            for job in (run / 'jobs').glob('*.json'):
+                require(read_json(job).get('state') not in {'created', 'submitted', 'running', 'processing', 'queued'},
+                        'Model task remains active; finish it before closing')
+            delivery = read_json(run / 'outputs/delivery.json')
+            require(file_hash(inside(run, delivery['video'])) == delivery['sha256'], 'Delivered video changed')
+            package = library.export(run, root, delivery['sha256'])
+            learning.audit(root)
+            project_storage.note_closed(run)
+            result = {'run':run.name, 'stage':stage, 'checked_at':utc_now(),
+                      'state':'closed_pending_lifecycle', 'package':package,
+                      'outputs':'Verified independent package; no permanent full-video recovery copy. '
+                                'Lifecycle preserves records and original accounting before deleting the closed run.'}
+            write_json(state / 'latest.json', result)
+        return result
     result = {'run': run.name, 'stage': stage, 'checked_at': utc_now(), 'state': 'kept',
               'deleted_cache': [], 'removed_empty_directories': [], 'blockers': [],
-              'outputs': 'Independent delivery packages retained; no automatic eviction'}
+              'outputs': 'Retention and latest-only expiry are handled by the workspace-authorized storage lifecycle'}
     with run_operation(run):
         result['blockers'] = retention.blockers(run)
         if list((root / 'state/resources').glob('*.lock')):

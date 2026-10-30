@@ -37,9 +37,15 @@ def _video(entry, root):
 
 def refresh(root=None):
     root = Path(root or ROOT).resolve()
-    out = inside(root, "outputs")
+    from .delivery_layout import catalog as delivery_catalog, settings
+    managed = settings(root).get('enabled')
+    out = inside(root, 'state/delivery-browser' if managed else 'outputs')
+    out.mkdir(parents=True, exist_ok=True)
     with lock(out / ".catalog.lock"):
-        catalog = read_json(out / "index.json") if (out / "index.json").exists() else {"entries": []}
+        path = delivery_catalog(root)
+        if not path.exists():
+            path = root / 'outputs/index.json'
+        catalog = read_json(path) if path.exists() else {"entries": []}
         rows, counts = [], {"delivered": 0, "with_issues": 0, "reference": 0, "unavailable": 0}
         diagnostics = []
         for entry in sorted(catalog["entries"], key=lambda e: (e.get("origin_run_id", ""), e.get("archived_at", ""))):
@@ -54,7 +60,7 @@ def refresh(root=None):
                                     "reason": reason})
             counts["delivered" if status == "已交付" else "with_issues" if status == '已输出 / 有瑕疵' else "reference" if video else "unavailable"] += 1
             link_text = "查看问题版本" if status == "质量异议 / 待返工" else "打开视频"
-            action = (f'<a href="{quote(video.relative_to(out).as_posix(), safe="/")}">{link_text}</a>'
+            action = (f'<a href="{quote(os.path.relpath(video, out), safe="/")}">{link_text}</a>'
                       if video else f"请检查交付包<details><summary>查看原因</summary>{escape(reason)}</details>")
             cells = [escape(str(entry.get(k, ""))) for k in
                      ("origin_run_id", "target_language", "video_sha256")]
@@ -87,5 +93,5 @@ a{{color:#1257aa}}code{{font-size:12px}}p{{color:#526071}}</style>
         finally:
             if os.path.exists(temporary):
                 os.unlink(temporary)
-    return {"page": "outputs/index.html", "counts": counts, "copied_media": 0,
+    return {"page": target.relative_to(root).as_posix(), "counts": counts, "copied_media": 0,
             "diagnostics": diagnostics}

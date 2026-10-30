@@ -107,7 +107,10 @@ def plan(root=None):
     policy, usage = settings(root), report(root)
     runs = [p for p in (root / "runs").iterdir() if p.is_dir() and not p.name.startswith(".")] if (root / "runs").exists() else []
     safe_runs = [p for p in runs if p.resolve() == root / "runs" / p.name]
-    catalog = root / "outputs/index.json"
+    from .delivery_layout import catalog as delivery_catalog
+    catalog = delivery_catalog(root)
+    if not catalog.exists():
+        catalog = root / 'outputs/index.json'
     entries = read_json(catalog).get("entries", []) if catalog.exists() else []
     packages = set()
     for entry in entries:
@@ -135,11 +138,12 @@ def plan(root=None):
                 p.name for p in (root / "outputs").iterdir()
                 if p.name not in {"index.json", "index.html", "README.md", "reports"} and not p.name.startswith(".")
                 and not any(package.is_relative_to(p) for package in packages)
+                and not any(inside(root, e['presentation']).is_relative_to(p) for e in entries if e.get('presentation'))
             ) if (root / "outputs").exists() else [],
             "protected": ["knowledge", "unsettled accounting", "active or pinned tasks", "referenced reuse assets"],
             "next_steps": [
                 "Inspect loose previews, download copies and ZIPs separately; they count toward bytes, not package count.",
                 "A run needs confirmed idle status, independent knowledge/delivery/reuse verification and run-delete gates.",
-                "Output/media eviction needs explicit expiry or verified external relocation; no automatic package deletion is implemented.",
+                "Actual expiry/superseded/closed-task cleanup uses storage-sweep with workspace authorization and a fresh fingerprint; this report never deletes.",
                 "Logical sizes are not guaranteed reclaimable bytes. Concurrent activity may change this snapshot."
             ]}

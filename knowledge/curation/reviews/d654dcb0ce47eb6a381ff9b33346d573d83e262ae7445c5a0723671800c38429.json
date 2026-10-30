@@ -1,0 +1,26 @@
+{
+  "source": {
+    "path": "knowledge/candidates/WOW-20261030-032-05-61f5f06343.json",
+    "sha256": "92eac1d90785dbb5e17ebbeae7facbe6a930a27aa7f144440ba2776c8a4b532f"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent source-record curation; no new playback/listening or acceptance",
+  "origin": "2026-10-30 owner asked to distill accumulated knowledge and retain meaningful records without forced conclusions",
+  "resolution": "rejected",
+  "reason": "该自动候选仅占位或保存既有成片/结案快照，没有独立因果教训可推广；作为有价值的基线记录历史保留。拒绝的是再次生成知识规则，不是否定原结果。",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "原同Agent质量pass、真实字体及局部修复/音频记录按原scope与视频哈希保留；不转为独立审查、用户验收或跨语种成功方法。",
+    "可于同源实际复用时重新查询并核验该基线；本次没有删除证据包或改写其质量结论。"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-10-30T10:17:06+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

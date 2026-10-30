@@ -1530,6 +1530,56 @@
       "sha256": "4a5ec4089cb7ac101f4f1999345775200891726daa31c8427b67f43598f35e31",
       "archive_path": "4a5ec4089cb7ac101f4f1999345775200891726daa31c8427b67f43598f35e31/mog056-ja-style-user-feedback-20261030.json",
       "decision_sha256": "8b245bc72a4c62e8792134e2bff2b6f68c8ae9db4a6ebdb516312138c447d768"
+    },
+    "knowledge/candidates/WOW-20261030-032-01-acd8b470f4.json": {
+      "sha256": "7ecd82255b8076f2b1ea9045f7d4de559c191bb18005733da5b3b3e84b9c5b7b",
+      "archive_path": "7ecd82255b8076f2b1ea9045f7d4de559c191bb18005733da5b3b3e84b9c5b7b/WOW-20261030-032-01-acd8b470f4.json",
+      "decision_sha256": "747a82c8938e8080b5c7adc9c7dadfcf034c8a24a256e47ae9b7a86ba441d8e1"
+    },
+    "knowledge/candidates/WOW-20261030-032-02-5e727185cb.json": {
+      "sha256": "88b8cba606f7f8878d2948b2b1a69633c0a6f61282851a465188d2e7d430d72f",
+      "archive_path": "88b8cba606f7f8878d2948b2b1a69633c0a6f61282851a465188d2e7d430d72f/WOW-20261030-032-02-5e727185cb.json",
+      "decision_sha256": "13bc588ef293608cfbb73399d9b0972104779b68c104fd023c6a9c77ae2df287"
+    },
+    "knowledge/candidates/WOW-20261030-032-03-a9d1385499.json": {
+      "sha256": "9ae9dc83ae9caaadad200fa196642e6f3144336e703ec8cc436d0561415fb6ac",
+      "archive_path": "9ae9dc83ae9caaadad200fa196642e6f3144336e703ec8cc436d0561415fb6ac/WOW-20261030-032-03-a9d1385499.json",
+      "decision_sha256": "256fe616fb1cf08543f3794ca9cf52d6b914f7d16e816df4e0895982982167fb"
+    },
+    "knowledge/candidates/WOW-20261030-032-04-b0dfa9a62e.json": {
+      "sha256": "e0c117687cbbd8193687084713321881c77566cf41070f9f8cb57f4cd0495adc",
+      "archive_path": "e0c117687cbbd8193687084713321881c77566cf41070f9f8cb57f4cd0495adc/WOW-20261030-032-04-b0dfa9a62e.json",
+      "decision_sha256": "de12c53dc8377642108c331d0aae56494a6552d8fd101145bd01e72870c12a7d"
+    },
+    "knowledge/candidates/WOW-20261030-032-05-61f5f06343.json": {
+      "sha256": "92eac1d90785dbb5e17ebbeae7facbe6a930a27aa7f144440ba2776c8a4b532f",
+      "archive_path": "92eac1d90785dbb5e17ebbeae7facbe6a930a27aa7f144440ba2776c8a4b532f/WOW-20261030-032-05-61f5f06343.json",
+      "decision_sha256": "aa71654e8f548cf0d66fd7594677c3fe70f566620928ddb2b1b831ee070b8869"
+    },
+    "knowledge/candidates/WOW-20261030-032-06-d98c27f0bf.json": {
+      "sha256": "44f5c5a8ce64d553fd45902594011f6a03b75e56b7ec356917d6d42caec83848",
+      "archive_path": "44f5c5a8ce64d553fd45902594011f6a03b75e56b7ec356917d6d42caec83848/WOW-20261030-032-06-d98c27f0bf.json",
+      "decision_sha256": "498f2d89289885c6cbef44a2e1c8f9f671f8d769d4939578223ccbf03e5bbad8"
+    },
+    "knowledge/candidates/WOW-20261030-032-07-8357878cb6.json": {
+      "sha256": "a8f76cd61dee566e9fec7071a68cb2ff5f279506fa95c4662ed0678e8be81fa9",
+      "archive_path": "a8f76cd61dee566e9fec7071a68cb2ff5f279506fa95c4662ed0678e8be81fa9/WOW-20261030-032-07-8357878cb6.json",
+      "decision_sha256": "d8eb827d4fb66f9449f428331ee5dd5e4e522b437a159aea5ff988338ff5f5e5"
+    },
+    "knowledge/candidates/WOW-20261030-032-08-1dba0001af.json": {
+      "sha256": "c58f525c0919be2f049421164aecd5447cecd3a87b893b796665860992e04cc7",
+      "archive_path": "c58f525c0919be2f049421164aecd5447cecd3a87b893b796665860992e04cc7/WOW-20261030-032-08-1dba0001af.json",
+      "decision_sha256": "75bd044ef8fec7f8a2e6856478b63b8fa9bb83ce41eb42ebc93737797f6077c8"
+    },
+    "knowledge/candidates/WOW-20261030-032-09-89cee6dc2a.json": {
+      "sha256": "68e12be0aed7affee1509966880e8291f367a0b94b0520279a7f4e4006a85d2f",
+      "archive_path": "68e12be0aed7affee1509966880e8291f367a0b94b0520279a7f4e4006a85d2f/WOW-20261030-032-09-89cee6dc2a.json",
+      "decision_sha256": "d38c099faa77f6531d3ced57cda41cc0defe24867775b587d3c796ce5e63348a"
+    },
+    "knowledge/candidates/WOW-20261030-032-10-c48dc16213.json": {
+      "sha256": "a45c9d5939fc408c9323cdeeee762fd5f458fe9ff6c84010c50f467e2b0fbee7",
+      "archive_path": "a45c9d5939fc408c9323cdeeee762fd5f458fe9ff6c84010c50f467e2b0fbee7/WOW-20261030-032-10-c48dc16213.json",
+      "decision_sha256": "3b03384eb22a2ac7d6f5d008d56ed3d8611b8257106c2c16b2a901d312ef37bc"
     }
   }
 }

@@ -142,6 +142,8 @@ def lock(path):
 def run_operation(run):
     """Serialize mutation/deletion across processes; nested calls in this thread share a lock."""
     run = Path(run).resolve()
+    require(not (run.parent.parent / 'state/project-storage.lock').exists(),
+            'Project storage maintenance is active; resume after its receipt completes')
     path = run.parent / ".locks" / (run.name + ".lock")
     held = getattr(_operations, "held", set())
     if path in held:
@@ -182,7 +184,14 @@ def guarded(function):
             if outermost and not stage.startswith('retention.'):
                 from .maintenance import after_stage
                 after_stage(run, stage)
-            return result
+        if outermost and Path(run).parent.name == 'runs' and not stage.startswith('retention.'):
+            from .project_storage import auto
+            try:
+                auto(Path(run).parent.parent)
+            except (OSError, WorkflowError, ValueError, KeyError, TypeError) as exc:
+                write_json(Path(run).parent.parent / 'state/storage-lifecycle-error.json',
+                           {'stage':stage,'error':str(exc),'delivery_unaffected':True})
+        return result
     return invoke
 
 

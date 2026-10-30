@@ -14,6 +14,7 @@ if __name__=='__main__':
     parser.add_argument('--source',action='append',required=True)
     parser.add_argument('--execute',action='store_true');parser.add_argument('--expect')
     parser.add_argument('--reviewed-by');parser.add_argument('--origin')
+    parser.add_argument('--limit',type=int,default=24)
     args=parser.parse_args()
-    result=execute(ROOT,set(args.source),args.expect,args.reviewed_by,args.origin) if args.execute else preview(ROOT,set(args.source))
+    result=execute(ROOT,set(args.source),args.expect,args.reviewed_by,args.origin,args.limit) if args.execute else preview(ROOT,set(args.source),args.limit)
     print(json.dumps(result,ensure_ascii=False,indent=2))

@@ -138,6 +138,20 @@ def packet(root, state, config):
     events = []
     pending = {(e["path"], e["sha256"]) for e in state.get("pending", [])}
     fresh = [e for e in inventory(root, state) if (e["path"], e["sha256"]) not in pending]
+    # Real repairs/counterexamples must not wait behind hundreds of generated
+    # placeholder/inbox records. This changes scheduling, never scope or status.
+    from .knowledge_records import placeholder_lesson
+    def priority(record):
+        path = inside(root, record['path'])
+        data = read_json(path) if path.suffix == '.json' else {}
+        if record['path'].startswith('knowledge/local/feedback/improvements/'):
+            return (0, record['path'])
+        if data.get('outcome') in ('counterexample', 'ineffective', 'regressed'):
+            return (0, record['path'])
+        if data.get('hypothesis') and not placeholder_lesson(data['hypothesis']):
+            return (1, record['path'])
+        return (2, record['path'])
+    fresh.sort(key=priority)
     for record in fresh[:config["max_records"]]:
         path = inside(root, record["path"])
         data = read_json(path) if path.suffix == ".json" else {"observation": path.read_text(encoding="utf-8-sig")}
@@ -159,8 +173,14 @@ def packet(root, state, config):
             rules.append({"id": entry["id"], "scope": entry.get("scope", {}),
                           "method": inside(root / "knowledge", str(Path(entry["path"]).relative_to("knowledge"))).read_text(encoding="utf-8-sig")})
     result = {"schema_version": 1, "events": events, "existing": related_lessons(events, existing), "active_rules": rules}
+    # Bound by bytes as well as record count. Keep complete originals and their
+    # hashes; deferred tail records stay fresh in the unchanged checkpoint.
+    # Never skip an oversized first-priority record or silently truncate it.
+    while len(events) > 1 and len(json.dumps(result, ensure_ascii=False).encode("utf-8")) > config["max_packet_bytes"]:
+        events.pop()
+        result['existing'] = related_lessons(events, existing)
     require(len(json.dumps(result, ensure_ascii=False).encode("utf-8")) <= config["max_packet_bytes"],
-            "Curation packet exceeds size limit; reduce max_records or curate large records explicitly")
+            "One curation record plus required context exceeds size limit; curate this large record explicitly")
     return result
 
 

@@ -76,7 +76,11 @@ def export(run, root=None, video_sha256=None, reuse_manifests=()):
     version = video_sha256[:16]
     if delivery.get('scope') == 'best_available':
         version += '-best-' + delivery['completion_sha256'][:8]
-    folder = inside(root / "outputs", f"{source_folder(root, record['source_sha256'])}/{language}/{version}")
+    from . import delivery_layout
+    managed = delivery_layout.settings(root).get('enabled')
+    delivery_identity = delivery_layout.identity(run) if managed else {}
+    folder = (inside(root, f"outputs/.packages/{delivery_identity['requirement_name']}/{language}/{delivery_identity['task_name']}/{version}")
+              if managed else inside(root / "outputs", f"{source_folder(root, record['source_sha256'])}/{language}/{version}"))
     existed = (folder / "manifest.json").exists()
     if existed:
         previous = bundles.verify(folder)
@@ -208,22 +212,33 @@ def export(run, root=None, video_sha256=None, reuse_manifests=()):
         "restoration": "payload paths retain the original run-relative layout; restore before rebinding a new locale",
         "expiry_boundary": "Deleting this package loses its deliverable/reuse assets; independent knowledge cases remain usable."
     })
-    catalog_path = root / "outputs/index.json"
+    catalog_path = delivery_layout.catalog(root)
     with lock(root / "outputs/.catalog.lock"):
-        catalog = read_json(catalog_path) if catalog_path.exists() else {"schema_version": 1, "entries": []}
-        catalog["entries"] = [e for e in catalog["entries"] if e["video_sha256"] != video_sha256]
-        catalog["entries"].append({"source_sha256": record["source_sha256"], "target_language": language,
+        legacy_catalog = root / 'outputs/index.json'
+        catalog = (read_json(catalog_path) if catalog_path.exists() else read_json(legacy_catalog)
+                   if managed and legacy_catalog.exists() else {"schema_version": 1, "entries": []})
+        catalog["entries"] = [e for e in catalog["entries"] if not (e["video_sha256"] == video_sha256 and
+            (not managed or all(e.get(k) == delivery_identity[k] for k in ('requirement_name', 'task_name', 'target_language'))))]
+        entry = {"source_sha256": record["source_sha256"], "target_language": language,
             "video_sha256": video_sha256, "package": str(folder.relative_to(root).as_posix()),
             "manifest_sha256": file_hash(folder / "manifest.json"),
-            "status": manifest["metadata"]["status"], "origin_run_id": run.name, "archived_at": utc_now()})
+            "status": manifest["metadata"]["status"], "origin_run_id": run.name,
+            "archived_at": manifest.get('created_at', utc_now()) if managed else utc_now(), **delivery_identity}
+        if managed:
+            entry['presentation'] = delivery_layout.present(root, entry, folder / 'final.mp4')
+        catalog["entries"].append(entry)
         write_json(catalog_path, catalog)
     return {"package": str(folder.relative_to(root).as_posix()), "files": len(files),
+            **({'final_file': entry['presentation']} if managed else {}),
             "status": manifest["metadata"]["status"], "reused": existed}
 
 
 def find(source_sha256, target_language=None, root=None):
     root = Path(root or ROOT)
-    path = root / "outputs/index.json"
+    from .delivery_layout import catalog
+    path = catalog(root)
+    if not path.exists() and (root / 'outputs/index.json').exists():
+        path = root / 'outputs/index.json'
     entries = read_json(path)["entries"] if path.exists() else []
     result = []
     for entry in entries:

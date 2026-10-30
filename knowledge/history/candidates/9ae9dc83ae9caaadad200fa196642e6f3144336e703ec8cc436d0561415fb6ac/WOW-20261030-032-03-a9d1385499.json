@@ -1,0 +1,30 @@
+{
+  "id": "WOW-20261030-032-03-a9d1385499",
+  "status": "candidate",
+  "created_at": "2026-10-30T08:45:58+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "fr",
+    "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+  },
+  "outcome": "pass",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "WOW-20261030-032-03",
+    "video_sha256": "a9d1385499bce8a8095e0ae8d7d77d95b167e51f7b7a8e3ccd33454d66db0a5a",
+    "quality_sha256": "16f7b433cf79bb2fa1d28b488066f2c88e16bc8a5f814e7d170e99518f40b821"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "pass",
+    "failure_codes": [],
+    "reviewer": "Codex same-agent actual visual review with KIE Gemini Flash actual audio evidence",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

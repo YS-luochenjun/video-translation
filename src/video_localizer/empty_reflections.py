@@ -15,8 +15,9 @@ PROMOTION='Requires scoped evidence and developer/company review; not loaded by 
 BOUNDARY='Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence.'
 
 
-def preview(root, source_hashes):
+def preview(root, source_hashes, limit=24):
     require(bool(source_hashes),'Select the audited sources explicitly')
+    require(type(limit) is int and 1 <= limit <= 24, 'Review 1-24 placeholder sources per round')
     selected=[]
     for row in queue(root):
         value=row['record'];scope=value.get('scope',{});evidence=value.get('evidence',{})
@@ -29,13 +30,15 @@ def preview(root, source_hashes):
             or value.get('promotion')!=PROMOTION or value.get('evidence_boundary') not in (None,BOUNDARY)
             or not isinstance(evidence,dict) or not set(evidence)<={'run','video_sha256','quality_sha256'}):continue
         selected.append({k:row[k] for k in ['path','sha256','scope']})
+        if len(selected) == limit:
+            break
     result={'sources':sorted(source_hashes),'records':selected,'count':len(selected),
             'scope':'Only audited generated placeholder records. Preserve original bytes, case assets, language scopes, quality states and unknown billing.'}
     return {**result,'fingerprint':object_hash(result)}
 
 
-def execute(root, source_hashes, expected, reviewed_by, origin):
-    root=Path(root).resolve();planned=preview(root,source_hashes)
+def execute(root, source_hashes, expected, reviewed_by, origin, limit=24):
+    root=Path(root).resolve();planned=preview(root,source_hashes,limit)
     require(expected==planned['fingerprint'],'Empty-reflection preview changed; inspect the new preview')
     require(bool(reviewed_by) and bool(origin),'An attributed structural review is required')
     results=[]

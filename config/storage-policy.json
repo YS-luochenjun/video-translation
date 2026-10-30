@@ -16,5 +16,5 @@
   },
   "pinned_runs": [],
   "pinned_sources": [],
-  "note": "Advisory limits, never automatic deletion. 0 disables that limit. Runs count per language task; outputs count indexed delivery/reuse packages; media counts source hashes. Knowledge, accounting and active work are protected. Review unindexed ZIPs and loose exports separately."
+  "note": "Read-only capacity planning limits. The workspace-authorized storage-sweep executor uses these thresholds; delivery expiry is configured in delivery-policy.json. Knowledge, accounting, active locks and installed assets are protected."
 }

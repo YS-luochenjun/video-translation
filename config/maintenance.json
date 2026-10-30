@@ -5,5 +5,7 @@
   "automatic_empty_directories": true,
   "automatic_registered_cache_after_delivery": true,
   "close_run_after_preservation": true,
-  "delivery_packages": "retain; never evict by age, score or duplication alone"
+  "delivery_packages": "Managed by config/delivery-policy.json: latest view and maximum14-day expiry; preserve knowledge/accounting before deletion",
+  "work_max_gib": 8,
+  "lifecycle_check_seconds": 3600
 }

@@ -194,7 +194,7 @@ def main(argv=None):
     command.add_argument('--language', help='Optional recognition hint, not independent language detection')
     command = commands.add_parser('audio-mix', help='Resume the existing narration-plan mixer without rewriting scripts')
     command.add_argument('run')
-    command = commands.add_parser('maintain', help='Incremental housekeeping; --close preserves then retires a settled delivered run')
+    command = commands.add_parser('maintain', help='Incremental housekeeping; --close verifies managed delivery then queues lifecycle cleanup; legacy workspaces preserve then retire')
     command.add_argument('run')
     command.add_argument('--close', action='store_true')
     command = commands.add_parser('scratch-register', help='Register one rebuildable task-owned work/runs/RUN file')
@@ -367,6 +367,10 @@ def main(argv=None):
     command.add_argument("directory")
     command = commands.add_parser("storage-report", help="Read-only lifecycle and storage inventory")
     command.add_argument("--duplicates", action="store_true", help="Hash files to measure repeated logical bytes; never deletes")
+    for action in ('storage-sweep', 'storage-reset'):
+        command = commands.add_parser(action, help='Preview or execute workspace-authorized expiry/reset with independent records and a current fingerprint')
+        command.add_argument('--execute', action='store_true')
+        command.add_argument('--expect')
     command = commands.add_parser("storage-policy", help="Show/set advisory storage limits; never deletes")
     command.add_argument("action", choices=["show", "set"], nargs="?", default="show")
     command.add_argument("--area", choices=["runs", "outputs", "media"])
@@ -569,6 +573,10 @@ def main(argv=None):
         elif name == "storage-report":
             from .storage import report
             result = report(duplicates=args.duplicates)
+        elif name in ('storage-sweep', 'storage-reset'):
+            from .project_storage import preview as storage_preview, execute as storage_execute
+            result = (storage_execute(ROOT, args.expect, reset=name=='storage-reset') if args.execute else
+                      storage_preview(ROOT, reset=name=='storage-reset'))
         elif name == "storage-policy":
             from .storage_policy import configure, settings
             if args.action == "show":

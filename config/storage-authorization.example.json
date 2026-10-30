@@ -1,0 +1,6 @@
+{
+  "workspace": "/absolute/path/to/this/workspace",
+  "automatic_cleanup": false,
+  "reset_existing_data": false,
+  "source_quote": "Actual workspace owner authorization; enable for this workspace only"
+}

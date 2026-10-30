@@ -1,0 +1,34 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261029-056-1-03-3570e7136c.json",
+    "sha256": "12fbddc947beec564794d62eb7ab8e163da99f7c3b86fddc50d784ffa22f0b01"
+  },
+  "previous_review": "44a2d41f160a590798de581babfa1eea3a507ac23576f51438c7381ca77ff3be",
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent source-record curation; no new playback/listening or acceptance",
+  "origin": "2026-10-30 owner asked to distill accumulated knowledge and retain meaningful records without forced conclusions",
+  "resolution": "pending",
+  "reason": "已有具体视觉缺陷或审核缺口，且没有本版本修订后成功对照。可保留为反例/待补证，不能用通用样式方案存在代替效果验证。",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "原文、source/locale/video哈希、原质量及所有失败判断保留，公共与私有记录不合并证据或相互披露。",
+    "没有因知识提炼改写交付、用户验收、模型结论或费用。"
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "保留该es实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。另需核实该语种模型指出的音色/音频分歧；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。",
+  "retrieval_features": [],
+  "advisory": {
+    "summary": "已有具体视觉缺陷或审核缺口，且没有本版本修订后成功对照。可保留为反例/待补证，不能用通用样式方案存在代替效果验证。",
+    "limitations": [
+      "只依据原制作保存的证据；本次没有重新进行正常播放、听审或制作修复。",
+      "不扩大源/语种范围；保留当前质量和费用不确定。"
+    ],
+    "next_check": "保留该es实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。另需核实该语种模型指出的音色/音频分歧；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+  },
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-10-30T10:16:56+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

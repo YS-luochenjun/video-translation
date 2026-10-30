@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 66,
-    "no_adoption_record": 263,
+    "no_adoption_record": 273,
     "synthetic_only": 4
   },
   "entries": [
@@ -3475,6 +3475,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/bb4076fbbd04487a46d0556cdf48041f7abe3638ed2179072b569d4077c30386.json",
+        "decision_sha256": "0564e0cfdecc00ff865c046df0f15ead67d5f65b6f78651ed4b4b7ec5aabc331",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该ar实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3490,6 +3498,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/bf6e3208cbc1f377426c09a4ff4b80b69c00a5aec7bf545f6b13db13c55585dc.json",
+        "decision_sha256": "28bafb7a306b7ffc86033b9d32e8988e5ee79ae84a9c9831d6b437911a2361f6",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该de实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。该版本尚缺完整人声/音乐音效的当前哈希感知核验；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3506,15 +3522,13 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/4e4c69f1b74463d46af966aafacaed31ef680547b575db30721c9e1ace499eba.json",
-        "decision_sha256": "44a2d41f160a590798de581babfa1eea3a507ac23576f51438c7381ca77ff3be",
-        "resolution": "partial",
+        "decision_path": "knowledge/curation/reviews/3830c133ac6c2d351097ccce5dc20d3224b24440cf2c241e3f2c17a4b7c2dd95.json",
+        "decision_sha256": "bf073e5ad97a851f3133f3227405e19de9ae4bb9815fae1f48b8bfa55a31ef29",
+        "resolution": "pending",
         "closed": false,
-        "next_action": "沿已保存原片/当前结果连续帧核对标题与CTA的动效和修复区域；核实本语种实际配音/人物音色、底片柔化及片尾接缝的原评审证据。样式保存方案未产生修订后的成功结果，不能视为已验证修复。"
+        "next_action": "保留该es实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。另需核实该语种模型指出的音色/音频分歧；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
       },
-      "current_targets": [
-        "mog056-clip1-es-typography-counterexample-20261030"
-      ],
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3530,6 +3544,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/f8ed0d289bb57e3313ef60db24bf6000af01c73f502df8c7f32c743b83b49ebb.json",
+        "decision_sha256": "b71a809ac7b6ed8421b49f68b75dfa14b518e74ba2f372e1797eadfacbc35192",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该fr实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3545,6 +3567,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/438fd15b9a3ccfade5c7ea3ff192af77e43ca30c3295a9cb95aed5c8b5375c17.json",
+        "decision_sha256": "e6351e95d6888768adb274ab38d5940a52cc3793e4cfd260cdcca520e4057333",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该it实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。该版本尚缺完整人声/音乐音效的当前哈希感知核验；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3560,6 +3590,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/704f27b61a2fbf7ef765deefb25c9c849f56a2f9d53a42c3503ee02bc8b93aca.json",
+        "decision_sha256": "9c781c2115b8e6139ac8d4faae3cdb076c639df5b779450b69169a540466b244",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该ja实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。另需核实该语种模型指出的音色/音频分歧；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3575,6 +3613,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/1e1e2ca8c02dee86907ce112726a0362217b566333458cbca1d3b35115368fc6.json",
+        "decision_sha256": "15f7d90eb93e7d0d6772f205468280a89195c81a6dec688464b11f4cc6f19004",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该ko实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3590,6 +3636,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/bca917cd0f0c1f790bc1f7bab35755780d32a4f0f5355a16959c6a5dd5bd585e.json",
+        "decision_sha256": "c4109b68bf3566289bb0e4d00472cc8210fc5bccca258200316166abed992eeb",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该nl实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。另需核实该语种模型指出的音色/音频分歧；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3605,6 +3659,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/ea10d12d10c706b139f6a660eccd48cff90532aca336bcf0131a7ffa80c9bf8a.json",
+        "decision_sha256": "6caa0f07b35de4d103b331e96c8ee643873795ae9e20524a8357a93a533f09e9",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该pl实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。该版本尚缺完整人声/音乐音效的当前哈希感知核验；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3620,6 +3682,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/10158c25323244f73ea9e3459acc96526d9b031988b76767d1adfefdaf241bf7.json",
+        "decision_sha256": "0f9cd1a50446db7cdaea3b11b0d34f2027fe2b7b035bee7d8d69011cf03b8166",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该pt实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。该版本尚缺完整人声/音乐音效的当前哈希感知核验；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3635,6 +3705,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/b47087b08a1a07467ec3ea1d02897ade8d9a2c49cc26db3ed1e8f735c83c020a.json",
+        "decision_sha256": "17ce218591f4e6141429fe103e02c13da05c85e487a158f6864cbc17a659475d",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该tr实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3650,6 +3728,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/150dfb8a9eed2e8df9363a1d6c79c7a3e01f826d53a38e15e74ee1cb9451690e.json",
+        "decision_sha256": "4da222231997d190872a8b34c3aece36f6b30d3a6811c9a5629f77a0027d6434",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该vi实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。另需核实该语种模型指出的音色/音频分歧；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3665,6 +3751,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/8def1178a71ef67e2bdc0f334dbebb2c71aca77e2bc6dbc0c8dffc8e44e87471.json",
+        "decision_sha256": "83289c11d089897af1e05c5bf0d52dc890a77a56594d06c43d4c02872830f263",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该zh-TW实际版本的布料／桌面柔化、片尾横向接缝及前0.2秒转场痕迹、静态标题/CTA限制。另需核实该语种模型指出的音色/音频分歧；同源续作用现行样式方法做代表区间原片/结果对照；只有新证据出现才判断修复，不用日语V3的认可覆盖本视频。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3680,6 +3774,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/f28f806776b30d595b124ad0d8b52bd94ec328244e472c51593292c6c69bfc5d.json",
+        "decision_sha256": "28800e4aa5a96d420b07dc18269c18bb95110af5ccd1cf72feecdb3342fbb4b5",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该ar版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；补齐本语种实际混音的完整人声及音乐音效审核；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3695,6 +3797,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/f8d3128da8bbf21a7d3b3c53d51f46e895bdc33042e2dbbae15c4b82396b864b.json",
+        "decision_sha256": "f2f930a2e52918103d229fcde17a7ed70c6fdbf5d90c43aac88fabea04a7c347",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该de版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3711,15 +3821,13 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/e95fde204b2b98a9c81297c71a3858e464a90700c45bb34009d63daf1b9f5389.json",
-        "decision_sha256": "2c55125462d792ea7dc5f9209922c0a1c89ea32cad99c05312e6171ae877166c",
-        "resolution": "partial",
+        "decision_path": "knowledge/curation/reviews/f3a5223f65a2d56a6d28c9edb1c7389584c20ce12908a48f0ef1fb95b49a9d51.json",
+        "decision_sha256": "12a4b281008bcce0d5fd256bb3de43822895aeca2f016afe028dee9545ae9f9f",
+        "resolution": "pending",
         "closed": false,
-        "next_action": "沿已保存连续帧定位柜内棒球棒消失的起止，回溯最早出现损失的底片或合成版本，并在该版本修正后建立原片/新结果对照；另核对本语种实际配音、手机区域柔化及全片动效。不得把当前未批准底片提升为可复用干净参考。"
+        "next_action": "保留该es版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
       },
-      "current_targets": [
-        "mog056-clip2-es-surface-counterexample-20261030"
-      ],
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3735,6 +3843,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/91edcf70e5ba16a0abc906cb53a2515c2c4b9ba9084bc68afd627bc0248e7dd2.json",
+        "decision_sha256": "0469b02f1b55f64f7fef665460eb8670e316476a1c960d367554ca1c935ee6ad",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该fr版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3750,6 +3866,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/e51c5d313f0625fd424d42832d4c6f599d90577a0b820719fd88240d0babde09.json",
+        "decision_sha256": "f2ba9f26c0ae3378cb5b251f889e7212abe882688cbe9b8b1a5b7a5629e37159",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该it版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；补齐本语种实际混音的完整人声及音乐音效审核；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3765,6 +3889,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/62b398455b1599086c00622211137839c6f82ce7ef9c3cbe9342cc743e2431ba.json",
+        "decision_sha256": "b37e863a71d19b0b0d9e29553ac047f9e09fd370931ad75734357662eb2ac698",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该ja版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3780,6 +3912,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/cc3d03add2751fedadb504e18c949afc999ac6d400a5184593845151b34a2300.json",
+        "decision_sha256": "6fa0067d235753e5edba6b1e87272a8e9f8bbcc0c49a1919fe2ffe38b076aa21",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该ko版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3795,6 +3935,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/f10499b0f65bb6b4bd94d77631ea15dba6545d435963935de920ee5d867acf27.json",
+        "decision_sha256": "ad640060d3575a9f5c15b5a86f9250c89babadc2e94747d796a006eb7cdedae6",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该nl版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3810,6 +3958,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/0f616789a713fc45ab0ea4f96ff55b015144d5cd40dd0d5771734489d3bee4c4.json",
+        "decision_sha256": "83de33b2c15acf41b05a68b08e6c08ecf7bdb0747873ecd1ed0132ae69b0eac6",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该pl版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；核实原专名保留例外与模型“残留原语/不完整”分歧，保持模型负面结果；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3825,6 +3981,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/71fe238171ad18e4d6b106ae0827e79cd3c77775b059a2ead185d4378ed5e16a.json",
+        "decision_sha256": "cc5ef709b22214e6d0695d62721afd210b5ec304143ecfad70c35430be1e0452",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该pt版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3840,6 +4004,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/21c62b327ace6e8db4c1b1fb4313f85fdba0d55be20059978d2da9d136f3d68f.json",
+        "decision_sha256": "522618bf0ee91af7f7628dc1010b98db4cb16403e7c02bbcc35a3a93e85a9839",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该tr版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3855,6 +4027,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/c8ae6c24f9392d5bf3ee9d1aa175f30fda186ff72bb1a79f8bc83c4bda35e26c.json",
+        "decision_sha256": "edaeff17edbcc390b71083412a488866d9265cc4e45ff5cdc5134e9cc137a08f",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该vi版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3870,6 +4050,14 @@
       "historical_outcome": "revise",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/9aacc50064ab213bce3c89439f0730e789aa69f6cde55fce7c63d3244ce267d4.json",
+        "decision_sha256": "72421a11420ef438472df8937fee959a2bda607a3a1ae6dd070c5cf8c8f54c41",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "保留该zh-TW版本手机区域青/紫修复柔化、重复场景平贴/边缘截字及静态CTA限制；复用前只检查对应源和当前视频哈希的真实对照，不从可读或其它语种结果推断干净底片/连续运动通过。"
+      },
+      "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -6511,6 +6699,256 @@
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
+      "id": "WOW-20261030-032-01-acd8b470f4",
+      "path": "knowledge/candidates/WOW-20261030-032-01-acd8b470f4.json",
+      "original_sha256": "7ecd82255b8076f2b1ea9045f7d4de559c191bb18005733da5b3b3e84b9c5b7b",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "de",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/fdfde4b15f862728d613f25113ff74a85482657a615c241e73b4d310837e7838.json",
+        "decision_sha256": "747a82c8938e8080b5c7adc9c7dadfcf034c8a24a256e47ae9b7a86ba441d8e1",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/7ecd82255b8076f2b1ea9045f7d4de559c191bb18005733da5b3b3e84b9c5b7b/WOW-20261030-032-01-acd8b470f4.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "WOW-20261030-032-02-5e727185cb",
+      "path": "knowledge/candidates/WOW-20261030-032-02-5e727185cb.json",
+      "original_sha256": "88b8cba606f7f8878d2948b2b1a69633c0a6f61282851a465188d2e7d430d72f",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/080901f3227e4c517d0bef8d8fba09bf8cd37b52a4bd723743c5c88416370986.json",
+        "decision_sha256": "13bc588ef293608cfbb73399d9b0972104779b68c104fd023c6a9c77ae2df287",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/88b8cba606f7f8878d2948b2b1a69633c0a6f61282851a465188d2e7d430d72f/WOW-20261030-032-02-5e727185cb.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "WOW-20261030-032-03-a9d1385499",
+      "path": "knowledge/candidates/WOW-20261030-032-03-a9d1385499.json",
+      "original_sha256": "9ae9dc83ae9caaadad200fa196642e6f3144336e703ec8cc436d0561415fb6ac",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "fr",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/84b07344e52cea55d1c2ab4d3215261642d8cadae8ac1dea16920051c5894b0d.json",
+        "decision_sha256": "256fe616fb1cf08543f3794ca9cf52d6b914f7d16e816df4e0895982982167fb",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/9ae9dc83ae9caaadad200fa196642e6f3144336e703ec8cc436d0561415fb6ac/WOW-20261030-032-03-a9d1385499.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "WOW-20261030-032-04-b0dfa9a62e",
+      "path": "knowledge/candidates/WOW-20261030-032-04-b0dfa9a62e.json",
+      "original_sha256": "e0c117687cbbd8193687084713321881c77566cf41070f9f8cb57f4cd0495adc",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "hi",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/1945687343d32e152dd23e8b987b707a47d101b52d0aaa3e20218c5171d272cb.json",
+        "decision_sha256": "de12c53dc8377642108c331d0aae56494a6552d8fd101145bd01e72870c12a7d",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/e0c117687cbbd8193687084713321881c77566cf41070f9f8cb57f4cd0495adc/WOW-20261030-032-04-b0dfa9a62e.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "WOW-20261030-032-05-61f5f06343",
+      "path": "knowledge/candidates/WOW-20261030-032-05-61f5f06343.json",
+      "original_sha256": "92eac1d90785dbb5e17ebbeae7facbe6a930a27aa7f144440ba2776c8a4b532f",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "ja",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/d654dcb0ce47eb6a381ff9b33346d573d83e262ae7445c5a0723671800c38429.json",
+        "decision_sha256": "aa71654e8f548cf0d66fd7594677c3fe70f566620928ddb2b1b831ee070b8869",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/92eac1d90785dbb5e17ebbeae7facbe6a930a27aa7f144440ba2776c8a4b532f/WOW-20261030-032-05-61f5f06343.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "WOW-20261030-032-06-d98c27f0bf",
+      "path": "knowledge/candidates/WOW-20261030-032-06-d98c27f0bf.json",
+      "original_sha256": "44f5c5a8ce64d553fd45902594011f6a03b75e56b7ec356917d6d42caec83848",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "ko",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/e0c33fec7e51be5a589f8efd75296ac7d6049cb88c31ee0526d4ea8690bae8a0.json",
+        "decision_sha256": "498f2d89289885c6cbef44a2e1c8f9f671f8d769d4939578223ccbf03e5bbad8",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/44f5c5a8ce64d553fd45902594011f6a03b75e56b7ec356917d6d42caec83848/WOW-20261030-032-06-d98c27f0bf.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "WOW-20261030-032-07-8357878cb6",
+      "path": "knowledge/candidates/WOW-20261030-032-07-8357878cb6.json",
+      "original_sha256": "a8f76cd61dee566e9fec7071a68cb2ff5f279506fa95c4662ed0678e8be81fa9",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "pl",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/59cb3bee124525547c389c27cbd99c2f97a27d2035ef92af830fb75b8852be6a.json",
+        "decision_sha256": "d8eb827d4fb66f9449f428331ee5dd5e4e522b437a159aea5ff988338ff5f5e5",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/a8f76cd61dee566e9fec7071a68cb2ff5f279506fa95c4662ed0678e8be81fa9/WOW-20261030-032-07-8357878cb6.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "WOW-20261030-032-08-1dba0001af",
+      "path": "knowledge/candidates/WOW-20261030-032-08-1dba0001af.json",
+      "original_sha256": "c58f525c0919be2f049421164aecd5447cecd3a87b893b796665860992e04cc7",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "pt",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/5acb1ae52b6026529ff51812018869cce434fdf4150450c9be008a18e3a24278.json",
+        "decision_sha256": "75bd044ef8fec7f8a2e6856478b63b8fa9bb83ce41eb42ebc93737797f6077c8",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/c58f525c0919be2f049421164aecd5447cecd3a87b893b796665860992e04cc7/WOW-20261030-032-08-1dba0001af.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "WOW-20261030-032-09-89cee6dc2a",
+      "path": "knowledge/candidates/WOW-20261030-032-09-89cee6dc2a.json",
+      "original_sha256": "68e12be0aed7affee1509966880e8291f367a0b94b0520279a7f4e4006a85d2f",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "tr",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/19867ce8554db088667498c8c83766f751dd3e2d5022ec8c9895d54e17186331.json",
+        "decision_sha256": "d38c099faa77f6531d3ced57cda41cc0defe24867775b587d3c796ce5e63348a",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/68e12be0aed7affee1509966880e8291f367a0b94b0520279a7f4e4006a85d2f/WOW-20261030-032-09-89cee6dc2a.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "WOW-20261030-032-10-c48dc16213",
+      "path": "knowledge/candidates/WOW-20261030-032-10-c48dc16213.json",
+      "original_sha256": "a45c9d5939fc408c9323cdeeee762fd5f458fe9ff6c84010c50f467e2b0fbee7",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "zh-TW",
+        "source_sha256": "73ca156a181fd390f427b16d30025a57dd64abcc910d3c27a9950e8ee719dbe7"
+      },
+      "historical_outcome": "pass",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/879f2fdb70780ca2813e928a36a7df2a4c8c8c740f00b2240e686d1e9de751ec.json",
+        "decision_sha256": "3b03384eb22a2ac7d6f5d008d56ed3d8611b8257106c2c16b2a901d312ef37bc",
+        "resolution": "rejected",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [],
+      "storage_path": "knowledge/history/candidates/a45c9d5939fc408c9323cdeeee762fd5f458fe9ff6c84010c50f467e2b0fbee7/WOW-20261030-032-10-c48dc16213.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
       "id": "ad-019f69fb-de-20261021-ad80ac8f35",
       "path": "knowledge/candidates/ad-019f69fb-de-20261021-ad80ac8f35.json",
       "original_sha256": "180007e362b6237984d4b3b3d1207a1c1b7c16c122e90f85ab3923e56abd85e2",
@@ -8919,13 +9357,15 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/30c52ff585afbaf3d22fe3919ce57eeaa6cf1f8a1fdafe434e4628f547001821.json",
-        "decision_sha256": "b6cbd55944fa3d93da77c5fb21dac7d05197dbef8f8a841e8c46b175604c4bdb",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "在后续实际制作的完整视频中，按正常播放逐语种记录风格、运动、保护对象及实际投入；有新证据再审查，不为补证新增付费试验或重做旧视频。"
+        "decision_path": "knowledge/curation/reviews/f5ab682ef1532420cde05906a9820051b09d6efd836a2d425663219b7d3e3ef1.json",
+        "decision_sha256": "e8e7255fe765617bc9dff2bf23b732d5241f98cb37329a5b82a7893de08a1cb7",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "source-led-visual-localization-v1"
+      ],
       "hypothesis_sha256": "bc4cd14c833baea5eeac6612c774ade10e9b15e8e91c03e6c8c8b0b2f8f6b6ed"
     },
     {
@@ -9705,6 +10145,16 @@
         "knowledge/candidates/WOW-20261028-045-06-1f08a53fbf.json",
         "knowledge/candidates/WOW-20261028-045-07-6da44e35c3.json",
         "knowledge/candidates/WOW-20261028-045-08-f8649103c9.json",
+        "knowledge/candidates/WOW-20261030-032-01-acd8b470f4.json",
+        "knowledge/candidates/WOW-20261030-032-02-5e727185cb.json",
+        "knowledge/candidates/WOW-20261030-032-03-a9d1385499.json",
+        "knowledge/candidates/WOW-20261030-032-04-b0dfa9a62e.json",
+        "knowledge/candidates/WOW-20261030-032-05-61f5f06343.json",
+        "knowledge/candidates/WOW-20261030-032-06-d98c27f0bf.json",
+        "knowledge/candidates/WOW-20261030-032-07-8357878cb6.json",
+        "knowledge/candidates/WOW-20261030-032-08-1dba0001af.json",
+        "knowledge/candidates/WOW-20261030-032-09-89cee6dc2a.json",
+        "knowledge/candidates/WOW-20261030-032-10-c48dc16213.json",
         "knowledge/candidates/she-20261026-058-01-725b28dbec.json",
         "knowledge/candidates/she-20261026-058-01-bdfaee01f8.json",
         "knowledge/candidates/she-20261026-058-02-09f909542c.json",

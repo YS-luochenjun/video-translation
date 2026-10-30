@@ -5,13 +5,17 @@ description: Localize an advertisement video into another language in this works
 
 # 视频本地化
 
-用户给 Fireplay 需求编号，或明确要求拉取指定范围需求时，先执行 [按编号接入](../../../agent/workflows/fireplay-intake.md)。当前宿主直接查询需求和原片，项目 CLI 登记真实快照、解析、下载、批次及回传回执。用户2026-10-27最新要求每个需求一个独立聊天，名称为需求编号，在其内部管理该需求所有原片和语言；多原片用-1/-2区分文件/run。各需求独立计费，不合并多个需求总额度。续作复用已登记threadId。用户已要求将KIE同意持久化到项目，配置来源见config/fireplay-intake.json.kie。对明确交办的需求，fireplay-start自动绑定到真实请求和本需求账本，读取kie-authorization和本需求授权记录后不重复询问；必要媒体上传沿同一授权及模型/预算边界执行。P0只在实际资源冲突时优先，P1同时持续制作，不等P0完成。多需求使用fireplay-pull完成精确范围、分页和排序后分别处理。用户已授权每30分钟按agent/workflows/fireplay-monitor.md发现新翻译需求，全部组按正文和原片/语种判断，人员仅作提示；自动逐需求接入，P1不等P0。正式outputs完整成品可以带普通小瑕疵自动回传；best_available先用fireplay-publication-review记录真实严重度，严重/过多问题、漏译和缺少必需配音阻断上传。内部质量、发布判断、入库绑定和YouTube完成分开记录。
+用户给Fireplay需求编号或明确范围时，读取[编号接入](../../../agent/workflows/fireplay-intake.md)，按实际快照承接。每需求复用一个编号聊天、原请求及独立账本；多原片在该聊天内管理，只制作各原片实际目标语种。既有KIE持续同意与必要媒体传送沿原授权，不重置预算或未知费用。
+
+巡检频率和接入边界以[巡检流程](../../../agent/workflows/fireplay-monitor.md)及其配置为准，不在技能中复制调度数值。提交遵循[当前完整提交规则](../../../knowledge/rules/fireplay-complete-delivery-v3.md)和[发布配置](../../../config/fireplay-publication.json)：普通不合格到界可按best_available提交，瑕疵数量、内部revise或评分不单独阻断；严重主体/画面损坏、漏译、缺必需配音或有效质量异议仍阻断对应版本。真实核验入库、共享、命名、标签和需求绑定，完整矩阵后结案；YouTube后处理按平台管理政策交给Fireplay，不等待链接或重复入库催上传。
 
 每次任务先遵守 [最终输出](../../../agent/workflows/always-output.md)：尽早得到完整翻译候选，质量分数决定有界返工，无法达标时使用 finalize 输出当前最佳视频和瑕疵说明，不以无视频结束。输出完成不等于质量通过；用户明确必需目标语音频时，音频不可用须直接报告，字幕不能作为配音兜底；仅在用户允许时采用字幕路线。
 
 新任务默认使用 [快速交付](../../../agent/workflows/fast-delivery.md)；先读取该流程，复用源解析并限制试验次数。基本效果八项检查仍需真实证据。严格保真请求及历史严格候选继续使用下述完整门禁。知识整理可按快速流程持久排队，不占交付关键路径。
 
 项目根目录是包含 `AGENTS.md` 和 `bin/va.py` 的目录。先读根目录 `agent/contracts/workflow.md`，按实际任务运行 CLI；CLI 能力不依赖某个 AI 供应商。
+
+后续画面文字采用[源视觉语言政策](../../../knowledge/rules/source-led-visual-localization-v1.md)：先保存原文字样式，按[源样式合同](../../../docs/source-typography.md)制作少量艺术字与真实字体短语，复用style-layer及既有surface/Remotion合成；按实际配音对齐并保护主体，不逐帧生图、不照搬案例坐标。按[有界改进循环](../../../agent/workflows/continuous-improvement.md)检查整幅、首末及实际运动，记录新旧版本对照与漏检原因。
 
 字体按[实际字面与绑定](../../../docs/fonts.md)检查。doctor.language_fonts检查目标脚本的常规/粗体；Mac使用config/fonts.json中的真实原生家族，不要求未选用的Windows专有字体。明确指定的家族缺失仍报错，不改名冒充。动态文字可用font-bind提取并绑定TTC正确字面，缺字和字体哈希变化不得作为静态降级放行。
 

@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "layout": "requirement-language-task",
+  "retention_days": 14,
+  "keep_versions_by_default": 1,
+  "package_root": "outputs/.packages",
+  "catalog": "state/delivery-index.json",
+  "authorization": "2026-10-30 owner requested requirement/language/task/final layout, latest output unless multiple versions explicitly requested, and maximum14-day retention"
+}
