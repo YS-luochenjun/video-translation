@@ -30,6 +30,8 @@
 
 特征按观察填写：艺术字用 `artistic_typography`，拍摄手机界面用 `filmed_phone_ui`，前景遮挡用 `foreground_occlusion`，需要贴合表面的字层用 `surface_typography`。这些场景即使没有文字动画也可命中视觉方法；普通静态平面文字不必添加这些特征。
 
+新请求按[源文字样式](../../docs/source-typography.md)在擦字前保存源样式快照：Codex观察后用style-capture登记实际原帧、字形/描边/构图、运动及保护对象。目标实例写style_treatment，绑定真实字体或艺术/表面字层，说明语言适配；共享同源观察，不复制目标语言认可。plan/fast-register冻结样式，代表样片及各语言的source_style_review核对当前视频。沿用原质量容差、预算与完整输出，不引入逐帧精修。
+
 所有任务先按 `agent/contracts/audio.md` 明确音乐、音效与对白分工；控制 AI 无法听音时仍向视频模型传递声音要求，证据不足保留 pending。
 
 有人声时读取 `agent/contracts/captions.md`：在实例清单区分口播字幕、场景标题/UI和保留项。`speech_segments[].target_text` 是口播和对应字幕的共同定稿；先确定稿件，再生成声音与动画。

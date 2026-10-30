@@ -62,6 +62,32 @@ def create_demo(name, route, seconds=8):
             'switch_when': 'Actual encoded fixture shows a copy/background mismatch',
             'stop_when': 'Synthetic contract checks complete; no media acceptance claimed'}]}
     write_json(run / "analysis/inventory.json", inventory)
+    # Deterministic annotations apply ONLY to this generated fixture. Real ads
+    # require Codex observations and original-video references before capture.
+    from . import fonts, source_styles
+    styles = []
+    for item in inventory['text_instances']:
+        if item['action'] == 'preserve':
+            continue
+        bold = item['id'] == 't001'
+        colour = item.get('text_color', '#25302A')
+        item['display'] = {'font_asset': fonts.bind(run, fonts.default_family(locale='zh-CN'), bold, item['target_text']),
+                           'font_size': item['font_size'], 'min_font_size': 20, 'bold': bold, 'italic': False,
+                           'color': colour, 'outline': 0, 'align': 'center'}
+        item['style_treatment'] = {'route': 'typeset', 'reason': 'Known synthetic flat-text fixture; not a real-ad quality claim',
+            'font_choice_reason': 'Actual target-script font; source sans-serif hierarchy retained in this generated fixture',
+            'adaptations': {}}
+        styles.append({'id': item['id']+'-style', 'instance_ids': [item['id']],
+            'observation': 'Known generated ASS specification; no automatic source-font recognition',
+            'appearance': {'kind': 'plain', 'font_class': 'sans', 'weight': 'bold' if bold else 'regular',
+                           'italic': False, 'color': colour, 'outline_layers': [], 'effects': 'none'},
+            'layout': {'bbox': item['bbox'], 'line_count': 1, 'align': 'center'},
+            'motion': {'kind': 'static', 'observation': 'Known stationary fixture for its entire interval'},
+            'protected_content': 'FRESH brand and the original background outside the text region'})
+    write_json(run/'analysis/inventory.json', inventory)
+    write_json(run/'inputs/source-style-fixture.json', {'source_sha256': inventory['source_sha256'],
+               'observed_by': 'Synthetic fixture specification only; no customer-video observations', 'styles': styles})
+    source_styles.capture(run, 'inputs/source-style-fixture.json', apply=True)
     result = workflow.build_plan(run, None if route == "local_overlay" else route)
     if route == "local_overlay":
         result.update(workflow.render(run))

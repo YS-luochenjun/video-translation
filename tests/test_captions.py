@@ -219,6 +219,8 @@ class CaptionMediaTests(unittest.TestCase):
             item.start()
             cls.addClassCleanup(item.stop)
         demo.create_demo("caption-contract", "local_overlay", 2)
+        from workspace_fixture import legacy_typography_fixture
+        legacy_typography_fixture(common.get_run('caption-contract'))
         cls.run_dir = common.get_run("caption-contract")
 
     @classmethod

@@ -8,6 +8,19 @@
   "mode": "bounded_best_available",
   "major_issues_block": true,
   "preserve_internal_quality": true,
+  "submission_consent": {
+    "mode": "standing_within_requirement",
+    "authority": "user",
+    "authorization_ref": "user-fireplay-auto-submit-without-repeat-confirmation-20261029",
+    "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+    "source_quote": "之后还是会出现这样的问题吗。我希望他该上传就上传，不需要问我",
+    "scope": "已交办需求中符合现有发布标准的当前成片，提交至该需求对应组",
+    "actions": ["upload", "import", "share_to_requirement_group", "request_youtube_auto_upload", "name", "language_and_product_tags", "bind_requirement"],
+    "repeat_project_confirmation": false,
+    "quality_gates_apply": true,
+    "unknown_write_reconciliation_required": true,
+    "host_approval_policy_applies": true
+  },
   "completion": {
     "stop_after_fireplay_acceptance": true,
     "track_youtube_progress_after_submission": false,

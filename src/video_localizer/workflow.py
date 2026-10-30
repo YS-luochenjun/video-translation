@@ -56,6 +56,7 @@ def create_run(video, target, brief, name, source_url=None):
                "workflow": defaults["default_workflow"], "profile": defaults["default_profile"],
                "require_target_audio": defaults.get("require_target_audio_for_speech", False),
                "routing_contract_version": 1,
+               "source_style_contract_version": 1,
                "delivery_mode": defaults.get("default_delivery_mode", "strict")})
     require(profile_path(run).is_file(), "Default profile is missing")
     return {"run": name, "state": "created", "duration": meta["duration"]}
@@ -330,6 +331,8 @@ def current_plan(run):
     require(plan["id"] == object_hash({key: value for key, value in plan.items() if key != "id"})[:16],
             "Plan content changed; regenerate it from the inventory")
     require(plan["inventory_sha256"] == file_hash(run / "analysis/inventory.json"), "Inventory changed; regenerate plan")
+    from .source_styles import verify_contract as verify_style_contract
+    verify_style_contract(run, plan, read_json(run/'analysis/inventory.json'))
     codex_source = read_json(run / 'analysis/inventory.json').get('codex_source_result')
     if codex_source:
         from .codex_visual import verify
@@ -549,6 +552,9 @@ def build_plan(run, experiment=None):
             else:
                 lines.append("The reference image specifies the exact target-locale letter shapes, line breaks and layout. "
                              "Use it as text/layout guidance; retain source style, motion, framing and the per-instance timing below.")
+        if not erase_then_overlay:
+            from .source_styles import prompt_lines as style_prompt_lines
+            lines.extend(style_prompt_lines(run, inventory, edits))
         prompt = "\n".join(lines)
         if route == "model_edit":
             require(len(prompt) <= 3072, "Kling prompt exceeds 3072 characters; split edit scope")
@@ -577,6 +583,12 @@ def build_plan(run, experiment=None):
             "caption_assets": captions.plan_assets(run, inventory, meta["duration"]),
             "execution_limits": {key: limits[key] for key in ("max_paid_jobs_per_run", "max_estimated_credits_per_run")}}
     from . import typography
+    from .source_styles import contract as style_contract, review_template as style_review_template
+    styles = style_contract(run, inventory)
+    if styles:
+        plan['source_style_contract'] = styles
+        from .source_styles import validate_routes as validate_style_routes
+        validate_style_routes(run, inventory, segments)
     typography_contract = typography.contract(run, inventory)
     if typography_contract:
         for segment in segments:
@@ -618,6 +630,7 @@ def build_plan(run, experiment=None):
         "scores": {key: None for key in read_json(ROOT / "config/quality.json")["weights"]},
         "critical_defects": [],
         "typography_fallbacks": [],
+        "source_style_review": style_review_template(inventory),
         "typography_note": "If static fallback occurred, inspect actual output and acknowledge its receipt_sha256, accepted=true and observation here.",
         "instances": [{"id": item["id"], "decision": "pending", "evidence": [], "note": ""}
                       for item in inventory["text_instances"] + inventory["speech_segments"]],
@@ -713,7 +726,7 @@ def prepare_packet(run, segment_id):
             require(all(item["action"] in ("solid_overlay", "preserve") for item in edits),
                     "Complex regeneration requires a separately reviewed localized_keyframe on this shot")
             meta = read_json(run / "analysis/media.json")
-            local = media.render_local(source_path(run), segment, edits, meta, directory / "keyframe-build")
+            local = media.render_local(source_path(run), segment, edits, meta, directory / "keyframe-build", run=run)
             image = directory / "localized-keyframe.png"
             media.ffmpeg(["-ss", "0.05", "-i", local, "-frames:v", "1", image])
         if segment.get("reference_frames"):
@@ -917,7 +930,7 @@ def render(run, force_segments=False):
             visuals.append(cached_visual)
             continue
         if segment["route"] == "local_overlay":
-            visuals.append(media.render_local(source_path(run), segment, inventory["text_instances"], meta, directory))
+            visuals.append(media.render_local(source_path(run), segment, inventory["text_instances"], meta, directory, run=run))
         elif segment["route"] == "reference_composite":
             edits = [item for item in inventory["text_instances"] if item["id"] in segment["instance_ids"]
                      and item["action"] != "preserve"]
@@ -966,7 +979,7 @@ def render(run, force_segments=False):
             if local_edits:
                 shifted = captions.shift_instances(local_edits, segment["start"], segment["end"] - segment["start"])
                 output = media.render_local(output, {"start": 0, "end": segment["end"] - segment["start"]},
-                                            shifted, meta, directory / "fixed-ui-localization")
+                                            shifted, meta, directory / "fixed-ui-localization", run=run)
             visuals.append(output)
         if cache_key:
             render_cache.save(run, cache_key, visuals[-1])
@@ -1071,6 +1084,8 @@ def quality(run):
         failures.append("agent_review_missing")
     else:
         review = read_json(reviewed)
+        from .source_styles import review_failures as style_review_failures
+        failures.extend(style_review_failures(run, inventory, review, candidate))
         from .typography import review_failures as typography_review_failures
         failures.extend(typography_review_failures(run, candidate.get('typography_assets', []), review))
         capture_path = run / "review/capture.json"

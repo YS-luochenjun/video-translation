@@ -2,6 +2,33 @@
 import shutil
 
 
+def legacy_typography_fixture(run):
+    """Audio/caption compatibility fixtures intentionally exercise pre-style requests.
+
+    The new source-style pipeline has its own media/quality tests. These old
+    fixtures invent speech/text after demo creation, so they are not evidence
+    of a newly observed source style. Keep their original contract explicit.
+    """
+    from video_localizer.common import read_json, write_json
+    request = read_json(run/'inputs/request.json')
+    request.pop('source_style_contract_version', None)
+    write_json(run/'inputs/request.json', request)
+    inventory = read_json(run/'analysis/inventory.json')
+    inventory.pop('source_style_snapshot', None)
+    for item in inventory.get('text_instances', []):
+        item.pop('source_style_id', None)
+        item.pop('style_treatment', None)
+    write_json(run/'analysis/inventory.json', inventory)
+
+
+def source_style_review_fixture(review, captured, frame):
+    """Known synthetic assertions only; never used by production commands."""
+    for row in review.get('source_style_review', []):
+        row['evidence'] = [{'path': frame, 'sha256': captured['files'][frame]}]
+        for check in row['checks'].values():
+            check.update(status='pass', observation='Known generated fixture design; not a customer-video acceptance')
+
+
 def observe_visual_fixture(run, stage='final', shot=None):
     """Test-only synthetic annotations, never exposed by the production CLI."""
     from video_localizer import visual_audit

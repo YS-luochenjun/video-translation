@@ -2,6 +2,7 @@
 from pathlib import Path
 import sys
 import unicodedata
+import shutil
 
 from .common import CODE_ROOT, WorkflowError, file_hash, guarded, inside, read_json, require, write_json
 
@@ -41,6 +42,61 @@ def missing_glyphs(face, text):
         cmap = font.getBestCmap() or {}
         return sorted({c for c in text if not c.isspace() and unicodedata.category(c) != 'Cf'
                        and not 0xfe00 <= ord(c) <= 0xfe0f and ord(c) not in cmap})
+
+
+def inspect_asset(run, asset, text='', bold=None, italic=None):
+    """Read actual single-face metadata; synthetic style and silent fallback are forbidden."""
+    from .typography import _font_modules
+    require(isinstance(asset, dict) and set(asset) == {'path', 'sha256'}, 'Font asset needs path and sha256')
+    path = inside(run, asset['path'])
+    require(path.is_file() and file_hash(path) == asset['sha256'], 'Bound font missing or changed')
+    require(path.suffix.lower() in ('.ttf', '.otf'), 'Bind a single-face TTF/OTF before typesetting')
+    require(not missing_glyphs({'path': path, 'index': 0}, text), 'Bound font has missing glyphs')
+    with _font_modules().TTFont(path, recalcTimestamp=False) as font:
+        family = font['name'].getDebugName(1)
+        require(family and not any(c in family for c in ',\n\r{}\\'), 'Invalid bound font family metadata')
+        actual_bold = bool(font['head'].macStyle & 1) or font['OS/2'].usWeightClass >= 600
+        actual_italic = bool(font['head'].macStyle & 2) or bool(font['OS/2'].fsSelection & 1)
+        require(bold is None or bool(bold) == actual_bold, 'Supply the actual requested regular/bold font face')
+        require(italic is None or bool(italic) == actual_italic, 'Supply the actual requested upright/italic font face')
+    return {'path': path, 'index': 0, 'family': family, 'bold': actual_bold, 'italic': actual_italic}
+
+
+@guarded
+def bind_file(run, path, text='', index=0):
+    """Import an available font face without installing, renaming or buying fonts."""
+    from .typography import _font_modules
+    source = Path(path).resolve()
+    require(source.is_file() and source.suffix.lower() in ('.ttf', '.otf', '.ttc'), 'Select an actual font file')
+    require(type(index) is int and index >= 0, 'Font face index must be a nonnegative integer')
+    require(not missing_glyphs({'path': source, 'index': index}, text), 'Font missing glyphs for target copy')
+    with _font_modules().TTFont(source, fontNumber=index, recalcTimestamp=False) as font:
+        suffix = '.otf' if 'CFF ' in font else '.ttf'
+        target = inside(run, f'inputs/fonts/{file_hash(source)[:16]}-{index}{suffix}')
+        target.parent.mkdir(parents=True, exist_ok=True)
+        provenance = target.with_suffix('.font.json')
+        if target.exists():
+            old = read_json(provenance)
+            require(old['source_sha256'] == file_hash(source) and old['output']['sha256'] == file_hash(target),
+                    'Previously bound font changed; do not overwrite it')
+        else:
+            font.save(target)
+    asset = {'path': target.relative_to(run).as_posix(), 'sha256': file_hash(target)}
+    face = inspect_asset(run, asset, text)
+    write_json(provenance, {'family': face['family'], 'bold': face['bold'], 'italic': face['italic'],
+                          'source_sha256': file_hash(source), 'source_face_index': index, 'output': asset})
+    return asset
+
+
+def ass_asset(run, asset, directory, text, bold, italic):
+    face = inspect_asset(run, asset, text, bold, italic)
+    target = Path(directory) / 'fonts' / (asset['sha256'][:16] + face['path'].suffix)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists():
+        require(file_hash(target) == asset['sha256'], 'Renderer font changed')
+    else:
+        shutil.copyfile(face['path'], target)
+    return face
 
 
 def ass_name(root, family, bold=False, directory=None):

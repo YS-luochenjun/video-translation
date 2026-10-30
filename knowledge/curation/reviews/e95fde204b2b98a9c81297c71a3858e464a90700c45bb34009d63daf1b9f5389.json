@@ -1,0 +1,47 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261029-056-2-03-4c1829421c.json",
+    "sha256": "b413f88f025d1c90d20748f0869807fcfe2dfbd3dd939a8a4bfe3f9943a057f0"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent actual still-pair, source/result hash and embedded feedback manifest review; not independent or human playback acceptance",
+  "origin": "2026-10-30 bounded knowledge sweep; exact-source Spanish evidence; existing user typography concern remains distinct from acceptance",
+  "resolution": "partial",
+  "reason": "源/语种及当前视频哈希匹配，独立保存必要静态对照，足以建立限定失败案例；原记录还包含未在本次完整核验的整片/声音/制作结论，不能据已有helpful标签或完整交付认定质量通过。",
+  "targets": [
+    {
+      "id": "mog056-clip2-es-surface-counterexample-20261030",
+      "path": "knowledge/cases/mog056-clip2-es-surface-counterexample-20261030.md",
+      "sha256": "1b8f0ee1f5169740bb44b01967386be0fcd6408d5e23df705363f188d0f505f7",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "6f7e06d4d586dbc22f2bc0b1cb1eeae7807d55b560a2eb7862ca1e4d6ffc637e"
+      },
+      "snapshot": "# MOG-20261029-056 原片2西语：场景文字与邻近实物一起比较\n\n范围仅限源 `6f7e06d4d586dbc22f2bc0b1cb1eeae7807d55b560a2eb7862ca1e4d6ffc637e`、西语，以及结果 `4c1829421ccc1019287589907d2269b2c6ae5547c85ac35abeab244526ab5b38`。这是同一 Agent 对实际帧的限定反例，不能视为用户验收或其他语种的审核。\n\n13.5秒原片/结果对照中，墙面的不规则手写字被替换成统一直立字；玻璃柜的红色粗装饰字被替换成黑色普通字，侧边译文发生零碎换行；底部青色发光短词变成白色整句。字形真实和译文可见不证明场景样式、透视与视觉强调得到保留。见 evidence:source_frame、evidence:result_frame、evidence:observation。\n\n同一对照还显示：原玻璃柜内的棒球棒在结果帧中消失。这是目标文字附近非文字内容的实际损失，不能只以柜中文字可读判断修复区域合格。单帧不能确定损失由哪一个模型、底片版本或合成步骤造成，也不能确定整个时间区间均如此。\n\n同源续作应把柜内实物、边框和装饰与文字分开核验，沿连续帧定位实物丢失的起止和最早出现的中间版本；没有定位及修复对照前，不将此结果或其底片作为已批准的干净参考。该建议尚无修订后成功结果，不扩大成所有视频或某模型的结论。\n\n原评审已记录手机区域柔化、场景文字平贴/裁切和静态CTA，内部质量仍为revise；本例追加柜内实物损失的观察，保留历史判断。全片运动、实际配音和其他语种仍需独立证据。建立案例不表示已经返工或修复。\n"
+    }
+  ],
+  "adopted_parts": [
+    "精确同源西语13.5秒的场景字样式/换行差异，以及柜内棒球棒在结果帧中消失的限定反例；未确定损失的处理阶段或完整持续区间。"
+  ],
+  "retained_parts": [
+    "原文和原revise判断保持不变。",
+    "源片全段运动、声音、其他缺陷仍须各自真实证据；静态对照不关闭这些事项。"
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "沿已保存连续帧定位柜内棒球棒消失的起止，回溯最早出现损失的底片或合成版本，并在该版本修正后建立原片/新结果对照；另核对本语种实际配音、手机区域柔化及全片动效。不得把当前未批准底片提升为可复用干净参考。",
+  "retrieval_features": [],
+  "advisory": {
+    "summary": "精确同源西语13.5秒的场景字样式/换行差异，以及柜内棒球棒在结果帧中消失的限定反例；未确定损失的处理阶段或完整持续区间。",
+    "limitations": [
+      "同源西语当前结果的局部失败观察；没有新成功成片、全片验收或跨语种验证。"
+    ],
+    "next_check": "沿已保存连续帧定位柜内棒球棒消失的起止，回溯最早出现损失的底片或合成版本，并在该版本修正后建立原片/新结果对照；另核对本语种实际配音、手机区域柔化及全片动效。不得把当前未批准底片提升为可复用干净参考。"
+  },
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-10-30T03:12:20+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

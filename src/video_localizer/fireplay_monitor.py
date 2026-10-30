@@ -465,6 +465,7 @@ def signal(spec, root=ROOT):
                    + kie_access_instruction(root) +
                    attribution_instruction() +
                    youtube_instruction(root) +
+                   fireplay.submission_consent_instruction(root) +
                    '逐项核对本需求全部原片与全部目标语种；只有全部入库、共享、标签和绑定核验后才可结案。partial和unknown继续恢复，不以部分成功收尾；不跟踪YouTube进度，不因排队/限额重入库。'
                    + fireplay.submission_instruction(root))
         value = {'state': 'unknown', 'task': task, 'dispatched_at': utc_now(),

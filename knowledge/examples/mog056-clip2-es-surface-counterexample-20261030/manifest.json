@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog056-clip2-es-surface-counterexample-20261030",
+  "created_at": "2026-10-30T03:11:32+00:00",
+  "files": [
+    {
+      "path": "evidence/clip2-es-final-13.5s.jpg",
+      "sha256": "4143212682b8771d8c8d3679104eb872237b98c368ba7d242c03ec762cbede60",
+      "bytes": 179441
+    },
+    {
+      "path": "evidence/clip2-es-observation.json",
+      "sha256": "375586ec40e91009bb067affa843c4ca17b6330339f5b3152887c812f356368d",
+      "bytes": 2543
+    },
+    {
+      "path": "evidence/clip2-source-13.5s.jpg",
+      "sha256": "9fe7357bf5be129d70c10672431ad470a195855a69e8dd1114bf34ce03ece64d",
+      "bytes": 205315
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "target_language": "es",
+      "source_sha256": "6f7e06d4d586dbc22f2bc0b1cb1eeae7807d55b560a2eb7862ca1e4d6ffc637e"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG-20261029-056 原片2西语：场景文字与邻近实物一起比较\n\n范围仅限源 `6f7e06d4d586dbc22f2bc0b1cb1eeae7807d55b560a2eb7862ca1e4d6ffc637e`、西语，以及结果 `4c1829421ccc1019287589907d2269b2c6ae5547c85ac35abeab244526ab5b38`。这是同一 Agent 对实际帧的限定反例，不能视为用户验收或其他语种的审核。\n\n13.5秒原片/结果对照中，墙面的不规则手写字被替换成统一直立字；玻璃柜的红色粗装饰字被替换成黑色普通字，侧边译文发生零碎换行；底部青色发光短词变成白色整句。字形真实和译文可见不证明场景样式、透视与视觉强调得到保留。见 evidence:source_frame、evidence:result_frame、evidence:observation。\n\n同一对照还显示：原玻璃柜内的棒球棒在结果帧中消失。这是目标文字附近非文字内容的实际损失，不能只以柜中文字可读判断修复区域合格。单帧不能确定损失由哪一个模型、底片版本或合成步骤造成，也不能确定整个时间区间均如此。\n\n同源续作应把柜内实物、边框和装饰与文字分开核验，沿连续帧定位实物丢失的起止和最早出现的中间版本；没有定位及修复对照前，不将此结果或其底片作为已批准的干净参考。该建议尚无修订后成功结果，不扩大成所有视频或某模型的结论。\n\n原评审已记录手机区域柔化、场景文字平贴/裁切和静态CTA，内部质量仍为revise；本例追加柜内实物损失的观察，保留历史判断。全片运动、实际配音和其他语种仍需独立证据。建立案例不表示已经返工或修复。\n",
+    "source_sha256": "6f7e06d4d586dbc22f2bc0b1cb1eeae7807d55b560a2eb7862ca1e4d6ffc637e",
+    "video_sha256": "4c1829421ccc1019287589907d2269b2c6ae5547c85ac35abeab244526ab5b38",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observation": "evidence/clip2-es-observation.json",
+      "source_frame": "evidence/clip2-source-13.5s.jpg",
+      "result_frame": "evidence/clip2-es-final-13.5s.jpg"
+    }
+  }
+}

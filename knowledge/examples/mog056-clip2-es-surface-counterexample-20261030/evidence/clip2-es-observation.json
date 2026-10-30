@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "es",
+    "source_sha256": "6f7e06d4d586dbc22f2bc0b1cb1eeae7807d55b560a2eb7862ca1e4d6ffc637e"
+  },
+  "video_sha256": "4c1829421ccc1019287589907d2269b2c6ae5547c85ac35abeab244526ab5b38",
+  "reviewer": "Codex same-agent bounded evidence review; not independent acceptance",
+  "review_type": "developer_review",
+  "observation_scope": "Observed native source/result stills at the named timestamp only; does not certify continuous playback. Earlier frame extraction retained without editing. Source/result media hashes freshly verified.",
+  "timestamp_seconds": 13.5,
+  "frames": {
+    "source": {
+      "file": "clip2-source-13.5s.jpg",
+      "sha256": "9fe7357bf5be129d70c10672431ad470a195855a69e8dd1114bf34ce03ece64d"
+    },
+    "result": {
+      "file": "clip2-es-final-13.5s.jpg",
+      "sha256": "4143212682b8771d8c8d3679104eb872237b98c368ba7d242c03ec762cbede60"
+    }
+  },
+  "current_quality_passed": false,
+  "original_review_sha256": "b2a016b58d77d3581239a7cd010720c50246b1672e133586b8c25f13273360b5",
+  "original_visual_observations": [
+    "Own localized hook, seven narration/CTA phrases, game buttons/results, glass case and repeated scene writing are visible. Long lines wrap and preserve real font glyphs.",
+    "Native crying/laughing emoji remain separate from target text; phone hand, animated avatar, cartoon scenes, rotating app icon, starburst and redarrow remain.",
+    "Publisher identity strips removed; captured PlayStore application titles and unrelated product names intentionally retained.",
+    "Phone cyan/magenta erase softness conspicuous, repeated scene glyphs lie flat with edge clipping; CTA static. These remain ordinary visual failures, not a clean-master approval."
+  ],
+  "current_observations": [
+    "Original irregular wall handwriting and red display-case lettering become uniform upright black text; side text wraps into fragments; cyan glow emphasis becomes a plain white sentence.",
+    "Baseball bat visible inside the case in source frame is absent in the corresponding result frame. Causal processing stage and temporal extent are not established."
+  ],
+  "limitations": [
+    "Exact source font file not recovered from image.",
+    "No new media rendering, model comparison, whole-video acceptance or cross-language validation.",
+    "Existing negative quality judgments remain unchanged.",
+    "Proposed style capture/protected-object comparison has no repaired-output success evidence yet."
+  ]
+}

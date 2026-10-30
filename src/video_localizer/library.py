@@ -118,6 +118,13 @@ def export(run, root=None, video_sha256=None, reuse_manifests=()):
             verify_receipt(run, asset)
             roots.append((inside(run, asset['path']), asset['sha256']))
     inventory = read_json(run / "analysis/inventory.json") if (run / "analysis/inventory.json").exists() else {}
+    if inventory.get('source_style_snapshot'):
+        asset = inventory['source_style_snapshot']
+        roots.append((inside(run, asset['path']), asset['sha256']))
+        for item in inventory.get('text_instances', []):
+            asset = item.get('display', {}).get('font_asset')
+            if asset:
+                roots.append((inside(run, asset['path']), asset['sha256']))
     for shot in inventory.get("shots", []):
         for key in ("prepared_video", "surface_typography", "codex_image_result"):
             if shot.get(key):
@@ -126,6 +133,8 @@ def export(run, root=None, video_sha256=None, reuse_manifests=()):
     if inventory.get('codex_source_result'):
         roots.extend((inside(run, path), sha) for path, sha in _bound_assets(inventory['codex_source_result']))
     plan = read_json(run / "plan.json") if (run / "plan.json").exists() else {}
+    for asset in (plan.get('source_style_contract') or {}).get('assets', []):
+        roots.append((inside(run, asset['path']), asset['sha256']))
     for asset in (plan.get('typography_contract') or {}).get('fonts', []):
         roots.append((inside(run, asset['path']), asset['sha256']))
     if (plan.get('knowledge_snapshot_version') == 1 and candidate_path.exists()

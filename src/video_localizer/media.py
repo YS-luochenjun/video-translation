@@ -135,7 +135,7 @@ def ass_text(value):
     return value.replace("\\", "\\\\").replace("{", "\\{").replace("}", "\\}").replace("\n", r"\N")
 
 
-def render_local(source, segment, instances, meta, directory):
+def render_local(source, segment, instances, meta, directory, run=None):
     from . import layout
     from .captions import render_instances
     directory = Path(directory)
@@ -158,6 +158,10 @@ def render_local(source, segment, instances, meta, directory):
         start = max(item["start"], segment["start"]) - segment["start"]
         end = min(item["end"], segment["end"]) - segment["start"]
         if end <= start:
+            continue
+        if item.get('source_style_id') or item.get('display', {}).get('font_asset'):
+            from .compositor import text_events
+            events.extend(text_events(segment,[{**item,'action':'model_edit'}],meta,directory,run))
             continue
         layout.validate(item, meta)
         x, y, w, h = item["bbox"]
@@ -233,8 +237,11 @@ def retime(source, duration, output, reason):
     return Path(output)
 
 
-def render_foreground(source, segment, instances, meta, directory):
+def render_foreground(source, segment, instances, meta, directory, run=None):
     """Typeset reviewed target copy on an already text-free video, without erasing pixels."""
+    if any(i.get('source_style_id') or i.get('display', {}).get('font_asset') for i in instances):
+        from .compositor import text
+        return text(source, segment, instances, meta, directory, run=run)
     directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
     events = []

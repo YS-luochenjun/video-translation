@@ -110,6 +110,32 @@ class DeliveryClosureTests(unittest.TestCase):
         self.assertEqual(t['ready_locales'], ['es'])
         self.assertEqual(t['production_locales'], ['ko'])
 
+    def test_standing_submission_consent_reaches_chat_status_and_recovery(self):
+        self.register()
+        consent = read_json(self.root / 'config/fireplay-publication.json')['submission_consent']
+        chat = fireplay.chat(fixtures.CODE, root=self.root)
+        instruction = fireplay.status(fixtures.CODE, self.root)['submission_consent_instruction']
+        self.assertIn(consent['authorization_ref'], instruction)
+        self.assertIn(consent['source_quote'], instruction)
+        self.assertIn('共享到对应需求组', instruction)
+        self.assertIn('不通过换接口或工具绕过', instruction)
+        self.assertIn(instruction, chat['prompt'])
+        task = self.owner()
+        signal = monitor.signal({'key': task['key']}, self.root)
+        self.assertIn(instruction, signal['host_action']['arguments']['prompt'])
+        self.assertEqual(signal['state'], 'unknown')
+        self.assertFalse(fireplay.status(fixtures.CODE, self.root)['whole_requirement_complete'])
+
+    def test_submission_consent_does_not_invent_human_authority(self):
+        path = self.root / 'config/fireplay-publication.json'
+        config = read_json(path)
+        config['submission_consent']['authority'] = 'agent'
+        write_json(path, config)
+        self.downloaded()
+        self.assertEqual(fireplay.submission_consent_instruction(self.root), '')
+        self.assertNotIn(config['submission_consent']['authorization_ref'],
+                         fireplay.chat(fixtures.CODE, root=self.root)['prompt'])
+
     def test_expired_sent_task_needs_fresh_idle_observation_before_redispatch(self):
         t, p = self.expired_signal()
         self.assertEqual(monitor.followups(self.root)[0]['signal_state'], 'owner_check_required')

@@ -2893,6 +2893,76 @@
       "validation_level": "developer_reviewed_observation",
       "topic": "localization",
       "language_match": "exact"
+    },
+    {
+      "id": "mog056-clip1-es-typography-counterexample-20261030",
+      "path": "knowledge/cases/mog056-clip1-es-typography-counterexample-20261030.md",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259"
+      },
+      "tags": [
+        "text",
+        "ads",
+        "visual",
+        "typography"
+      ],
+      "origin": "MOG-20261029-056 exact-source Spanish result, original developer review and observed source/result stills; bounded counterexample only",
+      "reviewed_by": "Codex same-agent visual evidence and scope review; selected advertisement frames, no credentials/customer operational logs",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-30T03:11:31+00:00",
+      "method_sha256": "a76c3b377c3e63f716fc52742caae8aa2729cdca692d99b039597e314bf47517",
+      "case": "knowledge/examples/mog056-clip1-es-typography-counterexample-20261030",
+      "case_manifest_sha256": "28a5781f28c06d6f38ef5ba1d2dd6218bc9c2e5f8c2f12fe6f47f0cd8ff5490f",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261029-056-1-03-3570e7136c.json",
+          "sha256": "12fbddc947beec564794d62eb7ab8e163da99f7c3b86fddc50d784ffa22f0b01"
+        }
+      ],
+      "reference_video_sha256": "3570e7136c4d3b5d844cdd244ab9dea40537f9051a521c691681336e73b507a5",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observation_only",
+      "topic": "visual",
+      "evidence_caveat": "Known failing result; not an approved neutral plate or successful typography-restoration method. Static evidence does not establish motion or whole-video quality.",
+      "language_match": "exact"
+    },
+    {
+      "id": "mog056-clip2-es-surface-counterexample-20261030",
+      "path": "knowledge/cases/mog056-clip2-es-surface-counterexample-20261030.md",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "6f7e06d4d586dbc22f2bc0b1cb1eeae7807d55b560a2eb7862ca1e4d6ffc637e"
+      },
+      "tags": [
+        "text",
+        "ads",
+        "visual",
+        "typography"
+      ],
+      "origin": "MOG-20261029-056 exact-source Spanish result, original developer review and observed source/result stills; bounded counterexample only",
+      "reviewed_by": "Codex same-agent visual evidence and scope review; selected advertisement frames, no credentials/customer operational logs",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-30T03:11:32+00:00",
+      "method_sha256": "1b8f0ee1f5169740bb44b01967386be0fcd6408d5e23df705363f188d0f505f7",
+      "case": "knowledge/examples/mog056-clip2-es-surface-counterexample-20261030",
+      "case_manifest_sha256": "b28f9f873d72fb8d7d979deb98f743ec8e8a7099aaec004f8374e8203e42546d",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261029-056-2-03-4c1829421c.json",
+          "sha256": "b413f88f025d1c90d20748f0869807fcfe2dfbd3dd939a8a4bfe3f9943a057f0"
+        }
+      ],
+      "reference_video_sha256": "4c1829421ccc1019287589907d2269b2c6ae5547c85ac35abeab244526ab5b38",
+      "knowledge_type": "source_reference",
+      "validation_level": "scoped_observation_only",
+      "topic": "visual",
+      "evidence_caveat": "Known failing result; not an approved neutral plate or successful typography-restoration method. Static evidence does not establish motion or whole-video quality.",
+      "language_match": "exact"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

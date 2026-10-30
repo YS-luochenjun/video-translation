@@ -176,5 +176,7 @@ def validate_inventory(inventory, run, meta):
             require(inside(run, path).is_file(), "Missing speech evidence")
     from .captions import contract
     contract(inventory)
+    from .source_styles import contract as style_contract
+    style_contract(run, inventory)
     return inventory
 

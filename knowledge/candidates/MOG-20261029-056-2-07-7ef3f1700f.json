@@ -1,0 +1,35 @@
+{
+  "id": "MOG-20261029-056-2-07-7ef3f1700f",
+  "status": "candidate",
+  "created_at": "2026-10-30T02:29:43+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ko",
+    "source_sha256": "6f7e06d4d586dbc22f2bc0b1cb1eeae7807d55b560a2eb7862ca1e4d6ffc637e"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "MOG-20261029-056-2-07",
+    "video_sha256": "7ef3f1700ffcbc5d1e44e22e597fb6b3064096d887d4d12adacdca6149a6d5fa",
+    "quality_sha256": "66303d42f04c2249f6098edc55b18630e2fa1b89563da10f06db8aaec9915bc7"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "visual_finish_blocking_or_unspecified_defect",
+      "recipe_unresolved:Historical neutral reference has ordinary visible phone/glyph softness and cartoon surface approximation; actual current output review remains required. Static CTA lacks source text pop animation."
+    ],
+    "reviewer": "Codex same_agent",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -6,9 +6,9 @@ from .knowledge_usage import followup as knowledge_followup
 from . import resources, workflow
 
 STAGES = {
-    'source': {'read': ['agent/contracts/workflow.md', 'agent/workflows/ocr.md', 'agent/contracts/audio.md'],
+    'source': {'read': ['agent/contracts/workflow.md', 'agent/workflows/ocr.md', 'agent/contracts/audio.md', 'docs/source-typography.md'],
                'ai': ['Codex reads every source text instance from actual images', 'Use specialist audio evidence; resolve inventory coverage'],
-               'commands': ['analyze', 'context', 'codex-packet --stage recognize', 'codex-result']},
+               'commands': ['analyze', 'context', 'codex-packet --stage recognize', 'codex-result', 'style-capture', 'style-reuse', 'font-bind']},
     'translation': {'read': ['agent/contracts/captions.md', 'agent/contracts/audio.md'],
                     'ai': ['Finalize translation and speech copy', 'Select voice/style and source speech windows'],
                     'commands': ['tts-packet', 'audio-mix', 'asr', 'captions']},
@@ -31,6 +31,8 @@ def _next_action(run, state, jobs):
     actions = {
         'created': ('analyze', ['analyze'], 'Inspect the source and establish instance coverage.'),
         'awaiting_agent_inventory': ('complete_inventory', ['context', 'codex-packet'], 'Codex inspects images directly and resolves missing inventory observations.'),
+        'awaiting_source_styles': ('capture_source_styles', ['style-capture', 'style-reuse', 'font-bind'],
+                                  'Inspect original frames, freeze source typography and choose real target fonts/assets before erasure.'),
         'needs_neutral_review': ('review_neutral', ['visual-evidence', 'visual-notes', 'visual-release-neutral'],
                                 'Review the actual neutral master, then release it before planning.'),
         'needs_planning': ('plan', ['plan'], 'Bind inspected inputs to a formal plan; diagnostic previews remain unapproved.'),
@@ -103,7 +105,7 @@ def build(run, stage=None):
                 'next_action': 'Complete actual basic review, then quality/deliver; reuse unchanged evidence'}
     from .cli import status
     current = status(run)
-    auto = {'created': 'source', 'awaiting_agent_inventory': 'source', 'needs_replanning': 'render',
+    auto = {'created': 'source', 'awaiting_agent_inventory': 'source', 'awaiting_source_styles': 'source', 'needs_replanning': 'render',
             'needs_planning': 'render', 'needs_neutral_review': 'neutral',
             'awaiting_model': 'render', 'needs_reconciliation': 'render',
             'planned': 'render', 'needs_review': 'review', 'needs_revision': 'review',
@@ -115,6 +117,7 @@ def build(run, stage=None):
              'estimated_credits': j.get('estimated_credits'), 'error': j.get('error')}
             for j in current['jobs']]
     blockers = []
+    blockers.extend((current.get('source_styles') or {}).get('blockers', []))
     blockers.extend(f"Shot {item['shot']}: {item['reason']}" for item in current.get('preparation_blockers', []))
     if current['state'] == 'needs_replanning':
         blockers.append('Plan inputs changed: regenerate plan; do not reuse old approvals')
@@ -173,6 +176,7 @@ def build(run, stage=None):
                            'user_acceptance_claimed': False,
                            'scope': 'Incomplete production/review is work for the Agent; user acceptance requires separate attributed feedback.'},
             'source_sha256': source_sha, 'candidate': candidate, 'inventory': 'analysis/inventory.json',
+            'source_style_preservation': current.get('source_styles'),
             'diagnostic_candidates': diagnostics, 'billing_pending': billing_pending,
             'pending_source_coverage': pending, 'blockers': blockers, 'jobs': jobs, 'delivery_record': delivery,
             'batch': None if not batch else {'id': batch['id'], 'pilot': batch['pilot'],

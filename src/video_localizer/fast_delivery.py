@@ -48,6 +48,8 @@ def validate_plan(run, plan):
     require(file_hash(root / 'config/fast-delivery.json') == plan['policy_sha256'], 'Fast policy changed')
     for asset in plan['assets']:
         require(file_hash(inside(run, asset['path'])) == asset['sha256'], 'Fast recipe dependency changed')
+    from .source_styles import verify_contract as verify_style_contract
+    verify_style_contract(run, plan, read_json(run/'analysis/inventory.json'))
     from .workflow import source_path
     require(file_hash(source_path(run)) == plan['source_sha256'], 'Source changed')
     from .typography import verify_contract, verify_receipt
@@ -108,6 +110,10 @@ def register(run, recipe_relative):
             'knowledge': knowledge, 'source_references': references,
             'knowledge_advisories': advisories(context, root), 'routing_assessment': assessment,
             'assets': assets, 'segments': [], 'audio_assets': recipe.get('audio_assets', [])}
+    from .source_styles import contract as style_contract, review_template as style_review_template
+    styles = style_contract(run, inventory)
+    if styles:
+        plan['source_style_contract'] = styles
     if request.get('routing_contract_version', 0) >= 1:
         from .captions import contract
         plan['caption_contract'] = contract(inventory)
@@ -139,6 +145,7 @@ def register(run, recipe_relative):
               for key in policy(run.parent.parent)['review_checks']}
     template = {'video_sha256': output['sha256'], 'plan_id': plan['id'], 'reviewer': '', 'method': '',
                 'typography_fallbacks': [],
+                'source_style_review': style_review_template(inventory),
                 'covered_text_ids': [], 'covered_speech_ids': [], 'checks': checks, 'known_variations': [],
                 'visual_finish': {'score': None, 'normal_speed_observation': '', 'evidence': [], 'defects': []}}
     write_json(run / 'review/fast-template.json', template)
@@ -148,6 +155,8 @@ def register(run, recipe_relative):
 
 def review_failures(review, candidate, inventory, run, checks):
     failures = []
+    from .source_styles import review_failures as style_review_failures
+    failures.extend(style_review_failures(run, inventory, review, candidate))
     if review.get('video_sha256') != candidate['sha256'] or review.get('plan_id') != candidate['plan_id']:
         failures.append('review_binding_changed')
     if not review.get('reviewer') or not review.get('method'):

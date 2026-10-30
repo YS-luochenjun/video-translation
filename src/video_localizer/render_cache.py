@@ -9,7 +9,7 @@ def implementation_signature():
     # Hash the actual rendering/orchestration modules, not cleanup, reports or
     # evidence viewers. Update this list when rendering gains a new dependency.
     names = ('audio', 'captions', 'common', 'compositor', 'layout', 'media',
-             'prepared', 'production', 'render_cache', 'runtime', 'surface', 'workflow', 'typography', 'processes', 'font_environment', 'fonts')
+             'prepared', 'production', 'render_cache', 'runtime', 'surface', 'workflow', 'typography', 'processes', 'font_environment', 'fonts', 'source_styles')
     try:
         from PIL import __version__ as pillow_version
     except ImportError:

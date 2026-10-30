@@ -1,0 +1,50 @@
+{
+  "id": "source-style-snapshot-font-binding-dev-20261029",
+  "status": "candidate",
+  "created_at": "2026-10-30T04:27:11.249236+00:00",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "tags": [
+    "text",
+    "typography",
+    "source-style"
+  ],
+  "outcome": "technical_verified_with_limited_visual_diagnostic",
+  "hypothesis": "在擦字前将源样式与原片参考帧独立冻结，目标语言明确选择真实字体/艺术字层及适配，并将它们绑定计划与当前视频审核，可避免默认字体或未说明的样式变化被静默沿用。验证范围是技术合同、合成媒体及一个开头标题局部，尚无全片/跨语种效果结论。",
+  "evidence": {
+    "implementation": "src/video_localizer/source_styles.py",
+    "implementation_sha256": "0fa7951fea9ef0473a755ed970b3f33e84154a7801c034b163fc8d33fdf0cd11",
+    "font_binding": "src/video_localizer/fonts.py",
+    "font_binding_sha256": "dd3c5869e79e6ee2e322ab0ae004fd45a0e1c87de04b464e2c64ae882ac276d0",
+    "workflow": "docs/source-typography.md",
+    "tests": {
+      "count": 748,
+      "failures": 0,
+      "errors": 0,
+      "skips": 1
+    },
+    "local_verification": "work/state/source-style-implementation-20261029/check.log",
+    "local_visual_diagnostic": "work/state/source-style-implementation-20261029/visual-check-receipt.json"
+  },
+  "failure_signatures": [
+    "源样式或字体字节改变但复用旧计划",
+    "直立字面冒充斜体、缺字或无限缩小译文",
+    "原文字区域与目标排版区域混用",
+    "使用旧视频/原帧/音频替代当前样式审核",
+    "把ImageGen/跟踪路线标签当作实际字层执行"
+  ],
+  "limitations": [
+    "样式事实由Codex实际观察填写，不是自动恢复原字体文件。",
+    "源观察可精确同源复用，目标语字体、字层、运动与认可不继承。",
+    "复杂艺术字/变形仍走现有ImageGen、surface或Wan路线；本次没有新增付费任务或逐帧精修。",
+    "056仅对开头标题做诊断，复用的底片未获干净参考批准，旧缺陷未被修复或重标通过。",
+    "没有端到端生产效率或费用节省的对照，不能据命令耗时推广。"
+  ],
+  "company_preference": false,
+  "reviewed_by": "Codex same-agent development and bounded visual review; not independent acceptance",
+  "reflection_state": "scoped_lesson",
+  "knowledge_class": "project_training_candidate",
+  "promotion": "Candidate only; executable user-authorized contract is documented in docs/source-typography.md. No automatic media-success generalization.",
+  "next_action": "在后续真实完整广告中，绑定新哈希按正常播放逐语种核对样式、运动、保护对象与实际投入；有必要新证据时再审查推广，不为该候选额外调用付费模型。"
+}

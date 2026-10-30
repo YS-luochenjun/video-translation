@@ -99,6 +99,24 @@ def submission_instruction(root=ROOT):
     return read_json(path).get('submission_instruction', '') if path.exists() else ''
 
 
+def submission_consent_instruction(root=ROOT):
+    """Expose scoped human consent to hosts; never grant quality or host approval."""
+    path = Path(root) / 'config/fireplay-publication.json'
+    consent = read_json(path).get('submission_consent', {}) if path.exists() else {}
+    if (consent.get('mode') != 'standing_within_requirement'
+            or consent.get('authority') != 'user'
+            or not consent.get('authorization_ref') or not consent.get('source_quote')):
+        return ''
+    return ('\n固定提交已有用户持续授权（' + consent['authorization_ref'] + '）；用户原话：'
+            + consent['source_quote'] + '。仅对已交办需求、符合现有发布标准的当前成片，'
+            '直接上传、入库、共享到对应需求组、请求YouTube自动上传、命名、打语言/产品tag并绑定；'
+            '不逐成片、逐批次或逐需求再次询问是否提交/共享，不把对应组共享当作新的项目授权。'
+            '严重质量问题和未知写入保护照常，普通瑕疵按真实发布审查处理。'
+            '调用时如实提供已有授权与精确需求/成片/组范围；宿主已明确拒绝或要求本次人工确认时，'
+            '保留实际拒绝和待办，说明被拦操作与原因，不代用户批准，不通过换接口或工具绕过；'
+            '先查当前或原负责聊天是否已有覆盖相同范围的真实人类确认，不能漏读后重复询问。\n')
+
+
 def pull(spec, root=ROOT):
     """Build a scoped, P0-first host intake packet from real list receipts.
 
@@ -497,6 +515,7 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT):
                              '由fireplay-start绑定到本需求真实请求和原账本后，在现有模型与额度内直接执行，不重复询问是否使用KIE。'
                              '\n' + kie_access_instruction(root) +
                              '\n' + youtube_instruction(root) +
+                             submission_consent_instruction(root) +
                              'Fireplay受理并核验入库/共享/标签/绑定后就收尾；YouTube后续进度、排队和限额交由平台，不轮询或等待全部上传。'
                              '\n最终成片审核后执行固定提交指令：' + submission_instruction(root)),
                   'source_quote': settings.get('thread_policy_source', '')}
@@ -988,6 +1007,7 @@ def status(code, root=ROOT):
     result['budget'] = record.get('budget')
     result['production_workflow'] = 'agent/workflows/fireplay-intake.md'
     result['submission_instruction'] = submission_instruction(root)
+    result['submission_consent_instruction'] = submission_consent_instruction(root)
     result['kie_consent'] = kie_consent(code, root=root)
     result['priority_policy'] = read_json(Path(root) / 'config/fireplay-intake.json').get('priority_policy', {})
     result['automatic_quality_approval'] = False

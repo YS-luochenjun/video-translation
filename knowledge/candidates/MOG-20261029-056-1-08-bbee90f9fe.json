@@ -1,0 +1,36 @@
+{
+  "id": "MOG-20261029-056-1-08-bbee90f9fe",
+  "status": "candidate",
+  "created_at": "2026-10-30T02:29:34+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "nl",
+    "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "MOG-20261029-056-1-08",
+    "video_sha256": "bbee90f9fe4543a3e5eed50c730eca8b7d5d3e3383ca2ba5bfe2ab10da57b754",
+    "quality_sha256": "17939291396490d9f651ee9035ffc8fae7964771d7e75407433f6bc0652a44ee"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "character_voices_uncertain",
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "visual_finish_blocking_or_unspecified_defect",
+      "recipe_unresolved:Unapproved local erasure has cloth/table softness; CTA broad seam/first0.2s transition streak and static decoration remain. Own current target visual/audio review required."
+    ],
+    "reviewer": "Codex same_agent",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

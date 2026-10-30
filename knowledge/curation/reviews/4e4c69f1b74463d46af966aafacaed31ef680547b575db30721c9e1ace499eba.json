@@ -1,0 +1,47 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261029-056-1-03-3570e7136c.json",
+    "sha256": "12fbddc947beec564794d62eb7ab8e163da99f7c3b86fddc50d784ffa22f0b01"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent actual still-pair, source/result hash and embedded feedback manifest review; not independent or human playback acceptance",
+  "origin": "2026-10-30 bounded knowledge sweep; exact-source Spanish evidence; existing user typography concern remains distinct from acceptance",
+  "resolution": "partial",
+  "reason": "源/语种及当前视频哈希匹配，独立保存必要静态对照，足以建立限定失败案例；原记录还包含未在本次完整核验的整片/声音/制作结论，不能据已有helpful标签或完整交付认定质量通过。",
+  "targets": [
+    {
+      "id": "mog056-clip1-es-typography-counterexample-20261030",
+      "path": "knowledge/cases/mog056-clip1-es-typography-counterexample-20261030.md",
+      "sha256": "a76c3b377c3e63f716fc52742caae8aa2729cdca692d99b039597e314bf47517",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259"
+      },
+      "snapshot": "# MOG-20261029-056 原片1西语：字形可读不等于样式还原\n\n范围仅限源 `0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259`、西语，以及结果 `3570e7136c4d3b5d844cdd244ab9dea40537f9051a521c691681336e73b507a5`。这是同一 Agent 对实际帧的限定反例，没有新增用户验收或公司标准。\n\n在0.5秒的原片/结果对照中，原开头标题为黑色粗斜衬线字、粗白边和两行构图；结果改成白色直立无衬线字、细黑边和一行构图。口播字幕也由画面中部的短词显示改成底部多行整句。译文能够阅读，不能据此认定保留了源片的字体风格、占画面比例或信息层级。见 evidence:source_frame、evidence:result_frame、evidence:observation。\n\n源文字修复与目标字层的样式需要分别审查。本例没有模型之间的受控比较，不能由此断言ImageGen、Wan或合成脚本哪一个一定更好。现有评审仍为revise，完整输出与样式通过分别记录。\n\n同源续作应先保留原标题的参考帧与可观察样式，再对照目标字层检查斜体/衬线、填充/描边、字号比例、换行和位置。字体文件名不能仅从图像猜定；目标语长度需要重新排版。该检查建议尚未在修订成片中验证有效，不把本例升级为通用成功方法。\n\n当前证据只证明上述静态对照和已记录的执行事实；字幕逐词动效、整段运动、人物音色及全片质量仍须各自审查。原评审的底片柔化和片尾接缝判断保留，未因建立知识案例解决。\n"
+    }
+  ],
+  "adopted_parts": [
+    "精确同源西语0.5秒的标题字形、描边、换行和字幕布局差异，已作为失败对照保存在限定案例；可读不构成原样式还原证据。"
+  ],
+  "retained_parts": [
+    "原文和原revise判断保持不变。",
+    "源片全段运动、声音、其他缺陷仍须各自真实证据；静态对照不关闭这些事项。"
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "沿已保存原片/当前结果连续帧核对标题与CTA的动效和修复区域；核实本语种实际配音/人物音色、底片柔化及片尾接缝的原评审证据。样式保存方案未产生修订后的成功结果，不能视为已验证修复。",
+  "retrieval_features": [],
+  "advisory": {
+    "summary": "精确同源西语0.5秒的标题字形、描边、换行和字幕布局差异，已作为失败对照保存在限定案例；可读不构成原样式还原证据。",
+    "limitations": [
+      "同源西语当前结果的局部失败观察；没有新成功成片、全片验收或跨语种验证。"
+    ],
+    "next_check": "沿已保存原片/当前结果连续帧核对标题与CTA的动效和修复区域；核实本语种实际配音/人物音色、底片柔化及片尾接缝的原评审证据。样式保存方案未产生修订后的成功结果，不能视为已验证修复。"
+  },
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-10-30T03:12:19+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

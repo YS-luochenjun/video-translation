@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "es",
+    "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259"
+  },
+  "video_sha256": "3570e7136c4d3b5d844cdd244ab9dea40537f9051a521c691681336e73b507a5",
+  "reviewer": "Codex same-agent bounded evidence review; not independent acceptance",
+  "review_type": "developer_review",
+  "observation_scope": "Observed native source/result stills at the named timestamp only; does not certify continuous playback. Earlier frame extraction retained without editing. Source/result media hashes freshly verified.",
+  "timestamp_seconds": 0.5,
+  "frames": {
+    "source": {
+      "file": "clip1-source-0.5s.jpg",
+      "sha256": "d02cd6697d7d67ad7af66fb1dde9781e523589ab97ac37d564eacdcb7f20c313"
+    },
+    "result": {
+      "file": "clip1-es-final-0.5s.jpg",
+      "sha256": "a34bbe2f77c0905f98dbb01470f39514cbbfdf0f334f4e57ca8875ab8ed8a142"
+    }
+  },
+  "current_quality_passed": false,
+  "original_review_sha256": "82335189247f1582cca4d5d56403471a531c1de090b57cf33edc286d0dcfbdcf",
+  "original_visual_observations": [
+    "18 target spoken turns include formerly omitted audibleCTA, with shared final wording and actual targetPCM timing. Independent opening hook remains.",
+    "Caption box1530..1710 avoids children faces in opening shots. Source motion/cuts and subjects remain.",
+    "Cloth/table glyph-mask repairs soften textures; broad CTA reconstruction has visible horizontal seam and first0.2s transition streak. Static hook/CTA differ from original decoration."
+  ],
+  "current_observations": [
+    "Original title black bold italic serif with thick white outline/two lines; translated title white upright sans-serif with thin black outline/one line. Spoken captions move from central short-word presentation to lower whole-phrase multi-line layout."
+  ],
+  "limitations": [
+    "Exact source font file not recovered from image.",
+    "No new media rendering, model comparison, whole-video acceptance or cross-language validation.",
+    "Existing negative quality judgments remain unchanged.",
+    "Proposed style capture/protected-object comparison has no repaired-output success evidence yet."
+  ]
+}

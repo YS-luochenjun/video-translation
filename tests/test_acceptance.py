@@ -47,6 +47,8 @@ class AcceptanceTests(unittest.TestCase):
         review["instances"] = [{**item, "decision": "pass", "evidence": [frame]} for item in review["instances"]]
         review["coverage"] = {key: {"status": "reviewed", "evidence": [audio if key == "audio" else frame]}
                               for key in ("visual", "audio", "timing")}
+        from workspace_fixture import source_style_review_fixture
+        source_style_review_fixture(review, captured, frame)
         cls.base_review = review
         cls.base_candidate = candidate
         from workspace_fixture import observe_visual_fixture
@@ -169,7 +171,8 @@ class AcceptanceTests(unittest.TestCase):
             image = self.run_dir / 'analysis/shot-001.jpg'
             inventory['shots'][0]['reference_image'] = {'path': 'analysis/shot-001.jpg', 'sha256': file_hash(image)}
             for item in inventory["text_instances"]:
-                item["action"] = "model_edit"
+                if item['action'] != 'preserve':
+                    item["action"] = "model_edit"
             write_json(path, inventory)
             result = workflow.build_plan(self.run_dir)
             plan = read_json(self.run_dir / "plan.json")
@@ -203,7 +206,8 @@ class AcceptanceTests(unittest.TestCase):
             shot['reference_image'] = {'path':'analysis/shot-001.jpg',
                                        'sha256':file_hash(self.run_dir / 'analysis/shot-001.jpg')}
             for item in inventory['text_instances']:
-                item['action'] = 'model_edit'
+                if item['action'] != 'preserve':
+                    item['action'] = 'model_edit'
             write_json(path, inventory)
             workflow.build_plan(self.run_dir)
             prompt = read_json(self.run_dir / 'plan.json')['segments'][0]['prompt']

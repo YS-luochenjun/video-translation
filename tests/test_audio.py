@@ -148,6 +148,8 @@ class NativeAudioContractTests(unittest.TestCase):
             item.start()
             cls.addClassCleanup(item.stop)
         demo.create_demo("audio-contract", "local_overlay")
+        from workspace_fixture import legacy_typography_fixture
+        legacy_typography_fixture(common.get_run('audio-contract'))
         cls.run_dir = common.get_run("audio-contract")
         cls.original_inventory = read_json(cls.run_dir / "analysis/inventory.json")
 

@@ -1,5 +1,7 @@
 # 字体检查与绑定
 
+新任务同时遵守[源文字样式记录](source-typography.md)：默认字体解决目标脚本覆盖，不能替代对源字形、颜色、描边和构图的分析。font-bind新增--font-path/--face-index可绑定实际存在的艺术/粗斜字体，普通字层也实际加载该文件；缺字、粗斜体字面不符或哈希变化明确失败。
+
 运行 doctor 时必须使用能加载项目依赖的 Python 3.10+。本机已有 Pillow/字体工具的二进制依赖使用 Python 3.12，macOS系统Python 3.9不适用。
 
 `config/fonts.json` 记录实际字体家族、TTC集合中的字面索引、字重与验证样例。Mac默认使用已安装的真实字体：简中Heiti SC、繁中Heiti TC、日语Hiragino Sans、韩语Apple SD Gothic Neo、泰语Thonburi、印地语Devanagari Sangam MN；拉丁/西里尔及阿拉伯语使用已验证字形覆盖的Arial。其他可选字体仍可明确指定。Heiti常规位对应Light、粗体位对应Medium；doctor返回实际face名称，不假装另一个字重。

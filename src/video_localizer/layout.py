@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 import os
 import sys
+import math
 
 from .common import CODE_ROOT, require, require_number
 
@@ -71,7 +72,7 @@ def font_size(item):
         require(not item.get('fit_text'), 'Measured text fitting requires Pillow')
         return item.get('font_size', max(18, round(item['bbox'][3] * .48)))
     family = item.get('font_family', default_family(item['target_text'], item.get('target_language')))
-    face = measurement_face(CODE_ROOT, family, item.get('bold', False))
+    face = item.get('_font_face') or measurement_face(CODE_ROOT, family, item.get('bold', False))
     font_path = face['path']
     requested = item.get('font_size', max(18, round(item['bbox'][3] * .48)))
     if not item.get('fit_text'):
@@ -82,7 +83,9 @@ def font_size(item):
     require(not missing, 'Font missing glyphs: ' + ', '.join(f'U+{ord(c):04X}' for c in missing))
     padding = item.get('padding', 2)
     w, h = item['bbox'][2]-2*padding, item['bbox'][3]-2*padding
-    for size in range(round(requested), 7, -1):
+    minimum = item.get('min_font_size', 8)
+    require_number(minimum, 'minimum readable font size', minimum=8, maximum=requested)
+    for size in range(round(requested), math.ceil(minimum)-1, -1):
         font = ImageFont.truetype(str(font_path), size, index=face['index'])
         # libass defines fontsize using total ascender+descender height; Pillow uses em.
         # Convert metrics before fitting or Chinese text gets needlessly shrunk.
@@ -91,7 +94,9 @@ def font_size(item):
         lines = item['target_text'].split('\n')
         widths = [font.getlength(line)*factor for line in lines]
         glyph_height = max(font.getbbox(line)[3]-font.getbbox(line)[1] for line in lines)*factor
-        block_height = (len(lines)-1)*size + glyph_height
+        line_height = item.get('line_height', size)
+        require_number(line_height, 'line height', minimum=1)
+        block_height = (len(lines)-1)*line_height + glyph_height
         if max(widths) <= w-2 and block_height <= h:
             return size
     require(False, 'Translation cannot fit the reviewed source region at readable size')

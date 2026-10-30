@@ -286,7 +286,7 @@ def render(run, source, segment, items, meta, directory, legacy='tracked'):
         require(Path(source).resolve().is_relative_to(run.resolve()),'Typography visual input must belong to this run')
     from . import compositor, surface
     plain=[i for i in items if not selected(i)]
-    base=compositor.text(source,segment,plain,meta,directory/'plain') if legacy=='tracked' else media.render_foreground(source,segment,plain,meta,directory/'plain')
+    base=compositor.text(source,segment,plain,meta,directory/'plain',run=run) if legacy=='tracked' else media.render_foreground(source,segment,plain,meta,directory/'plain',run=run)
     if not chosen:return base
     layerdir=directory/'motion';layerdir.mkdir(parents=True,exist_ok=True)
     props,font_inputs=_prepare(run,segment,chosen,meta,layerdir)

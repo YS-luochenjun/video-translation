@@ -105,6 +105,7 @@ def status(run):
     quality = read_json(run / "outputs/quality.json") if (run / "outputs/quality.json").exists() else None
     state = "created"
     preparation_blockers = []
+    style_state = None
     if (run / "analysis/inventory.json").exists():
         state = "awaiting_agent_inventory"
         inventory = read_json(run / 'analysis/inventory.json')
@@ -123,6 +124,10 @@ def status(run):
                             preparation_blockers.append({'shot': shot['id'], 'reason': str(exc)})
                 if preparation_blockers:
                     state = 'needs_neutral_review'
+                from .source_styles import status as style_status
+                style_state = style_status(run, inventory)
+                if state == 'needs_planning' and style_state['blockers']:
+                    state = 'awaiting_source_styles'
     if (run / "plan.json").exists():
         try:
             workflow.current_plan(run)
@@ -152,7 +157,7 @@ def status(run):
         if final.is_file() and file_hash(final) == completed.get('video_sha256'):
             state = 'delivered_with_issues'
     return {"state": state, "run": {key: value for key, value in record.items() if key != "state"},
-            "jobs": jobs, "quality": quality, 'preparation_blockers': preparation_blockers}
+            "jobs": jobs, "quality": quality, 'preparation_blockers': preparation_blockers, 'source_styles': style_state}
 
 
 def main(argv=None):
@@ -244,9 +249,19 @@ def main(argv=None):
     command.add_argument('--shot', required=True)
     command = commands.add_parser('font-bind', help='Bind an actual family/weight as a glyph-checked single-face run-local font')
     command.add_argument('run')
-    command.add_argument('--family', required=True)
+    font_choice = command.add_mutually_exclusive_group(required=True)
+    font_choice.add_argument('--family')
+    font_choice.add_argument('--font-path', help='Actual available TTF/OTF/TTC, including real italic/decorative faces')
+    command.add_argument('--face-index', type=int, default=0)
     command.add_argument('--bold', action='store_true')
     command.add_argument('--text', default='')
+    command = commands.add_parser('style-capture', help='Freeze observed source typography and a few original-video frames; no image editing or paid tasks')
+    command.add_argument('run')
+    command.add_argument('spec', help='Run-relative attributed source-style observations')
+    command.add_argument('--apply', action='store_true', help='Bind snapshot/style ids to inventory; target choices remain pending')
+    command = commands.add_parser('style-reuse', help='Copy exact-source style observations, never target-language choices or approval')
+    command.add_argument('run')
+    command.add_argument('--from-run', required=True)
     command = commands.add_parser('fireplay-pull', help='Prepare a scoped P0-first intake queue from authenticated host summary receipts')
     command.add_argument('spec')
     command = commands.add_parser('fireplay-monitor', help='Scan all visible groups, record Agent translation decisions, or resume scoped owner follow-ups')
@@ -456,8 +471,17 @@ def main(argv=None):
             from .batches import authorization
             result = authorization(ROOT)
         elif name == 'font-bind':
-            from .fonts import bind
-            result = bind(get_run(args.run), args.family, args.bold, args.text)
+            from .fonts import bind, bind_file
+            require(args.font_path or args.face_index == 0, '--face-index applies to --font-path')
+            require(not args.font_path or not args.bold, 'Select the actual bold/italic file with --font-path, not synthetic --bold')
+            result = (bind_file(get_run(args.run), args.font_path, args.text, args.face_index) if args.font_path
+                      else bind(get_run(args.run), args.family, args.bold, args.text))
+        elif name == 'style-capture':
+            from .source_styles import capture as capture_style
+            result = capture_style(get_run(args.run), args.spec, args.apply)
+        elif name == 'style-reuse':
+            from .source_styles import reuse as reuse_style
+            result = reuse_style(get_run(args.run), get_run(args.from_run))
         elif name == 'fireplay' or name.startswith('fireplay-'):
             from . import fireplay
             if name == 'fireplay-monitor':

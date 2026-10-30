@@ -1,0 +1,24 @@
+{
+  "source_sha256": "actual-original-video-sha256",
+  "observed_by": "Actual Codex source-frame observer; distinguish self review",
+  "styles": [
+    {
+      "id": "opening-title",
+      "instance_ids": ["t001"],
+      "reference_times": [0.5],
+      "observation": "Replace with actual source observations; exact source font name may be unknown",
+      "appearance": {
+        "kind": "plain",
+        "font_class": "serif",
+        "weight": "bold",
+        "italic": true,
+        "color": "#000000",
+        "outline_layers": [{"width": 5, "color": "#FFFFFF"}],
+        "effects": "Actual observed shadow/material/curve, or explicit none"
+      },
+      "layout": {"bbox": [30, 40, 1020, 260], "line_count": 2, "align": "center"},
+      "motion": {"kind": "static", "observation": "Actual beginning/middle/end motion observations, not inferred from one still"},
+      "protected_content": "Actual nearby faces, products, icons and objects; explicitly none when verified"
+    }
+  ]
+}
