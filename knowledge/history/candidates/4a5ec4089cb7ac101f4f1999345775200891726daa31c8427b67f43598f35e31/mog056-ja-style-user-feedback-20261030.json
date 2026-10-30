@@ -1,0 +1,20 @@
+{
+  "id": "mog056-ja-style-user-feedback-20261030",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259",
+    "target_language": "ja"
+  },
+  "video_sha256": "42de93bf087622a2623e1b4300b98fa7d8d38c970b1f6acc17af9b4301dfd990",
+  "origin": "Direct owner message approving visual/font result and requesting future default use",
+  "hypothesis": "Source-led hierarchy, few ImageGen artwork assets, real-font aligned phrases and narrow subject-preserving repair are the requested default approach; this exact Japanese V3 is the observed approved example.",
+  "source_quote": "目前我看到了056的日语输出，画面和字体的翻译，很好。请你确保，这些内容都被加入到了项目中。也就是以后进行视频翻译，都会这样做，都会有类似效果。如果是，请你进行commit与push，并merge到main",
+  "outcome": "explicit_visual_approval",
+  "limitations": [
+    "No new full-speed viewing/listening or native-language/company acceptance inferred.",
+    "Old revise, sound uncertainty, local softness and motion adaptation remain as historical observations.",
+    "No cross-source empirical success or identical typography guaranteed."
+  ],
+  "company_preference": false
+}

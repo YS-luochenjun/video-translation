@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259",
+  "target_language": "ja",
+  "video_sha256": "42de93bf087622a2623e1b4300b98fa7d8d38c970b1f6acc17af9b4301dfd990",
+  "authority": "explicit_project_owner_feedback",
+  "source_quote": "目前我看到了056的日语输出，画面和字体的翻译，很好。请你确保，这些内容都被加入到了项目中。也就是以后进行视频翻译，都会这样做，都会有类似效果。如果是，请你进行commit与push，并merge到main",
+  "review_scope": "Positive owner feedback on picture and lettering of this exact source1 Japanese V3, plus an explicit request to make its production approach the default for future tasks.",
+  "policy_scope": "Future onscreen-text localization uses source style observations, few artwork assets, real-font target phrases, source-aware local repair, subject protection and bounded review; coordinates/fonts/times and acceptance remain per source and locale.",
+  "previous_internal_quality": "revise",
+  "previous_internal_failures": [
+    "source_text_removed_unreviewed",
+    "native_motion_unreviewed",
+    "character_voices_uncertain",
+    "visual_finish_below_threshold_or_unreviewed",
+    "recipe_unresolved:Shared neutral body erasure remains unapproved with local cloth/table softness and small residual glyph risk; inspect actual new candidate.",
+    "recipe_unresolved:Japanese short phrases adapt original English word pops; body lettering has steady size.",
+    "recipe_unresolved:Wan72/73 frame result uses one actual same-shot ImageGen repair strip for the final native frame; no motion stretch.",
+    "recipe_unresolved:Previous adult female voice confusability uncertainty is preserved; unchanged audio is not new voice acceptance.",
+    "recipe_unresolved:Local playback UI was unavailable: browser file URL policy rejection and native player pipe failure. Review uses complete decode, actual all-phrase/boundary frames, source/old/new full-scene and dense continuous-frame comparison, identical full AAC plus prior attributed audio audit; no claim of a new human full-speed listening/viewing pass."
+  ],
+  "limitations": [
+    "No new full-speed viewing/listening or native-language/company acceptance inferred.",
+    "Old revise, sound uncertainty, local softness and motion adaptation remain as historical observations.",
+    "No cross-source empirical success or identical typography guaranteed."
+  ],
+  "observed_by": "Codex same-agent file/hash and thread review; user supplies the visual approval",
+  "observed_images": [
+    {
+      "file": "new-hook.png",
+      "time": 0.3,
+      "sha256": "cf78f527b57957c19019799b8ed7b9a86fccdd78006a0b36216174a9069d9c9d"
+    },
+    {
+      "file": "new-body.png",
+      "time": 30.8,
+      "sha256": "fbbc04467df472fbd1889a870da5a3a65a81e53a54172d7c268498d1f85bae04"
+    },
+    {
+      "file": "new-cta.png",
+      "time": 85.2,
+      "sha256": "d02c81f3115fef3b2f3a2a2a208de0074f7e86406a28faf5cebaafe9434db360"
+    }
+  ]
+}

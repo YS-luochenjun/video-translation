@@ -1,0 +1,16 @@
+{
+  "source_sha256": "ACTUAL_SOURCE_SHA256",
+  "shot": "s001",
+  "reason": "按原片的字重、位置和层次适配；正文短语来自已审实际配音对齐，不按字符平均分时",
+  "typeset_ids": ["t001"],
+  "artwork": [
+    {
+      "instance_id": "t002",
+      "asset": {"path": "inputs/artwork/title.png", "sha256": "ACTUAL_TRANSPARENT_PNG_SHA256"},
+      "text_checked": "EXACT_FINAL_TARGET_COPY",
+      "observed_by": "ACTUAL_EXACT_COPY_OBSERVER",
+      "motion": {"kind": "pop", "entrance_seconds": 0.16, "initial_scale": 0.94, "pulse": 0.012},
+      "motion_reason": "原片实际简单缩放入场；目标只做有界适配，不宣称跟踪或旋转保真"
+    }
+  ]
+}

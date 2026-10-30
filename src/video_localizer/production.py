@@ -19,7 +19,13 @@ def _fingerprint(run, plan):
     for value in (plan, inventory):
         for path, digest in _bound_assets(value):
             if path.startswith(('knowledge/','assets/','config/')):
-                asset = inside(run.parent.parent,path)
+                if path.startswith('knowledge/'):
+                    from .knowledge_records import resolve
+                    # Reviewed candidates keep their logical identity after
+                    # archival. Verify the original bytes through that mapping.
+                    asset = resolve(run.parent.parent, path)
+                else:
+                    asset = inside(run.parent.parent,path)
                 require(asset.is_file() and file_hash(asset) == digest, 'Bound workspace dependency changed')
                 workspace_files['workspace/'+path] = digest
             else:

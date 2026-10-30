@@ -1,0 +1,23 @@
+{
+  "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259",
+  "video_sha256": "42de93bf087622a2623e1b4300b98fa7d8d38c970b1f6acc17af9b4301dfd990",
+  "observed_from": "MOG-20261029-056 actual completed imageGeneration events",
+  "proof_boundary": "Prompts describe intended constraints; actual output and encoded video require review. This is one Japanese source example.",
+  "calls": [
+    {
+      "id": "exec-795a3984-2d4b-4943-9af0-9a68e7e6942c",
+      "status": "completed",
+      "prompt": "Use case: ads-marketing. Create ONLY a transparent Japanese CTA artwork asset. Reference the English CTA lettering style in the supplied image, not the scene. Exact Japanese text in ONE line: 「物語を全部見よう！」. Very heavy rounded oblique/right-slanted Japanese display lettering, bright yellow fill, black immediate outline, thick white outer outline, red slightly downward-left offset extrusion/drop shadow, like the reference. Preserve readable precise Japanese characters, with large substantial letterforms. Include the thin dynamic yellow swoosh underline and three tiny yellow emphasis rays above the right end, matching reference. No emoji, no arrows, no background, no English, no additional words. Wide banner artwork with transparent padding; don't crop any border."
+    },
+    {
+      "id": "exec-1f377de8-074d-4740-938f-31ee1a332993",
+      "status": "completed",
+      "prompt": "Use case: ads-marketing. Create ONLY a transparent Japanese title artwork asset, using the black italic serif two-line headline at the TOP of the reference image as typography/style reference. Do not include the scene, people, English letters, or background. Exact Japanese text in TWO centered lines: 「この展開、」 then 「予想できる？」. Render extremely bold black Japanese Mincho serif lettering with a noticeable right italic lean, strong tapered serif terminals, and thick clean white outer outline, matching the reference's assertive black-filled white-bordered italic title. Maintain excellent Japanese glyph accuracy. Make the second line wider; balanced tight line spacing. Wide 4:1-ish artwork, generous transparent margins so outlines are not cropped. No rectangle, no additional words, no shadow background."
+    },
+    {
+      "id": "exec-872878e5-ce5d-4e49-9b6b-730d37ed77f3",
+      "status": "completed",
+      "prompt": "Use case: precise-object-edit. Edit this exact frame. Remove ONLY the English text 'Binge the full Story' including all its black/white borders and red shadow, and its yellow underline and three tiny yellow rays. Seamlessly reconstruct the already heavily blurred background in that narrow horizontal region, consistent with adjacent colors and shapes. Preserve the original 1080x1920 portrait composition, every other pixel outside the lettering repair region as closely as possible, the shocked face emoji at its exact position/size, and the three red down arrows at exact positions and sizes. Do not sharpen the intentionally blurred background; no text, new objects, or replacement symbols. The output is an erase-only reference frame for video repair."
+    }
+  ]
+}

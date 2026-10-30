@@ -18,7 +18,7 @@ STAGES = {
                 'commands': ['codex-packet --stage image', 'codex-result', 'visual-evidence --stage neutral', 'visual-notes', 'visual-release-neutral']},
     'render': {'read': ['agent/workflows/batch-production.md', 'agent/contracts/captions.md'],
                'ai': ['Review layout and actual mixed-audio alignment', 'Approve the representative language before expansion'],
-               'commands': ['plan', 'packet', 'production', 'batch-approve', 'batch-run']},
+               'commands': ['plan', 'packet', 'style-layer', 'production', 'batch-approve', 'batch-run']},
     'review': {'read': ['agent/workflows/visual-review.md', 'agent/contracts/quality.md', 'agent/contracts/captions.md'],
                'ai': ['Judge actual encoded picture, speech, music, sync and translation', 'Record observed failures and bounded revisions'],
                'commands': ['visual-evidence', 'visual-pages', 'visual-notes', 'capture', 'quality']},

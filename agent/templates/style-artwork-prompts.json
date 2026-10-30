@@ -1,0 +1,12 @@
+{
+  "purpose": "Agent fills actual source observations and finalized target copy; this template does not call a model or approve output",
+  "target_artwork": {
+    "prompt": "Create ONLY transparent {target_language} lettering artwork. Exact final text, with the specified line breaks: {target_copy_and_lines}. Use the supplied original frame only as a lettering/style reference. Reproduce its observed visual hierarchy: {observed_shape_weight_slant_fill_outlines_shadow_spacing}. Preserve readability and accurate target glyphs. Keep all strokes inside transparent padding. Do not include or redraw the scene, people, product, logos, arrows or emoji. No text panel, extra words or original-language remnants. Any simple target motion is applied later during composition, not by inventing a new scene.",
+    "after_generation": "Read every glyph and line, inspect transparency/borders, bind actual asset hash; compare actual encoded size/position against the original. Intent is not proof of output accuracy."
+  },
+  "erase_only_reference": {
+    "prompt": "Edit this exact original keyframe. Remove ONLY {identified_original_lettering_and_its_effects} within {actual_repair_region}. Reconstruct the adjacent background consistently, preserving its existing blur/texture. Preserve {observed_subject_product_emoji_arrows_and_other_protected_content}. Keep original composition; add no new symbols or target wording. This image is an erase-only same-shot reference for local video repair, not a translated frame.",
+    "after_generation": "Inspect the actual image and protected content; supply it with the original video only when the selected route benefits from a reference. Composite only the verified repair region and review continuous motion."
+  },
+  "bounds": "A few assets per needed visual style/purpose, never one model call per phrase or per frame. Original request budget and bounded revision limits apply. Complex tracking needs its existing reviewed route."
+}

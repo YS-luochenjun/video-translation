@@ -2,6 +2,8 @@
 
 来源：项目拥有者要求改善视频字体效果，并参考单图片翻译的样式分析与分层设计；不迁移逐图像素修补、专用重画脚本或逐帧生图。目标是保留可观察的风格与信息层级，允许有依据的语言适配，不承诺恢复原字体文件或任意艺术字完全一致。
 
+后续默认按[源视觉语言制作政策](../knowledge/rules/source-led-visual-localization-v1.md)执行。它由056日语V3的用户视觉认可及明确后续要求启用；案例的日语、字体、坐标和质量结论保持限定，不能复制为其他视频参数。
+
 ## 先保留原片依据
 
 新 `init/ingest` 请求带 `source_style_contract_version=1`。Agent在擦字和选路前查看实际原帧，按相同风格分组全部待译文字；去除发布者标记与保留原字项另走原合同。参考[样式模板](../agent/templates/source-style-capture.json)，由Agent填写原文清单、样式事实及疑点，不向用户追加表单或询问字体ID。
@@ -46,6 +48,18 @@ python bin/va.py font-bind RUN --font-path "/available/font/BoldItalic.ttf" --te
 普通字层的FFmpeg合成实际加载绑定字面，按同一字面测量，支持原有多层描边、阴影、倾斜与轨迹；指定斜体却提供直立字面会报错。复杂弧形/材质/透视不因这些字段存在就称已实现，应选艺术素材/专用表面字层或有据披露降级。
 
 ## 计划、样片与交付
+
+### 批量生成字层
+
+使用 `agent/templates/style-layer.json`，正文的 `display.timed_fragments` 来自已审实际配音对齐，`font_asset` 由font-bind取得；`artwork`只引用少量已实际生成、逐字检查的透明PNG。目标框在display.bbox，源擦字框不变。无需每次编写素材专用PIL字层或逐帧管线。
+
+艺术字和去字参考可从[提示词模板](../agent/templates/style-artwork-prompts.json)填入实际原帧观察与目标定稿，二者用途分开。只继承结构与保护约束，不照搬056日语文本或造型。正式plan的surface路线仍要求已核验的prepared底片；字层生成不承担去字，也不批准底片。
+
+```sh
+python bin/va.py style-layer RUN inputs/style-layer.json --apply
+```
+
+命令复用现有真实字体排版，批量生成所选镜头的透明surface字层；静态或有据的简单pop适配可一次渲染，复杂轨迹/遮挡继续走既有专用surface/Remotion路线。绑定源、定稿、短语、字面、输入图及原生帧时轴；未变输入复用，不擅自去字或发模型请求。`--apply`绑定实例与镜头surface，保留之前inventory；随后重建计划或fast-register并审核。要求透明素材、完整定稿及不覆盖显式保护对象；不提供视觉pass，也不将模型参考图自动变成正确的译文。
 
 普通plan与fast-register都冻结source_style_contract，重新核验源快照、帧、字体和目标选择；任一被改动都须重新计划。实际文件随独立交付包保存，不只留下旧run路径。旧请求没有新版本标记且未主动绑定快照时保留原合同与历史判断，不重做已交付视频。
 

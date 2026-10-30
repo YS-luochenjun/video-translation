@@ -2963,6 +2963,43 @@
       "topic": "visual",
       "evidence_caveat": "Known failing result; not an approved neutral plate or successful typography-restoration method. Static evidence does not establish motion or whole-video quality.",
       "language_match": "exact"
+    },
+    {
+      "id": "mog056-ja-style-v3-user-accepted-20261030",
+      "path": "knowledge/cases/mog056-ja-style-v3-user-accepted-20261030.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "0dec4247dea0050f2ddd6eb36e0b3f7f34f0b5891e72181471169d13b4c70259",
+        "target_language": "ja"
+      },
+      "tags": [
+        "visual",
+        "text",
+        "typography",
+        "imagegen",
+        "wan"
+      ],
+      "origin": "Explicit owner approval of MOG056 source1 Japanese V3 picture/lettering and instruction to use its approach for future translation",
+      "reviewed_by": "Codex same-agent provenance review; direct owner visual approval; no new audio/company acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-10-30T08:38:43+00:00",
+      "method_sha256": "07b5fdc41c0ca8dd6b6b5eb6dd97de721bb236d00d10d038f43770cb40fc7b4b",
+      "case": "knowledge/examples/mog056-ja-style-v3-user-accepted-20261030",
+      "case_manifest_sha256": "49d35c41bbc00b365fe49fc915ead48109a06f573bd7e00ae0252254f4500055",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/mog056-ja-style-user-feedback-20261030.json",
+          "sha256": "4a5ec4089cb7ac101f4f1999345775200891726daa31c8427b67f43598f35e31"
+        }
+      ],
+      "reference_video_sha256": "42de93bf087622a2623e1b4300b98fa7d8d38c970b1f6acc17af9b4301dfd990",
+      "knowledge_type": "source_reference",
+      "validation_level": "explicit_user_picture_and_lettering_approval_only",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ]
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

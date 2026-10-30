@@ -12,6 +12,8 @@
 
 ## 模型、文字与费用
 
+- 后续画面文字默认按[源视觉语言制作政策](knowledge/rules/source-led-visual-localization-v1.md)执行：少量艺术字资产、真实字体与目标配音短语批量呈现、必要局部修复和主体保护。复用style-layer及既有surface/Remotion能力，不逐帧生图或照搬056坐标；各源/语种实际审核，预算和有界提交不变。
+
 - [模型合同](agent/contracts/model-routing.md)是分工入口：Codex识字及直接处理图片，先codex-packet取得真实图像/知识，完成后codex-result登记实际观察/产物；图片能用宿主ImageGen完成时优先使用，必要媒体操作保留脚本，见[ImageGen优先政策](knowledge/rules/imagegen-first-v3.md)。新任务不用RapidOCR、GLM-OCR、LaMa；真实音频用专用模型，视频统一Wan 2.7。用户指定模型须以真实任务、原视频和逐项评审验证；本地合成是另一条路线，不冒称模型效果。
 - 按[源文字修复](knowledge/rules/content-aware-text-restoration-v2.md)逐实例选路：静态简单底面优先自然重建，复杂运动/遮挡先评估Wan连续局部修复，不为省额度跳过；模糊仅凭实际候选或连续帧主体风险兜底，沿用试验上限。
 - 发现发布者水印默认去除，解析原文/图形与身份，片尾同一身份的文字/商标也去除；逐实例记录关联和实际审核。用户明确保留例外与无关产品品牌分开，见[水印与片尾同标规则](knowledge/rules/publisher-watermark-removal-v2.md)。

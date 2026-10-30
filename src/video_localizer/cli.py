@@ -311,6 +311,10 @@ def main(argv=None):
     command = commands.add_parser('fast-register', help='Bind a native-timing composition and open basic review; never auto-pass')
     command.add_argument('run')
     command.add_argument('recipe')
+    command = commands.add_parser('style-layer', help='Batch bound-font phrases and a few reviewed artwork PNGs into a native-timing alpha layer; no models or source erasure')
+    command.add_argument('run')
+    command.add_argument('spec')
+    command.add_argument('--apply', action='store_true', help='Bind selected target instances and shot surface layer; replan and review remain required')
     command = commands.add_parser('finalize', help='Deliver the best complete translated video with disclosed issues, without quality approval')
     command.add_argument('run')
     command.add_argument('spec', nargs='?', default='review/finalization.json')
@@ -713,6 +717,9 @@ def main(argv=None):
             elif name == 'fast-register':
                 from .fast_delivery import register
                 result = register(run, args.recipe)
+            elif name == 'style-layer':
+                from .style_layers import render
+                result = render(run, args.spec, args.apply)
             elif name == 'maintain':
                 from .maintenance import maintain
                 result = maintain(run, close=args.close)

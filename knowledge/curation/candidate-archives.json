@@ -1525,6 +1525,11 @@
       "sha256": "e55d26c627479ced478cd55231f673444ba03930181c6870204dec3f9c776c00",
       "archive_path": "e55d26c627479ced478cd55231f673444ba03930181c6870204dec3f9c776c00/SHE-20261028-039-02-4ca56a9726.json",
       "decision_sha256": "40b1fd7611f1e048076c699e6dd3d6d0c784ac6a8eca4e8150823ea1d75b6da8"
+    },
+    "knowledge/candidates/mog056-ja-style-user-feedback-20261030.json": {
+      "sha256": "4a5ec4089cb7ac101f4f1999345775200891726daa31c8427b67f43598f35e31",
+      "archive_path": "4a5ec4089cb7ac101f4f1999345775200891726daa31c8427b67f43598f35e31/mog056-ja-style-user-feedback-20261030.json",
+      "decision_sha256": "8b245bc72a4c62e8792134e2bff2b6f68c8ae9db4a6ebdb516312138c447d768"
     }
   }
 }
