@@ -7,7 +7,7 @@
 1. 先读用户要求、[制作合同](agent/contracts/workflow.md)、[选路规则](knowledge/rules/agent-method-selection-v2.md)。运行doctor和kie-authorization，使用doctor验证的Python。新任务默认[快速交付](agent/workflows/fast-delivery.md)，严格保真另选；旧授权、结果和费用不重置。始终执行[完整输出](agent/workflows/always-output.md)：有界返工后finalize当前最佳完整译片，披露瑕疵；输出不等于质量通过。必需真实配音缺失时如实报告，不能擅自用字幕替代。
 2. 新视频init，已登记HTTPS素材ingest；analyze后读media.json、实际帧和音频，按[本地化技能](.agents/skills/video-localization/SKILL.md)建立文字/人声逐实例清单及覆盖。填写content_features和routing_assessment：按音频主导、文案主导或混合型说明首选、备选、切换与停止条件，见[按内容选路](knowledge/rules/content-led-localization-v1.md)。旁白和对白均处理；剧情、性别和文字运动依据实际观察。修改inventory后重建计划与评审，缺证据保留pending。
 3. context后读取命中方法、必要补证及精确同源/语种参考，冻结知识版本再plan，检查packet。通用规则、条件方法、同源案例分开使用，不因候选或同基础语言线索扩大适用范围。续作先读work-packet.maintenance及reusable_packages；同源解析可核验复用，新的语言定稿、配音、时轴、字层与审核仍各自建立。
-4. render → capture → review → quality，按[质量合同](agent/contracts/quality.md)实际审查正常播放效果；失败记录原因并有界返工，不追逐像素一致。人声按[字幕合同](agent/contracts/captions.md)区分口播字幕与场景文案，共用定稿并对齐实际配音。长音轨技术检查覆盖完整解码；实际视频哈希绑定所有交付与评审。API成功、技术通过、自审、独立审查与用户/公司验收分别标明。
+4. render → capture → review → quality，按[质量合同](agent/contracts/quality.md)实际审查正常播放效果；按[有界改进循环](agent/workflows/continuous-improvement.md)主动读work-packet.improvement_loop、比较整幅原片/译片、追查漏检原因并记录修复对照，无须等用户发现。失败记录原因并有界返工，不追逐像素一致。人声按[字幕合同](agent/contracts/captions.md)区分口播字幕与场景文案，共用定稿并对齐实际配音。长音轨技术检查覆盖完整解码；实际视频哈希绑定所有交付与评审。API成功、技术通过、自审、独立审查与用户/公司验收分别标明。
 5. deliver后检查package、case、inbox；外部提交及必要记录完成后执行maintain RUN --close。按[知识技能](.agents/skills/knowledge-curation/SKILL.md)提炼经验，按[存储合同](agent/contracts/storage.md)保全后整理。快速交付允许知识提炼和源快照持久排队，不跳过基本效果或证据门禁。
 
 ## 模型、文字与费用

@@ -113,24 +113,31 @@ def advance(run, deliver=False, force_render=False):
 def advance_batch(batch_id, deliver=False, root=ROOT):
     record = read_json(batches._path(batch_id, root))
     results = []
+    finished = {'delivered', 'delivered_with_issues'} if deliver else {'reviewed', 'delivered', 'delivered_with_issues'}
     for name in record['members']:
         run = Path(root) / 'runs' / name
         try:
+            # Fast and finalized branches return before advance's strict gate.
+            # Every expansion still needs the current, explicitly released pilot.
+            batches.gate(run)
             # Serial by default: no concurrent encoders competing for disk/memory.
             result = advance(run, deliver=deliver)
         except (WorkflowError, OSError, KeyError, ValueError) as exc:
-            results.append({'run': name, 'state': 'blocked', 'reason': str(exc)})
-            break
+            result = {'run': name, 'state': 'blocked', 'reason': str(exc)}
         results.append(result)
-        if result['state'] not in ('reviewed', 'delivered'):
-            break
         if name == record['pilot'] and not record.get('pilot_release'):
             break  # batch-approve is an explicit review checkpoint, never auto-signed.
-    complete = len(results) == len(record['members']) and all(
-        row['state'] in ('reviewed', 'delivered') for row in results)
-    return {'batch': batch_id, 'results': results, 'state': 'completed' if complete else 'needs_attention',
-            'next': 'All members passed current quality checks' if complete else
-                    'Complete missing evidence; batch-approve after reviewing the pilot, then batch-run again'}
+        # An isolated locale failure must not starve the remaining independent
+        # languages. Provider/budget/pilot gates still run for every member.
+    done = {row['run'] for row in results if row['state'] in finished}
+    pending = [name for name in record['members'] if name not in done]
+    issues = any(row['state'] == 'delivered_with_issues' for row in results)
+    return {'batch': batch_id, 'results': results, 'pending_runs': pending,
+            'state': 'needs_attention' if pending else 'completed_with_issues' if issues else 'completed',
+            'quality_pass_claimed': not pending and not issues,
+            'external_submission_claimed': False,
+            'next': ('Complete pending members; release the current pilot explicitly before expansion' if pending else
+                     'All local outputs completed; retain disclosed issues and verify every external submission')}
 
 
 @guarded

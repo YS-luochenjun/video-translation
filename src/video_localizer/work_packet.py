@@ -3,6 +3,7 @@ from .common import WorkflowError, file_hash, inside, read_json, require
 from .knowledge import context_for, retrieve, source_references, related_source_references
 from .knowledge_advisories import retrieve as advisory_retrieve
 from .knowledge_usage import followup as knowledge_followup
+from .improvement import agenda as improvement_agenda
 from . import resources, workflow
 
 STAGES = {
@@ -78,6 +79,7 @@ def build(run, stage=None):
             require(file_hash(path) == asset['sha256'], 'Finalization knowledge selection changed')
             selected = read_json(path)
         return {'run': run.name, 'ledger_tracking': ledger_tracking, 'state_hint': 'delivered_with_issues', 'completion': completion,
+                'improvement_loop': improvement_agenda(run),
                 'knowledge': selected.get('knowledge', []), 'source_references': selected.get('source_references', []),
                 'knowledge_advisories': selected.get('knowledge_advisories', []),
                 'routing_assessment': selected.get('routing_assessment'),
@@ -89,6 +91,7 @@ def build(run, stage=None):
         plan = fast_delivery.validate_plan(run, read_json(run / 'plan.json'))
         budget = budgets.status(budgets.bind(run)['id'], root)
         return {'run': run.name, 'ledger_tracking': ledger_tracking, 'mode': 'fast', 'plan_id': plan['id'],
+                'improvement_loop': improvement_agenda(run),
                 'knowledge': plan.get('knowledge', []), 'source_references': plan.get('source_references', []),
                 'knowledge_advisories': plan.get('knowledge_advisories', []),
                 'knowledge_context': plan.get('knowledge_context'),
@@ -168,6 +171,7 @@ def build(run, stage=None):
         if issues: observations.append({'path':path.relative_to(run).as_posix(),'issues':issues})
     from .model_routing import policy
     return {'run': run.name, 'ledger_tracking': ledger_tracking, 'stage': stage, 'state_hint': current['state'], 'model_routing': policy(root),
+            'improvement_loop': improvement_agenda(run),
             'reusable_packages': reusable_packages, 'maintenance': maintenance,
             'output_policy': 'agent/workflows/always-output.md',
             'reuse_action': 'Prefer verified outputs packages before recreating assets. References and held results are not approved masters.',

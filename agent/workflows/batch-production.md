@@ -13,9 +13,9 @@
 1. 先对代表run执行analyze/context，建立真实inventory，使用已有source-save/source-find缓存原片观察。缓存不复制目标译文或验收。
 2. 按原流程准备无字底片、音轨和字层。底片必须过原有prepared-video门禁。同源资产用交付库恢复/绑定，或 `reuse-neutral TARGET --from-run SOURCE --source-shot ID --target-shot ID` 复用同一源时间段的已审无字底片。它复制独立证据并校验哈希、质量异议与原评审；不重新编码，不复制目标语言译稿/音轨/成片审核。绑定后重建目标plan。
 3. `tts-packet RUN --voice Kore --estimate 2` 从定稿speech_segments生成源绑定请求；可用 `--speech-ids id1 id2` 选择有序子集。声音选型、风格和保守估价仍按任务判断，此命令不付费。检查后用 `model-task RUN 包路径 --execute`。听感、语义覆盖和混音后对齐必做。
-4. `production RUN` 串联计划、渲染、原尺寸视觉对照、抽证据、quality。新视觉证据默认pending；按[视觉门禁](visual-review.md)完成逐实例观察以及整片/字幕实际观测后重跑。缺inventory或实际评审时明确停止，不编造通过；加 `--deliver` 仅交付通过者。现有build_repair_master、mix_localized_narration、OCR/ASR和分离脚本继续共用。
+4. `production RUN` 串联计划、渲染、原尺寸视觉对照、抽证据、quality。新视觉证据默认pending；按[视觉门禁](visual-review.md)完成逐实例观察以及整片/字幕实际观测后重跑。缺inventory或实际评审时明确停止，不编造通过；加 `--deliver` 交付通过者，已有实际finalization规格时按最终输出合同交付最佳完整版本，保留delivered_with_issues。现有build_repair_master、mix_localized_narration、OCR/ASR和分离脚本继续共用。
 5. 实际检查代表语言并填写评审后 `batch-approve demo`，重新过质量门禁，冻结成片、计划、评审及底片哈希。不将Agent自审改称用户验收；用户明确要求先确认时仍须等确认。
-6. 各语言自己的译稿、音轨、时轴、字层就绪后 `batch-run demo --deliver`，在第一个待审或失败处停止。非代表语言的付费提交和渲染重新核验代表语言，变化后须重新审核，各语言依然逐一quality。
+6. 各语言自己的译稿、音轨、时轴、字层就绪后 `batch-run demo --deliver`。代表语言未放行仍停在显式检查点；已放行后，单个语言待审或异常不饿死其他语言，逐项继续并返回准确pending_runs。带瑕疵完整输出计为本地已完成，不冒称quality通过；全批本地完成且存在该类输出时为completed_with_issues。非代表语言每次仍重验当前代表版本，变化后须重新审核，各语言依然逐一quality。到界的完整fast代表片可 `batch-approve demo --best-available` 放行，明确不批准其底片或质量。批次完成不是Fireplay提交完成，外部完整矩阵另查。
 
 默认串行渲染，避免编码器争用磁盘/显存；未引入并发付费提交。原命令也可逐步使用，已绑定批次的预算、渲染门禁仍有效。新场景的遮罩、跟踪、字体和布局仍需判断，本次没有把单片坐标推广为通用算法。
 

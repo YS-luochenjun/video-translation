@@ -144,6 +144,7 @@ def register(run, recipe_relative):
     checks = {key: {'decision': 'pending', 'observation': '', 'evidence': []}
               for key in policy(run.parent.parent)['review_checks']}
     template = {'video_sha256': output['sha256'], 'plan_id': plan['id'], 'reviewer': '', 'method': '',
+                'improvement_workflow': 'agent/workflows/continuous-improvement.md',
                 'typography_fallbacks': [],
                 'source_style_review': style_review_template(inventory),
                 'covered_text_ids': [], 'covered_speech_ids': [], 'checks': checks, 'known_variations': [],

@@ -1,0 +1,22 @@
+{
+  "source_sha256": "ACTUAL_SOURCE_SHA256",
+  "reviewed_by": "ACTUAL_REVIEWER",
+  "review_type": "same_agent",
+  "symptom": "具体时间、实例及正常播放时的问题",
+  "hypothesis": "可能的根因，不能把猜测写成已证实",
+  "cause_status": "hypothesis",
+  "missed_reason": "上次审核为什么未发现；缺少哪一幅比较或哪一个问题",
+  "next_review_question": "下一次主动检查的具体问题",
+  "intervention": "本轮只改变的一个主要变量",
+  "before": {"path": "outputs/previous.mp4", "sha256": "ACTUAL_BEFORE_SHA256"},
+  "after": {"path": "outputs/current.mp4", "sha256": "ACTUAL_AFTER_SHA256"},
+  "evidence": [
+    {"role": "before", "path": "review/before.png", "sha256": "ACTUAL_FILE_SHA256", "video_sha256": "ACTUAL_BEFORE_SHA256"},
+    {"role": "after", "path": "review/after.png", "sha256": "ACTUAL_FILE_SHA256", "video_sha256": "ACTUAL_AFTER_SHA256"},
+    {"role": "unaffected", "path": "review/control.png", "sha256": "ACTUAL_FILE_SHA256", "video_sha256": "ACTUAL_AFTER_SHA256"}
+  ],
+  "outcome": "inconclusive",
+  "observation": "前后变化与未改区域的实际观察；运动和声音另做真实播放检查",
+  "limitations": ["当前源和语种限定；不是跨源有效或公司验收的证明"],
+  "next_action": "明确下次动作；证据不足则补证，预算或返工到界则完整输出并披露"
+}

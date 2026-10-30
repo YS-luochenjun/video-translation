@@ -92,11 +92,13 @@ def capture(run):
             wav = directory / "audio.wav"
             asset = {"path": wav.relative_to(run).as_posix(), "sha256": file_hash(wav)} if wav.is_file() else {}
             write_json(report, captions.review_template(run, candidate, inventory, asset))
-    record = {"video_sha256": file_hash(source), "files": {path.relative_to(run).as_posix(): file_hash(path)
+    from .review_probes import generate as whole_scene_probes
+    probes = whole_scene_probes(run, candidate)
+    record = {"video_sha256": file_hash(source), "review_probes": probes, "files": {path.relative_to(run).as_posix(): file_hash(path)
               for path in sorted(directory.rglob('*')) if path.is_file()},
               "sampling_fps": 2, "limitation": "Sampling can miss transient defects; inspect boundary frames/full playback as needed"}
     write_json(run / "review/capture.json", record)
-    return {"capture": str(directory.relative_to(ROOT)), "files": len(record["files"])}
+    return {"capture": str(directory.relative_to(ROOT)), "files": len(record["files"]), "review_probes": probes}
 
 
 def status(run):
@@ -337,6 +339,9 @@ def main(argv=None):
     command.add_argument('run')
     command.add_argument('--deliver', action='store_true')
     command.add_argument('--force-render', action='store_true')
+    command = commands.add_parser('improvement-record', help='Preserve observed before/after/control evidence and a missed-review cause in the knowledge queue; never auto-approve')
+    command.add_argument('run')
+    command.add_argument('spec')
     command = commands.add_parser('timing', help='Report measured stage durations and unobserved gaps')
     command.add_argument('run')
     command = commands.add_parser('tts-packet', help='Build a reusable exact-copy TTS packet without calling KIE')
@@ -696,6 +701,9 @@ def main(argv=None):
             elif name == 'production':
                 from .production import advance
                 result = advance(run, args.deliver, args.force_render)
+            elif name == 'improvement-record':
+                from .improvement import record
+                result = record(run, args.spec)
             elif name == 'timing':
                 from .timing import report
                 result = report([run])

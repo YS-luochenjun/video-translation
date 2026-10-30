@@ -213,6 +213,55 @@ class TimingTests(unittest.TestCase):
 
 
 class ProductionTests(unittest.TestCase):
+    def batch_fixture(self, release=True):
+        temp = tempfile.TemporaryDirectory(dir=PROJECT / 'work/test-tmp')
+        self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        write_json(root / 'state/batches/fixture.json', {
+            'id': 'fixture', 'pilot': 'es', 'members': ['es', 'pt', 'vi'],
+            'pilot_release': {'scope': 'best_available'} if release else None})
+        return root
+
+    def test_best_available_locale_does_not_stop_remaining_deliveries(self):
+        root = self.batch_fixture()
+        rows = [{'run': 'es', 'state': 'delivered_with_issues'},
+                {'run': 'pt', 'state': 'delivered'}, {'run': 'vi', 'state': 'delivered'}]
+        with patch.object(batches, 'gate') as gate, patch.object(production, 'advance', side_effect=rows) as advance:
+            result = production.advance_batch('fixture', deliver=True, root=root)
+        self.assertEqual(advance.call_count, 3)
+        self.assertEqual(gate.call_count, 3)
+        self.assertEqual(result['state'], 'completed_with_issues')
+        self.assertEqual(result['pending_runs'], [])
+        self.assertFalse(result['quality_pass_claimed'])
+        self.assertFalse(result['external_submission_claimed'])
+
+    def test_one_language_error_or_pending_review_does_not_starve_other_languages(self):
+        for failure in (WorkflowError('locale-specific evidence missing'), {'run': 'pt', 'state': 'needs_review'}):
+            with self.subTest(failure=str(failure)):
+                root = self.batch_fixture()
+                with patch.object(batches, 'gate'), patch.object(production, 'advance', side_effect=[
+                        {'run': 'es', 'state': 'delivered'}, failure, {'run': 'vi', 'state': 'delivered'}]) as advance:
+                    result = production.advance_batch('fixture', deliver=True, root=root)
+                self.assertEqual(advance.call_count, 3)
+                self.assertEqual(result['state'], 'needs_attention')
+                self.assertEqual(result['pending_runs'], ['pt'])
+
+    def test_unreleased_pilot_remains_an_explicit_checkpoint(self):
+        root = self.batch_fixture(release=False)
+        with patch.object(batches, 'gate'), patch.object(production, 'advance', return_value={
+                'run': 'es', 'state': 'delivered_with_issues'}) as advance:
+            result = production.advance_batch('fixture', deliver=True, root=root)
+        self.assertEqual(advance.call_count, 1)
+        self.assertEqual(result['pending_runs'], ['pt', 'vi'])
+
+    def test_changed_pilot_blocks_fast_expansion_before_advancing(self):
+        root = self.batch_fixture()
+        with patch.object(batches, 'gate', side_effect=[None, WorkflowError('Pilot changed'), WorkflowError('Pilot changed')]), \
+                patch.object(production, 'advance', return_value={'run': 'es', 'state': 'delivered'}) as advance:
+            result = production.advance_batch('fixture', deliver=True, root=root)
+        self.assertEqual(advance.call_count, 1)
+        self.assertEqual(result['pending_runs'], ['pt', 'vi'])
+
     def test_cli_waiting_states_are_not_reported_as_success(self):
         from video_localizer import cli
         with patch.object(cli, 'get_run', return_value=Path('fixture')), \
