@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "enabled": true,
-  "interval_minutes": 60,
+  "interval_minutes": 30,
   "activated_at": "2026-10-27T08:51:04+00:00",
   "query": {
     "scope": "all",
@@ -64,8 +64,9 @@
   "notify": "new_intake_completion_failure_or_required_input_only",
   "schedule_revision": {
     "authority": "user",
-    "authorization_ref": "user-schedule-change-20261028",
-    "source_quote": "轮训从半小时修改为一小时，且洛杉矶时间18.00和18.30，修改到上海时间的18.00和18.30"
+    "authorization_ref": "user-fireplay-half-hour-intake-standard",
+    "source_quote": "需求受理（全天扫描）：每半小时检查一遍是否有新需求；同时处理需求数量8。",
+    "rule": "All-day 30-minute intake polling; preserve baseline, request ownership, budgets and the eight-active-requirement scheduling ceiling."
   },
   "delivery_followup": {
     "lease_minutes": 120,
@@ -74,5 +75,19 @@
     "unknown_send_requires_reconciliation": true,
     "ready_locales_first": true,
     "close_only_after_verified_coverage": true
+  },
+  "schedule_history": [
+    {
+      "authority": "user",
+      "authorization_ref": "user-schedule-change-20261028",
+      "source_quote": "轮训从半小时修改为一小时，且洛杉矶时间18.00和18.30，修改到上海时间的18.00和18.30"
+    }
+  ],
+  "request_creation_standard": {
+    "default_operator_name": "邹彬",
+    "designer_assignee": "实际关联设计师；没有则留空",
+    "discovery_effect": "hint_only; read actual content in all visible groups, do not silently exclude other operators",
+    "authority": "user",
+    "source_quote": "在需求面板发起需求；执行人：邹彬；另一位设计师关联人，如没有则留空。"
   }
 }
