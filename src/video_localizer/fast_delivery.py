@@ -4,6 +4,7 @@ This route removes redundant paperwork, not actual audiovisual observations.
 Existing strict candidates retain their original workflow and acceptance contract.
 """
 from pathlib import Path
+from .text_restoration import review_template as restoration_review_template
 import shutil
 
 from .common import ROOT, file_hash, guarded, inside, object_hash, read_json, require, utc_now, write_json
@@ -44,6 +45,8 @@ def validate_plan(run, plan):
                           ('inventory_sha256', 'analysis/inventory.json')]:
         require(file_hash(run / relative) == plan[key], 'Fast inputs changed; register the new recipe/output')
     require(read_json(run / 'inputs/request.json').get('delivery_mode') == 'fast', 'Fast scope is not selected')
+    from .text_restoration import validate as validate_text_restoration
+    validate_text_restoration(run, read_json(run / 'analysis/inventory.json'))
     root = run.parent.parent
     require(file_hash(root / 'config/fast-delivery.json') == plan['policy_sha256'], 'Fast policy changed')
     for asset in plan['assets']:
@@ -91,6 +94,8 @@ def register(run, recipe_relative):
     inventory = read_json(run / 'analysis/inventory.json')
     from .contracts import validate_publisher_marks
     validate_publisher_marks(inventory, run)
+    from .text_restoration import validate as validate_text_restoration
+    validate_text_restoration(run, inventory)
     meta_path = run / 'analysis/media.json'
     if request.get('routing_contract_version', 0) >= 1:
         from .contracts import validate_inventory
@@ -147,6 +152,7 @@ def register(run, recipe_relative):
                 'improvement_workflow': 'agent/workflows/continuous-improvement.md',
                 'typography_fallbacks': [],
                 'source_style_review': style_review_template(inventory),
+                'text_restoration_review': restoration_review_template(inventory),
                 'covered_text_ids': [], 'covered_speech_ids': [], 'checks': checks, 'known_variations': [],
                 'visual_finish': {'score': None, 'normal_speed_observation': '', 'evidence': [], 'defects': []}}
     write_json(run / 'review/fast-template.json', template)
@@ -155,7 +161,8 @@ def register(run, recipe_relative):
 
 
 def review_failures(review, candidate, inventory, run, checks):
-    failures = []
+    from .text_restoration import review_failures as restoration_review_failures
+    failures = restoration_review_failures(run, inventory, review, candidate)
     from .source_styles import review_failures as style_review_failures
     failures.extend(style_review_failures(run, inventory, review, candidate))
     if review.get('video_sha256') != candidate['sha256'] or review.get('plan_id') != candidate['plan_id']:

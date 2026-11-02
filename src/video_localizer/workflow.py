@@ -5,6 +5,7 @@ import shutil
 import time
 import math
 from pathlib import Path
+from .text_restoration import review_template as restoration_review_template
 
 from . import audio as audio_tools, captions, media, source_state
 from .common import (ROOT, WorkflowError, file_hash, get_run, guarded, inside, lock, object_hash,
@@ -68,6 +69,7 @@ def _create_run(video, target, brief, name, source_url=None):
                "require_target_audio": defaults.get("require_target_audio_for_speech", False),
                "routing_contract_version": 1,
                "source_style_contract_version": 1,
+               "text_restoration_contract_version": 1,
                "delivery_mode": defaults.get("default_delivery_mode", "strict")})
     require(profile_path(run).is_file(), "Default profile is missing")
     return {"run": name, "state": "created", "duration": meta["duration"]}
@@ -344,6 +346,8 @@ def current_plan(run):
     require(plan["inventory_sha256"] == file_hash(run / "analysis/inventory.json"), "Inventory changed; regenerate plan")
     from .source_styles import verify_contract as verify_style_contract
     verify_style_contract(run, plan, read_json(run/'analysis/inventory.json'))
+    from .text_restoration import validate as validate_text_restoration
+    validate_text_restoration(run, read_json(run / 'analysis/inventory.json'))
     codex_source = read_json(run / 'analysis/inventory.json').get('codex_source_result')
     if codex_source:
         from .codex_visual import verify
@@ -640,6 +644,7 @@ def build_plan(run, experiment=None):
         "inventory_sha256": plan["inventory_sha256"], "decision": "revise",
         "scores": {key: None for key in read_json(ROOT / "config/quality.json")["weights"]},
         "critical_defects": [],
+        "text_restoration_review": restoration_review_template(inventory),
         "typography_fallbacks": [],
         "source_style_review": style_review_template(inventory),
         "typography_note": "If static fallback occurred, inspect actual output and acknowledge its receipt_sha256, accepted=true and observation here.",
@@ -1046,7 +1051,9 @@ def quality(run):
     require(file_hash(path) == candidate["sha256"] and candidate["plan_id"] == plan["id"], "Candidate/plan binding changed")
     source = read_json(run / "analysis/media.json")
     actual = media.probe(path)
-    failures = []
+    from .text_restoration import review_failures as restoration_review_failures
+    failures = restoration_review_failures(run, read_json(run / "analysis/inventory.json"),
+        read_json(run / "review/review.json") if (run / "review/review.json").is_file() else {}, candidate)
     from .visual_audit import verify_final
     try:
         visual_audit = verify_final(run)

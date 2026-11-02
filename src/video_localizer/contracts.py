@@ -33,6 +33,8 @@ def validate_publisher_marks(inventory, run):
 
 def validate_inventory(inventory, run, meta):
     require(inventory.get("schema_version") == 1, "Unsupported inventory schema")
+    from .text_restoration import validate as validate_text_restoration
+    validate_text_restoration(run, inventory)
     for kind in ("visual", "speech", "timeline"):
         coverage = inventory.get("coverage", {}).get(kind, {})
         delegated_speech = (kind == "speech" and inventory.get("audio", {}).get("strategy") == "model"

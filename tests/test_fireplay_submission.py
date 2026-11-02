@@ -13,6 +13,9 @@ class SubmissionClosureTests(unittest.TestCase):
 
     def setUp(self):
         fixtures.FireplayTests.setUp(self)
+        # Delivery recovery fixtures must belong to the currently selected monitor scope.
+        policy = json.loads((self.root / 'config/fireplay-monitor.json').read_text())
+        self.snap['summary']['items'][0]['assigneeIds'] = [policy['assignees'][0]['id']]
         self.register()
         fireplay.chat(fixtures.CODE, {'title': fixtures.CODE, 'threadId': fixtures.THREAD}, root=self.root)
         self.folder = self.root / 'state/fireplay' / fixtures.CODE

@@ -2269,7 +2269,7 @@
       "origin": "Direct project user budget instruction and visual concern, 2026-10-26; Codex implementation and routing review",
       "reviewed_by": "Codex, same-agent developer review; budget amount explicitly specified by project user",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-27T03:13:15+00:00",
       "method_sha256": "8f970734922bfc49ff135b0eb64a5f3b60d6782ff93c0409cce1c1e46e5f1c4b",
       "case": "knowledge/examples/content-aware-text-restoration-v2",
@@ -2282,7 +2282,8 @@
         "fast",
         "strict"
       ],
-      "retrieval_role": "required"
+      "retrieval_role": "required",
+      "superseded_by": "content-aware-text-restoration-v3"
     },
     {
       "id": "container-layout-and-local-motion-repair-v1",
@@ -3319,6 +3320,35 @@
         "fast",
         "strict"
       ]
+    },
+    {
+      "id": "content-aware-text-restoration-v3",
+      "path": "knowledge/rules/content-aware-text-restoration-v3.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "restoration"
+      ],
+      "origin": "Explicit project user no-solid-cover instruction, current chat; stricter exceptional blur and developer contract review",
+      "reviewed_by": "Codex, same-agent implementation review; user constraint only, no new media acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-02T09:32:32+00:00",
+      "method_sha256": "5a32ba5c2cbd87e6ca2a1819201c58eec510e0ec091ac30c72e466605ea3d029",
+      "case": "knowledge/examples/content-aware-text-restoration-v3",
+      "case_manifest_sha256": "24a77c9a8c80c30c5ffaf24e57f5b86f7062b79ede00c7edff52e6f69f6e1db4",
+      "supersedes": "content-aware-text-restoration-v2",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

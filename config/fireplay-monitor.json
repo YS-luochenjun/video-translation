@@ -9,18 +9,14 @@
     "asset_type": "video",
     "pagination": "cursor",
     "limit": 200,
-    "offset": 0
+    "offset": 0,
+    "assignee_ids": [
+      "b2fbcgab"
+    ]
   },
   "group_policy": "translation_intent_in_all_visible_groups",
-  "assignee_mode": "hint_only",
+  "assignee_mode": "strict",
   "assignees": [
-    {
-      "input_name": "luochenjun",
-      "account_name": "luochenjun",
-      "display_name": "罗晨钧",
-      "id": "c74b62d9",
-      "resolved_via": "requirement_field_options_query.member_directory"
-    },
     {
       "input_name": "zoubing",
       "account_name": "zoubin",
@@ -29,8 +25,8 @@
       "resolved_via": "material_detail.uploaderId/uploaderInfo; exact existing requirement assigneeIds"
     }
   ],
-  "scope_update_quote": "不是要你看所有的视频需求，需要有排除，目前是先看看luochenjun和zoubing的，是吗，目前只有他们俩接翻译，后续可能会有其他的方式排出。",
-  "latest_scope_quote": "如果你认为用人员筛选不靠谱，可以去掉。只需要你进行查找到翻译的需求",
+  "scope_update_quote": "目前确定了，只需要查看包含“邹彬”的需求，才会有需要做的需求。你可以进行项目修改，与筛选的修改",
+  "latest_scope_quote": "目前确定了，只需要查看包含“邹彬”的需求，才会有需要做的需求。你可以进行项目修改，与筛选的修改",
   "eligible_statuses": [
     "not_started"
   ],
@@ -86,8 +82,45 @@
   "request_creation_standard": {
     "default_operator_name": "邹彬",
     "designer_assignee": "实际关联设计师；没有则留空",
-    "discovery_effect": "hint_only; read actual content in all visible groups, do not silently exclude other operators",
+    "discovery_effect": "strict; current assigneeIds must include b2fbcgab (邹彬), across all visible groups; translation intent still requires actual content review",
     "authority": "user",
     "source_quote": "在需求面板发起需求；执行人：邹彬；另一位设计师关联人，如没有则留空。"
+  },
+  "assignee_policy_history": [
+    {
+      "assignee_mode": "hint_only",
+      "assignees": [
+        {
+          "input_name": "luochenjun",
+          "account_name": "luochenjun",
+          "display_name": "罗晨钧",
+          "id": "c74b62d9",
+          "resolved_via": "requirement_field_options_query.member_directory"
+        },
+        {
+          "input_name": "zoubing",
+          "account_name": "zoubin",
+          "display_name": "邹彬",
+          "id": "b2fbcgab",
+          "resolved_via": "material_detail.uploaderId/uploaderInfo; exact existing requirement assigneeIds"
+        }
+      ],
+      "scope_update_quote": "不是要你看所有的视频需求，需要有排除，目前是先看看luochenjun和zoubing的，是吗，目前只有他们俩接翻译，后续可能会有其他的方式排出。",
+      "latest_scope_quote": "如果你认为用人员筛选不靠谱，可以去掉。只需要你进行查找到翻译的需求"
+    }
+  ],
+  "assignee_scope_authority": {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-zoubin-only-20261101",
+    "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+    "source_quote": "目前确定了，只需要查看包含“邹彬”的需求，才会有需要做的需求。你可以进行项目修改，与筛选的修改",
+    "rule": "Only requirements whose current assigneeIds contains verified Zoubin user ID b2fbcgab. Continue all visible groups, full cursor pagination and actual translation intent review; do not modify assignees or delete historical work."
+  },
+  "intake_selection_authority": {
+    "authority": "user",
+    "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+    "authorization_ref": "user-fireplay-new-unfinished-translation-only-20261101",
+    "source_quote": "目前你需要筛选的是，没有完成的需求的，新需求的，翻译需求。注意不要完成错了，也不要完成重复了",
+    "rule": "Only newly created, currently not_started, bindable translation requirements in the Zoubin scope. Reconcile existing exact-code chats, requests, ledgers and bindings before production. Done or in_progress rows do not start again. Historical records, budgets and unknown operations are preserved."
   }
 }

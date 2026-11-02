@@ -55,7 +55,17 @@
       "reason": "Replace with actual observations/evidence and method version: this static card supports a clean same-source donor plus transparent target text. Backup: host reconstruction if donor lighting/edges fail. Switch only on observed mismatch; stop when current-mode checks pass or bounded trials end. Record protected motion, actual check and unresolved scope.",
       "evidence": [
         "analysis/shot-001.jpg"
-      ]
+      ],
+      "restoration": {
+        "method": "natural_rebuild",
+        "reason": "Replace with actual natural repair route; never use solid covers",
+        "evidence": [
+          {
+            "path": "analysis/shot-001.jpg",
+            "sha256": "REPLACE_WITH_ACTUAL_EVIDENCE_SHA256"
+          }
+        ]
+      }
     }
   ],
   "speech_segments": [],

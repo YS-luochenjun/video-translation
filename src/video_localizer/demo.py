@@ -30,6 +30,13 @@ def create_demo(name, route, seconds=8):
                   "-af", "volume=0.025", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", source.name], cwd=work)
     workflow.create_run(source, "zh-CN", "将英文短广告翻译为自然中文；保留 FRESH 品牌、配色和节奏。", name)
     run = get_run(name)
+    # This command exercises the historical solid-overlay renderer as a regression
+    # fixture, not the current production route. New real create_run requests keep
+    # the no-coverup contract; the current restoration gate has its own new-ID demo.
+    request = read_json(run / 'inputs/request.json')
+    request['text_restoration_contract_version'] = 0
+    request['fixture_contract'] = 'legacy_solid_overlay_regression_not_production'
+    write_json(run / 'inputs/request.json', request)
     workflow.analyze(run)
     inventory = read_json(run / "analysis/inventory.json")
     (run / "analysis/fixture-provenance.txt").write_text(

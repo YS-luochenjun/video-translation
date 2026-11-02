@@ -136,6 +136,8 @@ def ass_text(value):
 
 
 def render_local(source, segment, instances, meta, directory, run=None):
+    from .text_restoration import forbid_covers
+    forbid_covers(run, instances)
     from . import layout
     from .captions import render_instances
     directory = Path(directory)
@@ -239,6 +241,8 @@ def retime(source, duration, output, reason):
 
 def render_foreground(source, segment, instances, meta, directory, run=None):
     """Typeset reviewed target copy on an already text-free video, without erasing pixels."""
+    from .text_restoration import forbid_covers
+    forbid_covers(run, instances)
     if any(i.get('source_style_id') or i.get('display', {}).get('font_asset') for i in instances):
         from .compositor import text
         return text(source, segment, instances, meta, directory, run=run)

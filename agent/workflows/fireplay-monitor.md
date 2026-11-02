@@ -1,14 +1,16 @@
 # Fireplay新翻译需求巡检
 
-宿主应用每30分钟唤醒主控；本流程不另装系统cron。用户授权范围、组/人员策略、并发和静默通知规则在config/fireplay-monitor.json；制作/回传执行[编号接入](fireplay-intake.md)，模型/费用/质量与固定提交政策读根AGENTS.md及对应config。全部可见组均覆盖，人员只提示，不能只查APC/MOG或只搜“翻译”。
+宿主应用每30分钟唤醒主控；本流程不另装系统cron。用户授权范围、组/人员策略、并发和静默通知规则在config/fireplay-monitor.json；制作/回传执行[编号接入](fireplay-intake.md)，模型/费用/质量与固定提交政策读根AGENTS.md及对应config。全部可见组均覆盖，仅查询执行人包含邹彬（已核验ID `b2fbcgab`）的需求；不能只查APC/MOG或只搜“翻译”。
 
 本定时任务只负责发现、范围判断、接入和调度。具体制作/回传由原需求聊天继续；全局经验总结与全局存储整理分别按[三项定时职责](../../docs/scheduled-tasks.md)独立执行，巡检轮次不兼做这两项。
 
-发起规范：在需求面板指派邹彬；可另加实际设计师，没有则留空。该规范供发起人使用，巡检不擅自修改平台执行人，也不把人名作为翻译意图的替代。罗晨钧等既有执行人继续按实际内容判断，设计师仍按提交归属合同排除两位运营后解析。并发8是需求调度上限，不是8条都能在相同时间完成的吞吐承诺。
+用户最新接入条件须同时满足：执行人包含邹彬、属于新增、当前待开始且可绑定、实际内容明确要求翻译。已完成或正在制作的需求不重新启动。新建聊天/付费制作前按精确编号和UUID核对原聊天、request、账本及平台绑定，已承接项沿原记录恢复，不重复创建或制作；本地登记成功不等于平台已完成。
+
+发起规范：在需求面板指派邹彬；可另加实际设计师，没有则留空。用户最新明确将“包含邹彬”设为巡检硬条件，使用精确assignee_ids筛选，多执行人只要包含该ID即在范围内；进入范围后仍按实际内容判断翻译。巡检不擅自修改平台执行人，不把范围外需求判成非翻译，也不删除其旧聊天、账本、绑定或未完成记录。旧单条条件授权仍保留，但本轮接入须同时满足当前全局筛选。设计师仍按提交归属合同排除两位运营后解析。并发8是需求调度上限，不是8条都能在相同时间完成的吞吐承诺。
 
 ## 完整读取与判断
 
-1. 用doctor验证的Python运行fireplay-monitor status、scan。发现requirement_list当前合同后，以scan精确query读取summary：scope=all、asset_type=video、pagination=cursor、limit=200、offset=0。复制next_cursor完整翻页，其余筛选/身份保持；requestDate不是发布时间，不加关键词/负责人硬筛。
+1. 用doctor验证的Python运行fireplay-monitor status、scan。发现requirement_list当前合同后，以scan精确query读取summary：scope=all、asset_type=video、assignee_ids=["b2fbcgab"]、pagination=cursor、limit=200、offset=0。复制next_cursor完整翻页，其余筛选/身份保持；requestDate不是发布时间，不加关键词或其他执行人筛选。brief及后续summary复核同样保留该执行人筛选，当前已改派且不再包含邹彬时保留旧记录，停止本轮接入。
 2. 宿主分块保存每页实际arguments/response到work/fireplay-monitor；不将多MB列表塞进shell参数、打印到上下文或由Python冒充连接器身份。以 `{"summary_pages":[实际页面]}` 调用scan --spec。全页成功才更新last_success_at；失败/重复/筛选变化保留旧检查点，不能伪报无新需求。实时分页不是事务快照，下一轮全扫描补漏。
 3. 按status.needs_review的真实UUID读取blind_brief，再刷新summary；updatedAt须一致且serverTime在10分钟内。Agent结合title、description、refText、locales、原片理解实际翻译意图：多语种加原片即使未写翻译也审查；US多套、换人物/模板、新开头等创意需求不自动承接。缺来源/语种、权限不符、已有制作或已完成分别保留，其他需求继续。
 4. `fireplay-monitor assess --code CODE --spec FILE`登记 `{"snapshot":{"summary":真实响应,"brief":真实响应},"decision":{"is_translation":真实布尔值,"reason":"实际判断","evidence":["brief.description"],"targets":[必要时补实际语种]}}`。evidence必须指向非空正文/摘要字段，不猜原片或用关键词代替理解。

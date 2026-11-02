@@ -5,7 +5,8 @@ from .common import ROOT, file_hash, inside, lock, object_hash, read_json, requi
 
 ACCEPTABLE = {'minor_issues_acceptable', 'bounded_best_available_acceptable', 'exact_version_accepted_by_user'}
 SEVERE_KINDS = {'large_area_tearing', 'unwatchable', 'severe_subject_damage', 'corrupt_file',
-                'incomplete_translation', 'missing_required_audio', 'wrong_locale', 'unreadable_core_copy'}
+                'incomplete_translation', 'missing_required_audio', 'wrong_locale', 'unreadable_core_copy',
+                'visible_solid_coverup', 'hard_edged_coverup', 'unapproved_blur_coverup'}
 
 
 def publication_decision(code, digest, root=ROOT):

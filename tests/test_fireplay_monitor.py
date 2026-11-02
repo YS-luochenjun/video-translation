@@ -23,6 +23,9 @@ class MonitorTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         shutil.copytree(PROJECT / 'config', self.root / 'config', ignore=shutil.ignore_patterns('*.local.json'))
         self.config = read_json(self.root / 'config/fireplay-monitor.json')
+        # Broad-scope cases select their own policy; strict filtering is tested separately.
+        self.config['assignee_mode'] = 'hint_only'
+        self.config['query'].pop('assignee_ids', None)
         self.config['activated_at'] = (datetime.now(timezone.utc)-timedelta(minutes=10)).isoformat()
         write_json(self.root / 'config/fireplay-monitor.json', self.config)
         self.snap = fixture()

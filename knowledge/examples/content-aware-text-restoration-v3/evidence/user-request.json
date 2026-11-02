@@ -1,0 +1,9 @@
+{
+  "source": "Direct project user instruction in current chat, 2026-11-02 America/Los_Angeles",
+  "source_quote": "之前为说的太保守了，总是让agent会认为，可以使用遮罩进行翻译，请你修改项目，让项目不要使用遮罩。一定不能使用生硬的遮罩类型。可以使用透明化模糊内容（耶仅限于特殊很难的情况，做不出来的情况），请你不要使用实心遮罩。修改到项目中",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "interpretation": "No visible solid covers or hard patches. Invisible repair-selection mattes remain necessary and permitted. Partially transparent feathered local blur requires actual difficult/failed natural repair evidence.",
+  "proof_boundary": "Explicit project user preference and developer contract review, no new video acceptance or company-wide standard."
+}

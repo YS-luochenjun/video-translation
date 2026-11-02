@@ -11,7 +11,14 @@ from video_localizer.common import WorkflowError, file_hash, read_json, utc_now,
 
 
 class DeliveryClosureTests(unittest.TestCase):
-    setUp = fixtures.FireplayTests.setUp
+    def setUp(self):
+        fixtures.FireplayTests.setUp(self)
+        policy = read_json(self.root / 'config/fireplay-monitor.json')
+        policy['assignees'] = [{'id': 'test'}]
+        if policy['assignee_mode'] == 'strict':
+            policy['query']['assignee_ids'] = ['test']
+        write_json(self.root / 'config/fireplay-monitor.json', policy)
+
     register = fixtures.FireplayTests.register
     record = fixtures.FireplayTests.record
     save = fixtures.FireplayTests.save
