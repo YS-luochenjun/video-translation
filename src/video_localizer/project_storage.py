@@ -39,12 +39,18 @@ def _tree(path):
             paths.extend(Path(parent) / name for name in [*folders, *names])
             folders[:] = [name for name in folders if not _linked(Path(parent) / name)]
     for p in sorted(paths):
-        s = p.lstat()
-        linked = _linked(p)
-        result.append({'path': p.relative_to(path.parent).as_posix(), 'bytes': s.st_size,
-                       'mtime_ns': s.st_mtime_ns, 'inode': s.st_ino, 'device': s.st_dev,
-                       'link': os.readlink(p) if linked else None,
-                       'directory': p.is_dir() and not linked})
+        try:
+            s = p.lstat()
+            linked = _linked(p)
+            result.append({'path': p.relative_to(path.parent).as_posix(), 'bytes': s.st_size,
+                           'mtime_ns': s.st_mtime_ns, 'inode': s.st_ino, 'device': s.st_dev,
+                           'link': os.readlink(p) if linked else None,
+                           'directory': p.is_dir() and not linked})
+        except FileNotFoundError:
+            # Transient scratch can disappear while capacity is scanned. A
+            # selected tree changing still changes its deletion fingerprint.
+            # Other I/O errors remain failures; no permission bypass or retry.
+            continue
     return result
 
 

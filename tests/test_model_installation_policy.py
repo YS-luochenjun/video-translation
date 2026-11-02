@@ -94,7 +94,10 @@ class ModelInstallationPolicyTests(unittest.TestCase):
         self.assertFalse((self.root / '.runtime').exists())
 
     def test_public_plan_lists_only_current_local_models_without_installing(self):
-        with patch.object(installer.subprocess, 'run') as command, \
+        # Interpreter ownership and platform schemes have separate integration
+        # tests; this listing test must not depend on the host runner's venv.
+        with patch.object(installer, 'core_dependency_directory', return_value='.venv/lib/site-packages'), \
+                patch.object(installer.subprocess, 'run') as command, \
                 patch.object(installer.model_cache, 'ensure') as download, \
                 patch.object(installer, 'install_model') as install, \
                 patch('sys.argv', ['install_dependencies.py', '--plan']), \

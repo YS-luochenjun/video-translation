@@ -233,6 +233,43 @@ class CurationTests(unittest.TestCase):
         self.assertFalse(curation.due(config, state, datetime(2026, 10, 21, 15, 0, tzinfo=timezone.utc)))
         self.assertTrue(curation.due(config, state, datetime(2026, 10, 22, 10, 0, tzinfo=timezone.utc)))
 
+    def test_missed_shanghai_window_is_caught_up_next_morning_once(self):
+        config = curation.settings(self.root)
+        state = {"last_successful_run_at": "2026-10-30T10:19:13+00:00"}
+        morning = datetime(2026, 11, 2, 2, 4, tzinfo=timezone.utc)
+        self.assertTrue(curation.due(config, state, morning))
+        state["last_successful_run_at"] = "2026-11-02T02:05:00+00:00"
+        self.assertFalse(curation.due(config, state, datetime(2026, 11, 2, 3, tzinfo=timezone.utc)))
+        self.assertTrue(curation.due(config, state, datetime(2026, 11, 2, 10, tzinfo=timezone.utc)))
+
+    def test_new_checkpoint_does_not_inherit_a_preinstallation_window(self):
+        config = curation.settings(self.root)
+        state = {"initialized_at": "2026-11-02T01:00:00+00:00", "last_successful_run_at": None}
+        morning = datetime(2026, 11, 2, 2, tzinfo=timezone.utc)
+        self.assertFalse(curation.due(config, state, morning))
+        self.assertTrue(curation.due(config, state, datetime(2026, 11, 2, 10, tzinfo=timezone.utc)))
+        state["initialized_at"] = "2026-11-01T09:00:00+00:00"
+        self.assertTrue(curation.due(config, state, morning))
+
+    def test_due_execution_catches_up_without_inventing_a_lesson(self):
+        self.event("catchup")
+        path = self.root / curation.STATE / "checkpoint.json"
+        state = read_json(path)
+        state["last_successful_run_at"] = "2026-10-30T10:19:13+00:00"
+        write_json(path, state)
+        def engine(value, *args):
+            return {"groups": [], "pending": [], "no_new_knowledge": [
+                {"event_id": e["event_id"], "reason": "Synthetic test observation supplies no controlled repair comparison."}
+                for e in value["events"]]}
+        morning = datetime(2026, 11, 2, 2, 4, tzinfo=timezone.utc)
+        with patch.object(curation, "utc_now", return_value=morning.isoformat()):
+            report = curation.execute(self.root, due_only=True, now=morning, engine=engine)
+        self.assertEqual(report["no_new_knowledge"], 1)
+        self.assertFalse(report["artifacts"])
+        self.assertEqual(curation.checkpoint(self.root)["last_successful_run_at"], morning.isoformat())
+        with patch.object(curation_engine, "codex_cli", side_effect=AssertionError("No duplicate execution")):
+            self.assertEqual(curation.execute(self.root, due_only=True, now=morning)["state"], "not_due")
+
     def test_existing_lock_blocks_concurrent_sweep(self):
         write_json(self.root / curation.STATE / "lock.json", {"owner": "other job"})
         with self.assertRaisesRegex(WorkflowError, "locked"):

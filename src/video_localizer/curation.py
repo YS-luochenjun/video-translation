@@ -105,10 +105,16 @@ def catalogs(root, state=None):
 def due(config, state, now):
     current = now.astimezone(SHANGHAI)
     hour, minute = map(int, config["time"].split(":"))
-    if (current.hour, current.minute) < (hour, minute):
-        return False
+    deadline = current.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    if current < deadline:
+        deadline -= timedelta(days=1)
+        # Before today's trigger, catch up the last missed window only when the
+        # checkpoint existed then. A new workspace must not inherit old debt.
+        if not state.get("last_successful_run_at"):
+            initialized = state.get("initialized_at")
+            return bool(initialized and datetime.fromisoformat(initialized).astimezone(SHANGHAI) <= deadline)
     last = state.get("last_successful_run_at")
-    return not last or datetime.fromisoformat(last).astimezone(SHANGHAI).date() < current.date()
+    return not last or datetime.fromisoformat(last).astimezone(SHANGHAI) < deadline
 
 
 def status(root=None, now=None):

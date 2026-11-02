@@ -58,6 +58,31 @@ class StorageLifecycleTests(unittest.TestCase):
     def paths(self):
         return {row['path'] for row in self.plan()['selected']}
 
+    def test_disappearing_scratch_during_capacity_scan_is_not_a_failed_sweep(self):
+        gone = self.root / 'work/tmp/finished-test'
+        gone.mkdir(parents=True)
+        live = self.file('work/tmp/current.txt', b'keep current scratch')
+        original = Path.lstat
+        def disappearing(path, *args, **kwargs):
+            if path == gone:
+                if path.exists():
+                    path.rmdir()
+                raise FileNotFoundError(2, 'Synthetic vanished directory', str(path))
+            return original(path, *args, **kwargs)
+        with patch.object(Path, 'lstat', autospec=True, side_effect=disappearing):
+            plan = self.plan()
+        self.assertFalse(gone.exists())
+        self.assertEqual(plan['selected'], [])
+        self.assertFalse(plan['pressure'])
+        self.assertTrue(live.exists())
+        def denied(path, *args, **kwargs):
+            if path == live:
+                raise PermissionError('Keep real I/O failures visible')
+            return original(path, *args, **kwargs)
+        with patch.object(Path, 'lstat', autospec=True, side_effect=denied):
+            with self.assertRaises(PermissionError):
+                self.plan()
+
     def test_closed_grace_period_and_matching_scratch(self):
         self.close('recent', 12)
         self.close('old', 25)
