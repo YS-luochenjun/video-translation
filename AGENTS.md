@@ -4,6 +4,8 @@
 
 ## 每次制作
 
+真实开始、阶段、整项等待/恢复与停止按[台账上报](agent/workflows/ledger-tracking.md)记录；现有工作台自动为后续新需求积累[Benchmark](docs/benchmark.md)，不重跑历史需求、不把未记录间隔当工作或等待。
+
 1. 先读用户要求、[制作合同](agent/contracts/workflow.md)、[选路规则](knowledge/rules/agent-method-selection-v2.md)。运行doctor和kie-authorization，使用doctor验证的Python。新任务默认[快速交付](agent/workflows/fast-delivery.md)，严格保真另选；旧授权、结果和费用不重置。始终执行[完整输出](agent/workflows/always-output.md)：有界返工后finalize当前最佳完整译片，披露瑕疵；输出不等于质量通过。必需真实配音缺失时如实报告，不能擅自用字幕替代。
 2. 新视频init，已登记HTTPS素材ingest；analyze后读media.json、实际帧和音频，按[本地化技能](.agents/skills/video-localization/SKILL.md)建立文字/人声逐实例清单及覆盖。填写content_features和routing_assessment：按音频主导、文案主导或混合型说明首选、备选、切换与停止条件，见[按内容选路](knowledge/rules/content-led-localization-v1.md)。旁白和对白均处理；剧情、性别和文字运动依据实际观察。修改inventory后重建计划与评审，缺证据保留pending。
 3. context后读取命中方法、必要补证及精确同源/语种参考，冻结知识版本再plan，检查packet。通用规则、条件方法、同源案例分开使用，不因候选或同基础语言线索扩大适用范围。续作先读work-packet.maintenance及reusable_packages；同源解析可核验复用，新的语言定稿、配音、时轴、字层与审核仍各自建立。

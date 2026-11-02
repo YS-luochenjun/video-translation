@@ -33,6 +33,7 @@ def maximum(values):
 def collect(store, ledger):
     snapshot = store.snapshot()
     warnings = list(snapshot['warnings'])
+    aliases = store.read('config/content-features.json').get('aliases', {})
     cache, source_records = ledger.cached_records(), []
     def read_record(path):
         value = store.read(path, warnings=warnings)
@@ -64,7 +65,9 @@ def collect(store, ledger):
             facts[run] = {'base': base, 'request': store.read(base+'/inputs/request.json'),
                           'fireplay': store.read(base+'/inputs/fireplay.json'),
                           'completion': store.read(base+'/outputs/completion.json'),
-                          'delivery': store.read(base+'/outputs/delivery.json')}
+                          'delivery': store.read(base+'/outputs/delivery.json'),
+                          'media': store.read(base+'/analysis/media.json'),
+                          'inventory': store.read(base+'/analysis/inventory.json')}
         except (OSError, ValueError):
             facts[run] = {}
     budgets = {}
@@ -296,10 +299,30 @@ def collect(store, ledger):
                  first_started_at=minimum([t['created_at'] for t in own]),
                  last_activity_at=maximum([t['last_activity_at'] for t in own]))
         r['state'] = 'complete' if r['complete_at'] else 'partial' if r['output_count'] else 'needs_info' if r['blockers'] else 'executing' if any(t['runs'] for t in own) else 'queued' if r.get('accepted_at') else 'discovered'
+        if own and all(t['states'] and all(s['state'] == 'expired' for s in t['states']) for t in own):
+            r['state'] = 'expired'
         r['stage_counts'] = {}
         for task in own:
             stage = task['states'][-1]['state'] if task['states'] else 'not_started'
             r['stage_counts'][stage] = r['stage_counts'].get(stage,0)+1
+        # Describe each source once, never multiply source duration by locales.
+        # Conflicting observations stay missing instead of choosing a convenient one.
+        profiles = []
+        for video in r['videos']:
+            own_runs = {run for t in own if t['video_id'] == video['id'] for run in t['runs']}
+            observations = [facts.get(run, {}) for run in own_runs]
+            durations = {f.get('media', {}).get('duration') for f in observations
+                         if isinstance(f.get('media', {}).get('duration'), (int, float))
+                         and not isinstance(f.get('media', {}).get('duration'), bool)
+                         and 0 < f['media']['duration'] < float('inf')}
+            features = {tuple(sorted({aliases.get(x, x) for x in f.get('inventory', {}).get('content_features', [])})) for f in observations
+                        if isinstance(f.get('inventory', {}).get('content_features'), list)
+                        and all(isinstance(x, str) for x in f['inventory']['content_features'])}
+            profiles.append({'video_id': video['id'], 'source_sha256': video.get('source_sha256'),
+                             'duration_seconds': next(iter(durations)) if len(durations) == 1 else None,
+                             'content_features': list(next(iter(features))) if len(features) == 1 else None,
+                             'evidence': sorted(f.get('base', '') for f in observations if f.get('base'))})
+        r['benchmark_sources'] = profiles
         r['source_present'] = True
     signatures, events = [], []
     known = ledger.signatures()
@@ -348,6 +371,7 @@ class Collector:
             rows, tasks, health, events, signatures, source_records = collect(self.store, self.ledger)
             if not preview:
                 self.ledger.reconcile(rows, tasks, health, events, signatures, source_records)
+                self.ledger.update_benchmark()
                 self.estimate(rows, tasks)
                 self.last_tick, self.error = now(), None
             return {'requirements': rows, 'tasks': tasks, 'health': health, 'events': len(events), 'preview': preview}
@@ -359,7 +383,7 @@ class Collector:
         current = {r['id']: r for r in self.ledger.view()['requirements']}
         for source in requirements:
             req = current[source['id']]
-            if not req.get('countable') or req.get('complete_at') or not req.get('accepted_at') or req.get('block_reason') or req.get('blockers') or not all(v.get('source_sha256') for v in req['videos']):
+            if not req.get('countable') or req.get('complete_at') or req.get('state') == 'expired' or not req.get('accepted_at') or req.get('block_reason') or req.get('blockers') or not all(v.get('source_sha256') for v in req['videos']):
                 continue
             unfinished = [t for t in tasks if t['requirement_id']==req['id'] and not t['complete_at']]
             targets = [('*', unfinished, req.get('latest_eta'))]

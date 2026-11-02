@@ -9,7 +9,7 @@ from .ledger import Ledger, now
 
 def configure(commands):
     command = commands.add_parser('ledger', help='Demand ledger: sync, preview, agent events, ETA and consistent backups')
-    command.add_argument('action', choices=['sync', 'preview', 'status', 'detail', 'register', 'claim', 'heartbeat', 'release', 'stage', 'ready', 'block', 'resume', 'eta', 'link', 'backup'])
+    command.add_argument('action', choices=['sync', 'preview', 'benchmark', 'status', 'detail', 'register', 'claim', 'heartbeat', 'release', 'stage', 'ready', 'block', 'resume', 'eta', 'link', 'backup'])
     command.add_argument('--spec', help='Workspace-relative JSON input; use a stable operation_id for retries')
     command.add_argument('--id', help='Exact ledger requirement ID')
 
@@ -23,6 +23,8 @@ def execute(args, root):
         return {'health': result['health'], 'events': result['events'], 'preview': result['preview'],
                 'requirements': [{k:r.get(k) for k in ('id','code','video_count','task_count','output_count','state','countable','association','evidence')} for r in result['requirements']]}
     ledger = Ledger(root)
+    if args.action == 'benchmark':
+        return ledger.benchmark()
     if args.action == 'status':
         view = ledger.view()
         view['metrics'] = ledger.metrics(view['requirements'])

@@ -77,6 +77,55 @@ class LedgerTests(unittest.TestCase):
     def action(self,action,**kwargs):
         return self.ledger.action(action,{'requirement_id':'fireplay:req1',**kwargs},'op-'+__import__('uuid').uuid4().hex)
 
+    def test_benchmark_source_profiles_do_not_repeat_duration_and_keep_conflicts(self):
+        self.fixture()
+        self.put('config/content-features.json', {'aliases': {'multi_speaker': 'multi_character_dialogue'}})
+        for video in self.fireplay['videos']:
+            for run in video['members']:
+                self.put('runs/'+run+'/analysis/media.json', {'duration': 25})
+                self.put('runs/'+run+'/analysis/inventory.json', {'content_features': ['multi_speaker']})
+        self.collector.sync()
+        profiles = self.req()['benchmark_sources']
+        self.assertEqual(len(profiles), 2)
+        self.assertEqual(sum(v['duration_seconds'] for v in profiles), 50)
+        self.assertEqual(profiles[0]['content_features'], ['multi_character_dialogue'])
+        one = self.fireplay['videos'][0]['members'][0]
+        self.put('runs/'+one+'/analysis/media.json', {'duration': 35})
+        self.collector.sync()
+        self.assertIsNone(self.req()['benchmark_sources'][0]['duration_seconds'])
+        self.assertEqual(self.req()['benchmark_sources'][1]['duration_seconds'], 25)
+
+    def test_managed_lean_index_retired_runs_and_expired_history(self):
+        import shutil
+        self.fixture()
+        for index in [1, 2]:
+            for locale in ['es', 'fr', 'ja']:
+                self.delivery(index, locale)
+        # Migrate entries to the real managed layout, retaining JSON but no source.
+        for entry in self.entries:
+            old = entry['package']
+            entry['package'] = 'outputs/.packages/ACM/' + entry['target_language'] + '/' + entry['origin_run_id']
+            target = self.root/entry['package']
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(self.root/old, target)
+        self.put('state/delivery-index.json', {'entries': self.entries})
+        (self.root/'outputs/index.json').unlink()
+        shutil.rmtree(self.root/'runs')
+        self.collector.sync()
+        self.assertEqual(self.req()['output_count'], 6)
+        self.assertEqual(self.req()['state'], 'complete')
+        first = self.req()['first_complete_at']
+        for entry in self.entries:
+            shutil.rmtree(self.root/entry['package'])
+            entry['expired_at'] = '2026-11-01T00:00:00Z'
+        self.put('state/delivery-index.json', {'entries': self.entries})
+        self.collector.sync()
+        self.assertEqual(self.req()['first_complete_at'], first)
+        self.assertEqual(self.req()['output_count'], 0)
+        self.assertEqual(self.req()['state'], 'expired')
+        self.assertEqual(self.ledger.metrics()['open'], 0)
+        self.assertTrue(all(not t['output_available'] for t in self.store.snapshot()['tasks']))
+
     def test_multivideo_scope_dedup_partial_outputs_and_restart(self):
         self.fixture()
         for video,locale in [(1,'es'),(1,'fr'),(1,'ja'),(2,'es')]: self.delivery(video,locale)

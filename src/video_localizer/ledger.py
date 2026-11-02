@@ -308,7 +308,7 @@ class Ledger:
                 db.execute('INSERT OR REPLACE INTO links VALUES(?,?,?,?,?)', (run, identifier, video, locale, evidence))
             else:
                 raise ValueError('Unsupported ledger action')
-            self.event(db, 'management:' + operation_id, action, spec, identifier, occurred=moment)
+            self.event(db, 'management:' + operation_id, action, {**spec, 'scope_id': req['scope_id']}, identifier, occurred=moment)
             db.execute('UPDATE requirements SET revision=?,data=? WHERE id=?', (row['revision']+1, packed(req), identifier))
             result = {'ok': True, 'operation_id': operation_id, 'revision': row['revision']+1}
             db.execute('INSERT INTO operations VALUES(?,?,?)', (operation_id, request_hash, packed(result)))
@@ -417,7 +417,7 @@ class Ledger:
         return {'timezone': zone, 'days': days, 'daily': list(daily.values()),
                 'requirements': sum(r.get('countable') is not False for r in rows),
                 'unlinked': sum(r.get('countable') is False for r in rows),
-                'open': sum(r.get('countable') is not False and not r.get('complete_at') for r in rows),
+                'open': sum(r.get('countable') is not False and not r.get('complete_at') and r.get('state') != 'expired' for r in rows),
                 'blocked': sum(bool(r.get('block_reason') or r.get('blockers')) for r in rows),
                 'overdue': sum(bool(r.get('overdue')) for r in rows),
                 'complete': sum(bool(r.get('complete_at')) and r.get('countable') is not False for r in rows),
@@ -428,6 +428,14 @@ class Ledger:
                 'eta_bias_median_seconds': median(errors) if errors else None, 'eta_error_samples': len(errors),
                 'eta_covered': eta_coverage, 'eta_due': due, 'eta_ontime': ontime,
                 'eta_ontime_rate': ontime/due if due else None, 'unknown_received': unknown_received}
+
+    def update_benchmark(self):
+        from .benchmark import update
+        return update(self)
+
+    def benchmark(self, rows=None, at=None):
+        from .benchmark import report
+        return report(self, rows, at)
 
     def backup(self, destination):
         destination = Path(destination).resolve()
@@ -463,6 +471,7 @@ def tracking_packet(run):
     path=root/'state/ledger/ledger.sqlite3'
     result={'workflow':'agent/workflows/ledger-tracking.md','available':False,
             'instructions':'At actual start claim the video using your real owner/session. Report stages, waits and genuine activity; never fabricate a heartbeat. Preserve the first ETA and explain changes.',
+            'benchmark': 'Future requests only; first complete output ends the first round. Log real block/resume waits; gaps remain unknown. Run ledger benchmark to inspect coverage.',
             'entries':['ledger claim','ledger stage','ledger heartbeat','ledger block','ledger resume','ledger eta','ledger release']}
     if not path.is_file():
         return result

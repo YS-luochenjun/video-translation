@@ -54,6 +54,9 @@ class LedgerHTTPTests(unittest.TestCase):
         response=client.getresponse();result=json.loads(response.read())
         self.assertEqual(result['requirements'],[])
         self.assertEqual(result['metrics']['requirements'],0)
+        self.assertTrue(result['benchmark']['enabled'])
+        self.assertEqual(result['benchmark']['samples'], [])
+        self.assertEqual(result['benchmark']['baseline_excluded'], 1)
         self.assertEqual(result['metrics']['eta_ontime_rate'],None)
         for url in ['/ledger.js','/ledger.css']:
             client.request('GET',url);response=client.getresponse()

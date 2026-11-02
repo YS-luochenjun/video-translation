@@ -54,6 +54,38 @@ class WorkbenchTests(unittest.TestCase):
         self.put('outputs/index.json', {'entries': [entry]})
         return folder
 
+    def test_managed_index_authoritative_expired_and_hidden_boundary(self):
+        import shutil
+        folder = self.delivery(status='delivered')
+        entry = self.store.read('outputs/index.json')['entries'][0]
+        managed = 'outputs/.packages/REQ/es/task/version'
+        (self.root/managed).parent.mkdir(parents=True)
+        shutil.move(self.root/folder, self.root/managed)
+        entry['package'] = managed
+        self.put('state/delivery-index.json', {'entries': [entry]})
+        rows = self.store.versions([])
+        self.assertEqual(len(rows), 1)
+        self.assertTrue(rows[0]['usable'])
+        self.assertEqual(self.store.media(managed+'/final.mp4'), self.root/managed/'final.mp4')
+        for name in ['outputs/.other/video.mp4', 'outputs/.packages/../secret.mp4',
+                     'outputs/.packages/.secret/file.mp4', 'state/.credentials/video.mp4']:
+            with self.assertRaises(ValueError):
+                self.store.path(name)
+        entry['expired_at'] = '2026-11-01T00:00:00Z'
+        self.put('state/delivery-index.json', {'entries': [entry]})
+        shutil.rmtree(self.root/managed)
+        # Stale legacy index cannot revive an expired entry.
+        task = self.store.snapshot()['tasks'][0]
+        self.assertEqual(task['state'], 'expired')
+        self.assertFalse(task['output_available'])
+        self.assertEqual(task['quality_state'], 'reference')
+        self.put('knowledge/local/quality-holds/' + sha(b'source') + '/' + sha(b'encoded translation') + '/index.json', {'entries': []})
+        self.assertEqual(self.store.snapshot()['tasks'][0]['quality_state'], 'hold')
+        warnings = []
+        self.put('state/delivery-index.json', b'{')
+        self.assertEqual(self.store.versions(warnings), [])
+        self.assertTrue(warnings)
+
     def test_retired_run_stays_visible_and_issues_never_become_pass(self):
         self.delivery()
         result = self.store.snapshot()

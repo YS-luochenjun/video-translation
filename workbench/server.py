@@ -158,7 +158,7 @@ class Handler(BaseHTTPRequestHandler):
                     rows = [r for r in rows if owner in json.dumps([r.get('claim'),r.get('threads')],ensure_ascii=False).lower()]
                 days = int(arg('days') or 14)
                 if days not in {7,14,30,90}: raise ValueError('Invalid period')
-                result.update(requirements=rows, metrics=self.server.collector.ledger.metrics(rows,days=days), total_rows=len(result['requirements']), csrf_token=self.server.ledger_token)
+                result.update(requirements=rows, metrics=self.server.collector.ledger.metrics(rows,days=days), benchmark=self.server.collector.ledger.benchmark(rows), total_rows=len(result['requirements']), csrf_token=self.server.ledger_token)
                 from store import clean
                 token = result.pop('csrf_token')
                 return self.json(200, {**clean(result), 'csrf_token': token}, head)

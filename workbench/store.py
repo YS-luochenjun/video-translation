@@ -29,6 +29,7 @@ STATES = {
     'ready_to_deliver': ('质量记录通过', '交付入口仍会重新核验，页面不执行交付'),
     'delivered': ('已交付', '查看正式交付包及后续维护'),
     'delivered_with_issues': ('已输出 · 有瑕疵', '查看完整译片及瑕疵；质量与输出分别记录'),
+    'expired': ('成片已到期', '保留历史索引；本地视频已按保留策略移除'),
     'historical_reference': ('历史参考', '仅供追溯，不代表当前质量通过'),
     'unavailable': ('记录需检查', '检查缺失或损坏的记录'),
 }
@@ -66,7 +67,8 @@ class Store:
         if not isinstance(relative, str) or '\\' in relative or ':' in relative:
             raise ValueError('Invalid workspace path')
         parts = Path(relative).parts
-        if not parts or '..' in parts or any(p.startswith('.') for p in parts):
+        managed = len(parts) > 2 and parts[:2] == ('outputs', '.packages')
+        if not parts or '..' in parts or any(p.startswith('.') for i, p in enumerate(parts) if not (managed and i == 1)):
             raise ValueError('Hidden or parent paths are not served')
         path = (self.root / relative).resolve()
         if not path.is_relative_to(self.root):
@@ -134,12 +136,20 @@ class Store:
 
     def versions(self, warnings):
         rows = []
-        catalog = self.read('outputs/index.json', warnings=warnings)
+        # The managed index is authoritative, including expiry tombstones.
+        # Falling back after corruption could resurrect obsolete legacy entries.
+        index = 'state/delivery-index.json' if self.path('state/delivery-index.json').exists() else 'outputs/index.json'
+        catalog = self.read(index, warnings=warnings)
         for entry in catalog.get('entries', []):
             try:
                 package = entry['package']
                 if not package.startswith('outputs/'):
                     raise ValueError('Package outside outputs')
+                if entry.get('expired_at'):
+                    rows.append({**entry, 'expired': True, 'media': {'path': package + '/final.mp4', 'url': None, 'available': False, 'integrity': 'expired'},
+                                 'held': self._holds(entry.get('source_sha256'), entry.get('video_sha256')),
+                                 'manifest_ok': False, 'technical_decision': None, 'quality_scope': None, 'usable': False})
+                    continue
                 manifest = self.read(package + '/manifest.json', warnings=warnings)
                 meta = manifest.get('metadata', {})
                 matches = manifest.get('kind') == 'delivery' and all(
@@ -149,6 +159,7 @@ class Store:
                 held = self._holds(entry.get('source_sha256'), entry.get('video_sha256'))
                 rows.append({**{k: entry.get(k) for k in ('origin_run_id', 'source_sha256', 'target_language', 'video_sha256', 'status', 'archived_at')},
                              'package': package, 'media': asset, 'held': held, 'manifest_ok': bool(matches),
+                             'expired': False, 'package_mode': meta.get('package_mode'),
                              'technical_decision': meta.get('technical_decision'), 'quality_scope': meta.get('quality_scope'),
                              'usable': bool(matches and asset['available'] and asset['integrity'] == 'matched')})
             except (KeyError, ValueError, OSError, TypeError):
@@ -219,7 +230,7 @@ class Store:
         if completion.get('state') == 'delivered_with_issues':
             state = 'delivered_with_issues'
         if latest and not recent_work:
-            state = latest['status']
+            state = 'expired' if latest.get('expired') else latest['status']
         if not output and not record and not plan:
             state = 'unavailable'
         current_sha = candidate.get('sha256') if recent_work else (latest or {}).get('video_sha256') or completion.get('video_sha256') or candidate.get('sha256')
@@ -244,7 +255,9 @@ class Store:
         if stale and (not latest or recent_work) and not held:
             quality_state = 'stale'
             state = 'needs_replanning'
-        if output and output['integrity'] in {'changed', 'missing'} or latest and not recent_work and not latest['manifest_ok']:
+        if state == 'expired' and not held:
+            quality_state = 'reference'
+        if (output and output['integrity'] in {'changed', 'missing'} or latest and not recent_work and not latest['manifest_ok']) and state != 'expired':
             quality_state = 'invalid'
         maintenance = self.read(f'state/maintenance/{task}/latest.json', warnings=warnings)
         deferred = self.read(f'state/deferred-delivery/{task}.json', warnings=warnings)
