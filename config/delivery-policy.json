@@ -2,6 +2,7 @@
   "enabled": true,
   "layout": "requirement-language-task",
   "retention_days": 14,
+  "package_mode": "lean",
   "keep_versions_by_default": 1,
   "package_root": "outputs/.packages",
   "catalog": "state/delivery-index.json",

@@ -29,8 +29,8 @@ description: Curate localization lessons, record user feedback, publish reviewed
 
 ## 归档与保留
 
-`archive RUN` 把实际结果、源片、语言资产和准备依赖复制到 `outputs/`，`archive-verify PACKAGE` 核验。`library-find SHA256` 查精确同源素材；查到expired表示资产已过期，重新制作并记费。换语言仍需新稿、配音、时轴、字层及实际成片审查。
+`archive RUN` 默认把独立成片与必要审核JSON保存到outputs中的轻量包；首次归档前明确request.delivery_package_mode=reusable才带原片、语言资产和准备依赖。`archive-verify PACKAGE`只核验包完整；`library-find SHA256`分别说明成片与恢复／源复用资格，lean不得当恢复包。expired表示资产已过期，再次制作按实际需要重新取得素材并记费。换语言仍需新稿、配音、时轴、字层及实际成片审查。
 
 清理前分别验证：知识案例独立，交付包独立，未结算账本与被引用素材已保全。方法及其必要案例长期保留；用户视频/底片按交付保留策略到期。索引和哈希不能恢复已删除视频。清理先生成待处理清单，实际删除仍按用户授权范围执行。
 
-迁移旧记录时逐字保存原文、旧索引和失败评审；以新正文和新案例建立引用，不改写旧验收结论。证明标准是隔离测试中移除原run/output后仍可检索并验证知识，以及只带交付包仍可恢复准备资产。
+迁移旧记录时逐字保存原文、旧索引和失败评审；以新正文和新案例建立引用，不改写旧验收结论。证明标准是隔离测试中移除原run/output后知识仍可检索验证、轻量包内成片仍可读取；仅显式reusable包另外验证准备资产恢复。

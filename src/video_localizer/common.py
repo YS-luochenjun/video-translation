@@ -139,8 +139,8 @@ def lock(path):
 
 
 @contextmanager
-def run_operation(run):
-    """Serialize mutation/deletion across processes; nested calls in this thread share a lock."""
+def run_operation(run, *, resume=True):
+    """Serialize run access with sweeps; only production work revokes closure."""
     run = Path(run).resolve()
     require(not (run.parent.parent / 'state/project-storage.lock').exists(),
             'Project storage maintenance is active; resume after its receipt completes')
@@ -150,7 +150,22 @@ def run_operation(run):
         yield
         return
     with lock(path):
+        # A sweep can acquire its lock between the first check and our run lock.
+        require(not (run.parent.parent / 'state/project-storage.lock').exists(),
+                'Project storage maintenance is active; resume after its receipt completes')
         require(run.is_dir(), "Run was removed or does not exist")
+        if resume:
+            root = run.parent.parent
+            closed = root / 'state/storage-closed' / (run.name + '.json')
+            activity = root / 'state/storage-activity' / (run.name + '.json')
+            previous = read_json(activity) if activity.exists() else {}
+            record = {'last_operation_at': utc_now()}
+            if closed.exists():
+                record['previous_close'] = read_json(closed)
+            elif 'previous_close' in previous:
+                record['previous_close'] = previous['previous_close']
+            write_json(activity, record)
+            closed.unlink(missing_ok=True)
         _operations.held = held | {path}
         try:
             yield

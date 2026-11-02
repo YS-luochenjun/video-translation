@@ -46,22 +46,26 @@ def refresh(root=None):
         if not path.exists():
             path = root / 'outputs/index.json'
         catalog = read_json(path) if path.exists() else {"entries": []}
-        rows, counts = [], {"delivered": 0, "with_issues": 0, "reference": 0, "unavailable": 0}
+        rows, counts = [], {"delivered": 0, "with_issues": 0, "reference": 0, "unavailable": 0, "expired": 0}
         diagnostics = []
         for entry in sorted(catalog["entries"], key=lambda e: (e.get("origin_run_id", ""), e.get("archived_at", ""))):
             reason = ""
             try:
-                video, status = _video(entry, root)
+                if entry.get('expired_at'):
+                    video, status = None, '已过期'
+                else:
+                    video, status = _video(entry, root)
             except (WorkflowError, OSError, ValueError, KeyError, TypeError) as exc:
                 video, status = None, "核验失败"
                 reason = str(exc)
                 diagnostics.append({"package": entry.get("package"),
                                     "target_language": entry.get("target_language"),
                                     "reason": reason})
-            counts["delivered" if status == "已交付" else "with_issues" if status == '已输出 / 有瑕疵' else "reference" if video else "unavailable"] += 1
+            counts["expired" if status == '已过期' else "delivered" if status == "已交付" else "with_issues" if status == '已输出 / 有瑕疵' else "reference" if video else "unavailable"] += 1
             link_text = "查看问题版本" if status == "质量异议 / 待返工" else "打开视频"
-            action = (f'<a href="{quote(os.path.relpath(video, out), safe="/")}">{link_text}</a>'
-                      if video else f"请检查交付包<details><summary>查看原因</summary>{escape(reason)}</details>")
+            action = (f'<a href="{quote(Path(os.path.relpath(video, out)).as_posix(), safe="/")}">{link_text}</a>'
+                      if video else '已按保留政策过期，仅保留历史记录' if status == '已过期'
+                      else f"请检查交付包<details><summary>查看原因</summary>{escape(reason)}</details>")
             cells = [escape(str(entry.get(k, ""))) for k in
                      ("origin_run_id", "target_language", "video_sha256")]
             rows.append(f"<tr><td>{cells[0]}</td><td>{cells[1]}</td><td>{status}</td>"
@@ -74,13 +78,13 @@ def refresh(root=None):
 table{{width:100%;border-collapse:collapse;background:white}}th,td{{padding:12px;text-align:left;border-bottom:1px solid #dde3ea}}
 a{{color:#1257aa}}code{{font-size:12px}}p{{color:#526071}}</style>
 <h1>视频交付目录</h1>
-<p>质量通过 {counts['delivered']} · 已输出 / 有瑕疵 {counts['with_issues']} · 参考 / 待改进 {counts['reference']} · 文件异常 {counts['unavailable']}</p>
+<p>质量通过 {counts['delivered']} · 已输出 / 有瑕疵 {counts['with_issues']} · 参考 / 待改进 {counts['reference']} · 已过期 {counts['expired']} · 文件异常 {counts['unavailable']}</p>
 <p>按任务、语言查看原有视频；此页面不保存视频副本。参考版本不代表通过验收。
 质量异议优先于历史通过记录，问题版本只供追溯，不可直接交付或复用。</p>
 <table><thead><tr><th>任务</th><th>语言</th><th>状态</th><th>视频</th><th>版本</th></tr></thead>
 <tbody>{''.join(rows)}</tbody></table>
 <p><a href="reports/">历史批次字幕与说明</a>（如有）</p>
-<p>生成于 {utc_now()}。已核对清单与视频哈希；全部复用依赖请用 archive-verify 核验。
+<p>生成于 {utc_now()}。已核对清单与视频哈希；交付包用 archive-verify 核验；仅显式可复用包具备工程恢复资格，默认仅保存成片与审核记录。
 交付状态沿用原记录，不代表新增人工验收。文件调整后运行 bin/va.ps1 delivery-index 刷新。</p>
 </html>
 """

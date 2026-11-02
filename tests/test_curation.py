@@ -251,6 +251,171 @@ class CurationTests(unittest.TestCase):
         write_json(response, self.answer(value))
         self.assertEqual(curation.execute(self.root, response_file=response.relative_to(self.root).as_posix())["state"], "curated")
 
+    def structured_answer(self, value):
+        response = self.answer(value)
+        response["groups"][0]["analysis"] = {
+            "observations": [{"event_id": e["event_id"], "pointer": "/hypothesis",
+                              "quote": e["record"]["hypothesis"]} for e in value["events"]],
+            "causal_hypothesis": "Icon overlap may obscure residual glyphs; unproven",
+            "action_basis": "proposed"}
+        response["groups"][0]["adoption"] = {
+            "action": "source_case", "target_ids": [], "reason": "Retain bounded observation",
+            "missing_evidence": ["Controlled repair comparison"]}
+        response["no_new_knowledge"] = []
+        return response
+
+    def test_structured_observations_remain_candidates_and_do_not_mutate_response(self):
+        self.event("one")
+        replies = []
+        def engine(value, *args):
+            reply = self.structured_answer(value)
+            replies.append(reply)
+            return reply
+        report = curation.execute(self.root, engine=engine)
+        record = read_json(self.root / report["artifacts"][0]["path"])
+        self.assertEqual(record["analysis_status"], "source_linked")
+        self.assertEqual(record["analysis"], replies[0]["groups"][0]["analysis"])
+        self.assertEqual(replies[0]["groups"][0]["limitations"], ["Source-specific observation"])
+        self.assertEqual(record["scope"], self.scope)
+        self.assertEqual(record["status"], "candidate")
+        self.assertIn("do not prove causality", record["method"]["limitations"][-1])
+        from video_localizer import knowledge_advisories
+        selected = knowledge_advisories.retrieve({**self.scope, "features": []}, self.root)
+        self.assertEqual(len(selected), 1)
+        self.assertEqual(selected[0]["authority"], "advisory_only")
+        self.assertEqual(knowledge_advisories.retrieve({**self.scope, "target_language": "ja"}, self.root), [])
+
+    def test_independent_source_identities_allow_candidate_proposal_not_activation(self):
+        for name, digest in (("one", "a" * 64), ("two", "b" * 64)):
+            path = self.event(name, {"workflow": "video-localization"})
+            write_json(path, {**read_json(path), "source_sha256": digest})
+        def engine(value, *args):
+            answer = self.structured_answer(value)
+            answer["groups"][0]["analysis"]["action_basis"] = "independent_sources"
+            answer["groups"][0]["adoption"]["action"] = "new_method"
+            return answer
+        report = curation.execute(self.root, engine=engine)
+        record = read_json(self.root / report["artifacts"][0]["path"])
+        self.assertEqual(record["status"], "candidate")
+        self.assertEqual(read_json(self.root / "knowledge/index.json"), {"entries": []})
+
+    def test_null_analysis_is_rejected_without_advancing_checkpoint(self):
+        self.event("one")
+        previous = file_hash(self.root / curation.STATE / "checkpoint.json")
+        def engine(value, *args):
+            answer = self.answer(value)
+            answer["groups"][0]["analysis"] = None
+            return answer
+        with self.assertRaisesRegex(WorkflowError, "Invalid curation analysis"):
+            curation.execute(self.root, engine=engine)
+        self.assertEqual(file_hash(self.root / curation.STATE / "checkpoint.json"), previous)
+
+    def test_observation_references_must_resolve_match_and_cover_all_sources(self):
+        self.event("one")
+        self.event("two")
+        value = curation.packet(self.root, curation.checkpoint(self.root), curation.settings(self.root))
+        for field, replacement, error in [
+                ("event_id", "invented", "Unknown observation"),
+                ("pointer", "/missing", "does not resolve"),
+                ("quote", "Repair was proven effective", "differs from source")]:
+            with self.subTest(field=field):
+                answer = self.structured_answer(value)
+                answer["groups"][0]["analysis"]["observations"][0][field] = replacement
+                with self.assertRaisesRegex(WorkflowError, error):
+                    curation.validate(answer, value)
+        answer = self.structured_answer(value)
+        answer["groups"][0]["analysis"]["observations"].pop()
+        with self.assertRaisesRegex(WorkflowError, "Each grouped source"):
+            curation.validate(answer, value)
+
+    def test_same_source_repairs_cannot_claim_independent_validation(self):
+        self.event("one")
+        self.event("two")
+        value = curation.packet(self.root, curation.checkpoint(self.root), curation.settings(self.root))
+        answer = self.structured_answer(value)
+        answer["groups"][0]["analysis"]["action_basis"] = "independent_sources"
+        with self.assertRaisesRegex(WorkflowError, "Same-source repairs"):
+            curation.validate(answer, value)
+
+    def test_broad_video_method_suggestion_is_downgraded_without_failing_batch(self):
+        for name in ("one", "two"):
+            path = self.event(name, {"workflow": "video-localization"})
+            write_json(path, {**read_json(path), "source_sha256": "a" * 64,
+                              "hypothesis": "User said the overall result looks good"})
+        replies = []
+        def engine(value, *args):
+            answer = self.structured_answer(value)
+            answer["groups"][0]["adoption"]["action"] = "new_method"
+            replies.append(answer)
+            return answer
+        report = curation.execute(self.root, engine=engine)
+        record = read_json(self.root / report["artifacts"][0]["path"])
+        self.assertEqual(report["new_records"], 2)
+        self.assertEqual(record["adoption_proposal"]["action"], "pending")
+        self.assertIn("Original suggestion: new_method", record["adoption_proposal"]["reason"])
+        self.assertTrue(record["adoption_proposal"]["missing_evidence"])
+        self.assertEqual(replies[0]["groups"][0]["adoption"]["action"], "new_method")
+        self.assertEqual(record["status"], "candidate")
+        self.assertEqual(curation.status(self.root)["new_records"], 0)
+        self.assertTrue(curation.status(self.root)["review_required"])
+
+    def test_single_deterministic_development_observation_can_propose_candidate(self):
+        path = self.event("regression", {"workflow": "development", "module": "curation"})
+        write_json(path, {"scope": {"workflow": "development", "module": "curation"},
+                          "hypothesis": "The isolated regression passed after normalizing path separators"})
+        def engine(value, *args):
+            answer = self.structured_answer(value)
+            answer["groups"][0]["analysis"]["causal_hypothesis"] = ""
+            answer["groups"][0]["analysis"]["action_basis"] = "observed_comparison"
+            answer["groups"][0]["adoption"]["action"] = "new_method"
+            return answer
+        report = curation.execute(self.root, engine=engine)
+        record = read_json(self.root / report["artifacts"][0]["path"])
+        self.assertEqual(record["adoption_proposal"]["action"], "new_method")
+        self.assertEqual(record["status"], "candidate")
+        self.assertEqual(record["scope"], {"workflow": "development", "module": "curation"})
+        self.assertEqual(read_json(self.root / "knowledge/index.json"), {"entries": []})
+        self.assertEqual(curation.status(self.root)["new_records"], 0)
+
+    def test_no_new_knowledge_records_reason_without_candidate_or_repeated_inference(self):
+        self.event("one")
+        def engine(value, *args):
+            return {"groups": [], "pending": [], "no_new_knowledge": [
+                {"event_id": e["event_id"], "reason": "Repeated trigger contains no new observation"}
+                for e in value["events"]]}
+        report = curation.execute(self.root, engine=engine)
+        self.assertEqual(report["groups"], 0)
+        self.assertEqual(report["artifacts"], [])
+        self.assertEqual(curation.catalogs(self.root), {})
+        seen = curation.checkpoint(self.root)["seen_record_versions"]
+        self.assertEqual(seen[0]["disposition"], "no_new_knowledge")
+        self.assertIn("Repeated trigger", seen[0]["reason"])
+        with patch.object(curation_engine, "codex_cli", side_effect=AssertionError("No new inputs")):
+            self.assertEqual(curation.execute(self.root)["state"], "idle")
+
+    def test_no_new_knowledge_cannot_hide_duplicate_or_missing_reason(self):
+        self.event("one")
+        value = curation.packet(self.root, curation.checkpoint(self.root), curation.settings(self.root))
+        answer = self.answer(value)
+        answer["no_new_knowledge"] = [{"event_id": value["events"][0]["event_id"], "reason": "Already handled"}]
+        with self.assertRaisesRegex(WorkflowError, "exactly once"):
+            curation.validate(answer, value)
+        answer["groups"] = []
+        answer["no_new_knowledge"][0]["reason"] = " "
+        with self.assertRaisesRegex(WorkflowError, "Invalid pending"):
+            curation.validate(answer, value)
+
+    def test_legacy_answer_stays_readable_but_is_not_evidence_assessed(self):
+        self.event("one")
+        self.run_hook()
+        record = next(iter(curation.catalogs(self.root).values()))
+        self.assertEqual(record["analysis_status"], "legacy_unassessed")
+        self.assertIsNone(record["analysis"])
+        self.assertIn("Legacy response", record["method"]["limitations"][-1])
+        schema = curation_engine.SCHEMA
+        self.assertIn("no_new_knowledge", schema["required"])
+        self.assertIn("analysis", schema["properties"]["groups"]["items"]["required"])
+
     def test_cli_reasoning_has_no_media_keys_or_shell_tools(self):
         self.event("one")
         job = self.root / curation.STATE / "probe"

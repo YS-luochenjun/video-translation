@@ -44,7 +44,11 @@ class ProjectStorageTests(unittest.TestCase):
         runtime=self.file('.runtime/tool',b'installed')
         with tempfile.TemporaryDirectory() as external:
             target=Path(external)/'keep';target.write_bytes(b'outside')
-            (self.root/'work/link').symlink_to(target)
+            try:
+                (self.root/'work/link').symlink_to(target)
+            except OSError as exc:
+                if getattr(exc, 'winerror', None) != 1314:
+                    raise
             plan=project_storage.preview(self.root,reset=True)
             result=project_storage.execute(self.root,plan['fingerprint'],reset=True)
             self.assertEqual(target.read_bytes(),b'outside')
@@ -83,9 +87,10 @@ class ProjectStorageTests(unittest.TestCase):
         self.assertEqual(result['state'],'closed_pending_lifecycle')
         self.assertFalse((self.root/'state/run-recovery').exists())
         self.assertTrue((self.root/result['package']['package']/'manifest.json').exists())
-        plan=project_storage.preview(self.root,now=self.now)
+        after_grace = datetime.now(timezone.utc) + timedelta(hours=25)
+        plan=project_storage.preview(self.root,now=after_grace)
         self.assertIn('runs/closed',[row['path'] for row in plan['selected']])
-        project_storage.execute(self.root,plan['fingerprint'],now=self.now)
+        project_storage.execute(self.root,plan['fingerprint'],now=after_grace)
         self.assertFalse(run.exists())
         self.assertTrue((self.root/result['package']['package']/'final.mp4').exists())
 

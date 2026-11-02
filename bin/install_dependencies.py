@@ -4,6 +4,7 @@ import importlib.metadata
 import json
 import subprocess
 import sys
+import sysconfig
 import shutil
 import re
 from urllib.request import Request, urlopen
@@ -35,13 +36,29 @@ def registered_models(root=ROOT):
     return records
 
 
+def core_dependency_directory(root):
+    """Use the installing interpreter's scheme, only within this checkout's venv."""
+    root = Path(root).resolve()
+    venv = root / '.venv'
+    require(venv.resolve().is_relative_to(root), 'External project Python environment; materialize .venv before installing')
+    require(Path(sys.prefix).resolve() == venv.resolve() and sys.prefix != sys.base_prefix,
+            'Run the installer with this project .venv Python interpreter')
+    # Keep a venv's bin/python symlink valid: its resolved executable may be the base Python.
+    require(Path(sys.executable).absolute().is_relative_to(venv),
+            'Python executable must belong to this project .venv interpreter')
+    directory = Path(sysconfig.get_path('purelib')).resolve()
+    require(directory.is_relative_to(venv.resolve()),
+            'External core dependency directory; Python purelib must stay within project .venv')
+    return directory.relative_to(root).as_posix()
+
+
 def installation_plan(root=ROOT):
     """Validate the whole model selection before installing packages or creating model files."""
     root = Path(root).resolve()
     models = registered_models(root)
     asr = selected('asr', root)
     require(asr in model_cache.SIZES, 'No installer for the configured ASR model')
-    groups = [('core', '.venv/Lib/site-packages'), ('vision', '.runtime/deps/vision'),
+    groups = [('core', core_dependency_directory(root)), ('vision', '.runtime/deps/vision'),
               ('asr', '.runtime/deps/asr'), ('separation', '.runtime/deps/separation')]
     dependencies = []
     for group, directory in groups:

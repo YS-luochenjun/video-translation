@@ -65,6 +65,9 @@ def extract(directory, destination):
     directory, destination = Path(directory), Path(destination)
     record = verify(directory)
     require(record["kind"] == "delivery", "Only delivery bundles have a run payload")
+    require(record['metadata'].get('package_mode') != 'lean'
+            and record['metadata'].get('restoration_eligible', True) is not False,
+            'Lean delivery package contains only a standalone final and audit records; production restoration is unavailable')
     require(not destination.exists(), "Restore destination already exists")
     destination.mkdir(parents=True)
     for asset in record["files"]:

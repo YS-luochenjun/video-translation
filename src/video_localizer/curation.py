@@ -164,7 +164,7 @@ def packet(root, state, config):
                 data = {**read_json(candidate), "inbox_event": data}
                 related.append(fingerprint(root, candidate))
         events.append({**record, "event_id": object_hash(record), "scope": data.get("scope", {}),
-                       "visibility": "private" if "/local/" in record["path"] else "project", "record": data,
+                       "visibility": "private" if Path(record["path"]).as_posix().startswith("knowledge/local/") else "project", "record": data,
                        "related_records": related})
     existing = catalogs(root, state)
     rules = []
@@ -172,7 +172,9 @@ def packet(root, state, config):
         if entry.get("status") == "active" and not entry.get("superseded_by"):
             rules.append({"id": entry["id"], "scope": entry.get("scope", {}),
                           "method": inside(root / "knowledge", str(Path(entry["path"]).relative_to("knowledge"))).read_text(encoding="utf-8-sig")})
-    result = {"schema_version": 1, "events": events, "existing": related_lessons(events, existing), "active_rules": rules}
+    result = {"schema_version": 1, "events": events, "existing": related_lessons(events, existing), "active_rules": rules,
+              "analysis_contract": "Quote each source via record JSON pointer; separate unproven cause from action. "
+              "Same-source repairs are one source. no_new_knowledge needs a source-specific reason; gaps stay pending."}
     # Bound by bytes as well as record count. Keep complete originals and their
     # hashes; deferred tail records stay fresh in the unchanged checkpoint.
     # Never skip an oversized first-priority record or silently truncate it.
@@ -184,15 +186,57 @@ def packet(root, state, config):
     return result
 
 
+def source_identities(sources):
+    identities = {e["scope"].get("source_sha256") if e["scope"].get("source_sha256") not in (None, "", "*")
+                  else e["record"].get("source_sha256") for e in sources}
+    return {x for x in identities if isinstance(x, str) and re.fullmatch(r"[0-9a-f]{64}", x)}
+
+
+def validate_analysis(group, sources):
+    """Verify provenance, not the truth or causality of the quoted business data."""
+    if "analysis" not in group:
+        return  # Cached legacy replies remain readable without reprocessing sources.
+    analysis = group["analysis"]
+    require(isinstance(analysis, dict) and set(analysis) == {
+        "observations", "causal_hypothesis", "action_basis"}, "Invalid curation analysis")
+    require(isinstance(analysis["causal_hypothesis"], str)
+            and len(analysis["causal_hypothesis"]) <= 8000, "Invalid causal hypothesis")
+    require(analysis["action_basis"] in {"proposed", "observed_comparison", "independent_sources"},
+            "Invalid action basis")
+    observations = analysis["observations"]
+    require(isinstance(observations, list) and observations, "Observation evidence required")
+    events = {e["event_id"]: e for e in sources}
+    cited = set()
+    for ref in observations:
+        require(isinstance(ref, dict) and set(ref) == {"event_id", "pointer", "quote"}
+                and isinstance(ref["event_id"], str) and ref["event_id"] in events,
+                "Unknown observation source")
+        require(isinstance(ref["pointer"], str) and ref["pointer"].startswith("/")
+                and isinstance(ref["quote"], str) and ref["quote"].strip(), "Invalid observation reference")
+        text = events[ref["event_id"]]["record"]
+        try:
+            for token in ref["pointer"][1:].split("/"):
+                key = token.replace("~1", "/").replace("~0", "~")
+                text = text[int(key)] if isinstance(text, list) else text[key]
+        except (KeyError, IndexError, ValueError, TypeError) as exc:
+            raise WorkflowError("Observation pointer does not resolve") from exc
+        require(isinstance(text, str) and ref["quote"] in text, "Observation quote differs from source")
+        cited.add(ref["event_id"])
+    require(cited == set(events), "Each grouped source needs observation evidence")
+    require(analysis["action_basis"] != "independent_sources" or len(source_identities(sources)) >= 2,
+            "Same-source repairs are not independent validation")
+
+
 def validate(response, value):
-    require(isinstance(response, dict) and set(response) == {"groups", "pending"}, "Invalid curation response")
+    require(isinstance(response, dict) and {"groups", "pending"}.issubset(response)
+            and set(response).issubset({"groups", "pending", "no_new_knowledge"}), "Invalid curation response")
     require(isinstance(response["groups"], list) and isinstance(response["pending"], list), "Invalid curation response lists")
     events = {e["event_id"]: e for e in value["events"]}
     existing = {e["lesson_id"]: e for e in value["existing"]}
     used, targets = [], set()
     for group in response["groups"]:
         require(isinstance(group, dict) and set(curation_engine.GROUP_FIELDS).issubset(group)
-                and set(group).issubset(set(curation_engine.GROUP_FIELDS) | {"adoption"}), "Invalid curation group fields")
+                and set(group).issubset(set(curation_engine.GROUP_FIELDS) | {"adoption", "analysis"}), "Invalid curation group fields")
         if "adoption" in group:
             proposal = group["adoption"]
             require(set(proposal) == {"action", "target_ids", "reason", "missing_evidence"}
@@ -219,8 +263,10 @@ def validate(response, value):
             require(existing[target]["scope"] == sources[0]["scope"]
                     and existing[target]["visibility"] == sources[0]["visibility"], "Merge target scope/visibility differs")
             targets.add(target)
+        validate_analysis(group, sources)
         used.extend(group["event_ids"])
-    for item in response["pending"]:
+    require(isinstance(response.get("no_new_knowledge", []), list), "Invalid no-new-knowledge list")
+    for item in response["pending"] + response.get("no_new_knowledge", []):
         require(isinstance(item, dict) and set(item) == {"event_id", "reason"}
                 and item["event_id"] in events and isinstance(item["reason"], str) and item["reason"].strip(), "Invalid pending event")
         used.append(item["event_id"])
@@ -247,13 +293,28 @@ def persist(root, state, value, response):
         origins.update({e["event_id"]: e for e in sources})
         record = {"schema_version": 1, "lesson_id": lesson_id, "status": "candidate",
                   "scope": sources[0]["scope"], "visibility": sources[0]["visibility"],
-                  "method": {key: group[key] for key in ("title", "trigger", "action", "failure_signature", "limitations", "next_counterexample_test")},
+                  "method": {key: copy.deepcopy(group[key]) for key in ("title", "trigger", "action", "failure_signature", "limitations", "next_counterexample_test")},
                   "sources": list(origins.values()), "conflict_with_rules": group["conflict_with_rules"] or bool((old or {}).get("conflict_with_rules")),
                   "company_preference": False, "activation": "Developer review required; no validated rules changed",
                   "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation"}
+        record["analysis"] = copy.deepcopy(group.get("analysis"))
+        record["analysis_status"] = "source_linked" if group.get("analysis") else "legacy_unassessed"
+        record["method"]["limitations"].append(
+            "Quoted observations do not prove causality or validate the proposed action; controller review required."
+            if group.get("analysis") else
+            "Legacy response: observation, causal hypothesis and action evidence have not been separately assessed.")
         if group.get("adoption"):
-            record["adoption_proposal"] = group["adoption"]
-            record["next_action"] = "knowledge-review: " + group["adoption"]["action"] + ": " + group["adoption"]["reason"]
+            proposal = copy.deepcopy(group["adoption"])
+            if (group.get("analysis") and sources[0]["scope"].get("source_sha256") in (None, "", "*")
+                    and len(source_identities(sources)) == 1
+                    and proposal["action"] in {"new_method", "merge_existing"}):
+                gap = "Only one known video source; review source-limited evidence before any broader method adoption."
+                proposal["reason"] = gap + " Original suggestion: " + proposal["action"] + ": " + proposal["reason"]
+                proposal["action"] = "pending"
+                proposal["missing_evidence"] = list(dict.fromkeys(proposal["missing_evidence"] + [gap]))
+                record["method"]["limitations"].append(gap)
+            record["adoption_proposal"] = proposal
+            record["next_action"] = "knowledge-review: " + proposal["action"] + ": " + proposal["reason"]
         if old:
             record["previous_method"] = old["method"]
             record["previous_revision_sha256"] = object_hash(old)
@@ -272,6 +333,10 @@ def persist(root, state, value, response):
         artifacts.append(artifact)
         heads[lesson_id] = {**artifact, "lesson_id": lesson_id, "visibility": record["visibility"]}
         handled.extend({"path": e["path"], "sha256": e["sha256"], "disposition": "candidate_curated"} for e in sources)
+    handled.extend({"path": events[item["event_id"]]["path"],
+                    "sha256": events[item["event_id"]]["sha256"],
+                    "disposition": "no_new_knowledge", "reason": item["reason"]}
+                   for item in response.get("no_new_knowledge", []))
     updated = copy.deepcopy(state)
     updated["seen_record_versions"].extend(handled)
     current_paths = {e["path"] for e in value["events"]}
@@ -354,6 +419,7 @@ def _execute(root, due_only, prepare_only, response_file, engine, now):
         write_json(root / STATE / "checkpoint.previous.json", state)
         report = {"id": identifier, "at": utc_now(), "state": "pending" if updated["pending"] else "curated" if value["events"] else "idle",
                   "new_records": len(value["events"]), "groups": len(response["groups"]),
+                  "no_new_knowledge": len(response.get("no_new_knowledge", [])),
                   "merged": sum(bool(g["merge_into"]) or len(g["event_ids"]) > 1 for g in response["groups"]),
                   "pending": len(updated["pending"]), "conflicts": sum(g["conflict_with_rules"] for g in response["groups"]),
                   "artifacts": artifacts, "knowledge_audit": audit["decision"], "protected_files_unchanged": len(frozen),

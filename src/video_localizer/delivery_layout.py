@@ -1,4 +1,4 @@
-"""Human-facing final files, with separately retained immutable recovery packages."""
+"""Human-facing final files, with separately retained immutable delivery packages."""
 import os
 import re
 import shutil
@@ -16,6 +16,7 @@ def settings(root):
             'Use the approved delivery layout and maximum14-day retention')
     require(value.get('package_root') == 'outputs/.packages' and value.get('catalog') == 'state/delivery-index.json',
             'Internal packages/catalog must use their fixed managed locations')
+    require(value.get('package_mode', 'lean') in {'lean', 'reusable'}, 'Invalid delivery package mode')
     return value
 
 
@@ -57,6 +58,20 @@ def identity(run):
     return {'requirement_name': name(requirement), 'task_name': name(task),
             'target_language': name(request['target_language']),
             'keep_multiple_versions': request.get('keep_multiple_versions') is True}
+
+
+def latest(entries, root=None):
+    """Newest live catalog entry per presentation identity; ties keep append order."""
+    selected = {}
+    for index, entry in enumerate(entries):
+        if entry.get('expired_at') or (root is not None and not (inside(root, entry['package']) / 'manifest.json').is_file()):
+            continue
+        key = (entry.get('requirement_name', entry.get('source_sha256')),
+               entry.get('target_language'), entry.get('task_name', 'legacy'))
+        rank = (entry.get('archived_at', ''), index)
+        if key not in selected or rank > selected[key][0]:
+            selected[key] = (rank, entry)
+    return [item[1] for item in selected.values()]
 
 
 def present(root, entry, final):

@@ -7,5 +7,9 @@
   "close_run_after_preservation": true,
   "delivery_packages": "Managed by config/delivery-policy.json: latest view and maximum14-day expiry; preserve knowledge/accounting before deletion",
   "work_max_gib": 8,
-  "lifecycle_check_seconds": 3600
+  "lifecycle_check_seconds": 3600,
+  "closed_run_retention_hours": 24,
+  "orphan_scratch_retention_hours": 24,
+  "terminal_run_retention_days": 7,
+  "media_idle_retention_days": 7
 }

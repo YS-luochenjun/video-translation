@@ -1,6 +1,6 @@
 # 定时存储整理
 
-职责：按现行存储合同及本机授权，清理过期交付和已结案制作缓存。默认每天上海18:30独立唤醒；不等待知识任务成功，不接入或制作需求。
+职责：按现行存储合同及本机授权，清理14天过期交付、被替代版本、24小时结案现场／已登记孤立缓存、7天闲置源缓存和明确终态现场。规定每天上海18:30独立唤醒；任务必须真实安装／注册后才会执行，不等待知识任务成功，不接入或制作需求。Windows确定性入口为bin/storage_daily.py，默认只预览，--execute才按授权执行；宿主安装使用bin/project-storage.ps1，与已有应用计划二选一。
 
 1. 读取agent/contracts/storage.md、config/delivery-policy.json、config/maintenance.json和容量配置，使用doctor验证的Python。先保存storage-report/预览与既有回执。
 2. 运行storage-sweep取得明确候选与最新指纹；有活动锁则暂缓。按当前预览执行storage-sweep --execute --expect。它负责独立记录保全、知识审计、账本同步、最新版本/14天到期和已结案run缓存的实际删除。

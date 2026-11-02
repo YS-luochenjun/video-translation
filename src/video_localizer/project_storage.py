@@ -21,19 +21,30 @@ def _locks(root):
             for p in (root / base).glob('*.lock')]
 
 
+def _safe_path(root, relative):
+    lexical = root / relative
+    resolved = inside(root, relative)
+    require(lexical == resolved, 'Linked cleanup path is not eligible: ' + str(relative))
+    return resolved
+
+
 def _tree(path):
     result = []
     if not path.exists() and not path.is_symlink():
         return result
+    from .storage_candidates import _linked
     paths = [path]
-    if path.is_dir() and not path.is_symlink():
-        paths += list(path.rglob('*'))
+    if path.is_dir() and not _linked(path):
+        for parent, folders, names in os.walk(path, followlinks=False):
+            paths.extend(Path(parent) / name for name in [*folders, *names])
+            folders[:] = [name for name in folders if not _linked(Path(parent) / name)]
     for p in sorted(paths):
         s = p.lstat()
+        linked = _linked(p)
         result.append({'path': p.relative_to(path.parent).as_posix(), 'bytes': s.st_size,
                        'mtime_ns': s.st_mtime_ns, 'inode': s.st_ino, 'device': s.st_dev,
-                       'link': os.readlink(p) if p.is_symlink() else None,
-                       'directory': p.is_dir() and not p.is_symlink()})
+                       'link': os.readlink(p) if linked else None,
+                       'directory': p.is_dir() and not linked})
     return result
 
 
@@ -81,6 +92,7 @@ def preview(root, reset=False, now=None):
     require(not _locks(root), 'Active run/heavy-operation locks: do not clear working media')
     now = now or datetime.now(timezone.utc)
     selections = []
+    retained, dependencies = [], None
     pressure = False
     if reset:
         selections = [{'path': area, 'reason': 'owner_confirmed_all_tasks_complete_fresh_start'}
@@ -100,8 +112,11 @@ def preview(root, reset=False, now=None):
                 pressure |= bool(limits[area]['max_count'] and count > limits[area]['max_count'])
         pressure |= shutil.disk_usage(root).free < limits['minimum_free_gib']*1024**3
         rows = _catalog(root)['entries']
+        order = {id(entry): index for index, entry in enumerate(rows)}
         groups = {}
         for entry in rows:
+            if entry.get('expired_at'):
+                continue
             if entry['source_sha256'] in limits.get('pinned_sources',[]) or entry.get('origin_run_id') in limits.get('pinned_runs',[]):
                 continue
             if not (root / entry['package'] / 'manifest.json').is_file():
@@ -109,7 +124,7 @@ def preview(root, reset=False, now=None):
             key = (entry.get('requirement_name', entry['source_sha256']), entry['target_language'], entry.get('task_name', 'legacy'))
             groups.setdefault(key, []).append(entry)
         for group in groups.values():
-            group.sort(key=lambda e:e['archived_at'], reverse=True)
+            group.sort(key=lambda e: (e['archived_at'], order[id(e)]), reverse=True)
             keep_multiple = any(e.get('keep_multiple_versions') for e in group)
             for position, entry in enumerate(group):
                 age = (now-datetime.fromisoformat(entry['archived_at'])).total_seconds()/86400
@@ -117,25 +132,32 @@ def preview(root, reset=False, now=None):
                 older = position > 0 and not keep_multiple
                 # Capacity pressure may evict already-closed packages earlier.
                 closed = _closed(root, entry.get('origin_run_id', ''))
-                if stale or older or (pressure and closed):
+                early = settings(root).get('evict_latest_under_pressure', False)
+                if stale or older or (pressure and closed and early):
                     selections.append({'path': entry['package'], 'reason': 'expired_14_days' if stale else 'superseded' if older else 'capacity',
                                        'entry': entry})
-        for run in sorted((root / 'runs').iterdir()) if (root / 'runs').exists() else []:
-            if run.is_dir() and not run.name.startswith('.') and run.name not in limits.get('pinned_runs',[]) and _closed(root, run.name):
-                delivery = run / 'outputs/delivery.json'
-                marker = _closed(root, run.name)
-                if delivery.exists() and read_json(delivery).get('sha256') == marker['video_sha256']:
-                    selections.append({'path':run.relative_to(root).as_posix(), 'reason':'closed_task'})
-                    scratch = root / 'work/runs' / run.name
-                    if scratch.exists():
-                        selections.append({'path':scratch.relative_to(root).as_posix(), 'reason':'closed_task_cache'})
-        for scratch in (root / 'work/runs').iterdir() if (root / 'work/runs').exists() else []:
-            if scratch.is_dir() and scratch.name not in limits.get('pinned_runs',[]) and not (root / 'runs' / scratch.name).exists() and _closed(root, scratch.name):
-                selections.append({'path':scratch.relative_to(root).as_posix(), 'reason':'closed_task_cache'})
+        from .storage_candidates import select
+        transient, retained, dependencies, references = select(
+            root, maintenance, limits.get('pinned_runs', []), limits.get('pinned_sources', []), now)
+        selections.extend(transient)
+        unreferenced = []
+        for row in selections:
+            dependency_paths = [row['path']]
+            presentation = row.get('entry', {}).get('presentation')
+            if presentation:
+                dependency_paths.append(presentation)
+            referenced = any(path.casefold() in text for path in dependency_paths for text in references)
+            if row['path'].startswith(('outputs/', 'work/')) and referenced:
+                retained.append({'path': row['path'], 'reason': 'referenced_by_live_task'})
+            else:
+                unreferenced.append(row)
+        selections = unreferenced
     unique = {s['path']:s for s in selections}
     selected = []
     for relative, selection in sorted(unique.items()):
-        path = inside(root, relative)
+        path = _safe_path(root, relative)
+        if selection.get('entry', {}).get('presentation'):
+            _safe_path(root, selection['entry']['presentation'])
         require(path.parts[len(root.parts)] in AREAS and path != root, 'Storage target escapes allowed media areas')
         require(reset or len(path.parts) > len(root.parts)+1, 'Lifecycle cannot select a whole storage root')
         require(not path.is_symlink(), 'Do not traverse a linked storage root')
@@ -143,9 +165,16 @@ def preview(root, reset=False, now=None):
         selected.append({**selection,'tree_fingerprint':object_hash(tree),
                          'files':sum(not row['directory'] for row in tree),
                          'logical_bytes':sum(row['bytes'] for row in tree if not row['directory'])})
+    unavailable = [e['package'] for e in _catalog(root)['entries']
+                   if not e.get('expired_at') and not (root / e['package'] / 'manifest.json').is_file()]
     result = {'mode':'reset' if reset else 'lifecycle', 'pressure':pressure, 'selected':selected,
+              'retained': retained, 'dependency_fingerprint': dependencies,
+              'unavailable_entries': unavailable,
               'authorization_sha256':file_hash(root / 'config/storage-authorization.local.json'),
               'policy_sha256':file_hash(root / 'config/delivery-policy.json'),
+              'maintenance_sha256':file_hash(root / 'config/maintenance.json'),
+              'capacity_policy_sha256':file_hash(root / 'config/storage-policy.json'),
+              'catalog_sha256':object_hash(_catalog(root)),
               'protected':['knowledge', 'state/accounting and operation history', '.runtime', 'config', '.git']}
     return {**result,'fingerprint':object_hash(result)}
 
@@ -153,9 +182,13 @@ def preview(root, reset=False, now=None):
 def _preserve_records(root, plan, folder):
     from . import bundles
     sources = {}
+    legacy = root / 'outputs/index.json'
+    if legacy.is_file():
+        sources['legacy-delivery-index.json'] = legacy
+    from .storage_candidates import files
     for row in plan['selected']:
-        path = inside(root, row['path'])
-        for file in path.rglob('*') if path.is_dir() else [path]:
+        path = _safe_path(root, row['path'])
+        for file in files(path) if path.is_dir() else [path]:
             if (file.is_file() and not file.is_symlink() and file.suffix.lower() in RECORD_SUFFIXES
                     and not any(p in {'node_modules','__pycache__','.git','test-tmp','cache'} for p in file.relative_to(root).parts)
                     and not file.name.startswith('.env')):
@@ -193,23 +226,42 @@ def execute(root, expected, reset=False, now=None):
         before = shutil.disk_usage(root).free
         catalog = _catalog(root)
         removed = []
+        removing = {row['path'] for row in plan['selected']}
+        live_views = {entry.get('presentation') for entry in catalog['entries']
+                      if not entry.get('expired_at') and entry['package'] not in removing
+                      and (root / entry['package'] / 'manifest.json').is_file()}
         for row in plan['selected']:
-            target = inside(root,row['path'])
+            target = _safe_path(root,row['path'])
             if target.is_dir():
                 shutil.rmtree(target)
             else:
                 target.unlink()
             removed.append({k:row[k] for k in ('path','reason','files','logical_bytes')})
             entry = row.get('entry')
-            if entry and entry.get('presentation'):
-                view = inside(root,entry['presentation'])
+            if entry and entry.get('presentation') and entry['presentation'] not in live_views:
+                view = _safe_path(root,entry['presentation'])
                 if view.is_file() and file_hash(view) == entry['video_sha256']:
                     view.unlink()
+        reasons = {row['path']: row['reason'] for row in plan['selected']}
         for entry in catalog['entries']:
-            if reset or not (root / entry['package']).exists():
+            if not entry.get('expired_at') and (reset or not (root / entry['package'] / 'manifest.json').is_file()):
                 entry['expired_at'] = utc_now()
-                entry['expiry_reason'] = 'owner_fresh_start' if reset else 'retention_or_superseded_or_capacity'
+                entry['expiry_reason'] = ('owner_fresh_start' if reset else
+                                          reasons.get(entry['package'], 'missing_before_sweep'))
         write_json(root / 'state/delivery-index.json',catalog)
+        legacy = root / 'outputs/index.json'
+        if legacy.exists() and not reset:
+            legacy.unlink()  # Its original bytes are in the independent records bundle.
+        empty_starts = [root / row['path'] for row in plan['selected'] if row['path'].startswith('outputs/')]
+        empty_starts.extend(root / entry['presentation'] for entry in catalog['entries'] if entry.get('presentation'))
+        for start in empty_starts:
+            parent = start.parent
+            while parent != root / 'outputs' and (root / 'outputs') in parent.parents:
+                try:
+                    parent.rmdir()
+                except OSError:
+                    break
+                parent = parent.parent
         for area in AREAS:
             (root / area).mkdir(exist_ok=True)
         if reset:
@@ -239,6 +291,6 @@ def auto(root):
     if time.time()-old.get('checked_unix',0) < maintenance.get('lifecycle_check_seconds',3600):
         return {'state':'not_due'}
     plan = preview(root)
-    result = execute(root,plan['fingerprint']) if plan['selected'] else {'state':'no_eligible_data','pressure':plan['pressure']}
+    result = execute(root,plan['fingerprint']) if plan['selected'] or plan['unavailable_entries'] else {'state':'no_eligible_data','pressure':plan['pressure']}
     write_json(path,{'checked_unix':time.time(),**result})
     return result

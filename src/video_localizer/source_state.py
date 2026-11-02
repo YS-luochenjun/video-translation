@@ -7,7 +7,7 @@ import shutil
 from pathlib import Path
 
 from . import bundles
-from .common import ROOT, file_hash, guarded, inside, lock, object_hash, read_json, require, write_json
+from .common import ROOT, file_hash, guarded, inside, lock, object_hash, read_json, require, utc_now, write_json
 
 EXTRACTION_VERSION = 2  # Full soundtrack measurement; v1 may contain a 181-second report.
 RAW_NAMES = {"media.json", "frame-index.json", "audio.wav", "audio-source.json", "contact-pages.json", "extraction-settings.json"}
@@ -101,6 +101,8 @@ def save(run, root=None):
         index = read_json(index_path) if index_path.exists() else {"schema_version": 1, "entries": []}
         index["entries"] = [e for e in index["entries"] if e["id"] != identity] + [entry]
         write_json(index_path, index)
+    write_json(root / 'state/media-usage' / (record['source_sha256'] + '.json'),
+               {'last_used_at': utc_now(), 'run': run.name})
     return {**entry, "files": len(manifest["files"]), "source_sha256": record["source_sha256"],
             "observations_asset": {"path": neutral_path.relative_to(run).as_posix(), "sha256": file_hash(neutral_path)}}
 
@@ -165,5 +167,7 @@ def restore(run, root=None):
                  "notes": ["Reused exact-source extraction. Review source hints; create and verify this locale's copy, voice, captions and plan."]}
     write_json(run / "analysis/inventory.json", inventory)
     write_json(run / "analysis/reuse.json", {**entry, "source_sha256": source, "new_locale_approved": False})
+    write_json(root / 'state/media-usage' / (source + '.json'),
+               {'last_used_at': utc_now(), 'run': run.name})
     return {"state": "awaiting_agent_inventory", "reused": True, "source_snapshot": entry["snapshot"],
             "shots": len(shots), "inventory": str((run / "analysis/inventory.json").relative_to(root))}

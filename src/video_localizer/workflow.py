@@ -30,6 +30,15 @@ def profile_path(run):
 
 
 def create_run(video, target, brief, name, source_url=None):
+    import re
+    require(bool(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}", name)), "Invalid run id")
+    require(not (ROOT / 'state/project-storage.lock').exists(), 'Project storage maintenance is active')
+    with lock(ROOT / 'runs/.locks' / (name + '.lock')):
+        require(not (ROOT / 'state/project-storage.lock').exists(), 'Project storage maintenance is active')
+        return _create_run(video, target, brief, name, source_url)
+
+
+def _create_run(video, target, brief, name, source_url=None):
     require(not (ROOT / 'state/project-storage.lock').exists(), 'Project storage maintenance is active')
     import re
     from .languages import resolve

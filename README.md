@@ -41,7 +41,9 @@ Fireplay需求可直接给编号，或指定组/日期等读取范围，例如�
 
 [AGENTS.md](AGENTS.md) 是执行入口，[制作工作流](agent/contracts/workflow.md) 描述解析、定稿、制作、审查、返工和交付。目标语言支持别名，可用 `bin/va.ps1 language-resolve jp` 查询。每种语言独立定稿、配音、排版和审核，同源资产经核验后复用。
 
-交付入口是本机 `outputs/index.html`，运行 `bin/va.ps1 delivery-index` 刷新。未通过的结果保留缺陷与失败案例，执行成功不会自动变为交付通过。
+交付文件位于 `outputs/<需求名>/<语言>/<任务>/final.mp4`，默认只展示最新版、最多保留14天。运行 `bin/va.ps1 delivery-index` 刷新 `state/delivery-browser/index.html`。默认交付包只保存成片和必要审核记录；需要整套恢复资产时，在首次归档前明确选择 `request.delivery_package_mode=reusable`。质量未通过的结果保留真实缺陷，执行成功不会自动变为交付通过。
+
+日常存储整理见 [存储合同](agent/contracts/storage.md)。`bin/storage_daily.py` 默认只读，`--execute` 才按本机授权执行。Windows 定时入口为 `bin/project-storage.ps1`；代码和配置不代表系统任务已安装，不能与已有应用任务重复启用。
 
 ## 目录导航
 

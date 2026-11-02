@@ -35,6 +35,27 @@ SCHEMA["properties"]["groups"]["items"]["properties"]["adoption"] = {
                    "missing_evidence": {"type": "array", "items": {"type": "string"}}}}
 
 
+# New inference separates quoted observations from unproven causes and actions.
+ANALYSIS_SCHEMA = {
+    "type": "object", "additionalProperties": False,
+    "required": ["observations", "causal_hypothesis", "action_basis"],
+    "properties": {
+        "observations": {"type": "array", "minItems": 1, "items": {
+            "type": "object", "additionalProperties": False,
+            "required": ["event_id", "pointer", "quote"],
+            "properties": {key: {"type": "string", "minLength": 1}
+                           for key in ("event_id", "pointer", "quote")}}},
+        "causal_hypothesis": {"type": "string"},
+        "action_basis": {"type": "string", "enum": ["proposed", "observed_comparison", "independent_sources"]}}}
+SCHEMA["properties"]["groups"]["items"]["properties"]["analysis"] = ANALYSIS_SCHEMA
+SCHEMA["properties"]["groups"]["items"]["required"].extend(["analysis", "adoption"])
+SCHEMA["properties"]["no_new_knowledge"] = {
+    "type": "array", "items": {"type": "object", "additionalProperties": False,
+    "required": ["event_id", "reason"], "properties": {
+        "event_id": {"type": "string"}, "reason": {"type": "string", "minLength": 1}}}}
+SCHEMA["required"].append("no_new_knowledge")
+
+
 def executable(root):
     local = root / "config/hooks.local.json"
     configured = read_json(local).get("codex_executable") if local.exists() else None

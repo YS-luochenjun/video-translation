@@ -48,7 +48,11 @@ Windows可选任务计划程序，按带UTC+08:00时区的每日触发器执行�
 .\bin\va.ps1 hooks apply --response work/curation-response.json
 ```
 
-新回复必须覆盖当前packet的每个event_id；过时、重复、来源不明、跨scope或跨公私范围的合并会被拒绝。若配置engine为packet，定时任务只准备资料并明确报告awaiting_reasoning，不声称已自动提纯。
+新回复必须覆盖当前packet的每个event_id；过时、重复、来源不明、跨scope或跨公私范围的合并会被拒绝。每条来源只能出现在groups、pending或no_new_knowledge之一；no_new_knowledge需要具体理由，记录来源哈希及处理理由但不生成候选。缺证据仍留pending，不能通过此出口结清审查队列。若配置engine为packet，定时任务只准备资料并明确报告awaiting_reasoning，不声称已自动提纯。
+
+新生成schema要求analysis：observations逐来源引用event_id、record内JSON pointer和原文quote；causal_hypothesis单列尚未证实的原因；action_basis区分proposed、observed_comparison及independent_sources，动作仍在action。执行器检查原文定位、引用覆盖及独立源身份数；同源返工不能算独立复验，宽scope方法建议仅有一个已知视频源时保留候选、将采纳建议降为pending并记录原建议与缺口，整批仍可提交。无视频源身份的开发技术观察不强制双视频证据，可凭单个确定性回归提出候选；身份未知的视频经验仍由主控保守审查，不能据此扩域。引用可核对不代表修复对照充分、整体好评支持细节结论或因果成立，这些仍须主控读证据后判断。原scope、公私范围和候选权限不变。
+
+旧缓存回复允许缺省analysis、adoption和no_new_knowledge；读取旧候选或检查点不触发迁移/重跑。缺省analysis的回复新生成候选时标记legacy_unassessed并在limitations提示审查缺口；原有候选召回和检查点提交机制保持兼容。新字段不补造旧记录的证据。
 
 ## 保存与执行边界
 
