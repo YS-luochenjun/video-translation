@@ -82,6 +82,8 @@ def validate_plan(run, plan):
 def register(run, recipe_relative):
     """Freeze a completed local composition. Registration never supplies a pass."""
     from .workflow import source_path
+    from .batches import gate
+    gate(run)
     require(read_json(run / 'inputs/request.json').get('delivery_mode') == 'fast', 'Select fast mode explicitly')
     recipe_path = inside(run, recipe_relative)
     recipe = read_json(recipe_path)

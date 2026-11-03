@@ -142,7 +142,8 @@ def _pilot_snapshot(record, root):
                     'Representative language has not passed current quality checks')
             visual = quality['text_visual_audit']  # Freshly verified under this run lock.
         return {'plan_id': plan['id'], 'video_sha256': candidate['sha256'],
-                'review_sha256': file_hash(pilot / 'review/review.json'), 'masters': masters(plan), 'text_visual_audit': visual}
+                'review_sha256': (quality['review_sha256'] if plan.get('mode') == 'fast' else file_hash(pilot / 'review/review.json')),
+                'masters': masters(plan), 'text_visual_audit': visual}
 
 
 def _finalized_pilot_snapshot(record, root):
@@ -180,6 +181,11 @@ def approve(batch_id, root=ROOT, best_available=False):
     path = _path(batch_id, root)
     record = read_json(path)
     snapshot = _finalized_pilot_snapshot(record, root) if best_available else _pilot_snapshot(record, root)
+    from .pilot_review import release_check
+    if len(record['members']) > 1:
+        review_sha = release_check(Path(root) / 'runs' / record['pilot'], snapshot, best_available)
+        if review_sha:
+            snapshot['pilot_review_sha256'] = review_sha
     with lock(path.with_suffix('.lock')):
         record = read_json(path)
         record.update(pilot_release=snapshot, state='pilot_completed_with_issues' if best_available else 'pilot_reviewed')
@@ -202,6 +208,9 @@ def gate(run, plan=None):
                 'A best-available pilot does not approve strict expansion')
     snapshot = (_finalized_pilot_snapshot(record, Path(run).parent.parent) if best_available
                 else _pilot_snapshot(record, Path(run).parent.parent))
+    if 'pilot_review_sha256' in record['pilot_release']:
+        from .pilot_review import release_check
+        snapshot['pilot_review_sha256'] = release_check(Path(run).parent.parent / 'runs' / record['pilot'], snapshot, best_available)
     require(snapshot == record['pilot_release'], 'Pilot changed since batch release; review and approve the new version')
     if plan is not None:
         require(masters(plan) == snapshot['masters'], 'Batch neutral master differs from the reviewed pilot')

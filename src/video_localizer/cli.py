@@ -114,6 +114,7 @@ def status(run):
     jobs = [read_json(path) for path in sorted((run / "jobs").glob("*.json"))]
     quality = read_json(run / "outputs/quality.json") if (run / "outputs/quality.json").exists() else None
     state = "created"
+    plan_error = None
     preparation_blockers = []
     style_state = None
     if (run / "analysis/inventory.json").exists():
@@ -142,16 +143,19 @@ def status(run):
         try:
             workflow.current_plan(run)
             state = "planned"
-        except WorkflowError:
+        except WorkflowError as exc:
+            plan_error = str(exc)
             state = "needs_replanning"
     if state == "planned" and jobs:
         relevant = [job for job in jobs if job["plan_id"] == read_json(run / "plan.json")["id"]]
         state = "needs_reconciliation" if any(job["state"] in ("ambiguous", "submitting", "preparing") for job in relevant) else "awaiting_model" if any(job["state"] in ("submitted", "waiting", "queuing", "generating") for job in relevant) else state
+    candidate_holds = []
     if (run / "outputs/candidate.json").exists() and state not in ("needs_replanning", "needs_reconciliation"):
         candidate = read_json(run / "outputs/candidate.json")
         if (run / "plan.json").exists() and candidate["plan_id"] == read_json(run / "plan.json")["id"]:
             state = "needs_review"
-            review_path = run / "review/review.json"
+            review_path = run / ("review/fast-review.json" if candidate.get("mode") == "fast" or
+                                 (quality or {}).get("scope") == "fast-basic" else "review/review.json")
             if quality and quality["video_sha256"] == candidate["sha256"] and quality["plan_id"] == candidate["plan_id"] and (
                     quality.get("review_sha256") is None or review_path.exists() and file_hash(review_path) == quality["review_sha256"]):
                 state = "ready_to_deliver" if quality["decision"] == "pass" else "needs_revision"
@@ -160,14 +164,19 @@ def status(run):
                 final = inside(run, delivery["video"])
                 if delivery["sha256"] == candidate["sha256"] and final.exists() and file_hash(final) == delivery["sha256"]:
                     state = "delivered"
+            from .quality_holds import active
+            candidate_holds = active(record["source_sha256"], candidate["sha256"], run.parent.parent)
+            if candidate_holds:
+                state = "quality_feedback_requires_revision"
     completion = run / 'outputs/completion.json'
     if completion.is_file():
         completed = read_json(completion)
         final = run / 'outputs/final.mp4'
         if final.is_file() and file_hash(final) == completed.get('video_sha256'):
-            state = 'delivered_with_issues'
+            from .work_packet import _completion_navigation
+            state = _completion_navigation(run, record['source_sha256'], completed)['state_hint']
     return {"state": state, "run": {key: value for key, value in record.items() if key != "state"},
-            "jobs": jobs, "quality": quality, 'preparation_blockers': preparation_blockers, 'source_styles': style_state}
+            "jobs": jobs, "quality": quality, "candidate_quality_holds": candidate_holds, "plan_error": plan_error, 'preparation_blockers': preparation_blockers, 'source_styles': style_state}
 
 
 def main(argv=None):
@@ -335,6 +344,13 @@ def main(argv=None):
     command.add_argument('--from-run', required=True)
     command.add_argument('--source-shot', required=True)
     command.add_argument('--target-shot', required=True)
+    command = commands.add_parser('pilot-compare', help='Capture the hardest instance with full source, base and pilot frames')
+    command.add_argument('run')
+    command.add_argument('--instance', required=True)
+    command.add_argument('--video', required=True)
+    group = command.add_mutually_exclusive_group()
+    group.add_argument('--base')
+    group.add_argument('--base-limit')
     command = commands.add_parser('batch-create', help='Create locale runs sharing the registered per-language request budget')
     command.add_argument('id')
     command.add_argument('video')
@@ -665,7 +681,10 @@ def main(argv=None):
             result = create_demo(args.id, args.route, args.seconds)
         else:
             run = get_run(args.run)
-            if name == 'work-packet':
+            if name == 'pilot-compare':
+                from .pilot_review import compare
+                result = compare(run, args.instance, args.video, args.base, args.base_limit)
+            elif name == 'work-packet':
                 from .work_packet import build
                 result = build(run, args.stage)
             elif name == 'repair-preflight':

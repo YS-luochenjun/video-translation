@@ -47,6 +47,8 @@ def _next_action(run, state, jobs):
                            'Read current failures first. Missing evidence requires review; observed defects require a bounded repair.'),
         'ready_to_deliver': ('deliver', ['deliver'], 'Current quality record passes. Deliver revalidates the gates without generating another preview.'),
         'delivered': ('delivery_complete', ['delivery-index'], 'Formal delivery exists; use the package and retain unresolved billing records.'),
+        'quality_feedback_requires_revision': ('review_quality_feedback', ['work-packet'],
+                              'Review the objection for this candidate before bounded revision; reuse the original budget.'),
         'needs_reconciliation': ('reconcile_existing', [], 'Recover the recorded provider task/receipt before repeating an uncertain paid submission.'),
         'awaiting_model': ('poll_existing', [], 'Poll recorded task IDs; continue independent local review while waiting.'),
     }
@@ -63,7 +65,7 @@ def _completion_navigation(run, source_sha, completion):
     holds = active(source_sha, completion['video_sha256'], run.parent.parent)
     path = run / 'outputs/candidate.json'
     candidate = read_json(path) if path.exists() else None
-    newer = bool(candidate and candidate.get('sha256') != completion['video_sha256'])
+    newer = bool(candidate and candidate.get('sha256') not in (completion['video_sha256'], completion.get('candidate_sha256_at_completion')))
     candidate_holds = active(source_sha, candidate['sha256'], run.parent.parent) if newer else []
     if holds or candidate_holds:
         return {'state_hint': 'quality_feedback_requires_revision', 'quality_holds': holds,
@@ -105,7 +107,8 @@ def build(run, stage=None):
             require(file_hash(path) == asset['sha256'], 'Finalization knowledge selection changed')
             selected = read_json(path)
         navigation = _completion_navigation(run, source_sha, completion)
-        return {'stage_focus': focus(stage or 'delivery', inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, **navigation, 'completion': completion,
+        resume_stage = 'delivery' if navigation['state_hint'] == 'delivered_with_issues' else 'review'
+        return {'stage_focus': focus(stage or resume_stage, inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, **navigation, 'completion': completion,
                 'text_timing': timing_diagnostics(run, inventory),
                 'improvement_loop': improvement_agenda(run),
                 'knowledge': selected.get('knowledge', []), 'source_references': selected.get('source_references', []),
@@ -113,11 +116,25 @@ def build(run, stage=None):
                 'routing_assessment': selected.get('routing_assessment'),
                 'knowledge_record_state': 'finalization_selection_only' if selected else 'legacy_not_recorded',
                 'reusable_packages': reusable_packages, 'maintenance': maintenance, 'automatic_pass': False}
+    from .cli import status
+    current = status(run)
     if (run / 'plan.json').exists() and read_json(run / 'plan.json').get('mode') == 'fast':
         from . import budgets, fast_delivery
-        plan = fast_delivery.validate_plan(run, read_json(run / 'plan.json'))
+        plan = read_json(run / 'plan.json')
+        if current['state'] == 'needs_replanning':
+            return {'run': run.name, 'mode': 'fast', 'state_hint': 'needs_replanning',
+                    'stage_focus': focus(stage or 'render', inventory, root),
+                    'ledger_tracking': ledger_tracking, 'plan_error': current.get('plan_error'),
+                    'next_action': 'Read the changed input, reconcile any existing tasks and run fast-register with the updated recipe.'}
         budget = budgets.status(budgets.bind(run)['id'], root)
-        fast_stage = 'review' if (run / 'outputs/candidate.json').exists() else 'neutral'
+        state = current['state']
+        fast_stage = {'quality_feedback_requires_revision': 'review', 'needs_review': 'review', 'needs_revision': 'review', 'ready_to_deliver': 'delivery',
+                      'delivered': 'delivery', 'awaiting_model': 'render', 'needs_reconciliation': 'render'}.get(state, 'neutral')
+        jobs = [j for j in current['jobs'] if j.get('plan_id') == plan['id']]
+        action = _next_action(run, state, jobs)
+        fast_reasons = {'planned': 'Verify the shared base, then register the complete pilot candidate for basic review.',
+                        'needs_review': 'Inspect the current candidate and fill review/fast-review.json, then run quality.',
+                        'needs_revision': 'Inspect current failures and make a bounded repair or finalize the best complete translation.'}
         return {'stage_focus': focus(stage or fast_stage, inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, 'mode': 'fast', 'plan_id': plan['id'],
                 'text_timing': timing_diagnostics(run, inventory),
                 'improvement_loop': improvement_agenda(run),
@@ -134,13 +151,12 @@ def build(run, stage=None):
                 'workflow': 'agent/workflows/fast-delivery.md',
                 'review': 'review/fast-review.json', 'checks': fast_delivery.policy(root)['review_checks'],
                 'budget': {k: budget[k] for k in ('id', 'credit_limit', 'reserved_or_billed_credits', 'remaining_credits', 'unknown_billing_jobs')},
-                'next_action': 'Complete actual basic review, then quality/deliver; reuse unchanged evidence'}
-    from .cli import status
-    current = status(run)
+                'state_hint': state, 'candidate_quality_holds': current.get('candidate_quality_holds', []), 'jobs': [{k: j.get(k) for k in ('id', 'state', 'task_id')} for j in jobs],
+                'next_action': fast_reasons.get(state, action['reason']), 'invocations': action['invocations']}
     auto = {'created': 'source', 'awaiting_agent_inventory': 'source', 'awaiting_source_styles': 'source', 'needs_replanning': 'render',
             'needs_planning': 'render', 'needs_neutral_review': 'neutral',
             'awaiting_model': 'render', 'needs_reconciliation': 'render',
-            'planned': 'render', 'needs_review': 'review', 'needs_revision': 'review',
+            'planned': 'render', 'quality_feedback_requires_revision': 'review', 'needs_review': 'review', 'needs_revision': 'review',
             'ready_to_deliver': 'delivery', 'delivered': 'delivery'}.get(current['state'], 'translation')
     stage = stage or auto
     require(stage in STAGES, 'Unknown production stage')
@@ -176,7 +192,8 @@ def build(run, stage=None):
     if candidate:
         require(file_hash(inside(run, candidate['path'])) == candidate['sha256'], 'Work packet candidate changed')
         from .quality_holds import require_clear
-        require_clear(source_sha, candidate['sha256'], root)
+        if not current.get('candidate_quality_holds'):
+            require_clear(source_sha, candidate['sha256'], root)
     coverage = inventory.get('coverage', {})
     pending = [key for key in ('visual', 'speech', 'timeline') if coverage.get(key, {}).get('status') != 'reviewed']
     from .batches import binding
@@ -211,6 +228,7 @@ def build(run, stage=None):
                            'scope': 'Incomplete production/review is work for the Agent; user acceptance requires separate attributed feedback.'},
             'source_sha256': source_sha, 'candidate': candidate, 'inventory': 'analysis/inventory.json',
             'source_style_preservation': current.get('source_styles'),
+            'candidate_quality_holds': current.get('candidate_quality_holds', []),
             'diagnostic_candidates': diagnostics, 'billing_pending': billing_pending,
             'pending_source_coverage': pending, 'blockers': blockers, 'jobs': jobs, 'delivery_record': delivery,
             'batch': None if not batch else {'id': batch['id'], 'pilot': batch['pilot'],

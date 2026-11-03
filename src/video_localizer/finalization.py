@@ -161,7 +161,10 @@ def finish(run, relative='review/finalization.json'):
         selection_asset = {'path': path.relative_to(run).as_posix(), 'sha256': file_hash(path)}
     if video.resolve() != output.resolve() and not (output.exists() and video.samefile(output)):
         shutil.copyfile(video, output)
+    candidate_path = run / 'outputs/candidate.json'
+    candidate_at_finish = read_json(candidate_path).get('sha256') if candidate_path.exists() else None
     write_json(run / 'outputs/completion.json', {
+        'candidate_sha256_at_completion': candidate_at_finish,
         'state': 'delivered_with_issues', 'video_sha256': digest,
         'source_sha256': spec['source_sha256'], 'inventory_sha256': spec['inventory_sha256'],
         'request_sha256': spec['request_sha256'],

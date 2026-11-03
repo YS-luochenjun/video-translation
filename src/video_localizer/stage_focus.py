@@ -35,7 +35,16 @@ def focus(stage, inventory, root):
     matches = sorted((entry for entry in cases if entry.get('status') == 'active'
                       and tags.intersection(entry.get('tags', []))),
                      key=lambda e: (-len(tags.intersection(e['tags'])), e['id']))
-    return {'stage': stage, 'method': 'knowledge/rules/' + method + '.md', 'check': action,
+    pilot = None
+    if items and stage in ('neutral', 'render', 'review'):
+        def risk(item):
+            display = item.get('display') or {}
+            return (bool(item.get('foreground_occlusion')), bool(display.get('outline_layers')),
+                    'cta' in str(item.get('source_style_id', '')).lower(), bool(item.get('trajectory')))
+        candidate = max(items, key=risk)
+        pilot = {'suggested_instance': candidate.get('id'), 'interval': [candidate.get('start'), candidate.get('end')],
+                 'action': '按实际原片选择最难镜头，可替换建议。扩语种前运行 pilot-compare，播放全幅三路片段，登记残字、主体、字形与出现/退场时机。'}
+    return {'pilot_before_expansion': pilot, 'stage': stage, 'method': 'knowledge/rules/' + method + '.md', 'check': action,
             'inspect_intervals': inspections, 'similar_cases': [
                 {k: entry.get(k) for k in ('id', 'path', 'scope')} for entry in matches[:2]],
             'case_use': '仅提示检查位置和失败方式；当前原片须独立验证，不沿用旧坐标或验收。'}

@@ -15,6 +15,7 @@
 3. `tts-packet RUN --voice Kore --estimate 2` 从定稿speech_segments生成源绑定请求；可用 `--speech-ids id1 id2` 选择有序子集。声音选型、风格和保守估价仍按任务判断，此命令不付费。检查后用 `model-task RUN 包路径 --execute`。听感、语义覆盖和混音后对齐必做。
 4. `production RUN` 串联计划、渲染、原尺寸视觉对照、抽证据、quality。新视觉证据默认pending；按[视觉门禁](visual-review.md)完成逐实例观察以及整片/字幕实际观测后重跑。缺inventory或实际评审时明确停止，不编造通过；加 `--deliver` 交付通过者，已有实际finalization规格时按最终输出合同交付最佳完整版本，保留delivered_with_issues。现有build_repair_master、mix_localized_narration、OCR/ASR和分离脚本继续共用。
 5. 扩语种前执行 `work-packet RUN --stage neutral`，按 stage_focus 在整幅原片、底片和代表译片上核对困难时段，尤其看原文字框外的效果和非文字区域。实际检查代表语言并填写评审后 `batch-approve demo`，重新过质量门禁，冻结成片、计划、评审及底片哈希。不将Agent自审改称用户验收；用户明确要求先确认时仍须等确认。
+   有需翻译画面文字时，从代表语种选择最易漏检的实例（运动、遮挡、描边、淡出或 CTA），说明为何它比其他镜头难。执行 `pilot-compare RUN --instance ID --base 同时轴全长底片路径 --video 当前代表译片路径`。路径相对 run。当前候选已登记分段底片时省略 `--base`，按原有帧映射拼接该时间段。播放返回的连续全幅三联片（原片、无字底片、译片）；同时核查字框外及前后景、字号描边位置、进入与退出。复制返回的 report_template 到 `review/pilot-review.json`，填写实际观察。通过填 clear；发现共用问题先在原额度内修底并对新版本重验。到界时记录 limitation，填 best_available，用正式完整译片执行原有 finalize 和 `batch-approve --best-available`。确实没有可用全长底片时用 `--base-limit 原因` 对照原片与译片并记录无法验证项，只可走带限制放行。纯人声场景沿原配音审核。Fireplay 手动编排的多语种同样先完成这个代表片检查。
 6. 各语言自己的译稿、音轨、时轴、字层就绪后 `batch-run demo --deliver`。代表语言未放行仍停在显式检查点；已放行后，单个语言待审或异常不饿死其他语言，逐项继续并返回准确pending_runs。带瑕疵完整输出计为本地已完成，不冒称quality通过；全批本地完成且存在该类输出时为completed_with_issues。非代表语言每次仍重验当前代表版本，变化后须重新审核，各语言依然逐一quality。到界的完整fast代表片可 `batch-approve demo --best-available` 放行，明确不批准其底片或质量。批次完成不是Fireplay提交完成，外部完整矩阵另查。
 
 默认串行渲染，避免编码器争用磁盘/显存；未引入并发付费提交。原命令也可逐步使用，已绑定批次的预算、渲染门禁仍有效。新场景的遮罩、跟踪、字体和布局仍需判断，本次没有把单片坐标推广为通用算法。

@@ -77,6 +77,36 @@ class ProductionRecoveryTests(unittest.TestCase):
         self.assertIn('video-job', str(result['next_action']))
         self.assertFalse(result['next_action']['new_paid_submission'])
 
+    def test_fast_status_checks_the_fast_review_and_current_candidate(self):
+        write_json(self.run / 'plan.json', {'id': 'p', 'mode': 'fast'})
+        movie = self.run / 'outputs/final.mp4'
+        movie.parent.mkdir(parents=True)
+        movie.write_bytes(b'actual localized candidate')
+        sha = file_hash(movie)
+        write_json(self.run / 'outputs/candidate.json', {'plan_id': 'p', 'sha256': sha, 'mode': 'fast'})
+        review = self.run / 'review/fast-review.json'
+        write_json(review, {'video_sha256': sha})
+        write_json(self.run / 'outputs/quality.json', {'decision': 'pass', 'plan_id': 'p',
+                   'video_sha256': sha, 'review_sha256': file_hash(review), 'scope': 'fast-basic'})
+        with patch('video_localizer.workflow.current_plan'):
+            self.assertEqual(cli.status(self.run)['state'], 'ready_to_deliver')
+            with patch('video_localizer.quality_holds.active', return_value=[{'id': 'user-objection'}]):
+                self.assertEqual(cli.status(self.run)['state'], 'quality_feedback_requires_revision')
+            write_json(review, {'changed': True})
+            self.assertEqual(cli.status(self.run)['state'], 'needs_review')
+
+    def test_old_completion_does_not_hide_a_new_candidate(self):
+        movie = self.run / 'outputs/final.mp4'
+        movie.parent.mkdir(parents=True)
+        movie.write_bytes(b'bounded final')
+        write_json(self.run / 'outputs/completion.json', {'video_sha256': file_hash(movie),
+                   'candidate_sha256_at_completion': 'a' * 64})
+        candidate = self.run / 'outputs/candidate.json'
+        write_json(candidate, {'sha256': 'a' * 64})
+        self.assertEqual(cli.status(self.run)['state'], 'delivered_with_issues')
+        write_json(candidate, {'sha256': 'c' * 64})
+        self.assertEqual(cli.status(self.run)['state'], 'needs_review')
+
     def test_review_and_delivery_guidance_does_not_start_another_render(self):
         for state, expected in [('needs_review', 'review_actual_candidate'),
                                 ('ready_to_deliver', 'deliver'), ('delivered', 'delivery_complete')]:

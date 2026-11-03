@@ -104,6 +104,11 @@ class BatchBudgetTests(unittest.TestCase):
             with self.assertRaisesRegex(WorkflowError, 'Pilot changed'):
                 batches.gate(self.runs[1])
 
+    def test_direct_fast_child_registration_requires_pilot_release(self):
+        from video_localizer.fast_delivery import register
+        with self.assertRaisesRegex(WorkflowError, 'representative language'):
+            register(self.runs[1], 'not-yet-read.json')
+
     def test_direct_render_checks_batch_before_media_work(self):
         with patch.object(workflow, 'current_plan', return_value={'segments': []}):
             with self.assertRaisesRegex(WorkflowError, 'representative language'):
