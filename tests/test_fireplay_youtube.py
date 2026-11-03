@@ -60,6 +60,28 @@ class YouTubeRoutingTests(unittest.TestCase):
         material['sharedDeptId'] = 'test'
         self.assertEqual(fireplay.receipt(fixtures.CODE, 'verify-1', {'response': material}, self.root)['state'], 'verified')
 
+    def test_platform_managed_quota_skip_does_not_reimport_or_require_youtube_task(self):
+        write_json(self.root / 'config/fireplay-youtube-routing.json', {
+            'require_requirement_group': False,
+            'quota_handling': {'instruction': '额度不足交Fireplay处理，不等待额度、不重传。'}})
+        self.assertIn('不等待额度、不重传', fireplay_youtube.instruction(self.root))
+        operation = fireplay.dispatch(fixtures.CODE, True, self.root)['operation']
+        self.assertEqual(operation['arguments']['VedioSouce'], 'YouTube')
+        accepted = fireplay.receipt(fixtures.CODE, 'import-1', {'response': {
+            'material_id': fixtures.MID,
+            'youtube': {'status': 'skipped', 'reason': 'group_quota_exceeded', 'task_id': None}}}, self.root)
+        self.assertEqual(accepted['state'], 'verified')
+        self.assertEqual(accepted['result']['youtube_status'], 'requested_not_verified')
+        self.assertEqual(fireplay.dispatch(fixtures.CODE, root=self.root)['state'], 'needs_material_verification')
+        fireplay.dispatch(fixtures.CODE, True, self.root)
+        material = {'id': fixtures.MID, 'name': fixtures.CODE+'-es', 'isPublic': False,
+                    'sharedDeptId': 'test', 'tags': ['es', 'crush']}
+        self.assertEqual(fireplay.receipt(fixtures.CODE, 'verify-1', {'response': material}, self.root)['state'], 'verified')
+        # The fixture also includes Korean: proceed to that locale, without
+        # retrying the accepted Spanish material or waiting on its YouTube job.
+        self.assertEqual(fireplay.dispatch(fixtures.CODE, root=self.root)['operation']['id'], 'upload-2')
+        self.assertEqual(sum(k.startswith('import-') for k in self.box()['operations']), 1)
+
     def test_latest_policy_recovers_old_unknown_material_without_requiring_task_group_or_reimport(self):
         fireplay_youtube.record_route(fixtures.CODE, self.route(), root=self.root)
         fireplay.dispatch(fixtures.CODE, True, self.root)

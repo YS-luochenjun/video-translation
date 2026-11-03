@@ -1,0 +1,15 @@
+{
+  "id": "fireplay-youtube-quota-clarification-20261102",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "status": "candidate",
+  "origin": "Direct user clarification on 2026-11-02",
+  "source_quote": "目前项目中，会有youtube账号上传额度不足的情况。不用管，只需要管上传时选择youtube上传就好，fireplay后续有额度的时候会自己进行上传的。",
+  "hypothesis": "YouTube quota and deferred job creation remain Fireplay-owned after correct YouTube-mode handoff and verified material delivery. This restates existing completion policy rather than introducing a new technical method.",
+  "company_preference": false,
+  "limitations": [
+    "Does not waive actual material import/share/name/tag/designer/bind verification or unknown-write reconciliation.",
+    "Does not assert YouTube publication already succeeded or certify platform implementation."
+  ]
+}

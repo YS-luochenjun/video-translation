@@ -30,5 +30,16 @@
   ],
   "mode": "platform_managed",
   "require_task_department_match": false,
-  "rule": "Verify the complete source/locale content, YouTube upload mode, library import, group sharing, naming/tags, designer attribution and requirement binding. Then hand asynchronous YouTube execution to Fireplay; task-list visibility, final-link delay and downstream progress do not block closure or trigger duplicate imports."
+  "rule": "Verify the complete source/locale content, YouTube upload mode, library import, group sharing, naming/tags, designer attribution and requirement binding. Then hand asynchronous YouTube execution to Fireplay; task-list visibility, final-link delay and downstream progress do not block closure or trigger duplicate imports.",
+  "quota_handling": {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-youtube-quota-platform-owned-20261102",
+    "source_quote": "目前项目中，会有youtube账号上传额度不足的情况。不用管，只需要管上传时选择youtube上传就好，fireplay后续有额度的时候会自己进行上传的。",
+    "owner": "Fireplay",
+    "block_submission_or_closure": false,
+    "wait_for_quota": false,
+    "retry_or_reimport_for_quota": false,
+    "require_youtube_task_or_url": false,
+    "instruction": "上传时选择YouTube自动上传即可；YouTube账号/组额度不足、暂未创建上传任务也交Fireplay后续处理。完成真实入库、共享、名称/标签、设计师归属和需求绑定核验后正常结案，不等待额度、不重传/重入库、不另建任务或催办，不把额度不足单独作为阻塞或反复提醒；不冒称YouTube已经发布。"
+  }
 }

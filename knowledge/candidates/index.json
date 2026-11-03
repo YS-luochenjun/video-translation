@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 66,
-    "no_adoption_record": 338,
+    "no_adoption_record": 339,
     "synthetic_only": 4
   },
   "entries": [
@@ -9185,6 +9185,31 @@
       ],
       "storage_path": "knowledge/history/candidates/1ff4abf0750793ac7f5700b1b9c1abc52e5e635b98c39c332eea5e3c4228f5e0/fireplay-range-and-title.json",
       "queue_state": "archived"
+    },
+    {
+      "id": "fireplay-youtube-quota-clarification-20261102",
+      "path": "knowledge/candidates/fireplay-youtube-quota-clarification-20261102.json",
+      "original_sha256": "65cbd47c9b421a0474632c8a4e863416dc3071452ec8af113cce0bc3abd55c18",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "historical_outcome": null,
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/79d85bd535f8b73184120b14076862c457a31eeceb1da1a2a119a0a39e93dc40.json",
+        "decision_sha256": "cf5b08904f30eb952203c295eb32b44052f0caed1cb7a4359cf7fd9bfb27535e",
+        "resolution": "duplicate",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "fireplay-completion-recovery-v4"
+      ],
+      "storage_path": "knowledge/history/candidates/65cbd47c9b421a0474632c8a4e863416dc3071452ec8af113cce0bc3abd55c18/fireplay-youtube-quota-clarification-20261102.json",
+      "queue_state": "archived",
+      "hypothesis_sha256": "0a35762cd0560a68c786f0a7e901c13fe62042c7e4f6ab43fbf61cd42fb935e6"
     },
     {
       "id": "four-thread-visual-supervision-20261020",

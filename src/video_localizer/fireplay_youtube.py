@@ -12,10 +12,12 @@ def policy(root=ROOT):
 
 
 def instruction(root=ROOT):
-    if not policy(root).get('require_requirement_group'):
+    routing = policy(root)
+    if not routing.get('require_requirement_group'):
         return ('按用户最新固定流程入库、共享到需求组、请求YouTube自动上传、打语言/产品tag并绑定需求。'
                 'YouTube账号路由交给Fireplay，账号/任务组显示不作为上传门禁；入库共享和绑定仍须核验。'
-                '既有素材和unknown先恢复原回执，不重复入库；受理绑定后不跟踪YouTube进度。')
+                '既有素材和unknown先恢复原回执，不重复入库；受理绑定后不跟踪YouTube进度。'
+                + routing.get('quota_handling', {}).get('instruction', ''))
     return ('上传必须显式核验需求组、实际YouTube账号组和任务组；没有实际支持的路径只暂停上传，不默认选账号。')
 
 

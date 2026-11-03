@@ -8,6 +8,8 @@
 | 项目经验总结 | 每天18:00，Asia/Shanghai | [经验总结](../agent/workflows/knowledge-sweep.md)：处理新增观察、反馈和反例，审查采纳或明确不产生新知识 |
 | 项目存储整理 | 每天18:30，Asia/Shanghai | [存储整理](../agent/workflows/storage-sweep.md)：14天成片、旧版本、24小时结案现场／登记缓存、7天闲置源缓存及终态现场 |
 
+Fireplay新需求巡检为长期任务：保持每30分钟持续运行，当前需求全部完成或队列为空也不停止。用户2026-11-02澄清“检查目前会话完成情况，是结束就删除。但是对于需求的轮训，要一直开着”；因此固定范围的会话完成盯办另设生命周期，完成后只结束该盯办，保留长期巡检和制作聊天。配置来源见config/fireplay-monitor.json.lifecycle；仅用户明确要求停止长期需求巡检时才暂停或删除。
+
 应用调度与Windows宿主任务二选一，每项只保留一个入口。应用路线需要电脑开机、应用运行；聊天无需前台。Windows知识入口为[project-hooks.ps1](../bin/project-hooks.ps1)，时间读取config/hooks.json；存储入口为[project-storage.ps1](../bin/project-storage.ps1)，唯一任务名绑定当前工作区，18:30触发并设置错过后补跑，不依赖AI解释删除清单。两项各有独立回执，不从enabled或脚本存在推断已经安装／执行成功。换机器须重新核对调度和本地授权。
 
 存储脚本的Run、Install、Uninstall默认只预览，显式-Execute才写入；Status只读。底层[storage_daily.py](../bin/storage_daily.py)缺省只预览，--execute才按工作区授权、锁和当前指纹执行。没有授权或存在活动锁记录deferred；实际回执在state/storage-daily-latest.json。脚本签名或执行策略不允许时如实报告，不绕过。当前源码不宣称本机系统任务已安装。

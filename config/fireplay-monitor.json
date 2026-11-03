@@ -122,5 +122,18 @@
     "authorization_ref": "user-fireplay-new-unfinished-translation-only-20261101",
     "source_quote": "目前你需要筛选的是，没有完成的需求的，新需求的，翻译需求。注意不要完成错了，也不要完成重复了",
     "rule": "Only newly created, currently not_started, bindable translation requirements in the Zoubin scope. Reconcile existing exact-code chats, requests, ledgers and bindings before production. Done or in_progress rows do not start again. Historical records, budgets and unknown operations are preserved."
+  },
+  "lifecycle": {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-persistent-intake-separate-completion-watch-20261102",
+    "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+    "source_message_id": "01a1a00b-edc7-7d12-a0a2-8bf11083c86f",
+    "source_quote": "我说的是，检查目前会话完成情况，是结束就删除。但是对于需求的轮训，要一直开着",
+    "mode": "persistent_intake",
+    "interval_minutes": 30,
+    "stop_when_current_batch_complete": false,
+    "stop_when_queue_empty": false,
+    "stop_only_on_explicit_user_request": true,
+    "completion_watch": "Separate fixed-scope chat-completion watches may end after verified full delivery; preserve production chats, history and the persistent intake automation."
   }
 }

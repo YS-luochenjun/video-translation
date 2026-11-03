@@ -1590,6 +1590,11 @@
       "sha256": "bc24ed03ea739a2b2035239eb57602eea216406e7b53ffe39e7088422694c332",
       "archive_path": "bc24ed03ea739a2b2035239eb57602eea216406e7b53ffe39e7088422694c332/native-render-evidence-guards-v1.json",
       "decision_sha256": "3da6cf445d111eb8f7cd550e2576bc98417d5f86a8a20ebee56c59b2ef71b7d8"
+    },
+    "knowledge/candidates/fireplay-youtube-quota-clarification-20261102.json": {
+      "sha256": "65cbd47c9b421a0474632c8a4e863416dc3071452ec8af113cce0bc3abd55c18",
+      "archive_path": "65cbd47c9b421a0474632c8a4e863416dc3071452ec8af113cce0bc3abd55c18/fireplay-youtube-quota-clarification-20261102.json",
+      "decision_sha256": "cf5b08904f30eb952203c295eb32b44052f0caed1cb7a4359cf7fd9bfb27535e"
     }
   }
 }

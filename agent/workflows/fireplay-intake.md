@@ -41,4 +41,4 @@
 
 精确素材ID、源/成片SHA256、字节数和绑定回执共同确认身份；相同名称或相似缩略图不足以判定重复。跨聊天同需求的不同原片不得按名称批量删除、替换或重绑；SHE多聊天实测来源见[七组复盘](../../knowledge/curation/seven-source-review-20261027.json)。
 
-Fireplay受理、入库/共享/名称/标签/绑定核验后即按[提交知识](../../knowledge/rules/fireplay-completion-recovery-v4.md)收尾。后续YouTube进度、排队、限额和向量化交平台，不轮询、不等链接、不催办。报告已提交/已请求自动上传，不冒称YouTube已完成。经验按知识技能归纳；必要证据、未知费用和质量异议保留；逐run执行maintain --close，阻断项如实记录。没有生产run的读取/测试不伪造交付或维护成功。
+Fireplay受理、入库/共享/名称/标签/绑定核验后即按[提交知识](../../knowledge/rules/fireplay-completion-recovery-v4.md)收尾。后续YouTube进度、排队、限额和向量化交平台，不轮询、不等链接、不催办。按config/fireplay-youtube-routing.json.quota_handling，上传时已选择YouTube模式且素材真实受理后，即使账号/组额度不足、暂未创建YouTube任务，也正常完成核验及结案；不等待额度、不因此重传/重入库、另建任务或反复提醒，后续额度恢复由Fireplay处理。报告已提交/已请求自动上传，不冒称YouTube已完成。经验按知识技能归纳；必要证据、未知费用和质量异议保留；逐run执行maintain --close，阻断项如实记录。没有生产run的读取/测试不伪造交付或维护成功。
