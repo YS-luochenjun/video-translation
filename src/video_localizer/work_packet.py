@@ -5,6 +5,7 @@ from .knowledge_advisories import retrieve as advisory_retrieve
 from .knowledge_usage import followup as knowledge_followup
 from .improvement import agenda as improvement_agenda
 from .text_timing import diagnose as timing_diagnostics
+from .stage_focus import focus
 from . import resources, workflow
 
 STAGES = {
@@ -82,6 +83,8 @@ def build(run, stage=None):
     root = run.parent.parent
     from .ledger import tracking_packet
     ledger_tracking = tracking_packet(run)
+    if stage is not None:
+        require(stage in STAGES, "Unknown production stage")
     source_sha = file_hash(workflow.source_path(run))
     inventory_path = run / 'analysis/inventory.json'
     inventory = read_json(inventory_path) if inventory_path.exists() else {'source_sha256': source_sha}
@@ -102,7 +105,7 @@ def build(run, stage=None):
             require(file_hash(path) == asset['sha256'], 'Finalization knowledge selection changed')
             selected = read_json(path)
         navigation = _completion_navigation(run, source_sha, completion)
-        return {'run': run.name, 'ledger_tracking': ledger_tracking, **navigation, 'completion': completion,
+        return {'stage_focus': focus(stage or 'delivery', inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, **navigation, 'completion': completion,
                 'text_timing': timing_diagnostics(run, inventory),
                 'improvement_loop': improvement_agenda(run),
                 'knowledge': selected.get('knowledge', []), 'source_references': selected.get('source_references', []),
@@ -114,7 +117,8 @@ def build(run, stage=None):
         from . import budgets, fast_delivery
         plan = fast_delivery.validate_plan(run, read_json(run / 'plan.json'))
         budget = budgets.status(budgets.bind(run)['id'], root)
-        return {'run': run.name, 'ledger_tracking': ledger_tracking, 'mode': 'fast', 'plan_id': plan['id'],
+        fast_stage = 'review' if (run / 'outputs/candidate.json').exists() else 'neutral'
+        return {'stage_focus': focus(stage or fast_stage, inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, 'mode': 'fast', 'plan_id': plan['id'],
                 'text_timing': timing_diagnostics(run, inventory),
                 'improvement_loop': improvement_agenda(run),
                 'knowledge': plan.get('knowledge', []), 'source_references': plan.get('source_references', []),
@@ -195,7 +199,7 @@ def build(run, stage=None):
         issues = [{'instance':n.get('instance_id'), 'issue':n['issue']} for n in packet.get('instances',[]) if n.get('issue')]
         if issues: observations.append({'path':path.relative_to(run).as_posix(),'issues':issues})
     from .model_routing import policy
-    return {'run': run.name, 'ledger_tracking': ledger_tracking, 'stage': stage, 'state_hint': current['state'], 'model_routing': policy(root),
+    return {'stage_focus': focus(stage, inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, 'stage': stage, 'state_hint': current['state'], 'model_routing': policy(root),
             'text_timing': timing_diagnostics(run, inventory),
             'improvement_loop': improvement_agenda(run),
             'reusable_packages': reusable_packages, 'maintenance': maintenance,
