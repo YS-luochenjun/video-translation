@@ -1,0 +1,81 @@
+{
+  "id": "multilingual-render-review-20261102",
+  "status": "candidate",
+  "created_at": "2026-11-03T03:07:59.049571+00:00",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "knowledge_class": "project_technical_review",
+  "hypothesis": "Treat source events, actual rendered glyph geometry and evidence-to-claim matching as distinct checks before expanding localization.",
+  "observations": [
+    {
+      "source_record_sha256": "607c26d34e36f4a4863baa751e615df1c46efcc6539490cb077f425da0da4eb3",
+      "source_sha256": "d344db6f1533844e4d8af600fd3bd7c14f72a0f9034c530dc70bbc064d9b741b",
+      "target_language": "hi",
+      "reported_symptom": "Native Hindi V8 t002/t005 lines extend past both1080 frame edges; target phrase letters are clipped. t001 nearly touches frame edges.",
+      "reported_intervention": "Only target Devanagari body sizes changed: t002/t00586→68 and t001/t00986→76. Exact voice, actual ASR phrase timings, font face, native frame count and neutral plate retained.",
+      "before_video_sha256": "40454c35469ad643f261e39cddcb6d1ce0ecad881f480c62c2eba1002fbf6697",
+      "after_video_sha256": "e0a3e397e4445700869816978019f7b93e1236226910157a27b2b4b502c51c32",
+      "review_boundary": "Native pair visually inspected: clause fit improves, not background restoration.",
+      "original_limits": [
+        "Exact source and Hindi target only; not independent source/script replication or normal-speed motion/hearing acceptance.",
+        "Actual font metadata and glyph coverage do not prove layout fit. This local correction creates no new company default."
+      ]
+    },
+    {
+      "source_record_sha256": "fccfcbb8cc7acd59cb683b89701b154db59c6748becc84b8f5f7091084e06531",
+      "source_sha256": "067aaaf4a37e00162bc977dc3da148430824e6c05e2638432b8a9be2b81c0b44",
+      "target_language": "de",
+      "reported_symptom": "t004 target storefront sign stayed below source plane and leaked indoors after cut; final5CTA frames returned source lettering and final frame rounded early.",
+      "reported_intervention": "Correct source instance temporal/spatial coverage; preserve selected natural repair algorithms, voice and other regions.",
+      "before_video_sha256": "2c429d2601673b34e8aa2759380ee906e7e5ea887b4eb359d4a225c653aa0e9a",
+      "after_video_sha256": "be0455590d240f5b58037efa7abe743c329b1f9b527445fd05f11d249361a72c",
+      "review_boundary": "Overview and final CTA still inspected; exact sign-cut and terminal continuous sequence require further matched-frame review.",
+      "original_limits": [
+        "One source/German case; same-agent review, no human/company acceptance.",
+        "Prior two-round HUD/phone attempts remain negative; these are source-geometry/frame-mapping corrections, no new paid model or budget."
+      ]
+    },
+    {
+      "source_record_sha256": "83217c04fe74fe943d92e7e0a7b50520eb2ec4038e64e6ddff537b3b0b3023cb",
+      "source_sha256": "0fcc176806be466e44d7fa6e584cfcd916623d55fe910650d78391a03b10b53e",
+      "target_language": "de",
+      "reported_symptom": "At the actual captured t002 midpoint2.59s, previous candidate retains source Order suffix; corrected candidate renders Auftrag #0001 in the visible header. The chosen2.59s before/after images do not depict the separate nativeframe82 false forehead-label event.",
+      "reported_intervention": "Native same-frame visible-header fallback when Color is occluded; unchanged serial retained semantically.",
+      "before_video_sha256": "8f3af2eb2e0a111f45694f1b495bcb98568ed79536d4f76077fc1f46751acfe4",
+      "after_video_sha256": "3a30d8ca466c882f0a080db7ca0631714d3d9f6027d1607ed489e57b35dfcc99",
+      "review_boundary": "Native pair supports header translation only, not a different forehead-label claim.",
+      "original_limits": [
+        "Exactsource Slime Lab German candidate3→4; source-only heuristic suppression may be reused but other languages retain their own review.",
+        "General paper heuristics still require direct actual source identity inspection; this does not validate all other label frames.",
+        "Correction of local feedback2e806c5f56b400eeaa438b22746d7208882676aaa7a1dc1425d66fea68f47f24: its specific chosen before/after evidence does not prove its forehead/background suppression wording. Preserve the old record as historical and use this narrower actual observed scope."
+      ]
+    },
+    {
+      "source_record_sha256": "150a4260737772753950d41f8770494b0e9728927452aab876bfdd1c44929308",
+      "source_sha256": "69e32aa9a4296f37b4f25b516ea25493034109d372dc7f548b5903264af0ff07",
+      "target_language": "ja",
+      "reported_symptom": "同一Wan2.7真实视频输出采用过宽黄色阈值蒙版时，合法的黄色动漫眼睛和额头被黑色模型填补影响。",
+      "reported_intervention": "停止该黑眼候选并保留质量异议。缩紧字幕ROI到真实眼睛上方；ImageGen清洁额头参考只在无字区域相关性>0.75且照片实际一致时采用，校正曝光；源上下真实黑像素验证转场填充；白衣短区间局部原生像素插值替换黑模型块。其他像素回用实际原片。",
+      "before_video_sha256": "c6a636a8a73c323bfd97c7c03ec368ad7bf91a5c7d5b443dea3d4dcf300561a7",
+      "after_video_sha256": "8081e76ae645a629418903803456b414b29bc43352ffdbbf7e5011f0cf5d9967",
+      "review_boundary": "Selected native pair does not clearly show the claimed damaged-eye-before condition; keep causal claim pending.",
+      "original_limits": [
+        "仅当前源和日语、此真实Wan输出的局部采用；不能推为所有黄色字幕通用阈值或模型完整通过。",
+        "原片遮挡像素无法精确恢复；静帧、音频模型、自审与独立/用户验收区分。"
+      ]
+    }
+  ],
+  "developer_actions": [
+    "Separate source erasure lifetime, source UI event lifetime and final mixed target speech lifetime.",
+    "Check actual selected font face and native encoded line edges rather than nominal font metadata alone.",
+    "Verify model shot phase and foreground boundaries in addition to clip length; do not reuse source coordinates by visual resemblance.",
+    "Match every causal statement to the depicted timestamp and affected region; preserve contrary reports and unknowns."
+  ],
+  "limitations": [
+    "Procedural review guidance, not new quality policy or a universal model/algorithm success claim.",
+    "Different source hashes do not independently reproduce every intervention; no native playback/listening acceptance inferred.",
+    "No stored production costs, platform failures or temporary upload cleanup promoted."
+  ],
+  "company_preference": false
+}

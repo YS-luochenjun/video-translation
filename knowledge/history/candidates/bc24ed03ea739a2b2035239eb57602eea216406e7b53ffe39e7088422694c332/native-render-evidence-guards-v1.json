@@ -1,0 +1,14 @@
+{
+  "id": "native-render-evidence-guards-v1",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "origin": "2026-11-02 user request to fix common issues and curate knowledge; same-agent developer review",
+  "hypothesis": "Bind exact physical font faces independently, fit the whole ink/effects, sample native frames adjacent to erasure intervals, and reject explicit required-speech contradictions.",
+  "validation_status": "developer_regression_only",
+  "company_preference": false,
+  "limits": [
+    "Synthetic engineering evidence, not customer footage acceptance or natural inpainting validation.",
+    "Existing budgets, bounded revision, ordinary-flaw complete delivery and speech requirements retained."
+  ]
+}

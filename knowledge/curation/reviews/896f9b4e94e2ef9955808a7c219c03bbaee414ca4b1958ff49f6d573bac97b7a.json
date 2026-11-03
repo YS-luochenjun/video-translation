@@ -1,0 +1,40 @@
+{
+  "source": {
+    "path": "knowledge/candidates/native-render-evidence-guards-v1.json",
+    "sha256": "bc24ed03ea739a2b2035239eb57602eea216406e7b53ffe39e7088422694c332"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent developer review; not independent review",
+  "origin": "User requested engineering fixes and knowledge deposition after cross-chat review; deterministic developer regression and a new synthetic media smoke.",
+  "resolution": "adopted",
+  "reason": "All four technical actions are implemented with deterministic regression and new native-frame media smoke; no production quality or company preference claim.",
+  "targets": [
+    {
+      "id": "native-render-evidence-guards-v1",
+      "path": "knowledge/rules/native-render-evidence-guards-v1.md",
+      "sha256": "1febb3b07851e08ddc8bcc34e5645da58152bdade8595c774e653770d2419e6e",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 原生渲染与取证防错（开发回归）\n\n这是多语种制作复盘后落实的工程方法，适用于现有静态排字、FFmpeg文字回退、清底对照和已存在的音频模型评审。不替代[跨聊天复盘](multilingual-thread-lessons-v2.md)、[自然去字](content-aware-text-restoration-v5.md)及[源视觉语言](source-led-visual-localization-v1.md)，也不是新的公司质量标准。\n\n## 已实现的动作与失败签名\n\n1. **实际字面不能只靠家族加bold选择。** font-bind绑定真实文件后，渲染器按字体哈希导出局部唯一家族，并记录来源、物理字重及导出文件哈希。同一家族的两个字面可以共存；导出被改动则停止复用，不能静默换系统字体。原始绑定资产保留原字节。浏览器字层继续使用其已有的逐字面别名。\n2. **整句测量必须覆盖效果。** 静态排字把最外层描边和阴影计入留白，宽度同时考虑advance与字形ink范围。失败签名包括字心在框内而描边被裁、过长句缩到不可读；到显式最小字号仍放不下时报错，随后按既有流程调整断行、真实字面或有依据的布局。对齐通过不证明复杂透视/运动或任何语言的源设计完全一致。\n3. **区间不能自行证明区间正确。** 原片—无字底片—译片取证采首、中、末及区间外相邻各一个实际原生帧；残影区间另行采样。每区间最多5帧，未变证据复用，不是逐帧生图。出现下一帧残字须按实际原字/效果时间修正，不能自动延长遮罩、增加色条或将静帧采样写成全片通过。\n4. **完整摘要不能压过明确人声缺失。** inventory登记必需人声时，音频报告明确has_speech=false、显式空/空白转写或损坏的speech_segments会被拒绝。缺字段旧报告仍按原合同兼容；分句数、ASR拼写差异不直接当漏译，无声源不凭空新增配音。逐句语义、角色声线、音乐/音效和真实同步仍须实际审核。\n\n## 验证与限制\n\n证据：evidence:regression。实际libass测试检查粗描边成像的几何范围；字体测试核对同家族不同字面的独立别名、字重、字符映射和未改原资产；合成音频报告只验证逻辑矛盾，不能充当听审。原生边界测试包含一帧区间外残留与实际最后一帧，并约束取证数量。\n\n新编号合成视频使用已知干净生成背景，在真实编码后生成三方边界对照，并验证原输入不变时复用。已知干净背景不证明自然修复算法有效；无声合成片不证明任何真实配音或翻译验收。代码和测试哈希绑定到本次证据，后续修改须重跑相关回归。\n\n缺字、越界和明确缺必需人声继续走现有修正；严格质量与有界最佳完整提交分别记录。没有增加付费步骤、预算、返工次数或完美提交门槛。后续真实需求若仍有残字/字重串选/裁边，保留源、结果和失败边界，形成反例并修订；不能从本次测试通过宣称共性画质问题全部根治。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Exact bound-face renderer alias and provenance",
+    "Effect-aware static fitting with readable minimum",
+    "Bounded adjacent native boundary probes and reuse",
+    "Explicit absent/empty required-speech contradiction checks"
+  ],
+  "retained_parts": [
+    "Synthetic source, silence, old first-suite assertion failure and non-acceptance limits remain historical evidence."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-11-03T03:41:15+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

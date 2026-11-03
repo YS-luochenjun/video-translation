@@ -94,11 +94,13 @@ def text_events(segment, items, meta, directory, run=None):
                 require(run is not None, 'Bound typography font needs its owning run')
                 from .fonts import ass_asset
                 face=ass_asset(run,display['font_asset'],directory,target,display.get('bold',True),display.get('italic',False))
-                family=face['family']
+                family=face['ass_family']
             else:
                 require(layout.supported_family(family),'Unsupported typography font')
             size=layout.font_size({'bbox':box,'target_text':target,'font_family':family,'font_size':size,
                                   'bold':display.get('bold',True),'fit_text':True,'padding':1,'_font_face':face,
+                                  'outline':max(display.get('outline',2),12 if item['source_text']=='wait!' else 0),
+                                  'outline_layers':display.get('outline_layers',[]),'shadow':display.get('shadow',0),
                                   **({'line_height':display['line_height']} if 'line_height' in display else {}),
                                   'min_font_size':display.get('min_font_size',min(size,16) if item.get('source_style_id') else 8)})
             if face is None:

@@ -212,6 +212,8 @@ class AcceptanceTests(unittest.TestCase):
             workflow.build_plan(self.run_dir)
             prompt = read_json(self.run_dir / 'plan.json')['segments'][0]['prompt']
             self.assertIn('Focused same-shot background restoration.',prompt)
+            self.assertIn('Do not hide lettering with opaque/translucent panels', prompt)
+            self.assertIn('A feathered edge or lower opacity is not background reconstruction', prompt)
             self.assertIn('clean background after text removal',prompt)
             self.assertIn('do not copy or generate lettering',prompt)
             self.assertNotIn('exact target-locale letter shapes',prompt)

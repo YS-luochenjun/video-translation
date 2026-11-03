@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>译制台 · 项目会话控制中心</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#sessions"><span class="brand-mark">译</span><span>译制台<small>LOCALIZATION OS</small></span></a>
+    <div class="project"><span class="project-icon">V</span><div>广告视频本地化<small>video-translation</small></div><span class="muted">⌄</span></div>
+    <div class="nav-label">工作空间</div>
+    <nav aria-label="主导航">
+      <button data-nav="sessions" class="nav active"><span>▦</span> 会话总览 <b id="nav-count">5</b></button>
+      <button data-nav="automations" class="nav"><span>◷</span> 自动任务 <b>3</b></button>
+      <button data-nav="knowledge" class="nav"><span>◇</span> 经验与知识</button>
+      <button data-nav="plan" class="nav"><span>⌘</span> 接入方案</button>
+    </nav>
+    <div class="nav-label">快捷操作</div>
+    <button class="quick" data-action="intake">＋ 按需求号接单</button>
+    <button class="quick" data-action="curate">↗ 发起经验总结</button>
+    <div class="sidebar-bottom"><span class="status-dot"></span> 本地交互演示<small>所有操作仅在当前页面模拟<br>刷新页面恢复初始状态</small><button class="text-btn" data-action="reset">重置演示 ↻</button></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div class="breadcrumb">工作空间 <span>/</span> 广告视频本地化 <span>/</span> <strong id="breadcrumb-current">会话总览</strong></div><div class="top-actions"><span class="demo-badge">DEMO · 未连接生产</span><span class="avatar">Y</span></div></header>
+    <main id="main"></main>
+    <footer class="footer"><span>概念原型 v0.1 · 演示值不代表项目当前进度</span><span>台账事实 · 会话状态 · 平台回执分别展示</span></footer>
+  </div>
+  <dialog id="intake-dialog" aria-labelledby="intake-title">
+    <form id="intake-form">
+      <div class="dialog-head"><span class="eyebrow">DIRECT INTAKE</span><button type="button" class="icon-btn" data-action="close-dialog" aria-label="关闭">×</button></div>
+      <h2 id="intake-title">从一个需求号开始</h2><p class="muted">正式版将读取 Fireplay 正文、原片和目标语种，并核对已有会话。</p>
+      <label for="requirement-code">需求编号</label><input id="requirement-code" placeholder="例如 APC-20261103-014" autocomplete="off" required maxlength="80">
+      <label for="intake-note">补充要求 <span class="muted">可选</span></label><textarea id="intake-note" placeholder="例如：保留产品品牌，优先完成日语。" maxlength="2000"></textarea>
+      <div class="notice">本演示使用固定示例范围：1条原片、日语 / 德语 / 法语。不会读取平台、创建真实会话或产生模型费用。</div>
+      <div class="intake-steps"><span>① 精确查找</span><span>② 已有会话去重</span><span>③ 复用或新建</span></div>
+      <div id="intake-result" role="status"></div>
+      <button class="btn primary full" type="submit">模拟接单并打开会话 →</button>
+    </form>
+  </dialog>
+  <dialog id="artifact-dialog" class="artifact-dialog" aria-labelledby="artifact-dialog-title"><div class="dialog-head"><h2 id="artifact-dialog-title">阶段产物对比</h2><button class="icon-btn" data-action="close-artifact" aria-label="关闭产物预览">×</button></div><div id="artifact-dialog-body"></div></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -94,7 +94,15 @@ def capture(run):
             write_json(report, captions.review_template(run, candidate, inventory, asset))
     from .review_probes import generate as whole_scene_probes
     probes = whole_scene_probes(run, candidate)
-    record = {"video_sha256": file_hash(source), "review_probes": probes, "files": {path.relative_to(run).as_posix(): file_hash(path)
+    restoration = None
+    plan_path = run / 'plan.json'
+    if plan_path.exists():
+        plan = read_json(plan_path)
+        if plan['id'] == candidate['plan_id'] and plan.get('restoration_probe_contract') == 1:
+            from .restoration_probes import generate as restoration_probes
+            restoration = restoration_probes(run, candidate, plan)
+    record = {"video_sha256": file_hash(source), "review_probes": probes,
+              "restoration_probes": restoration, "files": {path.relative_to(run).as_posix(): file_hash(path)
               for path in sorted(directory.rglob('*')) if path.is_file()},
               "sampling_fps": 2, "limitation": "Sampling can miss transient defects; inspect boundary frames/full playback as needed"}
     write_json(run / "review/capture.json", record)
@@ -311,6 +319,8 @@ def main(argv=None):
     command = commands.add_parser('fast-register', help='Bind a native-timing composition and open basic review; never auto-pass')
     command.add_argument('run')
     command.add_argument('recipe')
+    command = commands.add_parser('text-timing', help='Read-only source-event / target-speech timing and overlap diagnostics; no models or automatic pass')
+    command.add_argument('run')
     command = commands.add_parser('style-layer', help='Batch bound-font phrases and a few reviewed artwork PNGs into a native-timing alpha layer; no models or source erasure')
     command.add_argument('run')
     command.add_argument('spec')
@@ -426,6 +436,7 @@ def main(argv=None):
     command.add_argument("packet")
     command.add_argument("--execute", action="store_true")
     command.add_argument("--retry-failed", action="store_true")
+    command.add_argument("--retry-upload", action="store_true", help="Recover a proven pre-dispatch asset failure using its existing reservation")
     command = commands.add_parser("captions", help="Compile reviewed final-mix alignment; --apply updates inventory, no paid call")
     command.add_argument("run")
     command.add_argument("--alignment", required=True, help="Run-relative reviewed alignment JSON")
@@ -725,6 +736,9 @@ def main(argv=None):
             elif name == 'fast-register':
                 from .fast_delivery import register
                 result = register(run, args.recipe)
+            elif name == 'text-timing':
+                from .text_timing import diagnose
+                result = diagnose(run)
             elif name == 'style-layer':
                 from .style_layers import render
                 result = render(run, args.spec, args.apply)
@@ -748,7 +762,8 @@ def main(argv=None):
                 result = retention.delete(run, ROOT, args.execute, args.expect)
             elif name in ("audio-task", "model-task"):
                 from . import model_tasks
-                result = model_tasks.submit(run, args.packet, retry_failed=args.retry_failed) if args.execute else model_tasks.packet(run, args.packet)
+                result = model_tasks.submit(run, args.packet, retry_failed=args.retry_failed,
+                                            retry_upload=args.retry_upload) if args.execute else model_tasks.packet(run, args.packet)
             elif name == "archive":
                 result = library.export(run, root=ROOT)
             elif name == "captions":

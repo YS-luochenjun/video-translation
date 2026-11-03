@@ -45,6 +45,20 @@ class RepositoryBoundaryTests(unittest.TestCase):
         self.put("agent/contracts/workflow.md", "Run the workflow.\n")
         self.assertEqual(repository_check.check(self.root)["decision"], "pass")
 
+    def test_console_http_routes_require_actual_assets_and_do_not_allow_arbitrary_paths(self):
+        self.put("workbench/console-static/index.html", '<link href="/console/styles.css"><script src="/console/app.js"></script><a href="/">Workbench</a>')
+        self.put("workbench/console-static/styles.css", "body{}")
+        self.put("workbench/console-static/app.js", "void 0;")
+        self.put("workbench/static/index.html", "Workbench")
+        self.assertEqual(repository_check.check(self.root)["decision"], "pass")
+        (self.root / "workbench/console-static/app.js").unlink()
+        self.assertTrue(any("Link missing from source package" in e for e in repository_check.check(self.root)["errors"]))
+        self.put("workbench/console-static/app.js", "void 0;")
+        self.put("workbench/console-static/index.html", '<a href="/etc/passwd">Outside</a>')
+        self.assertTrue(any("Link leaves the source package" in e for e in repository_check.check(self.root)["errors"]))
+        self.put("docs/index.html", '<a href="/console/app.js">Not a served console page</a>')
+        self.assertTrue(any("docs/index.html" in e for e in repository_check.check(self.root)["errors"]))
+
     def test_retired_body_remains_portable_and_replacement_must_resolve(self):
         self.put("knowledge/history/rules/old.md", "Earlier scope\n")
         self.put("knowledge/rules/current.md", "Current scope\n")

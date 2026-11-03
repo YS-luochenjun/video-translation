@@ -1,0 +1,13 @@
+{
+  "source": "Direct user messages in this chat, 2026-11-02 America/Los_Angeles",
+  "source_quotes": [
+    "目前我的视频制作过程：清理英文-读取原文字内容-翻译后文字加上原文件效果，放到空白视频中。为什么会那么喜欢使用透明遮罩呢。",
+    "如果是我之前在项目中说了部分这样的不好的内容，请你帮我修改，如果是我项目提示词有引导，请你也修改。如果有更多的知识可以总结，也请你完成。"
+  ],
+  "interpretation": "Read and retain source text/style before erasure; natural repair first. Transparency/feathering do not prove clean background. Preserve previously authorized strictly bounded difficult blur exception, budget and ordinary best-available submission.",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "company_preference": false,
+  "proof_boundary": "Project user preference, not a company standard or media acceptance."
+}

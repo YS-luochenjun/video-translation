@@ -69,7 +69,7 @@ def _create_run(video, target, brief, name, source_url=None):
                "require_target_audio": defaults.get("require_target_audio_for_speech", False),
                "routing_contract_version": 1,
                "source_style_contract_version": 1,
-               "text_restoration_contract_version": 1,
+               "text_restoration_contract_version": 2,
                "delivery_mode": defaults.get("default_delivery_mode", "strict")})
     require(profile_path(run).is_file(), "Default profile is missing")
     return {"run": name, "state": "created", "duration": meta["duration"]}
@@ -221,7 +221,11 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
                    "Can different characters be distinguished by timbre, rather than only loudness or emotion? "
                    "Does each recurring character retain the same voice throughout? Identify confusable character pairs, "
                    "wrong-gender delivery, unnatural speed, clipped words, missing short turns and the end CTA. "
+                   "Report gender_matches_source_characters separately: distinct/consistent voices can still have "
+                   "a wrong-gender casting. Use false for any such mismatch, null when source character gender "
+                   "cannot be established; do not infer it from voice preset names. "
                    "Add character_voices {distinct:true/false/null,consistent:true/false/null,"
+                   "gender_matches_source_characters:true/false/null,"
                    "observations:[{character,observation}],confusable_pairs:[],uncertain_intervals:[],reason}. "
                    "Use null where the audio does not establish a claim. Audio alone does not prove visual lip sync.")
     descriptor = {"kind": "audio_analysis", "model": model, "source_sha256": file_hash(source),
@@ -570,6 +574,9 @@ def build_plan(run, experiment=None):
         if not erase_then_overlay:
             from .source_styles import prompt_lines as style_prompt_lines
             lines.extend(style_prompt_lines(run, inventory, edits))
+        if any(item['action'] != 'preserve' for item in edits):
+            from .text_restoration import natural_removal_prompt
+            lines.append(natural_removal_prompt())
         prompt = "\n".join(lines)
         if route == "model_edit":
             require(len(prompt) <= 3072, "Kling prompt exceeds 3072 characters; split edit scope")

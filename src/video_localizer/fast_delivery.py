@@ -51,6 +51,9 @@ def validate_plan(run, plan):
     require(file_hash(root / 'config/fast-delivery.json') == plan['policy_sha256'], 'Fast policy changed')
     for asset in plan['assets']:
         require(file_hash(inside(run, asset['path'])) == asset['sha256'], 'Fast recipe dependency changed')
+    if plan.get('restoration_probe_contract') == 1:
+        from .restoration_probes import validate_base
+        validate_base(run, plan.get('restoration_base'), plan['assets'])
     from .source_styles import verify_contract as verify_style_contract
     verify_style_contract(run, plan, read_json(run/'analysis/inventory.json'))
     from .workflow import source_path
@@ -115,6 +118,16 @@ def register(run, recipe_relative):
             'knowledge': knowledge, 'source_references': references,
             'knowledge_advisories': advisories(context, root), 'routing_assessment': assessment,
             'assets': assets, 'segments': [], 'audio_assets': recipe.get('audio_assets', [])}
+    if request.get('text_restoration_contract_version', 0) >= 2:
+        from .restoration_probes import validate_base
+        # Registration may still produce a complete best-available candidate.
+        # Missing base evidence prevents a quality pass, not bounded output.
+        validate_base(run, recipe.get('restoration_base'), assets)
+        require(not recipe.get('restoration_base') or all(
+            s['asset']['sha256'] != output['sha256'] for s in recipe['restoration_base']['segments']),
+            'The finished target overlay cannot serve as its own pre-lettering base')
+        plan['restoration_probe_contract'] = 1
+        plan['restoration_base'] = recipe.get('restoration_base')
     from .source_styles import contract as style_contract, review_template as style_review_template
     styles = style_contract(run, inventory)
     if styles:
@@ -221,6 +234,8 @@ def quality(run):
     require(recipe['output'] == {'path': candidate['path'], 'sha256': candidate['sha256']}, 'Candidate is not the frozen recipe output')
     from .quality_holds import require_clear
     require_clear(plan['source_sha256'], candidate['sha256'], run.parent.parent)
+    for segment in (plan.get('restoration_base') or {}).get('segments', []):
+        require_clear(plan['source_sha256'], segment['asset']['sha256'], run.parent.parent)
     review_path = run / 'review/fast-review.json'
     review = read_json(review_path) if review_path.exists() else {}
     if review_path.exists():

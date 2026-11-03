@@ -5,6 +5,8 @@ description: Localize an advertisement video into another language in this works
 
 # 视频本地化
 
+目标是全部画面文字与人声的完整本地化，并重建源文字设计与运动，不能用普通底部字幕代替原画面文字。按[自然去字与有界提交合同](../../../knowledge/rules/content-aware-text-restoration-v5.md)执行：尽力后普通瑕疵仍完整提交，制作目标不变成完美发布门槛。
+
 用户给Fireplay需求编号或明确范围时，读取[编号接入](../../../agent/workflows/fireplay-intake.md)，按实际快照承接。每需求复用一个编号聊天、原请求及独立账本；多原片在该聊天内管理，只制作各原片实际目标语种。既有KIE持续同意与必要媒体传送沿原授权，不重置预算或未知费用。
 
 巡检频率和接入边界以[巡检流程](../../../agent/workflows/fireplay-monitor.md)及其配置为准，不在技能中复制调度数值。提交遵循[当前完整提交规则](../../../knowledge/rules/fireplay-complete-delivery-v3.md)和[发布配置](../../../config/fireplay-publication.json)：普通不合格到界可按best_available提交，瑕疵数量、内部revise或评分不单独阻断；严重主体/画面损坏、漏译、缺必需配音或有效质量异议仍阻断对应版本。真实核验入库、共享、命名、标签和需求绑定，完整矩阵后结案；YouTube后处理按平台管理政策交给Fireplay，不等待链接或重复入库催上传。

@@ -1580,6 +1580,16 @@
       "sha256": "a45c9d5939fc408c9323cdeeee762fd5f458fe9ff6c84010c50f467e2b0fbee7",
       "archive_path": "a45c9d5939fc408c9323cdeeee762fd5f458fe9ff6c84010c50f467e2b0fbee7/WOW-20261030-032-10-c48dc16213.json",
       "decision_sha256": "3b03384eb22a2ac7d6f5d008d56ed3d8611b8257106c2c16b2a901d312ef37bc"
+    },
+    "knowledge/candidates/multilingual-render-review-20261102.json": {
+      "sha256": "3644623ab0527b73643d637b4d8c5157e2a8a14706c069074b23b12b3dc75faa",
+      "archive_path": "3644623ab0527b73643d637b4d8c5157e2a8a14706c069074b23b12b3dc75faa/multilingual-render-review-20261102.json",
+      "decision_sha256": "0800efa8c0f0a339669d5198eacbbc22a66026a569b97b86bff53e0e13f006f9"
+    },
+    "knowledge/candidates/native-render-evidence-guards-v1.json": {
+      "sha256": "bc24ed03ea739a2b2035239eb57602eea216406e7b53ffe39e7088422694c332",
+      "archive_path": "bc24ed03ea739a2b2035239eb57602eea216406e7b53ffe39e7088422694c332/native-render-evidence-guards-v1.json",
+      "decision_sha256": "3da6cf445d111eb8f7cd550e2576bc98417d5f86a8a20ebee56c59b2ef71b7d8"
     }
   }
 }

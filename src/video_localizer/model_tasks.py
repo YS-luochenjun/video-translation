@@ -40,6 +40,8 @@ def packet(run, relative):
     require(video_model or model in (*GEMINI_TTS_MODELS, 'ai-music-api/separate-vocals', 'elevenlabs/text-to-speech-multilingual-v2', 'elevenlabs/text-to-dialogue-v3', 'elevenlabs/text-to-speech-turbo-2-5'), 'Unsupported model task')
     require(set(payload) == {'model', 'input'}, 'Unexpected audio task payload fields')
     if video_model:
+        from .repair_scope import validate_packed
+        validate_packed(run, data)
         require(isinstance(inputs.get('prompt'), str) and 0 < len(inputs['prompt']) <= 5000, 'Video probe needs a bounded prompt')
         require('video' in data.get('assets', {}) and data.get('source_interval') and len(data['source_interval']) == 2, 'Video probe needs a source interval and clip')
         start, end = data['source_interval']
@@ -175,9 +177,10 @@ def _authorized_rate_limit_retry(run, job):
 
 
 @guarded
-def submit(run, relative, client=None, retry_failed=False):
+def submit(run, relative, client=None, retry_failed=False, retry_upload=False):
     from .workflow import execution_limits, reserved_credits
     data = packet(run, relative)
+    require(not (retry_failed and retry_upload), 'Choose a provider retry or a pre-dispatch upload recovery')
     digest = object_hash(data)
     original = digest
     retry_attempt = 0
@@ -205,10 +208,13 @@ def submit(run, relative, client=None, retry_failed=False):
         if path.exists():
             saved = read_json(path)
             if saved['state'] == 'failed' and not saved.get('task_id'):
+                require(not data.get('assets') or retry_upload,
+                        'Asset-bearing failures require explicit upload recovery')
                 from .budgets import resume_undispatched
                 resume_undispatched(run, digest)
-                return _resume_undispatched(run, data, saved, path, client)
+                return _resume_undispatched(run, data, saved, path, client, retry_upload)
             return {'job': digest, 'state': saved['state'], 'task_id': saved.get('task_id'), 'reused': True}
+        require(not retry_upload, 'No failed upload to recover')
         from .model_routing import require_remote_task
         require_remote_task(data['payload']['model'], run=run, authorization=data.get('model_authorization'))
         if data['payload']['model'] in VIDEO_MODELS:
@@ -269,23 +275,47 @@ def submit(run, relative, client=None, retry_failed=False):
     return {'job': digest, 'state': job['state'], 'task_id': job['task_id']}
 
 
-def _resume_undispatched(run, data, job, path, client):
+def _resume_undispatched(run, data, job, path, client, retry_upload=False):
     # The request ledger proves no charged POST was attempted. Keep its identity,
     # budget reservation and failure history rather than minting another job.
-    require(not data.get('assets'), 'Asset-bearing failures require explicit upload recovery')
+    require(not data.get('assets') or retry_upload, 'Asset-bearing failures require explicit upload recovery')
+    if retry_upload:
+        history = job.get('upload_retry_history', [])
+        require(len(history) < 2, 'Model asset upload recovery limit reached')
+        snapshot = path.parent / (job['id'] + '-attempts') / f'upload-{len(history) + 1:02d}.json'
+        if snapshot.exists():
+            require(file_hash(snapshot) == file_hash(path), 'Upload recovery snapshot changed')
+        else:
+            write_json(snapshot, job)
+        job['upload_retry_history'] = [*history, {'path': snapshot.relative_to(run).as_posix(),
+                                                'sha256': file_hash(snapshot)}]
     job.setdefault('recovery_history', []).append({'at': utc_now(), 'previous_error': job.get('error'),
                                                   'basis': 'request ledger has no dispatch'})
     try:
         job['credits_before'] = client.credits()
+        uploaded = {name: client.upload(inside(run, asset['path']))
+                    for name, asset in data.get('assets', {}).items()}
+        payload = copy.deepcopy(data['payload'])
+        for key, value in payload['input'].items():
+            if isinstance(value, str) and value.startswith('ASSET:'):
+                payload['input'][key] = uploaded[value.split(':', 1)[1]]
+            elif isinstance(value, list):
+                payload['input'][key] = [uploaded[v.split(':', 1)[1]] if isinstance(v, str)
+                                        and v.startswith('ASSET:') else v for v in value]
         job['state'] = 'submitting'
         write_json(path, job)
-        job['task_id'] = (client.create(data['payload'], run=run, model_authorization=data['model_authorization'])
-                          if data.get('model_authorization') else client.create(data['payload']))
+        job['task_id'] = (client.create(payload, run=run, model_authorization=data['model_authorization'])
+                          if data.get('model_authorization') else client.create(payload))
         job['state'] = 'submitted'
         job.pop('error', None)
     except ApiError as exc:
         job['state'] = 'ambiguous' if exc.ambiguous and job['state'] == 'submitting' else 'failed'
         job['error'] = str(exc)
+        write_json(path, job)
+        raise
+    except Exception:
+        job['state'] = 'ambiguous' if job['state'] == 'submitting' else 'failed'
+        job['error'] = 'Local model asset recovery failure; inspect journal before retry'
         write_json(path, job)
         raise
     write_json(path, job)

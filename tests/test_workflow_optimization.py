@@ -72,4 +72,6 @@ class WorkflowOptimizationTests(unittest.TestCase):
         self.assertEqual(result['jobs'][0]['task_id'], 'provider-task')
         self.assertTrue(result['blockers'])
         self.assertEqual(result['pending_source_coverage'], ['speech', 'timeline'])
+        self.assertIn('text_timing', result)
+        self.assertFalse(result['text_timing']['automatic_pass'])
         self.assertFalse((self.run / 'review/review.json').exists())

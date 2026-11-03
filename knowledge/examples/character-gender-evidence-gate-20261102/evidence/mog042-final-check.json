@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-11-02T19:28:29.210066+00:00",
+  "total_seconds": 143.3602,
+  "sum_case_seconds": 118.4018,
+  "mean_case_seconds": 0.125426,
+  "maximum_case_seconds": 10.45551,
+  "count": 944,
+  "failures": 0,
+  "errors": 0,
+  "skips": 4,
+  "proof_boundary": "Execution contracts and synthetic media integration; no automatic business-quality acceptance"
+}

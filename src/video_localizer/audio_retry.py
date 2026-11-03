@@ -2,6 +2,20 @@
 from .common import file_hash, inside, object_hash, read_json, require
 
 
+def _explicit_media_fetch_retry(run, original, grant):
+    """A human may retry a saved media-fetch rejection without clearing its charge."""
+    if (grant.get('retry_failed_media_fetch') is not True
+            or original.get('state') != 'failed'
+            or not original.get('error_response')):
+        return False
+    response = inside(run, original['error_response'])
+    require(file_hash(response) == original.get('error_response_sha256'),
+            'Original media-fetch error response changed')
+    error = read_json(response)
+    return (isinstance(error, dict) and error.get('code') == 400
+            and error.get('msg') == 'Failed to get the file information')
+
+
 def authorized_retry(run, descriptor, binding):
     from .budgets import _index
     path = inside(run, binding['path'])
@@ -15,7 +29,8 @@ def authorized_retry(run, descriptor, binding):
     require(original_path.is_file() and file_hash(original_path) == grant.get('original_job_sha256'),
             'Original audio journal changed; inspect it before retrying')
     original = read_json(original_path)
-    require(original.get('state') == 'ambiguous'
+    require((original.get('state') == 'ambiguous'
+             or _explicit_media_fetch_retry(run, original, grant))
             and original.get('failure_stage') == 'model_request'
             and not any(original.get(k) for k in ('task_id', 'response_id', 'response_path', 'result')),
             'Recover an existing task/response instead of resubmitting it')

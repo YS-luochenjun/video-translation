@@ -139,6 +139,25 @@ class FastAudioQualityTests(unittest.TestCase):
         self.capture()
         self.assertIn('audio_model_review_invalid', self.quality()['failures'])
 
+    def test_distinct_consistent_wrong_gender_still_blocks_quality(self):
+        self.model['analysis']['character_voices'] = {
+            'distinct': True, 'consistent': True,
+            'gender_matches_source_characters': False,
+            'observations': [{'character': 'sister', 'observation': 'Wrong male delivery'}]}
+        write_json(self.directory / 'audio-model-review.json', self.model)
+        self.capture()
+        self.assertIn('character_voice_gender_mismatch', self.quality()['failures'])
+
+    def test_legacy_voice_report_does_not_prove_gender_match(self):
+        self.model['analysis']['character_voices'] = {'distinct': True, 'consistent': True}
+        write_json(self.directory / 'audio-model-review.json', self.model)
+        self.capture()
+        self.assertIn('character_voice_gender_unverified', self.quality()['failures'])
+        self.model['analysis']['character_voices']['gender_matches_source_characters'] = True
+        write_json(self.directory / 'audio-model-review.json', self.model)
+        self.capture()
+        self.assertEqual(self.quality()['audio_model_check']['decision'], 'pass')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -20,7 +20,7 @@
 
 执行规则见 [制作工作流](../contracts/workflow.md)、[知识合同](../contracts/knowledge.md) 和 [存储合同](../contracts/storage.md)。字段校验由执行器负责，命令参数以 CLI 帮助为准。
 
-实例清单示例采用自然底面与透明字层；`model_edit` 是实例动作，不代表已经调用视频模型。先按[底面与运动难度](../../knowledge/rules/content-aware-text-restoration-v3.md)填写实际 reason/evidence，再判断图片编辑、本地合成、Wan 或局部模糊兜底。示例的静态特征、时间和坐标均须替换为实际观察。
+实例清单示例采用自然底面与透明字层；`model_edit` 是实例动作，不代表已经调用视频模型。先按[底面与运动难度](../../knowledge/rules/content-aware-text-restoration-v5.md)填写实际 reason/evidence，选择适合内容的自然修复路线；模糊不列为并列常规选项，困难例外仅见该合同。示例的静态特征、时间和坐标均须替换为实际观察。
 
 选择记录继续用清单 reason/evidence：实际条件及证据、命中方法版本、首选理由、备选与切换观察、停止理由、检查及未审范围。未知条件保留疑点；不要求为填字段进行多余试验。多人对白按角色记录稳定身份和声音证据，剧情地点不能代替技术特征。
 
@@ -36,4 +36,4 @@ Fireplay YouTube 显式账号选择使用 `fireplay-youtube-route.json`：只填
 
 `fireplay-upload-timeout-retry.json`用于已有原包的真实文件上传超时。填写实际超时回执路径，先`fireplay-retry-upload CODE LOCALE SPEC --video N`预览，再带`--execute`登记新尝试，随后正常dispatch。持续授权来自`config/fireplay-publication.json`，无需每次确认；每项最多额外两次，旧unknown和每次超时均保留。该模板不用于付费模型或重复入库。
 
-用户禁止可见实心遮挡、色块/底条和硬边补丁；仅特别困难且自然修复实际失败/危及主体、有证据且做不出时，允许最小局部羽化、部分透明模糊兜底。内部定位/合成掩模可保留。无可见遮挡审查绑定当前成片，不以完整输出或普通瑕疵政策豁免。
+去字、禁止可见遮挡及困难例外以[自然去字合同](../../knowledge/rules/content-aware-text-restoration-v5.md)为唯一决策入口；透明译文字层与内部定位掩模不等于可见遮挡。完整输出和外部提交分开判断。

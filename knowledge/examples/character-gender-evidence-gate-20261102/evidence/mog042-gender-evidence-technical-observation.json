@@ -1,0 +1,11 @@
+{
+  "observation": "An actual encoded-audio comparison returned distinct=true and consistent=true while its character observation explicitly reported a deep male voice for a female sister. Distinctness/consistency therefore do not establish source-character gender.",
+  "implementation": "Evaluator now requires separate gender_matches_source_characters:true; false yields character_voice_gender_mismatch; absent/null yields character_voice_gender_unverified. Prompt explicitly requests the field from actual source/target audio instead of voice preset names.",
+  "test_result": "9 focused fast-audio tests pass, including wrong-gender and legacy/missing-field regressions. Full project check944tests, failures0/errors0,4skips.",
+  "code_identity": {
+    "src/video_localizer/audio.py": "4b39f03df22b3989a6be5c28b22712eb340189a4cabddf18d0ec37e0886cf976",
+    "src/video_localizer/workflow.py": "ef7e60efe2ea66ced1e6cac5a09bdb748134d34a1aa94975cbeacaf6fcf66128",
+    "tests/test_fast_audio_quality.py": "956a64b43d74050d133d96a1d9fb411417bdbb2890188a55fe04677839910435"
+  },
+  "proof_boundary": "Deterministic contract regression evidence; does not repair any recorded video, prove native listening or make an external model gender judgment certain."
+}

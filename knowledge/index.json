@@ -2929,7 +2929,7 @@
       "origin": "User 2026-10-27 requested persistent API-only KIE checks, synthesis of actual task chats, and repair of automatic publication; same-agent developer review of bounded observations.",
       "reviewed_by": "Codex same-agent developer review; no new media quality acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-27T11:46:27+00:00",
       "method_sha256": "d18aac944db9ea3c932fdc20dc4db322d49d30d305324baa92fb23725c94c285",
       "case": "knowledge/examples/multilingual-thread-lessons-v1",
@@ -2941,7 +2941,8 @@
         "fast",
         "strict"
       ],
-      "retrieval_role": "optional"
+      "retrieval_role": "optional",
+      "superseded_by": "multilingual-thread-lessons-v2"
     },
     {
       "id": "fireplay-completion-recovery-v2",
@@ -3335,7 +3336,7 @@
       "origin": "Explicit project user no-solid-cover instruction, current chat; stricter exceptional blur and developer contract review",
       "reviewed_by": "Codex, same-agent implementation review; user constraint only, no new media acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-11-02T09:32:32+00:00",
       "method_sha256": "5a32ba5c2cbd87e6ca2a1819201c58eec510e0ec091ac30c72e466605ea3d029",
       "case": "knowledge/examples/content-aware-text-restoration-v3",
@@ -3348,7 +3349,140 @@
         "fast",
         "strict"
       ],
+      "retrieval_role": "required",
+      "superseded_by": "content-aware-text-restoration-v4"
+    },
+    {
+      "id": "content-aware-text-restoration-v4",
+      "path": "knowledge/rules/content-aware-text-restoration-v4.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "restoration"
+      ],
+      "origin": "Direct project user correction about transparent covers and source-effect reconstruction; same-agent instruction and contract review",
+      "reviewed_by": "Codex same-agent implementation review; user preference, not new media acceptance",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-11-02T10:28:58+00:00",
+      "method_sha256": "f91932603ae3360460e01932e0589d5e5e013267ea4d964552880f0a59abea41",
+      "case": "knowledge/examples/content-aware-text-restoration-v4",
+      "case_manifest_sha256": "8bbffd618cf1689ba3ebb6d71e80c2615106e806afa2ad654f0c39e1232b9b7a",
+      "supersedes": "content-aware-text-restoration-v3",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required",
+      "superseded_by": "content-aware-text-restoration-v5"
+    },
+    {
+      "id": "content-aware-text-restoration-v5",
+      "path": "knowledge/rules/content-aware-text-restoration-v5.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "restoration"
+      ],
+      "origin": "Explicit user clarification: full source-style translation and mandatory bounded best-complete submission; production route constraints are separate from publication eligibility",
+      "reviewed_by": "Codex same-agent implementation review; user preference, not new media acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-02T10:36:30+00:00",
+      "method_sha256": "88ea4e28ecefdad4c7a4be54b47bba0327f49679948e0422100019e275ef9ee7",
+      "case": "knowledge/examples/content-aware-text-restoration-v5",
+      "case_manifest_sha256": "1938f150517eee40e4504fa067c6e50613ed0f3061fcbe5e607ee87352da43e8",
+      "supersedes": "content-aware-text-restoration-v4",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
       "retrieval_role": "required"
+    },
+    {
+      "id": "multilingual-thread-lessons-v2",
+      "path": "knowledge/rules/multilingual-thread-lessons-v2.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "speech",
+        "onscreen_text"
+      ],
+      "origin": "User requested review and synthesis of prior video-localization chats; retain v1 guidance and add evidence-bounded rendered-text/event review steps.",
+      "reviewed_by": "Codex same-agent developer retrospective; selected native-still inspection and attributed records, no blanket AV acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-03T03:08:46+00:00",
+      "method_sha256": "2425c833852a84bf116890cd8d82e2637a330036c3292923d5ca526da2730482",
+      "case": "knowledge/examples/multilingual-thread-lessons-v2",
+      "case_manifest_sha256": "77a80b587434ffd8dccaf406345055c0a0d707919332fb5bf75846e5c1133afb",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/multilingual-render-review-20261102.json",
+          "sha256": "3644623ab0527b73643d637b4d8c5157e2a8a14706c069074b23b12b3dc75faa"
+        }
+      ],
+      "supersedes": "multilingual-thread-lessons-v1",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "workflow",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "optional"
+    },
+    {
+      "id": "native-render-evidence-guards-v1",
+      "path": "knowledge/rules/native-render-evidence-guards-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "audio",
+        "fonts",
+        "render",
+        "ads"
+      ],
+      "origin": "User requested engineering fixes and knowledge deposition after cross-chat review; deterministic developer regression and a new synthetic media smoke.",
+      "reviewed_by": "Codex same-agent developer review; not independent review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-03T03:41:15+00:00",
+      "method_sha256": "1febb3b07851e08ddc8bcc34e5645da58152bdade8595c774e653770d2419e6e",
+      "case": "knowledge/examples/native-render-evidence-guards-v1",
+      "case_manifest_sha256": "484d7c68463ea836de7aec2b88b80f7989c4c0fc71117027d342bcf069ac3319",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/native-render-evidence-guards-v1.json",
+          "sha256": "bc24ed03ea739a2b2035239eb57602eea216406e7b53ffe39e7088422694c332"
+        }
+      ],
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "language_match": "exact"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

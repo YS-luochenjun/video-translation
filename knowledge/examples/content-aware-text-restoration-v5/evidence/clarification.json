@@ -1,0 +1,13 @@
+{
+  "source": "Direct user clarification in this chat, 2026-11-02 America/Los_Angeles",
+  "quotes": [
+    "你理解我的需求吗，我需要进行完整的进行翻译，而不是简单的加字幕。如图这样的内容就很好，所有都还原了",
+    "但是也要注意，不是说只有完美才进行提交，提交还是都要做的，只要尽力做完了，就要确保提交"
+  ],
+  "observed_reference": "Source Test Now and target 今すぐ試そう both use red lettering with white, blue and yellow outlines and similar visual weight. User-provided static crop only.",
+  "scope": {
+    "workflow": "video-localization"
+  },
+  "interpretation": "Reconstruct source visual design and translate all content. Preserve bounded best-complete submission despite ordinary defects. A visible repair imperfection alone does not prove semantic incompleteness or severe damage.",
+  "proof_boundary": "Explicit project preference, no complete-video playback, motion, audio, company or arbitrary-locale acceptance."
+}

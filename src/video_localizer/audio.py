@@ -32,6 +32,22 @@ def model_review_check(run, candidate, source_sha256, captured):
             or captured.get('files', {}).get(path.relative_to(run).as_posix()) != digest):
         failures.append('audio_model_review_not_captured_or_changed')
     findings = report['analysis']
+    inventory_path = run / 'analysis/inventory.json'
+    inventory = read_json(inventory_path) if inventory_path.exists() else {}
+    expected_speech = (inventory.get('audio', {}).get('has_speech') is True or
+                       any(s.get('target_text') for s in inventory.get('speech_segments', [])))
+    # A positive summary cannot overrule an explicitly empty speech observation.
+    # Do not fuzzy-match translations or infer missing clauses from segment count.
+    if expected_speech:
+        if findings.get('has_speech') is False:
+            failures.append('required_speech_reported_absent')
+        if 'speech_segments' in findings:
+            observed = findings['speech_segments']
+            if not isinstance(observed, list):
+                failures.append('audio_model_transcript_invalid')
+            elif not any(isinstance(s, dict) and any(isinstance(s.get(k), str) and s[k].strip()
+                         for k in ('source_text', 'text', 'transcript')) for s in observed):
+                failures.append('required_speech_transcript_empty')
     for field, decision, failure in (
             ('background_music', 'same_track', 'background_music_not_verified_preserved'),
             ('sound_effects', 'preserved', 'sound_effects_not_verified_preserved'),
@@ -50,6 +66,14 @@ def model_review_check(run, candidate, source_sha256, captured):
             failures.append('character_voices_unverified')
         if isinstance(voices, dict) and (voices.get('confusable_pairs') or voices.get('uncertain_intervals')):
             failures.append('character_voices_uncertain')
+        # Distinct and consistent voices can still belong to the wrong character:
+        # a stable male voice for a female sister satisfied both older booleans.
+        # Older reports remain intact, but cannot establish this missing claim.
+        gender_match = voices.get('gender_matches_source_characters') if isinstance(voices, dict) else None
+        if gender_match is False:
+            failures.append('character_voice_gender_mismatch')
+        elif gender_match is not True:
+            failures.append('character_voice_gender_unverified')
     return {'decision': 'pass' if not failures else 'revise', 'failures': failures,
             'review_sha256': digest,
             'proof_boundary': 'Existing attributed model audio observations; no automatic listening or visual lip-sync claim'}

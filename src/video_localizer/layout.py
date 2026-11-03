@@ -82,7 +82,15 @@ def font_size(item):
     missing = missing_glyphs(face, item['target_text'])
     require(not missing, 'Font missing glyphs: ' + ', '.join(f'U+{ord(c):04X}' for c in missing))
     padding = item.get('padding', 2)
-    w, h = item['bbox'][2]-2*padding, item['bbox'][3]-2*padding
+    # The final ink includes every outline layer and the shadow. Measuring
+    # advance alone can approve a phrase whose visible letters get clipped.
+    outline = max([item.get('outline', 0),
+                   *[layer['width'] for layer in item.get('outline_layers', [])]])
+    shadow = abs(item.get('shadow', 0))
+    require_number(outline, 'fitting outline', maximum=24)
+    require_number(shadow, 'fitting shadow', maximum=24)
+    inset = padding + outline + shadow
+    w, h = item['bbox'][2]-2*inset, item['bbox'][3]-2*inset
     minimum = item.get('min_font_size', 8)
     require_number(minimum, 'minimum readable font size', minimum=8, maximum=requested)
     for size in range(round(requested), math.ceil(minimum)-1, -1):
@@ -92,7 +100,7 @@ def font_size(item):
         ascent, descent = font.getmetrics()
         factor = size / (ascent + descent)
         lines = item['target_text'].split('\n')
-        widths = [font.getlength(line)*factor for line in lines]
+        widths = [max(font.getlength(line), font.getbbox(line)[2]-font.getbbox(line)[0])*factor for line in lines]
         glyph_height = max(font.getbbox(line)[3]-font.getbbox(line)[1] for line in lines)*factor
         line_height = item.get('line_height', size)
         require_number(line_height, 'line height', minimum=1)

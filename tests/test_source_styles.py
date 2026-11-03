@@ -241,10 +241,17 @@ class SourceStyleTests(unittest.TestCase):
         self.assertEqual(media.probe(output)['width'],320)
         ass=(output.parent/'tracked.ass').read_text(encoding='utf-8-sig')
         self.assertIn('\\i1',ass);self.assertIn('\\b1',ass);self.assertIn('\\bord3',ass)
-        family=fonts.inspect_asset(self.run,asset)['family'];self.assertIn('\\fn'+family,ass)
+        face=fonts.inspect_asset(self.run,asset)
+        alias='VLBound'+asset['sha256'][:24]
+        self.assertIn('\\fn'+alias,ass)
+        record=read_json(output.parent/'font-records'/(alias+'.json'))
+        self.assertEqual(record['family'],face['family'])
+        self.assertEqual(record['source_sha256'],asset['sha256'])
+        self.assertEqual(record['weight'],face['weight'])
         result=media.command(['ffmpeg','-hide_banner','-loglevel','verbose','-i',self.video,
             '-vf',media.ass_filter('tracked.ass',output.parent/'fonts'),'-t','0.1','-f','null','-'],cwd=output.parent)
         self.assertNotIn('failed to find any fallback',result.stderr.lower())
+        self.assertIn('fontselect: ('+alias,result.stderr)
         from video_localizer.library import _asset_closure
         closure=_asset_closure(self.run,[(self.run/self.inventory['source_style_snapshot']['path'],self.inventory['source_style_snapshot']['sha256'])])
         self.assertTrue(any('/frames/' in k for k in closure))

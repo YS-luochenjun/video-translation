@@ -97,3 +97,38 @@ class ExplicitAudioRetryTests(unittest.TestCase):
         self.grant['retry_attempt'] = 3
         with self.assertRaisesRegex(WorkflowError, 'limit reached'):
             self.retry()
+
+    def test_saved_media_fetch_failure_needs_explicit_bound_human_opt_in(self):
+        error = self.run / 'jobs/error.json'
+        write_json(error, {'code': 400, 'msg': 'Failed to get the file information'})
+        job = read_json(self.journal)
+        job.update(state='failed', error_response='jobs/error.json',
+                   error_response_sha256=file_hash(error))
+        write_json(self.journal, job)
+        self.grant['original_job_sha256'] = file_hash(self.journal)
+        with self.assertRaisesRegex(WorkflowError, 'Recover an existing'):
+            self.retry()
+        original = self.journal.read_bytes()
+        self.grant['retry_failed_media_fetch'] = True
+        self.assertEqual(self.retry()['retry_attempt'], 1)
+        self.assertEqual(self.journal.read_bytes(), original)
+        self.assertEqual(read_json(self.journal)['state'], 'failed')
+        write_json(error, {'code': 401, 'msg': 'Unauthorized'})
+        with self.assertRaisesRegex(WorkflowError, 'error response changed'):
+            self.retry()
+        job['error_response_sha256'] = file_hash(error)
+        write_json(self.journal, job)
+        self.grant['original_job_sha256'] = file_hash(self.journal)
+        with self.assertRaisesRegex(WorkflowError, 'Recover an existing'):
+            self.retry()
+
+    def test_media_fetch_opt_in_does_not_waive_recoverable_response(self):
+        error = self.run / 'jobs/error.json'
+        write_json(error, {'code': 400, 'msg': 'Failed to get the file information'})
+        job = read_json(self.journal)
+        job.update(state='failed', error_response='jobs/error.json',
+                   error_response_sha256=file_hash(error), response_id='recover-this')
+        write_json(self.journal, job)
+        self.grant.update(original_job_sha256=file_hash(self.journal), retry_failed_media_fetch=True)
+        with self.assertRaisesRegex(WorkflowError, 'Recover an existing'):
+            self.retry()

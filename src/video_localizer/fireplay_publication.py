@@ -5,8 +5,8 @@ from .common import ROOT, file_hash, inside, lock, object_hash, read_json, requi
 
 ACCEPTABLE = {'minor_issues_acceptable', 'bounded_best_available_acceptable', 'exact_version_accepted_by_user'}
 SEVERE_KINDS = {'large_area_tearing', 'unwatchable', 'severe_subject_damage', 'corrupt_file',
-                'incomplete_translation', 'missing_required_audio', 'wrong_locale', 'unreadable_core_copy',
-                'visible_solid_coverup', 'hard_edged_coverup', 'unapproved_blur_coverup'}
+                'incomplete_translation', 'missing_required_audio', 'wrong_locale', 'unreadable_core_copy'}
+VISUAL_REPAIR_KINDS = {'visible_solid_coverup', 'hard_edged_coverup', 'unapproved_blur_coverup'}
 
 
 def publication_decision(code, digest, root=ROOT):
@@ -72,6 +72,34 @@ def _complete(folder, manifest):
     return value
 
 
+def _observed_findings(folder, manifest):
+    """Read explicit current-video findings, never classify pixels or search prose."""
+    digest = manifest['metadata']['video_sha256']
+    findings = []
+    for asset in manifest['files']:
+        path = asset['path']
+        if not path.startswith('payload/review/') or not path.endswith('.json'):
+            continue
+        data = read_json(inside(folder, path))
+        if not isinstance(data, dict) or data.get('video_sha256') != digest:
+            continue
+        for row in data.get('text_restoration_review') or []:
+            if isinstance(row, dict) and row.get('visible_coverup') is True:
+                findings.append({'path': path, 'id': row.get('id'), 'kind': 'visible_coverup', 'publication_impact': 'requires_bounded_stop'})
+            if isinstance(row, dict) and row.get('source_text_removed') is False:
+                findings.append({'path': path, 'id': row.get('id'), 'kind': 'residual_source_lettering', 'publication_impact': 'requires_bounded_stop'})
+        finish = data.get('visual_finish')
+        for defect in (finish.get('defects') or []) if isinstance(finish, dict) else []:
+            if not isinstance(defect, dict):
+                continue
+            if (defect.get('kind') in SEVERE_KINDS or defect.get('severity') == 'critical'
+                    or defect.get('publication_impact') == 'severe'):
+                findings.append({'path': path, 'kind': defect.get('kind'), 'publication_impact': 'severe'})
+            elif defect.get('kind') in VISUAL_REPAIR_KINDS:
+                findings.append({'path': path, 'kind': defect['kind'], 'publication_impact': 'requires_bounded_stop'})
+    return findings
+
+
 def review(code, spec, root=ROOT):
     from . import bundles, fireplay
     spec = fireplay.payload(spec)
@@ -125,12 +153,14 @@ def review(code, spec, root=ROOT):
     for item in evidence:
         require(isinstance(item, str) and item in files and file_hash(inside(folder, item)) == files[item],
                 'Publication evidence must be a verified file inside the delivery package')
+    observed_findings = _observed_findings(folder, manifest)
     basic = all(assessment[k] for k in ('translation_complete', 'required_audio_complete', 'watchable'))
-    severe = any(d['severity'] == 'critical' or d.get('kind') in SEVERE_KINDS or
+    severe = any(f['publication_impact'] == 'severe' for f in observed_findings) or any(d['severity'] == 'critical' or d.get('kind') in SEVERE_KINDS or
                  d.get('publication_impact') == 'severe' for d in defects)
     policy = read_json(Path(root) / 'config/fireplay-publication.json')
     bounded = basic and not severe and _ordinary_best(assessment, files, policy)
-    acceptable = (basic and not severe
+    repair_limitations = bool(observed_findings) or any(d.get('kind') in VISUAL_REPAIR_KINDS for d in defects)
+    acceptable = (basic and not severe and not repair_limitations
                   and not assessment['too_many_issues'] and all(d['severity'] == 'minor' for d in defects))
     value = {'code': code, 'package': str(folder.relative_to(root)), 'video_sha256': meta['video_sha256'],
              'manifest_sha256': file_hash(folder / 'manifest.json'), 'assessment': assessment,
@@ -138,6 +168,8 @@ def review(code, spec, root=ROOT):
                           'minor_issues_acceptable' if acceptable else 'blocked_major_or_incomplete'),
              'policy_authorization_ref': policy.get('authorization_ref'),
              'internal_quality_unchanged': True}
+    if observed_findings:
+        value['observed_visual_findings'] = observed_findings
     path = _path(root, code, meta['video_sha256'])
     if spec.get('reassess_under_current_policy'):
         require(path.exists(), 'Policy reassessment requires the preserved original review')

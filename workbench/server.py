@@ -15,8 +15,10 @@ from urllib.parse import parse_qs, urlsplit
 from store import Store
 from collector import Collector
 from video_localizer.ledger import Conflict
+from console_data import ConsoleData
 
 STATIC = Path(__file__).resolve().parent / 'static'
+CONSOLE_STATIC = Path(__file__).resolve().parent / 'console-static'
 
 
 class WorkbenchServer(ThreadingHTTPServer):
@@ -29,6 +31,7 @@ class WorkbenchServer(ThreadingHTTPServer):
         self.cache_lock = threading.Lock()
         self.ledger_token = secrets.token_urlsafe(32)
         self.collector = Collector(root, self.store)
+        self.console = ConsoleData(root, self.store)
         super().__init__(address, Handler)
         self.collector.start()
 
@@ -79,6 +82,8 @@ class Handler(BaseHTTPRequestHandler):
         self.route(head=True)
 
     def do_POST(self):
+        if urlsplit(self.path).path == '/api/console/command':
+            return self.console_command()
         if urlsplit(self.path).path == '/api/ledger/action':
             return self.ledger_action()
         # Drain small rejected request bodies before closing: unread bytes can
@@ -94,6 +99,26 @@ class Handler(BaseHTTPRequestHandler):
     do_PUT = do_POST
     do_PATCH = do_POST
     do_DELETE = do_POST
+
+    def console_command(self):
+        self.close_connection = True
+        try:
+            origin = 'http://'+str(self.headers.get('Host'))
+            if origin not in {f'http://127.0.0.1:{self.server.server_port}', f'http://localhost:{self.server.server_port}'} or self.headers.get('Origin') != origin:
+                raise PermissionError('跨站请求不允许')
+            if not secrets.compare_digest(self.headers.get('X-Ledger-Token', ''), self.server.ledger_token):
+                raise PermissionError('请刷新控制台后重试')
+            length = int(self.headers.get('Content-Length', '0'))
+            if self.headers.get_content_type() != 'application/json' or not 0 < length <= 65536:
+                raise ValueError('请求格式不正确')
+            payload = json.loads(self.rfile.read(length))
+            return self.json(200, self.server.console.enqueue(payload))
+        except PermissionError as exc:
+            self.json(403, {'error': str(exc)})
+        except (ValueError, TypeError, KeyError) as exc:
+            self.json(400, {'error': str(exc)[:300]})
+        except (OSError, RuntimeError):
+            self.json(503, {'error': '指令暂未确认保存，请保留原指令ID核对；不要重新创建相同操作。'})
 
     def ledger_action(self):
         self.close_connection = True
@@ -140,6 +165,21 @@ class Handler(BaseHTTPRequestHandler):
             args = parse_qs(url.query)
             arg = lambda key: args.get(key, [''])[0]
             store = self.server.store
+            if url.path == '/api/console/sessions':
+                return self.json(200, self.server.console.overview(arg('q'), arg('state') or 'all', int(arg('page') or 1), arg('archived') == 'true'), head)
+            if url.path == '/api/console/detail':
+                return self.json(200, self.server.console.detail(arg('id'), arg('run') or None), head)
+            if url.path == '/api/console/artifact':
+                return self.json(200, self.server.console.artifact(arg('thread'), arg('run'), arg('id')), head)
+            if url.path == '/api/console/automations':
+                return self.json(200, self.server.console.automations(), head)
+            if url.path == '/api/console/config':
+                return self.json(200, {'csrf_token': self.server.ledger_token, 'page_size': 8,
+                                      'bridge': self.server.console.dispatch_status(), 'commands': self.server.console.commands()}, head)
+            if url.path in {'/console', '/console/'}:
+                return self.file(CONSOLE_STATIC/'index.html', head)
+            if url.path in {'/console/app.js', '/console/styles.css'}:
+                return self.file(CONSOLE_STATIC/url.path.rsplit('/', 1)[1], head)
             if url.path == '/api/ledger':
                 result = self.server.collector.view()
                 rows = result['requirements']

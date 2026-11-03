@@ -24,8 +24,9 @@
 | 问题 | 现行入口 | 使用边界 |
 | --- | --- | --- |
 | 内容分类与主/辅助路线 | [Agent方法选择](rules/agent-method-selection-v2.md)、[三类广告](rules/content-led-localization-v1.md) | 按实际音频、文案、运动及遮挡选路；记录首选、备选、切换和停止条件 |
-| 图片与连续视频修复 | [ImageGen优先](rules/imagegen-first-v3.md)、[自然修复选路](rules/content-aware-text-restoration-v2.md) | 参考图须实际绑定并审核；静态供体、局部采用与连续运动分别判断 |
+| 图片与连续视频修复 | [ImageGen优先](rules/imagegen-first-v3.md)、[自然修复选路](rules/content-aware-text-restoration-v5.md) | 参考图须实际绑定并审核；静态供体、局部采用与连续运动分别判断 |
 | 发布者水印和片尾同标 | [去除范围](rules/publisher-watermark-removal-v2.md) | 逐实例解析身份；产品品牌与用户明确保留例外单列 |
+| 字面串选、描边裁边和取证漏边界 | [原生渲染与取证](rules/native-render-evidence-guards-v1.md) | 已实现的工程防错与合成回归；不证明实际清底、声音或整片验收 |
 | 配音、角色和字幕时轴 | [最终混音核查](rules/method-spoken-caption-verification-v4.md)、[角色声线](rules/short-drama-character-voices-v2.md) | 孤立TTS、模型语义时间和预设名不能替代实际混音及编码边界 |
 | 全部原片/语种提交与恢复 | [全项交付](rules/fireplay-complete-delivery-v3.md)、[固定提交与收尾](rules/fireplay-completion-recovery-v4.md) | 部分批次继续补交；真实平台读回后结案，不跟踪YouTube进度 |
 | 设计师身份与KIE核查 | [设计师归属](rules/fireplay-designer-attribution-v2.md)、[API与本地日志](rules/kie-api-local-verification-v1.md) | 自行查询真实成员，持续授权沿原需求账本，不索要后台登录或DID |
@@ -93,3 +94,7 @@
 反馈包中，`feedback.json`是事件，经过哈希manifest核验的声明成员是该事件的证据。队列与Hook只排除已声明且核验一致的证据成员；未列入清单的新反馈仍进入待审。清单缺文件、哈希改变或路径越界会报错，不能静默隐藏。原文件不因去重计数而删除。
 
 操作步骤见[知识合同](../agent/contracts/knowledge.md)，职责和工具见[维护地图](../docs/project-map.md)。实际积压读取`knowledge-queue`、`hooks status`与`project_health.py`；目录数量和历史“已整理”说明不能替代当前状态。证据只按相同SHA256共享，现行正文、历史原文、manifest与原评审分别保留。
+
+## 近期制作复盘
+
+[会话复盘与知识沉淀](../docs/localization-retrospective.md)区分清底、源风格、三条时轴、音频和完整提交；现行汇总方法为[多语种制作复盘第二版](rules/multilingual-thread-lessons-v2.md)。具体成片认可仍限定源、语种与版本。

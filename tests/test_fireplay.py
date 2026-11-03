@@ -92,6 +92,23 @@ class FireplayTests(unittest.TestCase):
         return fireplay.receipt(CODE, key, {'response': {'publicUrl': 'https://example.com/video.mp4',
                                 'resourceId': RESOURCE}}, self.root)
 
+    def test_web_upload_dispatch_keeps_unknown_journal_without_base64(self):
+        self.returned_setup()
+        path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        outbox = read_json(path)
+        outbox['packages'][0]['upload_route'] = 'web'
+        write_json(path, outbox)
+        result = fireplay.dispatch(CODE, True, self.root)
+        operation = result['operation']
+        self.assertIsNone(operation['tool'])
+        self.assertIsNone(operation['materialize'])
+        self.assertEqual(operation['arguments']['host_action'], 'supported_web_upload')
+        self.assertTrue(operation['arguments']['youtube_auto_upload'])
+        self.assertNotIn('arguments_file', operation)
+        self.assertEqual(fireplay.dispatch(CODE, True, self.root)['state'], 'needs_reconciliation')
+        self.verify_upload('upload-1')
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root)['operation']['id'], 'import-1')
+
     def test_exact_code_not_prefix_and_pagination_guidance(self):
         self.snap['summary']['items'][0]['code'] += '-other'
         with self.assertRaisesRegex(WorkflowError, 'Exact requirement'):

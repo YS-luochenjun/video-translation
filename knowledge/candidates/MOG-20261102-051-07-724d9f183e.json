@@ -1,0 +1,44 @@
+{
+  "id": "MOG-20261102-051-07-724d9f183e",
+  "status": "candidate",
+  "created_at": "2026-11-02T14:22:18+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "pt",
+    "source_sha256": "da278bf84b5eaaee147982345b1f30a39a356cd955f141aab3e5061aff5026f7"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "MOG-20261102-051-07",
+    "video_sha256": "724d9f183ea36ecf424dc82b903ae5da36efd8c454a40c43664de2f6335635c4",
+    "quality_sha256": "96fa079c708183cc6bf293e1a2b64ef76a4b8a89b0aaa33dc3083cd8ad79612d"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "visible_coverup_or_unreviewed:t009",
+      "visible_coverup_or_unreviewed:t010",
+      "visible_coverup_or_unreviewed:t011",
+      "visible_coverup_or_unreviewed:t012",
+      "source_style_protected_content_unreviewed_or_failed:t001",
+      "source_style_protected_content_unreviewed_or_failed:t009",
+      "source_style_protected_content_unreviewed_or_failed:t010",
+      "source_style_protected_content_unreviewed_or_failed:t011",
+      "source_style_protected_content_unreviewed_or_failed:t012",
+      "source_text_removed_unreviewed",
+      "protected_graphics_unreviewed",
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect"
+    ],
+    "reviewer": "Codex actual pt encoded-video self-review; model evidence separately attributed",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

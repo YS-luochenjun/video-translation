@@ -1,0 +1,28 @@
+{
+  "source": {
+    "path": "knowledge/candidates/character-gender-evidence-gate-20261102.json",
+    "sha256": "07b93b7ce3840028eee1918f7ad86d3991871b720e585217d980360ef5c8d01c"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex deterministic evaluator correction review",
+  "origin": "Actual source/target audio model contradiction and targeted evaluator/prompt regression implementation; source/private audio identity remains separate.",
+  "resolution": "pending",
+  "reason": "Separate gender evidence gate is supported by deterministic tests and actual contradiction, but no formal rule promotion or current-video repair is implied.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "Focused9tests and full944test check0failures/0errors/4skips support contract behavior.",
+    "False gender flag→mismatch; absent/null→unverified preserves legacy review uncertainty."
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "Use separate actual source-character gender field in next encoded audio review; record result rather than preset metadata. Current Traditional Chinese female sister repair still pending user budget approval.",
+  "retrieval_features": [
+    "dialogue"
+  ],
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-11-02T20:28:56+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

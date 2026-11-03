@@ -64,7 +64,11 @@ def generate(run, candidate):
             require(file_hash(inside(directory, name)) == digest, 'Whole-scene evidence changed')
         reused = True
     else:
-        clocks = {}
+        # Source and candidate frame clocks are content-addressed observations,
+        # shared with restoration evidence. Reuse their verified decoding only;
+        # the per-candidate comparison and review remain independent.
+        from .visual_reuse import EvidenceCache
+        clocks = {'_reuse': EvidenceCache(run.parent.parent)}
         source_times, source_meta = _clock(original, clocks)
         target_times, target_meta = _clock(target, clocks)
         selected, omitted = select_times(inventory, source_times[-1])

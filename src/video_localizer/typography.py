@@ -22,7 +22,7 @@ def selected(item):
 
 
 def code_identity():
-    files = ['config/typography.json', 'src/video_localizer/typography.py',
+    files = ['config/typography.json', 'src/video_localizer/typography.py', 'src/video_localizer/fonts.py',
              'src/remotion_renderer/index.tsx', 'src/remotion_renderer/validate.mjs',
              'src/remotion_renderer/render.mjs', 'src/remotion_renderer/package.json', 'src/remotion_renderer/pnpm-lock.yaml']
     return {p: file_hash(CODE_ROOT / p) for p in files}
@@ -118,7 +118,6 @@ def _prepare(run, segment, items, meta, directory):
     props = {'width': meta['width'], 'height': meta['height'], 'fps': fps,
              'durationInFrames': frames, 'fonts': [], 'blocks': []}
     family_map = {}
-    family_hashes = {}
     inputs = []
     for item in items:
         display, motion = item['display'], item['display']['motion']
@@ -136,9 +135,6 @@ def _prepare(run, segment, items, meta, directory):
             bold, italic = bool(style & 1) or face['OS/2'].usWeightClass >= 600, bool(style & 2)
             require(not display.get('bold') or bold, 'Supply an actual bold font asset for bold typography')
             require(not display.get('italic') or italic, 'Supply an actual italic font asset for italic typography')
-            require(actual_family not in family_hashes or family_hashes[actual_family] == key,
-                    'Use one exact face per font family in the initial typography route')
-            family_hashes[actual_family] = key
         if key not in family_map:
             filename = key[:16] + font_path.suffix.lower()
             dest = directory / 'fonts' / filename; dest.parent.mkdir(parents=True, exist_ok=True)
@@ -169,6 +165,8 @@ def _prepare(run, segment, items, meta, directory):
         first = max(0, math.ceil((max(item['start'],segment['start'])-segment['start'])*fps-1e-7))
         last = min(frames, math.ceil((min(item['end'],segment['end'])-segment['start'])*fps-1e-7))
         require(last > first, 'Typography interval has no output frames')
+        from .fonts import ass_asset
+        ass_face = ass_asset(run, asset, directory, item['target_text'], bold, italic)
         block = {'id':item['id'], 'text':item['target_text'], 'family':family_map[key], 'fontSize':chosen,
                  'box':box, 'startFrame':first, 'endFrame':last, 'direction':direction,
                  'animationStartFrame':math.ceil((item['start']-segment['start'])*fps-1e-7),
@@ -176,7 +174,8 @@ def _prepare(run, segment, items, meta, directory):
                  'animated':motion.get('effect','fade_scale') == 'fade_scale', 'color':display.get('color','#FFFFFF'),
                  'outline':outline, 'outlineColor':display.get('outline_color','#111111'),
                  'align':display.get('align','center'), 'actualFamily':actual_family,
-                 'actualPostScript':actual_postscript, 'bold':bold, 'italic':italic}
+                 'actualPostScript':actual_postscript, 'assFamily':ass_face['ass_family'],
+                 'bold':bold, 'italic':italic}
         if motion.get('emphasize'):
             at=motion.get('emphasis_at',min(item['start']+.4,max(item['start'],item['end']-1/fps)))
             block.update(emphasize=motion['emphasize'], emphasisColor=display.get('emphasis_color','#FFE56A'),
@@ -220,7 +219,7 @@ def _ffmpeg(directory, props):
         if b.get('emphasize') and not any(unicodedata.bidirectional(c) in ('R','AL') for c in b['text']):
             before,after=b['text'].split(b['emphasize'])
             text=media.ass_text(before)+r'{\c&H'+color(b['emphasisColor'])+'&}'+media.ass_text(b['emphasize'])+r'{\c&H'+color(b['color'])+'&}'+media.ass_text(after)
-        prefix=(f"{{\\an{align}\\pos({xpos},{y+h/2})\\fn{b['actualFamily']}\\fs{b['fontSize']}\\b{int(b['bold'])}\\i{int(b['italic'])}\\bord{b['outline']}\\shad0"
+        prefix=(f"{{\\an{align}\\pos({xpos},{y+h/2})\\fn{b.get('assFamily', b['actualFamily'])}\\fs{b['fontSize']}\\b{int(b['bold'])}\\i{int(b['italic'])}\\bord{b['outline']}\\shad0"
                 f"\\c&H{color(b['color'])}&\\3c&H{color(b['outlineColor'])}&}}")
         # ASS stores centiseconds. Floor boundaries so 30fps exclusive end
         # never rounds forward and leaks one frame beyond the bound interval.

@@ -1,0 +1,24 @@
+{
+  "id": "character-gender-evidence-gate-20261102",
+  "created_at": "2026-11-02T20:28:22+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "development_component": "encoded_audio_character_voice_validation"
+  },
+  "outcome": "deterministic_regressions_pass",
+  "hypothesis": "Evaluator now requires separate gender_matches_source_characters:true; false yields character_voice_gender_mismatch; absent/null yields character_voice_gender_unverified. Prompt explicitly requests the field from actual source/target audio instead of voice preset names.",
+  "observations": [
+    "An actual encoded-audio comparison returned distinct=true and consistent=true while its character observation explicitly reported a deep male voice for a female sister. Distinctness/consistency therefore do not establish source-character gender.",
+    "9 focused fast-audio tests pass, including wrong-gender and legacy/missing-field regressions. Full project check944tests, failures0/errors0,4skips."
+  ],
+  "limitations": [
+    "Missing legacy field is unverified, never silently false or true.",
+    "External actual-audio judgment still requires evidence; tests do not provide video acoustic acceptance."
+  ],
+  "company_preference": false,
+  "case_manifest_sha256": "f74c0ffaf9af907f1f79c7c509b4f0f5cfde55eaef0d80bf3f7c81ba5a7391d8",
+  "next_action": "Review narrowly as an evaluator contract correction; verify actual future encoded voice evidence and retain unresolved current video holds.",
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

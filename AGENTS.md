@@ -17,7 +17,7 @@
 - 后续画面文字默认按[源视觉语言制作政策](knowledge/rules/source-led-visual-localization-v1.md)执行：少量艺术字资产、真实字体与目标配音短语批量呈现、必要局部修复和主体保护。复用style-layer及既有surface/Remotion能力，不逐帧生图或照搬056坐标；各源/语种实际审核，预算和有界提交不变。
 
 - [模型合同](agent/contracts/model-routing.md)是分工入口：Codex识字及直接处理图片，先codex-packet取得真实图像/知识，完成后codex-result登记实际观察/产物；图片能用宿主ImageGen完成时优先使用，必要媒体操作保留脚本，见[ImageGen优先政策](knowledge/rules/imagegen-first-v3.md)。新任务不用RapidOCR、GLM-OCR、LaMa；真实音频用专用模型，视频统一Wan 2.7。用户指定模型须以真实任务、原视频和逐项评审验证；本地合成是另一条路线，不冒称模型效果。
-- 按[源文字修复](knowledge/rules/content-aware-text-restoration-v3.md)逐实例选路：禁止新增实心遮罩、色块/底条、硬边补丁盖字（含solid_overlay），自然去字后用透明字层重建。图片优先ImageGen，复杂运动/遮挡评估Wan；仅特别困难、自然路线有实际失败/主体风险证据且有界条件内确实做不出时，允许最小局部、随运动、羽化边缘的部分透明模糊兜底。内部定位/合成掩模可用，不得成为可见遮挡；不得删合同版本绕过，沿用预算和返工上限。
+- 按[源文字修复](knowledge/rules/content-aware-text-restoration-v5.md)执行：先读取/保存原文、样式与运动，再自然去字补底，最后按源视觉语言重建译文。先对照原片/无字底片/译片，验证代表性困难区再扩展多语言。透明度、羽化、方法名称都不证明背景干净；禁止新增可见色块、底条和补丁，困难兜底仅按该合同判断。内部定位与合成掩模可用；保留预算、完整输出及有界返工，不为省额度跳过有希望的ImageGen/Wan路线。
 - 发现发布者水印默认去除，解析原文/图形与身份，片尾同一身份的文字/商标也去除；逐实例记录关联和实际审核。用户明确保留例外与无关产品品牌分开，见[水印与片尾同标规则](knowledge/rules/publisher-watermark-removal-v2.md)。
 - KIE新请求按实际去重目标语种每种60 credits建本请求共享池，首次/新复用同价；同需求多原片共用，跨需求不合并。旧限额和未知费用保留，两轮返工不变，Codex花费不受该池限制。automatic_use=true且在用户授权范围内时直接使用KIE及必要媒体传送，项目需要/同意选择直接确定为需要、同意，不重复询问；新增范围/额度才确认，宿主审批照其策略执行。
 - KIE仅通过API、真实taskId、保存的响应及本地任务/费用日志核查，配置为config/kie-access.json。用户没有后台登录权限，不要求登录、密码、Cookie或后台截图。同步超时无可查询ID时保留未知费用，不编造查询能力或重复扣费。失败按[集成约定](agent/integrations/kie.md)区分连接/鉴权、上传、建任务、执行与内容质量。

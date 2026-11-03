@@ -121,7 +121,14 @@ def check(root=ROOT):
             parsed = urlsplit(target)
             if parsed.scheme or parsed.netloc or not parsed.path:
                 continue
-            resolved = (path.parent / unquote(parsed.path)).resolve()
+            # These are HTTP routes served by workbench/server.py, not host
+            # filesystem absolute paths. Keep the mapping explicit: arbitrary
+            # root paths and links from other source trees remain rejected.
+            console_routes = {"/console/styles.css": "workbench/console-static/styles.css",
+                              "/console/app.js": "workbench/console-static/app.js",
+                              "/": "workbench/static/index.html"}
+            route = console_routes.get(parsed.path) if relative.startswith("workbench/console-static/") else None
+            resolved = (root / route if route else path.parent / unquote(parsed.path)).resolve()
             checked_links += 1
             if not resolved.is_relative_to(root):
                 errors.append(f"Link leaves the source package: {relative} -> {target}")

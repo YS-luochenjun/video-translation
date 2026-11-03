@@ -55,11 +55,14 @@ def inspect_asset(run, asset, text='', bold=None, italic=None):
     with _font_modules().TTFont(path, recalcTimestamp=False) as font:
         family = font['name'].getDebugName(1)
         require(family and not any(c in family for c in ',\n\r{}\\'), 'Invalid bound font family metadata')
-        actual_bold = bool(font['head'].macStyle & 1) or font['OS/2'].usWeightClass >= 600
+        font_weight = font['OS/2'].usWeightClass
+        postscript = font['name'].getDebugName(6)
+        actual_bold = bool(font['head'].macStyle & 1) or font_weight >= 600
         actual_italic = bool(font['head'].macStyle & 2) or bool(font['OS/2'].fsSelection & 1)
         require(bold is None or bool(bold) == actual_bold, 'Supply the actual requested regular/bold font face')
         require(italic is None or bool(italic) == actual_italic, 'Supply the actual requested upright/italic font face')
-    return {'path': path, 'index': 0, 'family': family, 'bold': actual_bold, 'italic': actual_italic}
+    return {'path': path, 'index': 0, 'family': family, 'bold': actual_bold, 'italic': actual_italic,
+            'weight': font_weight, 'postscript': postscript}
 
 
 @guarded
@@ -90,13 +93,27 @@ def bind_file(run, path, text='', index=0):
 
 def ass_asset(run, asset, directory, text, bold, italic):
     face = inspect_asset(run, asset, text, bold, italic)
-    target = Path(directory) / 'fonts' / (asset['sha256'][:16] + face['path'].suffix)
+    # A family can contain W7 and W9 at once. Boolean ASS bold resolves both
+    # as700 and may silently pick the wrong file/system font. Give each bound
+    # face its own render-local family; glyph data and original asset stay intact.
+    alias = 'VLBound' + asset['sha256'][:24]
+    target = Path(directory) / 'fonts' / (alias + face['path'].suffix)
+    receipt = Path(directory) / 'font-records' / (alias + '.json')
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.exists():
-        require(file_hash(target) == asset['sha256'], 'Renderer font changed')
+        record = read_json(receipt)
+        require(record['source_sha256'] == asset['sha256'] and
+                record['sha256'] == file_hash(target), 'Renderer font changed')
     else:
-        shutil.copyfile(face['path'], target)
-    return face
+        from .typography import _font_modules
+        with _font_modules().TTFont(face['path'], recalcTimestamp=False) as font:
+            for name in list(font['name'].names):
+                if name.nameID in (1, 3, 4, 6, 16):
+                    font['name'].setName(alias, name.nameID, name.platformID, name.platEncID, name.langID)
+            font.save(target)
+        write_json(receipt, {'source_sha256': asset['sha256'], 'sha256': file_hash(target),
+                            'family': face['family'], 'weight': face['weight'], 'alias': alias})
+    return {**face, 'ass_family': alias}
 
 
 def ass_name(root, family, bold=False, directory=None):

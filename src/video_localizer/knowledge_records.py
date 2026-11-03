@@ -25,6 +25,9 @@ def evidence_payload(path, base):
     if path.suffix != '.json':
         return False
     value = read_json(path)
+    # Receipt arrays/scalars are raw evidence, not attributed feedback records.
+    if not isinstance(value, dict):
+        return True
     if value.get('kind') == 'knowledge-case':
         return True
     if all(key in value for key in ('segments', 'engine', 'audio_sha256')) and not any(

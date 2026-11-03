@@ -658,11 +658,12 @@ def prepare_return(code, spec, root=ROOT):
                 from .fireplay_publication import eligible
                 acceptance = eligible(code, folder, manifest, root)
             require_clear(meta['source_sha256'], meta['video_sha256'], root)
-            require(movie.stat().st_size <= 50 * 1024 * 1024, 'Video exceeds MCP byte-upload limit; use supported presigned/web upload and record the receipt')
+            upload_route = 'web' if movie.stat().st_size > 50 * 1024 * 1024 else 'bytes'
             display_name = f'{video["title"]}-{item["locale"]}'
             packages.append({**item, 'sha256': meta['video_sha256'], 'manifest_sha256': file_hash(folder / 'manifest.json'),
                              'file': str(movie.relative_to(root)), 'name': display_name + suffix, 'display_name': display_name,
                              **({'publication_acceptance': acceptance} if acceptance else {}),
+                             **({'upload_route': upload_route} if upload_route == 'web' else {}),
                              'tags': list(dict.fromkeys([item['locale'], publication['product_tag']]
                                      + (['二创'] if attribution.get('creation_type') == 'derivative' else [])))})
         require(seen and (seen == expected or spec.get('partial') is True),
@@ -681,6 +682,9 @@ def prepare_return(code, spec, root=ROOT):
                     'An outbox already exists with different attribution; preserve and reconcile it first')
             if old['packages'] == packages:
                 return old
+            if spec.get('repair_revision'):
+                from .fireplay_revision import return_revision
+                return return_revision(path, old, value, spec['repair_revision'], Path(root))
             # A batch containing only explicitly deferred unknown uploads has
             # no active materials to bind. Preserve those operations and allow
             # unrelated reviewed locales to proceed under new stable indices.
@@ -821,9 +825,16 @@ def dispatch(code, execute=False, root=ROOT, index=1):
                 require(eligible(code, folder, bundles.verify(folder), root) == item['publication_acceptance'],
                         'Publication judgment changed after dispatch preparation')
         if phase == 'upload':
-            tool = 'material_r2_upload_from_bytes'
-            arguments = {'content_type': 'video/mp4', 'ext': 'mp4', 'file_name': item['name'] + '.mp4'}
-            materialize = {'file_base64': str(inside(root, item['file'])), 'encoding': 'base64', 'sha256': item['sha256']}
+            if item.get('upload_route') == 'web':
+                tool, materialize = None, None
+                arguments = {'host_action': 'supported_web_upload', 'file': item['file'],
+                             'sha256': item['sha256'], 'name': item['name'], 'tags': item['tags'],
+                             'shared_dept_id': outbox['publication']['shared_dept_id'],
+                             'youtube_auto_upload': True}
+            else:
+                tool = 'material_r2_upload_from_bytes'
+                arguments = {'content_type': 'video/mp4', 'ext': 'mp4', 'file_name': item['name'] + '.mp4'}
+                materialize = {'file_base64': str(inside(root, item['file'])), 'encoding': 'base64', 'sha256': item['sha256']}
         elif phase == 'import':
             upload = outbox['operations'][key.replace('import', 'upload')]['result']
             materialize = None

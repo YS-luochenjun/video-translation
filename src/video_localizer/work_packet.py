@@ -4,6 +4,7 @@ from .knowledge import context_for, retrieve, source_references, related_source_
 from .knowledge_advisories import retrieve as advisory_retrieve
 from .knowledge_usage import followup as knowledge_followup
 from .improvement import agenda as improvement_agenda
+from .text_timing import diagnose as timing_diagnostics
 from . import resources, workflow
 
 STAGES = {
@@ -14,7 +15,7 @@ STAGES = {
                     'ai': ['Finalize translation and speech copy', 'Select voice/style and source speech windows'],
                     'commands': ['tts-packet', 'audio-mix', 'asr', 'captions']},
     'neutral': {'read': ['agent/workflows/visual-review.md', 'agent/contracts/quality.md'],
-                'ai': ['Codex directly edits images using project knowledge and host image tools; use Wan 2.7 for video-model work', 'Inspect native continuous frames and animation boundaries'],
+                'ai': ['Codex directly edits images using project knowledge and host image tools; use Wan 2.7 for video-model work', 'Compare original, text-free base and translated frames before expansion; opacity/feathering is not proof of repair', 'Inspect native continuous frames and animation boundaries'],
                 'commands': ['codex-packet --stage image', 'codex-result', 'visual-evidence --stage neutral', 'visual-notes', 'visual-release-neutral']},
     'render': {'read': ['agent/workflows/batch-production.md', 'agent/contracts/captions.md'],
                'ai': ['Review layout and actual mixed-audio alignment', 'Approve the representative language before expansion'],
@@ -55,6 +56,28 @@ def _next_action(run, state, jobs):
             'new_paid_submission': False, 'scope': 'Navigation only. Execution and any paid submission retain existing gates.'}
 
 
+def _completion_navigation(run, source_sha, completion):
+    """Historical output completion cannot suppress a newer quality objection."""
+    from .quality_holds import active
+    holds = active(source_sha, completion['video_sha256'], run.parent.parent)
+    path = run / 'outputs/candidate.json'
+    candidate = read_json(path) if path.exists() else None
+    newer = bool(candidate and candidate.get('sha256') != completion['video_sha256'])
+    candidate_holds = active(source_sha, candidate['sha256'], run.parent.parent) if newer else []
+    if holds or candidate_holds:
+        return {'state_hint': 'quality_feedback_requires_revision', 'quality_holds': holds,
+                'candidate_quality_holds': candidate_holds, 'current_candidate': candidate,
+                'next_action': 'Read the exact-asset quality feedback and inspect the current repair candidate. '
+                'Continue only the authorized bounded repair/review using the original budget and task history; '
+                'do not present the held historical final as accepted. No automatic paid retry or budget reset.'}
+    if newer:
+        return {'state_hint': 'needs_review', 'current_candidate': candidate,
+                'next_action': 'Review the newer actual candidate and its source/base/target evidence; '
+                'the historical final does not complete this revision. Preserve the original budget and retry bounds.'}
+    return {'state_hint': 'delivered_with_issues',
+            'next_action': 'Show the actual final video and disclosed limitations; do not repeat paid work.'}
+
+
 def build(run, stage=None):
     root = run.parent.parent
     from .ledger import tracking_packet
@@ -78,19 +101,21 @@ def build(run, stage=None):
             path = inside(run, asset['path'])
             require(file_hash(path) == asset['sha256'], 'Finalization knowledge selection changed')
             selected = read_json(path)
-        return {'run': run.name, 'ledger_tracking': ledger_tracking, 'state_hint': 'delivered_with_issues', 'completion': completion,
+        navigation = _completion_navigation(run, source_sha, completion)
+        return {'run': run.name, 'ledger_tracking': ledger_tracking, **navigation, 'completion': completion,
+                'text_timing': timing_diagnostics(run, inventory),
                 'improvement_loop': improvement_agenda(run),
                 'knowledge': selected.get('knowledge', []), 'source_references': selected.get('source_references', []),
                 'knowledge_advisories': selected.get('knowledge_advisories', []),
                 'routing_assessment': selected.get('routing_assessment'),
                 'knowledge_record_state': 'finalization_selection_only' if selected else 'legacy_not_recorded',
-                'reusable_packages': reusable_packages, 'maintenance': maintenance, 'automatic_pass': False,
-                'next_action': 'Show the actual final video and disclosed limitations; do not repeat paid work.'}
+                'reusable_packages': reusable_packages, 'maintenance': maintenance, 'automatic_pass': False}
     if (run / 'plan.json').exists() and read_json(run / 'plan.json').get('mode') == 'fast':
         from . import budgets, fast_delivery
         plan = fast_delivery.validate_plan(run, read_json(run / 'plan.json'))
         budget = budgets.status(budgets.bind(run)['id'], root)
         return {'run': run.name, 'ledger_tracking': ledger_tracking, 'mode': 'fast', 'plan_id': plan['id'],
+                'text_timing': timing_diagnostics(run, inventory),
                 'improvement_loop': improvement_agenda(run),
                 'knowledge': plan.get('knowledge', []), 'source_references': plan.get('source_references', []),
                 'knowledge_advisories': plan.get('knowledge_advisories', []),
@@ -171,6 +196,7 @@ def build(run, stage=None):
         if issues: observations.append({'path':path.relative_to(run).as_posix(),'issues':issues})
     from .model_routing import policy
     return {'run': run.name, 'ledger_tracking': ledger_tracking, 'stage': stage, 'state_hint': current['state'], 'model_routing': policy(root),
+            'text_timing': timing_diagnostics(run, inventory),
             'improvement_loop': improvement_agenda(run),
             'reusable_packages': reusable_packages, 'maintenance': maintenance,
             'output_policy': 'agent/workflows/always-output.md',

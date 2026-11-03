@@ -168,6 +168,8 @@ class FastKnowledgeTests(unittest.TestCase):
         packet=work_packet.build(self.run)
         self.assertEqual(packet['knowledge'],plan['knowledge'])
         self.assertEqual(packet['knowledge_record_state'],'frozen')
+        self.assertIn('text_timing', packet)
+        self.assertFalse(packet['text_timing']['automatic_pass'])
         self.assertEqual(packet['routing_assessment']['primary_type'],'mixed')
         self.assertTrue(packet['knowledge_followup']['remaining'])
         # Exact-source guidance remains an Agent option; an unrelated case does not.

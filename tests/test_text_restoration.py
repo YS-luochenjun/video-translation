@@ -38,6 +38,26 @@ class TextRestorationTests(unittest.TestCase):
         policy.validate(self.run,self.inv)
         self.assertEqual(policy.review_failures(self.run,self.inv,self.review,self.candidate),[])
 
+    def test_v2_requires_background_facts_even_when_no_cover_is_declared(self):
+        write_json(self.run/'inputs/request.json', {'text_restoration_contract_version': 2})
+        failures = policy.review_failures(self.run, self.inv, self.review, self.candidate)
+        self.assertIn('background_reconstruction_or_unreviewed:t001', failures)
+        row = self.review['text_restoration_review'][0]
+        row.update(source_text_removed=True, background_continuity=True, motion_preserved=True)
+        self.assertEqual(policy.review_failures(self.run, self.inv, self.review, self.candidate), [])
+        for key in ('source_text_removed', 'background_continuity', 'motion_preserved'):
+            row[key] = False
+            self.assertIn('background_reconstruction_or_unreviewed:t001',
+                          policy.review_failures(self.run, self.inv, self.review, self.candidate))
+            row[key] = True
+
+    def test_transparent_feathered_fallback_does_not_waive_remaining_letters(self):
+        write_json(self.run/'inputs/request.json', {'text_restoration_contract_version': 2})
+        self.fallback()
+        self.review['text_restoration_review'][0].update(source_text_removed=False,
+                background_continuity=True, motion_preserved=True)
+        self.assertTrue(policy.review_failures(self.run, self.inv, self.review, self.candidate))
+
     def test_solid_cover_and_added_pill_block_even_on_static_background(self):
         for change in ('solid','pill'):
             item=copy.deepcopy(self.item)
@@ -88,12 +108,14 @@ class TextRestorationTests(unittest.TestCase):
             with self.assertRaises(WorkflowError):media.render_local(None,{},[self.item],{},self.run/'out',self.run)
             execute.assert_not_called()
 
-    def test_prohibited_coverup_is_not_ordinary_best_available(self):
+    def test_ordinary_artifacts_can_submit_at_bound_but_actual_severe_damage_cannot(self):
         from video_localizer.fireplay_publication import _ordinary_best
         for kind in ['visible_solid_coverup','hard_edged_coverup','unapproved_blur_coverup']:
             assessment={'defects':[{'kind':kind,'severity':'minor','publication_impact':'ordinary'}],
                         'best_available':{'stop_condition':'budget_limit','reason':'stopped','evidence':['e']}}
-            self.assertFalse(_ordinary_best(assessment,{'e'}, {'mode':'bounded_best_available'}))
+            self.assertTrue(_ordinary_best(assessment,{'e'}, {'mode':'bounded_best_available'}))
+        assessment['defects'][0].update(kind='large_area_tearing')
+        self.assertFalse(_ordinary_best(assessment,{'e'}, {'mode':'bounded_best_available'}))
 
     def test_historical_request_cannot_start_a_new_solid_cover_render(self):
         write_json(self.run/'inputs/request.json',{})

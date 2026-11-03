@@ -45,6 +45,78 @@ class PublicationTests(unittest.TestCase):
                       'defects':[{'severity':severity,'description':'Synthetic observed defect'}],'evidence':['final.mp4']}
         return spec, assessment
 
+    def output_with_restoration_review(self, row, *, same_video=True, defects=None):
+        spec, assessment = self.complete_output()
+        original = self.root/spec['packages'][0]['package']
+        manifest = bundles.verify(original)
+        review = self.root/'work/cover-review.json'
+        write_json(review, {'video_sha256': manifest['metadata']['video_sha256'] if same_video else '0'*64,
+                            'text_restoration_review': [row], 'visual_finish': {'defects': defects or []}})
+        sources = {a['path']: original/a['path'] for a in manifest['files']}
+        sources['payload/review/fast-review.json'] = review
+        folder = original.with_name(original.name+'-observations')
+        bundles.create(folder, manifest['kind'], manifest['identity'], sources, manifest['metadata'])
+        return str(folder.relative_to(self.root)), assessment
+
+    def test_observed_cover_cannot_be_relabelled_as_ordinary_minor(self):
+        folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':True})
+        value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
+        self.assertEqual(value['decision'], 'blocked_major_or_incomplete')
+        self.assertEqual(value['observed_visual_findings'][0]['id'], 't001')
+
+    def test_bounded_best_available_submits_ordinary_repair_artifacts(self):
+        folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':True})
+        write_json(self.root/'config/fireplay-publication.json', {'mode':'bounded_best_available'})
+        assessment['best_available'] = {'stop_condition':'budget_limit','reason':'Actual bounded stop', 'evidence':['final.mp4']}
+        value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
+        self.assertEqual(value['decision'], 'bounded_best_available_acceptable')
+        self.assertTrue(value['internal_quality_unchanged'])
+
+    def test_residual_letters_are_not_automatically_semantic_incompleteness(self):
+        folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':False,
+                'source_text_removed':False, 'observation':'Old letters still show through the repair'})
+        value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
+        self.assertEqual(value['decision'], 'blocked_major_or_incomplete')
+        self.assertEqual(value['observed_visual_findings'][0]['kind'], 'residual_source_lettering')
+        self.assertTrue(value['assessment']['translation_complete'])
+
+    def test_real_missing_translation_still_blocks_at_bounded_stop(self):
+        folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':True})
+        write_json(self.root/'config/fireplay-publication.json', {'mode':'bounded_best_available'})
+        assessment['best_available'] = {'stop_condition':'budget_limit','reason':'Actual bounded stop', 'evidence':['final.mp4']}
+        assessment['translation_complete'] = False
+        value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
+        self.assertEqual(value['decision'], 'blocked_major_or_incomplete')
+
+    def test_current_severe_observation_cannot_be_hidden_in_an_ordinary_assessment(self):
+        folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':False},
+                defects=[{'kind':'large_area_tearing', 'severity':'major', 'publication_impact':'severe'}])
+        write_json(self.root/'config/fireplay-publication.json', {'mode':'bounded_best_available'})
+        assessment['best_available'] = {'stop_condition':'budget_limit','reason':'Actual bounded stop', 'evidence':['final.mp4']}
+        value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
+        self.assertEqual(value['decision'], 'blocked_major_or_incomplete')
+
+    def test_cosmetic_residue_submits_at_bound_without_rewriting_initial_review(self):
+        folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':False,
+                'source_text_removed':False, 'observation':'Faint old outline remains, target copy is complete'})
+        write_json(self.root/'config/fireplay-publication.json', {'mode':'bounded_best_available'})
+        assessment['best_available'] = {'stop_condition':'retry_limit','reason':'Two bounded repair rounds ended', 'evidence':['final.mp4']}
+        value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
+        self.assertEqual(value['decision'], 'bounded_best_available_acceptable')
+        self.assertTrue(value['internal_quality_unchanged'])
+
+    def test_old_video_observation_does_not_reject_a_different_repaired_video(self):
+        folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':True}, same_video=False)
+        value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
+        self.assertEqual(value['decision'], 'minor_issues_acceptable')
+
+    def test_technical_matte_or_pending_review_is_not_itself_a_visible_cover(self):
+        folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':None,
+                'technical_matte_used': True})
+        value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
+        self.assertEqual(value['decision'], 'minor_issues_acceptable')
+        self.assertNotIn('observed_visual_findings', value)
+
     def test_minor_issues_publish_without_rewriting_quality(self):
         spec, assessment = self.complete_output()
         for item in spec['packages']:

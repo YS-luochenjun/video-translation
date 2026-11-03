@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "reviewed_by": "Codex same-agent developer review; not independent audiovisual acceptance",
+  "new_regression_module": "tests/test_common_production_regressions.py",
+  "new_regression_count": 15,
+  "selected_tests_result": "15 passed before final suite; full suite initially exposed old family-name assertion, now updated to exact alias provenance and real libass selection log.",
+  "implementation_sha256": {
+    "src/video_localizer/layout.py": "b3460e9969e78c6783f8910ceda6d64924fe27a478b689f65cf9ceda906a7f45",
+    "src/video_localizer/fonts.py": "fd8459d587d3e600f2b382a877d0af38e07dc093d43b402e81d6e632e7ee4625",
+    "src/video_localizer/compositor.py": "db89b127325ef305e399c94dbed5016c92db4ca38d8dae753c0d6135ea0a0350",
+    "src/video_localizer/typography.py": "7679c102b4182d4f206273369f09448f6154b19a613e2860c2a497ecf1f10393",
+    "src/video_localizer/restoration_probes.py": "130a5cfe971ca09720ea637e48a1f90c0f47d7572b18f164494be9a5a573096b",
+    "src/video_localizer/audio.py": "c8ffda8d7d2f6935dfe16958022691df5d16ded794cd7434157dd09de2808bb5"
+  },
+  "test_sha256": {
+    "tests/test_common_production_regressions.py": "68b9c20c01d086dbf7d3c9578d63be4a1b491c8c8acf71996f480e11c86cc341",
+    "tests/test_restoration_probes.py": "f4129dd5886c22ee7e8fe589ea951c371b4513e2a03c4b0a1980073ca13ec35f",
+    "tests/test_source_styles.py": "8ff3c34ed212c065c7d676f2587cf79a5ccccff0bbbac39a608f1cc62576502e"
+  },
+  "demo": {
+    "id": "common-guards-20261102-01",
+    "kind": "synthetic_engineering_smoke",
+    "candidate": {
+      "path": "target.mp4",
+      "sha256": "57169248ff2551d64b9d8b37b1c7681de2c928dd4c8fcda0ce06169e66112d75",
+      "plan_id": "synthetic-common-guards-v1"
+    },
+    "source_sha256": "90e8991fcf8ea8518485d2d4ec8c064fa64c1b932acd6dcb20cab253a2364df7",
+    "sampled_native_frames": [
+      5,
+      6,
+      25,
+      44,
+      45
+    ],
+    "unchanged_reuse_verified": true,
+    "limitations": [
+      "Synthetic known-clean generator background; does not prove inpainting or natural repair quality.",
+      "Silent fixture; no real dubbing, speaker fidelity, semantic timing or user acceptance claim.",
+      "Source deliberately holds one native frame beyond the declared interval; boundary probe captures it. No automatic visual pass."
+    ],
+    "paid_model_calls": 0
+  },
+  "observed_images": {
+    "0002.png": "Same native frame: source English title, generated clean background, target Spanish title with multiple outline colors. Synthetic only.",
+    "0004.png": "At native frame 45, source deliberately retains the original title beyond declared end; known clean base and target do not. This outside frame was absent from the old interval-only sampling."
+  },
+  "proof_boundary": "Deterministic engineering regression, known clean synthetic background and selected native stills. No claim of inpainting, real voice, natural motion continuity or user acceptance.",
+  "regression_tests_preserved_as": "test_common_production_regressions.py"
+}
