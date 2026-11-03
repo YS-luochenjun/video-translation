@@ -52,6 +52,36 @@ class CodexVisualTests(unittest.TestCase):
         self.assertTrue(frozen['context'])
         self.assertFalse(result['automatic_pass'])
 
+    def test_delivery_rule_is_discoverable_without_inlining_its_body(self):
+        from video_localizer import codex_visual
+        path = 'knowledge/rules/delivery.md'
+        (self.root / path).parent.mkdir(parents=True)
+        (self.root / path).write_text('Delivery-only detail')
+        rule = {'path': path, 'tags': ['delivery'], 'sha256': file_hash(self.root / path)}
+        mixed_path = 'knowledge/rules/watermark-and-delivery.md'
+        (self.root / mixed_path).write_text('Check the publisher mark on screen')
+        mixed = {'path': mixed_path, 'tags': ['delivery', 'watermark']}
+        with patch.object(codex_visual, 'retrieve', return_value=[rule, mixed]):
+            reply = codex_visual.packet(self.run, 'image', root=self.root)
+        packet = read_json(self.run / reply['packet'])
+        self.assertEqual(reply['stage_focus']['stage'], 'neutral')
+        self.assertEqual(packet['knowledge'], [rule, mixed])
+        self.assertIn(mixed_path, [item['path'] for item in packet['context']])
+        self.assertEqual(packet['deferred_delivery_paths'], [path])
+        self.assertNotIn(path, [item['path'] for item in packet['context']])
+        (self.root / path).write_text('Updated after packet creation')
+        with self.assertRaisesRegex(WorkflowError, 'knowledge changed'):
+            codex_visual.record(self.run, reply['packet'], self.report(reply), root=self.root)
+
+    def test_artwork_image_task_uses_render_check(self):
+        from video_localizer import codex_visual
+        write_json(self.run / 'art.json', {'focus_stage': 'render'})
+        with patch.object(codex_visual, 'retrieve', return_value=[]):
+            data = codex_visual.packet(self.run, 'image', 'art.json', root=self.root)
+            self.assertEqual(data['stage_focus']['stage'], 'render')
+            with self.assertRaises(WorkflowError):
+                codex_visual.packet(self.run, 'recognize', 'art.json', root=self.root)
+
     def test_result_binds_real_output_and_never_approves_inventory(self):
         from video_localizer import codex_visual
         packet = self.make_packet('image')

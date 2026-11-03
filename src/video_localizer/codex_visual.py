@@ -6,6 +6,7 @@ from PIL import Image
 from .common import file_hash, guarded, inside, object_hash, read_json, require, write_json
 from .knowledge import context_for, retrieve, source_references, related_source_references
 from .knowledge_advisories import retrieve as advisory_retrieve
+from .stage_focus import focus
 
 GUIDES = ('AGENTS.md', 'agent/contracts/workflow.md', 'agent/contracts/quality.md', 'agent/contracts/model-routing.md',
           'agent/workflows/video-localization.md')
@@ -44,7 +45,10 @@ def packet(run, stage='recognize', spec=None, root=None):
     source = _source(run)
     require(inventory['source_sha256'] == source['sha256'], 'Visual inventory source mismatch')
     task = read_json(inside(run, spec)) if spec else {}
-    require(set(task) <= {'images', 'instructions'}, 'Unknown Codex visual task field')
+    require(set(task) <= {'images', 'instructions', 'focus_stage'}, 'Unknown Codex visual task field')
+    focus_stage = task.get('focus_stage', 'source' if stage == 'recognize' else 'neutral')
+    allowed = ('source',) if stage == 'recognize' else ('neutral', 'render')
+    require(focus_stage in allowed, 'Invalid focus stage for Codex visual task')
     paths = task.get('images')
     if paths is None:
         paths = [s['keyframe'] for s in inventory.get('shots', [])]
@@ -56,7 +60,15 @@ def packet(run, stage='recognize', spec=None, root=None):
     context = context_for(request, inventory, root)
     methods = retrieve(context, root=root)
     references = source_references(context, root=root)
-    names = list(dict.fromkeys([*GUIDES, *[item['path'] for item in methods + references]]))
+    # Delivery rules stay in the selection for traceability, but their prose is
+    # unnecessary during visual recognition and image work.
+    delivery_tags = {'delivery', 'workflow', 'fireplay', 'designer', 'submission', 'derivative'}
+    deferred = [item for item in methods
+                if {'fireplay', 'delivery'}.intersection(item.get('tags', []))
+                and set(item['tags']) <= delivery_tags]
+    deferred_paths = {item['path'] for item in deferred}
+    visual_paths = [item['path'] for item in methods if item['path'] not in deferred_paths]
+    names = list(dict.fromkeys([*GUIDES, *visual_paths, *[item['path'] for item in references]]))
     for name in ('.agents/skills/video-localization/SKILL.md', 'config/model-routing.json', 'config/quality.json'):
         if (root / name).is_file():
             names.append(name)
@@ -72,6 +84,8 @@ def packet(run, stage='recognize', spec=None, root=None):
             'inventory_asset': _asset(run, 'analysis/inventory.json'),
             'images': [_image(run, p) for p in dict.fromkeys(paths)],
             'frame_index': 'analysis/frame-index.json' if (run / 'analysis/frame-index.json').exists() else None,
+            'stage_focus': focus(focus_stage, inventory, root),
+            'deferred_delivery_paths': sorted(deferred_paths),
             'context': texts, 'knowledge': methods, 'source_references': references,
             'related_source_references': related_source_references(context, root),
             'knowledge_advisories': advisory_retrieve(context, root),
@@ -95,6 +109,7 @@ def packet(run, stage='recognize', spec=None, root=None):
     if not (run / relative).exists():
         write_json(run / relative, data)
     return {'packet': relative, 'sha256': file_hash(run / relative), 'executor': 'codex',
+            'stage_focus': data['stage_focus'],
             'state': 'awaiting_codex', 'automatic_pass': False,
             'next': 'Read packet, view actual images, perform the work, then codex-result RUN PACKET REPORT'}
 
@@ -110,7 +125,9 @@ def _verify_packet(run, relative, root, check_inventory=False):
         assets.append(data['inventory_asset'])
     for asset in assets:
         require(file_hash(inside(run, asset['path'])) == asset['sha256'], 'Codex visual input changed')
-    for item in data['context']:
+    deferred_paths = set(data.get('deferred_delivery_paths', []))
+    deferred = [item for item in data.get('knowledge', []) if item['path'] in deferred_paths]
+    for item in [*data['context'], *deferred]:
         require(file_hash(inside(root, item['path'])) == item['sha256'], 'Codex project knowledge changed; create a new packet')
     from .knowledge_records import resolve
     for item in data.get('knowledge_advisories', []):
