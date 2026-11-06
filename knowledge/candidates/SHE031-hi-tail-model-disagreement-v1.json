@@ -1,0 +1,31 @@
+{
+  "id": "SHE031-hi-tail-model-disagreement-v1",
+  "status": "candidate",
+  "created_at": "2026-11-05T09:44:41+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f22645ef91301ad0a7e5cc1578c226af1416a7cd28983e4399595063fd78fbb9",
+    "target_language": "hi"
+  },
+  "outcome": "counterexample",
+  "hypothesis": "On thisexactsource/hi candidate, qualitativeeffectmissing finding may be modelperceptionerror; independentnormal-speed/audio perception needed before broaderconclusions.",
+  "observation": "KIE reports chime at13.8s absent, but actualencoded same-position1.5s tail correlation0.9999867988,45.6039dBsignal/error. This contradicts deletion of that waveform interval, while preserving modelnegative asdisagreement. No directCodex/humanlistening or qualitypass.",
+  "evidence_package": {
+    "path": "knowledge/examples/SHE031-hi-tail-model-disagreement-v1",
+    "manifest_sha256": "4952c09ec777bdb88d3c629b7166d5be32474a4d32823ab3352646c378708d28"
+  },
+  "evidence": {
+    "video_sha256": "3e694132b974a0a3a0404dc45121aa47407c94b351bff15125de7dfb077c50d4",
+    "original_audio_review_sha256": "cab7f95ba703cd36aa8199d91b72881240e2263fcb3deb41db15d275192e0883",
+    "model_response_id": "chatcmpl-73db9a29ee004ecdb76c41c6475e27c6"
+  },
+  "limitations": [
+    "One source/one locale/one1.5second interval, notcross-source validation.",
+    "Does not prove fullmusicquality, voicepronunciation or audiovisualsync.",
+    "Internalquality remainsrevise and originalmodelnegative unchanged."
+  ],
+  "company_preference": false,
+  "next_action": "Review boundedsource/candidateaudioevidence and preservedmodelnegative; treat asone-sourcecounterexample to uncritical model acceptance. Do not activate a new default or overwrite existingquality.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

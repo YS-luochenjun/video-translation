@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 66,
-    "no_adoption_record": 339,
+    "no_adoption_record": 340,
     "synthetic_only": 4
   },
   "entries": [
@@ -6903,6 +6903,29 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "SHE031-hi-tail-model-disagreement-v1",
+      "path": "knowledge/candidates/SHE031-hi-tail-model-disagreement-v1.json",
+      "original_sha256": "758eb8820b02e7cccba1c4fc062201901fd6a7cb0d1398a15a765a119969832e",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f22645ef91301ad0a7e5cc1578c226af1416a7cd28983e4399595063fd78fbb9",
+        "target_language": "hi"
+      },
+      "historical_outcome": "counterexample",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/5ca22d9236c3e892cf4fb657ef084e78fcf7eddcb02c2596055599102a98d16e.json",
+        "decision_sha256": "6fd7f06c8161d2d687dc487eb411f1297164b9a2bbc45030f6d1f3b76b0643f3",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "核对独立音频尾段与计算脚本，再实际听辨；相关系数不证明全片听感或模型负评错误。"
+      },
+      "current_targets": [],
+      "hypothesis_sha256": "56d28a8d1edd5d50c803ac2101cbeac60e1b288ee9041f6527b7e7a2f239d3c2"
     },
     {
       "id": "WOW-20261027-012-01-de9a4a65b6",
