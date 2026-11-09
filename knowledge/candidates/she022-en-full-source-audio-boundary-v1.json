@@ -1,0 +1,29 @@
+{
+  "id": "she022-en-full-source-audio-boundary-v1",
+  "status": "candidate",
+  "created_at": "2026-11-05T05:41:22+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "dbf7a8c470b2b8963b3b0aa5e99f243291370e784ece739d3d4309c4f79df7d2",
+    "target_language": "en"
+  },
+  "hypothesis": "Single-source English comparison: source ASR speech bounds were coarse. Ending replacement early left Polish in the encoded output; full-source music/voice replacement with three complete target repetitions removed reported foreign speech. Preserve source music and actual final-audio verification; do not generalize the full-source route from this one case.",
+  "outcome": "same_source_before_after_observation",
+  "case": "knowledge/examples/she022-en-full-source-audio-boundary-v1",
+  "case_manifest_sha256": "c149d3f26d696953a65298225066235d33b2c5857a492615b825f692fff62af0",
+  "observations": [
+    "Before model observation explicitly contains foreign speech; after observation reports none and all3English warnings complete.",
+    "Actual encoded tail audio snippets17..19.992s retained independently.",
+    "Original visual scene words were already English and are independent of Polish narration."
+  ],
+  "causal_hypothesis": "Coarse ASR end was incorrectly treated as full voice coverage; changing replacement coverage explains the recovered ending. Same-source before/after only, not proof of universal optimal window selection.",
+  "action_basis": "Completed same-source correction with actual encoded result and attributed external audio observations; no human acceptance claimed.",
+  "limits": [
+    "One independent source and one target language.",
+    "No change to company defaults, budget or quality standard.",
+    "External model coarse timestamps are not alignment truth."
+  ],
+  "next_action": "For this exact source/language, use actual full-source audio coverage and final encoded verification. Broader method adoption needs another independently checked source or a scoped reviewed source case.",
+  "company_preference": false,
+  "automatic_promotion": false
+}

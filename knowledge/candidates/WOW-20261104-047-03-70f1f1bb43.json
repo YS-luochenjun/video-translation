@@ -1,0 +1,52 @@
+{
+  "id": "WOW-20261104-047-03-70f1f1bb43",
+  "status": "candidate",
+  "created_at": "2026-11-04T11:05:21+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "fr",
+    "source_sha256": "357b6f7c84ac723c9e8f85dd071b892bb05bdecc88e43211b2dcb23f8d293198"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "WOW-20261104-047-03",
+    "video_sha256": "70f1f1bb439444006ef7a017f11c95e7a5b182def60d73b7e1c85492a9944edd",
+    "quality_sha256": "60423ee1c63124c57f4b1fa48f93a5c707024235f48b1266786a4c91f1281e3d"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "clean_base_instance_unreviewed:t002",
+      "background_reconstruction_or_unreviewed:t002",
+      "visible_coverup_or_unreviewed:t002",
+      "source_style_result_evidence_changed:t001",
+      "source_style_result_evidence_changed:t001",
+      "source_style_result_evidence_changed:t002",
+      "source_style_result_evidence_changed:t002",
+      "caption_sync_unreviewed",
+      "caption_sync_unverified",
+      "caption_sync_instance_unverified:t001",
+      "caption_boundary_evidence_missing:t001",
+      "caption_sync_units:t001:Caption timing units are missing",
+      "caption_sync_instance_unverified:t002",
+      "caption_boundary_evidence_missing:t002",
+      "caption_sync_units:t002:Caption timing units are missing",
+      "audio_model_review_not_captured_or_changed",
+      "background_music_not_verified_preserved",
+      "sound_effects_not_verified_preserved"
+    ],
+    "reviewer": "Codex same-agent image and sampled actual1x playback review; Whisper small plus external Gemini audio models",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

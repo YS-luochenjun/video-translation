@@ -248,7 +248,7 @@ def _languages(row, root):
     groups = re.findall(r'翻译\s*[【\[]([^】\]\n]+)[】\]]', text)
     if not groups:
         groups = re.findall(r'翻译\s*([A-Za-z]{2,3}(?:[-_][A-Za-z]{2,4})?(?:\s*[/,、]\s*[A-Za-z]{2,3}(?:[-_][A-Za-z]{2,4})?)+)', text)
-    prose = [s.strip() for g in groups for s in re.split(r'[/,，、;；\s]+', g) if s.strip()]
+    prose = [s.strip() for g in groups for s in re.split(r'[/.,，、;；\s]+', g) if s.strip()]
     def normalize(items):
         result = []
         for item in items:
@@ -307,6 +307,13 @@ def register(code, spec, decision=None, root=ROOT):
         continuation = decision.get('continue_pending_delivery') is True
         pending = any(read_json(p).get('pending_locales')
                       for p in path.parent.glob('return-*.json'))
+        if decision.get('continue_user_requested_repair') is True:
+            from .fireplay_revision import completed_repair_pending
+            require(decision.get('repair_authority') == 'user'
+                    and decision.get('repair_authorization_ref') and decision.get('repair_source_quote'),
+                    'Completed-request repair needs the explicit user repair instruction')
+            pending = pending or completed_repair_pending(
+                previous, path.parent, Path(root), decision.get('repair_video_indices'))
         if decision.get('continue_unsubmitted_outputs') is True:
             boxes = [read_json(p) for p in path.parent.glob('return-*.json')]
             pending = pending or (any(v.get('members') for v in previous.get('videos', []))
@@ -335,7 +342,11 @@ def register(code, spec, decision=None, root=ROOT):
         blockers.append('Confirm quantity semantics: one version per source video and distinct locale')
     with lock(path.with_suffix('.lock')):
         old = read_json(path) if path.exists() else None
-        if old and old['content_version'] != snap['content_version'] and quantity_revision:
+        if (old and old['content_version'] != snap['content_version']
+                and decision.get('review_source_addition')):
+            from .fireplay_revision import append_reviewed_sources
+            old = append_reviewed_sources(old, snap, sources, decision, targets, path.parent, root)
+        elif old and old['content_version'] != snap['content_version'] and quantity_revision:
             archive = path.parent / 'revisions' / (object_hash(old) + '.json')
             write_json(archive, old)
             old.setdefault('revision_history', []).append({
@@ -450,16 +461,23 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
                                  if r.get('id') == resolved.get('source_resource_id')
                                  and r.get('backupUrl') == url
                                  and r.get('youtubeVideoId') == video['youtube_video_id']]
-                    require(detail.get('id') == resolved.get('material_id') and len(resources) == 1
+                    classification_only = (detail.get('id') == resolved.get('material_id') and len(resources) == 1
                             and resources[0].get('fileSize') == local.stat().st_size
-                            and resources[0].get('extraInfo', {}).get('youtube', {}).get('resolution', {}).get('hasExactDimensions') is False,
-                            'Downloaded dimensions differ from source lookup')
-                    video['source_metadata_review'] = {
-                        'reason': 'Platform dimensions are classification-only; exact R2 resource and byte size match',
-                        'material_detail_sha256': object_hash(video['source_detail']),
-                        'resource_id': resolved['source_resource_id'], 'bytes': local.stat().st_size,
-                        'reported_dimensions': [resolved['width'], resolved['height']],
-                        'actual_dimensions': [metadata['width'], metadata['height']], 'reviewed_at': utc_now()}
+                            and resources[0].get('extraInfo', {}).get('youtube', {}).get('resolution', {}).get('hasExactDimensions') is False)
+                    review_reference = result.get('download_metadata_review') if receipt else None
+                    require(classification_only or review_reference,
+                            'Downloaded dimensions differ from source lookup; inspect and bind the exact downloaded resource')
+                    if not classification_only:
+                        from .fireplay_revision import reviewed_download_metadata
+                        video['source_metadata_review'] = reviewed_download_metadata(
+                            root, video, metadata, local, review_reference)
+                    else:
+                        video['source_metadata_review'] = {
+                            'reason': 'Platform dimensions are classification-only; exact R2 resource and byte size match',
+                            'material_detail_sha256': object_hash(video['source_detail']),
+                            'resource_id': resolved['source_resource_id'], 'bytes': local.stat().st_size,
+                            'reported_dimensions': [resolved['width'], resolved['height']],
+                            'actual_dimensions': [metadata['width'], metadata['height']], 'reviewed_at': utc_now()}
                 video['source'] = {'path': local.relative_to(root).as_posix(), 'sha256': file_hash(local),
                                    'duration': metadata['duration'], 'width': metadata['width'], 'height': metadata['height']}
         write_json(path, record)
@@ -495,6 +513,7 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT):
         from .kie_access import instruction as kie_access_instruction
         from .fireplay_youtube import instruction as youtube_instruction
         from .fireplay_materials import attribution_instruction
+        from .fireplay_parallel import instruction as parallel_instruction
         packet = {'title': title, 'project_path': str(Path(root).resolve()),
                   'targets': record['targets'] if per_requirement else video['targets'], 'state': 'prepared',
                   'host_actions': ['list_projects: match this workspace', 'create_thread: project/local',
@@ -503,6 +522,8 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT):
                              f'在这个聊天内管理全部目标语言 {", ".join(record["targets"] if per_requirement else video["targets"])}，不要按语言另开聊天。'
                              '各原片只制作fireplay-status中对应videos[].targets指定的语种，不将需求语言并集与全部原片交叉相乘。'
                              f'先读 agent/workflows/fireplay-intake.md，运行 fireplay-status {code}。'
+                             + parallel_instruction(root) +
+                             '\n' + settings.get('priority_policy', {}).get('rule', '') +
                              '按现有知识、模型、预算和实际审核流程制作；审核后才回传。'
                              '有限预算/返工内已做到最好的完整译片，普通不合格也提交；不以内部revise、分数低或普通瑕疵数量单独拒交。'
                              'best_available先做fireplay-publication-review记录实际影响及有界停止证据；大面积撕裂、无法观看、严重主体损坏、漏译或缺必需配音仍阻断对应版本。保留原审核结论。'
@@ -682,6 +703,9 @@ def prepare_return(code, spec, root=ROOT):
                     'An outbox already exists with different attribution; preserve and reconcile it first')
             if old['packages'] == packages:
                 return old
+            if spec.get('transport_revision'):
+                from .fireplay_transport import replace_rejected_upload
+                return replace_rejected_upload(path, old, value, spec['transport_revision'], Path(root))
             if spec.get('repair_revision'):
                 from .fireplay_revision import return_revision
                 return return_revision(path, old, value, spec['repair_revision'], Path(root))
@@ -961,7 +985,8 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
                     material.get('name') == package['display_name'], 'Material name/identity read-back differs from the reviewed submission')
             require(material.get('isPublic') is False and material.get('sharedDeptId') == outbox['publication']['shared_dept_id'],
                     'Material read-back does not match sharing to the requirement group')
-            require(set(package['tags']).issubset(tags), 'Material read-back is missing language or product tags')
+            from .fireplay_materials import verify_tags
+            verify_tags(package['tags'], tags, package['locale'], root)
             from .fireplay_materials import verify_attribution
             verify_attribution(material, outbox.get('attribution', {}),
                                'Material read-back lost verified designer attribution',
@@ -1017,6 +1042,8 @@ def status(code, root=ROOT):
     result['state'] = 'needs_information' if record['blockers'] else 'ready_for_intake'
     result['budget'] = record.get('budget')
     result['production_workflow'] = 'agent/workflows/fireplay-intake.md'
+    from .fireplay_parallel import instruction as parallel_instruction
+    result['parallel_production_instruction'] = parallel_instruction(root)
     result['submission_instruction'] = submission_instruction(root)
     result['submission_consent_instruction'] = submission_consent_instruction(root)
     result['kie_consent'] = kie_consent(code, root=root)

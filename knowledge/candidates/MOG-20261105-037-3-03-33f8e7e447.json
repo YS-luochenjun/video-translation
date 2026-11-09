@@ -1,0 +1,48 @@
+{
+  "id": "MOG-20261105-037-3-03-33f8e7e447",
+  "status": "candidate",
+  "created_at": "2026-11-06T02:59:56+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "hi",
+    "source_sha256": "d09ff8f8069c4ae1af8da64f597f4410ab71e934771e478230c3cdc0d97fb3c7"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "MOG-20261105-037-3-03",
+    "video_sha256": "33f8e7e447103ffc66325693ed6b253e4ff53f34027a7d6f75f8d9208ecdaf5e",
+    "quality_sha256": "f92367af4f06a6d0b0bb30bc534f4081a3efa77bf377168465df27c676312309"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t003",
+      "visible_coverup_or_unreviewed:t003",
+      "background_reconstruction_or_unreviewed:t010",
+      "visible_coverup_or_unreviewed:t010",
+      "source_style_motion_unreviewed_or_failed:t001",
+      "source_style_motion_unreviewed_or_failed:t002",
+      "source_style_motion_unreviewed_or_failed:t003",
+      "source_style_motion_unreviewed_or_failed:t004",
+      "source_style_motion_unreviewed_or_failed:t005",
+      "source_style_motion_unreviewed_or_failed:t007",
+      "source_style_motion_unreviewed_or_failed:t010",
+      "source_text_removed_unreviewed",
+      "native_motion_unreviewed",
+      "caption_sync_unverified",
+      "visual_finish_below_threshold_or_unreviewed"
+    ],
+    "reviewer": "Codex /root/mog037_source3 same-agent actual perlocale review",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

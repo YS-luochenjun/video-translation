@@ -135,5 +135,48 @@
     "stop_when_queue_empty": false,
     "stop_only_on_explicit_user_request": true,
     "completion_watch": "Separate fixed-scope chat-completion watches may end after verified full delivery; preserve production chats, history and the persistent intake automation."
+  },
+  "completion_watch": {
+    "enabled": true,
+    "interval_minutes": 20,
+    "kind": "heartbeat",
+    "name": "Fireplay 在制新需求完成盯办",
+    "manifest": "work/fireplay-monitor/current-completion-watch.json",
+    "scope": "ongoing_newly_intaken_requirements_one_shared_watch",
+    "host_trigger": "status.completion_watch.host_action",
+    "add_new_requirements_while_active": true,
+    "stop_only_after_all_watched_verified_closed": true,
+    "keep_discovery_active": true,
+    "keep_owner_chats": true,
+    "decision_policy": {
+      "ordinary_in_scope_questions": "first_actual_recommended_option",
+      "record_actual_question_options_choice_and_receipt": true,
+      "running_owner": "observe_without_duplicate_message",
+      "idle_or_error_owner": "inspect_then_resume_original_thread",
+      "unknown_operations": "reconcile_before_retry",
+      "host_forced_approval": "human_only_no_bypass",
+      "budget_increase": false,
+      "severe_quality_waiver": false
+    },
+    "authority": {
+      "authority": "user",
+      "authorization_ref": "user-fireplay-rolling-watch-restart-20261109",
+      "source_quote": "后续人工增加新的需求，也要盯办新的需求，直到目前没有需求正在运行。且目前需求中难免有需要点击的内容，请你帮我点击。当20mins轮询因为没有需求在执行被取消后，如果查找到新的需求，需要重新开启轮询。",
+      "scope": "Current and future in-scope translation requests with an existing owner; preserve intake, budget, quality and host approval gates."
+    },
+    "restart_when_new_owner": true,
+    "include_manual_intakes": true,
+    "stop_condition": "no_unclosed_owner_requirements_after_fresh_status",
+    "prompt_template": "agent/templates/fireplay-completion-watch-prompt.md",
+    "operational_scope": "all_current_and_future_eligible_intaken_requirements",
+    "migration_requires_actual_host_schedule": true,
+    "authority_history": [
+      {
+        "authority": "user",
+        "authorization_ref": "user-fireplay-completion-watch-20m-20261109",
+        "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+        "source_quote": "请你修改项目，修改为，发现需求，有需求正在执行时，开启一个轮询的定时任务，每20mins检查目前新开的需求，是否已经完全完成并提交。如果没有推进继续，帮忙点击相关的内容，都点击第一个推荐的内容，以方便开发者人工。"
+      }
+    ]
   }
 }

@@ -1595,6 +1595,16 @@
       "sha256": "65cbd47c9b421a0474632c8a4e863416dc3071452ec8af113cce0bc3abd55c18",
       "archive_path": "65cbd47c9b421a0474632c8a4e863416dc3071452ec8af113cce0bc3abd55c18/fireplay-youtube-quota-clarification-20261102.json",
       "decision_sha256": "cf5b08904f30eb952203c295eb32b44052f0caed1cb7a4359cf7fd9bfb27535e"
+    },
+    "knowledge/candidates/DEV-20261104-gemini-tts-two-speaker-guard.json": {
+      "sha256": "7b73d0e34b3922860169a72f5339ab5d908138ef1cef4cb6485304855091caf9",
+      "archive_path": "7b73d0e34b3922860169a72f5339ab5d908138ef1cef4cb6485304855091caf9/DEV-20261104-gemini-tts-two-speaker-guard.json",
+      "decision_sha256": "eab6ce00dc193ea928a7bbc5375e4071dc8d568a71483d6feed118254a4c8d34"
+    },
+    "knowledge/candidates/DEV-20261106-contiguous-dub-mix.json": {
+      "sha256": "15068fca3ba7c445f29066704b24f73c0f2655d53d3b14ef6d4b3b1ec00172a1",
+      "archive_path": "15068fca3ba7c445f29066704b24f73c0f2655d53d3b14ef6d4b3b1ec00172a1/DEV-20261106-contiguous-dub-mix.json",
+      "decision_sha256": "7967775aa1e28bd26df0f3598d0a7b5f2fbd454c77f1461d12748313b366a231"
     }
   }
 }

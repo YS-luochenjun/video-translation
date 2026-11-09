@@ -1,0 +1,12 @@
+{
+  "recorded_at": "2026-11-04T11:10:22.377057+00:00",
+  "provenance": "Direct project user correction, 2026-11-04; sanitized requirement and visual observation only.",
+  "user_quotes": [
+    "不是这样的，完全错误了，我需要你删除掉原来的英文，用英文同样的大小字体颜色等，同样的位置上，把翻译后的文字，写上去",
+    "是清理原油语言，并进行字幕翻译，而不是同时存在。你需要在项目中明确这一点，不要跑偏"
+  ],
+  "codex_observation": "Attached crop shows English YOU’RE in large bold white italic letters with black outline, and smaller Arabic text below; both visible simultaneously.",
+  "policy_scope": "All project video localization involving replacement of source onscreen text; explicit user requirement, not inferred cross-source model performance.",
+  "evidence_boundary": "No successful repaired output claimed. Original font file availability, other locales and motion remain separately verified.",
+  "cause": "Agent treated systematically retained source captions plus added target subtitles as ordinary imperfections eligible for best_available; this was a requirement violation."
+}

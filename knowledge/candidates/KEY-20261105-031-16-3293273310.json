@@ -1,0 +1,45 @@
+{
+  "id": "KEY-20261105-031-16-3293273310",
+  "status": "candidate",
+  "created_at": "2026-11-05T11:59:03+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "vi",
+    "source_sha256": "fce24f7adda2c43bf7b3c6d11dd03dac4712ff341b33cbb01d0ad2fa5a5eb551"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "KEY-20261105-031-16",
+    "video_sha256": "32932733107b2cac9e1e2914cca9b2fc77785d723ebc92aba0ada8aeeb15ffcc",
+    "quality_sha256": "dfdcdc394df9eb8ae116ca877de0f432529008e33ffa834159a9a31c7a9db74e"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "clean_base_instance_unreviewed:t003",
+      "background_reconstruction_or_unreviewed:t003",
+      "visible_coverup_or_unreviewed:t003",
+      "clean_base_instance_unreviewed:t004",
+      "clean_base_instance_unreviewed:t005",
+      "background_reconstruction_or_unreviewed:t005",
+      "visible_coverup_or_unreviewed:t005",
+      "clean_base_instance_unreviewed:t006",
+      "background_reconstruction_or_unreviewed:t006",
+      "visible_coverup_or_unreviewed:t006",
+      "source_style_protected_content_unreviewed_or_failed:t005",
+      "source_text_removed_unreviewed",
+      "protected_graphics_unreviewed"
+    ],
+    "reviewer": "Codex (same_agent)",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

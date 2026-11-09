@@ -8,7 +8,7 @@ from pathlib import Path
 from datetime import datetime
 
 from . import fireplay
-from .common import ROOT, WorkflowError, lock, object_hash, read_json, require, utc_now, write_json
+from .common import ROOT, WorkflowError, file_hash, inside, lock, object_hash, read_json, require, utc_now, write_json
 
 
 def _directory(root):
@@ -480,6 +480,78 @@ def signal(spec, root=ROOT):
         return value
 
 
+def completion_watch_status(followup_items, root=ROOT):
+    """Plan host scheduling; never create automations or infer delivery from chat status."""
+    from .fireplay_submission import completion_gate
+    root = Path(root)
+    monitor_policy = policy(root)
+    config = monitor_policy.get('completion_watch', {})
+    if not config.get('enabled'):
+        return {'enabled': False}
+    manifest_path = root / config['manifest']
+    manifest = read_json(manifest_path) if manifest_path.exists() else {}
+    active = manifest.get('status') == 'ACTIVE'
+    members = {m['code']: m for m in manifest.get('requirements', [])} if active else {}
+    watched_codes = set(members)
+    enrollment_start = manifest.get('enrollment_started_at') or manifest.get('created_at')
+    # Human-created requests can acquire an owner between discovery scans. A
+    # complete upload without a current close receipt still needs supervision.
+    for path in (root / 'state/fireplay').glob('*/request.json'):
+        record = read_json(path)
+        chat = record.get('chat', {})
+        if chat.get('state') == 'ready' and _matches(record['snapshot']['row'], monitor_policy):
+            # A new rolling watch is not permission to reopen already accepted
+            # historical batches solely for missing legacy close paperwork.
+            if (path.parent.name not in watched_codes and enrollment_start
+                    and _time(record['created_at']) < _time(enrollment_start)
+                    and completion_gate(record, root)['can_close']):
+                continue
+            members.setdefault(path.parent.name, {'code': path.parent.name,
+                               'requirement_id': record['requirement_id'],
+                               'threadId': chat['threadId'], 'hostId': chat.get('hostId', 'local')})
+    for item in followup_items:
+        code = item['code']
+        record = read_json(root / 'state/fireplay' / code / 'request.json')
+        members.setdefault(code, {'code': code, 'requirement_id': record['requirement_id'],
+                                 'threadId': item['threadId'], 'hostId': item.get('hostId', 'local')})
+    pending, complete = [], []
+    for code, member in sorted(members.items()):
+        try:
+            folder = root / 'state/fireplay' / fireplay._code(code)
+            record = read_json(folder / 'request.json')
+            require(record['requirement_id'] == member['requirement_id'], 'Watched UUID changed')
+            require(record.get('chat', {}).get('threadId') == member['threadId'], 'Watched owner changed')
+            gate = completion_gate(record, root)
+            require(gate['can_close'], 'All-source/all-locale platform verification is incomplete')
+            pointer = read_json(folder / 'delivery-closure.json')
+            receipt = inside(root, pointer['receipt'])
+            require(file_hash(receipt) == pointer['sha256'], 'Closure receipt hash changed')
+            closed = read_json(receipt)
+            require(closed.get('complete') is True and closed.get('requirement_id') == record['requirement_id']
+                    and closed.get('content_version') == record['content_version']
+                    and closed.get('completion_check_sha256') == file_hash(folder / 'completion-check.json'),
+                    'Closure is missing or no longer matches the current completion check')
+            complete.append({**member, 'closure': str(receipt.relative_to(root)), 'sha256': pointer['sha256']})
+        except (WorkflowError, OSError, ValueError, KeyError, TypeError) as exc:
+            pending.append({**member, 'reason': str(exc)})
+    # Already closed history must not be copied into a new watch generation.
+    complete = [member for member in complete if member['code'] in watched_codes]
+    requirements = {member['code']: members[member['code']] for member in complete + pending}
+    action = 'ensure_active' if pending else 'delete_completion_watch' if active and watched_codes else 'none'
+    restricted = manifest.get('followup_approval_required') is True
+    if restricted and pending:
+        action = 'observe_only' if active else 'request_followup_approval'
+    return {'enabled': True, 'interval_minutes': config['interval_minutes'], 'manifest': config['manifest'],
+            'automation_id': manifest.get('automation_id') if active else None, 'host_action': action,
+            'requirements': list(requirements.values()), 'pending': pending, 'verified_complete': complete,
+            'scheduler_action': ('update' if active else 'create') if pending else
+                                'delete' if action == 'delete_completion_watch' else 'none',
+            'restart_when_new_owner': config.get('restart_when_new_owner', True),
+            'scope_mode': config.get('scope', 'ongoing_newly_intaken_requirements_one_shared_watch'),
+            'followup_approval_required': restricted, 'effective_mode': manifest.get('mode', 'owner_followup'),
+            'discovery_automation_action': 'keep_active', 'automatic_approval': False}
+
+
 def status(root=ROOT):
     config, state = policy(root), _state(root)
     review, queue, revisions, historical, waiting = [], [], [], [], []
@@ -511,6 +583,7 @@ def status(root=ROOT):
             p = Path(root) / 'state/fireplay' / row['code'] / 'request.json'
             if p.exists() and not read_json(p).get('blockers') and read_json(p).get('chat', {}).get('state') != 'ready':
                 queue.append(packet)
+    followup_items = followups(root)
     return {'state': 'ready' if state.get('baseline_at') else 'needs_baseline', 'interval_minutes': config['interval_minutes'],
             'scope': config['group_policy'], 'baseline_at': state.get('baseline_at'), 'last_success_at': state.get('last_success_at'),
             'visible_count': state.get('visible_count', 0), 'needs_review': _ordered(review), 'ready_to_dispatch': _ordered(queue),
@@ -518,5 +591,7 @@ def status(root=ROOT):
             'historical_translation_candidates': _ordered(historical),
             'historical_review_required': _ordered(historical),
             'waiting_for_assignment': _ordered(waiting),
-            'publication_followups': followups(root), 'max_active_requirements': config['max_active_requirements'],
+            'publication_followups': followup_items, 'max_active_requirements': config['max_active_requirements'],
+            'completion_watch': completion_watch_status(followup_items, root),
+            'priority_policy': read_json(Path(root) / 'config/fireplay-intake.json').get('priority_policy', {}),
             'p1_waits_for_p0': False, 'automatic_paid_execution_by_script': False}

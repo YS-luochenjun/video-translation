@@ -1,0 +1,29 @@
+{
+  "id": "APC-20261105-017-fr-caption-exit-envelope-v1",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "acbd790986c234eb3b38393ca84a06cd66075e99fa529d161715e14c19c87f81",
+    "target_language": "fr"
+  },
+  "hypothesis": "Midpoint-only source bounding boxes can under-cover the outgoing cumulative source caption. This is a supported exact-source coverage failure; it does not prove a generally clean repair method.",
+  "lesson": "On this exact source, save original text full enter/exit extent separately from target display bbox, inspect dense actual boundary frames and current normal playback, and hold the exact original-letter version until reviewed replacement exists.",
+  "observations": [
+    "Actual old French encoded caption probe shows original green/black RE at the right edge simultaneously with target Dans le monde entier. Current native112–132 frame range removes that tail, with a thin seam/geometry step visible at116–119. Source erase envelope widened while target display placement retained."
+  ],
+  "limitations": [
+    "One independent source, French witness only. No company acceptance, clean master, all-frame motion approval or cross-source inference.",
+    "Current local seams/body/graphic repair traces persist. Original negative reviews and quality holds remain."
+  ],
+  "outcome": "revise_with_finite_local_fix",
+  "reflection_state": "observed_candidate",
+  "company_preference": false,
+  "evidence": {
+    "source_sha256": "acbd790986c234eb3b38393ca84a06cd66075e99fa529d161715e14c19c87f81",
+    "video_sha256": "5b81f2e843f264244ece2279ae9ae29a61baeab31ae8ee2ce80a6d38a687985c",
+    "case_manifest_sha256": "774df05a41bce3dcc1e56a1fef1dbde330ab9b33584a70bab1b31f004abadc80"
+  },
+  "next_action": "Review this exact-source evidence before any advisory adoption; do not rewrite old midpoint review or broaden language/source scope.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

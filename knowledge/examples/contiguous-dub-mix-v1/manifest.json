@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "contiguous-dub-mix-v1",
+  "created_at": "2026-11-06T10:15:01.886481+00:00",
+  "files": [
+    {
+      "path": "mixer-change.patch",
+      "sha256": "8db56dc81f23901d42501d99e8e1301ec7957fce7c9886a382f5e72b7ca018ba",
+      "bytes": 2946
+    },
+    {
+      "path": "regression-receipt.txt",
+      "sha256": "d0bbd3fb4fcf80c9cbf5ce59bf4ce44bb927e9e40a6269d0b33dc8c4a94c4755",
+      "bytes": 98
+    },
+    {
+      "path": "observation.json",
+      "sha256": "5ff2d0ab550bd688a82a3b5498ba579bdcaffc07e42c5b2191e57c072547e3a8",
+      "bytes": 1518
+    },
+    {
+      "path": "regression-test.py",
+      "sha256": "b3e3b5d5e6d0a921e5291b56f21c6910ef121285c86de183268dc0f8d8e198e6",
+      "bytes": 2521
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "audio-mix",
+      "knowledge_kind": "technical_mixing"
+    },
+    "status": "candidate",
+    "source_sha256": null,
+    "video_sha256": null,
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "proof_boundary": "This regression executes the production mixer and checks actual saved PCM. It stubs media alignment/encoding to copy the fixture WAV; it is not an AAC encoder test or proof of source separation quality. Business delivery separately uses actual MP4/full/endpoints review."
+  }
+}

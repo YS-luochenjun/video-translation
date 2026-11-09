@@ -55,6 +55,8 @@ def mix(run):
         require_number(line['end'],'Speech end',minimum=line['start']+.001,maximum=len(source)/rate)
     windows=sorted((line['start'],line['end']) for line in plan['lines'])
     require(all(windows[i][1]<=windows[i+1][0] for i in range(len(windows)-1)),'Overlapping speech windows require explicit remixing')
+    window_starts={round(start*rate) for start,end in windows}
+    window_ends={min(len(source),round(end*rate)) for start,end in windows}
     signature={'plan':plan,'source_audio_sha256':file_hash(source_audio),'implementation':file_hash(__file__),
                'ffmpeg':media.command(['ffmpeg','-version']).stdout}
     digest=object_hash(signature)
@@ -87,8 +89,10 @@ def mix(run):
         start=round(line['start']*rate);end=min(len(source),round(line['end']*rate))
         fade=min(round(.04*rate),(end-start)//2)
         blend=np.ones(end-start,dtype=np.float32)
-        if start>0:blend[:fade]=np.linspace(0,1,fade)
-        blend[-fade:]=np.linspace(1,0,fade)
+        # Adjacent replacement windows are one continuous source-voice removal
+        # region. Crossfading to the original at their joins reintroduces words.
+        if start>0 and start not in window_ends:blend[:fade]=np.linspace(0,1,fade)
+        if end<len(source) and end not in window_starts:blend[-fade:]=np.linspace(1,0,fade)
         speech=np.zeros_like(source[start:end]);offset=round(voice_offset*rate)
         require(offset+len(data)<=len(speech),'Aligned voice would be truncated')
         speech[offset:offset+len(data)]=data
@@ -104,7 +108,7 @@ def mix(run):
         'source_audio':{'path':source_audio.relative_to(run).as_posix(),'sha256':file_hash(source_audio)},
         'background':plan['background'],'lines':records,'original_mix_outside_windows_max_float_difference':float(unchanged),
         'outside_windows_seconds':float(np.count_nonzero(~affected)/rate),'music_time_scale':1,
-        'method':'Original mix outside speech windows; local UVR background in speech windows plus native language TTS, 40ms boundary fades. Only isolated narration speed changed.',
+        'method':'Original mix outside speech windows; local UVR background plus native language TTS inside. 40ms source crossfades only at isolated internal boundaries, never adjacent joins or true EOF. Only isolated narration speed changed.',
         'output':{'path':output.relative_to(run).as_posix(),'sha256':file_hash(output)},
         'limitations':['UVR separation can attenuate musical vocal samples underneath narration.','No visual lip synchronization applied; source people are retained.']})
     return {'path':output.relative_to(run).as_posix(),'sha256':file_hash(output),'reused':False,'state':'needs_review'}

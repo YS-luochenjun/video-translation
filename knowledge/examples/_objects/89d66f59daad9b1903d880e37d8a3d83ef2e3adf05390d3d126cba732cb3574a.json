@@ -1,0 +1,13 @@
+{
+  "kind": "technical_model_input_contract_observation",
+  "observed_on": "2026-11-04",
+  "model": "google/gemini-2-5-pro-tts",
+  "supplier": "KIE",
+  "submitted_speaker_count": 5,
+  "actual_error": "KIE code 500: speakers must contain at most 2 items",
+  "result_state": "ambiguous",
+  "task_id_returned": false,
+  "retained_unknown_credit_reservation": 6,
+  "new_paid_retry_for_this_ambiguity_executed": false,
+  "boundary": "Exact provider behavior observed on this date. No zero-charge or failure-before-billing inference. Japanese delivery subsequently used original successful audio locally, not a paid retry."
+}

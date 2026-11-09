@@ -73,6 +73,29 @@ class MonitorTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'outside the selected assignees'):
             monitor.scan(self.pages([other]), self.root)
 
+    def test_all_priorities_are_admitted_and_remain_queued_with_p0_first(self):
+        from video_localizer import fireplay
+        snapshots = []
+        for i, priority in enumerate(['P0', 'P1', 'P2', 'P3', None]):
+            snap = copy.deepcopy(self.snap)
+            for view in ['summary', 'brief']:
+                snap[view]['items'][0].update(id=f'00000000-0000-4000-8000-{i:012d}',
+                                              code=f'APC-20261027-90{i}', priority=priority)
+            snapshots.append(snap)
+        monitor.scan(self.pages([s['summary']['items'][0] for s in snapshots]), self.root)
+        for snap in snapshots:
+            code = snap['summary']['items'][0]['code']
+            result = monitor.assess(code, {**self.decision(), 'snapshot': snap}, self.root)
+            self.assertEqual(result['state'], 'admitted', code)
+        result = monitor.status(self.root)
+        queued = [r['code'] for r in result['ready_to_dispatch']]
+        self.assertEqual(len(queued), 5)
+        self.assertEqual(queued[0], 'APC-20261027-900')
+        self.assertIn('APC-20261027-902', queued)
+        self.assertFalse(result['priority_policy']['exclude_by_priority'])
+        self.assertIn('所有优先级', fireplay.chat('APC-20261027-902', root=self.root)['prompt'])
+        self.assertFalse((self.root / 'state/budgets').exists())
+
     def test_partial_failed_or_changed_pagination_never_advances_checkpoint(self):
         spec = self.pages()
         spec['summary_pages'][0]['response']['next_cursor'] = 'next'

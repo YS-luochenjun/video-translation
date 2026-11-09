@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "contiguous-dub-mix-guards-v1",
+  "created_at": "2026-11-09T02:59:06+00:00",
+  "files": [
+    {
+      "path": "evidence/mix-test-receipt.txt",
+      "sha256": "c3dc4ce80790d0a5a68dcff2d3009be59564c24dfe01144e0f6b50051e539cc3",
+      "bytes": 98
+    },
+    {
+      "path": "evidence/observation.json",
+      "sha256": "5ff2d0ab550bd688a82a3b5498ba579bdcaffc07e42c5b2191e57c072547e3a8",
+      "bytes": 1518
+    },
+    {
+      "path": "evidence/regression-test.py",
+      "sha256": "b3e3b5d5e6d0a921e5291b56f21c6910ef121285c86de183268dc0f8d8e198e6",
+      "bytes": 2521
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "audio-mix",
+      "knowledge_kind": "technical_mixing"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 连续配音替换区间的接点与片尾\n\n范围：本项目local_audio混音器的相邻区间与真实EOF计算，属于确定性工程经验，不是分轨算法或各语言听感验收。\n\n原混音器给每个独立区间都加40ms原音淡入/淡出，两个替换区间相接时会在内部接点重新引入原人声；真实EOF处淡回原音也可能恢复词尾。修复按实际采样率将边界取整，在共享起止点及EOF不向原混音交叉淡化，孤立内部边界仍保留原淡化。\n\n修改此计算时运行test_local_audio_contiguous.py：独立两秒双声道夹具区分原音0.4、背景0.1和配音0.05，检查保存WAV每个样本、相邻接点及最终样本。依据为evidence:observation、evidence:regression及evidence:current_receipt。\n\n测试替换了对齐与编码步骤，证明实际保存PCM中的计算结果，不证明AAC编码、UVR底音干净、原语无残留、目标语完整或视觉质量。未覆盖的孤立边界和替换区间外声音仍需真实审核；每语言最终MP4的完整句及开头/片尾按现行音频合同检查，不能用夹具替代。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observation": "evidence/observation.json",
+      "regression": "evidence/regression-test.py",
+      "current_receipt": "evidence/mix-test-receipt.txt"
+    }
+  }
+}

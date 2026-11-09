@@ -52,7 +52,8 @@ def synchronize(check_only=False):
     data["sources"] = snapshots
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     updated = html[:match.start(2)] + payload + html[match.end(2):]
-    page.write_text(updated, encoding="utf-8", newline="\n")
+    with page.open("w", encoding="utf-8", newline="\n") as stream:
+        stream.write(updated)
     return {"decision": "pass", "updated_sources": len(stale), "sources": len(snapshots),
             "commands": len(names), "scope": "Source snapshots and local CLI help only; no media/model calls"}
 

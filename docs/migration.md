@@ -75,6 +75,14 @@ git pull --ff-only
 
 本机 `.env`、`*.local.json` 和宿主配置单独配置与确认；模型、字体、缓存与 Python 环境按安装流程准备。项目知识及必要证据已随源码分发，包含共享证据对象与存储索引，不要只摘取方法正文。
 
+## Fireplay滚动盯办迁移
+
+Git携带config/fireplay-monitor.json、[完成盯办流程](../agent/workflows/fireplay-completion-watch.md)、[宿主提示模板](../agent/templates/fireplay-completion-watch-prompt.md)及回归测试。它们定义长期30分钟发现巡检，以及有未结负责需求时才开启的20分钟滚动盯办：人工后续新增并合法接入的需求持续追加；全部完成提交并结案后结束20分钟任务，下一次接入新需求再自动重开。普通项目选项在原范围/预算/质量内处理实际第一个推荐项；宿主强制审批仍需人工。
+
+应用定时任务保存在宿主账户中，不会随git clone安装。新机器先恢复必要私有state/fireplay、预算、unknown任务和work/fireplay-monitor中的manifest、角色文件及派发/创建/删除回执；按真实聊天工具核对原threadId/hostId。旧机器与新机器只保留一个活动调度入口，切换前核查在途操作，不同时恢复两份制作。没有旧记录不代表需求未制作，先核对精确编号、UUID、平台绑定和真实聊天，不能重建预算或重复付费。
+
+在新宿主查询现有自动化，沿实际主控聊天配置长期30分钟巡检。运行fireplay-monitor status；scheduler_action=create且有未结负责项时，按上述模板通过宿主automation_update建立20分钟heartbeat，回执和实际读回一致后才记ACTIVE；update复用现有活动ID，delete只删除该20分钟ID。旧自动化ID和主控聊天ID仅是迁移线索，不硬编码进新机器安装命令。缺权限或宿主拒绝时记录具体阻塞，不伪称已安装、不绕审批。
+
 ## 生成另一份干净源码
 
 在已有安装环境的项目根目录执行，目标目录必须不存在：

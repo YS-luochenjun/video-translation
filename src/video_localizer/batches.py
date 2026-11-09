@@ -171,6 +171,8 @@ def _finalized_pilot_snapshot(record, root):
         digest = file_hash(video)
         require(digest == completion['video_sha256'] == file_hash(pilot / 'outputs/final.mp4'),
                 'Representative completed video changed')
+        from .quality_holds import require_clear
+        require_clear(record['source_sha256'], digest, root)
         return {'scope': 'best_available', 'video_sha256': digest,
                 'completion_sha256': file_hash(completion_path), 'review_sha256': file_hash(spec_path),
                 'masters': [], 'quality_passed': False, 'neutral_approval': False,

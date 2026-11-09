@@ -1,0 +1,44 @@
+{
+  "id": "APC-20261104-019-2-01-d3ec88a408",
+  "status": "candidate",
+  "created_at": "2026-11-04T05:57:55+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ja",
+    "source_sha256": "ecf2f841f47cb033e9644acbe6263c54eb08d5dfd1c59852edfe93fb0f9ff552"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "APC-20261104-019-2-01",
+    "video_sha256": "d3ec88a408e0e49e267d440ed6494137d78db53c480cc9df10a8c5cf5e368cc4",
+    "quality_sha256": "2909a8da87f24320aaeca040c54f3f6797e74f3acb09b14b08963ff19be2c05c"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "source_style_lettering_unreviewed_or_failed:t001",
+      "source_style_layout_unreviewed_or_failed:t001",
+      "source_style_motion_unreviewed_or_failed:t001",
+      "source_style_protected_content_unreviewed_or_failed:t001",
+      "source_style_result_evidence_missing:t001",
+      "native_motion_unreviewed",
+      "caption_sync_unverified",
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "recipe_unresolved:Direct normal-speed QuickTime playback unavailable; native temporal evidence and full decode used. Source visual texture/font adaptations disclosed; quality is not assumed."
+    ],
+    "reviewer": "Codex same_agent",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

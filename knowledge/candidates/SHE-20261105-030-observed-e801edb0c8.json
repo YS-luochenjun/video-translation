@@ -1,0 +1,28 @@
+{
+  "id": "SHE-20261105-030-observed-e801edb0c8",
+  "status": "candidate",
+  "created_at": "2026-11-05T09:32:47+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "95371bc41efc52e011a0d742fc06221d264f4b95e21e1c18954529d7643ba3c3",
+    "target_language": "ar"
+  },
+  "outcome": "revise",
+  "hypothesis": "同一游戏广告源的实际对照显示：原位目标语短语、源强调层级及真实配音可以完整交付，但文字掩模/模型成功不证明补底干净。红字累积与鱼体相交处仍有矩形和字形补底、鱼体条纹/轮廓改变。标称字号不足以证明视觉大小一致，实际编码字形测量提供可核验参数；长译文压缩仍是限制。仅为单源观察，不是新公司规则、全速播放验收或跨源效果证明。",
+  "cause_status": "hypothesis",
+  "missed_reason": "Caption-middle crops or glyph masks alone do not expose the entire moving fish intersection and entry/exit envelopes. Actual3-way sequence revealed remaining patches; root cause beyond these observations not proven.",
+  "action_basis": "Observed bounded attempts and actual original/base/target sequence; font glyph-ink calibration is inspectable measurement, not proof of clean repair.",
+  "limitations": [
+    "One independent source only. Same source17locales do not count as17independent sources.",
+    "Normal-speed playback, direct listening and independent visual acceptance unverified; ordinary publication acceptance preserves internalrevise.",
+    "Temporary platform routing/upload debug details deliberately excluded from learning candidate."
+  ],
+  "evidence": {
+    "run": "SHE-20261105-030-01",
+    "video_sha256": "e801edb0c8e7609f5aa3ced4bc73a52a15c258fd9e97bab7aba63d26f2264443"
+  },
+  "company_preference": false,
+  "promotion": "Candidate only; no policy activation or expanded scope.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

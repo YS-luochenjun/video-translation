@@ -108,8 +108,8 @@ def packet(run, relative):
                    else {'speakers', 'dialogue_turns', 'scene', 'temperature', 'sample_context'})
         require(set(inputs) <= allowed,
                 'Unsupported Gemini TTS input field; use tts-packet instead of guessing provider parameters')
+        require(1 <= len(inputs.get('speakers', [])) <= 2, 'Gemini TTS supports one or two speakers per request')
         if modern:
-            require(1 <= len(inputs.get('speakers', [])) <= 2, 'Gemini 3.8 supports one or two speakers')
             require(inputs.get('filler_words', False) is False, 'Exact-copy localization forbids generated filler words')
             require_number(inputs.get('temperature', 1), 'Gemini temperature', minimum=0, maximum=2)
             require(all(set(turn) <= {'speaker_id', 'text', 'style'}

@@ -1,0 +1,41 @@
+{
+  "source": {
+    "path": "knowledge/candidates/DEV-20261104-gemini-tts-two-speaker-guard.json",
+    "sha256": "7b73d0e34b3922860169a72f5339ab5d908138ef1cef4cb6485304855091caf9"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent developer review, not independent media acceptance",
+  "origin": "用户要求项目知识吸收与合并；Codex复核已有独立技术证据及本轮确定性测试，未新增媒体模型调用。",
+  "resolution": "adopted",
+  "reason": "独立技术观察及本轮确定性回归支持精确scope的工程门禁；无供应商收费或真实媒体质量通过推断。",
+  "targets": [
+    {
+      "id": "gemini25-tts-speaker-preflight-v1",
+      "path": "knowledge/rules/gemini25-tts-speaker-preflight-v1.md",
+      "sha256": "84aa56967a8ed4837908e593f79939fadeffb933e56914696d36e621fe0d1e6d",
+      "scope": {
+        "workflow": "model-task",
+        "model": "google/gemini-2-5-pro-tts",
+        "supplier": "KIE",
+        "knowledge_kind": "technical_input_preflight"
+      },
+      "snapshot": "# Gemini 2.5 Pro TTS角色数预检\n\n范围：KIE的google/gemini-2-5-pro-tts输入预检；依据2026-11-04保存的供应商错误与本地确定性回归，不假定未来接口或其他模型仍有同一限制。\n\n五角色提交曾返回“speakers must contain at most 2 items”，没有taskId；该次6 credits预留保持unknown，不能据500推断免费或安全重发。当前执行器在建任务前要求每请求一至两名角色，三角色中性夹具验证会在inventory处理及jobs创建前拒绝。\n\n新的多角色稿按真实轮次拆成每次不超过两角色的请求，保持角色身份、定稿和最终时间轴；不得通过换请求重发旧unknown。原费用、taskId查询能力、持续授权与预算分别核对。模型输入限制改变时先保存真实合同与回归证据再修订预检，不用生产付费调用探测。\n\n证据为evidence:observation、evidence:regression和evidence:current_receipt。该回归只证明本地预检拒绝路径，不证明配音完整、性别正确、混音同步、供应商无扣费或成片通过；实际编码音轨仍按音频合同审核。\n"
+    }
+  ],
+  "adopted_parts": [
+    "可复现技术门禁、回归步骤与证据限制统一到现行方法；不改变原预算、公司偏好或历史质量。"
+  ],
+  "retained_parts": [
+    "Validate the observed one-or-two-speaker contract for Gemini2.5ProTTS before paid dispatch. Do not assume an HTTP/business500with no taskId is free or safe to retry. Split future new multi-role requests within two speakers; existing ambiguous submissions retain their original unknown reservation and require applicable recovery authority.",
+    "原错误、unknown及未证明的质量解释仅保留历史。"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-11-09T02:59:04+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

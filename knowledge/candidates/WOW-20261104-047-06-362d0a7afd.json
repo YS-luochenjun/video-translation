@@ -1,0 +1,49 @@
+{
+  "id": "WOW-20261104-047-06-362d0a7afd",
+  "status": "candidate",
+  "created_at": "2026-11-04T11:05:24+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "pl",
+    "source_sha256": "357b6f7c84ac723c9e8f85dd071b892bb05bdecc88e43211b2dcb23f8d293198"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "WOW-20261104-047-06",
+    "video_sha256": "362d0a7afd484945b4f50ebfb7572a2d5fd67c0aae6b4f4a4c8e7196d13472c3",
+    "quality_sha256": "a0e8fdc35b22e4e2c469572e326bd6c7ec196c3b205aa0a8f349b02998f80f53"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "clean_base_instance_unreviewed:t002",
+      "background_reconstruction_or_unreviewed:t002",
+      "visible_coverup_or_unreviewed:t002",
+      "source_style_result_evidence_changed:t001",
+      "source_style_result_evidence_changed:t001",
+      "source_style_result_evidence_changed:t002",
+      "source_style_result_evidence_changed:t002",
+      "caption_sync_unreviewed",
+      "caption_sync_unverified",
+      "caption_sync_instance_unverified:t001",
+      "caption_boundary_evidence_missing:t001",
+      "caption_sync_units:t001:Caption timing units are missing",
+      "caption_sync_instance_unverified:t002",
+      "caption_boundary_evidence_missing:t002",
+      "caption_sync_units:t002:Caption timing units are missing"
+    ],
+    "reviewer": "Codex same-agent image and sampled actual1x playback review; Whisper small plus external Gemini audio models",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

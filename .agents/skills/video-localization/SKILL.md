@@ -7,7 +7,9 @@ description: Localize an advertisement video into another language in this works
 
 目标是全部画面文字与人声的完整本地化，并重建源文字设计与运动，不能用普通底部字幕代替原画面文字。按[自然去字与有界提交合同](../../../knowledge/rules/content-aware-text-restoration-v5.md)执行：尽力后普通瑕疵仍完整提交，制作目标不变成完美发布门槛。
 
-用户给Fireplay需求编号或明确范围时，读取[编号接入](../../../agent/workflows/fireplay-intake.md)，按实际快照承接。每需求复用一个编号聊天、原请求及独立账本；多原片在该聊天内管理，只制作各原片实际目标语种。既有KIE持续同意与必要媒体传送沿原授权，不重置预算或未知费用。
+先读[原位替换政策](../../../knowledge/rules/in-place-text-replacement-v2.md)：清除原语言字幕/文案，在原位置按原视觉大小、字体风格、颜色、描边和运动重建目标文字；禁止原文保留、译文另放一行的双语叠加。源逐词/短语弹出必须重建对应弹出方式，阿语保持RTL词序和连写；标题/CTA按实际字形墨迹核对视觉大小。该路线错误不属于普通瑕疵放行范围；目标配音对齐不改变原位替换要求。
+
+用户给Fireplay需求编号或明确范围时，读取[编号接入](../../../agent/workflows/fireplay-intake.md)，按实际快照承接。每需求复用一个编号负责聊天、原请求及独立账本；多原片按[并行制作](../../../agent/workflows/fireplay-parallel.md)先领取再分派单层制作子代理，原聊天统筹预算、付费调用及固定回传，只制作各原片实际目标语种。既有KIE持续同意与必要媒体传送沿原授权，不重置预算或未知费用。
 
 巡检频率和接入边界以[巡检流程](../../../agent/workflows/fireplay-monitor.md)及其配置为准，不在技能中复制调度数值。提交遵循[当前完整提交规则](../../../knowledge/rules/fireplay-complete-delivery-v3.md)和[发布配置](../../../config/fireplay-publication.json)：普通不合格到界可按best_available提交，瑕疵数量、内部revise或评分不单独阻断；严重主体/画面损坏、漏译、缺必需配音或有效质量异议仍阻断对应版本。真实核验入库、共享、命名、标签和需求绑定，完整矩阵后结案；YouTube后处理按平台管理政策交给Fireplay，不等待链接或重复入库催上传。
 

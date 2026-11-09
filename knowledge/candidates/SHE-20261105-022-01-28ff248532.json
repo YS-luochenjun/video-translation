@@ -1,0 +1,40 @@
+{
+  "id": "SHE-20261105-022-01-28ff248532",
+  "status": "candidate",
+  "created_at": "2026-11-05T05:35:45+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "en",
+    "source_sha256": "dbf7a8c470b2b8963b3b0aa5e99f243291370e784ece739d3d4309c4f79df7d2"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "SHE-20261105-022-01",
+    "video_sha256": "28ff248532883f905950f4f3a800ef0d1a36d2ce6318de19147b0f513afe73c3",
+    "quality_sha256": "74deda2fd1200154ee69c4b4fe12af9171230810a7934001d7085c76b8eb3ae3"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "clean_base_instance_unreviewed:t015",
+      "clean_base_instance_unreviewed:t016",
+      "background_reconstruction_or_unreviewed:t016",
+      "visible_coverup_or_unreviewed:t016",
+      "source_text_removed_unreviewed",
+      "caption_sync_unverified",
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect"
+    ],
+    "reviewer": "Codex same-agent; audio perception by Gemini Flash",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

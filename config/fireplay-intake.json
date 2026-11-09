@@ -25,6 +25,7 @@
     "source_quote": "都行吧。之前的对话中，请你查看，很多都是没有填写设计师"
   },
   "thread_policy": "one_chat_per_requirement_all_sources_and_locales",
+  "parallel_policy": "config/fireplay-parallel.json",
   "thread_policy_source": "2026-10-27用户：每一个需求需要有一个自己的对话，而不是把9个需求混为一谈。各需求独立查看视频、语种和计费。",
   "priority_order": [
     "P0",
@@ -33,9 +34,17 @@
   ],
   "priority_policy": {
     "mode": "prefer_p0_without_blocking_p1",
+    "include_all_priorities": true,
+    "exclude_by_priority": false,
+    "non_p0_progress": true,
+    "all_priorities_authority": {
+      "authority": "user",
+      "authorization_ref": "user-fireplay-all-priorities-20261105",
+      "source_quote": "KEY-20261105-031 为什么不做。无论什么优先级都要做。加到项目中"
+    },
     "p1_waits_for_p0_completion": false,
     "source_quote": "我说的P0优先，意思不是让P1的停止等P0",
-    "rule": "各需求持续并行推进；仅实际资源或服务并发冲突时优先安排P0。P1不因P0尚未完成而等待，不设置跨优先级付费制作屏障。"
+    "rule": "所有优先级的合范围翻译需求均须承接，包括P0、P1、P2、其他等级及未标等级；优先级只用于实际资源冲突时排序，不作为排除、停办或无限等待的条件。低优先级在有可用名额时持续推进，不等待高优先级全部完成，不设置跨优先级付费制作屏障。信息、权限、预算、质量及去重门禁分别保留真实原因。"
   },
   "kie": {
     "automatic_use_for_user_requested_requirements": true,

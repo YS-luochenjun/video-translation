@@ -102,3 +102,5 @@
 ## 近期制作复盘
 
 [会话复盘与知识沉淀](../docs/localization-retrospective.md)区分清底、源风格、三条时轴、音频和完整提交；现行汇总方法为[多语种制作复盘第二版](rules/multilingual-thread-lessons-v2.md)。具体成片认可仍限定源、语种与版本。
+
+本轮工程经验吸收：[Gemini2.5角色预检](rules/gemini25-tts-speaker-preflight-v1.md)与[连续混音接点](rules/contiguous-dub-mix-guards-v1.md)分别保留原scope、独立回归及限制。候选已沿审查链归档；方法不代表实际配音或供应商费用验收。

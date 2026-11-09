@@ -15,7 +15,7 @@
 
 ## 聊天、授权与制作
 
-1. `fireplay-chat CODE --video N`返回标题/prompt。当前one_chat_per_requirement_all_sources_and_locales：需求编号命名，一个聊天管理全部原片及语种，-1/-2仅区分文件和run；历史按原片聊天保留，不重建。ready复用；unknown先list_threads/read_thread查证，不能再次create。
+1. `fireplay-chat CODE --video N`返回标题/prompt。当前one_chat_per_requirement_all_sources_and_locales：需求编号命名，一个负责聊天统筹全部原片及语种，-1/-2区分文件和run；多原片默认按[并行制作](fireplay-parallel.md)领取原片并派发制作子代理，原聊天保持唯一预算/平台写入负责人。历史按原片聊天保留，不重建。ready复用；unknown先list_threads/read_thread查证，不能再次create。
 2. 确需新建时先 `fireplay-chat CODE --video N --execute`登记unknown，再list_projects匹配真实项目，以project/local调用create_thread，使用完整prompt，不覆盖模型或建worktree。用set_thread_title设精确编号，以真实threadId/hostId/title回执交fireplay-chat绑定；clientThreadId不是ready ID。成功向用户返回created-thread指令。
 3. 负责聊天执行 `fireplay-start CODE AUTHORITY --video N`，AUTHORITY包含authority=user、稳定authorization_ref、user_request、mode=first/reuse及真实来源；续作不把轮询/重试冒充新请求。监控授权文件为state/fireplay/CODE/monitor-authority.json。本需求多原片共用真实去重语言×60的独立账本，原池及未知费用不重开。
 4. KIE持续同意读config/fireplay-intake.json.kie及本需求kie-user-authorization.json；fireplay-start绑定真实需求、语种、内容版本、请求和原预算，工作区automatic_use=true时直接使用范围内模型及必要媒体传送，不逐次问同意。项目询问是否需要/同意KIE音频或视频时依据持续授权直接确定为需要、同意；缺本需求绑定先fireplay-start，不把它误当成需要用户再次同意。宿主强制审批不代用户点击。仅API/真实taskId/保存响应/本地费用日志恢复；用户没有后台登录权限。超时无可查询ID保留未知费用，不重扣、不重开额度。模型与返工上限仍按制作合同，宿主审批按其有效政策。

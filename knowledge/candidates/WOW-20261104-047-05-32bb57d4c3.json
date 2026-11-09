@@ -1,0 +1,46 @@
+{
+  "id": "WOW-20261104-047-05-32bb57d4c3",
+  "status": "candidate",
+  "created_at": "2026-11-04T11:05:23+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "nl",
+    "source_sha256": "357b6f7c84ac723c9e8f85dd071b892bb05bdecc88e43211b2dcb23f8d293198"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "WOW-20261104-047-05",
+    "video_sha256": "32bb57d4c31bd3bec3548d015fe515e421ab0717366be9f0385b8ab87ebec9fc",
+    "quality_sha256": "df7c876114fc6895cc3b4a762f9e75d154df0711c7ed1cd762d2527c5c753f02"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "clean_base_instance_unreviewed:t002",
+      "background_reconstruction_or_unreviewed:t002",
+      "visible_coverup_or_unreviewed:t002",
+      "caption_sync_unreviewed",
+      "caption_sync_unverified",
+      "caption_sync_instance_unverified:t001",
+      "caption_boundary_evidence_missing:t001",
+      "caption_sync_units:t001:Caption timing units are missing",
+      "caption_sync_instance_unverified:t002",
+      "caption_boundary_evidence_missing:t002",
+      "caption_sync_units:t002:Caption timing units are missing",
+      "audio_model_review_not_captured_or_changed"
+    ],
+    "reviewer": "Codex same-agent image and sampled actual1x playback review; Whisper small plus external Gemini audio models",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

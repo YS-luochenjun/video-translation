@@ -1,0 +1,16 @@
+{
+  "recorded_at": "2026-11-04T11:15:16.749777+00:00",
+  "user_quote": "这里也不够好。且我需要，阿拉伯文字，按照英文文字的弹出方式进行弹出。\n目前图片文字翻译都有点问题",
+  "observations": [
+    "标题与片尾阿语字面明显小于源文字视觉分量。源开头有两侧惊讶emoji，截图当前标题缺失；片尾源有黄色下划线和强调装饰，当前未完整重建。",
+    "实际源字幕10fps连续条中逐词替换弹出，不能把屏幕位置相对固定误写成文字无动态。",
+    "源片尾10fps连续条显示字层位置与大小变化，不能用一张静态CTA代表原动态。"
+  ],
+  "repair_requirements": [
+    "标题、正文、CTA分别对照原片字体字面大小和原位置，恢复必要原装饰。",
+    "阿语按实际目标配音词界弹出，保持源逐词/短语切换方式及原片实测入出场动态；保持RTL词序和完整连写。",
+    "基于连续帧测量缩放、位移、透明度、旋转、持续及退出；源没有的效果不新增，不能套统一默认bounce。",
+    "源英文先清除，原文与译文不能同屏；当前问题样片与底片已quality-hold，修复前不恢复扩语言与提交。"
+  ],
+  "provenance": "Direct project user correction; sanitized text-only review of source and user screenshots; no repaired output acceptance."
+}

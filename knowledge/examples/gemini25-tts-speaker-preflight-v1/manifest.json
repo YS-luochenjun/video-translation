@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "gemini25-tts-speaker-preflight-v1",
+  "created_at": "2026-11-09T02:59:03+00:00",
+  "files": [
+    {
+      "path": "evidence/observation.json",
+      "sha256": "89d66f59daad9b1903d880e37d8a3d83ef2e3adf05390d3d126cba732cb3574a",
+      "bytes": 620
+    },
+    {
+      "path": "evidence/regression-test.py",
+      "sha256": "b3092b94c8fe73aaa4dacc61d3d23efc459f37c3851e229b5d5ac18455399c3a",
+      "bytes": 1472
+    },
+    {
+      "path": "evidence/tts-test-receipt.txt",
+      "sha256": "46df4f0edcf4a6f9a32504da3478dd3a1a7db82b7890d0c616cbb1a0a9b16b2a",
+      "bytes": 98
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "model-task",
+      "model": "google/gemini-2-5-pro-tts",
+      "supplier": "KIE",
+      "knowledge_kind": "technical_input_preflight"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# Gemini 2.5 Pro TTS角色数预检\n\n范围：KIE的google/gemini-2-5-pro-tts输入预检；依据2026-11-04保存的供应商错误与本地确定性回归，不假定未来接口或其他模型仍有同一限制。\n\n五角色提交曾返回“speakers must contain at most 2 items”，没有taskId；该次6 credits预留保持unknown，不能据500推断免费或安全重发。当前执行器在建任务前要求每请求一至两名角色，三角色中性夹具验证会在inventory处理及jobs创建前拒绝。\n\n新的多角色稿按真实轮次拆成每次不超过两角色的请求，保持角色身份、定稿和最终时间轴；不得通过换请求重发旧unknown。原费用、taskId查询能力、持续授权与预算分别核对。模型输入限制改变时先保存真实合同与回归证据再修订预检，不用生产付费调用探测。\n\n证据为evidence:observation、evidence:regression和evidence:current_receipt。该回归只证明本地预检拒绝路径，不证明配音完整、性别正确、混音同步、供应商无扣费或成片通过；实际编码音轨仍按音频合同审核。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observation": "evidence/observation.json",
+      "regression": "evidence/regression-test.py",
+      "current_receipt": "evidence/tts-test-receipt.txt"
+    }
+  }
+}

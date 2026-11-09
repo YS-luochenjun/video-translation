@@ -3483,6 +3483,168 @@
         "strict"
       ],
       "language_match": "exact"
+    },
+    {
+      "id": "in-place-text-replacement-v1",
+      "path": "knowledge/rules/in-place-text-replacement-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "typography",
+        "captions",
+        "in-place"
+      ],
+      "origin": "2026-11-04 explicit project user correction: remove original language and replace at same position/size/font/color, never bilingual coexistence.",
+      "reviewed_by": "Codex review of direct user requirement and attached screenshot; no repair acceptance claimed",
+      "company_preference": false,
+      "status": "superseded",
+      "reviewed_at": "2026-11-04T11:10:34+00:00",
+      "method_sha256": "6f54ad8463c9d9597f8070e4693c62498769630afcf36e7fb0ac147fc9d82dda",
+      "case": "knowledge/examples/in-place-text-replacement-v1",
+      "case_manifest_sha256": "05b96a25db8cdfa04e7163cf4e6e607b4dd769cbe39c938c48a5090a44d74b9c",
+      "requires_features": [
+        "onscreen_text"
+      ],
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_requirement",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required",
+      "superseded_by": "in-place-text-replacement-v2"
+    },
+    {
+      "id": "in-place-text-replacement-v2",
+      "path": "knowledge/rules/in-place-text-replacement-v2.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "typography",
+        "captions",
+        "in-place"
+      ],
+      "origin": "2026-11-04 explicit project user correction: remove original language and replace at same position/size/font/color, never bilingual coexistence. Same conversation follow-up explicitly requires Arabic source-like pop timing and rejects opening/CTA typography.",
+      "reviewed_by": "Codex review of direct user requirement and attached screenshot; no repair acceptance claimed",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-04T11:15:17+00:00",
+      "method_sha256": "54201d9831e6127f64039b539b32d9de032b963a64035d4da83cd16460544180",
+      "case": "knowledge/examples/in-place-text-replacement-v2",
+      "case_manifest_sha256": "6615b1e3175a0c467aa39af5d9c2193816f7c9bdef25194a4cd6abda448fe085",
+      "supersedes": "in-place-text-replacement-v1",
+      "requires_features": [
+        "onscreen_text"
+      ],
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_requirement",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
+    },
+    {
+      "id": "audio-head-tail-review-v1",
+      "path": "knowledge/rules/audio-head-tail-review-v1.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "audio",
+        "speech",
+        "timing",
+        "ads"
+      ],
+      "origin": "Explicit project user instruction2026-11-06: require head residual/ending narration checks on every source and locale; same-source before/after correction and independent signal recomputation reviewed with limits.",
+      "reviewed_by": "Codex parent evidence curation; user directly authorizes recurring check requirement; different agent read-only technical audit separately attributed",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-06T07:51:20+00:00",
+      "method_sha256": "25f06dc5c58fcee18b6162edbb1a11957df9a8e80aa8818dbe198077aedb330e",
+      "case": "knowledge/examples/audio-head-tail-review-v1",
+      "case_manifest_sha256": "c39e73fa9f511a2c4c0ca21f035822d2597ea679d77f7407e2a231f74e029fe1",
+      "reference_video_sha256": "b79300d19393d821093cc6798a2b23c314e35bcbedc8769d2acb3631241def54",
+      "source_run": "APC-20261106-012-1-01",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_instruction_with_scoped_repair_observations",
+      "topic": "audio",
+      "evidence_caveat": "Universal check responsibility is explicitly requested. UVR/windows and observed repair outcome remain source-specific; no direct listening or user acceptance.",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "language_match": "exact"
+    },
+    {
+      "id": "gemini25-tts-speaker-preflight-v1",
+      "path": "knowledge/rules/gemini25-tts-speaker-preflight-v1.md",
+      "scope": {
+        "workflow": "model-task",
+        "model": "google/gemini-2-5-pro-tts",
+        "supplier": "KIE",
+        "knowledge_kind": "technical_input_preflight"
+      },
+      "tags": [
+        "audio",
+        "technical",
+        "preflight"
+      ],
+      "origin": "用户要求项目知识吸收与合并；Codex复核已有独立技术证据及本轮确定性测试，未新增媒体模型调用。",
+      "reviewed_by": "Codex same-agent developer review, not independent media acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-09T02:59:03+00:00",
+      "method_sha256": "84aa56967a8ed4837908e593f79939fadeffb933e56914696d36e621fe0d1e6d",
+      "case": "knowledge/examples/gemini25-tts-speaker-preflight-v1",
+      "case_manifest_sha256": "0fb36ebe42769afe7cc91c9b78035e5371fcd21f0adbc034c59fe265dd75d56f",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/DEV-20261104-gemini-tts-two-speaker-guard.json",
+          "sha256": "7b73d0e34b3922860169a72f5339ab5d908138ef1cef4cb6485304855091caf9"
+        }
+      ],
+      "knowledge_type": "method",
+      "validation_level": "deterministic_technical_regression",
+      "topic": "audio"
+    },
+    {
+      "id": "contiguous-dub-mix-guards-v1",
+      "path": "knowledge/rules/contiguous-dub-mix-guards-v1.md",
+      "scope": {
+        "workflow": "audio-mix",
+        "knowledge_kind": "technical_mixing"
+      },
+      "tags": [
+        "audio",
+        "technical",
+        "preflight"
+      ],
+      "origin": "用户要求项目知识吸收与合并；Codex复核已有独立技术证据及本轮确定性测试，未新增媒体模型调用。",
+      "reviewed_by": "Codex same-agent developer review, not independent media acceptance",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-09T02:59:06+00:00",
+      "method_sha256": "d347045250165cdbf3deacc03bfa119f0931fa09c2026d5adef2246ce58b5f2f",
+      "case": "knowledge/examples/contiguous-dub-mix-guards-v1",
+      "case_manifest_sha256": "49bc4aac79c973f870415cbbfba7867d4550a1ae9b5f6db92afdd16acaf9169f",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/DEV-20261106-contiguous-dub-mix.json",
+          "sha256": "15068fca3ba7c445f29066704b24f73c0f2655d53d3b14ef6d4b3b1ec00172a1"
+        }
+      ],
+      "knowledge_type": "method",
+      "validation_level": "deterministic_technical_regression",
+      "topic": "audio"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

@@ -1,0 +1,54 @@
+{
+  "id": "SHE-20261104-024-3-01-f1c65b8693",
+  "status": "candidate",
+  "created_at": "2026-11-04T05:20:14+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "en",
+    "source_sha256": "6d171716e785c1f55c7f65aa177ec53fc270a5a460d9f88afaaa5dffc03dca12"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "SHE-20261104-024-3-01",
+    "video_sha256": "f1c65b8693a8553bdb75d28478f9ac2d6c33087cfdec9ce297b02f2613f10436",
+    "quality_sha256": "0be9d52ed7c1d9f6bb940119e2e0807826d25c6913ac2016956fcb17b7e1402e"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "clean_base_instance_unreviewed:t013",
+      "background_reconstruction_or_unreviewed:t013",
+      "visible_coverup_or_unreviewed:t013",
+      "clean_base_instance_unreviewed:t015",
+      "background_reconstruction_or_unreviewed:t015",
+      "visible_coverup_or_unreviewed:t015",
+      "clean_base_instance_unreviewed:t016",
+      "background_reconstruction_or_unreviewed:t016",
+      "visible_coverup_or_unreviewed:t016",
+      "clean_base_instance_unreviewed:t017",
+      "background_reconstruction_or_unreviewed:t017",
+      "visible_coverup_or_unreviewed:t017",
+      "source_style_motion_unreviewed_or_failed:t001",
+      "source_style_motion_unreviewed_or_failed:t013",
+      "source_text_removed_unreviewed",
+      "native_motion_unreviewed",
+      "music_effects_unreviewed",
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "visual_finish_blocking_or_unspecified_defect"
+    ],
+    "reviewer": "Codex same-agent",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

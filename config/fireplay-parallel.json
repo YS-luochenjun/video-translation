@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "enabled": true,
+  "max_active_sources_per_requirement": 2,
+  "max_active_sources_global": 8,
+  "lease_minutes": 120,
+  "worker_kind": "subagent",
+  "delegation_depth": 1,
+  "paid_model_writer": "requirement_owner",
+  "platform_writer": "requirement_owner",
+  "timeout_policy": "observe_then_reconcile_never_automatic_reassignment",
+  "authority": {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-source-parallel-rollout-20261105",
+    "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
+    "source_quote": "我希望达到的是，后续做的时候也按照这样的并发。且目前需求中，如果堆积有还没有串行处理的内容，耶分发下去做。但是要务必管理清楚，不能太乱了。请你帮我进行实现",
+    "scope": "新需求及已接入需求尚未完成的独立原片；原聊天统筹、子代理制作，共用原账本、费用与质量门禁。"
+  }
+}

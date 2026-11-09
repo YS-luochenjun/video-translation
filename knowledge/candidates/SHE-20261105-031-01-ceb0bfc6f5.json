@@ -1,0 +1,36 @@
+{
+  "id": "SHE-20261105-031-01-ceb0bfc6f5",
+  "status": "candidate",
+  "created_at": "2026-11-05T09:39:34+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ar",
+    "source_sha256": "f22645ef91301ad0a7e5cc1578c226af1416a7cd28983e4399595063fd78fbb9"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "SHE-20261105-031-01",
+    "video_sha256": "ceb0bfc6f5ec74f3be9e7258de7add1a561a8dfbc38ce5e8d9862a9b30b1c517",
+    "quality_sha256": "57b74c8f25d144e7cbeefef004c40ed2cab15eead92858d937a704729ea6e2f8"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "source_style_motion_unreviewed_or_failed:t001",
+      "source_style_motion_unreviewed_or_failed:t002",
+      "source_style_motion_unreviewed_or_failed:t003",
+      "native_motion_unreviewed",
+      "visual_finish_below_threshold_or_unreviewed"
+    ],
+    "reviewer": "Codex same-agent visual self-review; ASR and technical audio evidence separately attributed",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

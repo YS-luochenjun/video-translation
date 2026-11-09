@@ -2,6 +2,8 @@
 
 目标：产出完整本地化广告、实际质量判断与可复查记录。Codex负责理解、翻译、选路、提示词、参数、图片与审核；脚本负责媒体操作、模型任务、预算和证据绑定。本文是入口，执行时读取下列对应合同；同一规则只在其合同/配置维护，历史原话留在知识和配置来源中。
 
+**画面翻译必须原位替换**：先清除原语言文字（含描边、阴影和进出场残影），再在原位置按原字号/视觉大小、字体风格、字重、颜色、描边及运动写入译文。源字幕逐词/短语弹出时，目标字幕也按原弹出方式并结合实际目标配音重建，不能整句静态代替；阿语保持RTL词序及完整连写。原文和译文不得同时存在；保留英文另加底部小字幕属于路线错误，不能按普通瑕疵或best_available放行。目标脚本字体适配及实际审查按[原位替换政策](knowledge/rules/in-place-text-replacement-v2.md)执行。
+
 ## 每次制作
 
 真实开始、阶段、整项等待/恢复与停止按[台账上报](agent/workflows/ledger-tracking.md)记录；现有工作台自动为后续新需求积累[Benchmark](docs/benchmark.md)，不重跑历史需求、不把未记录间隔当工作或等待。
@@ -13,6 +15,8 @@
 5. deliver后检查package、case、inbox；外部提交及必要记录完成后执行maintain RUN --close。按[知识技能](.agents/skills/knowledge-curation/SKILL.md)提炼经验，按[存储合同](agent/contracts/storage.md)保全后整理。快速交付允许知识提炼和源快照持久排队，不跳过基本效果或证据门禁。
 
 ## 模型、文字与费用
+
+- 每条原片及每种语言实际成片强制执行[开头残音与片尾口播检查](knowledge/rules/audio-head-tail-review-v1.md)，分别记录首尾实际音频、原语残留、目标语完整发音及哈希证据；不能仅用整段ASR或已知混音区间判定完整。该政策保留本次漏检原因、修复方法与证据边界，快速和严格均适用。
 
 - 后续画面文字默认按[源视觉语言制作政策](knowledge/rules/source-led-visual-localization-v1.md)执行：少量艺术字资产、真实字体与目标配音短语批量呈现、必要局部修复和主体保护。复用style-layer及既有surface/Remotion能力，不逐帧生图或照搬056坐标；各源/语种实际审核，预算和有界提交不变。
 
@@ -26,9 +30,13 @@
 
 ## Fireplay
 
-[编号接入](agent/workflows/fireplay-intake.md)管理真实快照、原片下载、聊天、制作与回传。每需求一个编号命名聊天，全部原片/语言在其中管理；多原片用-1/-2区分文件/run。续作复用threadId、原请求和本需求账本，不重开。KIE持续同意来源为config/fireplay-intake.json.kie，fireplay-start绑定实际需求、内容版本、语种、原账本及kie-user-authorization.json。P0只优先冲突资源，P1持续并行，不设付费制作屏障。
+[编号接入](agent/workflows/fireplay-intake.md)管理真实快照、原片下载、聊天、制作与回传。每需求一个编号命名负责聊天，全部原片/语言在其中统筹；多原片按[并行制作](agent/workflows/fireplay-parallel.md)默认分派制作子代理，先领取再执行，一原片一个写入者，禁止递归分派。原负责聊天统一管理原预算、付费提交和固定回传；多原片用-1/-2区分文件/run。续作复用threadId、原请求和本需求账本，不重开。KIE持续同意来源为config/fireplay-intake.json.kie，fireplay-start绑定实际需求、内容版本、语种、原账本及kie-user-authorization.json。P0只优先冲突资源，P1持续并行，不设付费制作屏障。
 
 [巡检流程](agent/workflows/fireplay-monitor.md)每30分钟检查全部可见组中执行人包含邹彬的需求，以已核验用户ID `b2fbcgab` 硬筛；仍实际读正文、原片及语种判断翻译，排除原创/换人物/新开头。新翻译需求按持续授权独立建聊和计费；旧基线不自动重做，明确翻译但发布时间不明保留historical_translation_pending，不强改成非翻译。内容修订沿原聊天和预算审查。主控可向已交办负责聊天派发制作、恢复及固定回传；未知创建/发送/上传先核查，不重复执行。筛选变化保留旧聊天、账本、绑定与待办，不擅自改派执行人。
+
+所有优先级的合范围翻译需求都要做，P2及其他/未标等级不能因优先级低被跳过。优先级只决定实际资源冲突时的排序，执行依据为config/fireplay-intake.json.priority_policy；有空闲名额即继续低优先级，信息、权限、预算、质量和去重阻塞需单独说明，不能笼统归因为优先级。
+
+新需求有负责聊天正在制作或尚未完整提交时，按config/fireplay-monitor.json.completion_watch维护一个独立的20分钟完成盯办；后续人工新增并合法接入的需求也追加同一活动范围，不限最初一批，不重复建定时任务。先查真实聊天状态，运行中不重复催，空闲/错误则核对具体缺口并沿原聊天继续；普通项目问题按真实第一个推荐选项处理，保存问题、选项及实际回执，宿主强制审批不代批、不绕过，原额度、unknown和严重质量门禁保留。仅在新鲜状态核对确认没有仍在制作或待补交/结案的负责需求后删除该20分钟盯办；之后30分钟发现巡检接入新需求时自动重新创建20分钟盯办，长期30分钟发现巡检与制作聊天保留。完整操作见[完成盯办](agent/workflows/fireplay-completion-watch.md)。
 
 用户最新固定提交：**入素材库 → 共享需求组并请求YouTube自动上传 → 语言tag与1至2词产品tag → 编号加语言命名 → 绑定当前需求**。执行人中除罗晨钧、邹彬外的人员填为设计师，标记二创并追加“二创”tag；Agent自行查询Fireplay真实成员，已核验用户ID可直接采用，不向用户索要DID；无其他人员才可留空，见[设计师归属规则](knowledge/rules/fireplay-designer-attribution-v2.md)。不改需求状态或投放。config/fireplay-youtube-routing.json采用platform_managed：普通MCP按平台路由，不强制账号截图或任务组核验，不因后台组显示卡住合格成片。仍核验真实入库、共享、名称、标签及绑定，unknown恢复原请求；真实上传超时按持续授权有界重传并保留原记录，已知资源/素材复用ID、不重入库。有限预算/返工内做到最好的正式完整outputs可带普通不合格提交；fireplay-publication-review记录best_available及实际影响，内部revise、评分和普通瑕疵数量不单独阻断。大面积撕裂、无法观看、严重主体损坏、漏译、缺必需配音或有效质量异议仍阻断对应版本，不改写内部质量。partial:true仅作中间批次，保留pending_locales并持续补交；[全部原片及全部目标语种](knowledge/rules/fireplay-complete-delivery-v3.md)真实入库/共享/标签/绑定核验并通过fireplay-completion-check → fireplay-close后才可整项结案，不能上传一半就结束。保留旧操作/绑定历史。全项受理绑定后经验收尾，YouTube进度/排队/限额/向量化交平台；账号或组额度不足、暂未创建YouTube任务也不阻塞结案，不等待额度、不催办；不为缺链接重传、替换或删除；保留旧异常，不冒称已修正或改整个账号组。完整政策见config/fireplay-publication.json及[提交知识](knowledge/rules/fireplay-completion-recovery-v4.md)。
 

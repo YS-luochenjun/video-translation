@@ -1,0 +1,39 @@
+{
+  "source": {
+    "path": "knowledge/candidates/DEV-20261106-contiguous-dub-mix.json",
+    "sha256": "15068fca3ba7c445f29066704b24f73c0f2655d53d3b14ef6d4b3b1ec00172a1"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent developer review, not independent media acceptance",
+  "origin": "用户要求项目知识吸收与合并；Codex复核已有独立技术证据及本轮确定性测试，未新增媒体模型调用。",
+  "resolution": "adopted",
+  "reason": "独立技术观察及本轮确定性回归支持精确scope的工程门禁；无供应商收费或真实媒体质量通过推断。",
+  "targets": [
+    {
+      "id": "contiguous-dub-mix-guards-v1",
+      "path": "knowledge/rules/contiguous-dub-mix-guards-v1.md",
+      "sha256": "d347045250165cdbf3deacc03bfa119f0931fa09c2026d5adef2246ce58b5f2f",
+      "scope": {
+        "workflow": "audio-mix",
+        "knowledge_kind": "technical_mixing"
+      },
+      "snapshot": "# 连续配音替换区间的接点与片尾\n\n范围：本项目local_audio混音器的相邻区间与真实EOF计算，属于确定性工程经验，不是分轨算法或各语言听感验收。\n\n原混音器给每个独立区间都加40ms原音淡入/淡出，两个替换区间相接时会在内部接点重新引入原人声；真实EOF处淡回原音也可能恢复词尾。修复按实际采样率将边界取整，在共享起止点及EOF不向原混音交叉淡化，孤立内部边界仍保留原淡化。\n\n修改此计算时运行test_local_audio_contiguous.py：独立两秒双声道夹具区分原音0.4、背景0.1和配音0.05，检查保存WAV每个样本、相邻接点及最终样本。依据为evidence:observation、evidence:regression及evidence:current_receipt。\n\n测试替换了对齐与编码步骤，证明实际保存PCM中的计算结果，不证明AAC编码、UVR底音干净、原语无残留、目标语完整或视觉质量。未覆盖的孤立边界和替换区间外声音仍需真实审核；每语言最终MP4的完整句及开头/片尾按现行音频合同检查，不能用夹具替代。\n"
+    }
+  ],
+  "adopted_parts": [
+    "可复现技术门禁、回归步骤与证据限制统一到现行方法；不改变原预算、公司偏好或历史质量。"
+  ],
+  "retained_parts": [
+    "Touching replacement windows form a single source-voice removal region; do not blend original speech back at internal joins or true EOF. This is implemented and checked in saved PCM, rather than an inference from a successful TTS API call.",
+    "原错误、unknown及未证明的质量解释仅保留历史。"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-11-09T02:59:06+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

@@ -9,6 +9,23 @@ from datetime import datetime, timezone
 from .common import object_hash, require
 
 
+def verify_tags(expected, actual, locale, root=None):
+    """Accept configured language aliases while retaining exact product tags."""
+    from .languages import resolve
+    from .common import WorkflowError
+    actual = {tag for tag in actual if isinstance(tag, str)}
+    canonical = resolve(locale, root)['target_language']
+    languages = set()
+    for tag in actual:
+        try:
+            languages.add(resolve(tag, root)['target_language'])
+        except WorkflowError:
+            pass
+    products = set(expected) - {locale}
+    require(canonical in languages and products.issubset(actual),
+            'Material read-back is missing language or product tags')
+
+
 def resolve_assignees(record, receipt, defaults):
     """Resolve current assignees from actual Fireplay members, without asking for IDs."""
     policy = defaults.get('designer_selection', {})

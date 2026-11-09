@@ -1,0 +1,56 @@
+{
+  "id": "APC-20261104-019-4-02-23c697c95f",
+  "status": "candidate",
+  "created_at": "2026-11-04T05:57:59+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ko",
+    "source_sha256": "257f211892dce32fc7656236496b3a3b2f45bcc91ec77fcdc03d1e3f8f1e7463"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "APC-20261104-019-4-02",
+    "video_sha256": "23c697c95fa4277b3bf2b53e01a2b98ea0799119e5b20894b25d13e4710f9d8d",
+    "quality_sha256": "02e034db64535b6ddd13cab686c95dc94ce28d5eae0e0e7f00dc820ec8d05310"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_review_missing_or_changed:Restoration capture/plan changed",
+      "clean_base_instance_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "clean_base_instance_unreviewed:t002",
+      "background_reconstruction_or_unreviewed:t002",
+      "visible_coverup_or_unreviewed:t002",
+      "source_style_current_video_capture_missing",
+      "source_style_lettering_unreviewed_or_failed:t001",
+      "source_style_layout_unreviewed_or_failed:t001",
+      "source_style_motion_unreviewed_or_failed:t001",
+      "source_style_protected_content_unreviewed_or_failed:t001",
+      "source_style_result_evidence_missing:t001",
+      "source_style_lettering_unreviewed_or_failed:t002",
+      "source_style_layout_unreviewed_or_failed:t002",
+      "source_style_motion_unreviewed_or_failed:t002",
+      "source_style_protected_content_unreviewed_or_failed:t002",
+      "source_style_result_evidence_missing:t002",
+      "native_motion_unreviewed",
+      "caption_sync_actual_audio_missing_or_changed",
+      "caption_sync_unverified",
+      "audio_model_review_not_captured_or_changed",
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "recipe_unresolved:Direct normal-speed QuickTime playback unavailable; source texture/font adaptations disclosed; no quality approval inferred."
+    ],
+    "reviewer": "Codex same_agent",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

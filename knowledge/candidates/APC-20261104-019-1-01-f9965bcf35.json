@@ -1,0 +1,52 @@
+{
+  "id": "APC-20261104-019-1-01-f9965bcf35",
+  "status": "candidate",
+  "created_at": "2026-11-04T05:57:53+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ja",
+    "source_sha256": "fceb76546ec99f4fcc32032bd96be3d97ca8daf1701d35afa9532f14f73b6cf2"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "APC-20261104-019-1-01",
+    "video_sha256": "f9965bcf358f58bb6c2dda23b8c5f48b000ce4b16d66adb82848f6f093595ff0",
+    "quality_sha256": "9464bc5376f9ae06abeb9ed3db0248927fc9cdbdaec9a6ccc88cf764ed418373"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "clean_base_instance_unreviewed:t002",
+      "background_reconstruction_or_unreviewed:t002",
+      "visible_coverup_or_unreviewed:t002",
+      "source_style_lettering_unreviewed_or_failed:t001",
+      "source_style_layout_unreviewed_or_failed:t001",
+      "source_style_motion_unreviewed_or_failed:t001",
+      "source_style_protected_content_unreviewed_or_failed:t001",
+      "source_style_result_evidence_missing:t001",
+      "source_style_lettering_unreviewed_or_failed:t002",
+      "source_style_layout_unreviewed_or_failed:t002",
+      "source_style_motion_unreviewed_or_failed:t002",
+      "source_style_protected_content_unreviewed_or_failed:t002",
+      "source_style_result_evidence_missing:t002",
+      "native_motion_unreviewed",
+      "caption_sync_unverified",
+      "visual_finish_below_threshold_or_unreviewed",
+      "visual_finish_blocking_or_unspecified_defect",
+      "recipe_unresolved:Source1 V1 glyph mask retained English silhouette and V1 line spacing overlapped; V2 fixed type but tonal glyph imprint persisted; V3 continuous natural texture removes readable source copy but local plaque tone/decoration differences remain."
+    ],
+    "reviewer": "Codex same_agent",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -79,6 +79,38 @@ class RepairReturnTests(unittest.TestCase):
             fireplay.prepare_return(fixtures.CODE, mixed, self.root)
         self.assertEqual(file_hash(self.path), self.digest)
 
+    def test_reviewed_unbound_import_can_be_repaired_without_binding_rejected_video(self):
+        old = copy.deepcopy(self.old)
+        old['state'] = 'ready'
+        old['operations'] = {f'{phase}-{i}': {'state': 'verified'}
+                             for i, _ in enumerate(old['packages'], 1)
+                             for phase in ('upload', 'import', 'attribute', 'verify')}
+        write_json(self.path, old)
+        grant = copy.deepcopy(self.new)
+        grant['repair_revision'].update(previous_outbox_sha256=file_hash(self.path),
+                                        unbound_reviewed_repair=True)
+        new = fireplay.prepare_return(fixtures.CODE, grant, self.root)
+        archive = self.root / new['revision_history'][-1]['prior_outbox']
+        self.assertEqual(read_json(archive), old)
+        self.assertEqual(new['operations'], {})
+
+    def test_unbound_repair_rejects_unknown_import_or_dispatched_binding(self):
+        for phase in ('import-1', 'bind'):
+            old = copy.deepcopy(self.old)
+            old['state'] = 'ready'
+            old['operations'] = {f'{p}-{i}': {'state': 'verified'}
+                                 for i, _ in enumerate(old['packages'], 1)
+                                 for p in ('upload', 'import', 'verify')}
+            old['operations'][phase] = {'state': 'unknown'}
+            write_json(self.path, old)
+            digest = file_hash(self.path)
+            grant = copy.deepcopy(self.new)
+            grant['repair_revision'].update(previous_outbox_sha256=digest,
+                                            unbound_reviewed_repair=True)
+            with self.assertRaisesRegex(WorkflowError, 'Settle all'):
+                fireplay.prepare_return(fixtures.CODE, grant, self.root)
+            self.assertEqual(file_hash(self.path), digest)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-09",
+  "reviewed_by": "Codex same-agent developer review",
+  "authority": "User requested knowledge summary, temporary knowledge absorption, removal of useless entries and duplicate consolidation; no quality-standard change.",
+  "adopted_methods": [
+    {
+      "id": "gemini25-tts-speaker-preflight-v1",
+      "scope": "Observed KIE Gemini2.5 input contract and deterministic local preflight",
+      "source_candidate": "knowledge/candidates/DEV-20261104-gemini-tts-two-speaker-guard.json",
+      "disposition": "Published scoped method; exact original retained via candidate archive mapping."
+    },
+    {
+      "id": "contiguous-dub-mix-guards-v1",
+      "scope": "Local PCM adjacent-window/EOF calculation only",
+      "source_candidate": "knowledge/candidates/DEV-20261106-contiguous-dub-mix.json",
+      "disposition": "Published scoped method; exact original retained via candidate archive mapping."
+    }
+  ],
+  "evidence_compaction": {
+    "removed_redundant_files": 39,
+    "logical_bytes_removed": 812877,
+    "proof": "All aliases and shared objects verified by SHA-256; original manifests unchanged; knowledge/examples/storage-index.json retains logical paths.",
+    "fingerprint": "adc9828ce576abe5698e32f82ab70af1d2999ce90a162029f3581eadf4fd760d"
+  },
+  "pending_review": {
+    "processed_feedback_events": 1,
+    "reason": "Source/locale-specific use feedback mixed other locale observations and retains actual negative findings; needs current-video-bound temporal and audio evidence. No broad method promotion or quality acceptance.",
+    "open_adoption_queue_at_review": 881,
+    "remaining_hook_new_records_at_review": 888,
+    "not_cleared_by_deletion": true
+  },
+  "limits": [
+    "No production models or new paid media calls used for this curation.",
+    "Candidate archives remove originals from the active queue without erasing provenance, unknown fees, failures or objections.",
+    "Large unresolved backlog retained for independent knowledge task; this record does not claim all project knowledge is reviewed."
+  ]
+}

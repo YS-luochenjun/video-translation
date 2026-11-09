@@ -1,0 +1,329 @@
+{
+  "authority": {
+    "date": "2026-11-06",
+    "source": "Direct user instruction in responsible chat; actual source quote preserved here",
+    "source_quote": "把这次漏检的原因和修复方法记到项目里，后续每条视频都要检查开头残音和片尾口播，避免再漏译。"
+  },
+  "initial_user_feedback": "这批AI视频翻译有点问题 开头有个音没消掉比较突兀 然后结尾的音频都还是US的try now没翻译过去",
+  "evidence_review": "Sanitized project training evidence: generic narration/CTA, hashes and attributed observations only; excludes platform IDs, URLs, account data and billing logs.",
+  "source_sha256": "903476e7a4978558f160a699cc8ab5e4825d95be8136f99c25f4c2cfb81330e5",
+  "root_cause": {
+    "status": "supported_same_source_observation",
+    "inventory": "Prior inventory omitted short spoken CTA; source opening begins at0 but old removal began0.12/0.18.",
+    "review_miss": "Fullclip VAD/transcript and selected-window formula were mistaken for proof of complete speech coverage.",
+    "repair": "Observed source cleanup windows independently cover actual sourceEnglish, complete target opening+CTA voice windows fitted; own UVR under spoken sections, original non-language reaction sections retained. Video unchanged.",
+    "case_windows_not_defaults": {
+      "cleanup_seconds": [
+        [
+          0,
+          3.12
+        ],
+        [
+          17.5,
+          "audio_end"
+        ]
+      ],
+      "voice_seconds": [
+        [
+          0,
+          3.45
+        ],
+        [
+          18,
+          "audio_end"
+        ]
+      ]
+    },
+    "no_new_default_timing_or_algorithm": true
+  },
+  "representative_video_identity": {
+    "previous": {
+      "path": "outputs/source1-es-transport-v2.mp4",
+      "sha256": "d632bdc842bd8c391269c3b4e135e53ab5589c5c332179d34a4a98ce26594011"
+    },
+    "repaired": {
+      "path": "outputs/audio-repair-v1/es-repaired-v1.mp4",
+      "sha256": "b79300d19393d821093cc6798a2b23c314e35bcbedc8769d2acb3631241def54"
+    },
+    "previous_video_packet_hash": "SHA256=af3cb514c1a1e1c37ad6d24763403db305288a365e6ad53a5f2f7c1313ded31a",
+    "repaired_video_packet_hash": "SHA256=af3cb514c1a1e1c37ad6d24763403db305288a365e6ad53a5f2f7c1313ded31a",
+    "identical_video_elementary_stream": true,
+    "scope": "Audio-only fix; exact same encoded video packet payloads, frame count/timestamps verified separately. No new visual quality pass or improvement claimed."
+  },
+  "representative_audio_provenance": {
+    "source_sha256": "903476e7a4978558f160a699cc8ab5e4825d95be8136f99c25f4c2cfb81330e5",
+    "source_audio": {
+      "path": "outputs/source-audio/3b5056f7edc9f50aebd1/source-stereo.wav",
+      "sha256": "f1519c07fed7fc853a451f5aeb5e204fc3a8974e38fccd9024fe437a8b9cd3ef"
+    },
+    "background": {
+      "path": "outputs/source1-separation/aff7ed27ee7a4af90b18/accompaniment.wav",
+      "sha256": "70dac3086a715d54b77d6b82974647b9f62fd896edd17f3317df8656ce0a0bcb"
+    },
+    "cleanup_windows": [
+      [
+        0.0,
+        3.12
+      ],
+      [
+        17.5,
+        19.813514739229024
+      ]
+    ],
+    "fade_seconds": 0.04,
+    "original_mix_weight_at_sample0": 0.0,
+    "source_english_envelopes_entirely_zero_original_mix_weight": true,
+    "source_voice_envelopes": [
+      [
+        0.0,
+        2.8
+      ],
+      [
+        18.1,
+        19.46
+      ]
+    ],
+    "lines": [
+      {
+        "id": "a001",
+        "start": 0.0,
+        "end": 3.45,
+        "voice": {
+          "path": "outputs/audio-models/ff3dd347994a0b1a11fc8d910b4e99bc4e01b38233b5971b31eebbff1a88d773/00.wav",
+          "sha256": "e409281c67790c64494a85124034303abc5921f27372b99a0be6ab902e871410"
+        },
+        "target_text": "Este filtro te muestra cuál es tu gemelo animal.",
+        "trim_seconds": [
+          0.23316666666666666,
+          4.7472916666666665
+        ],
+        "atempo": 1.3395029673590504,
+        "aligned": {
+          "path": "outputs/audio-repair-v1/line-1-aligned.wav",
+          "sha256": "7022a0a974a9edb7f343fabbc63ca51089d69dbe860f108951f9ddcb14ce6a67"
+        },
+        "full_aligned_voice_samples": 148303,
+        "available_samples": 152145,
+        "remaining_samples": 3842,
+        "peak_gain": 1.0
+      },
+      {
+        "id": "a002",
+        "start": 18.0,
+        "end": 19.813514739229024,
+        "voice": {
+          "path": "inputs/audio-repair-v1/shared-cta.wav",
+          "sha256": "37c86137ace91ddd3033cc201e51f6d30ce4157a642874a1a20ae8ea4c76def1"
+        },
+        "target_text": "Pruébalo ya.",
+        "trim_seconds": [
+          0.16970521541950112,
+          1.15
+        ],
+        "atempo": 1.0,
+        "aligned": {
+          "path": "outputs/audio-repair-v1/line-2-aligned.wav",
+          "sha256": "517b3dc1048023f740ef6d1bbf9388f2168d0a40e6048518db6c27db319eb730"
+        },
+        "full_aligned_voice_samples": 43068,
+        "available_samples": 79976,
+        "remaining_samples": 36908,
+        "peak_gain": 1.0
+      }
+    ],
+    "unchanged_outside_affected_max_float_difference": 0.0,
+    "retained_reaction_regions": [
+      {
+        "interval": [
+          4.0,
+          5.8
+        ],
+        "original_pcm_max_float_difference": 0.0
+      },
+      {
+        "interval": [
+          13.32,
+          14.2
+        ],
+        "original_pcm_max_float_difference": 0.0
+      }
+    ],
+    "music_time_scale": 1,
+    "output": {
+      "path": "outputs/audio-repair-v1/translated-mix.wav",
+      "sha256": "1fbbf18203d14cc69e7412123c7e4a405173d1c157858ab5314ab2f2852e38a8"
+    },
+    "limitations": [
+      "UVR can attenuate sung samples underneath actual English replacement intervals; no direct listening claimed.",
+      "Source voice envelopes are conservative observed energy/ASR evidence, not phoneme-alignment proof."
+    ]
+  },
+  "current_encoded_transcriptions": [
+    {
+      "video_index": 1,
+      "locale": "es",
+      "previous_held_video_sha256": "d632bdc842bd8c391269c3b4e135e53ab5589c5c332179d34a4a98ce26594011",
+      "sha256": "b79300d19393d821093cc6798a2b23c314e35bcbedc8769d2acb3631241def54",
+      "target_opening_asr": "Este filtro te muestra cuál es tu gemelo animal.",
+      "target_tail_asr": "¡Pruebalo ya!",
+      "whole_asr": "Este filtro te muestra cuál es tu gemelo animal. ¡Pruebalo ya!",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 1,
+      "locale": "pt",
+      "previous_held_video_sha256": "31a3ba6c4f0d3a28c9eb68bc875ef701b83c4078ba749dc8bd1521b8883de43c",
+      "sha256": "4dee74ebc8bd1b8d348496862852711c793106fcb5d1a5e7e87f221b674c96d2",
+      "target_opening_asr": "Este filtro mostra quem é o seu gêmeo animal.",
+      "target_tail_asr": "Teste agora!",
+      "whole_asr": "Este filtro mostra quem é o seu gêmeo animal. Teste agora.",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 1,
+      "locale": "de",
+      "previous_held_video_sha256": "1dc913f5a0823c7fe84f567f307a7327c349797b8afae6afd4c796feb7e27dab",
+      "sha256": "e08a4324afc71180edc9263f02381ab361bb8e1b82037793246ee98df177c6f9",
+      "target_opening_asr": "Dieser Filter zeigt dir, welches Tier dein Zwilling ist.",
+      "target_tail_asr": "Jetzt testen.",
+      "whole_asr": "Dieser Filter zeigt dir, welches Tier dein Zwilling ist. Jetzt testen.",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 1,
+      "locale": "fr",
+      "previous_held_video_sha256": "f1c85646d99f893fb7c5c38f689020411ab569179f63d1abc757d21e1857f482",
+      "sha256": "148d9be58f3acea11a7638c6a30a1e11a3fa1db64d9b6f95ab4f06c62e4deba1",
+      "target_opening_asr": "Ce filtre te montre quel animal est-on jumeau.",
+      "target_tail_asr": "Teste maintenant !",
+      "whole_asr": "Ce filtre te montre quel animal est-on jumeau. Teste maintenant.",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 1,
+      "locale": "nl",
+      "previous_held_video_sha256": "479a77626224220e375cab6ca578799e1ca0521226e1221ff2f9aa6dd2f9f350",
+      "sha256": "9df7ef2f58ba6e1700b229341a24d92baadb2c9a467b67fdb9281e4e4fef47ab",
+      "target_opening_asr": "Dit filter laat zien welk dier jouw tweening is.",
+      "target_tail_asr": "Probeer nu!",
+      "whole_asr": "Dit filter laat zien welk dier jouw tweeling is. Probeer nu.",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 1,
+      "locale": "it",
+      "previous_held_video_sha256": "e258b898c44ce86ef92bbe5ea4a6af206b379e10e6644c6f2888c3566f1fc6b4",
+      "sha256": "4e8fe2050818f0972d295d075717c38a54c64a6fb6fc277100f392b02607e383",
+      "target_opening_asr": "Questo filtro ti mostra qual è il tuo gemello animale.",
+      "target_tail_asr": "Prova ora!",
+      "whole_asr": "Questo filtro ti mostra qual'è il tuo gemello animale. Prova ora!",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 2,
+      "locale": "es",
+      "previous_held_video_sha256": "9946839736759dd6125e979bbf89cfda820a9d028e11feefad0c9ba4495ca03b",
+      "sha256": "016c2e2ff2c38236e2f4aa63c509142d901ca30f5d8f3aec1fc35e41690aa7f7",
+      "target_opening_asr": "Este filtro te muestra cuál es tu gemelo animal.",
+      "target_tail_asr": "¡Pruebalo ya!",
+      "whole_asr": "Este filtro te muestra cuál es tu gemelo animal. Pruébalo ya.",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 2,
+      "locale": "pt",
+      "previous_held_video_sha256": "032b963aa6e5d75729c14fa0202ba6a48a2359bb4b186ca0702340dec01900ae",
+      "sha256": "a72fd9ee0e4f222801f9b3b4150a3f6947ce4efda25f38cbd850168cb0e23bd7",
+      "target_opening_asr": "Este filtro mostra quem é o seu gêmeo animal.",
+      "target_tail_asr": "Teste agora!",
+      "whole_asr": "Este filtro mostra quem é o seu gêmeo animal. Teste agora.",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 2,
+      "locale": "de",
+      "previous_held_video_sha256": "84a3362e9df06186055d143daf052a9a5555f1e4136f6a47fdc82ef0b0171e5d",
+      "sha256": "81546d6d4c33323e2cee9fc2387e382f172016c3cd4f7278ab778893daedebb5",
+      "target_opening_asr": "Dieser Filter zeigt dir, welches Tier dein Zwilling ist.",
+      "target_tail_asr": "Jetzt testen.",
+      "whole_asr": "Dieser Filter zeigt dir, welches Tier dein Zwilling ist. Jetzt testen.",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 2,
+      "locale": "fr",
+      "previous_held_video_sha256": "d6470cf937cbe14f2ddb608b9fde7c5b33c75794df88938c35d49ad772106486",
+      "sha256": "a0b3c0b1454b1f1e0c43075ed3379b50e16698826daca2427eb9d399d10375ba",
+      "target_opening_asr": "Ce filtre te montre quel animal est-on jumeau.",
+      "target_tail_asr": "Teste maintenant.",
+      "whole_asr": "Ce filtre te montre quel animal est-on jumeau ? Teste maintenant.",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 2,
+      "locale": "nl",
+      "previous_held_video_sha256": "b5948177d169ac6c2b8a8c832561033515e2f53a6b1549f37203a18c2bb3f377",
+      "sha256": "c3caddac9dd41bd1577c34ea2b0e98c6a736e71e2582181e57e005d853ace01a",
+      "target_opening_asr": "Dit filter laat zien welk dier jouw tweening is.",
+      "target_tail_asr": "Probeer nu!",
+      "whole_asr": "Dit filter laat zien welk dier jouw tweeling is. Probeer nu.",
+      "human_listening": false,
+      "user_acceptance": false
+    },
+    {
+      "video_index": 2,
+      "locale": "it",
+      "previous_held_video_sha256": "f1fbf2fffa6c200c1c4080318b78c759a6afc9f1e489a0365c8e346d7d4a279b",
+      "sha256": "f556ff85dd6ff61d697c1033d2fbd34c22d59f64d9846acab06ee372bff3d6f2",
+      "target_opening_asr": "Questo filtro ti mostra qual è il tuo gemello animale.",
+      "target_tail_asr": "Prova ora!",
+      "whole_asr": "Questo filtro ti mostra qual è il tuo gemello animale. Prova ora!",
+      "human_listening": false,
+      "user_acceptance": false
+    }
+  ],
+  "clip_files": {
+    "before_head": {
+      "file": "old-es-head.wav",
+      "sha256": "6add506278874b3693644688ef9298b72755771fb1959d7fb90c8af0aa27df50",
+      "version": "previous_held_es"
+    },
+    "before_tail": {
+      "file": "old-es-tail.wav",
+      "sha256": "edae816ef84703fd604649bf189ca3d70245eb842a482cfe104819f4fd98daaf",
+      "version": "previous_held_es"
+    },
+    "after_head": {
+      "file": "new-encoded-head.wav",
+      "sha256": "cf7d1b1e17b42dab0a9ddde45e41e0bf9a5a7a7e3b39bb9fd058c03e97add000",
+      "version": "current_repaired_es"
+    },
+    "after_tail": {
+      "file": "new-encoded-tail.wav",
+      "sha256": "09eeb74f778f290b67f49972bdabce770d6bd7dca8a5cc2e828567797bc49e0f",
+      "version": "current_repaired_es"
+    }
+  },
+  "independent_review": {
+    "source": "Different agent read-only actual12file and mix recomputation",
+    "source_record_sha256": "45ad60c5b1a44d5f29d18b77ed2df91b24477e28b8c53ece6d903a8fa6e4cfb0",
+    "summary": "All12 actual recipe hashes, copied video packets/timestamps, source-vs-UVR mix calculation, full voice fit and currentAAC/ASR waveform bindings verified. No targeted omission/truncation/direct source-English mix reuse found.",
+    "quantization_caveat": "Retained reaction intervals equal in float mixing, saved16bit WAV differs by at most1LSB; no file-bit-identity claim."
+  },
+  "limits": [
+    "Both sources share nearidentical audio; do not treat them as independent generalization of UVR/window parameters.",
+    "No direct listening, native pronunciation acceptance, absolute residue-free stem, music-vocal timbre identity or user acceptance.",
+    "NL short isolated CTA automatic language hypotheses ambiguous; actual wholeNL and explicit-nl/no-script/noVAD checks support Probeer nu; original hypotheses preserved.",
+    "User mandates checking every future video; this is instruction scope, separate from empirical algorithm scope."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "APC-20261104-009-ja-audio-resolution-20261105",
+  "hypothesis": "Two prior Japanese audio calls timed out without query ID; both unknown charges remain. A separately user-authorized continuation returned an actual paid response with a stray leading character around valid JSON. Local recovery preserved the raw response, response ID and video/audio hashes without another API call. The new positive audio evidence supports a versioned publication reassessment of identical video bytes, retaining the old rejection and package. This establishes audio semantics for this source/locale only; it does not establish direct listening, complete caption boundaries, visual quality pass or company acceptance. All five locales were subsequently verified bound; YouTube remains platform managed.",
+  "scope": {
+    "source_sha256": "1914ef80ce5603a8e880391494db52dea89a7a9c751a5b7b456f29b1d291acfd",
+    "locales": [
+      "ja"
+    ],
+    "condition": "Same-video audio verification resolved by actual new response; old unknown charges and rejected review immutable"
+  },
+  "video_sha256": "97fecc6974b36af82d336dd4e7657912852c27f11c1201cb2ca073b6656c1de2",
+  "status": "candidate",
+  "limitations": [
+    "One source and locale; ordinary visual defects remain",
+    "Old ambiguous jobs and unknown fees unresolved; never reclassified as refunded"
+  ],
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

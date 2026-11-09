@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "in-place-text-replacement-v1",
+  "created_at": "2026-11-04T11:10:34+00:00",
+  "files": [
+    {
+      "path": "evidence/in-place-correction-public.json",
+      "sha256": "29920639993e181ad7b532b0ebcde71a25a82d21af0653bd4aeb4d74b04b1c14",
+      "bytes": 1188
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 清除原文，在原位置按原样式重建译文\n\n来源：2026-11-04项目用户查看英文“YOU’RE”仍在、阿语小字幕另加在下方的截图后明确纠正：“完全错误了”，要求删除英文，以英文同样的大小、字体、颜色和位置写入译文，并要求项目明确“而不是同时存在”。[原话与观察](evidence:correction)。这是项目用户明确的制作要求，不代表其他公司标准，也不证明修复已经成功。\n\n## 制作要求\n\n1. 替换全部应译画面文字，包括原片本来就是字幕的文字。先保存原帧、字形、区域、字号/画面占比、字重、斜体、颜色、描边、阴影、分行和运动，再清除原字及其文字效果，恢复连续背景。\n2. 译文写回原文字位置，保持相同视觉大小、字体风格、字重、颜色、描边、阴影、对齐和运动。目标脚本不受源字体支持时，绑定支持目标字形且视觉相近的真实字体；不冒称完全相同字体，不默认缩小或移到底部。长度差异用自然短语和原区域排版适配；仍放不下或遮挡主体时修订方案并如实报告，不擅自改变布局。\n3. 原文字是短词弹出时，译文按实际目标配音重建自然短词/短语节奏；音频同步不授权改变源文字位置与视觉分量。保留源字擦除时段，覆盖文字进出场、描边、阴影及跨镜头残影。\n4. 成片中应译原文和译文不能同时存在。禁止保留英文、在下方或其他位置另加目标语小字幕；禁止用译文盖住源文来假称已擦除。明确保留的产品品牌等独立保留项按用户例外处理，不扩大为原字幕保留许可。\n\n## 审查与提交边界\n\n代表困难段先同看原片、无字底片、译片，检查整幅及入场前、出现中、退出后的连续帧。逐项核验原文字和文字效果是否清除、背景是否连续、译文位置和视觉大小是否与源一致、字体/色彩/描边是否重建、运动是否保留。实际像素和正常播放是证据，模型成功、参数、透明度及新字可读均不能代替。\n\n系统性原文保留加另行译文属于任务路线错误，不能按普通残影、装饰差异或best_available放行，也不能扩展到其他语言。该规定具体限定现有自然去字、源视觉语言及有界提交政策中的普通瑕疵范围；源视觉语言政策允许的安全位置适配不授权把字幕统一移到底部。用户明确退回的实际版本与已知共用问题底片登记quality-hold，保留原审核、模型费用和历史输出；修复版本须独立核验后才恢复扩语言与提交。\n\n预算、有界返工、完整内部输出及真实配音要求保持。边界内做不出原位替换时保存完整问题候选和未完成原因，不冒称本地化完成或用户接受，也不绕过有效质量异议提交旧版本。本次纠正没有授权追加预算、删除历史或把未完成13语需求标记结案。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "correction": "evidence/in-place-correction-public.json"
+    }
+  }
+}

@@ -51,6 +51,48 @@ def _path(root, code, digest):
     return Path(root) / 'state/fireplay' / code / 'publication-reviews' / (digest + '.json')
 
 
+def _new_audio_evidence(previous, folder, manifest, root):
+    """Resolve missing verification with new evidence for unchanged video bytes."""
+    require(previous.get('decision') == 'blocked_major_or_incomplete'
+            and previous.get('assessment', {}).get('required_audio_complete') is False
+            and previous.get('assessment', {}).get('defects')
+            and all(d.get('kind') == 'required_audio_unverified'
+                    for d in previous['assessment']['defects']),
+            'Audio evidence cannot waive an actual audio defect or visual rejection')
+    from . import bundles
+    old_folder = inside(root, previous['package'])
+    old_manifest = bundles.verify(old_folder)
+    require(file_hash(old_folder / 'manifest.json') == previous['manifest_sha256'],
+            'Preserve the original rejected package')
+    meta = manifest['metadata']
+    require(all(old_manifest['metadata'].get(k) == meta.get(k)
+                for k in ('source_sha256', 'video_sha256', 'target_language')),
+            'New verification must concern the same source, locale and video')
+    old_files = {a['path']: a['sha256'] for a in old_manifest['files']}
+    files = {a['path']: a['sha256'] for a in manifest['files']}
+    require(all(files.get(p) and files[p] == old_files.get(p)
+                for p in ('payload/inputs/request.json', 'payload/analysis/inventory.json')),
+            'Audio-evidence reassessment cannot change the request or inventory')
+    digest = meta['video_sha256']
+    path = f'payload/review/{digest[:12]}/audio-model-review.json'
+    require(path in files and files[path] != old_files.get(path),
+            'Supply a genuinely new captured audio report')
+    report = read_json(inside(folder, path))
+    quality = read_json(folder / 'payload/outputs/quality.json')
+    require(report.get('video_sha256') == digest
+            and report.get('source_sha256') == meta['source_sha256'] and report.get('response_id')
+            and quality.get('video_sha256') == digest
+            and quality.get('audio_model_check', {}).get('decision') == 'pass'
+            and quality['audio_model_check'].get('review_sha256') == files[path],
+            'New audio evidence must pass current captured source/video-bound audio checks')
+    response_path = f'payload/review/{digest[:12]}/audio-model-response.json'
+    require(response_path in files and read_json(inside(folder, response_path)).get('id') == report['response_id'],
+            'Keep the matching actual provider response')
+    return {'basis': 'new_audio_verification_for_unchanged_video',
+            'audio_report': {'path': path, 'sha256': files[path]},
+            'response_id': report['response_id'], 'quality_passed': False}
+
+
 def _complete(folder, manifest):
     meta = manifest['metadata']
     require(manifest['kind'] == 'delivery' and meta.get('status') == 'delivered_with_issues',
@@ -171,7 +213,14 @@ def review(code, spec, root=ROOT):
     if observed_findings:
         value['observed_visual_findings'] = observed_findings
     path = _path(root, code, meta['video_sha256'])
-    if spec.get('reassess_under_current_policy'):
+    if spec.get('reassess_with_new_audio_evidence'):
+        require(path.exists() and basic and not severe and (bounded or acceptable),
+                'New audio evidence needs an existing rejection and an otherwise eligible current review')
+        previous = read_json(path)
+        value['evidence_reassessment'] = _new_audio_evidence(previous, folder, manifest, root)
+        value['prior_review'] = {'path': str(path.relative_to(root)), 'sha256': file_hash(path)}
+        path = path.parent.parent / 'publication-reassessments' / path.name
+    elif spec.get('reassess_under_current_policy'):
         require(path.exists(), 'Policy reassessment requires the preserved original review')
         previous = read_json(path)
         require(previous.get('decision') == 'blocked_major_or_incomplete' and

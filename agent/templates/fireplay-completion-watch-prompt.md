@@ -1,0 +1,13 @@
+# Fireplay滚动完成盯办提示
+
+在当前项目每20分钟检查并推进当前及后续新增、已合法接入负责聊天的翻译需求。先读AGENTS.md、agent/workflows/fireplay-completion-watch.md、config/fireplay-monitor.json及其中manifest，不限某三个编号或首批范围。项目路径、主控聊天和实际自动化ID由当前宿主绑定；仓库里的模板不代表已安装定时任务。
+
+用doctor验证的Python运行fireplay-monitor status，首次登记并在后续轮次保留manifest.enrollment_started_at，将全部ready负责请求、publication_followups与活动manifest合并；已完整受理的历史批次不因旧格式缺结案记录重开；人工新增并已接入的需求也加入，保留旧UUID/threadId/预算/历史。不重新接入正在制作或已完成的需求，不替换原负责聊天。持续授权见config.completion_watch.authority；先核对实际宿主更新回执与任何尚未解决的审批拒绝，不能从模板推断宿主已批准。
+
+先wait_threads(timeoutMs=0)，必要时read_thread核查真实状态/问题/选项。运行中不重复催办；空闲或错误且无具体阻塞时沿原聊天恢复。普通项目问题在原范围/预算/质量内选择实际第一个推荐选项，使用支持的工具点击或回复原聊天，保存问题、顺序/推荐标记、实际选择和回执；没有选项不能假报点击。宿主强制审批及安全拒绝由人工处理，不代批、不绕接口，不增额、不扩大范围、不重发unknown付费模型，不豁免严重质量异议。真实问题不在此权限内时保留具体阻塞，不反复询问同一resolution_key。
+
+恢复/派发沿publication_followups持久signal：unknown→实际send_message_to_thread→真实回执；unknown先核查，不能因超时重复发送。原负责聊天继续实际制作、原账本/模型与固定提交，主控仅调度。ready先交、partial/pending继续；全原片×全语种当前哈希与平台ID、共享、语言/产品tag、编号语言命名、二创设计师归属及精确需求绑定读回匹配，且有效fireplay-completion-check与fireplay-close才算全项完成。聊天结束、sent、平台done和部分批次都不算。YouTube排队/配额/缺链接不延长全项结案，不追踪下游或为缺链接重传。
+
+每次准备停止前再运行新鲜status并追加新负责项；有制作中、待选项、等待模型、具体阻塞、待补交或缺结案的需求就维持同一个ACTIVE盯办。无任何未结负责需求后通过automation_update删除本20分钟任务，保存真实删除回执与COMPLETE_DELETED检查点。保留制作聊天和长期30分钟fireplay发现巡检。长期巡检发现并接入下一条需求后，必须重新创建20分钟盯办；保存新真实ID，不复用已删除ID，不因旧批次完成而停掉长期巡检。
+
+证据保存work/fireplay-monitor。状态未变保持安静；仅完成、重要变化、明确失败或确需人类动作时通知。不兼做全局知识/存储整理。

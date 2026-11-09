@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 
-from video_localizer import batches
+from video_localizer import batches, quality_holds
 from video_localizer.common import WorkflowError, file_hash, read_json, write_json
 
 
@@ -66,6 +66,22 @@ class BestAvailableBatchTests(unittest.TestCase):
         (self.pilot / 'outputs/final.mp4').write_bytes(b'changed')
         with self.assertRaisesRegex(WorkflowError, 'video changed'):
             batches.gate(self.child)
+
+    def test_user_rejected_best_available_pilot_blocks_existing_and_new_release(self):
+        batches.approve('fixture', self.root, best_available=True)
+        spec = {'id': 'user-rejected-bilingual-overlay',
+                'source': {'path': 'runs/pilot/inputs/source.mp4', 'sha256': self.source},
+                'asset': {'path': 'runs/pilot/outputs/translated.mp4', 'sha256': self.spec['video']['sha256']},
+                'asset_kind': 'video', 'reason': 'English retained with separate target captions',
+                'reported_by': 'Explicit user correction',
+                'evidence': [{'path': 'runs/pilot/review/observations.json',
+                              'sha256': file_hash(self.pilot / 'review/observations.json')}]}
+        write_json(self.root / 'hold.json', spec)
+        quality_holds.record('hold.json', self.root)
+        for action in (lambda: batches.gate(self.child),
+                       lambda: batches.approve('fixture', self.root, best_available=True)):
+            with self.assertRaisesRegex(WorkflowError, 'Quality hold'):
+                action()
 
     def test_missing_or_invalid_completion_cannot_expand(self):
         (self.pilot / 'outputs/completion.json').unlink()

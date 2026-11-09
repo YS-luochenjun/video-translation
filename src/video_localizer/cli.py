@@ -287,6 +287,11 @@ def main(argv=None):
     command.add_argument('action', choices=['status', 'scan', 'assess', 'signal'])
     command.add_argument('--spec')
     command.add_argument('--code')
+    command = commands.add_parser('fireplay-parallel', help='Plan, claim and reconcile source-scoped production delegation without creating chats or spending')
+    command.add_argument('action', choices=['plan', 'status', 'update'])
+    command.add_argument('code', nargs='?')
+    command.add_argument('--code', dest='filter_code')
+    command.add_argument('--spec')
     command = commands.add_parser('fireplay-publication-review', help='Record actual minor/major output review without changing internal quality')
     command.add_argument('code')
     command.add_argument('spec')
@@ -534,6 +539,18 @@ def main(argv=None):
                     result = fireplay_monitor.assess(args.code, args.spec, ROOT)
                 else:
                     result = fireplay_monitor.signal(args.spec, ROOT)
+            elif name == 'fireplay-parallel':
+                from . import fireplay_parallel
+                code = args.code or args.filter_code
+                if args.action == 'status':
+                    result = fireplay_parallel.status(code, ROOT)
+                else:
+                    require(code, 'Specify the exact requirement code')
+                    if args.action == 'plan':
+                        result = fireplay_parallel.plan(code, ROOT)
+                    else:
+                        require(args.spec, 'Provide --spec for a recorded delegation action')
+                        result = fireplay_parallel.update(code, read_json(inside(ROOT, args.spec)), ROOT)
             elif name == 'fireplay-publication-review':
                 from .fireplay_publication import review
                 result = review(args.code, args.spec, ROOT)

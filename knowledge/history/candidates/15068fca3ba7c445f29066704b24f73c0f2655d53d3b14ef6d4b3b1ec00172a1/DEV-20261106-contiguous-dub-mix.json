@@ -1,0 +1,30 @@
+{
+  "id": "DEV-20261106-contiguous-dub-mix",
+  "status": "candidate",
+  "created_at": "2026-11-06T10:15:01.886481+00:00",
+  "scope": {
+    "workflow": "audio-mix",
+    "knowledge_kind": "technical_mixing"
+  },
+  "outcome": "implemented_deterministic_regression_fix",
+  "hypothesis": "Touching replacement windows form a single source-voice removal region; do not blend original speech back at internal joins or true EOF. This is implemented and checked in saved PCM, rather than an inference from a successful TTS API call.",
+  "evidence": {
+    "case_manifest": {
+      "path": "knowledge/examples/contiguous-dub-mix-v1/manifest.json",
+      "sha256": "6e5908cb04782b646a7aa9b4d8098e570ad6973d0e6da1092235847d1e4f5da5"
+    },
+    "code": "src/video_localizer/local_audio.py",
+    "regression": "Independent synthetic2secondstereo fixture; saved mixed PCM checked at every sample including join and EOF; pass."
+  },
+  "limitations": [
+    "Only touching windows and true EOF proven by this fixture.",
+    "Existing fades at isolated boundaries remain; retained source speech outside replacement windows still needs actual review.",
+    "No TTS-provider root cause, language accuracy or visual acceptance inferred."
+  ],
+  "company_preference": false,
+  "promotion": "Not activated as a production knowledge rule; technical implementation and test evidence retained.",
+  "reflection_state": "lesson_recorded",
+  "next_action": "Any future change to mixer boundary blending should rerun the existing regression and actual encoded audio review; this does not widen language or quality claims.",
+  "knowledge_class": "technical",
+  "evidence_boundary": "This regression executes the production mixer and checks actual saved PCM. It stubs media alignment/encoding to copy the fixture WAV; it is not an AAC encoder test or proof of source separation quality. Business delivery separately uses actual MP4/full/endpoints review."
+}

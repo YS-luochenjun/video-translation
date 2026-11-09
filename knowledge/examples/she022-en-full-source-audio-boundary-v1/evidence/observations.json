@@ -1,0 +1,143 @@
+{
+  "source_sha256": "dbf7a8c470b2b8963b3b0aa5e99f243291370e784ece739d3d4309c4f79df7d2",
+  "scope": "This one source, English only; not a cross-source validation or human acceptance",
+  "observations": [
+    {
+      "name": "before",
+      "origin_sha256": "8e18220010dadf33c3f3d93115326112eddc9edea8038d49bcbcf8f889000212",
+      "actual_video_sha256": "8fa03a1bd6d63b1f4e1fe0c4ecdfaf41c74a87677348cf375fd01b397f2b3dc7",
+      "reported_foreign_speech": [
+        "...kuje supermoce (13.7s - 14.9s)"
+      ],
+      "analysis": {
+        "has_speech": true,
+        "detected_language": "en",
+        "speech_segments": [
+          {
+            "start": 0.1,
+            "end": 1.7,
+            "source_text": "Warning, don't open this app."
+          },
+          {
+            "start": 1.9,
+            "end": 4.4,
+            "source_text": "Your brain will instantly unlock superpowers."
+          },
+          {
+            "start": 4.8,
+            "end": 6.4,
+            "source_text": "Warning, don't open this app."
+          },
+          {
+            "start": 6.6,
+            "end": 9.1,
+            "source_text": "Your brain will instantly unlock superpowers."
+          },
+          {
+            "start": 9.6,
+            "end": 11.2,
+            "source_text": "Warning, don't open this app."
+          },
+          {
+            "start": 11.4,
+            "end": 13.6,
+            "source_text": "Your brain will instantly unlock superpowers."
+          },
+          {
+            "start": 13.7,
+            "end": 14.9,
+            "source_text": "...kuje supermoce."
+          }
+        ],
+        "background_music": {
+          "same_track": true,
+          "reason": "The background music in Audio B is identical to Audio A in track, tempo, and arrangement."
+        },
+        "sound_effects": {
+          "preserved": true,
+          "reason": "The atmospheric audio effects and production layers from Audio A are preserved in Audio B."
+        },
+        "dialogue_translation": {
+          "complete": false,
+          "reason": "Although the English dialogue accurately translates the original Polish lines, Audio B contains an untranslated remnant of original Polish speech ('...kuje supermoce') at the very end (13.7s–14.9s)."
+        },
+        "foreign_speech_remaining": [
+          "...kuje supermoce (13.7s - 14.9s)"
+        ],
+        "sync": {
+          "acceptable": true,
+          "reason": "The translated English lines align well with the pacing and phrasing of the original Polish audio across each repetition."
+        },
+        "uncertain_intervals": [],
+        "summary": "Audio B successfully translates the repeated Polish warning into English ('Warning, don't open this app. Your brain will instantly unlock superpowers') while retaining the original background music and audio effects. However, localization is incomplete due to a leftover fragment of original Polish narration ('...kuje supermoce') audible between 13.7s and 14.9s."
+      }
+    },
+    {
+      "name": "after",
+      "origin_sha256": "8e658d0df641063366816438aa2fdc445a9fdcedadc546502a70efc5bd185112",
+      "actual_video_sha256": "28ff248532883f905950f4f3a800ef0d1a36d2ce6318de19147b0f513afe73c3",
+      "reported_foreign_speech": [],
+      "analysis": {
+        "has_speech": true,
+        "detected_language": "en",
+        "speech_segments": [
+          {
+            "start": 0.0,
+            "end": 2.8,
+            "source_text": "Warning. Don't open this app."
+          },
+          {
+            "start": 2.9,
+            "end": 5.8,
+            "source_text": "Your brain will instantly unlock superpowers."
+          },
+          {
+            "start": 6.0,
+            "end": 8.8,
+            "source_text": "Warning. Don't open this app."
+          },
+          {
+            "start": 8.9,
+            "end": 11.8,
+            "source_text": "Your brain will instantly unlock superpowers."
+          },
+          {
+            "start": 12.0,
+            "end": 14.8,
+            "source_text": "Warning. Don't open this app."
+          },
+          {
+            "start": 14.9,
+            "end": 17.8,
+            "source_text": "Your brain will instantly unlock superpowers."
+          }
+        ],
+        "background_music": {
+          "same_track": true,
+          "reason": "The background music in Audio B is the exact same track, tempo, and arrangement as in Audio A."
+        },
+        "sound_effects": {
+          "preserved": true,
+          "reason": "All ambient accents and chime effects heard alongside the track in Audio A are fully retained at the corresponding timestamps in Audio B."
+        },
+        "dialogue_translation": {
+          "complete": true,
+          "reason": "Audio B contains a faithful, complete English translation of the Polish speech in Audio A across all three repetitions, with no omissions, additions, or leftover foreign speech."
+        },
+        "foreign_speech_remaining": [],
+        "sync": {
+          "acceptable": true,
+          "reason": "The pacing, sentence rhythm, and start/stop timestamps align closely with the original Polish narration and the underlying musical cues."
+        },
+        "uncertain_intervals": [],
+        "summary": "Audio B is an accurate English localization of Audio A. The original Polish voiceover is completely translated across all three iterations with identical background music, preserved audio effects, and matching sync."
+      }
+    }
+  ],
+  "changed_variable": "Earlier narration mix windows stopped at17s after coarse source ASR; revised mix replaced0..19.99238 with3complete translated repetitions and same source-derived UVR stem. Visual unchanged between en-v2 and en-v3.",
+  "limitations": [
+    "External model timestamps are coarse, not word alignment.",
+    "No independent human/native-speaker approval.",
+    "A full-source replacement is not a new default for other sources; actual speech/music and source coverage must determine windows."
+  ]
+}

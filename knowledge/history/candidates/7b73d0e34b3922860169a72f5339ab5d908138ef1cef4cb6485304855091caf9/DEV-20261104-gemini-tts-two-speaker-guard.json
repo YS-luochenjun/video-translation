@@ -1,0 +1,45 @@
+{
+  "id": "DEV-20261104-gemini-tts-two-speaker-guard",
+  "status": "candidate",
+  "created_at": "2026-11-04T18:29:56.351066+00:00",
+  "scope": {
+    "workflow": "model-task",
+    "model": "google/gemini-2-5-pro-tts",
+    "supplier": "KIE",
+    "knowledge_kind": "technical_input_preflight"
+  },
+  "outcome": "bounded_technical_observations",
+  "hypothesis": "Validate the observed one-or-two-speaker contract for Gemini2.5ProTTS before paid dispatch. Do not assume an HTTP/business500with no taskId is free or safe to retry. Split future new multi-role requests within two speakers; existing ambiguous submissions retain their original unknown reservation and require applicable recovery authority.",
+  "evidence": {
+    "case_manifest": {
+      "path": "knowledge/examples/gemini-tts-two-speaker-guard-v1/manifest.json",
+      "sha256": "87b75a87fd4bce4de36e028166cd9c3eba64bb1d9602a06a4f9b7ef1db3f8835"
+    },
+    "code": "src/video_localizer/model_tasks.py:111",
+    "original_observation": {
+      "kind": "technical_model_input_contract_observation",
+      "observed_on": "2026-11-04",
+      "model": "google/gemini-2-5-pro-tts",
+      "supplier": "KIE",
+      "submitted_speaker_count": 5,
+      "actual_error": "KIE code 500: speakers must contain at most 2 items",
+      "result_state": "ambiguous",
+      "task_id_returned": false,
+      "retained_unknown_credit_reservation": 6,
+      "new_paid_retry_for_this_ambiguity_executed": false,
+      "boundary": "Exact provider behavior observed on this date. No zero-charge or failure-before-billing inference. Japanese delivery subsequently used original successful audio locally, not a paid retry."
+    },
+    "regression": "Neutral three-role packet rejected before job creation; included in actual5test pass and complete980test pass."
+  },
+  "limitations": [
+    "Observed KIE model/version/date only; do not infer other endpoints or future limits.",
+    "This proves request preflight behavior, not TTS completeness, voice gender, audio synchronization, or video quality.",
+    "The original ambiguous request remains unknown; no new authorization or fee reset is implied."
+  ],
+  "company_preference": false,
+  "promotion": "Pending scoped developer review; candidate is not loaded as a production knowledge rule.",
+  "reflection_state": "lesson_recorded",
+  "next_action": "Review existing model-routing documentation for the same exact scope before any promotion; reuse neutral regression proof, preserve unknown billing history.",
+  "knowledge_class": "technical",
+  "evidence_boundary": "Independent tiny technical case, no production script, credentials, video or deletable run dependencies needed to understand the lesson."
+}
