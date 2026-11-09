@@ -1,0 +1,20 @@
+{
+  "name": "video-localization-local",
+  "interface": {
+    "displayName": "视频本地化项目"
+  },
+  "plugins": [
+    {
+      "name": "localization-session-console",
+      "source": {
+        "source": "local",
+        "path": "./plugins/session-console"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

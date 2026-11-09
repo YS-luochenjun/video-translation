@@ -14,9 +14,11 @@ def main():
     parser.add_argument('--port',type=int,default=8768)
     parser.add_argument('--background',action='store_true')
     parser.add_argument('--open',action='store_true')
+    parser.add_argument('--console-only',action='store_true')
     args=parser.parse_args()
     root=Path(__file__).resolve().parents[1]
     command=[sys.executable,'-B',str(root/'workbench/server.py'),'--port',str(args.port),'--workspace',str(root)]
+    if args.console_only: command.append('--console-only')
     if not args.background:
         return subprocess.call(command,cwd=root)
     folder=root/'work/workbench'
@@ -29,9 +31,9 @@ def main():
         if process.poll() is not None:
             raise SystemExit(f'Workbench did not start; see {folder}. Existing services were not stopped.')
         try:
-            with urllib.request.urlopen(url+'/api/ledger',timeout=2) as response:
+            with urllib.request.urlopen(url+('/api/console/config' if args.console_only else '/api/ledger'),timeout=2) as response:
                 result=json.load(response)
-            if result.get('collector',{}).get('pid')!=process.pid:
+            if (result.get('pid') if args.console_only else result.get('collector',{}).get('pid'))!=process.pid:
                 time.sleep(.1)
                 continue
             break

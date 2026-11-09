@@ -68,9 +68,9 @@ class AudioTaskTests(unittest.TestCase):
         write_json(self.run/'config/model-policy.json',{'block_seedance_major_at_least':2,'max_new_video_task_estimated_credits':40})
         for model in ('bytedance/seedance-2-fast','bytedance/seedance-2.5','bytedance/seedance-3'):
             with self.assertRaisesRegex(WorkflowError,'blocked'):cost.check_new_video_task(model,10,self.run)
-        with self.assertRaisesRegex(WorkflowError,'exceeds'):cost.check_new_video_task('wan/2-7-videoedit',160,self.run)
+        with self.assertRaisesRegex(WorkflowError,'exceeds'):cost.check_new_video_task('wan/3-0-video',160,self.run)
         with self.assertRaises(WorkflowError):cost.check_new_video_task('wan/2-6-flash-video-to-video',20,self.run)
-        cost.check_new_video_task('wan/2-7-videoedit',32,self.run)
+        cost.check_new_video_task('wan/3-0-video',32,self.run)
 
     def test_invalid_audio_reply_still_preserves_raw_receipt(self):
         audio_file=self.run/'analysis/audio.wav'

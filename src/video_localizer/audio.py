@@ -13,6 +13,32 @@ from .common import file_hash, read_json, require, write_json
 SAMPLE_RATE = 16000
 
 
+def explicit_review_scope(request, inventory):
+    """Describe an authorized narration-only exception without waiving audio review."""
+    scope = request.get('production_scope', {})
+    if scope.get('speech') != 'advertising_narration_only':
+        return ''
+    authority = request.get('scope_revision_authority')
+    require(authority and scope.get('authority_ref') == authority
+            and inventory.get('scope_evidence', {}).get('authority_ref') == authority,
+            'Narration-only audio review needs matching explicit scope authority')
+    required = [{'id': s['id'], 'start': s['start'], 'end': s['end']}
+                for s in inventory.get('speech_segments', [])]
+    retained = [{'id': s['id'], 'start': s['start'], 'end': s['end']}
+                for s in inventory.get('preserved_speech_segments', [])]
+    require(required and not ({s['id'] for s in required} & {s['id'] for s in retained}),
+            'Narration-only audio review needs distinct required and retained speech')
+    return (' Explicit authorized scope exception: ONLY advertising narration/CTA is to be translated. '
+            'Required source narrator windows: ' + json.dumps(required) + '. '
+            'Source game demonstration speech intentionally retained verbatim in these windows: '
+            + json.dumps(retained) + '. Transcribe that retained speech too, but do not count it as '
+            'foreign_speech_remaining or incomplete translation. Assess dialogue_translation.complete '
+            'against ALL required narrator windows, including the opening and final CTA. '
+            'Unexpected foreign narration, missing or clipped translated words still fail. '
+            'The music, effects, timing and actual verbatim-transcription checks remain unchanged. '
+            'The scope is not evidence of success; report actual uncertainty.')
+
+
 def model_review_check(run, candidate, source_sha256, captured):
     """Consume an existing audio review in both delivery modes; never call a model."""
     path = run / 'review' / candidate['sha256'][:12] / 'audio-model-review.json'

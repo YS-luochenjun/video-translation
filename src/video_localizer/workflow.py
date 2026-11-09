@@ -203,6 +203,11 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
                     "Return JSON: has_speech, detected_language, speech_segments [{start,end,source_text}], "
                     "music {present,contains_singing,description}, uncertain_intervals, summary. "
                     "This is transcription only; no source comparison or music-preservation pass is requested.")
+        else:
+            from .audio import explicit_review_scope
+            review_request = read_json(run / 'inputs/request.json')
+            if review_request.get('production_scope', {}).get('speech') == 'advertising_narration_only':
+                prompt += explicit_review_scope(review_request, read_json(run / 'analysis/inventory.json'))
     if voice_review:
         inventory = read_json(run / 'analysis/inventory.json')
         roles = {}
@@ -468,8 +473,12 @@ def build_plan(run, experiment=None):
             from .model_routing import require_current, selected
             require_current('video', shot.get('video_model', selected('video')), ROOT)
             route = 'wan_edit'
+        if route == 'wan_edit' and not shot.get('reused_model_job'):
+            from .model_routing import require_current, selected
+            require_current('video', shot.get('video_model', selected('video')), ROOT)
+            shot = {**shot, 'video_model': selected('video')}
         if route in ('regenerate', 'video_reference', 'seedance_edit') and not shot.get('reused_model_job'):
-            require(False, 'New video work uses Wan 2.7 source editing. Other routes are historical-result reuse only.')
+            require(False, 'New video work uses the configured Wan source editing model. Other routes are historical-result reuse only.')
         require(route in ("local_overlay", "model_edit", "regenerate", "reference_composite", "video_reference", "wan_edit", "seedance_edit", "prepared_video"), "Unknown route")
         if route == "seedance_edit":
             submitted_seconds = shot.get("model_input_seconds", shot["end"]-shot["start"])
@@ -477,7 +486,11 @@ def build_plan(run, experiment=None):
             if "model_input_seconds" in shot:
                 require(bool(shot.get("timeline_reason")), "Explicit video timeline conversion needs its reason and limitations")
         if route == "wan_edit":
-            require(2 <= shot["end"]-shot["start"] <= 10.001, "Wan 2.7 editing requires 2-10s input")
+            maximum = 15 if shot.get('video_model') == 'wan/3-0-video' else 10
+            require(2 <= shot["end"]-shot["start"] <= maximum + .001, 'Wan editing input exceeds current model duration limit')
+            if shot.get('video_model') == 'wan/3-0-video':
+                from .wan3 import inputs as wan3_inputs
+                wan3_inputs('', shot['end'] - shot['start'])
         if route == "video_reference":
             require(any(abs(shot["end"]-shot["start"]-n) <= 0.15 for n in (5, 10)),
                     "Wan 2.6 Flash output needs a planned 5/10s shot (at most 0.15s rounding)")
@@ -493,6 +506,7 @@ def build_plan(run, experiment=None):
             require(actions.issubset({"solid_overlay", "preserve"}), "This segment requires a model or compositing specialist")
         if inventory["audio"]["strategy"] == "model":
             require(route == "wan_edit", "Native audio translation/generation currently requires Wan 2.7 source-video editing on each segment")
+            require(shot.get('video_model') != 'wan/3-0-video', 'Wan 3.0 visual editing is silent; plan separate real dubbing and source audio mixing')
         erase_then_overlay = shot.get("model_text_mode") == "erase_then_overlay"
         require(not erase_then_overlay or route in ("model_edit", "wan_edit", "seedance_edit", "prepared_video"), "Text erasure requires the source-video editing or prepared repair route")
         lines = [f"Target locale: {request['target_language']}. Video localization of this single advertisement shot.",
@@ -703,7 +717,8 @@ def prepare_packet(run, segment_id):
         elif segment["route"] == "video_reference":
             require(clip.stat().st_size <= 10000000, "Wan reference video exceeds 10MB")
         elif segment["route"] == "wan_edit":
-            require(2 <= meta["duration"] <= 10.001 and min(meta["width"], meta["height"]) >= 240
+            maximum = 15 if segment.get('video_model') == 'wan/3-0-video' else 10
+            require(2 <= meta["duration"] <= maximum + .001 and min(meta["width"], meta["height"]) >= 240
                     and max(meta["width"], meta["height"]) <= 4096 and clip.stat().st_size <= 100000000,
                     "Wan video edit source must be 2-10s, 240-4096px and at most 100MB")
         elif segment["route"] == "seedance_edit":
@@ -729,6 +744,13 @@ def prepare_packet(run, segment_id):
                 require(file_hash(inside(run, asset["path"])) == asset["sha256"], "Reference image changed")
                 assets["image"] = asset
                 payload["input"]["reference_image"] = "ASSET:image"
+            if segment.get('video_model') == 'wan/3-0-video':
+                from .wan3 import MODEL, inputs as wan3_inputs, validate_media, validate_image
+                validate_media(clip, meta)
+                if 'image' in assets:
+                    validate_image(inside(run, assets['image']['path']))
+                payload = {'model': MODEL, 'input': wan3_inputs(segment['prompt'], meta['duration'],
+                           meta['height'] > meta['width'], 'image' in assets)}
         elif segment["route"] == "seedance_edit":
             payload = {"model": "bytedance/seedance-2-fast", "input": {
                        "prompt": segment["prompt"], "reference_video_urls": ["ASSET:video"],
@@ -774,6 +796,11 @@ def prepare_packet(run, segment_id):
               "audio_contract": audio_policy,
               "estimated_credits": estimated, "price_checked_at": "2026-10-16",
               "pricing_limitation": "Public 720p price estimate; actual provider billing may differ"}
+    if payload.get('model') == 'wan/3-0-video':
+        from .wan3 import estimate
+        packet['estimated_credits'] = estimate(meta['duration'], payload['input']['duration'], '720P')
+        packet['price_checked_at'] = '2026-11-09'
+        packet['pricing_limitation'] = 'Wan 3.0: input reference seconds plus output seconds, 16 credits/s at720P; original request pool and unknown charges retained.'
     if segment['route']=='seedance_edit':
         packet['price_checked_at']='2026-10-19'
         packet['pricing_limitation']='Observed one 720p task: 15 reference seconds + 15 output seconds cost 450 credits. Reserve both durations at 15 credits/s; future provider rates may differ. New Seedance 2.0+ submissions are blocked by user cost policy.'

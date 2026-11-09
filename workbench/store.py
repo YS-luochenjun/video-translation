@@ -134,13 +134,15 @@ class Store:
             return False
         return self.path(f'knowledge/local/quality-holds/{source}/{video}').exists()
 
-    def versions(self, warnings):
+    def versions(self, warnings, task=None):
         rows = []
         # The managed index is authoritative, including expiry tombstones.
         # Falling back after corruption could resurrect obsolete legacy entries.
         index = 'state/delivery-index.json' if self.path('state/delivery-index.json').exists() else 'outputs/index.json'
         catalog = self.read(index, warnings=warnings)
         for entry in catalog.get('entries', []):
+            if task is not None and entry.get('origin_run_id') != task:
+                continue
             try:
                 package = entry['package']
                 if not package.startswith('outputs/'):

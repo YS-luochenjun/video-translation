@@ -1,0 +1,30 @@
+{
+  "reviewer": "Codex same_agent",
+  "source_sha256": "1a116f75a29aaed003b46f30e35d5cabf0ae71ae1a910b59cf9245505f7ed6dc",
+  "scope": "OneGarrysMod30sverticalgameplay source. Japanese/Thai boundary observations and source-specific audio corrections; no cross-source validation.",
+  "observations": [
+    {
+      "observed": "Wan3native2s60frameresult clearedlargeEnglish but at1.966s changedoriginaldistantwallclimb/buildinginto snakescalecloseup; API success duration/framecountmatchdidnotpreserveaction.",
+      "causal_hypothesis": "Generativecamera/actiondrift, exactreasonunproven.",
+      "action_basis": "Rejectfullframemasterafteractualsource/resultpairs; donotexpand basedonlyAPIstate/duration.",
+      "confidence": "observed_single_source"
+    },
+    {
+      "observed": "Fixedcharacterchunking splitThai combiningsequence andJapanese新しい adjective; V3completephraseboundaries removedobserved split.",
+      "causal_hypothesis": "Chunkingmethodignoredscriptlexicalboundaries.",
+      "action_basis": "Manuallogicalphrasegroupspreservedexactcopy, actualASRwordboundariesstilldeterminetiming. Eachlocaleactualglyphatlas reviewed.",
+      "confidence": "same_source_before_after"
+    },
+    {
+      "observed": "GermanandFrench shortCTA encodedASR uncertain; bounded realnewCTA takes Jetzt downloaden/Téléchargez maintenant recognised separately in currentencodedtail. Arabicnew نزّل الآن recognised. Hindi negative rawmatphoneticuncertain persists.",
+      "causal_hypothesis": "Shortaudioarticulation/compression/ASRlimit allpossible, notdistinguished.",
+      "action_basis": "Bindrealnewtake/script/cuts/hash andindependentlydecodeencodedtail; donotclaim directlistening or nativepronunciationacceptance.",
+      "confidence": "ASR_supported_not_perceptual"
+    }
+  ],
+  "limitations": [
+    "Completeall16outputs externallyaccepted in Fireplay; internalvisualfinish2/5revise, no user/companyqualityacceptance.",
+    "Wan3evidence6finitepairs,nofullmotionacceptance; sourcecopy/photoownershipnotexpanded.",
+    "Hindi/Vietnamese ASRphoneticuncertaintiesretained."
+  ]
+}

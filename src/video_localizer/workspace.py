@@ -13,7 +13,7 @@ PUBLIC_DIRECTORIES = (
     "knowledge/rules", "knowledge/cases", "knowledge/examples",
     "knowledge/candidates", "knowledge/distillations", "knowledge/curation", "knowledge/history",
 )
-SOURCE_DIRECTORIES = ("bin", "src", "tests", "workbench")
+SOURCE_DIRECTORIES = ("bin", "src", "tests", "workbench", "plugins", ".agents/plugins")
 RUNTIME_DIRECTORIES = {"node_modules", ".cache", "__pycache__", ".pytest_cache", ".venv", ".runtime"}
 
 

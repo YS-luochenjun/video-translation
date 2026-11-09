@@ -59,7 +59,7 @@ def validate_inventory(inventory, run, meta):
         require(shot.get("model_text_mode", "replace") in ("replace", "erase_then_overlay"),
                 "Unknown model text mode")
         require(shot.get("video_model", "wan/2-7-videoedit") in
-                ("kling-3.0-omni/transformation", "wan/2-6-flash-video-to-video", "wan/2-7-videoedit", "bytedance/seedance-2-fast"), "Unknown video model")
+                ("kling-3.0-omni/transformation", "wan/2-6-flash-video-to-video", "wan/2-7-videoedit", "wan/3-0-video", "bytedance/seedance-2-fast"), "Unknown video model")
         if "reference_image" in shot:
             asset = shot["reference_image"]
             path = inside(run, asset.get("path", "missing"))

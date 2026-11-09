@@ -8,6 +8,7 @@ Remotion是可选下载依赖：源码只保留`src/remotion_renderer`的项目�
 | --- | --- | --- |
 | `bin/`、`src/`、`tests/` | 正式入口、实现、测试 | 是 |
 | `workbench/` | 本机只读工作台及其测试、静态资源 | 是 |
+| `plugins/`、`.agents/plugins/` | 项目插件源码与可迁移市场清单；安装状态和本机工作区绑定另行恢复 | 是 |
 | `.agents/skills/` | AI 制作和知识整理的操作入口 | 是 |
 | `config/` | 公共参数、`profiles/` 偏好档案、`workflows/` 流程配置、`hooks/` 提示词 | 是，递归收集并排除 `*.local.json` |
 | `agent/` | `contracts/` 执行规则、`workflows/` 操作步骤、`integrations/` 工具约定、`templates/` 填写格式 | 是 |

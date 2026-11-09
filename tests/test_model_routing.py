@@ -24,7 +24,7 @@ class ModelRoutingTests(unittest.TestCase):
 
     def test_retired_video_models_are_rejected_before_network(self):
         client = KieClient(key='fixture-key')
-        for model in ('veo-3-1', 'kling-3.0-omni/transformation', 'wan/2-6-flash-video-to-video',
+        for model in ('veo-3-1', 'wan/2-7-videoedit', 'kling-3.0-omni/transformation', 'wan/2-6-flash-video-to-video',
                       'bytedance/seedance-2-fast', 'elevenlabs/text-to-speech-multilingual-v2',
                       'ai-music-api/separate-vocals'):
             with self.subTest(model=model), patch.object(client, '_request') as request:
@@ -34,7 +34,7 @@ class ModelRoutingTests(unittest.TestCase):
 
     def test_single_video_and_tts_models_are_accepted(self):
         client = KieClient(key='fixture-key')
-        for model in ('wan/2-7-videoedit', 'google/gemini-2-5-pro-tts'):
+        for model in ('wan/3-0-video', 'google/gemini-2-5-pro-tts'):
             with patch.object(client, '_request', return_value={'taskId': 'fixture-task'}):
                 self.assertEqual(client.create({'model': model, 'input': {}}), 'fixture-task')
 

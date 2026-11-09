@@ -186,6 +186,11 @@ class NativeAudioContractTests(unittest.TestCase):
         self.assertEqual(len(count), 1)
 
     def test_native_model_audio_enables_auto_audio_in_actual_packet(self):
+        # Preserve legacy 2.7 native-audio rendering coverage; 3.0 uses separate dubbing.
+        legacy = patch('video_localizer.model_routing.policy', return_value={
+            'video': 'wan/2-7-videoedit', 'tts': 'google/gemini-2-5-pro-tts'})
+        legacy.start()
+        self.addCleanup(legacy.stop)
         data = copy.deepcopy(self.original_inventory)
         data["audio"].update({"strategy": "model", "has_speech": None,
                               "reason": "Explicit delegated audio inspection; not a passing speech claim"})
@@ -203,6 +208,11 @@ class NativeAudioContractTests(unittest.TestCase):
         self.assertIn("translate", packet["payload"]["input"]["prompt"])
 
     def test_returned_sound_is_muxed_but_unreviewed_semantics_blocks_delivery(self):
+        # Preserve legacy 2.7 native-audio rendering coverage; 3.0 uses separate dubbing.
+        legacy = patch('video_localizer.model_routing.policy', return_value={
+            'video': 'wan/2-7-videoedit', 'tts': 'google/gemini-2-5-pro-tts'})
+        legacy.start()
+        self.addCleanup(legacy.stop)
         data = copy.deepcopy(self.original_inventory)
         data["audio"].update({"strategy": "model", "has_speech": False,
                               "reason": "Known synthetic no-speech contract fixture, not a real dubbing evaluation"})

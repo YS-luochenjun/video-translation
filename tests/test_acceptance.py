@@ -186,9 +186,9 @@ class AcceptanceTests(unittest.TestCase):
             self.assertNotIn(inventory["text_instances"][0]["target_text"], prompt)
             self.assertEqual(result["routes"], ["wan_edit"])
             packet = workflow.prepare_packet(self.run_dir, plan['segments'][0]['id'])
-            self.assertEqual(packet['payload']['input']['reference_image'], 'ASSET:image')
-            self.assertNotIn('omitted target copy', packet['payload']['input']['negative_prompt'])
-            self.assertIn('added lettering', packet['payload']['input']['negative_prompt'])
+            self.assertEqual(packet['payload']['input']['reference_image_urls'], ['ASSET:image'])
+            self.assertNotIn('negative_prompt', packet['payload']['input'])
+            self.assertFalse(packet['payload']['input']['audio'])
         finally:
             path.write_bytes(original)
             # Restore exact original plan, without introducing another revision.
@@ -283,6 +283,23 @@ class AcceptanceTests(unittest.TestCase):
         self.assertEqual(options["audio_setting"], "origin")
         self.assertFalse(options["prompt_extend"])
         self.assertEqual(packet["estimated_credits"], 80)
+
+    def test_wan3_packet_uses_reference_arrays_and_reserves_both_durations(self):
+        image = self.run_dir / 'analysis/shot-001.jpg'
+        plan = {'id': 'wan3-edit-test', 'segments': [{'id': 's001', 'route': 'wan_edit',
+                'video_model': 'wan/3-0-video', 'start': 0, 'end': 5,
+                'prompt': 'Remove the original lettering only.',
+                'reference_image': {'path': 'analysis/shot-001.jpg', 'sha256': file_hash(image)}}]}
+        with patch.object(workflow, 'current_plan', return_value=plan):
+            packet = workflow.prepare_packet(self.run_dir, 's001')
+        self.assertEqual(packet['payload']['model'], 'wan/3-0-video')
+        options = packet['payload']['input']
+        self.assertEqual(options['reference_video_urls'], ['ASSET:video'])
+        self.assertEqual(options['reference_image_urls'], ['ASSET:image'])
+        self.assertEqual(options['duration'], 5)
+        self.assertFalse(options['audio'])
+        self.assertNotIn('audio_setting', options)
+        self.assertEqual(packet['estimated_credits'], 160)
 
     def test_wan_edit_without_reference_remains_an_available_route(self):
         plan = {'id':'wan-independent-test', 'segments':[{'id':'s001','route':'wan_edit',

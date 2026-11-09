@@ -5,7 +5,7 @@
   "max_new_video_task_estimated_credits": null,
   "cap_origin": "2026-10-26 direct user instruction: 60 credits per distinct target language; aggregate shared request pool. Historical ledgers and unknown reservations retained. Researching alternatives does not authorize changing current model routing.",
   "preferred_video_trials": [
-    "wan/2-7-videoedit"
+    "wan/3-0-video"
   ],
   "note": "This blocks new submissions only. Poll, download and review already submitted tasks without recreating them. Credit estimates are reservations, not provider billing guarantees."
 }

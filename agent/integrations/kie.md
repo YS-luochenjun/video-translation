@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | 真实音频理解与比较 | `gemini-3-8-flash-openai` | 转写存在疑点、无法直接听音，或需比较原音与成片时使用 `audio-analyze RUN --execute`；成片比较加 `--candidate` |
 | 目标语言配音 | `google/gemini-2-5-pro-tts` | 口播定稿后用 `tts-packet` 生成请求，再用 `model-task --execute` 提交 |
-| 原视频编辑 | `wan/2-7-videoedit` | Codex 图片处理与本地合成无法满足连续运动要求时，使用 `model_edit` 路线，先 `packet` 再 `submit --execute` |
+| 原视频编辑 | `wan/3-0-video` | Codex 图片处理与本地合成无法满足连续运动要求时，使用 `model_edit` 路线，先 `packet` 再 `submit --execute` |
 
 不自动切换或升级到其他模型。先根据真实错误或缺陷修正输入、定稿、素材或当前模型参数，在现有次数和预算内返工；仍不能满足要求时保留未完成项。历史模型仅可查询原任务、取回原结果或按原请求及附件哈希复用，不能借历史参数重新发起任务。
 
@@ -33,6 +33,12 @@ Fireplay需求沿用[接入流程](../workflows/fireplay-intake.md)和config/fir
 配音使用定稿的 `speech_segments[].target_text`，`tts-packet` 绑定实际稿件和语言。Gemini TTS 的 `speaker_id` 使用 `Speaker 1` 格式，必须指定 `voice_name`。可选控制字段只能按实际接口合同填写，不把语言名当作口音枚举。声音生成后核对是否完整说出定稿，按实际混音对齐字幕；模型返回音频不等于时长、发音或同步通过。流程见 [音频](../contracts/audio.md) 与 [字幕](../contracts/captions.md)。
 
 ## 视频请求与结果
+
+2026-11-09用户明确要求将当前和在制视频处理从Wan2.7切换为Wan3.0。新调用使用`wan/3-0-video`，不将旧packet字符串替换后直接提交；旧taskId、响应、预算及unknown原样保留、只查原结果。五个在制负责聊天沿各自原池试用，不自动增额或重做已提交成片。
+
+Wan3.0采用`reference_video_urls:["ASSET:video"]`，可选`reference_image_urls:["ASSET:image"]`，720P大写、固定整数duration、`audio:false`。本项目先限定单源1–15秒参考与同长整数2–15秒输出（总时长不超过30秒），非整数段须显式重新安排，不能拉伸凑时长；源/结果运动与时轴仍实际审查。保持原音及目标配音在独立音频链路回混，不能沿用2.7的`video_url`、`audio_setting`、`prompt_extend`或`negative_prompt`字段。参考图片不能有透明像素。费用按输入视频加输出视频时长：480P/720P/1080P分别8/16/32 credits每秒，预留向上取整；不使用自动duration=-1避免不确定预算。真实费率/响应仍需对账。当前参数校验见`src/video_localizer/wan3.py`；官方合同https://docs.kie.ai/market/wan/3-0-video ，价格https://kie.ai/wan3.0-video 。
+
+以下2.7参数仅供旧请求恢复，不能用于新制作：
 
 当前 Wan 输入合同为源视频2–10秒、宽高240–4096px、最大100MB，可附绑定文件哈希的 `reference_image`。`duration: 0` 沿用输入长度，`audio_setting: origin` 保留输入声音，`prompt_extend: false` 保留精确提示。保留原声也会保留原语言对白；需要翻译对白时另走配音、分轨和混音流程，不能把声音保留开关当作配音成功。
 

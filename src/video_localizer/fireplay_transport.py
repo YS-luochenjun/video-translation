@@ -10,8 +10,9 @@ def replace_rejected_upload(path, old, value, grant, root):
             'Transport replacement needs an attributed host observation')
     digest = file_hash(path)
     require(grant.get('previous_outbox_sha256') == digest, 'Transport outbox changed')
-    require(len(value['packages']) == 1 and 'bind' not in old['operations'],
-            'Transport recovery replaces one unbound upload only')
+    require(value['packages'] and 'bind' not in old['operations']
+            and (len(value['packages']) == 1 or grant.get('include_unsent_packages') is True),
+            'Transport recovery needs one rejected upload; additional packages must be explicitly unsent')
     package = value['packages'][0]
     matches = [(i, p) for i, p in enumerate(old['packages'], 1)
                if (p['video_index'], p['locale']) == (package['video_index'], package['locale'])]
@@ -36,17 +37,42 @@ def replace_rejected_upload(path, old, value, grant, root):
             and '"message":"request entity too large"' in texts[0],
             'Only a saved explicit HTTP 413 body rejection permits transport replacement')
     require(previous['sha256'] != package['sha256'], 'Transport package has not changed')
+    replacements = [(number, previous, package)]
+    seen = {(package['video_index'], package['locale'])}
+    for extra in value['packages'][1:]:
+        identity = (extra['video_index'], extra['locale'])
+        require(identity not in seen, 'Duplicate transport locale')
+        seen.add(identity)
+        matches = [(i, p) for i, p in enumerate(old['packages'], 1)
+                   if (p['video_index'], p['locale']) == identity]
+        require(len(matches) == 1, 'Expected one existing unsent transport locale')
+        index, prior = matches[0]
+        require(not any(k.endswith('-' + str(index)) for k in old['operations'])
+                and not old.get('upload_attempts', {}).get(f'upload-{index}')
+                and not any((h.get('prior_package', {}).get('video_index'),
+                             h.get('prior_package', {}).get('locale')) == identity
+                            for h in old.get('transport_history', [])),
+                'Additional transport packages must have no dispatched or historical upload')
+        require(prior['sha256'] != extra['sha256'], 'Unsent transport package has not changed')
+        replacements.append((index, prior, extra))
     archive = path.parent / 'transport-revisions' / f'{path.stem}-{digest}.json'
     if not archive.exists():
         write_json(archive, old)
     require(file_hash(archive) == digest, 'Transport archive differs')
     result = copy.deepcopy(old)
-    result['packages'][number - 1] = package
+    for index, prior, replacement in replacements:
+        result['packages'][index - 1] = replacement
     result['operations'].pop(key)
     result.setdefault('transport_history', []).append({
         'prior_outbox': str(archive.relative_to(root)), 'prior_outbox_sha256': digest,
         'prior_operation': operation, 'prior_package': previous,
         'replacement_package': package, 'observation': grant, 'recorded_at': utc_now()})
+    for index, prior, replacement in replacements[1:]:
+        result['transport_history'].append({
+            'prior_outbox': str(archive.relative_to(root)), 'prior_outbox_sha256': digest,
+            'prior_operation': None, 'prior_package': prior, 'replacement_package': replacement,
+            'observation': grant, 'recorded_at': utc_now(),
+            'basis': 'Reviewed smaller package prepared before any upload; same saved gateway413 rejection'})
     result.update(state='ready', transport_revised_at=utc_now())
     write_json(path, result)
     return result

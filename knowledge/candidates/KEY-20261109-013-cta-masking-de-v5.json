@@ -1,0 +1,24 @@
+{
+  "id": "KEY-20261109-013-cta-masking-de-v5",
+  "status": "candidate",
+  "created_at": "2026-11-09T05:31:55+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "de",
+    "source_sha256": "66dff869d37e3802bd0aeabb539be0c06a9042c2aed071eb459d231a06e52b33"
+  },
+  "outcome": "complete_best_available_internal_revise",
+  "hypothesis": "本单一原片德语短CTA中，v4独立片尾ASR为Passt auf dich，v5复用相同TTS并联合调整人声增益和CTA背景约12dB衰减后，实际成片独立片尾ASR为Traust du dich。应对短CTA检查真实混音的首尾而非只核对TTS请求文字；这里只证明此次ASR可辨识度改善，不证明直接听审、每个单变量因果或跨源适用。",
+  "observation": "Actual isolated encoded-tail model transcription changed from Passt auf dich to Traust du dich; same real TTS reused.",
+  "causal_hypothesis": "Voice/background masking likely contributes; gain and ducking changed together, not separately controlled.",
+  "action_basis": "One-source before/after actual encoded-audio comparison, no direct/native hearing.",
+  "limitations": [
+    "One source and German only; ASR small model uncertainty",
+    "Does not approve visual repair, source soundtrack identity or normal-play/native quality",
+    "Not a company preference or activated method"
+  ],
+  "company_preference": false,
+  "promotion": "Requires review; no activation",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

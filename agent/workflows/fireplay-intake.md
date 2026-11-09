@@ -11,6 +11,8 @@
 
 正文、原片、语种、数量等内容版本变化时保留原run/账本，显式审查修订；状态、优先级、更新时间等元数据不触发重做。已完成、有人制作、缺权限/信息各自保留真实状态，其他需求继续。
 
+已开工、尚无任何return操作的需求，仅新增“只翻译文案的口播”且其他业务正文、原片、逐片语种及数量完全不变时，可用`review_scope_narrowing:true`、`scope:ad_narration_only`、精确`reviewed_content_version`和`scope_revision_authority`走受限修订。授权文件须绑定真实人类同意、需求UUID、新旧版本、原账本/额度、源哈希和全部语种；平台正文不充当授权。入口归档旧request并保留原聊天、run、模型、未知费用与预算，记录画面保留、仅广告旁白翻译；其他已开工正文修订仍阻断。
+
 已在制作且部分交付的需求后来变为done时，用户明确要求继续补交，可在decision登记`continue_pending_delivery:true`与当前`continuation_content_version`，并记录该续作的真实authorization_ref/source_quote。仅接受内容版本未变、已有账本和制作成员、原return仍有pending_locales且有绑定权限的续作；不重开制作、不修改平台状态、不覆盖旧回执。普通巡检仍阻止自动重做done需求。
 
 ## 聊天、授权与制作

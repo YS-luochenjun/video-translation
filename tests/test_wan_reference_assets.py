@@ -20,6 +20,11 @@ class WanReferenceAssetTests(unittest.TestCase):
     def setUp(self):
         from workspace_fixture import isolate_mock_provider
         isolate_mock_provider(self)
+        # Legacy 2.7 receipt/asset compatibility, independent of the production default.
+        legacy = patch('video_localizer.model_routing.policy', return_value={
+            'video': 'wan/2-7-videoedit', 'tts': 'google/gemini-2-5-pro-tts'})
+        legacy.start()
+        self.addCleanup(legacy.stop)
         self.temp = tempfile.TemporaryDirectory(dir=TEMP)
         self.addCleanup(self.temp.cleanup)
         self.run = Path(self.temp.name)

@@ -31,6 +31,10 @@ def tool_spec(data, row, payload):
     cid = row['id']
     tag = f'[译制台指令 {cid}]'
     action = row['action']
+    if action == 'sync':
+        data.thread(row['thread_id'])
+        return {'tool': 'wait_threads', 'args': {'targets': [{'hostId': 'local', 'threadId': row['thread_id']}], 'timeoutMs': 0},
+                'target': row['thread_id'], 'instruction': '仅观察一次这个会话。把真实 id/status 与观察时间写入 console_dispatch.py snapshot；读取不算制作活动。'}
     if action == 'message':
         data.thread(row['thread_id'])
         text = payload['text']
@@ -68,14 +72,15 @@ def tool_spec(data, row, payload):
     raise ValueError('未知动作')
 
 
-def prepare(data):
+def prepare(data, command_id=None):
     data.folder.mkdir(parents=True, exist_ok=True)
     result = []
     with data.lock, data._db() as conn:
         conn.execute('BEGIN IMMEDIATE')
         # Previous dispatch lacked a receipt. Losing the host turn must not resend it.
-        conn.execute("UPDATE commands SET status='unknown',updated_at=? WHERE status='dispatching'", (now(),))
-        for row in conn.execute("SELECT * FROM commands WHERE status='queued' ORDER BY created_at LIMIT 4").fetchall():
+        clause, params = (' AND id=?', (command_id,)) if command_id else ('', ())
+        conn.execute("UPDATE commands SET status='unknown',updated_at=? WHERE status='dispatching'"+clause, (now(), *params))
+        for row in conn.execute("SELECT * FROM commands WHERE status='queued'"+clause+" ORDER BY created_at LIMIT 4", params).fetchall():
             p = json.loads(row['payload']);signature = p.pop('_ui_signature', '')
             expected = hmac.new(data._secret(), (row['id']+row['digest']).encode(), hashlib.sha256).hexdigest()
             if fingerprint(p) != row['digest'] or not hmac.compare_digest(signature, expected):
@@ -89,7 +94,7 @@ def prepare(data):
                 continue
             conn.execute("UPDATE commands SET status='dispatching',thread_id=?,updated_at=? WHERE id=?", (spec['target'], now(), row['id']))
             result.append({'command_id': row['id'], 'user_ui_authorized': True, **spec})
-        unknown = [dict(r) for r in conn.execute("SELECT id,thread_id,action FROM commands WHERE status='unknown' ORDER BY created_at LIMIT 8")]
+        unknown = [dict(r) for r in conn.execute("SELECT id,thread_id,action FROM commands WHERE status='unknown'"+clause+" ORDER BY created_at LIMIT 8", params)]
     return {'commands': result, 'unknown_do_not_resend': unknown, 'note': '仅处理真实UI签名命令。保持宿主审批，不绕过，不自动重发unknown。'}
 
 
@@ -131,8 +136,11 @@ def main():
     p.add_argument('--workspace', type=Path, default=Path(__file__).resolve().parents[1])
     p.add_argument('--file', type=Path)
     p.add_argument('--id');p.add_argument('--status', default='accepted')
-    args = p.parse_args();data = ConsoleData(args.workspace)
-    if args.action == 'prepare': result = prepare(data)
+    args = p.parse_args()
+    if args.action == 'prepare' and not args.id:
+        p.error('prepare requires --id for the single user-clicked command')
+    data = ConsoleData(args.workspace)
+    if args.action == 'prepare': result = prepare(data, args.id)
     elif args.action == 'ack': result = acknowledge(data, args.id, json.loads(args.file.read_text()), args.status)
     elif args.action == 'snapshot': result = snapshot(data, json.loads(args.file.read_text()))
     elif args.action == 'heartbeat': heartbeat(data, args.id);result = data.dispatch_status()

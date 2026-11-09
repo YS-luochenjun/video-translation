@@ -9,7 +9,14 @@
   "audio_analysis": "gemini-3-8-flash-openai",
   "separation": "uvr-inst-hq3",
   "tts": "google/gemini-2-5-pro-tts",
-  "video": "wan/2-7-videoedit",
+  "video": "wan/3-0-video",
+  "video_authority": {
+    "authority": "user",
+    "authorization_ref": "user-wan3-upgrade-20261109",
+    "source_quote": "请你在项目中，更换目前使用的wan2.7到wan3.0试试；并协调目前正在跑的视频处理，都更换试试。",
+    "documentation": "https://docs.kie.ai/market/wan/3-0-video",
+    "preserve_original_budgets_and_unknown_jobs": true
+  },
   "automatic_model_fallback": false,
   "codex_cost_gate": false,
   "note": "Codex includes host image editing tools. No separate project OCR or image inference model. Historical results stay readable; new paid requests retain the existing KIE ledger and limits."

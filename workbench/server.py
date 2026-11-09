@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import mimetypes
+import os
 import re
 import secrets
 import threading
@@ -16,6 +17,8 @@ from store import Store
 from collector import Collector
 from video_localizer.ledger import Conflict
 from console_data import ConsoleData
+from console_events import EventHub
+from console_panel import handoff, notified
 
 STATIC = Path(__file__).resolve().parent / 'static'
 CONSOLE_STATIC = Path(__file__).resolve().parent / 'console-static'
@@ -24,7 +27,7 @@ CONSOLE_STATIC = Path(__file__).resolve().parent / 'console-static'
 class WorkbenchServer(ThreadingHTTPServer):
     daemon_threads = True
 
-    def __init__(self, address, root):
+    def __init__(self, address, root, collect=True):
         self.store = Store(root)
         self.cache = None
         self.cache_at = 0
@@ -32,12 +35,18 @@ class WorkbenchServer(ThreadingHTTPServer):
         self.ledger_token = secrets.token_urlsafe(32)
         self.collector = Collector(root, self.store)
         self.console = ConsoleData(root, self.store)
+        self.console_events = EventHub(root, self.console.home, self.invalidate_console)
         super().__init__(address, Handler)
-        self.collector.start()
+        if collect:
+            self.collector.start()
 
     def server_close(self):
         self.collector.close()
+        self.console_events.close()
         super().server_close()
+
+    def invalidate_console(self):
+        with self.console.lock: self.console.cache.clear()
 
     def snapshot(self):
         with self.cache_lock:
@@ -81,8 +90,39 @@ class Handler(BaseHTTPRequestHandler):
     def do_HEAD(self):
         self.route(head=True)
 
+    def console_event_stream(self):
+        hub = self.server.console_events
+        try: revision = hub.subscribe()
+        except RuntimeError as exc:
+            return self.json(503, {'error': str(exc)})
+        self.close_connection = True
+        self.send_response(200)
+        self.send_header('Content-Type', 'text/event-stream')
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('Connection', 'close')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.end_headers()
+        def send(event, value):
+            self.wfile.write(('event: '+event+'\ndata: '+json.dumps(value)+'\n\n').encode())
+            self.wfile.flush()
+        try:
+            send('ready', hub.status())
+            while True:
+                current = hub.wait(revision)
+                if current != revision:
+                    # Coalesce bursts from one CLI action; no file scan or Agent turn.
+                    time.sleep(.6)
+                    revision = hub.revision
+                    send('change', {'revision': revision})
+                else:
+                    self.wfile.write(b': keepalive\n\n'); self.wfile.flush()
+        except (OSError, ConnectionError):
+            pass
+        finally:
+            hub.unsubscribe()
+
     def do_POST(self):
-        if urlsplit(self.path).path == '/api/console/command':
+        if urlsplit(self.path).path in {'/api/console/command', '/api/console/handoff', '/api/console/notified'}:
             return self.console_command()
         if urlsplit(self.path).path == '/api/ledger/action':
             return self.ledger_action()
@@ -112,7 +152,13 @@ class Handler(BaseHTTPRequestHandler):
             if self.headers.get_content_type() != 'application/json' or not 0 < length <= 65536:
                 raise ValueError('请求格式不正确')
             payload = json.loads(self.rfile.read(length))
-            return self.json(200, self.server.console.enqueue(payload))
+            action = urlsplit(self.path).path
+            if action == '/api/console/handoff':
+                result = handoff(self.server.console, payload['command_id'], payload.get('reserve') is True)
+            elif action == '/api/console/notified':
+                result = notified(self.server.console, payload['command_id'], payload['state'])
+            else: result = self.server.console.enqueue(payload)
+            return self.json(200, result)
         except PermissionError as exc:
             self.json(403, {'error': str(exc)})
         except (ValueError, TypeError, KeyError) as exc:
@@ -165,16 +211,24 @@ class Handler(BaseHTTPRequestHandler):
             args = parse_qs(url.query)
             arg = lambda key: args.get(key, [''])[0]
             store = self.server.store
+            if url.path == '/api/console/events':
+                if head: return self.json(200, self.server.console_events.status(), head=True)
+                return self.console_event_stream()
             if url.path == '/api/console/sessions':
                 return self.json(200, self.server.console.overview(arg('q'), arg('state') or 'all', int(arg('page') or 1), arg('archived') == 'true'), head)
+            if url.path == '/api/console/requirements':
+                return self.json(200, self.server.console.requirement_board(), head)
             if url.path == '/api/console/detail':
                 return self.json(200, self.server.console.detail(arg('id'), arg('run') or None), head)
             if url.path == '/api/console/artifact':
                 return self.json(200, self.server.console.artifact(arg('thread'), arg('run'), arg('id')), head)
+            if url.path == '/api/console/knowledge':
+                return self.json(200, self.server.console.knowledge_detail(arg('thread'), arg('run'), arg('id')), head)
             if url.path == '/api/console/automations':
                 return self.json(200, self.server.console.automations(), head)
             if url.path == '/api/console/config':
-                return self.json(200, {'csrf_token': self.server.ledger_token, 'page_size': 8,
+                return self.json(200, {'csrf_token': self.server.ledger_token, 'page_size': 8, 'pid': os.getpid(),
+                                      'events': self.server.console_events.status(),
                                       'bridge': self.server.console.dispatch_status(), 'commands': self.server.console.commands()}, head)
             if url.path in {'/console', '/console/'}:
                 return self.file(CONSOLE_STATIC/'index.html', head)
@@ -274,10 +328,11 @@ def main():
     parser = argparse.ArgumentParser(description='视频本地化工作台与需求台账（本机）')
     parser.add_argument('--port', type=int, default=8768)
     parser.add_argument('--workspace', type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument('--console-only', action='store_true', help='Read existing records without starting a second ledger collector')
     args = parser.parse_args()
     if not (args.workspace / 'AGENTS.md').is_file():
         parser.error('Workspace must contain AGENTS.md')
-    with WorkbenchServer(('127.0.0.1', args.port), args.workspace) as server:
+    with WorkbenchServer(('127.0.0.1', args.port), args.workspace, collect=not args.console_only) as server:
         print(f'Workbench ready: http://127.0.0.1:{server.server_port}', flush=True)
         try:
             server.serve_forever(poll_interval=.5)

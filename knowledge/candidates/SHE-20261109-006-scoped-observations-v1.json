@@ -1,0 +1,50 @@
+{
+  "id": "SHE-20261109-006-scoped-observations-v1",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "1a116f75a29aaed003b46f30e35d5cabf0ae71ae1a910b59cf9245505f7ed6dc",
+    "target_languages": [
+      "th",
+      "ja",
+      "de",
+      "fr",
+      "ar",
+      "hi",
+      "vi"
+    ]
+  },
+  "hypothesis": "Single-source observations: actualWan3textremoval succeededinsamples butcamera/actiondrift rejected; Thai/Japanese logicalphraseboundariesfixedcharacter-split failures; independentencodedhead/tailASR caughtCTA issues withoutprovingnativepronunciation.",
+  "observations": [
+    {
+      "observed": "Wan3native2s60frameresult clearedlargeEnglish but at1.966s changedoriginaldistantwallclimb/buildinginto snakescalecloseup; API success duration/framecountmatchdidnotpreserveaction.",
+      "causal_hypothesis": "Generativecamera/actiondrift, exactreasonunproven.",
+      "action_basis": "Rejectfullframemasterafteractualsource/resultpairs; donotexpand basedonlyAPIstate/duration.",
+      "confidence": "observed_single_source"
+    },
+    {
+      "observed": "Fixedcharacterchunking splitThai combiningsequence andJapanese新しい adjective; V3completephraseboundaries removedobserved split.",
+      "causal_hypothesis": "Chunkingmethodignoredscriptlexicalboundaries.",
+      "action_basis": "Manuallogicalphrasegroupspreservedexactcopy, actualASRwordboundariesstilldeterminetiming. Eachlocaleactualglyphatlas reviewed.",
+      "confidence": "same_source_before_after"
+    },
+    {
+      "observed": "GermanandFrench shortCTA encodedASR uncertain; bounded realnewCTA takes Jetzt downloaden/Téléchargez maintenant recognised separately in currentencodedtail. Arabicnew نزّل الآن recognised. Hindi negative rawmatphoneticuncertain persists.",
+      "causal_hypothesis": "Shortaudioarticulation/compression/ASRlimit allpossible, notdistinguished.",
+      "action_basis": "Bindrealnewtake/script/cuts/hash andindependentlydecodeencodedtail; donotclaim directlistening or nativepronunciationacceptance.",
+      "confidence": "ASR_supported_not_perceptual"
+    }
+  ],
+  "outcome": "revise",
+  "evidence_case": "knowledge/examples/SHE-20261109-006-scoped-observations-v1",
+  "evidence_manifest_sha256": "c4887bdbd1262fbd492b420b7419543132c0af429a1a3ae4b456c882935b1113",
+  "company_preference": false,
+  "limitations": [
+    "Completeall16outputs externallyaccepted in Fireplay; internalvisualfinish2/5revise, no user/companyqualityacceptance.",
+    "Wan3evidence6finitepairs,nofullmotionacceptance; sourcecopy/photoownershipnotexpanded.",
+    "Hindi/Vietnamese ASRphoneticuncertaintiesretained."
+  ],
+  "next_action": "Source-specificcandidateonly; no automaticpolicy/modelqualitypromotion. Independentsourcecontrastneededbeforebroadening.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

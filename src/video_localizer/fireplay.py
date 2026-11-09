@@ -353,6 +353,12 @@ def register(code, spec, decision=None, root=ROOT):
                 'content_version': old['content_version'], 'path': archive.relative_to(root).as_posix(),
                 'reason': decision['revision_reason'], 'reviewed_at': utc_now(), 'scope': 'quantity_only'})
             old['content_version'] = snap['content_version']
+        elif old and old['content_version'] != snap['content_version'] and decision.get('review_scope_narrowing'):
+            from .fireplay_scope_revision import accept_narration_only
+            old = accept_narration_only(old, snap, sources, decision, targets, path.parent, Path(root))
+        elif old and old['content_version'] != snap['content_version'] and decision.get('review_locale_addition'):
+            from .fireplay_locale_revision import accept
+            old = accept(old, snap, sources, decision, targets, path.parent, Path(root))
         elif old and old['content_version'] != snap['content_version'] and decision.get('reviewed_content_version'):
             require(decision['reviewed_content_version'] == old['content_version'] and decision.get('revision_reason'),
                     'Revision review must identify the exact previous version and actual differences')
@@ -584,6 +590,10 @@ def start(code, authority, index=1, root=ROOT):
         members = [f'{batch_id}-{i:02d}' for i in range(1, len(video['targets']) + 1)]
         if batch_path.exists():
             batch = read_json(batch_path)
+            if batch['targets'] != video['targets']:
+                from .fireplay_locale_revision import extend_batch
+                batch = extend_batch(record, video, batch, members, Path(root))
+                write_json(batch_path, batch)
             require(batch['source_sha256'] == video['source']['sha256'] and batch['targets'] == video['targets']
                     and batch['request_budget'] == record['budget'] and batch['members'] == members, 'Existing batch belongs to different inputs')
         else:

@@ -49,6 +49,46 @@ class TransportRecoveryTests(unittest.TestCase):
                     replace_rejected_upload(path, old, value, grant, root)
                 self.assertEqual(read_json(path), old)
 
+    def test_413_can_replace_explicitly_unsent_siblings_without_discarding_history(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); path, old, value, grant = self.fixture(root)
+            old['packages'].append({'video_index': 1, 'locale': 'ja', 'sha256': 'large-unsent'})
+            write_json(path, old); grant['previous_outbox_sha256'] = file_hash(path)
+            grant['include_unsent_packages'] = True
+            value['packages'].append({'video_index': 1, 'locale': 'ja', 'sha256': 'small-reviewed'})
+            result = replace_rejected_upload(path, old, value, grant, root)
+            self.assertEqual(result['packages'][2]['sha256'], 'small-reviewed')
+            self.assertEqual(result['operations']['upload-1'], old['operations']['upload-1'])
+            self.assertIsNone(result['transport_history'][1]['prior_operation'])
+            self.assertEqual(read_json(root / result['transport_history'][1]['prior_outbox']), old)
+
+    def test_unsent_sibling_option_never_replaces_dispatched_or_historical_writes(self):
+        for state in ['verified', 'unknown', 'attempt_history', 'transport_history']:
+            with self.subTest(state=state), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp); path, old, value, grant = self.fixture(root)
+                prior = {'video_index': 1, 'locale': 'ja', 'sha256': 'large'}
+                old['packages'].append(prior)
+                if state in ['verified', 'unknown']:old['operations']['upload-3'] = {'state': state}
+                if state == 'attempt_history':old['upload_attempts'] = {'upload-3': [{}]}
+                if state == 'transport_history':old['transport_history'] = [{'prior_package': prior}]
+                write_json(path, old); grant.update(previous_outbox_sha256=file_hash(path), include_unsent_packages=True)
+                value['packages'].append({'video_index': 1, 'locale': 'ja', 'sha256': 'small'})
+                with self.assertRaises(WorkflowError):replace_rejected_upload(path, old, value, grant, root)
+                self.assertEqual(read_json(path), old)
+
+    def test_unsent_sibling_replacement_requires_opt_in_and_unique_locales(self):
+        for case in ['not_enabled', 'duplicate']:
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp); path, old, value, grant = self.fixture(root)
+                old['packages'].append({'video_index': 1, 'locale': 'ja', 'sha256': 'large'})
+                value['packages'].append({'video_index': 1, 'locale': 'ja', 'sha256': 'small'})
+                if case == 'duplicate':
+                    grant['include_unsent_packages'] = True
+                    value['packages'].append(copy.deepcopy(value['packages'][1]))
+                write_json(path, old); grant['previous_outbox_sha256'] = file_hash(path)
+                with self.assertRaises(WorkflowError):replace_rejected_upload(path, old, value, grant, root)
+                self.assertEqual(read_json(path), old)
+
 
 if __name__ == '__main__':
     unittest.main()

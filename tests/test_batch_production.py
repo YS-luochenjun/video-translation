@@ -152,7 +152,7 @@ class BatchBudgetTests(unittest.TestCase):
         self.reserve(run, 'a'*64, 60)
         limits = {'max_paid_jobs_per_run': 2, 'max_estimated_credits_per_run': 60}
         client = Mock()
-        packet = {'payload': {'model': 'wan/2-7-videoedit'}, 'estimated_credits': 1}
+        packet = {'payload': {'model': 'wan/3-0-video'}, 'estimated_credits': 1}
         with patch.object(workflow, 'prepare_packet', return_value=packet), patch.object(workflow, 'current_plan',
                 return_value={'segments': [{'id': 's001'}]}), patch.object(workflow, 'execution_limits', return_value=limits):
             with self.assertRaisesRegex(WorkflowError, 'Whole-request'):

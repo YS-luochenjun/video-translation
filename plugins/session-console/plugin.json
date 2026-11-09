@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "localization-session-console",
+  "version": "0.3.1",
+  "description": "广告视频本地化项目的真实会话、节点产物与宿主指令控制台。",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "译制台",
+        "shortDescription": "查看真实会话、阶段产物与指令回执",
+        "longDescription": "本机事件更新的真实控制台。没有定时 Agent 轮询；仅用户点击时签名保存指令并通知宿主，保留原会话与回执。",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "brandColor": "#246b56"
+      }
+    }
+  }
+}

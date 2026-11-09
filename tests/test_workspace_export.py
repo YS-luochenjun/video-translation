@@ -88,6 +88,21 @@ class FreshWorkspaceTests(unittest.TestCase):
             self.assertFalse((self.target / name).exists(), name)
             self.assertTrue((self.source / name).exists(), "Export must retain installed development assets")
 
+    def test_export_keeps_plugin_source_without_machine_bindings(self):
+        public = ('plugins/session-console/mcp.json', 'plugins/session-console/server.py',
+                  '.agents/plugins/marketplace.json')
+        private = ('plugins/session-console/workspace.local.json',
+                   'plugins/session-console/.env', 'plugins/session-console/__pycache__/server.pyc')
+        for name in public:
+            self.put(name, b'portable plugin source')
+        for name in private:
+            self.put(name, b'local binding')
+        workspace.export(self.target, self.source)
+        for name in public:
+            self.assertEqual((self.target/name).read_bytes(), b'portable plugin source')
+        for name in private:
+            self.assertFalse((self.target/name).exists(), name)
+
     def test_nested_configuration_and_context_survive_init_and_export(self):
         profile = "config/profiles/company-default/profile.json"
         method = "config/profiles/company-default/method.md"

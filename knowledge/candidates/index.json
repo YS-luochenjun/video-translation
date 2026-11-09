@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 66,
-    "no_adoption_record": 478,
+    "no_adoption_record": 480,
     "synthetic_only": 4
   },
   "entries": [
@@ -2904,6 +2904,29 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "KEY-20261109-013-cta-masking-de-v5",
+      "path": "knowledge/candidates/KEY-20261109-013-cta-masking-de-v5.json",
+      "original_sha256": "80053274e4c1d74780df487d8296828349953ab3fbde7869f482f82b48e7eafb",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "de",
+        "source_sha256": "66dff869d37e3802bd0aeabb539be0c06a9042c2aed071eb459d231a06e52b33"
+      },
+      "historical_outcome": "complete_best_available_internal_revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/93862ef48820a69c573eeca18ec0e0ce33b29fbf470193764bee7ca487e44db0.json",
+        "decision_sha256": "1de6172f06759f6163030b0c1f1fe3c9a8c19fee9c53668ec6e33c7def91f114",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "Before any method promotion, review preserved paired tail audio with a native listener and verify one independent source using frozen gain-only/duck-only candidates; until then retain this exact-source German observation only."
+      },
+      "current_targets": [],
+      "hypothesis_sha256": "14c97bfff9d2bbefdb3df7c3df91af7beddc216453e0ff5aaec0784416f0554e"
     },
     {
       "id": "MOG-20261027-010-01-08d5f7c403",
@@ -8926,6 +8949,37 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "SHE-20261109-006-scoped-observations-v1",
+      "path": "knowledge/candidates/SHE-20261109-006-scoped-observations-v1.json",
+      "original_sha256": "63b82d44e266a3300c055753d5e8d1074725f7cd202c85d58bd26bc728235e47",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "1a116f75a29aaed003b46f30e35d5cabf0ae71ae1a910b59cf9245505f7ed6dc",
+        "target_languages": [
+          "th",
+          "ja",
+          "de",
+          "fr",
+          "ar",
+          "hi",
+          "vi"
+        ]
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/a139ad79a8f746a3484c6c77e563ac5ba3fdf1491a5f79c53a750bf5e16eaef9.json",
+        "decision_sha256": "c49d21265e2ebbd8d5c14e9c803c84f028ed5226d8dc9d9170e41c948658fd6a",
+        "resolution": "pending",
+        "closed": false,
+        "next_action": "Keep this exact-source candidate; require paired independent-source tests before broader claims and native listening before pronunciation acceptance. Do not repeat the same summary or activate policy from platform acceptance."
+      },
+      "current_targets": [],
+      "hypothesis_sha256": "cbbe356735abd0acf91d0ba54ee09d783a9d364f86a69294a87de5a0cf0d3d68"
     },
     {
       "id": "SHE031-hi-tail-model-disagreement-v1",

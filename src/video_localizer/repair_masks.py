@@ -3,7 +3,7 @@ from .common import require
 
 
 def select(frame, region, spec, cv2, np):
-    require(set(spec) <= {'hsv_ranges', 'open_kernel', 'components', 'fill_holes', 'dilate'},
+    require(set(spec) <= {'hsv_ranges', 'near_hsv_ranges', 'near_radius', 'open_kernel', 'components', 'fill_holes', 'dilate'},
             'Unknown mask selector setting')
     ranges = spec.get('hsv_ranges')
     require(isinstance(ranges, list) and ranges, 'Explicit HSV ranges required')
@@ -16,6 +16,24 @@ def select(frame, region, spec, cv2, np):
                 and all(a <= b for a,b in zip(*bounds)), 'Invalid HSV range')
         mask |= cv2.inRange(hsv, np.array(bounds[0],np.uint8), np.array(bounds[1],np.uint8))
     mask &= region
+    if 'near_hsv_ranges' in spec:
+        # Source caption outlines can distinguish white lettering from unrelated
+        # highlights, jewelry and native white UI. Fill closed glyph interiors
+        # only after this source-color proximity test.
+        nearby = spec['near_hsv_ranges']
+        radius = spec.get('near_radius', 8)
+        require(isinstance(nearby,list) and nearby and type(radius) is int and 1<=radius<=64,
+                'Explicit nearby HSV ranges and bounded radius required')
+        support = np.zeros_like(mask)
+        for bounds in nearby:
+            require(isinstance(bounds,list) and len(bounds)==2 and all(len(v)==3 for v in bounds)
+                    and all(type(v) is int and 0<=v<=limit for row in bounds for v,limit in zip(row,(179,255,255)))
+                    and all(a<=b for a,b in zip(*bounds)), 'Invalid nearby HSV range')
+            support |= cv2.inRange(hsv,np.array(bounds[0],np.uint8),np.array(bounds[1],np.uint8))
+        support = cv2.dilate(support,cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(2*radius+1,2*radius+1)))
+        mask &= support
+    else:
+        require('near_radius' not in spec, 'Nearby radius requires nearby HSV ranges')
     if 'open_kernel' in spec:
         kernel = spec['open_kernel']
         require(len(kernel)==2 and all(type(v) is int and 1<=v<=31 for v in kernel), 'Invalid opening kernel')

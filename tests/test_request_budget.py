@@ -77,13 +77,13 @@ class RequestBudgetTests(unittest.TestCase):
         opener = Mock()
         client = KieClient('synthetic-key', opener)
         with self.assertRaisesRegex(WorkflowError, 'executor reservation'):
-            client.create({'model': 'wan/2-7-videoedit'})
+            client.create({'model': 'wan/3-0-video'})
         opener.open.assert_not_called()
         budgets.reserve(self.run, 'a'*64, 5)
         opener.open.return_value = io.BytesIO(json.dumps({'code': 200, 'data': {'taskId': 'fixture'}}).encode())
-        self.assertEqual(client.create({'model': 'wan/2-7-videoedit'}), 'fixture')
+        self.assertEqual(client.create({'model': 'wan/3-0-video'}), 'fixture')
         with self.assertRaisesRegex(WorkflowError, 'already dispatched'):
-            client.create({'model': 'wan/2-7-videoedit'})
+            client.create({'model': 'wan/3-0-video'})
         self.assertEqual(opener.open.call_count, 1)
 
     def test_existing_unbound_runs_are_imported_before_new_first_run_can_spend(self):

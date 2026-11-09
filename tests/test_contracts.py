@@ -50,7 +50,7 @@ class ContractTests(unittest.TestCase):
     def test_post_timeout_is_ambiguous_but_read_timeout_is_not(self):
         client = KieClient("fake", FakeOpener(error=URLError("timeout")))
         with self.assertRaises(ApiError) as caught:
-            client.create({"model": "wan/2-7-videoedit"})
+            client.create({"model": "wan/3-0-video"})
         self.assertTrue(caught.exception.ambiguous)
         with self.assertRaises(ApiError) as caught:
             client.credits()
@@ -59,7 +59,7 @@ class ContractTests(unittest.TestCase):
     def test_missing_task_id_is_ambiguous(self):
         client = KieClient("fake", FakeOpener({"code": 200, "data": {}}))
         with self.assertRaises(ApiError) as caught:
-            client.create({"model": "wan/2-7-videoedit"})
+            client.create({"model": "wan/3-0-video"})
         self.assertTrue(caught.exception.ambiguous)
 
     def test_pending_result_is_not_a_video(self):
@@ -112,7 +112,7 @@ class SubmissionTests(unittest.TestCase):
         self.run_dir = self.root / "runs/test"
         (self.run_dir / "jobs").mkdir(parents=True)
         write_json(self.root / "config/workspace.json", {"max_paid_jobs_per_run": 2, "max_estimated_credits_per_run": 250})
-        self.packet = {"plan_id": "plan", "segment": "s001", "payload": {"model": "wan/2-7-videoedit", "input": {}}, "assets": {}, "estimated_credits": 60}
+        self.packet = {"plan_id": "plan", "segment": "s001", "payload": {"model": "wan/3-0-video", "input": {}}, "assets": {}, "estimated_credits": 60}
         # These submission-unit tests replace prepare_packet; supply the plan
         # selector it normally validates as well, including the no-reuse case.
         plan_patch=patch.object(workflow,"current_plan",return_value={"id":"plan","segments":[{"id":"s001"}]})

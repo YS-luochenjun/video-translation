@@ -76,6 +76,21 @@ class LocaleAudioTests(unittest.TestCase):
         self.assertIn('no source comparison',self.calls[0][1])
         self.assertTrue(result['analysis'].endswith('audio-candidate-transcript.json'))
 
+    def test_explicit_narration_scope_reaches_actual_comparison_and_journal(self):
+        write_json(self.run/'inputs/request.json',{'target_language':'ar',
+            'scope_revision_authority':'actual-human-grant',
+            'production_scope':{'speech':'advertising_narration_only','authority_ref':'actual-human-grant'}})
+        write_json(self.run/'analysis/inventory.json',{
+            'scope_evidence':{'authority_ref':'actual-human-grant'},
+            'speech_segments':[{'id':'a001','start':0,'end':1.5}],
+            'preserved_speech_segments':[{'id':'a002','start':1.7,'end':3.2}]})
+        result=self.inspect()
+        prompt=self.calls[-1][1]
+        self.assertIn('Source game demonstration speech intentionally retained',prompt)
+        self.assertIn('missing or clipped translated words still fail',prompt)
+        saved=json.loads((self.run/'jobs'/(result['job']+'.json')).read_text())
+        self.assertEqual(saved['prompt'],prompt)
+
     def test_upload_retry_preserves_failure_and_does_not_repeat_paid_post(self):
         original = self.client.upload
         self.client.upload = lambda path: (_ for _ in ()).throw(ApiError('KIE transport/response failure (URLError); inspect provider log before resubmitting', ambiguous=True))

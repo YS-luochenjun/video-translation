@@ -9,7 +9,7 @@ from . import audio, media
 from .common import file_hash, guarded, inside, lock, object_hash, read_json, require, require_number, utc_now, write_json
 from .kie import ApiError, KieClient, download
 
-VIDEO_MODELS = ('wan/2-7-videoedit', 'bytedance/seedance-2-fast', 'wan/2-6-flash-video-to-video', 'bytedance/seedance-2-mini')
+VIDEO_MODELS = ('wan/3-0-video', 'wan/2-7-videoedit', 'bytedance/seedance-2-fast', 'wan/2-6-flash-video-to-video', 'bytedance/seedance-2-mini')
 GEMINI_TTS_MODELS = ('google/gemini-2-5-pro-tts', 'google/gemini-3-1-flash-tts', 'google/gemini-3-8-flash-lite-tts')
 
 
@@ -45,8 +45,11 @@ def packet(run, relative):
         require(isinstance(inputs.get('prompt'), str) and 0 < len(inputs['prompt']) <= 5000, 'Video probe needs a bounded prompt')
         require('video' in data.get('assets', {}) and data.get('source_interval') and len(data['source_interval']) == 2, 'Video probe needs a source interval and clip')
         start, end = data['source_interval']
-        require(0 <= start < end and end - start <= 10, 'Diagnostic video probe interval must be at most 10s')
-        if model == 'wan/2-6-flash-video-to-video':
+        require(0 <= start < end and end - start <= (15 if model == 'wan/3-0-video' else 10), 'Diagnostic video probe interval exceeds model input limit')
+        if model == 'wan/3-0-video':
+            from .wan3 import validate
+            validate(data)
+        elif model == 'wan/2-6-flash-video-to-video':
             duration=inputs.get('duration')
             require(duration in ('5','10') and abs(end-start-int(duration))<=.15,'Wan Flash probe needs its actual 5/10s interval')
             require(inputs.get('video_urls')==['ASSET:video'] and inputs.get('audio') is False
@@ -152,11 +155,18 @@ def packet(run, relative):
         if video_model and name == 'video':
             meta = media.probe(path)
             require(abs(meta['duration'] - (data['source_interval'][1]-data['source_interval'][0])) <= .15, 'Video probe clip duration differs from interval')
+            if model == 'wan/3-0-video':
+                from .wan3 import validate_media
+                validate_media(path, meta)
         elif video_model:
-            require(model == 'wan/2-7-videoedit' and name == 'image'
-                    and inputs.get('reference_image') == 'ASSET:image',
+            require(name == 'image' and ((model == 'wan/2-7-videoedit'
+                    and inputs.get('reference_image') == 'ASSET:image') or (model == 'wan/3-0-video'
+                    and inputs.get('reference_image_urls') == ['ASSET:image'])),
                     'Video task has an unsupported or unbound reference asset')
             _reference_image(path)
+            if model == 'wan/3-0-video':
+                from .wan3 import validate_image
+                validate_image(path)
         else:
             require(audio.inspect(path)[0]['has_track'], 'Audio task asset has no audio')
     if model == 'ai-music-api/separate-vocals':
