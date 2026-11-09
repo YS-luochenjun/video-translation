@@ -140,7 +140,7 @@ def related_lessons(events, records):
             if any(record["scope"] == event["scope"] and record["visibility"] == event["visibility"] for event in events)]
 
 
-def packet(root, state, config):
+def packet(root, state, config, *, oversized=None):
     events = []
     pending = {(e["path"], e["sha256"]) for e in state.get("pending", [])}
     fresh = [e for e in inventory(root, state) if (e["path"], e["sha256"]) not in pending]
@@ -181,14 +181,22 @@ def packet(root, state, config):
     result = {"schema_version": 1, "events": events, "existing": related_lessons(events, existing), "active_rules": rules,
               "analysis_contract": "Quote each source via record JSON pointer; separate unproven cause from action. "
               "Same-source repairs are one source. no_new_knowledge needs a source-specific reason; gaps stay pending."}
-    # Bound by bytes as well as record count. Keep complete originals and their
-    # hashes; deferred tail records stay fresh in the unchanged checkpoint.
-    # Never skip an oversized first-priority record or silently truncate it.
-    while len(events) > 1 and len(json.dumps(result, ensure_ascii=False).encode("utf-8")) > config["max_packet_bytes"]:
-        events.pop()
-        result['existing'] = related_lessons(events, existing)
-    require(len(json.dumps(result, ensure_ascii=False).encode("utf-8")) <= config["max_packet_bytes"],
-            "One curation record plus required context exceeds size limit; curate this large record explicitly")
+    def batch(items):
+        return {**result, "events": items, "existing": related_lessons(items, existing)}
+
+    def fits(items):
+        return len(json.dumps(batch(items), ensure_ascii=False).encode()) <= config["max_packet_bytes"]
+
+    require(fits([]), "Active curation rules alone exceed packet size limit")
+    selected = []
+    for event in events:
+        if fits([*selected, event]):
+            selected.append(event)
+        elif oversized is not None and not fits([event]):
+            identity = {key: val for key, val in event.items() if key != "record"}
+            oversized.append({**identity, "reason": "Complete evidence plus context exceeds packet limit. "
+                              "Review the original by path and hash or supply a smaller scoped observation."})
+    result = batch(selected)
     return result
 
 
@@ -253,8 +261,10 @@ def validate(response, value):
             known = {r["id"] for r in value.get("active_rules", [])}
             require(isinstance(proposal["target_ids"], list) and all(x in known for x in proposal["target_ids"]), "Unknown adoption proposal target")
             require(proposal["action"] != "merge_existing" or proposal["target_ids"], "Merge proposal needs an active method")
-        require(group["same_meaning"] is True and isinstance(group["conflict_with_rules"], bool), "Merge judgment missing")
         require(isinstance(group["event_ids"], list) and group["event_ids"], "Empty curation group")
+        merging = len(group["event_ids"]) > 1 or bool(group["merge_into"])
+        require(isinstance(group["same_meaning"], bool) and (not merging or group["same_meaning"])
+                and isinstance(group["conflict_with_rules"], bool), "Merge judgment missing")
         require(all(isinstance(e, str) and e in events for e in group["event_ids"]), "Unknown curation source")
         sources = [events[e] for e in group["event_ids"]]
         require(sources[0]["scope"] and all(e["scope"] == sources[0]["scope"] and e["visibility"] == sources[0]["visibility"]
@@ -279,9 +289,9 @@ def validate(response, value):
     require(len(used) == len(set(used)) and set(used) == set(events), "Each new event must be handled exactly once")
 
 
-def persist(root, state, value, response):
+def persist(root, state, value, response, oversized=()):
     validate(response, value)
-    for event in value["events"]:
+    for event in [*value["events"], *oversized]:
         require(file_hash(inside(root, event["path"])) == event["sha256"], "Source changed during curation; retry without advancing checkpoint")
         require(all(file_hash(inside(root, ref["path"])) == ref["sha256"] for ref in event.get("related_records", [])),
                 "Related source changed during curation; prepare again")
@@ -345,12 +355,13 @@ def persist(root, state, value, response):
                    for item in response.get("no_new_knowledge", []))
     updated = copy.deepcopy(state)
     updated["seen_record_versions"].extend(handled)
-    current_paths = {e["path"] for e in value["events"]}
+    current_paths = {e["path"] for e in [*value["events"], *oversized]}
     from .knowledge_review import closed_sources
     closed = closed_sources(root)
     updated["pending"] = [e for e in state.get("pending", []) if e["path"] not in current_paths
                           and (e["path"], e["sha256"]) not in closed]
     updated["pending"].extend({**events[e["event_id"]], "reason": e["reason"]} for e in response["pending"])
+    updated["pending"].extend(oversized)
     updated["lessons"] = list(heads.values())
     updated["artifacts"] = state.get("artifacts", []) + artifacts
     updated["last_successful_run_at"] = utc_now()
@@ -391,8 +402,11 @@ def _execute(root, due_only, prepare_only, response_file, engine, now):
             return {"state": "not_due", "paid_media_model_credits": 0}
         frozen = protected(root)
         learning.audit(root)
-        value = packet(root, state, config)
+        oversized = []
+        value = packet(root, state, config, oversized=oversized)
         identifier = object_hash({"packet": value, "prompt_sha256": file_hash(inside(root, config["prompt"])), "engine": config["engine"]})
+        if oversized:
+            identifier = object_hash([identifier, oversized])
         job = root / STATE / "jobs" / identifier
         job.mkdir(parents=True, exist_ok=True)
         write_json(job / "packet.json", value)
@@ -414,7 +428,7 @@ def _execute(root, due_only, prepare_only, response_file, engine, now):
         # Verify the reasoning step before allowing it to affect even candidate files.
         require(protected(root) == frozen, "Protected rules/config changed during curation; no checkpoint committed")
         write_json(response_path, response)
-        updated, artifacts, writes = persist(root, state, value, response)
+        updated, artifacts, writes = persist(root, state, value, response, oversized)
         for target, record in writes:
             if not target.exists():
                 write_json(target, record)
@@ -424,7 +438,7 @@ def _execute(root, due_only, prepare_only, response_file, engine, now):
         path = root / STATE / "checkpoint.json"
         write_json(root / STATE / "checkpoint.previous.json", state)
         report = {"id": identifier, "at": utc_now(), "state": "pending" if updated["pending"] else "curated" if value["events"] else "idle",
-                  "new_records": len(value["events"]), "groups": len(response["groups"]),
+                  "new_records": len(value["events"]), "oversized_deferred": len(oversized), "groups": len(response["groups"]),
                   "no_new_knowledge": len(response.get("no_new_knowledge", [])),
                   "merged": sum(bool(g["merge_into"]) or len(g["event_ids"]) > 1 for g in response["groups"]),
                   "pending": len(updated["pending"]), "conflicts": sum(g["conflict_with_rules"] for g in response["groups"]),

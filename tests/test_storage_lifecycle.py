@@ -91,6 +91,22 @@ class StorageLifecycleTests(unittest.TestCase):
         self.assertIn('runs/old', self.paths())
         self.assertIn('work/runs/old', self.paths())
 
+    def test_empty_receipt_retains_owner_and_dependencies_only(self):
+        self.close('ready')
+        self.close('needed')
+        self.close('missing')
+        write_json(self.root / 'runs/missing/input.json', {'asset': 'runs/needed/base.mp4'})
+        gap = 'runs/missing/analysis/receipt.json'
+        self.file(gap, b' \n')
+        plan = self.plan()
+        self.assertEqual([row['path'] for row in plan['selected']], ['runs/ready'])
+        self.assertIn({'path': 'runs/missing', 'reason': 'unreadable_json_receipt',
+                       'receipts': [gap]}, plan['retained'])
+        result = project_storage.execute(self.root, plan['fingerprint'], now=self.now)
+        self.assertEqual([row['path'] for row in result['deleted']], ['runs/ready'])
+        self.assertTrue((self.root / gap).exists())
+        self.assertTrue((self.root / 'runs/needed').is_dir())
+
     def test_live_cross_run_reference_keeps_producer(self):
         self.close('old')
         live = self.run_folder('live')

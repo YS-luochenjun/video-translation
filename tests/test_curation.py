@@ -47,6 +47,21 @@ class CurationTests(unittest.TestCase):
     def run_hook(self):
         return curation.execute(self.root, engine=lambda value, *args: self.answer(value))
 
+    def test_oversized_feedback_is_pending_while_other_sources_progress(self):
+        big = self.event("a", private=True)
+        original = read_json(big)
+        write_json(big, {**original, "outcome": "counterexample", "details": "x" * 181000})
+        self.event("b")
+        report = self.run_hook()
+        self.assertEqual((report['oversized_deferred'], report['groups']), (1, 1))
+        pending, = curation.checkpoint(self.root)['pending']
+        self.assertEqual((pending['sha256'], pending['scope'], pending['visibility']),
+                         (file_hash(big), self.scope, 'private'))
+        self.assertNotIn('record', pending)
+        self.assertEqual(self.run_hook()['new_records'], 0)
+        write_json(big, original)
+        self.assertEqual(self.run_hook()['pending'], 0)
+
     def test_adoption_proposal_is_retained_but_never_activates(self):
         self.event("one")
         def engine(value, *args):
@@ -70,6 +85,19 @@ class CurationTests(unittest.TestCase):
             return response
         with self.assertRaisesRegex(WorkflowError, "Unknown adoption"):
             curation.execute(self.root, engine=engine)
+
+    def test_same_meaning_judgment_required_only_for_merges(self):
+        self.event("one")
+        def single(value, *args):
+            response = self.answer(value)
+            response['groups'][0]['same_meaning'] = False
+            return response
+        report = curation.execute(self.root, engine=single)
+        self.assertEqual(report['groups'], 1)
+        self.event("two")
+        self.event("three")
+        with self.assertRaisesRegex(WorkflowError, "Merge judgment"):
+            curation.execute(self.root, engine=single)
 
     def test_baseline_is_explicit_and_changes_are_incremental(self):
         with self.assertRaisesRegex(WorkflowError, "already exists"):

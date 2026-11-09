@@ -73,7 +73,10 @@ def authorized(root, reset=False):
 
 def _closed(root, name):
     p = root / 'state/storage-closed' / (name + '.json')
-    return read_json(p) if p.exists() else None
+    from .storage_candidates import read_receipt
+    gaps = []
+    record = read_receipt(p, root, gaps) if p.exists() else None
+    return None if gaps else record
 
 
 def note_closed(run):
@@ -146,14 +149,22 @@ def preview(root, reset=False, now=None):
         transient, retained, dependencies, references = select(
             root, maintenance, limits.get('pinned_runs', []), limits.get('pinned_sources', []), now)
         selections.extend(transient)
+        incomplete = {item['path'] for item in retained if item['reason'] == 'unreadable_json_receipt'}
+        for entry in rows:
+            if 'runs/' + str(entry.get('origin_run_id')) in incomplete:
+                incomplete.update((entry['package'], 'media/' + entry['source_sha256']))
         unreferenced = []
         for row in selections:
+            if row['path'] in incomplete:
+                retained.append({'path': row['path'], 'reason': 'owner_missing_evidence'})
+                continue
             dependency_paths = [row['path']]
             presentation = row.get('entry', {}).get('presentation')
             if presentation:
                 dependency_paths.append(presentation)
-            referenced = any(path.casefold() in text for path in dependency_paths for text in references)
-            if row['path'].startswith(('outputs/', 'work/')) and referenced:
+            if row['path'].startswith(('outputs/', 'work/')) and any(
+                path.casefold() in text for path in dependency_paths for text in references
+            ):
                 retained.append({'path': row['path'], 'reason': 'referenced_by_live_task'})
             else:
                 unreferenced.append(row)

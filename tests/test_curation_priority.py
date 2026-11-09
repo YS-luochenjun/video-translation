@@ -42,5 +42,7 @@ class CurationPriorityTests(unittest.TestCase):
                 self.assertEqual(packet['events'][0]['record']['details'],'x'*1600)
                 self.assertLessEqual(len(json.dumps(packet,ensure_ascii=False).encode()),3000)
                 self.assertEqual(state,{'pending':[],'seen_record_versions':[]})
-                with self.assertRaisesRegex(WorkflowError,'One curation record'):
-                    curation.packet(root,state,{'max_records':24,'max_packet_bytes':500})
+                deferred = []
+                empty = curation.packet(root,state,{'max_records':24,'max_packet_bytes':500},oversized=deferred)
+                self.assertEqual(empty['events'], [])
+                self.assertEqual([row['sha256'] for row in deferred], [r['sha256'] for r in records])
