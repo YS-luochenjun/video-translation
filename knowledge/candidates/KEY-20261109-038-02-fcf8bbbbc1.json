@@ -1,0 +1,43 @@
+{
+  "id": "KEY-20261109-038-02-fcf8bbbbc1",
+  "status": "candidate",
+  "created_at": "2026-11-09T09:42:19+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "es",
+    "source_sha256": "e509c6769ff438fb885cde09c1f0d9da318b0bc7ff323c0066295ce9fadb2435"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "KEY-20261109-038-02",
+    "video_sha256": "fcf8bbbbc141dc6242ec46e281a00fa0e5868301b1fec6daa2bc95e121a1d819",
+    "quality_sha256": "942bb18a188b21c7d4917282210cd3f9375d3172565c4c55cd796726e34606c3"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "clean_base_instance_unreviewed:t002",
+      "background_reconstruction_or_unreviewed:t002",
+      "visible_coverup_or_unreviewed:t002",
+      "source_style_motion_unreviewed_or_failed:t001",
+      "source_style_motion_unreviewed_or_failed:t002",
+      "native_motion_unreviewed",
+      "music_effects_unreviewed",
+      "caption_sync_unverified",
+      "visual_finish_blocking_or_unspecified_defect"
+    ],
+    "reviewer": "Codex same_agent; actual encoded Whisper small no-VAD with explicit locale hint, not direct/native listening",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

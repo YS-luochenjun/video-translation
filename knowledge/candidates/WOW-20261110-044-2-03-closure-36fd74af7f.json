@@ -1,0 +1,33 @@
+{
+  "id": "WOW-20261110-044-2-03-closure-36fd74af7f",
+  "status": "candidate",
+  "created_at": "2026-11-10T16:17:24+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "da506d89426318e6b0946057594204416ca362f96c11043ad778c9551d4d0bf1",
+    "target_language": "zh-TW"
+  },
+  "outcome": "revise",
+  "hypothesis": "On this exact source, the reviewed Wan 3 text-removal result removed text but changed shot timing, fish and scene composition, so the local V2 complete dubbed candidate was retained. Local restoration still has blur and seams, and source lettering is approximated. Assess scene timing and principal subjects alongside text removal before selecting a generated plate. This comparison does not establish a broadly effective removal method or a quality pass.",
+  "company_preference": false,
+  "evidence": {
+    "run": "WOW-20261110-044-2-03",
+    "video_sha256": "36fd74af7feaf890547b825cadf95c954edf86af4ba81238cbfb0869214a131e",
+    "completion_sha256": "1ac1c9e1a7c3240cb4b37628850ca434ee3822d60f879b43d84f2a067c73caf4",
+    "finalization_spec_sha256": "254c258d80fa9258bce0825b512ea33f678f28a364f395d9743244697745cd1c"
+  },
+  "limitations": [
+    "Frozen bounded complete V2; internal decision remains revise, quality_pass=false. No clean-base, independent acceptance or normal-speed playback claim.",
+    "Local skeleton circular repair patches, dark/light specks and edge notches/blur persist. Title-container repair texture, kelp blur and tail repair marks remain ordinary disclosed defects in sampled observations.",
+    "Source brand progressive red wipe over the localized Game Name holder is retained. Phrase typography is adapted to heavy white sans with thick black outline in the original center region; continuous source-motion equivalence is not established.",
+    "Actual full/head/tail encoded ASR and full media decode completed. Direct listening, pronunciation, faint original-language residuals, music/effect fidelity and normal-speed playback remain pending; language-conditioned ASR cannot prove absence of residual speech.",
+    "Earlier inventory audio/speech reasons retain pre-TTS pending wording. The selected encoded candidate, actual alignment, preparation and review evidence here describe the current real TTS/mix. No prior quality pass is inherited.",
+    "Traditional glyphs are encoded using inspected Hiragino Sans GB W6 physical sans with required glyph coverage; locale-specific TC glyph conventions remain a limitation. ASR uses simplified spelling and 都由你畫/都有你画 is homophonous; first 會 in 會肚子餓 has low ASR confidence.",
+    "Exact source and target locale only; multiple locales are not independent source validation.",
+    "Complete delivery and platform acceptance do not change internal quality false or imply user acceptance.",
+    "Current V6 observations supersede the current candidate choice only; historical V5 limitation wording and prior failures are preserved."
+  ],
+  "promotion": "Candidate only. Requires independently reviewed scoped evidence before activation.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

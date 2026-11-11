@@ -1,0 +1,28 @@
+{
+  "id": "MOG-20261110-056-03-closure-2c37b6de50",
+  "status": "candidate",
+  "created_at": "2026-11-10T12:32:28+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f845e919a32d8d955a0c60d58bf6bd3ef417de0d8ae7f25b7366df9439aca69c",
+    "target_language": "de"
+  },
+  "outcome": "delivered_with_issues_bound_verified",
+  "hypothesis": "Single-source de observation: actual complete translated lettering and genuine dub were finalized and bound in Fireplay. Six native-frame comparisons and attributed model/ASR audio evidence support bounded best-available delivery. Minor repaired particle/robe texture variation and original mouth motion remain. No normal-speed human listening/viewing, independent visual review, strict quality pass or user acceptance is asserted.",
+  "company_preference": false,
+  "reflection_state": "observed_candidate",
+  "evidence": {
+    "video_sha256": "2c37b6de50eb08b6cc32d9edc11b1e71840ecba43174632b6bd8bc9c95152680",
+    "completion_sha256": "3d03822997a0cbcdd6b3d1379af8d2d144457fee711fbc928f65961f3c7ded52",
+    "review_sha256": "51ac37773ac166bb707e5bef723f18eb3e0db100b7e0d2af6822f7acf8e9d60f"
+  },
+  "limitations": [
+    "Minor particle and dark robe texture variation remains in locally repaired old glyph regions.",
+    "Same-agent six-frame visual inspection and attributed external audio perception; no direct human/Codex listening or normal-speed playback perception is claimed.",
+    "Original mouth poses remain; no target-language lip synchronization.",
+    "Audio-model timestamps sometimes exceed the actual 16.091-second EOF; completeness is cross-checked with actual encoded head/tail crops and unprompted Whisper. Model timestamps are not precision timing evidence.",
+    "Ten locales are one independent source, not ten replications."
+  ],
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

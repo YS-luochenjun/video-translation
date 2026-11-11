@@ -1,0 +1,33 @@
+{
+  "id": "WOW-20261110-044-2-02-closure-46d1a6e67e",
+  "status": "candidate",
+  "created_at": "2026-11-10T16:17:23+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "da506d89426318e6b0946057594204416ca362f96c11043ad778c9551d4d0bf1",
+    "target_language": "ko"
+  },
+  "outcome": "revise",
+  "hypothesis": "On this exact source, the reviewed Wan 3 text-removal result removed text but changed shot timing, fish and scene composition, so the local V2 complete dubbed candidate was retained. Local restoration still has blur and seams, and source lettering is approximated. Assess scene timing and principal subjects alongside text removal before selecting a generated plate. This comparison does not establish a broadly effective removal method or a quality pass.",
+  "company_preference": false,
+  "evidence": {
+    "run": "WOW-20261110-044-2-02",
+    "video_sha256": "46d1a6e67e69ba28169ce64d34151eee9330619e14b45caade7bc5f9330cb458",
+    "completion_sha256": "55b9f6d7380c24d0e3c4a8d4c87af8407b074f37294bfdedde5d501fa5c94e66",
+    "finalization_spec_sha256": "0c14a5b60416550ff1e9b0dfc03952a2f13a31be8d57a80ea23d79d6394d88c2"
+  },
+  "limitations": [
+    "Frozen bounded complete V2; internal decision remains revise, quality_pass=false. No clean-base, independent acceptance or normal-speed playback claim.",
+    "Local skeleton circular repair patches, dark/light specks and edge notches/blur persist. Title-container repair texture, kelp blur and tail repair marks remain ordinary disclosed defects in sampled observations.",
+    "Source brand progressive red wipe over the localized Game Name holder is retained. Phrase typography is adapted to heavy white sans with thick black outline in the original center region; continuous source-motion equivalence is not established.",
+    "Actual full/head/tail encoded ASR and full media decode completed. Direct listening, pronunciation, faint original-language residuals, music/effect fidelity and normal-speed playback remain pending; language-conditioned ASR cannot prove absence of residual speech.",
+    "Earlier inventory audio/speech reasons retain pre-TTS pending wording. The selected encoded candidate, actual alignment, preparation and review evidence here describe the current real TTS/mix. No prior quality pass is inherited.",
+    "KO ASR ambiguities: 아이디어에/아이디어의, 쏟은 뒤/쏘든 뒤, 자라고/잘하고, 뭐든/모든. They require listening; do not assume either correct pronunciation or a confirmed spoken mistranslation. Tail crop starts mid-sentence and recognizes 더 어울려요.",
+    "Exact source and target locale only; multiple locales are not independent source validation.",
+    "Complete delivery and platform acceptance do not change internal quality false or imply user acceptance.",
+    "Current V6 observations supersede the current candidate choice only; historical V5 limitation wording and prior failures are preserved."
+  ],
+  "promotion": "Candidate only. Requires independently reviewed scoped evidence before activation.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

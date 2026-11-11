@@ -1,0 +1,28 @@
+{
+  "id": "WOW-20261110-045-2-04-closure-db88801254",
+  "status": "candidate",
+  "created_at": "2026-11-10T13:57:05+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "id",
+    "source_sha256": "1c05ad56f1af4fc05167e5d3eff7fcfac86a2595e2f11459a2e867287d24c75d"
+  },
+  "outcome": "revise",
+  "hypothesis": "On this exact source, inverse clipping around the original skull removed parts of translated t004 glyphs. V4 fits complete target words to the left within the original region and preserves the source skull. Inspect complete glyphs and the original emoji provenance, then check CTA overlap and hair/shirt repair seams; a clean still does not certify continuous motion.",
+  "evidence": {
+    "run": "WOW-20261110-045-2-04",
+    "video_sha256": "db88801254b9bf4c4ce93ac76621d41c51470e81bbfdcc74784b82e371874519",
+    "quality_sha256": "d82f113edc1e1c9a15e2f8141dac60ec01fa36c3ea0aa9a3e2f483b604dffa6e"
+  },
+  "limitations": [
+    "Same-agent native still/sequence inspection only; normal-speed playback and direct listening were not performed.",
+    "Fireplay acceptance of all eight outputs does not change internal failed quality or imply user/independent acceptance.",
+    "Full-track audio model and shorter ASR may conflict; no new listening verdict is inferred.",
+    "Exact source and locale only; no promotion or coordinate reuse for other sources.",
+    "Original unknown fee is retained in the original budget ledger."
+  ],
+  "company_preference": false,
+  "promotion": "Requires independently reviewed evidence before activation.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

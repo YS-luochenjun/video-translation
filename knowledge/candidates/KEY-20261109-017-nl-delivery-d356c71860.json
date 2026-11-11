@@ -1,0 +1,26 @@
+{
+  "id": "KEY-20261109-017-nl-delivery-d356c71860",
+  "status": "candidate",
+  "created_at": "2026-11-09T07:27:23+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "4a681919237c35c889e0d0c487ae3fbf85f3700718d722057ca31b65510c525a",
+    "target_language": "nl"
+  },
+  "outcome": "delivered_with_issues_bound_verified",
+  "hypothesis": "Single-source nl observation: actual complete source-style scene copy and genuine dub were delivered with visible architectural/hair/clothing repair traces and short source-entry/UI/quote residues. Transparent lettering and native frame count did not prove a natural clean background or fine motion. Low-bitrate encoding preserved readable inspected copy and identical AAC/full decoded PCM/separate head-tail; texture loss remained. Scope is this source and exact locale, one independent source; no company, pristine-quality or native-motion acceptance. Connected artwork outlines produced one automatic component and an actual whole-title fade; explicit phrase/line regions corrected the observed2..11-frame entry, with clipped outline-tip adaptation disclosed. Measure actual encoded entry instead of trusting segmentation metadata.",
+  "evidence": {
+    "video_sha256": "d356c718602bbd1c54c99ce50ac2e0985170dbafd619d54fbf2110bf0c354c21",
+    "review_sha256": "f0d3490692cdebdc65a701cd5a5c83ea6d90bfdd9c556a761f618a0563b6b46a",
+    "source_sha256": "4a681919237c35c889e0d0c487ae3fbf85f3700718d722057ca31b65510c525a"
+  },
+  "limitations": [
+    "Single source; all5locales are not5independent sources.",
+    "Normal-speed Codex playback/hearing and independent visual review unavailable.",
+    "Candidate observation only, not an active rule or company preference."
+  ],
+  "company_preference": false,
+  "reflection_state": "observed_candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -1,0 +1,29 @@
+{
+  "id": "SHE-20261109-013-11-delivery-e4219976d8",
+  "status": "candidate",
+  "created_at": "2026-11-09T13:03:26+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "24753d772e4fac9e6f5ed49578c1cdf89d29d65607a10de9473bdbb399c0459e",
+    "target_language": "ar"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "For this source and locale, word-timed TTS captions support a complete localized output after bounded shared-base repairs, while foreground bottle/shelf masks still clip translated labels and shared-base frames 35–38 blur the upper region. An external audio-model review supports complete translated speech, but approximate model timestamps and short-CTA ASR uncertainty cannot certify exact synchronization, human listening, continuous normal-speed visual quality, or independent approval.",
+  "limitations": [
+    "Same-agent inspection of six actual whole-scene samples and selected full-size frames. Normal-speed continuous playback and independent visual review are not completed. Tiny labels and every animation frame are not individually certified.",
+    "Translated bottle/shelf lettering is partly clipped by foreground/material masks. Local repair seams remain. Artistic letterforms and line widths differ from the source. Shared base briefly blurs the upper region around source frames 35–38.",
+    "Encoded full/head/tail Whisper ASR is model evidence, not human listening. Short CTA transcripts are uncertain or disagree in some languages. The separate audio model supports complete translated speech; its approximate timestamps do not prove exact caption sync.",
+    "Actual TTS words drive caption phrase timing on the source timeline. Dubbing is not lip-synchronized. Technical decoding and model success do not establish company acceptance or quality pass.",
+    "Inspected Arabic captions are connected and follow RTL order; detailed linguistic certification of every small rotated label remains uncompleted."
+  ],
+  "company_preference": false,
+  "evidence": {
+    "run": "SHE-20261109-013-11",
+    "video_sha256": "e4219976d8acb59a001383a7075ebcf2070c1b45745a1f43dbd2f71894046491",
+    "quality_sha256": "0f5bdfaaddd4f3ec23191985b02c1f38e693442028d24e74aa3f4e161fa44139",
+    "finalization_sha256": "cb546415952f1a4229b9b67924a14df0e46789bda0897843970588701e52ded0"
+  },
+  "promotion": "Candidate only, exact source/locale scope; no quality-pass assertion or automatic preference change.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

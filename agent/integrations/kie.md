@@ -1,5 +1,7 @@
 # KIE 适配器
 
+已授权音频重试自身的上传失败，可以保留同一 `--retry-authorization` 并加 `--retry-upload` 恢复；只允许本地证据确认尚未派发的任务，保留原job、授权、预留及上传历史。实际已派发或unknown请求仍先核查，详见[接续与上传恢复](../../knowledge/rules/resumable-intake-and-audio-upload-v1.md)。
+
 新任务只使用 [模型分工](../contracts/model-routing.md) 与 `config/model-routing.json` 中的三个远端模型。文字识别、翻译和图片编辑由 Codex 执行；Whisper small 与 UVR 在项目本地运行，不通过 KIE 下载模型或分轨。
 
 | 能力 | 当前模型 | 进入条件与命令 |

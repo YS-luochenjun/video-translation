@@ -241,7 +241,6 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
         descriptor.update({"kind": "audio_candidate_transcription" if transcribe_only else "audio_review", "video_sha256": candidate_record["sha256"],
                            "candidate_audio_sha256": file_hash(target_audio)})
     if retry_authorization:
-        require(not retry_upload, 'Choose upload recovery or an explicitly authorized model retry')
         from .audio_retry import authorized_retry
         descriptor.update(authorized_retry(run, descriptor, retry_authorization))
     digest = object_hash(descriptor)

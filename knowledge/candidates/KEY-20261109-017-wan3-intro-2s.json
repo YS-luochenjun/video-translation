@@ -1,0 +1,28 @@
+{
+  "id": "KEY-20261109-017-wan3-intro-2s",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "4a681919237c35c889e0d0c487ae3fbf85f3700718d722057ca31b65510c525a",
+    "phase": "neutral",
+    "source_interval": [
+      0,
+      2
+    ]
+  },
+  "outcome": "not_adopted_whole_frame",
+  "hypothesis": "One exact-source Wan3.0 trial: actual2s720P30fps60-frame silent output removed sampled headline/publisher marks with more continuous upper grid than the old local base, but actual aligned frame59 changed shoe/foot positions and gelatin splash/ripple outside lettering. Whole-frame result was not adopted; technical/API success and clean-looking text removal did not establish source action/fidelity. Only sampled comparisons were reviewed; normal playback pending. No cross-source superiority or clean-base approval.",
+  "evidence": {
+    "video_sha256": "2ce148e50f8ed6dc08bff863e51a0b22bad1c15b7071107e625407a2ef709633",
+    "task_id": "7de18827235eafb4bca430abf2d61893",
+    "credits_consumed": 64.0
+  },
+  "limitations": [
+    "Exact source0..2s only.",
+    "One trial; no general Wan3 quality/fidelity approval.",
+    "No normal-speed playback or automatic paid expansion."
+  ],
+  "company_preference": false,
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

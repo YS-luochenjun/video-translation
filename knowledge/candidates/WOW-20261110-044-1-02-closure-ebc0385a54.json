@@ -1,0 +1,37 @@
+{
+  "id": "WOW-20261110-044-1-02-closure-ebc0385a54",
+  "status": "candidate",
+  "created_at": "2026-11-10T16:17:21+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "1f2cff653c5bef62eaae3e6f58d93a91cc31758651f4f0fc90747f5cf00c4cdd",
+    "target_language": "ko"
+  },
+  "outcome": "revise",
+  "hypothesis": "On this exact source, bounded source-caption repairs retain dark glyph-shaped footprints and red/yellow edge traces around moving captions, while nearby fine fish detail can soften. Target phrases remain readable in inspected samples. Inspect the full frame at caption entry and exit, including fish contours; sampled cleanup and successful encoding do not prove a clean moving background. This remains a failed-quality complete candidate, with no claim of native listening or continuous playback approval.",
+  "company_preference": false,
+  "evidence": {
+    "run": "WOW-20261110-044-1-02",
+    "video_sha256": "ebc0385a54fc690dbdb9a24adc8cf4b4d9ef4012c8e464c49370d51865be3a51",
+    "completion_sha256": "6c43116577efe992f5ebf7cf021f6b893122d9fcf28a6d78354d9b8c18cd7cc7",
+    "finalization_spec_sha256": "f172e5e03794344ed0bd6bc59a81fdc506ffe500eff663bf3705d8411367f420"
+  },
+  "limitations": [
+    "Shared best-available base has visible glyph-shaped/dark repair footprints and occasional old red/yellow caption edges behind target, particularly around7–8s and25–27s; some transition/UI horizontal traces remain. Clean-base quality is not approved.",
+    "Fine fish ribs/fin/texture and incidental desktop folder contours soften in source-caption overlap repairs. No mass tearing, unusable film or severe principal subject damage observed in actual review.",
+    "Exact source handwriting, scroll/zoom, word stacking and emphasis colors are approximated; some red target emphasis differs from source semantics. Natural target phrases and all key ad/UI meaning remain readable.",
+    "Actual final AAC Whisper covers six narration domains, free Steam demo, November13 and phonetic game name. ASR has local orthographic/homophone/proper-name uncertainty; native pronunciation and independent music/FX/phrase-edge hearing remain pending.",
+    "Source game/Steam/product-cover names and individual desktop file/software identities intentionally preserved as source-specific inventory decisions. No user/company acceptance inferred.",
+    "Direct actual 0–27s encoded sheets show 무료 체험판, source-center Korean phrases for drawing/poor drawing/feeding/rivals/offspring/anything, 배경화면 모드로 and localized random/cancel controls. Yellow/green/red outlined emphasis remains readable; fish and scenery sequences are intact in samples. Caption-free gaps at ~2,11,12,21seconds require finite-boundary caution. Some dark glyph footprints, fine fish/UI smoothing and seams remain; source handwritten style and word-by-word motion are approximated. The editable Pr/Prawn name and desktop filenames are inventory-preserved identities, not translated controls.",
+    "Separate0–5.5s encoded ASR recognizes 이 게임에서는 수조의 물고기를 모두 직접 그려요 and 그림을 못 그려도 괜찮아요 before the continuing doodles phrase.",
+    "Separate21.5–27.921s ASR recognizes daily game recommendation, Steam/free-demo domain and11월13일출시 plus phonetic Drawquarium through27.3seconds. 무료치한반/무료체한바늘 and proper-name spelling are ASR uncertainties; no exact pronunciation claim.",
+    "Actual encoded full ASR contains all six source narration domains from drawing aquarium fish through feeding/rivals/love/babies, anything drawing, desktop companion, daily recommendation, free Steam demo, November13 and game name. Recognition errors remain around food/rivals/offspring/free-demo phonetics. No native listening, independent music/FX or frame-perfect caption claim.",
+    "Normal-speed full-video watching, direct listening, independent review and user acceptance remain unverified. Source1 shared Wan3 pilot repair failed actual text-removal review and was not adopted; no new identical repair dispatch.",
+    "Exact source and target locale only; multiple locales are not independent source validation.",
+    "Complete delivery and platform acceptance do not change internal quality false or imply user acceptance.",
+    "Current V6 observations supersede the current candidate choice only; historical V5 limitation wording and prior failures are preserved."
+  ],
+  "promotion": "Candidate only. Requires independently reviewed scoped evidence before activation.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

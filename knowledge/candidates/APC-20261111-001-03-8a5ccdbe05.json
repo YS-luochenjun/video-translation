@@ -1,0 +1,56 @@
+{
+  "id": "APC-20261111-001-03-8a5ccdbe05",
+  "status": "candidate",
+  "created_at": "2026-11-11T03:59:35+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "fr",
+    "source_sha256": "495afaba11462f3a453c55f20b8e4f95888cc40b1eac978bdcb236167eb53624"
+  },
+  "outcome": "revise",
+  "hypothesis": "Needs an evidence-backed lesson",
+  "evidence": {
+    "run": "APC-20261111-001-03",
+    "video_sha256": "8a5ccdbe05b23fd9c1a0c87d9d6e8ae65391b4ef5aaedc9d2cf263c9885a9560",
+    "quality_sha256": "7b4e09e63add810ab134ec6a6a0248d1a3a6073d0cb27faa225708b1cb9e327f"
+  },
+  "limitations": [],
+  "company_preference": false,
+  "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval",
+  "reflection_state": "needs_lesson",
+  "evidence_digest": {
+    "quality_decision": "revise",
+    "failure_codes": [
+      "clean_base_instance_unreviewed:t001",
+      "background_reconstruction_or_unreviewed:t001",
+      "visible_coverup_or_unreviewed:t001",
+      "clean_base_instance_unreviewed:t002",
+      "background_reconstruction_or_unreviewed:t002",
+      "visible_coverup_or_unreviewed:t002",
+      "clean_base_instance_unreviewed:t003",
+      "background_reconstruction_or_unreviewed:t003",
+      "visible_coverup_or_unreviewed:t003",
+      "clean_base_instance_unreviewed:t004",
+      "background_reconstruction_or_unreviewed:t004",
+      "visible_coverup_or_unreviewed:t004",
+      "clean_base_instance_unreviewed:t005",
+      "background_reconstruction_or_unreviewed:t005",
+      "visible_coverup_or_unreviewed:t005",
+      "source_style_motion_unreviewed_or_failed:t001",
+      "source_style_motion_unreviewed_or_failed:t002",
+      "source_style_motion_unreviewed_or_failed:t003",
+      "source_style_motion_unreviewed_or_failed:t004",
+      "source_style_motion_unreviewed_or_failed:t005",
+      "native_motion_unreviewed",
+      "head_tail_audio_unreviewed",
+      "music_effects_unreviewed",
+      "caption_sync_unverified",
+      "visual_finish_blocking_or_unspecified_defect"
+    ],
+    "reviewer": "Codex same_agent",
+    "known_defect_count": null
+  },
+  "next_action": "Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

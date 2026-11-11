@@ -1,0 +1,35 @@
+{
+  "id": "WOW-20261110-044-3-01-closure-1db06abbd0",
+  "status": "candidate",
+  "created_at": "2026-11-10T16:17:25+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "1600e04580547b4ac1829787c9d780e2723acbef946cfc21ecd2ede0cf59eb5f",
+    "target_language": "ja"
+  },
+  "outcome": "revise",
+  "hypothesis": "On this exact source, correcting the font binding yielded visible target-script caption and small UI glyphs in current V6 samples. The moving mail scene still exposes tracking drift, overlap, thin lettering and cropped edge traces; interpolation also loses partly cropped export-dimension digits. Review moving panel boundaries and numeric details separately from large narration. Finite stills and unchanged encoded audio hashes cannot certify normal-speed motion, native pronunciation or direct listening.",
+  "company_preference": false,
+  "evidence": {
+    "run": "WOW-20261110-044-3-01",
+    "video_sha256": "1db06abbd0ef87e707a76d775a239b3994919bb4535c789ecd36e76020ca394c",
+    "completion_sha256": "977728d5b34202b83bf62b4437be527f68729777fe87ce194bee16abc3538403",
+    "finalization_spec_sha256": "a5317402f33d6f8546b8dd0db02e4092d2af79229556f3e8cba7ce0d66382fb2"
+  },
+  "limitations": [
+    "Current finite samples show in/Draw/quarium narration fragments removed at4.633–5.4s while preserving main graphic DRAWQUARIUM. Current opening-green cleanup and menu/mail replacements were checked at sampled native sizes. Source-card edge/subpixel motion and local interpolated blurred background still require normal-speed review.",
+    "Actual source menu reads Clear Canvas, not New Canvas. Current Export PNG/pixels/Clear Canvas/Save template/Templates instances have target labels. Interpolation removes the partly cropped export dimension digits; this numeric source-detail loss is disclosed. Target small UI weight/color differ from source.",
+    "At13.5–13.7s complete inspected English mail labels/body copy were replaced, but target letters do not follow the page pan precisely, with narration overlap, small dark traces and right-edge cropped source letter fragments remaining. Mark/Bernard and fish identity names are intentionally preserved. No blanket all-tiny-UI-clean claim.",
+    "Source rounded glyph design and green word emphasis are approximated. No complete normal-speed viewing, direct listening, native or independent review, user/company acceptance is claimed. Full no-VAD ASR covers seven source narration domains but is fallible.",
+    "Bounded repair is stopped at v5 with complete dubbed outputs. Earlier displaced/cut-extended pilots and wrong-font v3 were rejected; v6 retains source-cut correction and actual script-font aliases. No new paid calls.",
+    "Current v6 Japanese phrase captions, drawing/fish labels, editor menu and mail labels are readable in inspected full sheets and native probes. The opening source-green glyph and complete in/Draw/quarium narration fragments are removed in inspected current frames. DRAWQUARIUM and fish identity names remain intentionally preserved. Small target UI is thinner/smaller than source; mail labels drift against the camera pan and overlap narration near13.5–13.7s. No full-playback quality approval.",
+    "Separate0–5.5s actual encoded ASR identifies the viral-game opening, draw-your-own-fish/aquarium, look cue and game name. No English source opening recognized. Language-hinted automatic recognition only; direct listening remains pending.",
+    "Separate21.5s-to-end encoded ASR identifies seaweed/kelp/small decorations and the complete personal desktop-wallpaper ending. 海槽/水槽 vs 海草 and シークイン vs 飼育員 elsewhere are recognition uncertainties, not certified pronunciation judgments.",
+    "Exact source and target locale only; multiple locales are not independent source validation.",
+    "Complete delivery and platform acceptance do not change internal quality false or imply user acceptance.",
+    "Current V6 observations supersede the current candidate choice only; historical V5 limitation wording and prior failures are preserved."
+  ],
+  "promotion": "Candidate only. Requires independently reviewed scoped evidence before activation.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

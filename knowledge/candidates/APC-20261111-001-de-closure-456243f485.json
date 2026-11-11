@@ -1,0 +1,27 @@
+{
+  "id": "APC-20261111-001-de-closure-456243f485",
+  "status": "candidate",
+  "created_at": "2026-11-11T04:02:02+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "495afaba11462f3a453c55f20b8e4f95888cc40b1eac978bdcb236167eb53624",
+    "target_language": "de"
+  },
+  "outcome": "delivered_with_issues_bound_verified",
+  "hypothesis": "Single-source German observation: an ImageGen clean photograph did not remove English in the encoded composite when the pasted label regions had zero alpha. Correcting the actual patch alpha and checking source/base/encoded-target samples removed the observed English/German overlap. The revised sample preserves people and call icons with minor reconstructed lace/hair and font-weight differences. A clean input image alone does not establish clean encoded output.",
+  "evidence": {
+    "source_sha256": "495afaba11462f3a453c55f20b8e4f95888cc40b1eac978bdcb236167eb53624",
+    "video_sha256": "456243f48526812212057c2964050543687252ebfc6e876a6fc5513519f7f878",
+    "case_manifest_sha256": "d3bb1b42ff6721d7806b53f5971a31b44092a37534c97d1c319709d9a913e6f4"
+  },
+  "limitations": [
+    "One source and one corrected German comparison, not independent cross-source validation.",
+    "No full normal-speed playback or human listening; internal quality remains revise and the delivered video is best_available.",
+    "This observation does not authorize solid panels, omission of original text removal, or automatic quality approval."
+  ],
+  "company_preference": false,
+  "reflection_state": "observed_candidate",
+  "next_action": "Scoped candidate only; independently review evidence before any promotion or scope expansion.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

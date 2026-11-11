@@ -1,6 +1,6 @@
 ---
 name: knowledge-curation
-description: Curate localization lessons, record user feedback, publish reviewed project knowledge, or archive delivery/reuse assets while keeping knowledge independent of runs and outputs. Apply at task closure and before changing artifact retention.
+description: Curate localization lessons and recent-chat experience, record user feedback, publish reviewed project knowledge, or archive delivery/reuse assets while keeping knowledge independent of runs and outputs. Apply at task closure, project experience reviews, and before changing artifact retention.
 ---
 
 # 知识提纯与独立归档
@@ -22,6 +22,10 @@ description: Curate localization lessons, record user feedback, publish reviewed
 制作结案、开发修复及用户反馈处理后，主动运行 `knowledge-queue` 与 `hooks status`。`new_records=0` 只表示没有新增提纯输入；还须核对 `adoption_queue_open`、Hook的pending与本次使用反馈。按本技能完成可证实的审查/采纳，缺证据则留下具体下一步，不为归零关闭待办。直接审查并已结清的来源无需再让Hook生成重复候选。
 
 全局待审由独立[经验总结任务](../../../agent/workflows/knowledge-sweep.md)处理，Fireplay巡检只负责接入调度；`due=true` 时经验任务运行 `hooks run --due`，再处理本轮产生的审查项。文本接口不可用时保留原检查点，允许 `prepare/apply` 由当前Agent完成结构化提纯。定时服务由独立应用任务或已核验宿主触发器提供，不从enabled推断已安装或运行成功。仅无法自行解决的新缺口才请求用户输入；不得自动改变公司偏好、质量标准或扩大原scope。
+
+## 近期会话与项目优化
+
+用户要求跨会话复盘时，按[近期经验审查](../../../agent/workflows/recent-experience-review.md)读取真实会话及候选来源。先定位现行方法和技能，再决定补充、限定案例或待证实项；临时宿主故障留在运行记录。项目代码修复由可重复回归验证，制作效果仍由实际媒体证据验证。原型工具须有明确输入合同、限定写入范围和验证后才纳入可复用能力。用户授权提交时，只提交已审查的文件及其必要知识依赖，保留活跃制作现场。
 
 ## 每日项目Hook
 

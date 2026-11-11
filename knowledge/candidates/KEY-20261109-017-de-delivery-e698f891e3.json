@@ -1,0 +1,26 @@
+{
+  "id": "KEY-20261109-017-de-delivery-e698f891e3",
+  "status": "candidate",
+  "created_at": "2026-11-09T07:27:21+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "4a681919237c35c889e0d0c487ae3fbf85f3700718d722057ca31b65510c525a",
+    "target_language": "de"
+  },
+  "outcome": "delivered_with_issues_bound_verified",
+  "hypothesis": "Single-source de observation: actual complete source-style scene copy and genuine dub were delivered with visible architectural/hair/clothing repair traces and short source-entry/UI/quote residues. Transparent lettering and native frame count did not prove a natural clean background or fine motion. Low-bitrate encoding preserved readable inspected copy and identical AAC/full decoded PCM/separate head-tail; texture loss remained. Scope is this source and exact locale, one independent source; no company, pristine-quality or native-motion acceptance.",
+  "evidence": {
+    "video_sha256": "e698f891e38008116b8af38e2aeb98731f9c3fc5a70c83100aa764b2c30f64a4",
+    "review_sha256": "269492402509ba3eba0cf724a95fd0cc7a16040f4a38b86ec8b4e69b80d293b1",
+    "source_sha256": "4a681919237c35c889e0d0c487ae3fbf85f3700718d722057ca31b65510c525a"
+  },
+  "limitations": [
+    "Single source; all5locales are not5independent sources.",
+    "Normal-speed Codex playback/hearing and independent visual review unavailable.",
+    "Candidate observation only, not an active rule or company preference."
+  ],
+  "company_preference": false,
+  "reflection_state": "observed_candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

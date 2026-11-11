@@ -23,7 +23,7 @@ description: Localize an advertisement video into another language in this works
 
 字体按[实际字面与绑定](../../../docs/fonts.md)检查。doctor.language_fonts检查目标脚本的常规/粗体；Mac使用config/fonts.json中的真实原生家族，不要求未选用的Windows专有字体。明确指定的家族缺失仍报错，不改名冒充。动态文字可用font-bind提取并绑定TTC正确字面，缺字和字体哈希变化不得作为静态降级放行。
 
-文字识别和图片直接编辑由 Codex 执行，先读 `agent/contracts/model-routing.md`。`codex-packet RUN --stage recognize|image` 提供真实图片和命中知识正文；Codex 看图、识字或使用宿主图像编辑工具，按实际内容选择方法。用 `codex-result` 登记观察及真实输出，更新实例清单，继续既有底片与成片审核。工作包不等于已执行，图片产物不等于运动通过。新任务的专用模型只保留 Whisper small、UVR、Gemini Flash 音频理解、Gemini TTS 与 Wan 2.7 视频编辑；以 `model-routing` 的当前输出为准。旧 OCR/图片模型及其他视频模型仅保留历史证据，不自动降级到它们。
+文字识别和图片直接编辑由 Codex 执行，先读 `agent/contracts/model-routing.md`。`codex-packet RUN --stage recognize|image` 提供真实图片和命中知识正文；Codex 看图、识字或使用宿主图像编辑工具，按实际内容选择方法。用 `codex-result` 登记观察及真实输出，更新实例清单，继续既有底片与成片审核。工作包不等于已执行，图片产物不等于运动通过。专用音频与视频模型统一读取 `model-routing` 当前输出及其授权来源，不在技能另存型号默认值；当前视频配置为 Wan 3.0。旧 OCR/图片模型及其他视频模型仅保留历史证据，不自动降级到它们。
 
 1. `init → analyze` 后检查媒体信息、概览图、镜头帧、音频。对文字和声音建立清单，填写 `analysis/inventory.json`。原词重复出现要分成不同位置/时间实例；品牌保留也需记录。
 2. 覆盖记录必须有真实方法与证据。需要更多帧时用 FFmpeg 在边界加密；声音无法解析时保留 pending，补接转写或审过的音轨。known synthetic fixture 才能按生成规格填写，任意客户视频不能套用 fixture 注释。

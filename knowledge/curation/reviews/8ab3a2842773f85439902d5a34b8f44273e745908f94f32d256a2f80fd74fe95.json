@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261110-056-blackpoint-single-source.json",
+    "sha256": "46357c98907a560365de4b95a2395ae5abda38eaec14006a15c95e1c3fa875ce"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent closure evidence review; not independent review or user acceptance",
+  "origin": "Actual MOG-20261110-056 finalized videos, bound submission receipts and preserved observations",
+  "resolution": "pending",
+  "reason": "The actual source-bound correction is supported by recorded failure/revision observations. The independent project case currently preserves technical JSON, but the decisive before/after encoded visual comparison still needs inclusion before formal source-specific promotion.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "All original observations, failure judgments, actual video hashes, case and limitations remain immutable."
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "If promoting this source-specific correction, add the observed failed and repaired encoded frame pair to its independent project case and verify the exact source/renderer scope. A cross-source test is required only to broaden that scope.",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-11-10T12:37:03+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

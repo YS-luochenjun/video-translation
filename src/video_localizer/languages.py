@@ -29,11 +29,11 @@ def resolve(value, root=None):
                                   else part for part in parts[1:])])
         return {'input': value, 'target_language': tag, 'matched_alias': False,
                 'name_zh': data.get('names_zh', {}).get(parts[0]),
-                'rule': 'knowledge/rules/language-aliases-v2.md'}
+                'rule': 'knowledge/rules/language-aliases-v3.md'}
     code = aliases.get(key)
     if code is None:
         require(re.fullmatch(r"[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*", original),
                 "Unknown language name; use a configured alias or language tag such as ja-JP")
     return {"input": value, "target_language": code or original, "matched_alias": code is not None,
             "name_zh": data.get("names_zh", {}).get(code),
-            "rule": "knowledge/rules/language-aliases-v2.md" if code else None}
+            "rule": "knowledge/rules/language-aliases-v3.md" if code else None}

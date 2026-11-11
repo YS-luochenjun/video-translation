@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "SHE-20261109-041-2-01-curation-v1",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "49f3ae9d9dea38b62bf4e148c741fa153945c5ac8191f0a996457d229ec88a1f",
+    "target_language": "zh-TW"
+  },
+  "knowledge_class": "project_training_candidate",
+  "company_preference": false,
+  "created_at": "2026-11-09T09:50:21.870270+00:00",
+  "case_manifest_sha256": "bb82dc49bc973336eb34f746453ad0eff6a2af497a319222d26b7095a1f6c0e6",
+  "outcome": "observed_same_source_revision_best_available",
+  "hypothesis": "Source2 phone/CTA neutral plus transparent TC lettering route. Initial transparent libass lettering was not visibly present despite successful media commands; explicit alpha=1 with RGBA/argb/qtrle made target glyphs visible in later actual encoded native pixels. Full-frame Wan trial changed protected content; local adoption and same-source donors preserved more source pixels, while early leg/wrist texture and approximate UI motion remain ordinary defects. Default libass alpha handling on this transparent-input route is the suspected invisible-glyph cause. Same-shot local adoption constrains model inventions; it does not guarantee seamless natural repair. Same-source observed failure/correction; actual reviewed glyph/threeway frames plus current bound review, not a clean-master or normal-playback acceptance. If this route is reused, inspect actual alpha and encoded pixels at first/middle/last visibility; independently review source/neutral/target motion. Do not reuse this neutral as an approved master.",
+  "observations": {
+    "trigger": "Source2 phone/CTA neutral plus transparent TC lettering route.",
+    "observation": "Initial transparent libass lettering was not visibly present despite successful media commands; explicit alpha=1 with RGBA/argb/qtrle made target glyphs visible in later actual encoded native pixels. Full-frame Wan trial changed protected content; local adoption and same-source donors preserved more source pixels, while early leg/wrist texture and approximate UI motion remain ordinary defects.",
+    "causal_hypothesis": "Default libass alpha handling on this transparent-input route is the suspected invisible-glyph cause. Same-shot local adoption constrains model inventions; it does not guarantee seamless natural repair.",
+    "action_basis": "Same-source observed failure/correction; actual reviewed glyph/threeway frames plus current bound review, not a clean-master or normal-playback acceptance.",
+    "next_falsification": "If this route is reused, inspect actual alpha and encoded pixels at first/middle/last visibility; independently review source/neutral/target motion. Do not reuse this neutral as an approved master."
+  },
+  "limitations": [
+    "One actual source2 identity only; locales/revisions are not independent sources.",
+    "Current final remains quality revise/best_available, with no new user/company/independent/native listening approval.",
+    "Case manifest embeds necessary historical JSON/image/audio; old paths are origin labels, not production dependencies.",
+    "No model, rule activation, company preference change, platform completion or media cleanup is authorized by this candidate."
+  ],
+  "next_action": "Review this exact-scope candidate with embedded before/after evidence; consider clarification of an existing method only after author review. Leave generalization and phonetic/video acceptance pending.",
+  "evidence": {
+    "video_sha256": "dd38011ad1d3687c46bed8d648ebb04c47626ab5ce8e309255a628cd27ece8cb",
+    "source_sha256": "49f3ae9d9dea38b62bf4e148c741fa153945c5ac8191f0a996457d229ec88a1f",
+    "plan_id": "05d676c241be0448"
+  },
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

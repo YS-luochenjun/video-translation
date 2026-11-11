@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "MOG-20261110-056-blackpoint-single-source-case",
+  "created_at": "2026-11-10T12:33:35+00:00",
+  "files": [
+    {
+      "path": "evidence/MOG-20261110-056-blackpoint-single-source.json",
+      "sha256": "1285f2db029dfe6728cc72ddc887f8925a8a71cb3e38df18de675a20e7bef4f4",
+      "bytes": 4948
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f845e919a32d8d955a0c60d58bf6bd3ef417de0d8ae7f25b7366df9439aca69c"
+    },
+    "status": "candidate",
+    "lesson": "In this dark source, visible glyph-shaped islands after Wan repair were associated with a decoded neutral median near RGB 9/10/8 versus original near zero. Remapping the neutral black point 16 to zero before glyph-local compositing removed readable source ghosts in inspected native samples. Full mask coverage had not ensured a clean visual result. Restrict to this source; test actual decoded backgrounds before using any threshold elsewhere.",
+    "source_sha256": "f845e919a32d8d955a0c60d58bf6bd3ef417de0d8ae7f25b7366df9439aca69c",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

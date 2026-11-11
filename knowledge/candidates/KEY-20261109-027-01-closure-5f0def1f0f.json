@@ -1,0 +1,28 @@
+{
+  "id": "KEY-20261109-027-01-closure-5f0def1f0f",
+  "status": "candidate",
+  "created_at": "2026-11-09T15:46:53+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "784e6255a896bf603460a895bed0a68f1359bc656cb81480472518b00b758e2d",
+    "target_language": "ar"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "For this source and exact target language, donor restoration removed reviewed CHEER/MILK/History text areas but left cloth/book tone seams, nonrigid tracking/arm occlusion approximations and tail haze. Compare source, cleanbase and encoded output at garment/book motion and tail handoff before declaring visual success. Dedicated head/tail/CTA ASR plus full decode supports bounded audio coverage only; it does not prove pronunciation, direct listening, continuous playback or acceptance. Verify uploaded bytes using platform resource ID, MD5 and size alongside local SHA256; common placeholder thumbnails cannot identify videos.",
+  "evidence": {
+    "video_sha256": "5f0def1f0fadada9eed78597d524d6aef2130beacfe99cd8f2c630a65b1610cc",
+    "completion_sha256": "171f59616c3f2f2362a45fff609551d98845d16b87bc7f81ea9964d00bf35643"
+  },
+  "limitations": [
+    "Same-agent bounded best available, not quality approval, independent acceptance or user acceptance.",
+    "Source/base/target full-frame samples and 4 sequential contact sheets inspected; no direct listening or continuous normal-speed playback verified in this host. Motion between samples remains unverified.",
+    "Cloth and book donor seams, local tone differences and imperfect nonrigid garment tracking remain. Arabic book lettering is heavier than the source regular serif. Foreground arm masks are approximate.",
+    "Tail background restoration has a local haze/tone seam. The source neckline, face, arrow and full source framing remain intact in inspected tail samples.",
+    "Dedicated TTS and existing model evidence cover 30 units; no-VAD ASR on actual encoded CTA now recognizes all three words including complete. Head recognition is imperfect for mother line; the generic older full-audio review has invalid timestamps and is not reliable timing evidence. a010 correction also has an uncertain last-word ASR result. No direct listening claimed."
+  ],
+  "company_preference": false,
+  "reflection_state": "observed_candidate",
+  "next_action": "Review these exact-source/language observations before reuse. No cross-source generalization or quality-standard change; original deferred reflect/source-save queue remains preserved.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

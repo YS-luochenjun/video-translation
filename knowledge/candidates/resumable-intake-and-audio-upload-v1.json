@@ -1,0 +1,40 @@
+{
+  "id": "resumable-intake-and-audio-upload-v1",
+  "status": "candidate",
+  "created_at": "2026-11-11T06:27:15+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "phase": "recovery"
+  },
+  "hypothesis": "Reuse exact request/source/job identities across partial delivery, unfunded metadata review and authorized retry upload recovery.",
+  "evidence": {
+    "reviewed_at": "2026-11-11T06:27:15+00:00",
+    "reviewed_by": "Codex same-agent developer review",
+    "validation": "75 offline unittest tests passed with PYTHONPATH=src:tests",
+    "command": "python -m unittest tests.test_fireplay tests.test_languages tests.test_multilingual",
+    "files": {
+      "src/video_localizer/fireplay.py": "aa1de0a7535e96359a00d970614ecb645a4bc9102977a306573df617a3aef7af",
+      "src/video_localizer/workflow.py": "282c4bbb42b392ee63215310e9e3766ad295778734fea3a0f667a9fd5cfdc613",
+      "src/video_localizer/languages.py": "f4fcf2af398f03f4920b902229de395f42813978e2ce7e679fa66f17d5458076",
+      "tests/test_fireplay.py": "b13e195fe2bd0bf4fe2d3c0bb79f71cee9844b8821efe51d8bda6fdc6979eb28",
+      "tests/test_languages.py": "c8557a350c8cfee4ad7212d4c70ddf2c695c1e8a895e804723c9f11560c13cc7",
+      "tests/test_multilingual.py": "d9a94e6770b31e90a009db4e6a907d50c3106569ea9fe730318b1c5fcb39d8b3"
+    },
+    "observations": [
+      "A returned first source does not mask an unsubmitted second source; the original budget and members persist.",
+      "Unfunded metadata-only review retains the existing chat/source and rejects changed copy.",
+      "Dictionary-equivalent alias resolution preserves per-source locale mapping and freezes funded/dispatched requests.",
+      "An authorized retry whose upload failed dispatches no model call; upload recovery dispatches once and a second recovery is rejected."
+    ],
+    "limitations": [
+      "Synthetic offline state and deduplication tests only.",
+      "No new supplier request, real-media quality pass, listening or independent acceptance."
+    ]
+  },
+  "limitations": [
+    "Synthetic offline state and deduplication tests only.",
+    "No new supplier request, real-media quality pass, listening or independent acceptance."
+  ],
+  "company_preference": false,
+  "reflection_state": "developer_reviewed_technical_regression"
+}

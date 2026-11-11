@@ -19,9 +19,11 @@
 | [口播与字幕](../knowledge/rules/method-spoken-caption-verification-v4.md) | speech；定稿、识别分歧、句间停顿及实际混音边界 | 新语言文案、音色、时间轴与听感 |
 | [水印与片尾同标](../knowledge/rules/publisher-watermark-removal-v2.md) | 识别发布者身份，默认去除静态/移动水印及匹配片尾商标；检查模糊入场、边缘、旋转和切镜 | 实际身份关联、产品品牌区别、用户保留例外、轨迹和干净供体 |
 
-共同政策包括 [视觉门禁](../knowledge/rules/neutral-visual-and-animation-gate-v4.md)、[口播字幕统一](../knowledge/rules/user-caption-audio-sync-20261019.md)、[请求总预算](../knowledge/rules/user-language-budget-60-20261026.md)、[语言别名](../knowledge/rules/language-aliases-v2.md) 和 [不以实色块盖字](../knowledge/rules/user-no-solid-text-panels-20261022.md)。参数与状态由当前配置及索引决定。
+共同政策包括 [视觉门禁](../knowledge/rules/neutral-visual-and-animation-gate-v4.md)、[口播字幕统一](../knowledge/rules/user-caption-audio-sync-20261019.md)、[请求总预算](../knowledge/rules/user-language-budget-60-20261026.md)、[语言别名](../knowledge/rules/language-aliases-v3.md) 和 [不以实色块盖字](../knowledge/rules/user-no-solid-text-panels-20261022.md)。参数与状态由当前配置及索引决定。
 
 ## 证据与推广边界
+
+工程恢复另见[原请求内接续与上传恢复](../knowledge/rules/resumable-intake-and-audio-upload-v1.md)：逐原片核对未交付项、限制未制作元数据修订、恢复已授权重试自身的未派发上传。其证据为离线状态回归，不能替代真实画质、配音和平台回执。跨会话经验审查使用[近期经验审查](../agent/workflows/recent-experience-review.md)，优先补充已有技能与方法。
 
 多源观察至少来自两个不同源视频；同源多语言或多轮返工不增加独立来源数。这一等级包含反例，不等于多次成功验收。旧“通过”被反证推翻时，同时保留原评审、追加观察及当前使用限制。
 

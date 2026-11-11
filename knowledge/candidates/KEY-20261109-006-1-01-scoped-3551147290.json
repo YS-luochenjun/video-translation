@@ -1,0 +1,30 @@
+{
+  "id": "KEY-20261109-006-1-01-scoped-3551147290",
+  "status": "candidate",
+  "created_at": "2026-11-09T10:18:16+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "38e0a8e52958089569c3734afae781a2279a001d49f87151a709968532e07ed7",
+    "target_language": "de"
+  },
+  "outcome": "revise",
+  "hypothesis": "本源该语种的实际三路原生帧检查显示：旧颜色卡片与新空格键的显隐必须分别核对189/452边界，不能从稳定UI截帧推断切换无旧字。实际修正使用独立显隐边界、源主体保护及局部补底；源/底/译片整幅对照可定位发际、手腕、袖口和箭头边缘的残余软边与接缝。本次仍有短促不完整旧颜色碎影及普通纹理/辉光简化，内部revise保留，平台best_available提交不证明画面完美。真实语音必须分别检查首尾；荷语初版缺CTA经真实追加TTS修复。短ASR语言误判不能被直接覆盖，声明语言补证及泰语真实额外转写仅支持本音轨内容。较小传输版完整647帧且解码PCM与各自原生候选相等，只允许明确音频证据复用，不代表新听审。",
+  "reflection_state": "observed_candidate",
+  "evidence": {
+    "run": "KEY-20261109-006-1-01",
+    "video_sha256": "489c258b96b1bcfd6852103d210d3ed358176d8d8be1cfcbfce5056306947613",
+    "final_video_sha256": "3551147290922ce011c9e3f47459fe229f8c384a26d91ffb33cb13c1f692250b",
+    "case_manifest_sha256": "2dc483ea25dae08bab3140b8919fc4c2f4cfcaea927b57467536b73e69013876"
+  },
+  "limitations": [
+    "仅当前精确源与当前目标语；两条源后段共享画面和音频，不算独立跨源算法复验。",
+    "有限实际静帧/连续原生帧、ASR及技术解码；未完成直接正常播放/听审，不证明音乐音效听感或人类/公司验收。",
+    "Wan局部片段、本地修复和字层为组合路线，不是整片Wan效果。",
+    "原失败、普通缺陷、旧unknown费用保留；候选不扩大范围、不自动启用规则。"
+  ],
+  "company_preference": false,
+  "next_action": "Review exact-source/language native transition and subject comparisons in the independent case. Normal-speed/direct audio perception remains absent; no broader promotion or quality pass.",
+  "promotion": "Candidate only; independent evidence and scope review required.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

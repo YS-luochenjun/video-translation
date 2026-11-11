@@ -1,0 +1,31 @@
+{
+  "id": "MOG-20261109-049-2-02-completion-ed0d0eb56e",
+  "status": "candidate",
+  "created_at": "2026-11-09T14:17:49+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "83b5aeeeb172f87a6f875a4b73cdb2591ad50a3426cb31e74502e276fc60f252",
+    "target_language": "ja"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "For this source, same-shot restoration and source-style target lettering support a complete dub, while garment texture, typography approximation and ASR uncertainty remain unresolved. Preserve the original image safety rejection and do not repeat that rejected route.",
+  "limitations": [
+    "Visible smoothed/striped watermark-repair texture on cloth/halftone remains.",
+    "Source typography adapted with actual bound fonts and approximate phrase pop/fade; source/target switch has disclosed small timing offset.",
+    "Frame inspection only; no claim of normal-speed visual playback.",
+    "Language-forced ASR does not prove absence of faint source-language residue in separated backing.",
+    "No normal-speed audio listening, speaker-role approval or music-fidelity approval.",
+    "ASR transcribes 見えてみよう for 見てみよう and フィリター for フィルター; preserve raw ASR and flag phonetic/recognition ambiguity. The seven semantic utterances remain present; direct pronunciation assessment is pending."
+  ],
+  "evidence": {
+    "run": "MOG-20261109-049-2-02",
+    "video_sha256": "ed0d0eb56e155b0f38481d468f7ab460aea6cdea15aecbec80cab715f2be54ec",
+    "completion_sha256": "bd20dee31a9504949e14b06f50cda709203f6247a0539a8760584edcc51a4544"
+  },
+  "reflection_state": "observed_candidate",
+  "quality_passed": false,
+  "company_preference": false,
+  "promotion": "Scoped completion observations only; no rule activation or user acceptance.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

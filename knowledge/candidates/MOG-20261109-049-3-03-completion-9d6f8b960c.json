@@ -1,0 +1,30 @@
+{
+  "id": "MOG-20261109-049-3-03-completion-9d6f8b960c",
+  "status": "candidate",
+  "created_at": "2026-11-09T14:17:52+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "5530e87b9863dd7e3c9fefa803a5427f9b907a4052c42ceb8ac671f20d7cfc83",
+    "target_language": "pt-BR"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "For this source, preserve millisecond source timestamps and exact encoded frame-clock evidence separately. A capture timestamp gate failure remains a failure even when a complete dubbed best-available output is selected; floor softening and font/outline approximation remain disclosed.",
+  "limitations": [
+    "Actual physical target-script font adapts the original red stippled white-blue-yellow outlined title in the original black band; outline texture and radial transition are approximate.",
+    "Tiny publisher-watermark repair locally softens floor/feet. No severe subject damage observed in actual native frame samples.",
+    "No direct listening or continuous normal-speed playback performed; encoded full/head/tail ASR and complete decode do not prove naturalness or absence of faint source vocals.",
+    "Complete six-turn real dubbed best-available output; quality remains unapproved, with no independent or company/user acceptance.",
+    "Portuguese challenge is wider than source and PRONTO key is small; actual glyphs readable in sampled frames. Independent encoded tail recognizes Oh! Peraí!; colloquial tava/Peraí retained."
+  ],
+  "evidence": {
+    "run": "MOG-20261109-049-3-03",
+    "video_sha256": "9d6f8b960cae721fa55f0f441e7d99d6c5abd2356bd6598092ad62e0fd823fa2",
+    "completion_sha256": "79e5e2a7b0412d899c8733015a009de03010c61142d5a18d91d0245863a4fcde"
+  },
+  "reflection_state": "observed_candidate",
+  "quality_passed": false,
+  "company_preference": false,
+  "promotion": "Scoped completion observations only; no rule activation or user acceptance.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

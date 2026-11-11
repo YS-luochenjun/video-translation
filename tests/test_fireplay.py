@@ -56,6 +56,29 @@ class FireplayTests(unittest.TestCase):
     def save(self, value):
         write_json(self.root / 'state/fireplay' / CODE / 'request.json', value)
 
+    def test_unfunded_metadata_review_preserves_chat_source_and_rejects_copy_changes(self):
+        self.snap['brief']['items'][0].update(locales=[], quantity=1, description='翻译成es/kr ' + URL)
+        decision = {'targets': ['es', 'ko'], 'quantity_mode': 'one_per_locale',
+                    'authorization_ref': 'test:human', 'source_quote': 'One version per language'}
+        self.register(decision)
+        record = self.record()
+        record['videos'][0].update(chat={'state': 'ready', 'threadId': THREAD},
+                                   source={'sha256': 'retained', 'path': 'work/source.mp4'})
+        self.save(record)
+        decision.update(review_intake_metadata_only=True, reviewed_content_version=record['content_version'],
+                        revision_reason='Panel fills previously interpreted languages and quantity')
+        for view in ('summary', 'brief'):
+            self.snap[view]['items'][0].update(locales=['es', 'kr'], quantity=2,
+                                             description='翻译成es/kr ' + URL)
+        self.register(decision)
+        updated = self.record()
+        self.assertEqual(record['videos'], updated['videos'])
+        self.assertEqual('intake_metadata_only', updated['revision_history'][-1]['scope'])
+        decision['reviewed_content_version'] = updated['content_version']
+        self.snap['brief']['items'][0]['description'] += ' changed copy'
+        with self.assertRaises(WorkflowError):
+            self.register(decision)
+
     def downloaded(self):
         self.register()
         original = self.root / 'work/runs/fireplay-test/source.mp4'
@@ -114,6 +137,48 @@ class FireplayTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'Exact requirement'):
             self.register()
         self.assertIn('pagination', str(fireplay.lookup_packet(CODE)))
+
+    def test_updated_alias_resolves_only_blocked_unstarted_request(self):
+        self.snap['brief']['items'][0]['locales'] = ['sa']
+        self.snap['summary']['items'][0]['locales'] = ['sa']
+        decision = {'quantity_mode': 'one_per_locale', 'authorization_ref': 'test:alias-policy',
+                    'source_quote': 'Synthetic user-approved alias fixture'}
+        self.register(decision)
+        old = self.record()
+        old['targets'] = ['sa']
+        old['videos'][0]['targets'] = ['sa']
+        old['blockers'] = ['Historical sa ambiguity']
+        for funded in (True, False):
+            record = copy.deepcopy(old)
+            if funded:
+                record['budget'] = {'budget_id': 'synthetic-existing-pool'}
+            self.save(record)
+            if funded:
+                with self.assertRaisesRegex(WorkflowError, 'explicit revision review'):
+                    self.register(decision)
+                self.assertEqual(self.record()['targets'], ['sa'])
+            else:
+                self.register(decision)
+                result = self.record()
+                self.assertEqual(result['targets'], ['ar'])
+                self.assertEqual(result['videos'][0]['targets'], ['ar'])
+                self.assertEqual(result['interpretation_history'][0]['targets'], ['sa'])
+
+    def test_alias_resolution_preserves_each_sources_language_scope(self):
+        second = 'https://www.youtube.com/shorts/abcdefghijk'
+        self.snap['brief']['items'][0]['description'] += '\n' + second
+        self.snap['brief']['items'][0]['locales'] = ['sa', 'es']
+        self.snap['summary']['items'][0]['locales'] = ['sa', 'es']
+        decision = {'authorization_ref': 'test:alias-source-scope', 'source_quote': 'Synthetic alias fixture',
+                    'targets': ['sa', 'es'], 'source_targets': {URL: ['sa'], second: ['es']}}
+        self.register(decision)
+        old = self.record()
+        old['targets'] = ['es', 'sa']
+        old['videos'][0]['targets'] = ['sa']
+        old['blockers'] = ['Historical sa ambiguity']
+        self.save(old)
+        self.register(decision)
+        self.assertEqual([v['targets'] for v in self.record()['videos']], [['ar'], ['es']])
 
     def test_source_specific_languages_keep_one_requirement_pool(self):
         second = 'https://www.youtube.com/shorts/abcdefghijk'
@@ -305,6 +370,31 @@ class FireplayTests(unittest.TestCase):
             self.register({'authorization_ref': 'human:finish', 'source_quote': 'Continue',
                            'continue_pending_delivery': True,
                            'continuation_content_version': record['content_version']})
+
+    def test_done_continuation_keeps_unsubmitted_second_source_after_first_returned(self):
+        self.snap['brief']['items'][0]['description'] += '\nhttps://youtu.be/abcdefghijk'
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0]['quantity'] = 4
+        self.register()
+        record = self.record()
+        record['budget'] = 'existing-funded-pool'
+        for video in record['videos']:
+            video['members'] = [f"existing-run-{video['index']}"]
+        self.save(record)
+        folder = self.root / 'state/fireplay' / CODE
+        completed = {'state': 'returned', 'pending_locales': [], 'packages': []}
+        write_json(folder / 'return-1.json', completed)
+        self.snap['summary']['items'][0]['status'] = 'done'
+        decision = {'authorization_ref': 'human:finish-existing', 'source_quote': 'Finish existing delivery',
+                    'continue_pending_delivery': True, 'continue_unsubmitted_outputs': True,
+                    'continuation_content_version': record['content_version']}
+        self.assertFalse(self.register(decision)['blockers'])
+        self.assertEqual(self.record()['videos'], record['videos'])
+        self.assertEqual(self.record()['budget'], record['budget'])
+        self.assertEqual(read_json(folder / 'return-1.json'), completed)
+        write_json(folder / 'return-2.json', completed)
+        with self.assertRaisesRegex(WorkflowError, 'Continuation needs'):
+            self.register(decision)
 
     def test_content_change_does_not_overwrite_existing_request(self):
         before = self.register()['content_version']

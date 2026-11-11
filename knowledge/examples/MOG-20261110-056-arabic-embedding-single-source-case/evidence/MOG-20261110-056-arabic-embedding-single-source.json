@@ -1,0 +1,115 @@
+{
+  "id": "MOG-20261110-056-arabic-embedding-single-source",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f845e919a32d8d955a0c60d58bf6bd3ef417de0d8ae7f25b7366df9439aca69c",
+    "target_language": "ar"
+  },
+  "lesson": "In this source and ASS rendering path, RLM U+200F alone retained incorrect Arabic numeric-prefix/equals order. An explicit RLE U+202B plus PDF U+202C corrected the inspected encoded numeral, connected Arabic phrase and equals order while retaining the color-coded result. Verify the encoded output rather than inferring success from direction markers.",
+  "records": {
+    "failed_rlm_revision": {
+      "reason": "Actual encoded first frame showed numeral and equals positions in the LTR order. Add an explicit RTL paragraph mark to the white score prefix while retaining complete joined Arabic and existing colored result.",
+      "changes": [
+        {
+          "id": "t002",
+          "before": "1-2 إجابات صحيحة =",
+          "after": "‏1-2 إجابات صحيحة ="
+        },
+        {
+          "id": "t004",
+          "before": "3-4 إجابات صحيحة =",
+          "after": "‏3-4 إجابات صحيحة ="
+        },
+        {
+          "id": "t006",
+          "before": "5-6 إجابات صحيحة =",
+          "after": "‏5-6 إجابات صحيحة ="
+        },
+        {
+          "id": "t008",
+          "before": "7 إجابات صحيحة =",
+          "after": "‏7 إجابات صحيحة ="
+        },
+        {
+          "id": "t010",
+          "before": "8 إجابات صحيحة =",
+          "after": "‏8 إجابات صحيحة ="
+        },
+        {
+          "id": "t012",
+          "before": "9 إجابات صحيحة =",
+          "after": "‏9 إجابات صحيحة ="
+        },
+        {
+          "id": "t014",
+          "before": "10 إجابات صحيحة =",
+          "after": "‏10 إجابات صحيحة ="
+        }
+      ],
+      "previous_candidate": {
+        "path": "outputs/translated-candidate-v1.mp4",
+        "sha256": "fb2b6fbaa2feb25fb1052e42d8b7d700390974059cb6f0cd485bc829a9c1313e",
+        "mode": "fast",
+        "plan_id": "567cfc82a9c2bc26",
+        "typography_assets": [],
+        "inventory_sha256": "a330eee3bfea186e0186298481454e01148251ec9b75b816c3ef703e8c03ae04",
+        "recipe": "inputs/recipe-v1.json"
+      }
+    },
+    "embedding_revision": {
+      "reason": "Actual v2 encoded frame retained the wrong prefix order despite RLM. A real single-frame ASS probe with explicit RTL embedding shows numeric range at right, joined Arabic phrase in middle and equals at left. Apply the observed correction.",
+      "changes": [
+        {
+          "id": "t002",
+          "before": "‏1-2 إجابات صحيحة =",
+          "after": "‫1-2 إجابات صحيحة =‬"
+        },
+        {
+          "id": "t004",
+          "before": "‏3-4 إجابات صحيحة =",
+          "after": "‫3-4 إجابات صحيحة =‬"
+        },
+        {
+          "id": "t006",
+          "before": "‏5-6 إجابات صحيحة =",
+          "after": "‫5-6 إجابات صحيحة =‬"
+        },
+        {
+          "id": "t008",
+          "before": "‏7 إجابات صحيحة =",
+          "after": "‫7 إجابات صحيحة =‬"
+        },
+        {
+          "id": "t010",
+          "before": "‏8 إجابات صحيحة =",
+          "after": "‫8 إجابات صحيحة =‬"
+        },
+        {
+          "id": "t012",
+          "before": "‏9 إجابات صحيحة =",
+          "after": "‫9 إجابات صحيحة =‬"
+        },
+        {
+          "id": "t014",
+          "before": "‏10 إجابات صحيحة =",
+          "after": "‫10 إجابات صحيحة =‬"
+        }
+      ],
+      "previous_candidate": {
+        "path": "outputs/translated-candidate-v2.mp4",
+        "sha256": "c98289c9b19c969738a0f36406ab4e53c535672e431c5de0b8fbccaf49ecc0d0",
+        "mode": "fast",
+        "plan_id": "7d29327178db9926",
+        "typography_assets": [],
+        "inventory_sha256": "2a5b8dd9bd247ceeb1b0f0b49110bc8ad02c47390abd4fb0aa55b3b5aa806b88",
+        "recipe": "inputs/recipe-v2.json"
+      }
+    },
+    "actual_visual_observation": "Compared source and actual encoded target at frames 0,120,239,240,360,480. Persistent translated title, seven score rows and legal footer stay visible. No readable original English observed in replaced regions. Native face, mouth poses, hair, robe, product myIQ and composition are retained at these samples. No large tearing or severe subject damage observed. Actual corrected RTL embedding probe and encoded frame show numerals at right, joined Arabic phrase in middle, equals to left; colored result follows farther left.",
+    "actual_video_sha256": "e33229130416e4d3546c0d7ea4a3e4005da2f6e9da220e3ad7eda269ece2686c"
+  },
+  "limitations": [
+    "One source and renderer; shaping and direction need independent verification elsewhere.",
+    "No direct normal-speed playback or human listening asserted."
+  ]
+}

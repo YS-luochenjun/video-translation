@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261110-056-01-closure-a2265b1167.json",
+    "sha256": "c923ced8b3de889958914003d245132ef6676997923d6c0f2d8a1db543895160"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent closure evidence review; not independent review or user acceptance",
+  "origin": "Actual MOG-20261110-056 finalized videos, bound submission receipts and preserved observations",
+  "resolution": "rejected",
+  "reason": "Reject promotion of this generic per-locale completion summary as a new method. It repeats existing review limitations and is not independent technical replication; preserve the source/locale-specific outcome, original review and all limitations as delivery history.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "All original observations, failure judgments, actual video hashes, case and limitations remain immutable."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "recorded_at": "2026-11-10T12:36:58+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

@@ -1,0 +1,31 @@
+{
+  "id": "MOG-20261109-049-2-03-completion-c8cb38e783",
+  "status": "candidate",
+  "created_at": "2026-11-09T14:17:50+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "83b5aeeeb172f87a6f875a4b73cdb2591ad50a3426cb31e74502e276fc60f252",
+    "target_language": "pt-BR"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "For this source, same-shot restoration and source-style target lettering support a complete dub, while garment texture, typography approximation and ASR uncertainty remain unresolved. Preserve the original image safety rejection and do not repeat that rejected route.",
+  "limitations": [
+    "Visible smoothed/striped watermark-repair texture on cloth/halftone remains.",
+    "Source typography adapted with actual bound fonts and approximate phrase pop/fade; source/target switch has disclosed small timing offset.",
+    "Frame inspection only; no claim of normal-speed visual playback.",
+    "Language-forced ASR does not prove absence of faint source-language residue in separated backing.",
+    "No normal-speed audio listening, speaker-role approval or music-fidelity approval.",
+    "Full ASR pluralizes anime to animes while head ASR has anime; a004 contains connector e and a005 onset is transcribed Ih. Preserve actual variations; seven semantic turns and both comments/final-video CTA clauses are present."
+  ],
+  "evidence": {
+    "run": "MOG-20261109-049-2-03",
+    "video_sha256": "c8cb38e783c618ae66b824f623d66e2359789241580341fef047749afdf74e50",
+    "completion_sha256": "7c46bd5399b45019b1705dca86c9733e50f85832bae2c43ebd0d0ad0f3c6d666"
+  },
+  "reflection_state": "observed_candidate",
+  "quality_passed": false,
+  "company_preference": false,
+  "promotion": "Scoped completion observations only; no rule activation or user acceptance.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -1,0 +1,32 @@
+{
+  "id": "WOW-20261110-044-2-01-closure-23d42b40eb",
+  "status": "candidate",
+  "created_at": "2026-11-10T16:17:23+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "da506d89426318e6b0946057594204416ca362f96c11043ad778c9551d4d0bf1",
+    "target_language": "ja"
+  },
+  "outcome": "revise",
+  "hypothesis": "On this exact source, the reviewed Wan 3 text-removal result removed text but changed shot timing, fish and scene composition, so the local V2 complete dubbed candidate was retained. Local restoration still has blur and seams, and source lettering is approximated. Assess scene timing and principal subjects alongside text removal before selecting a generated plate. This comparison does not establish a broadly effective removal method or a quality pass.",
+  "company_preference": false,
+  "evidence": {
+    "run": "WOW-20261110-044-2-01",
+    "video_sha256": "23d42b40ebe2b79903a6d71cd6657089876484172c499788fac4b66789cc0910",
+    "completion_sha256": "4d7933eb9fe710dae1f3e4242defcaaf45f3e75100ed237ac907ccf2a872de82",
+    "finalization_spec_sha256": "4e1f2fd45efcfe26744fc0c3e53fb0f313651c6f5952f4ca786b3f8cfb8ca45c"
+  },
+  "limitations": [
+    "Selected V2 is the bounded complete Japanese candidate; internal assessment remains revise. No clean-base, quality-pass, normal-playback, independent-review or user-acceptance claim.",
+    "Skeleton head-to-bone junction retains local notches/blur and tiny dark/light remnants around3.07-3.47s. Blotchy original title-container texture, rock/kelp blur and tail repair marks remain.",
+    "V3 ImageGen patch was evaluated and rejected for default selection because frames100/104 add narrow horizontal protrusions and bone-edge notches despite reducing frame96 residue.",
+    "Actual15 phrase contact sheet, first/last frames and sampled repair strip have been visually inspected. Full encoded video and audio decode succeeded; actual encoded full/head/tail audio was extracted. Direct listening and normal-speed motion review remain pending.",
+    "Actual final-mix ASR supplies15 phrase boundaries and ends last word at13.58s on14.014s timeline. Listed Japanese homophones/pronunciation readings and possible UVR English remnants need listening; no TTS truncation was used for fitting.",
+    "Exact source and target locale only; multiple locales are not independent source validation.",
+    "Complete delivery and platform acceptance do not change internal quality false or imply user acceptance.",
+    "Current V6 observations supersede the current candidate choice only; historical V5 limitation wording and prior failures are preserved."
+  ],
+  "promotion": "Candidate only. Requires independently reviewed scoped evidence before activation.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "SHE-20261109-041-2-11-curation-v1",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "49f3ae9d9dea38b62bf4e148c741fa153945c5ac8191f0a996457d229ec88a1f",
+    "target_language": "ar"
+  },
+  "knowledge_class": "project_training_candidate",
+  "company_preference": false,
+  "created_at": "2026-11-09T09:50:24.369547+00:00",
+  "case_manifest_sha256": "8259fdd2e8deeaadf09915185234e7dbe516d565f9302122e2cca835a4bdb295",
+  "outcome": "observed_same_source_revision_best_available",
+  "hypothesis": "Source2 Arabic native NotoSansArabic lettering, neutral punctuation, and source-Latin CTA reveal. Actual v2 words were joined and ordered RTL, but final exclamation/period appeared at the right. Balanced U+202B/U+202C in actual ASS moved final punctuation to the left in v3 observed frames. Current v3r native527 reveals right-hand opening words before completion. Actual earlier nominal UI/caption ink was visibly too small and source-specific sizes were corrected. Paragraph bidi handling of neutral punctuation and carrying over Latin reveal direction can conflict with Arabic reading order; nominal font size need not preserve ink height. Actual same-source v1/v2/v3 and current-v3r native evidence; numeric sizes, coordinate masks and timing are not universal parameters. Inspect actual final sentence punctuation, joined logical word order, first/intermediate/final reveal and native ink hierarchy for new Arabic copy/renderer; glyph coverage or joining alone cannot prove the complete layout.",
+  "observations": {
+    "trigger": "Source2 Arabic native NotoSansArabic lettering, neutral punctuation, and source-Latin CTA reveal.",
+    "observation": "Actual v2 words were joined and ordered RTL, but final exclamation/period appeared at the right. Balanced U+202B/U+202C in actual ASS moved final punctuation to the left in v3 observed frames. Current v3r native527 reveals right-hand opening words before completion. Actual earlier nominal UI/caption ink was visibly too small and source-specific sizes were corrected.",
+    "causal_hypothesis": "Paragraph bidi handling of neutral punctuation and carrying over Latin reveal direction can conflict with Arabic reading order; nominal font size need not preserve ink height.",
+    "action_basis": "Actual same-source v1/v2/v3 and current-v3r native evidence; numeric sizes, coordinate masks and timing are not universal parameters.",
+    "next_falsification": "Inspect actual final sentence punctuation, joined logical word order, first/intermediate/final reveal and native ink hierarchy for new Arabic copy/renderer; glyph coverage or joining alone cannot prove the complete layout."
+  },
+  "limitations": [
+    "One actual source2 identity only; locales/revisions are not independent sources.",
+    "Current final remains quality revise/best_available, with no new user/company/independent/native listening approval.",
+    "Case manifest embeds necessary historical JSON/image/audio; old paths are origin labels, not production dependencies.",
+    "No model, rule activation, company preference change, platform completion or media cleanup is authorized by this candidate."
+  ],
+  "next_action": "Review this exact-scope candidate with embedded before/after evidence; consider clarification of an existing method only after author review. Leave generalization and phonetic/video acceptance pending.",
+  "evidence": {
+    "video_sha256": "5c9fafd5fce14d481c52edf7e5be2d494ab8d787b05934e9f732d0ec08a229c1",
+    "source_sha256": "49f3ae9d9dea38b62bf4e148c741fa153945c5ac8191f0a996457d229ec88a1f",
+    "plan_id": "f6bc2c1b23dd800c"
+  },
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

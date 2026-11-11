@@ -33,7 +33,7 @@ class LanguageAliasTests(unittest.TestCase):
     def test_business_aliases_and_explicit_unlisted_locales(self):
         expected = {"Japan": "ja", "日语": "ja", "us2": "en", "br": "pt", "pt-BR": "pt-BR",
                     "hk": "zh", "in": "hi", "tl": "fil", "zhtw": "zh-TW",
-                    "zh-CN": "zh-CN", "ja-JP": "ja-JP", "es-MX": "es-MX", "zh-HK": "zh-HK"}
+                    "zh-CN": "zh-CN", "ja-JP": "ja-JP", "es-MX": "es-MX", "zh-HK": "zh-HK", "sa": "ar"}
         for alias, code in expected.items():
             with self.subTest(alias=alias):
                 self.assertEqual(languages.resolve(alias, PROJECT)["target_language"], code)
@@ -72,7 +72,7 @@ class LanguageAliasTests(unittest.TestCase):
 
     def test_language_policy_does_not_compete_with_production_methods(self):
         index = read_json(PROJECT / "knowledge/index.json")
-        policy = next(e for e in index["entries"] if e["id"] == "language-aliases-v1")
+        policy = next(e for e in index["entries"] if e["id"] == "language-aliases-v3")
         self.assertEqual(policy["scope"], {"workflow": "video-localization", "phase": "language_resolution"})
         evidence = PROJECT / policy["case"] / "evidence/language-aliases.json"
         self.assertEqual(json.loads(evidence.read_text(encoding="utf-8")),

@@ -1,0 +1,30 @@
+{
+  "id": "MOG-20261109-049-1-01-completion-68c6d6fa66",
+  "status": "candidate",
+  "created_at": "2026-11-09T14:15:59+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "cd0869ecbb669a82c7d503e9c90e116a46efb478d77ab0e4d0a2bdad3df59d1a",
+    "target_language": "es"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "For this source, adopting locally valid repaired pixels preserves a complete original-position dub, but wall/hat texture and transition blur remain explicit limitations. Inspect full-frame motion and phrase boundaries; a completed file does not establish quality acceptance.",
+  "limitations": [
+    "Upper-band Wan repair varies wall/hat texture and leaves a visible floating hat-top blur near 2.267s. Face, hands and body remain original outside repair band; no large subject destruction observed in sampled full frames.",
+    "Headline uses bound Arial Narrow Bold Italic, source yellow/black style and original location; its line spacing/ink height is tighter than source. Secondary next-title overlap is retained and has limited readability.",
+    "Spanish opening ASR returns Mi rather than scripted Tu; preserve pronoun uncertainty. Final Esto is confirmed by separate encoded-tail ASR; source final This is is disputed between models.",
+    "Actual full encoded audio and edge ASR exist; direct listening and normal-speed continuous visual review remain unverified. Limited full-frame/boundary observations do not certify every frame or music/voice fidelity.",
+    "This is a complete dubbed best-available output after bounded base repairs; quality is not approved and no user/company acceptance is claimed."
+  ],
+  "evidence": {
+    "run": "MOG-20261109-049-1-01",
+    "video_sha256": "68c6d6fa66060cb536055c21f9c848fa7bf065dff83529689d9766be472b75c5",
+    "completion_sha256": "335d622c30caffcbb0f5d29b42a3c681d9b13c554b31cb9c4fd59e49e9986e12"
+  },
+  "reflection_state": "observed_candidate",
+  "quality_passed": false,
+  "company_preference": false,
+  "promotion": "Scoped completion observations only; no rule activation or user acceptance.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

@@ -118,6 +118,31 @@ class LocaleAudioTests(unittest.TestCase):
         with self.assertRaisesRegex(Exception, 'reconcile ambiguous'):
             self.inspect(transcribe_only=True, retry_upload=True)
 
+    def test_authorized_retry_can_recover_its_own_undispatched_upload(self):
+        binding = {'path': 'inputs/retry.json', 'sha256': 'fixture'}
+        identity = {'retry_of': 'original-request', 'retry_attempt': 1}
+        original_upload = self.client.upload
+        with patch('video_localizer.audio_retry.authorized_retry', return_value=identity) as authorize:
+            self.client.upload = lambda path: (_ for _ in ()).throw(ApiError(
+                'KIE transport/response failure (URLError); inspect provider log before resubmitting', ambiguous=True))
+            with self.assertRaises(ApiError):
+                self.inspect(retry_authorization=binding)
+            self.assertEqual(self.calls, [])
+            self.client.upload = original_upload
+            with patch('video_localizer.budgets.resume_undispatched') as resume:
+                result = self.inspect(retry_authorization=binding, retry_upload=True)
+            resume.assert_called_once_with(self.run, result['job'])
+            self.assertEqual(result['state'], 'success')
+            self.assertEqual(len(self.calls), 1)
+            journal = json.loads((self.run / 'jobs' / (result['job'] + '.json')).read_text())
+            self.assertEqual(journal['retry_authorization'], binding)
+            self.assertEqual(journal['retry_of'], identity['retry_of'])
+            self.assertEqual(len(journal['upload_retry_history']), 1)
+            with self.assertRaisesRegex(Exception, 'reconcile ambiguous'):
+                self.inspect(retry_authorization=binding, retry_upload=True)
+            self.assertEqual(len(self.calls), 1)
+            self.assertEqual(authorize.call_count, 3)
+
     def test_audio_request_has_a_specific_supported_model_and_longer_timeout(self):
         client=KieClient(key='synthetic-test-key')
         with patch.object(client,'_request',return_value={'choices':[{}]}) as request:

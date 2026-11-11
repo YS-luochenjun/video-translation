@@ -315,9 +315,11 @@ def register(code, spec, decision=None, root=ROOT):
             pending = pending or completed_repair_pending(
                 previous, path.parent, Path(root), decision.get('repair_video_indices'))
         if decision.get('continue_unsubmitted_outputs') is True:
-            boxes = [read_json(p) for p in path.parent.glob('return-*.json')]
-            pending = pending or (any(v.get('members') for v in previous.get('videos', []))
-                                  and (not boxes or any(b.get('state') != 'returned' for b in boxes)))
+            boxes = {p.name: read_json(p) for p in path.parent.glob('return-*.json')}
+            pending = pending or any(
+                video.get('members')
+                and boxes.get(f"return-{video['index']}.json", {}).get('state') != 'returned'
+                for video in previous.get('videos', []))
         if continuation:
             require((previous.get('content_version') == snap['content_version'] or quantity_revision)
                     and snap['content_version'] == decision.get('continuation_content_version')
@@ -359,6 +361,25 @@ def register(code, spec, decision=None, root=ROOT):
         elif old and old['content_version'] != snap['content_version'] and decision.get('review_locale_addition'):
             from .fireplay_locale_revision import accept
             old = accept(old, snap, sources, decision, targets, path.parent, Path(root))
+        elif old and old['content_version'] != snap['content_version'] and decision.get('review_intake_metadata_only'):
+            before, after = old.get('snapshot', {}).get('brief', {}), snap['brief']
+            keys = ('id', 'code', 'deptId', 'title', 'description', 'refText', 'assetType', 'channels')
+            require(decision.get('reviewed_content_version') == old['content_version']
+                    and decision.get('revision_reason') and not old.get('budget')
+                    and not any(v.get(k) for v in old['videos'] for k in ('run', 'members', 'batch', 'batch_id'))
+                    and not list(path.parent.glob('return-*.json'))
+                    and row.get('status') == 'not_started' and row.get('canBindMaterials') is True
+                    and old['targets'] == targets and all(before.get(k) == after.get(k) for k in keys)
+                    and after.get('quantity') == sum(len(v['targets']) for v in old['videos'])
+                    and decision.get('quantity_mode') == old.get('decision', {}).get('quantity_mode') == 'one_per_locale',
+                    'Intake metadata review requires unchanged unfunded source/language scope and the exact old version')
+            archive = path.parent / 'revisions' / (object_hash(old) + '.json')
+            write_json(archive, old)
+            old.setdefault('revision_history', []).append({
+                'content_version': old['content_version'], 'path': archive.relative_to(root).as_posix(),
+                'reason': decision['revision_reason'], 'reviewed_at': utc_now(), 'scope': 'intake_metadata_only'})
+            old['content_version'] = snap['content_version']
+            old['requested_targets'] = requested
         elif old and old['content_version'] != snap['content_version'] and decision.get('reviewed_content_version'):
             require(decision['reviewed_content_version'] == old['content_version'] and decision.get('revision_reason'),
                     'Revision review must identify the exact previous version and actual differences')
@@ -387,17 +408,20 @@ def register(code, spec, decision=None, root=ROOT):
             require([v['source_url'] for v in old['videos']] == [v['source_url'] for v in sources],
                     'Interpretation changed; explicit revision review required')
             if old['targets'] != targets:
-                require(not old['targets'] and targets and old.get('blockers')
+                from .budgets import target_languages
+                alias_only = bool(old['targets']) and target_languages(old['targets'], root) == targets
+                require((not old['targets'] or alias_only) and targets and old.get('blockers')
                         and _unstarted(old, path.parent),
                         'Interpretation changed; explicit revision review required')
-                # Resolve missing languages before production; never reinterpret
-                # an existing funded request, dispatched chat or return batch.
+                # Resolve missing languages or dictionary-equivalent aliases
+                # before production; funded/dispatched requests stay frozen.
                 old.setdefault('interpretation_history', []).append({
                     'targets': old['targets'], 'decision': old.get('decision'),
-                    'blockers': old['blockers'], 'resolved_at': utc_now()})
+                    'blockers': old['blockers'], 'resolved_at': utc_now(),
+                    'reason': 'current_language_aliases' if alias_only else 'resolved_missing_languages'})
                 old['targets'] = targets
                 for member in old['videos']:
-                    member['targets'] = targets
+                    member['targets'] = target_languages(member['targets'], root) if alias_only else targets
             require([v['targets'] for v in old['videos']] == [v['targets'] for v in sources],
                     'Source language interpretation changed; explicit revision review required')
         record = old or {'schema_version': 1, 'code': code, 'requirement_id': row['id'],

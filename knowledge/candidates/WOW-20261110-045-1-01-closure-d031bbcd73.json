@@ -1,0 +1,28 @@
+{
+  "id": "WOW-20261110-045-1-01-closure-d031bbcd73",
+  "status": "candidate",
+  "created_at": "2026-11-10T13:56:59+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "ja",
+    "source_sha256": "fff6d312832808898f03c76d34fb932d4d2db7aa2e555d0a21dd04ce3fc7ce94"
+  },
+  "outcome": "revise",
+  "hypothesis": "This exact source retains faint shirt donor texture seams after bounded repair. The complete target CTA is legible in sampled original-position crops but its deformation and title defocus differ from the source. Compare source, neutral and target native crops plus normal-speed motion before accepting the repair.",
+  "evidence": {
+    "run": "WOW-20261110-045-1-01",
+    "video_sha256": "d031bbcd73fc46d893be3dc58e6b415e432da5fd489e9e9eba3db1ac37ebd69c",
+    "quality_sha256": "413f1254ad31a3df03ad57efb4586b140114201ae1c79fdeec06d532a34f0f70"
+  },
+  "limitations": [
+    "Same-agent native still/sequence inspection only; normal-speed playback and direct listening were not performed.",
+    "Fireplay acceptance of all eight outputs does not change internal failed quality or imply user/independent acceptance.",
+    "Full-track audio model and shorter ASR may conflict; no new listening verdict is inferred.",
+    "Exact source and locale only; no promotion or coordinate reuse for other sources.",
+    "Original unknown fee is retained in the original budget ledger."
+  ],
+  "company_preference": false,
+  "promotion": "Requires independently reviewed evidence before activation.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

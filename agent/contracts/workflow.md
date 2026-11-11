@@ -18,7 +18,7 @@
 
 保存原片、哈希、原始简述、目标 locale、品牌例外。长视频按实际原时长计额并分段处理，普通导入/解析不再受旧演示180秒硬限制；合成 demo 仍保留自身测试范围。用户只需给视频与目标语言，其余由 Agent 判断并记录；缺少会改变结果的品牌/语气约束时再澄清。
 
-目标语言先按 `knowledge/rules/language-aliases-v2.md` 解释；可调用 `language-resolve ja` 核对。用户给定的完整分组在 `config/language-aliases.json`，`init/ingest` 自动解析并保留原始输入。此为输入字典，不占制作方法检索名额；明确的地区、简繁和口音要求同时保留在任务简述中。
+目标语言先按 `knowledge/rules/language-aliases-v3.md` 解释；可调用 `language-resolve ja` 核对。用户给定的完整分组在 `config/language-aliases.json`，`init/ingest` 自动解析并保留原始输入。此为输入字典，不占制作方法检索名额；明确的地区、简繁和口音要求同时保留在任务简述中。
 
 ## 2. 解析
 

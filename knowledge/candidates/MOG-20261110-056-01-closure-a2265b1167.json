@@ -1,0 +1,28 @@
+{
+  "id": "MOG-20261110-056-01-closure-a2265b1167",
+  "status": "candidate",
+  "created_at": "2026-11-10T12:32:26+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f845e919a32d8d955a0c60d58bf6bd3ef417de0d8ae7f25b7366df9439aca69c",
+    "target_language": "es"
+  },
+  "outcome": "delivered_with_issues_bound_verified",
+  "hypothesis": "Single-source es observation: actual complete translated lettering and genuine dub were finalized and bound in Fireplay. Six native-frame comparisons and attributed model/ASR audio evidence support bounded best-available delivery. Minor repaired particle/robe texture variation and original mouth motion remain. No normal-speed human listening/viewing, independent visual review, strict quality pass or user acceptance is asserted.",
+  "company_preference": false,
+  "reflection_state": "observed_candidate",
+  "evidence": {
+    "video_sha256": "a2265b116742e100580d6e6eb95541a3933dbad45f5824b0de7724aaf363647b",
+    "completion_sha256": "fbad7540ea881458f590c5ba24ed510ac01755661a0f1e56fb646cd4e65d2185",
+    "review_sha256": "fab9070c2994cf0f70515cf7af3aff516710b9af3744f54ab2c189e69718cbd5"
+  },
+  "limitations": [
+    "No direct Codex/human listening or normal-speed video perception claimed. Six sampled frames do not prove every transient frame.",
+    "Whisper CI/6 ambiguity retained; Gemini timing exceeds true EOF by .21s, use actual waveform duration and tail crop, not model timing as precision evidence.",
+    "Original mouth motion remains; no target-language lip synchronization.",
+    "Minor local particle and robe-texture repair variation.",
+    "Ten locales are one independent source, not ten replications."
+  ],
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

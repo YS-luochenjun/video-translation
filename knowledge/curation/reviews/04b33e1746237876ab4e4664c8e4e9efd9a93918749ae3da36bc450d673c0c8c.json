@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "knowledge/candidates/APC-20261111-001-de-closure-456243f485.json",
+    "sha256": "1c2e017121aad4595eef0de06de0310cdb08c7be7c7f1084e665a667eb1c8df1"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent recent-chat and candidate-text review",
+  "origin": "User requested recent conversation lessons and project optimization.",
+  "resolution": "pending",
+  "reason": "已读实际alpha为零导致英德叠加的单源观察；当前记录只有文字与哈希引用，未独立核对完整编码对照。",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "Original observation, source/locale scope, failed quality and unknown costs remain unchanged."
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "独立打包并核对source/neutral/encoded-target及实际patch alpha对照；保留best_available、正常播放/听审未完成结论。",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-11-11T06:35:03+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

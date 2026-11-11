@@ -1873,7 +1873,7 @@
       "origin": "Project owner clarification and eight-issue developer review 2026-10-26",
       "reviewed_by": "Codex same-agent policy and method review; no new media acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-26T02:49:21+00:00",
       "method_sha256": "401ff6c5ade8b2a060ebd0f010d803fba2f86ea96ba6687f23cce4436030bd56",
       "case": "knowledge/examples/language-aliases-v2",
@@ -1884,7 +1884,8 @@
       "delivery_modes": [
         "fast",
         "strict"
-      ]
+      ],
+      "superseded_by": "language-aliases-v3"
     },
     {
       "id": "method-source-neutral-preparation-v4",
@@ -3645,6 +3646,66 @@
       "knowledge_type": "method",
       "validation_level": "deterministic_technical_regression",
       "topic": "audio"
+    },
+    {
+      "id": "language-aliases-v3",
+      "path": "knowledge/rules/language-aliases-v3.md",
+      "scope": {
+        "workflow": "video-localization",
+        "phase": "language_resolution"
+      },
+      "tags": [
+        "language",
+        "aliases"
+      ],
+      "origin": "User explicitly extended sa→ar from individual requests to the entire project on 2026-11-09; evidence:review",
+      "reviewed_by": "Codex: direct human policy and alias-only preproduction bounds",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-09T10:31:16+00:00",
+      "method_sha256": "f5599a7a15343fe671fa7e37857996ca25f2856efaf6aeea1b13caad959eb765",
+      "case": "knowledge/examples/language-aliases-v3",
+      "case_manifest_sha256": "5296f3ab2e58352dfb322ac88435a208bbb42d47488530b72bc8b686db05fbf7",
+      "supersedes": "language-aliases-v2",
+      "knowledge_type": "project_policy",
+      "validation_level": "user_defined_input_contract",
+      "topic": "language_resolution",
+      "language_match": "exact"
+    },
+    {
+      "id": "resumable-intake-and-audio-upload-v1",
+      "path": "knowledge/rules/resumable-intake-and-audio-upload-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "phase": "recovery"
+      },
+      "tags": [
+        "fireplay",
+        "audio",
+        "recovery",
+        "deduplication"
+      ],
+      "origin": "User requested recent-chat lessons and project optimization; deterministic review of existing production fixes.",
+      "reviewed_by": "Codex same-agent developer review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-11T06:27:15+00:00",
+      "method_sha256": "4e3760e0198305c086c38d705f47d5de92b70fdcda99eb7e3acb2ccd2342653f",
+      "case": "knowledge/examples/resumable-intake-and-audio-upload-v1",
+      "case_manifest_sha256": "0acaae4575eb8bcda9b968c7adae76a7e980a4ecdb2c37d3892ef5babe72a473",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/resumable-intake-and-audio-upload-v1.json",
+          "sha256": "3fa2d73faa6469572e05c27d255fedf56812cfc6d8172d2310bec85763c8935b"
+        }
+      ],
+      "knowledge_type": "method",
+      "validation_level": "deterministic_technical_regression",
+      "topic": "recovery",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ]
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

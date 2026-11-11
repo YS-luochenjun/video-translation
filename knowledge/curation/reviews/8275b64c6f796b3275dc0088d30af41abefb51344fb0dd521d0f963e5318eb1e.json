@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "knowledge/candidates/KEY-20261110-032-02-229e4660f5.json",
+    "sha256": "07f247e506bbd953db6d3161c6f6b0f7b4c1fd37f09f6a1576f0269853b32315"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent recent-chat and candidate-text review",
+  "origin": "User requested recent conversation lessons and project optimization.",
+  "resolution": "pending",
+  "reason": "原候选只有Needs an evidence-backed lesson占位，未载明修复变量或对照结论。会话的8/8绑定不构成视觉或听审经验验证。",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "Original observation, source/locale scope, failed quality and unknown costs remain unchanged."
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "按本源和各locale核对当前成片、衣物供体接缝/珠宝残字的前后原生对照；补写实际观察及未完成正常播放/听审范围后再审。",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-11-11T06:35:07+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

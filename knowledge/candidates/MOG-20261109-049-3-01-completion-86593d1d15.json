@@ -1,0 +1,30 @@
+{
+  "id": "MOG-20261109-049-3-01-completion-86593d1d15",
+  "status": "candidate",
+  "created_at": "2026-11-09T14:17:50+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "5530e87b9863dd7e3c9fefa803a5427f9b907a4052c42ceb8ac671f20d7cfc83",
+    "target_language": "es"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "For this source, preserve millisecond source timestamps and exact encoded frame-clock evidence separately. A capture timestamp gate failure remains a failure even when a complete dubbed best-available output is selected; floor softening and font/outline approximation remain disclosed.",
+  "limitations": [
+    "Source rounded decorative face, stipple and outline thickness are approximated with real Arial Rounded glyphs and layered PNG; title is uppercase and challenge spans wider than original.",
+    "Original rapid first-title scale is reconstructed; radial-blur transition is simplified to a switch at3.6s. Actual sampled 3.5667/3.6/3.6667 frames confirm source title event order.",
+    "Tiny watermark glyph repair softens floor/feet texture locally; sampled three-column frames retain subject, hat, room and rear-view movement with no severe damage observed.",
+    "Real encoded full/head/tail no-VAD Spanish ASR recognizes all six translated turns including initial La and final Espera. ASR cannot prove zero residual English, voice naturalness or music fidelity; no direct listening or continuous normal-speed visual playback claimed.",
+    "Complete dubbed best-available output; quality not approved and no independent or user/company acceptance claimed."
+  ],
+  "evidence": {
+    "run": "MOG-20261109-049-3-01",
+    "video_sha256": "86593d1d15ded6a6a718151b5cbb226fde0458e3bb714cfa0a0d73bf85f0f0b9",
+    "completion_sha256": "df067480562e068f8c4f8be618999a469d788c92c8c3e28b99de6fa2be6996f0"
+  },
+  "reflection_state": "observed_candidate",
+  "quality_passed": false,
+  "company_preference": false,
+  "promotion": "Scoped completion observations only; no rule activation or user acceptance.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

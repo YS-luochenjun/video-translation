@@ -1,0 +1,30 @@
+{
+  "id": "MOG-20261109-049-4-01-completion-f5cb3c1732",
+  "status": "candidate",
+  "created_at": "2026-11-09T15:28:29+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "b382740659f1d448dfb8dc4cf5cec071b118431022af85c60173a28866cc3ada",
+    "target_language": "es"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "For this exact source, reuse verified neutral restoration but rebuild each target language title, phrase timing and real seven-turn dub independently. Complete decode plus full/head/tail encoded ASR and native sampled frames support technical coverage only; pale title flecks, softened hair/top-band transitions and tiny exit traces remain ordinary limitations. Japanese final-turn ASR differs from the authored wording and direct listening remains unverified. Finalize maintenance interruptions require checking durable package/catalog receipts before recovery. Complete upload read/hash verification can be retried read-only when a first read is incomplete, without repeating upload or import.",
+  "limitations": [
+    "Smooth sky/red-wall reconstruction and donor top-band texture differ from source; tiny transient flecks and soft joins remain possible. Actual translated output has no readable source-English title protruding in inspected frames.",
+    "Source phrase-pop retained with adapted bound fonts; exact source radial smear/duplicated title transition is approximated. Third title remains visible at355 after source title disappearance and exits with a tiny Spanish trace around360–361; small exit-timing mismatch retained.",
+    "Actual sampled full-frame/critical-transition review only; no normal-speed playback or direct audio listening claimed.",
+    "No-hint ASR supports all seven semantic turns and complete opening/final CTA; ASR cannot exclude faint separated English residue or certify music fidelity, accent, or voice distinction.",
+    "Four copies of final native frame extend 761 source frames to 765 frames/25.5s to retain original 25.4955s audio duration."
+  ],
+  "evidence": {
+    "run": "MOG-20261109-049-4-01",
+    "video_sha256": "f5cb3c1732bf78a8da1988e2e34904e2dc564b033fe0177e0515858efc87f92f",
+    "completion_sha256": "63877b0d17ec757e42de7de627de5142368917560bff81ab5a0c30e42806a84a"
+  },
+  "reflection_state": "observed_candidate",
+  "quality_passed": false,
+  "company_preference": false,
+  "promotion": "Scoped completion observations only; no rule activation or user acceptance.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

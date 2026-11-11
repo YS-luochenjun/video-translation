@@ -1,0 +1,70 @@
+{
+  "id": "MOG-20261110-056-blackpoint-single-source",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f845e919a32d8d955a0c60d58bf6bd3ef417de0d8ae7f25b7366df9439aca69c"
+  },
+  "lesson": "In this dark source, visible glyph-shaped islands after Wan repair were associated with a decoded neutral median near RGB 9/10/8 versus original near zero. Remapping the neutral black point 16 to zero before glyph-local compositing removed readable source ghosts in inspected native samples. Full mask coverage had not ensured a clean visual result. Restrict to this source; test actual decoded backgrounds before using any threshold elsewhere.",
+  "records": {
+    "provenance": {
+      "source": {
+        "path": "inputs/source.mp4",
+        "sha256": "f845e919a32d8d955a0c60d58bf6bd3ef417de0d8ae7f25b7366df9439aca69c"
+      },
+      "wan_segments": [
+        {
+          "path": "outputs/0bd279fbc24b615b93091c1da7663c17cbcb66fabad854e0bb6685838cf8f36f.mp4",
+          "sha256": "89bc090642156d9ebb6fe4dc5bebbc1ee8a5e1ec1841e3c3c619974032970a5d"
+        },
+        {
+          "path": "outputs/a04dbd19d73cd6e1df380ae689e82761ea7f9e4701c90effeeffacdb6d545740.mp4",
+          "sha256": "dfc27add40700d374c73c85408833b09ddfd7be2a1f47ab6ae9e5bda119890a0"
+        }
+      ],
+      "mask": {
+        "path": "inputs/source-glyph-mask.png",
+        "sha256": "6f54f7ee8a0d77e741668a058be03e8ef36f0b1b5b14c4517992b1972ad35297"
+      },
+      "output": {
+        "path": "outputs/native-clean-base-v2.mp4",
+        "sha256": "925bec9773dd6d677e6a7100e967614971440ad646835f4f10a61189d4f828aa"
+      },
+      "native_frames": 481,
+      "fps": 30,
+      "method": "Actual Wan 3.0 erasure sampled on the native 30fps source timeline enters only dilated source glyph silhouettes recovered from the median of sixteen actual source frames. Original moving man, logo and particle pixels remain outside those silhouettes. No solid or blur cover. The final repair frame extends the last 1/30 second; original video pixels outside mask remain native.",
+      "limitations": [
+        "Local particle textures may differ inside repaired glyph areas. Model repair is 480P upscaled, original subject remains 1080P outside glyphs. No claim of human normal-speed review."
+      ],
+      "revision": {
+        "cause": "Decoded neutral median RGB near 9/10/8 versus original black near zero made glyph-shaped bright islands. Full-mask pixels already contained neutral pixels; mask range was not the cause.",
+        "change": "Remap neutral RGB black point 16 to zero and white 255 to 255 before glyph-local compositing; source pixels outside the original mask remain native.",
+        "previous_candidate": {
+          "path": "outputs/native-clean-base-v1.mp4",
+          "sha256": "ace6ced4be82409653897376e8a9802ffd7694547433a9d2edf64999715d8e1b"
+        },
+        "review": "Pending actual full-frame comparison."
+      }
+    },
+    "actual_pilot_review": {
+      "comparison": {
+        "path": "review/pilot-comparisons/88b155044a01e3ed779f52b7fd6b1f16e0b9acbebb9516931c3c8685bd2cefa8/comparison.json",
+        "sha256": "953f817728c55653faa4fd6014cafd42acc6ce68a71f11ea8905dfe47f18a3ff"
+      },
+      "reviewer": "Codex same-agent visual inspection plus attributed Gemini and unprompted Whisper audio evidence",
+      "why_hardest": "Legal line crosses the moving textured robe at bottom; cleaning must remove tiny source glyphs without replacing or freezing the moving person.",
+      "observations": {
+        "residue": "Original, neutral and target sampled full frames examined. V1 readable ghost glyphs were found and corrected by neutral black-point remapping; no readable title/table/legal English in inspected v2 base and Spanish frames.",
+        "subject": "Face, mouth pose, hair, robe and product retained at six sampled native times. Small dark texture variations under old legal glyphs remain; no whole subject replacement.",
+        "lettering": "Spanish title and all seven rating pairs readable at full first frame, white regular prefixes and bold yellow/orange/cyan/green/red results, legal stays in original footer.",
+        "timing": "Source static text stays static throughout sampled opening/middle/final frames. Exact 481-frame clock retained; no source progressive subtitles. Continuous motion not directly perceived at playback speed."
+      },
+      "decision": "best_available",
+      "limitation": "Bounded real Wan repair plus two local black-level/composition revisions. Minor legal/robe texture variation and lack of direct normal-speed listening/viewing remain disclosed; no strict neutral-master approval."
+    }
+  },
+  "limitations": [
+    "Single-source local revision, not a universal black-level transform.",
+    "Minor moving particle/robe texture differences and unobserved transient frames remain.",
+    "Provenance review field stays pending historically; later actual pilot is separate evidence."
+  ]
+}
