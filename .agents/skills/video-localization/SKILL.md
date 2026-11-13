@@ -21,6 +21,8 @@ description: Localize an advertisement video into another language in this works
 
 后续画面文字采用[源视觉语言政策](../../../knowledge/rules/source-led-visual-localization-v1.md)：先保存原文字样式，按[源样式合同](../../../docs/source-typography.md)制作少量艺术字与真实字体短语，复用style-layer及既有surface/Remotion合成；按实际配音对齐并保护主体，不逐帧生图、不照搬案例坐标。按[有界改进循环](../../../agent/workflows/continuous-improvement.md)检查整幅、首末及实际运动，记录新旧版本对照与漏检原因。
 
+出现译文过小、换行僵硬或源标题循环扫光时，按[排版与动效能力](../../../docs/remotion-typography.md)读取实际字体的排版候选，结合原片选择换行；观察到扫光才设置可选参数。候选不自动决定设计，阿语不固定为单行。审核文字区域的完整循环及首末，静态降级按实例披露实际损失；不以无关Logo区域的比较证明文字动效通过。
+
 字体按[实际字面与绑定](../../../docs/fonts.md)检查。doctor.language_fonts检查目标脚本的常规/粗体；Mac使用config/fonts.json中的真实原生家族，不要求未选用的Windows专有字体。明确指定的家族缺失仍报错，不改名冒充。动态文字可用font-bind提取并绑定TTC正确字面，缺字和字体哈希变化不得作为静态降级放行。
 
 文字识别和图片直接编辑由 Codex 执行，先读 `agent/contracts/model-routing.md`。`codex-packet RUN --stage recognize|image` 提供真实图片和命中知识正文；Codex 看图、识字或使用宿主图像编辑工具，按实际内容选择方法。用 `codex-result` 登记观察及真实输出，更新实例清单，继续既有底片与成片审核。工作包不等于已执行，图片产物不等于运动通过。专用音频与视频模型统一读取 `model-routing` 当前输出及其授权来源，不在技能另存型号默认值；当前视频配置为 Wan 3.0。旧 OCR/图片模型及其他视频模型仅保留历史证据，不自动降级到它们。

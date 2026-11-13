@@ -23,6 +23,7 @@ def selected(item):
 
 def code_identity():
     files = ['config/typography.json', 'src/video_localizer/typography.py', 'src/video_localizer/fonts.py',
+             'src/video_localizer/layout.py', 'src/remotion_renderer/sweep.mjs',
              'src/remotion_renderer/index.tsx', 'src/remotion_renderer/validate.mjs',
              'src/remotion_renderer/render.mjs', 'src/remotion_renderer/package.json', 'src/remotion_renderer/pnpm-lock.yaml']
     return {p: file_hash(CODE_ROOT / p) for p in files}
@@ -70,8 +71,21 @@ def contract(run, inventory):
         display = item.get('display', {})
         motion = display['motion']
         require(isinstance(motion, dict) and motion.get('kind') in policy['remotion_kinds'], 'Motion kind must be title, cta or emphasis')
-        require(set(motion) <= {'kind', 'effect', 'emphasize', 'emphasis_at'}, 'Unknown motion option')
+        require(set(motion) <= {'kind', 'effect', 'emphasize', 'emphasis_at', 'sweep'}, 'Unknown motion option')
         require(motion.get('effect', 'fade_scale') in ('fade_scale', 'none'), 'Unsupported motion effect')
+        from .layout import typography_lines
+        typography_lines(item['target_text'], display.get('layout_lines'))
+        if 'sweep' in motion:
+            sweep = motion['sweep']
+            require(isinstance(sweep, dict) and set(sweep) == {'period_seconds', 'width', 'color', 'opacity', 'direction', 'phase'},
+                    'Sweep needs period_seconds, width, color, opacity, direction and phase')
+            require_number(sweep['period_seconds'], 'sweep period', minimum=.2, maximum=20)
+            require_number(sweep['width'], 'sweep width', minimum=.02, maximum=1)
+            require_number(sweep['opacity'], 'sweep opacity', minimum=0, maximum=1)
+            require_number(sweep['phase'], 'sweep phase', minimum=0, maximum=1)
+            require(sweep['direction'] in ('left_to_right', 'right_to_left'), 'Invalid sweep direction')
+            require(isinstance(sweep['color'], str) and len(sweep['color']) == 7 and sweep['color'][0] == '#'
+                    and all(char in '0123456789abcdefABCDEF' for char in sweep['color'][1:]), 'Invalid sweep RGB color')
         require(item.get('text_role') != 'speech_caption', 'Speech captions keep their existing aligned renderer')
         require(item.get('action') not in ('preserve', 'solid_overlay') and not display.get('typography_layer'), 'Motion needs clean-master text, separate from fixed UI/manual surface assets')
         require(not item.get('trajectory') and not item.get('protected_regions') and not display.get('pill')
@@ -107,7 +121,7 @@ def verify_contract(run, plan, inventory):
 
 def _prepare(run, segment, items, meta, directory):
     """Hard content checks happen outside the runtime-failure fallback boundary."""
-    from PIL import ImageFont, features
+    from .layout import measure_typography
     fonts = _font_modules()
     policy = read_json(CODE_ROOT / 'config/typography.json')
     contract(run, {'text_instances': items})
@@ -149,25 +163,17 @@ def _prepare(run, segment, items, meta, directory):
         minimum = require_number(display.get('min_font_size', policy['minimum_font_size']), 'minimum font size', minimum=policy['minimum_font_size'])
         requested = require_number(display.get('font_size', 48), 'font size', minimum=minimum, maximum=meta['height'])
         direction = display.get('direction', 'ltr')
-        complex_script = direction == 'rtl' or any(0x590 <= ord(c) <= 0xDFF or 0xE00 <= ord(c) <= 0xEFF for c in item['target_text'])
-        # Browser/libass perform final shaping. Basic Pillow metrics are only a
-        # conservative proposal when RAQM is absent; actual alpha must fit too.
-        shaped_metrics = complex_script and features.check('raqm')
-        chosen = None
-        for size in range(int(requested), math.ceil(minimum)-1, -1):
-            font = ImageFont.truetype(str(font_path), size)
-            lines = item['target_text'].split('\n')
-            widths = [font.getlength(line, direction=direction) if shaped_metrics else font.getlength(line) for line in lines]
-            ascent, descent = font.getmetrics()
-            if max(widths) + 2*outline + 4 <= w and (ascent+descent) * len(lines) * 1.2 + 2*outline + 4 <= h:
-                chosen = size; break
-        require(chosen is not None, f"Text {item['id']} does not fit at readable size; revise box or line breaks")
+        measurement = measure_typography(item['target_text'], font_path, box, requested, minimum, outline,
+                                          direction, display.get('layout_lines'))
+        chosen = measurement['font_size']
+        require(measurement['fits'], f"Text {item['id']} does not fit at readable size; revise box or line breaks")
         first = max(0, math.ceil((max(item['start'],segment['start'])-segment['start'])*fps-1e-7))
         last = min(frames, math.ceil((min(item['end'],segment['end'])-segment['start'])*fps-1e-7))
         require(last > first, 'Typography interval has no output frames')
         from .fonts import ass_asset
         ass_face = ass_asset(run, asset, directory, item['target_text'], bold, italic)
-        block = {'id':item['id'], 'text':item['target_text'], 'family':family_map[key], 'fontSize':chosen,
+        block = {'id':item['id'], 'text':'\n'.join(measurement['lines']), 'canonicalText':item['target_text'],
+                 'layoutMeasurement':measurement, 'family':family_map[key], 'fontSize':chosen,
                  'box':box, 'startFrame':first, 'endFrame':last, 'direction':direction,
                  'animationStartFrame':math.ceil((item['start']-segment['start'])*fps-1e-7),
                  'animationEndFrame':math.ceil((item['end']-segment['start'])*fps-1e-7),
@@ -177,9 +183,15 @@ def _prepare(run, segment, items, meta, directory):
                  'actualPostScript':actual_postscript, 'assFamily':ass_face['ass_family'],
                  'bold':bold, 'italic':italic}
         if motion.get('emphasize'):
+            require('\n'.join(measurement['lines']).count(motion['emphasize']) == 1,
+                    'Selected layout splits keyword emphasis; choose a different break')
             at=motion.get('emphasis_at',min(item['start']+.4,max(item['start'],item['end']-1/fps)))
             block.update(emphasize=motion['emphasize'], emphasisColor=display.get('emphasis_color','#FFE56A'),
                          emphasisFrame=math.ceil((at-segment['start'])*fps-1e-7))
+        if motion.get('sweep'):
+            sweep = motion['sweep']
+            block['sweep'] = {key:value for key,value in sweep.items() if key != 'period_seconds'}
+            block['sweep']['periodFrames'] = max(1, round(sweep['period_seconds']*fps))
         props['blocks'].append(block)
     write_json(directory/'props.json',props)
     return props, inputs
@@ -304,10 +316,18 @@ def render(run, source, segment, items, meta, directory, legacy='tracked'):
             engine='ffmpeg_static';fallback=str(exc)[-2000:]
     else:engine='ffmpeg_static';fallback='Remotion disabled by typography policy'
     if engine=='ffmpeg_static':
-        lost=['fade/scale','timed keyword color change']
-        if any(b.get('emphasize') and any(unicodedata.bidirectional(c) in ('R','AL') for c in b['text']) for b in props['blocks']):
-            lost.append('RTL word coloring; intact paragraph uses original text color')
-        write_json(layerdir/'fallback.json',{'requested':'remotion','actual':engine,'reason':fallback,'lost_effects':lost,'text_and_timing_preserved':True,'review_required':True})
+        losses = []
+        for block in props['blocks']:
+            effects = []
+            if block['animated']: effects.append('fade/scale')
+            if block.get('emphasize'): effects.append('timed keyword color change')
+            if block.get('sweep'): effects.append('looping glyph light sweep')
+            if block.get('emphasize') and any(unicodedata.bidirectional(char) in ('R','AL') for char in block['text']):
+                effects.append('RTL word coloring; intact paragraph uses original text color')
+            losses.append({'id':block['id'], 'lost_effects':effects})
+        lost = list(dict.fromkeys(effect for loss in losses for effect in loss['lost_effects']))
+        write_json(layerdir/'fallback.json',{'requested':'remotion','actual':engine,'reason':fallback,
+                   'lost_effects':lost,'instances':losses,'text_and_timing_preserved':True,'review_required':True})
         _ffmpeg(layerdir,props);_check_layer(layerdir,props)
     request=read_json(run/'inputs/request.json');original=read_json(run/'run.json')
     bound=copy.deepcopy(chosen)

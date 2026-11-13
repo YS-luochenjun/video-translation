@@ -88,6 +88,8 @@ def text_events(segment, items, meta, directory, run=None):
             size=point.get('font_size',display.get('font_size',40))
             angle=point.get('angle',display.get('angle',0))
             target=point.get('target_text',item['target_text'])
+            if 'layout_lines' in display:
+                target='\n'.join(layout.typography_lines(target,display['layout_lines']))
             family=display.get('font_family',layout.default_family(target,item.get('target_language') or meta.get('target_language')))
             face=None
             if display.get('font_asset'):

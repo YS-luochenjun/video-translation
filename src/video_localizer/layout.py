@@ -55,6 +55,62 @@ def default_family(text='', locale=None):
     return choose(text, locale)
 
 
+def typography_lines(text, lines=None):
+    """Accept layout-only whitespace changes without changing final copy."""
+    if lines is None:
+        return text.split('\n')
+    require(isinstance(lines, list) and 1 <= len(lines) <= 3
+            and all(isinstance(line, str) and line.strip() and '\n' not in line and '\r' not in line for line in lines),
+            'layout_lines needs one to three nonempty lines')
+    require(' '.join(' '.join(lines).split()) == ' '.join(text.split()),
+            'Layout must preserve the exact target words and logical order')
+    return lines
+
+
+def measure_typography(text, font_path, box, requested, minimum, outline=2, direction='ltr', lines=None):
+    """Measure complete shaping runs, including ink overhang and line boxes."""
+    from PIL import ImageFont, features
+    require(direction in ('ltr', 'rtl'), 'Invalid text direction')
+    require_number(requested, 'font size', minimum=1)
+    require_number(minimum, 'minimum font size', minimum=1, maximum=requested)
+    actual_lines = typography_lines(text, lines)
+    complex_script = direction == 'rtl' or any(0x590 <= ord(char) <= 0xEFF for char in text)
+    shaped = features.check('raqm')
+    options = {'direction': direction} if shaped else {}
+    for size in range(int(requested), math.ceil(minimum)-1, -1):
+        font = ImageFont.truetype(str(font_path), size)
+        widths = []
+        for line in actual_lines:
+            left, _, right, _ = font.getbbox(line, **options)
+            widths.append(max(font.getlength(line, **options), right) - min(0, left))
+        ascent, descent = font.getmetrics()
+        ink_width = max(widths) + 2*outline + 4
+        line_height = (ascent+descent)*len(actual_lines)*1.2 + 2*outline + 4
+        if ink_width <= box[2] and line_height <= box[3]:
+            return {'lines': actual_lines, 'font_size': size, 'width': round(ink_width, 3),
+                    'height': round(line_height, 3), 'width_coverage': round(ink_width/box[2], 4),
+                    'metrics': 'shaped' if shaped else 'basic',
+                    'shaping_review_required': complex_script and not shaped, 'fits': True}
+    return {'lines': actual_lines, 'font_size': None, 'fits': False,
+            'metrics': 'shaped' if shaped else 'basic', 'shaping_review_required': complex_script and not shaped}
+
+
+def typography_candidates(text, font_path, box, requested, minimum, outline=2, direction='ltr'):
+    """Offer bounded whitespace layouts; selection remains a visual decision."""
+    from itertools import combinations
+    words = text.split()
+    require(bool(words), 'No target copy to lay out')
+    layouts = [text.split('\n'), [' '.join(words)]]
+    positions = sorted({max(1, min(len(words)-1, round(len(words)*fraction/8))) for fraction in range(1, 8)}) if len(words)>1 else []
+    for count in (2, 3):
+        for cuts in combinations(positions, count-1):
+            boundaries = (0, *cuts, len(words))
+            layouts.append([' '.join(words[start:end]) for start, end in zip(boundaries, boundaries[1:])])
+    unique = list(dict.fromkeys(tuple(lines) for lines in layouts if len(lines) <= 3))
+    return [dict(id=f'layout-{index+1}', **measure_typography(text, font_path, box, requested, minimum,
+                 outline, direction, list(lines))) for index, lines in enumerate(unique)]
+
+
 def measurement_face(root, family, bold=False):
     from .fonts import native_face, policy
     require(supported_family(family), 'Unsupported font family')

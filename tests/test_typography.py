@@ -116,6 +116,49 @@ class TypographyTests(unittest.TestCase):
         self.assertIn('اتخذ خطوتك التالية',ass)
         self.assertNotIn('FFFF00',ass)
 
+    def test_layout_candidates_preserve_copy_and_selected_breaks_reach_both_renderers(self):
+        from video_localizer.layout import typography_candidates, typography_lines
+        candidates=typography_candidates('ما لون\nاسمك؟',FONT,[0,0,300,140],80,16,direction='rtl')
+        self.assertTrue(any(candidate['lines']==['ما لون اسمك؟'] and candidate['fits'] for candidate in candidates))
+        self.assertTrue(any(len(candidate['lines'])==2 for candidate in candidates))
+        with self.assertRaises(WorkflowError):typography_lines('ما لون اسمك؟',['اسمك؟ لون ما'])
+        with self.assertRaises(WorkflowError):typography_lines('next',['ne','xt'])
+        self.item['target_text']='Go\nnext'
+        self.item['display']['layout_lines']=['Go next'];self.save()
+        props,_=typography._prepare(self.run,self.segment,[self.item],self.meta,self.run/'layout')
+        block=props['blocks'][0]
+        self.assertEqual(block['text'],'Go next')
+        self.assertEqual(block['canonicalText'],'Go\nnext')
+        self.assertTrue(block['layoutMeasurement']['fits'])
+        with patch.object(media,'ffmpeg'):typography._ffmpeg(self.run/'layout',props)
+        self.assertIn('Go ',(self.run/'layout/fallback.ass').read_text(encoding='utf-8-sig'))
+
+    def test_sweep_phase_survives_cuts_and_fallback_lists_only_requested_losses(self):
+        self.item['start']=0
+        self.item['end']=.8
+        self.item['display']['motion']={'kind':'cta','effect':'none','sweep':{
+            'period_seconds':1.2,'width':.25,'color':'#FFFFFF','opacity':.8,'direction':'left_to_right','phase':.1}}
+        self.save()
+        props,_=typography._prepare(self.run,{**self.segment,'start':.4},[self.item],self.meta,self.run/'sweep')
+        self.assertEqual(props['blocks'][0]['animationStartFrame'],-12)
+        self.assertEqual(props['blocks'][0]['sweep']['periodFrames'],36)
+        with patch.object(typography,'_remotion',side_effect=WorkflowError('test unavailable')):self.render()
+        fallback=read_json(self.run/'outputs/type/motion/fallback.json')
+        self.assertEqual(fallback['lost_effects'],['looping glyph light sweep'])
+        self.assertEqual(fallback['instances'],[{'id':'t001','lost_effects':['looping glyph light sweep']}])
+        self.item['display']['motion']['sweep']['period_seconds']=0
+        with self.assertRaises(WorkflowError):typography.contract(self.run,{'text_instances':[self.item]})
+
+    def test_static_native_route_uses_selected_layout_without_enabling_motion(self):
+        from video_localizer import compositor
+        del self.item['display']['motion']
+        self.item['display'].update(layout_lines=['Go','next'],bold=False)
+        events=compositor.text_events(self.segment,[self.item],self.meta,self.run/'native',run=self.run)
+        self.assertIn(r'Go\Nnext','\n'.join(events))
+        self.item['display']['layout_lines']=['next','Go']
+        with self.assertRaises(WorkflowError):
+            compositor.text_events(self.segment,[self.item],self.meta,self.run/'invalid-native',run=self.run)
+
     def test_cross_segment_animation_keeps_original_phase_and_resource_slot_is_respected(self):
         self.item['start']=0;self.item['end']=.8;self.save()
         segment={**self.segment,'start':.4,'end':.8}

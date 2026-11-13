@@ -37,3 +37,6 @@ ffmpeg -i layer.mov -an -c:v qtrle -pix_fmt argb layer-argb.mov
 The Python adapter creates source/locale/instance/font/parameter bindings, verifies actual alpha, uses the existing surface interface and records the actual renderer. Browser failures receive a checked static FFmpeg fallback whose effect losses require reviewer acknowledgement. The raw Node entry is a low-level component; it does not own workspace locks, production plans, speech alignment or acceptance. Production scope excludes tracks, masks and deformation. The optional track feature from the experiment remains available only to low-level callers and is not enabled by the production adapter.
 
 Run input checks with `node --test tests/remotion-input.test.mjs`.
+# 可选循环扫光
+
+`blocks[].sweep` 接收 `periodFrames`、`width`、`color`、`opacity`、`direction` 和 `phase`。生产适配器把秒转换为帧并验证参数；低层输入也单独校验。高光仅覆盖完整文字的字形，阿语继续由浏览器对整段进行塑形。实例起点 `animationStartFrame` 可以在当前镜头之前，周期不会因切镜重置。`node --test tests/remotion-input.test.mjs` 检查周期、反向和切镜相位；真实动画仍需检查输出视频。

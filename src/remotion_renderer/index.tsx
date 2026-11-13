@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Composition, registerRoot, useCurrentFrame, interpolate, staticFile, delayRender, continueRender, cancelRender} from 'remotion';
+import {sweepCenter} from './sweep.mjs';
 
 // Optional typography-only renderer. Tracks are supplied by the caller, never inferred here.
 type Block = {
@@ -8,6 +9,7 @@ type Block = {
   direction?: 'ltr' | 'rtl'; animated?: boolean; emphasize?: string;
   outline?: number; outlineColor?: string; align?: 'left' | 'center' | 'right'; emphasisColor?: string; emphasisFrame?: number;
   animationStartFrame?: number; animationEndFrame?: number;
+  sweep?: {periodFrames: number; width: number; color: string; opacity: number; direction: 'left_to_right' | 'right_to_left'; phase: number};
   track?: {frame: number; x: number; y: number; rotation: number}[];
 };
 type Props = {width: number; height: number; fps: number; durationInFrames: number;
@@ -38,12 +40,19 @@ function TextBlock({block, frame}: {block: Block; frame: number}) {
     ? interpolate(frame, track.map(p => p.frame), track.map(p => p[key]), {extrapolateLeft:'clamp',extrapolateRight:'clamp'}) : fallback;
   const [x,y,width,height] = block.box;
   const emphasized = block.emphasize && block.text.includes(block.emphasize) ? block.text.split(block.emphasize) : null;
+  const sweep = block.sweep;
+  const center = sweep ? sweepCenter(frame, block.animationStartFrame ?? block.startFrame, sweep) : 0;
   return <div dir={block.direction ?? 'ltr'} style={{position:'absolute',left:sample('x',x),top:sample('y',y),width,height,
     display:'flex',alignItems:'center',justifyContent: block.align === 'left' ? 'flex-start' : block.align === 'right' ? 'flex-end' : 'center',textAlign:block.align ?? 'center',fontFamily:block.family,
     fontSize:block.fontSize,fontWeight:400,lineHeight:1.2,color:block.color,whiteSpace:'pre',
     opacity:envelope,transform:`rotate(${sample('rotation',0)}deg) scale(${block.animated ? .96 + .04 * envelope : 1})`,
     WebkitTextStroke:`${block.outline ?? 1.4}px ${block.outlineColor ?? '#321b39'}`,paintOrder:'stroke fill'}}>
-      <span>{emphasized ? <>{emphasized[0]}<span style={{color: frame >= (block.emphasisFrame ?? block.startFrame + 25) ? (block.emphasisColor ?? '#ffe56a') : block.color}}>{block.emphasize}</span>{emphasized.slice(1).join(block.emphasize)}</> : block.text}</span>
+      <span style={{display:'inline-grid'}}>
+        <span style={{gridArea:'1 / 1'}}>{emphasized ? <>{emphasized[0]}<span style={{color: frame >= (block.emphasisFrame ?? block.startFrame + 25) ? (block.emphasisColor ?? '#ffe56a') : block.color}}>{block.emphasize}</span>{emphasized.slice(1).join(block.emphasize)}</> : block.text}</span>
+        {sweep && <span aria-hidden style={{gridArea:'1 / 1',color:'transparent',WebkitTextStroke:0,opacity:sweep.opacity,
+          backgroundImage:`linear-gradient(90deg, transparent ${center-sweep.width*50}%, ${sweep.color} ${center}%, transparent ${center+sweep.width*50}%)`,
+          backgroundClip:'text',WebkitBackgroundClip:'text'}}>{block.text}</span>}
+      </span>
   </div>;
 }
 function Layer(props: Props) {

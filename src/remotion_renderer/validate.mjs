@@ -28,6 +28,17 @@ export function validateProps(props) {
     if (b.emphasisFrame !== undefined && !Number.isSafeInteger(b.emphasisFrame)) throw new Error('Invalid emphasis frame');
     if (b.animationStartFrame !== undefined && (!Number.isSafeInteger(b.animationStartFrame) || b.animationStartFrame > b.startFrame)) throw new Error('Invalid animation start');
     if (b.animationEndFrame !== undefined && (!Number.isSafeInteger(b.animationEndFrame) || b.animationEndFrame < b.endFrame)) throw new Error('Invalid animation end');
+    if (b.sweep !== undefined) {
+      const sweep = b.sweep;
+      if (!sweep || typeof sweep !== 'object' || Array.isArray(sweep)
+        || Object.keys(sweep).sort().join(',') !== 'color,direction,opacity,periodFrames,phase,width'
+        || !Number.isSafeInteger(sweep.periodFrames) || sweep.periodFrames < Math.max(1, Math.round(props.fps*.2)) || sweep.periodFrames > Math.round(props.fps*20)
+        || !Number.isFinite(sweep.width) || sweep.width < .02 || sweep.width > 1
+        || !Number.isFinite(sweep.opacity) || sweep.opacity < 0 || sweep.opacity > 1
+        || !Number.isFinite(sweep.phase) || sweep.phase < 0 || sweep.phase > 1
+        || !['left_to_right','right_to_left'].includes(sweep.direction)
+        || typeof sweep.color !== 'string' || !/^#[\da-f]{6}$/i.test(sweep.color)) throw new Error('Invalid glyph sweep');
+    }
     if (typeof b.color !== 'string' || !/^#[\da-f]{6}$/i.test(b.color)) throw new Error('Use an explicit RGB text color');
     if (b.emphasize !== undefined && (typeof b.emphasize !== 'string' || !b.emphasize || !b.text.includes(b.emphasize))) throw new Error('Emphasis must use actual copy');
     if (b.track !== undefined) {

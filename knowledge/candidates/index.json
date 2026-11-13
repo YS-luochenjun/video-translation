@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 66,
-    "no_adoption_record": 666,
+    "no_adoption_record": 667,
     "synthetic_only": 4
   },
   "entries": [
@@ -15907,6 +15907,30 @@
       "storage_path": "knowledge/history/candidates/b5fdd61624843960532c1c82eefc34f1f5b803c1f44ad53a2c8593ae497a2893/tpye-us-20261022-01-068a774ae4.json",
       "queue_state": "archived",
       "hypothesis_sha256": "5e888825f4ebe32c7df0d4d190260cce7e1b27ecf00dc8a3e985d04aef46dae4"
+    },
+    {
+      "id": "typography-layout-sweep-development-20261112",
+      "path": "knowledge/candidates/typography-layout-sweep-development-20261112.json",
+      "original_sha256": "7ba9f8f3267ae770d3955c5f91ad3641212b6f5ba679059714f259830de504b3",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "purpose": "Developer-authorized typography capability tests; no production acceptance",
+        "sources": [
+          {
+            "source_sha256": "463aede25e31a4c9e5786a7bab021ceb4226b9bf0da8ebb513dbf16b120eded9",
+            "target_language": "de"
+          },
+          {
+            "source_sha256": "33be885ded2ce0fd934df36e427d8ce1c8eb2c992c715cd694efb03514f8a184",
+            "target_language": "ar"
+          }
+        ]
+      },
+      "historical_outcome": "technical_capability_verified_visual_style_pending",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "e50efdbbe998ead55a16c6b4dcc7909a37bc6fb1dc76796502d6a2f94d2119dd"
     },
     {
       "id": "video-1-2-es-20261020-01-46af5daaa4",

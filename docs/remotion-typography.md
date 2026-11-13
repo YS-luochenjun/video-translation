@@ -49,3 +49,16 @@ python bin/render_typography.py RUN --shot s001
 candidate.json返回`typography_assets`与`typography_fallbacks`。普通/快速审核遇到静态回退必须在review的`typography_fallbacks`中写`receipt_sha256`、`accepted: true`和真实`observation`；未确认时quality阻断。只有在实际效果仍满足需求时接受，否则有界返工。来源/字号/alpha技术通过不代表语言、视觉或用户验收。
 
 交付库沿回执复制字层、字体、参数及准备依赖；缓存签名包含实现和环境，动态实例不复用旧分段缓存，先前回退也不被production checkpoint长期缓存。重建bundle在`work/runs/RUN`，任务收尾登记缓存并maintain --close，不删除必要回执或未知费用记录。
+# 排版候选与循环扫光
+
+`python bin/propose_typography.py RUN --instance t003` 读取已绑定字体和原文字区域，输出有界的一至三行候选、可用字号及区域占比，不修改清单。Agent根据原片、目标语言的自然短语和实际视觉大小选择，在 `display.layout_lines` 写入选中的行。换行只允许改变空白，不改定稿文字和逻辑词序；不能拆开单词。默认仍沿用原有定稿换行。候选不是审美评分；`metrics=basic` 且 `shaping_review_required=true` 时尤其不能把测量占比当成阿语实际字形占比，须看浏览器渲染并核对连写、大小和空白。
+
+观察到循环扫光的标题/CTA可在 `display.motion` 增加可组合的 `sweep`：
+
+```json
+{"kind":"cta","effect":"fade_scale","sweep":{"period_seconds":1.5,"width":0.25,"color":"#FFFFFF","opacity":0.9,"direction":"left_to_right","phase":0.15}}
+```
+
+`width` 为文字块宽度比例，`phase` 为实例起点处的周期比例；方向为 `left_to_right` 或 `right_to_left`，与文字阅读方向独立。周期允许0.2至20秒，宽度0.02至1，透明度及相位0至1。按真实帧计算，跨镜头仍沿原实例起点续算；光带裁入整段字形，不给场景加矩形高光、不拆阿语字母。不填写则不增加扫光。周期、字体和方向必须来自源观察或明确记录为视觉适配，不能宣称已自动恢复原动画。
+
+实际 `props.json` 保存定稿、所选换行、测量和参数，并绑定到渲染来源。静态降级的 `fallback.json` 按实例列出实际丢失效果。审核要覆盖文字本身的首次出现、至少一整个循环、跨镜头延续及结束；只核对Logo或其他区域，不能证明文字动效还原。仍执行原有有界返工和完整输出规则，技术渲染成功不等于视觉验收。

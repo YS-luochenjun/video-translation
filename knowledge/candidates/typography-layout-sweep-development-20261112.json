@@ -1,0 +1,68 @@
+{
+  "id": "typography-layout-sweep-development-20261112",
+  "status": "candidate",
+  "created_at": "2026-11-13T04:20:58+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "purpose": "Developer-authorized typography capability tests; no production acceptance",
+    "sources": [
+      {"source_sha256": "463aede25e31a4c9e5786a7bab021ceb4226b9bf0da8ebb513dbf16b120eded9", "target_language": "de"},
+      {"source_sha256": "33be885ded2ce0fd934df36e427d8ce1c8eb2c992c715cd694efb03514f8a184", "target_language": "ar"}
+    ]
+  },
+  "outcome": "technical_capability_verified_visual_style_pending",
+  "hypothesis": "Measured line-layout alternatives and an optional frame-driven glyph sweep can address rigid line breaks and missing looping effects, but do not establish source font/artwork fidelity.",
+  "method": {
+    "trigger": "Observed undersized text, unnatural existing line breaks, or an actual source title/CTA light sweep",
+    "actions": [
+      "Bind the actual font and original text region, then use bin/propose_typography.py to compare bounded one-to-three-line alternatives without changing final copy.",
+      "Select display.layout_lines using source composition and target-language reading. Preserve words and logical order; do not make single-line Arabic a default requirement.",
+      "When the source warrants it, specify display.motion.sweep period, width, color, opacity, direction and phase. The renderer clips light into whole glyph runs and maintains instance phase across shots.",
+      "Inspect actual title/CTA frames across a whole cycle and the resulting clean background. Reuse the existing artwork/style-layer route when a system font loses source weight, texture or depth."
+    ],
+    "failure_signatures": [
+      "Only logo/background regions were compared, so the text effect itself was never verified.",
+      "A browser failure silently reduced the requested motion to a static layer; fallback evidence must identify the effects actually lost.",
+      "A technically fitting one-line title is thinner and flatter than the prior artwork; layout success is not overall visual improvement."
+    ]
+  },
+  "evidence": {
+    "technical_regression": {
+      "python_tests": 1066,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "node_tests": 5,
+      "contracts": ["tests/test_typography.py", "tests/remotion-input.test.mjs"],
+      "boundary": "Contract/synthetic-media tests do not certify business quality."
+    },
+    "de_observation": {
+      "video_sha256": "316571506a149916f27383ad1f411a403d233fac49e9622bce76dc4d2e835e91",
+      "renderer": "remotion",
+      "frames": 344,
+      "font": "ArialNarrow-Bold",
+      "font_size": 119,
+      "period_frames": 45,
+      "encoded_layer_frames_compared": [60, 105],
+      "one_period_mean_rgb_error": 0.0,
+      "audio_reused_packets_identical": 574,
+      "observation": "Actual sampled output shows larger German CTA and moving repeating glyph light. Source heavy outline, drop shadow and hatched fill are not reproduced."
+    },
+    "ar_observation": {
+      "video_sha256": "8bebe96acc522442843e527d949738ca028469c207f9db4a5985ea1747d30899",
+      "renderer": "remotion",
+      "changed_title_frames": 88,
+      "target_text": "ما لون اسمك؟",
+      "observation": "Actual sampled browser output supports a complete joined RTL line, but the ordinary font loses the previous artwork's bold gradient and depth. Existing reconstructed finger/background discontinuities remain."
+    }
+  },
+  "limitations": [
+    "The two outputs are isolated developer demonstrations with prior audio reused; no new dubbing or model generation was tested.",
+    "Normal-speed playback, head/tail listening, independent review and user acceptance are pending. No whole-video quality pass is recorded.",
+    "This host lacks Pillow RAQM. Basic width measurements are labeled shaping_review_required for complex scripts; inspect actual browser glyphs before deciding layout.",
+    "Sweep period and font were selected adaptations, not automatically recovered source animation parameters.",
+    "Raw videos and detailed local receipts are not permanent dependencies of this technical candidate. The observations are bounded reports, not a reusable approved production master."
+  ],
+  "company_preference": false,
+  "promotion": "Not active retrieval knowledge. Review scoped evidence before adoption; do not infer a mandatory layout or effect from these tests."
+}
