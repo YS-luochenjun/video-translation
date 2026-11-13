@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "APC-20261111-004-pt-bounded-cf85758019-case",
+  "created_at": "2026-11-11T06:44:23+00:00",
+  "files": [
+    {
+      "path": "evidence/final-v6-head.wav",
+      "sha256": "bbef03f01eb34f9db2e239b9da1235ee8efb2cc68d7b6f3d10991400825c3af4",
+      "bytes": 144078
+    },
+    {
+      "path": "evidence/final-v6-tail.wav",
+      "sha256": "3244e17010504a7955c524c72856e03082c5b85a59f62d1271f867bee042b3ed",
+      "bytes": 112078
+    },
+    {
+      "path": "evidence/observations-v6.json",
+      "sha256": "abe6585fbbdfc4e520b0ec68addf33e2d00cca6611f9a8ba8dc03598788d864a",
+      "bytes": 5226
+    },
+    {
+      "path": "evidence/offline-asr-final-v6-head.json",
+      "sha256": "f98a1e1398b00b41fbb9ea43b238df9ce2e448123b43bc086b73d4cca96c4374",
+      "bytes": 4515
+    },
+    {
+      "path": "evidence/offline-asr-final-v6-tail.json",
+      "sha256": "879e99c9e80d309a2fc009a475f9cc222a34c2f8aa1812aaf61bae772fa11685",
+      "bytes": 3232
+    },
+    {
+      "path": "evidence/pt-v6-overview.jpg",
+      "sha256": "4fe16e6ce28e49f2261d8c088d350b9e03e21f4dd8772d43507e5de9010d81a7",
+      "bytes": 562443
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+      "target_language": "pt",
+      "language_match": "exact"
+    },
+    "status": "candidate",
+    "lesson": "For this exact source, compare the complete outgoing UI boundary and every input placeholder before accepting text coverage. Retain observed lower-resolution donor, repair texture and transition defects as limitations. Check actual encoded head and tail audio independently after sample-index mixing; successful TTS or mixing does not establish spoken coverage.",
+    "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+    "video_sha256": "cf8575801918ca5cbaaa3ee38761c456debdf81ff07b83114cb54a2b1b49237c",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

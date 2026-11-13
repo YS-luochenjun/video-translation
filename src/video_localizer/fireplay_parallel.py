@@ -22,7 +22,7 @@ def policy(root=ROOT):
     path = Path(root) / 'config/fireplay-parallel.json'
     value = read_json(path) if path.exists() else {'enabled': False}
     for field, default in (('max_active_sources_per_requirement', 2),
-                           ('max_active_sources_global', 8), ('lease_minutes', 120)):
+                           ('max_active_sources_global', 15), ('lease_minutes', 120)):
         number = value.get(field, default)
         require(isinstance(number, int) and not isinstance(number, bool) and number > 0,
                 'Parallel policy limits must be positive integers')

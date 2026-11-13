@@ -4,7 +4,7 @@
 
 | 定时任务 | 节奏 | 职责与入口 |
 | --- | --- | --- |
-| Fireplay新翻译需求巡检 | 每30分钟 | [巡检流程](../agent/workflows/fireplay-monitor.md)：全部可见组内仅查执行人包含邹彬的需求，按真实翻译内容接入调度、向原负责聊天派发必要跟进 |
+| Fireplay新翻译需求巡检 | 每30分钟 | [巡检流程](../agent/workflows/fireplay-monitor.md)：执行人包含邹彬的未开始/进行中需求，40条分页、按UUID/updatedAt增量判断；已接入/待补信息项按UUID跨状态跟踪，每24小时全状态核对；原聊天持续补交 |
 | Fireplay在制新需求完成盯办 | 有在制新需求时每20分钟 | [完成盯办](../agent/workflows/fireplay-completion-watch.md)：一个活动盯办持续纳入当前及后续人工新增的已接入项，恢复原聊天、处理普通推荐项、核验全项提交；无未结负责项后结束此盯办，新需求接入后自动重开 |
 | 项目经验总结 | 每天18:00，Asia/Shanghai | [经验总结](../agent/workflows/knowledge-sweep.md)：处理新增观察、反馈和反例，审查采纳或明确不产生新知识 |
 | 项目存储整理 | 每天18:30，Asia/Shanghai | [存储整理](../agent/workflows/storage-sweep.md)：14天成片、旧版本、24小时结案现场／登记缓存、7天闲置源缓存及终态现场 |

@@ -1,0 +1,80 @@
+{
+  "video_sha256": "6f24280848ece1025d8fd1fed7d0c7de105d9ed9f95f56a6eaf7d1b2c8da1e07",
+  "checks": {
+    "translation": "Full-frame samples show French opening word pops, Test d’amour titles, French instruction and input labels, keyboard controls and TESTE MAINTENANT ! CTA. Portraits, cat, hearts and score transitions remain recognizable. First two full TTS results omitted CTA and are excluded; a separate actual CTA is sample-index mixed with the first actual opening. Isolated CTA ASR says Teste Magno, contextual ASR says TEST MOT NO, encoded tail says Teste magneau. Required CTA pronunciation remains unverified; external publication is blocked. Candidate audio analysis returned KIE 502 without a usable verification result; preserve unknown cost and do not retry blindly. All registered translation instances rendered; exact tiny UI temporal fidelity remains pending.",
+    "source_text_removed": "Shared neutral-v5 source erasure used; source captions, native titles, labels and CTA replaced in inspected frames. No retained English main caption observed; edge-by-edge independent audit pending.",
+    "protected_graphics": "Couple, brunette and blonde portraits, cat, source keyboard, hearts, scores and final arrows remain recognizable in actual full-frame samples. No large-area tearing observed in these samples.",
+    "native_motion": "Native 555-frame source timeline retained; opening word events follow actual TTS timestamps, UI follows registered scale/slide trajectories. Entry smear and outgoing overlap remain.",
+    "speech_complete": "Full-frame samples show French opening word pops, Test d’amour titles, French instruction and input labels, keyboard controls and TESTE MAINTENANT ! CTA. Portraits, cat, hearts and score transitions remain recognizable. First two full TTS results omitted CTA and are excluded; a separate actual CTA is sample-index mixed with the first actual opening. Isolated CTA ASR says Teste Magno, contextual ASR says TEST MOT NO, encoded tail says Teste magneau. Required CTA pronunciation remains unverified; external publication is blocked. Candidate audio analysis returned KIE 502 without a usable verification result; preserve unknown cost and do not retry blindly.",
+    "head_tail_audio": "Sample0 opening and through-end tail separately decoded and no-VAD transcribed from current encoded video. Source endpoint evidence reused by exact-source identity; no final-language approval copied.",
+    "music_effects": "Source accompaniment retained over full timeline with sample-index narration replacement and ducking. Listening-based fidelity and nonverbal reaction preservation remain unverified.",
+    "caption_sync": "Target opening words use isolated actual TTS boundaries mapped through trim/tempo. Formal final word-by-word audiovisual timing audit pending."
+  },
+  "head_tail_audio": {
+    "video_sha256": "6f24280848ece1025d8fd1fed7d0c7de105d9ed9f95f56a6eaf7d1b2c8da1e07",
+    "method": "Whisper small multilingual CPU int8, no VAD, fr language hint, no expected text; current encoded head/tail and full audio extracted.",
+    "source_head": {
+      "path": "analysis/source-head.wav",
+      "observed": "Y'all are brave for using this filter as it reveals your crush's first initial.",
+      "speech_ids": [
+        "a001"
+      ]
+    },
+    "source_tail": {
+      "path": "analysis/source-tail.wav",
+      "observed": "Woo! Test now!",
+      "speech_ids": [
+        "a002"
+      ],
+      "limitation": "Nonverbal reaction preservation after UVR not listening-certified."
+    },
+    "target_head": {
+      "path": "analysis/final-v6-head.wav",
+      "sha256": "e3eb5705f30bca4d4940eb42b26a2028eb79226099f3dc4d60286ba5d6dfbe25",
+      "interval": [
+        0,
+        4.5
+      ],
+      "observed": "Vous osez ce filtre révèle l'initien de votre crush.",
+      "speech_ids": [
+        "a001"
+      ],
+      "decision": "model_sentence_coverage_only",
+      "asr": "analysis/offline-asr-final-v6-head.json"
+    },
+    "target_tail": {
+      "path": "analysis/final-v6-tail.wav",
+      "sha256": "a3f061ad07d88b7448002ba7231a9eb260a6b266d412ac40d82db2f27d3fd25b",
+      "interval": [
+        15,
+        18.5
+      ],
+      "observed": "Teste magneau.",
+      "speech_ids": [
+        "a002"
+      ],
+      "decision": "required_audio_unverified_publication_blocked",
+      "asr": "analysis/offline-asr-final-v6-tail.json"
+    },
+    "remaining": "Perceptual listening, source-voice residue certainty and independent acceptance pending."
+  },
+  "evidence": [
+    "analysis/fr-v6-overview.jpg",
+    "analysis/final-v6-head.wav",
+    "analysis/final-v6-tail.wav",
+    "analysis/final-v6-full.wav",
+    "analysis/offline-asr-final-v6-head.json",
+    "analysis/offline-asr-final-v6-tail.json",
+    "analysis/offline-asr-source-head.json",
+    "analysis/offline-asr-source-tail.json"
+  ],
+  "limitations": [
+    "Same-agent sampled full-frame and actual encoded audio ASR review; no human listening, independent review or company/user acceptance.",
+    "Formal per-instance visual, normal-speed audiovisual and caption timing approval remain pending; internal quality remains revise.",
+    "Opening donor has lower spatial resolution; source UI erasure has soft edges, faint white input texture and third-entry zoom/exit smears.",
+    "Target typography approximates source; outgoing translated UI can overlap incoming heart briefly near slide boundary.",
+    "UVR accompaniment reused with speech ducking; music timbre, nonverbal reaction and absolute absence of faint source voice are not listening-certified.",
+    "Full-frame samples show French opening word pops, Test d’amour titles, French instruction and input labels, keyboard controls and TESTE MAINTENANT ! CTA. Portraits, cat, hearts and score transitions remain recognizable. First two full TTS results omitted CTA and are excluded; a separate actual CTA is sample-index mixed with the first actual opening. Isolated CTA ASR says Teste Magno, contextual ASR says TEST MOT NO, encoded tail says Teste magneau. Required CTA pronunciation remains unverified; external publication is blocked. Candidate audio analysis returned KIE 502 without a usable verification result; preserve unknown cost and do not retry blindly.",
+    "Shared original budget retains failed Wan cleanup and unknown audio-analysis cost; no quality pass inferred from API success."
+  ]
+}

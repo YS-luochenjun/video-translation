@@ -34,8 +34,9 @@ class MonitorTests(unittest.TestCase):
                                              priority='P1', status='not_started',assigneeIds=[self.config['assignees'][0]['id']])
         self.snap['summary']['serverTime'] = utc_now()
 
-    def pages(self, rows=None):
-        return {'summary_pages': [{'arguments': self.config['query'],
+    def pages(self, rows=None, mode='full', ids=None):
+        return {'scan_mode': mode, **({'requirement_ids': ids} if ids is not None else {}),
+                'summary_pages': [{'arguments': monitor._query(self.config, mode, ids),
                  'response': {'items': rows if rows is not None else self.snap['summary']['items'],
                               'serverTime': utc_now(), 'next_cursor': None}}]}
 
@@ -101,7 +102,8 @@ class MonitorTests(unittest.TestCase):
         spec['summary_pages'][0]['response']['next_cursor'] = 'next'
         self.assertEqual(monitor.scan(spec, self.root)['state'], 'needs_more_pages')
         self.assertFalse((self.root / 'state/fireplay/monitor/state.json').exists())
-        continuation = {'arguments': {**self.config['query'], 'cursor': 'next'}, 'response': {'items': []}}
+        continuation = {'arguments': {**spec['summary_pages'][0]['arguments'], 'cursor': 'next'},
+                        'response': {'items': [], 'serverTime': utc_now()}}
         spec['summary_pages'].append(continuation)
         self.assertEqual(monitor.scan(spec, self.root)['visible_count'], 1)
         previous = self.state()
@@ -142,11 +144,131 @@ class MonitorTests(unittest.TestCase):
         monitor.assess(CODE, self.decision(), self.root)
         self.assertEqual(len(monitor.status(self.root)['ready_to_dispatch']), 1)
 
-    def test_nontranslation_in_progress_and_no_permission_do_not_start(self):
-        for case in ('not_translation', 'in_progress', 'no_permission'):
+    def test_in_progress_translation_admits_once_without_resetting_owner_or_budget(self):
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0]['status'] = 'in_progress'
+        monitor.scan(self.pages(mode='active'), self.root)
+        self.assertEqual(monitor.assess(CODE, self.decision(), self.root)['state'], 'admitted')
+        request_path = self.root / 'state/fireplay' / CODE / 'request.json'
+        record = read_json(request_path)
+        record['chat'] = {'state': 'ready', 'threadId': THREAD, 'hostId': 'local'}
+        record['budget'] = {'batch_id': 'existing-budget'}
+        write_json(request_path, record)
+        monitor.scan(self.pages(mode='active'), self.root)
+        monitor.assess(CODE, self.decision(), self.root)
+        saved = read_json(request_path)
+        self.assertEqual(saved['chat'], record['chat'])
+        self.assertEqual(saved['budget'], record['budget'])
+        self.assertFalse((self.root / 'state/budgets').exists())
+
+    def test_active_and_tracking_checkpoints_never_claim_full_coverage(self):
+        monitor.scan(self.pages(), self.root)
+        baseline = self.state()
+        monitor.scan(self.pages(mode='active'), self.root)
+        current = self.state()
+        self.assertEqual(current['last_success_at'], baseline['last_success_at'])
+        self.assertEqual(current['last_full_scan_id'], baseline['last_full_scan_id'])
+        self.assertEqual(current['visible_count'], 1)
+        self.assertIn('last_active_success_at', current)
+        monitor.scan(self.pages([], mode='tracked', ids=[RID]), self.root)
+        current = self.state()
+        self.assertEqual(current['last_full_scan_id'], baseline['last_full_scan_id'])
+        self.assertIn(RID, current['requirements'])
+        self.assertIn(RID, current['tracking_gaps'])
+        self.assertEqual(current['requirements'][RID]['state'], 'needs_review')
+        pending = {**self.snap['summary']['items'][0], 'status': 'pending_upload'}
+        monitor.scan(self.pages([pending], mode='tracked', ids=[RID]), self.root)
+        self.assertNotIn(RID, self.state()['tracking_gaps'])
+        self.assertEqual(self.state()['requirements'][RID]['row']['status'], 'pending_upload')
+
+    def test_polling_plan_is_dual_status_daily_full_and_exact_id_tracking(self):
+        initial = monitor.scan(root=self.root)
+        self.assertTrue(initial['polling']['full_reconciliation_due'])
+        self.assertEqual(initial['host_actions'][0]['arguments']['status'], ['not_started', 'in_progress'])
+        self.assertEqual(initial['host_actions'][0]['arguments']['limit'], 40)
+        monitor.scan(self.pages(mode='active'), self.root)
+        self.assertIsNone(monitor.status(self.root)['last_success_at'])
+        monitor.scan(self.pages(), self.root)
+        plan = monitor.status(self.root)['polling']
+        self.assertFalse(plan['full_reconciliation_due'])
+        self.assertNotIn('status', plan['full_reconciliation']['arguments'])
+        self.assertNotIn('status', plan['tracking'][0]['arguments'])
+        self.assertEqual(plan['tracking'][0]['arguments']['requirement_ids'], [RID])
+        for action in [plan['discovery'], plan['full_reconciliation'], *plan['tracking']]:
+            self.assertNotIn('date_from', action['arguments'])
+            self.assertNotIn('keyword', action['arguments'])
+        state = self.state()
+        state['last_full_success_at'] = (datetime.now(timezone.utc) - timedelta(hours=25)).isoformat()
+        write_json(self.root / 'state/fireplay/monitor/state.json', state)
+        self.assertTrue(monitor.status(self.root)['polling']['full_reconciliation_due'])
+
+    def test_partial_active_scan_and_repeated_cursor_do_not_advance_any_checkpoint(self):
+        monitor.scan(self.pages(), self.root)
+        original = self.state()
+        spec = self.pages(mode='active')
+        spec['summary_pages'][0]['response']['next_cursor'] = 'again'
+        result = monitor.scan(spec, self.root)
+        self.assertFalse(result['checkpoint_advanced'])
+        self.assertEqual(result['host_actions'][0]['arguments']['status'], ['not_started', 'in_progress'])
+        self.assertEqual(self.state(), original)
+        spec['summary_pages'].append({'arguments': {**self.config['query'], 'cursor': 'again'},
+                                      'response': {'items': [], 'serverTime': utc_now(), 'next_cursor': 'again'}})
+        with self.assertRaisesRegex(WorkflowError, 'Repeated or invalid'):
+            monitor.scan(spec, self.root)
+        self.assertEqual(self.state(), original)
+
+    def test_tracked_unknown_ids_and_active_done_rows_are_rejected(self):
+        with self.assertRaisesRegex(WorkflowError, 'known locally'):
+            monitor.scan(self.pages(mode='tracked', ids=[RID]), self.root)
+        done = {**self.snap['summary']['items'][0], 'status': 'done'}
+        with self.assertRaisesRegex(WorkflowError, 'active statuses'):
+            monitor.scan(self.pages([done], mode='active'), self.root)
+
+    def test_stale_or_truncated_summary_cannot_advance_checkpoint(self):
+        monitor.scan(self.pages(), self.root)
+        previous = self.state()
+        for invalid in ({'serverTime': '2020-01-01T00:00:00Z'}, {'returned': 2},
+                        {'query_meta': {'source_limit_reached': True}}, {'next_offset': 40},
+                        {'total': 2, 'query_meta': {'total_exact': True}}):
+            spec = self.pages(mode='active')
+            spec['summary_pages'][0]['response'].update(invalid)
+            with self.assertRaises(WorkflowError):
+                monitor.scan(spec, self.root)
+            self.assertEqual(self.state(), previous)
+
+    def test_previously_excluded_in_progress_gets_one_scope_review(self):
+        for view in ('brief', 'summary'):
+            self.snap[view]['items'][0]['status'] = 'in_progress'
+        monitor.scan(self.pages(), self.root)
+        state = self.state()
+        state['requirements'][RID].update(state='not_eligible', eligibility_policy_version='old-not-started-only')
+        write_json(self.root / 'state/fireplay/monitor/state.json', state)
+        result = monitor.scan(self.pages(mode='active'), self.root)
+        self.assertEqual(result['needs_review'][0]['code'], CODE)
+        monitor.assess(CODE, self.decision(False), self.root)
+        self.assertEqual(monitor.scan(self.pages(mode='active'), self.root)['needs_review'], [])
+
+    def test_unchanged_rows_do_not_repeat_brief_reviews_but_status_change_does(self):
+        monitor.scan(self.pages(), self.root)
+        monitor.assess(CODE, self.decision(False), self.root)
+        self.assertEqual(monitor.scan(self.pages(mode='active'), self.root)['needs_review'], [])
+        row = {**self.snap['summary']['items'][0], 'status': 'in_progress'}
+        self.assertEqual(len(monitor.scan(self.pages([row], mode='active'), self.root)['needs_review']), 1)
+
+    def test_brief_recheck_retains_hard_assignee_and_video_filters(self):
+        self.config['assignee_mode'] = 'strict'
+        self.config['query']['assignee_ids'] = ['b2fbcgab']
+        write_json(self.root / 'config/fireplay-monitor.json', self.config)
+        result = monitor.scan(self.pages(mode='active'), self.root)
+        args = result['needs_review'][0]['host_action']['arguments']
+        self.assertEqual(args['assignee_ids'], ['b2fbcgab'])
+        self.assertEqual(args['asset_type'], 'video')
+
+    def test_nontranslation_done_and_no_permission_do_not_start(self):
+        for case in ('not_translation', 'done', 'no_permission'):
             with self.subTest(case=case):
                 for view in ['summary', 'brief']:
-                    self.snap[view]['items'][0].update(status='in_progress' if case == 'in_progress' else 'not_started',
+                    self.snap[view]['items'][0].update(status='done' if case == 'done' else 'not_started',
                                                      canBindMaterials=case != 'no_permission')
                 # Reset only this disposable discovery record between cases.
                 state = self.root / 'state/fireplay/monitor/state.json'
@@ -230,7 +352,7 @@ class MonitorTests(unittest.TestCase):
 
     def test_conditional_assignment_still_requires_eligibility(self):
         self.configure_conditional_intake()
-        for status, permission in [('done', True), ('in_progress', True), ('not_started', False)]:
+        for status, permission in [('done', True), ('pending_upload', True), ('not_started', False), ('in_progress', False)]:
             with self.subTest(status=status, permission=permission):
                 for view in ('brief', 'summary'):
                     self.snap[view]['items'][0].update(status=status, canBindMaterials=permission)
@@ -282,7 +404,7 @@ class MonitorTests(unittest.TestCase):
         self.assertFalse((self.root / 'state/fireplay' / CODE / 'request.json').exists())
 
     def test_explicit_history_does_not_bypass_done_permission_or_content_revision(self):
-        for status, allowed in [('done', True), ('in_progress', True), ('not_started', False)]:
+        for status, allowed in [('done', True), ('pending_upload', True), ('not_started', False), ('in_progress', False)]:
             for view in ('brief', 'summary'):
                 self.snap[view]['items'][0].update(status=status, canBindMaterials=allowed)
             monitor.scan(self.pages(), self.root)

@@ -2,7 +2,14 @@
   "schema_version": 1,
   "enabled": true,
   "max_active_sources_per_requirement": 2,
-  "max_active_sources_global": 8,
+  "max_active_sources_global": 15,
+  "concurrency_authority": {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-concurrency-15-20261111",
+    "source_thread_id": "01a1bffe-1cca-7293-a615-90b51f080f89",
+    "source_quote": "目前8个并发有点少，更新到15个，且你和规划图片翻译自动化会话说说，同步一下",
+    "scope": "视频需求调度上限与全局活跃原片上限均调整为15；保留每需求原片上限、原负责聊天、预算、未知操作及质量门禁。"
+  },
   "lease_minutes": 120,
   "worker_kind": "subagent",
   "delegation_depth": 1,

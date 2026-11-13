@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "KEY-20261112-018-hi-asr-v7-case",
+  "created_at": "2026-11-12T10:10:45+00:00",
+  "files": [
+    {
+      "path": "evidence/actual-middle-v7.wav",
+      "sha256": "3448755a0e6d510ae1e9757aa643b0f68a6cdca7d900592fb4a067b96aaecc74",
+      "bytes": 113678
+    },
+    {
+      "path": "evidence/audio-model-review.json",
+      "sha256": "5776879de2510f52b70acfbdc504bdf0624ba024afd44a6ce9098d1c4e1dfdc9",
+      "bytes": 2082
+    },
+    {
+      "path": "evidence/encoded-full.wav",
+      "sha256": "a089ff5668a7bd221b0d54546a0e1840e7ac9863ad2958acc601178d3ebf2e67",
+      "bytes": 549926
+    },
+    {
+      "path": "evidence/gallery-upper.png",
+      "sha256": "5c8d5b6ec906e4da40d233fdd1c40217de1e1e573a95278a370cb1860a9bd391",
+      "bytes": 1036073
+    },
+    {
+      "path": "evidence/hi-asr-contradiction-v7.json",
+      "sha256": "acceb94f4451188bb178ea1631c085d19e391a9635069fc63ba80850dd5d451c",
+      "bytes": 4030
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "target_language": "hi",
+      "source_sha256": "75854fbf07c34d6b71df223eecfb318a21f154ecfb25986bee9d2ae788b34ec7"
+    },
+    "status": "candidate",
+    "lesson": "本源印地语v7整段离线ASR仅返回异常碎片，不能据此推断口播缺失。相同实际编码音轨的分段识别可恢复中段两句，另一个明确归因的外部音频比较支持首句、中段和CTA完整。保留相互矛盾的ASR和真实音轨哈希；模型支持不等于人工听审、发音验收或整片质量通过。已知清单之外的画廊小字仍漏译，音频结论不能豁免视觉完整性。",
+    "source_sha256": "75854fbf07c34d6b71df223eecfb318a21f154ecfb25986bee9d2ae788b34ec7",
+    "video_sha256": "39e11a4b5fab43f5bbff56638528e8f035c845d45325833a81f4d688a9b06b2f",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

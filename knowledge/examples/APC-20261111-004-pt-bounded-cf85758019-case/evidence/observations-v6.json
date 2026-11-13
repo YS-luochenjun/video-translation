@@ -1,0 +1,80 @@
+{
+  "video_sha256": "cf8575801918ca5cbaaa3ee38761c456debdf81ff07b83114cb54a2b1b49237c",
+  "checks": {
+    "translation": "Full-frame samples show Que / coragem / filtro / inicial / você word pops, Teste do amor titles, Digite dois nomes instruction, translated input placeholders, keyboard controls and TESTE AGORA! CTA. Heart scores and cat/human subjects remain recognizable. Actual encoded head and tail ASR recognize the complete Portuguese copy. All registered translation instances rendered; exact tiny UI temporal fidelity remains pending.",
+    "source_text_removed": "Shared neutral-v5 source erasure used; source captions, native titles, labels and CTA replaced in inspected frames. No retained English main caption observed; edge-by-edge independent audit pending.",
+    "protected_graphics": "Couple, brunette and blonde portraits, cat, source keyboard, hearts, scores and final arrows remain recognizable in actual full-frame samples. No large-area tearing observed in these samples.",
+    "native_motion": "Native 555-frame source timeline retained; opening word events follow actual TTS timestamps, UI follows registered scale/slide trajectories. Entry smear and outgoing overlap remain.",
+    "speech_complete": "Actual encoded head ASR: Que coragem! Este filtro revela a inicial de quem você gosta! Actual encoded tail ASR: Teste agora! Model sentence coverage checked; listening not claimed.",
+    "head_tail_audio": "Sample0 opening and through-end tail separately decoded and no-VAD transcribed from current encoded video. Source endpoint evidence reused by exact-source identity; no final-language approval copied.",
+    "music_effects": "Source accompaniment retained over full timeline with sample-index narration replacement and ducking. Listening-based fidelity and nonverbal reaction preservation remain unverified.",
+    "caption_sync": "Target opening words use isolated actual TTS boundaries mapped through trim/tempo. Formal final word-by-word audiovisual timing audit pending."
+  },
+  "head_tail_audio": {
+    "video_sha256": "cf8575801918ca5cbaaa3ee38761c456debdf81ff07b83114cb54a2b1b49237c",
+    "method": "Whisper small multilingual CPU int8, no VAD, pt language hint, no expected text; current encoded head/tail and full audio extracted.",
+    "source_head": {
+      "path": "analysis/source-head.wav",
+      "observed": "Y'all are brave for using this filter as it reveals your crush's first initial.",
+      "speech_ids": [
+        "a001"
+      ]
+    },
+    "source_tail": {
+      "path": "analysis/source-tail.wav",
+      "observed": "Woo! Test now!",
+      "speech_ids": [
+        "a002"
+      ],
+      "limitation": "Nonverbal reaction preservation after UVR not listening-certified."
+    },
+    "target_head": {
+      "path": "analysis/final-v6-head.wav",
+      "sha256": "bbef03f01eb34f9db2e239b9da1235ee8efb2cc68d7b6f3d10991400825c3af4",
+      "interval": [
+        0,
+        4.5
+      ],
+      "observed": "Que coragem! Este filtro revela a inicial de quem você gosta!",
+      "speech_ids": [
+        "a001"
+      ],
+      "decision": "model_sentence_coverage_only",
+      "asr": "analysis/offline-asr-final-v6-head.json"
+    },
+    "target_tail": {
+      "path": "analysis/final-v6-tail.wav",
+      "sha256": "3244e17010504a7955c524c72856e03082c5b85a59f62d1271f867bee042b3ed",
+      "interval": [
+        15,
+        18.5
+      ],
+      "observed": "Teste agora!",
+      "speech_ids": [
+        "a002"
+      ],
+      "decision": "model_sentence_coverage_only",
+      "asr": "analysis/offline-asr-final-v6-tail.json"
+    },
+    "remaining": "Perceptual listening, source-voice residue certainty and independent acceptance pending."
+  },
+  "evidence": [
+    "analysis/pt-v6-overview.jpg",
+    "analysis/final-v6-head.wav",
+    "analysis/final-v6-tail.wav",
+    "analysis/final-v6-full.wav",
+    "analysis/offline-asr-final-v6-head.json",
+    "analysis/offline-asr-final-v6-tail.json",
+    "analysis/offline-asr-source-head.json",
+    "analysis/offline-asr-source-tail.json"
+  ],
+  "limitations": [
+    "Same-agent sampled full-frame and actual encoded audio ASR review; no human listening, independent review or company/user acceptance.",
+    "Formal per-instance visual, normal-speed audiovisual and caption timing approval remain pending; internal quality remains revise.",
+    "Opening donor has lower spatial resolution; source UI erasure has soft edges, faint white input texture and third-entry zoom/exit smears.",
+    "Target typography approximates source; outgoing translated UI can overlap incoming heart briefly near slide boundary.",
+    "UVR accompaniment reused with speech ducking; music timbre, nonverbal reaction and absolute absence of faint source voice are not listening-certified.",
+    "Full-frame samples show Que / coragem / filtro / inicial / você word pops, Teste do amor titles, Digite dois nomes instruction, translated input placeholders, keyboard controls and TESTE AGORA! CTA. Heart scores and cat/human subjects remain recognizable. Actual encoded head and tail ASR recognize the complete Portuguese copy.",
+    "Shared original budget retains failed Wan cleanup and unknown audio-analysis cost; no quality pass inferred from API success."
+  ]
+}

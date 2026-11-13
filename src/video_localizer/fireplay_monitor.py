@@ -26,9 +26,17 @@ def policy(root=ROOT):
             'Resolve the user-selected assignees before monitoring')
     require(value.get('assignee_mode') in ('hint_only', 'strict'), 'Unknown assignee selection policy')
     filters = {'assignee_ids': selected} if value['assignee_mode'] == 'strict' else {}
+    polling = value.get('polling', {})
+    require(value.get('eligible_statuses') == ['not_started', 'in_progress']
+            and polling.get('page_size') == 40 and polling.get('tracked_batch_size') == 40
+            and polling.get('full_reconciliation_hours') == 24
+            and polling.get('authority', {}).get('authority') == 'user'
+            and polling['authority'].get('authorization_ref') and polling['authority'].get('source_quote'),
+            'Active polling needs its explicit scope authority and reconciliation policy')
     require(value['query'] == {'scope': 'all', 'view': 'summary', 'asset_type': 'video', **filters,
-                              'pagination': 'cursor', 'limit': 200, 'offset': 0},
-            'Monitor must scan all visible video groups with complete cursor pagination')
+                              'status': value['eligible_statuses'],
+                              'pagination': 'cursor', 'limit': polling['page_size'], 'offset': 0},
+            'Monitor must scan both active statuses across all visible video groups with complete cursor pagination')
     return value
 
 
@@ -68,41 +76,126 @@ def _summary_version(row):
     return object_hash({key: row.get(key) for key in ('title', 'locales', 'quantity', 'deptId', 'assetType')})
 
 
-def _rows(spec, config):
+def _summary_changed(previous, row):
+    return (previous['summary_version'] != _summary_version(row)
+            or any(previous['row'].get(key) != row.get(key)
+                   for key in ('updatedAt', 'status', 'canBindMaterials', 'assigneeIds')))
+
+
+def _query(config, mode, requirement_ids=None):
+    require(mode in ('active', 'full', 'tracked'), 'Unknown monitor scan_mode')
+    query = dict(config['query'])
+    if mode != 'active':
+        query.pop('status')
+    if mode == 'tracked':
+        require(isinstance(requirement_ids, list) and requirement_ids
+                and len(requirement_ids) <= config['polling']['tracked_batch_size']
+                and len(set(requirement_ids)) == len(requirement_ids)
+                and all(fireplay._uuid(value) for value in requirement_ids),
+                'Tracked scan needs a bounded list of exact known requirement UUIDs')
+        query['requirement_ids'] = requirement_ids
+    else:
+        require(requirement_ids is None, 'Discovery scans cannot narrow to requirement IDs')
+    return query
+
+
+def _polling_plan(config, state, watch, root):
+    tracked = set()
+    unresolved = {'needs_information', 'needs_revision_review', 'historical_translation_pending',
+                  'waiting_for_assignment', 'admitted', 'needs_review'}
+    for requirement_id, entry in state['requirements'].items():
+        if _matches(entry['row'], config) and (entry['state'] in unresolved or entry.get('review_pending')):
+            tracked.add(requirement_id)
+    for member in watch.get('pending', []):
+        tracked.add(member['requirement_id'])
+    for path in (Path(root) / 'state/fireplay').glob('*/request.json'):
+        record = read_json(path)
+        if (_matches(record['snapshot']['row'], config)
+                and (record.get('blockers') or record.get('chat', {}).get('state') != 'ready')):
+            tracked.add(record['requirement_id'])
+    ids = sorted(tracked)
+    batch_size = config['polling']['tracked_batch_size']
+    last_full = state.get('last_full_success_at') or state.get('last_success_at')
+    full_due = (_time(utc_now()) - (_time(last_full) or 0)
+                >= config['polling']['full_reconciliation_hours'] * 3600)
+    return {'discovery': {'scan_mode': 'active', 'tool': 'requirement_list',
+                          'arguments': _query(config, 'active')},
+            'full_reconciliation_due': full_due,
+            'full_reconciliation': {'scan_mode': 'full', 'tool': 'requirement_list',
+                                    'arguments': _query(config, 'full')},
+            'tracking': [{'scan_mode': 'tracked', 'tool': 'requirement_list',
+                          'requirement_ids': ids[start:start + batch_size],
+                          'arguments': _query(config, 'tracked', ids[start:start + batch_size])}
+                         for start in range(0, len(ids), batch_size)],
+            'tracked_count': len(ids), 'last_full_success_at': last_full,
+            'last_active_success_at': state.get('last_active_success_at'),
+            'last_tracked_success_at': state.get('last_tracked_success_at'),
+            'active_visible_count': state.get('active_visible_count'),
+            'tracking_gaps': state.get('tracking_gaps', {})}
+
+
+def _rows(spec, config, query):
     pages = spec.get('summary_pages')
     require(isinstance(pages, list) and pages, 'Need actual summary page receipts')
-    expected, rows, seen_ids, page_hashes = None, [], set(), []
+    expected, rows, seen_ids, page_hashes, cursors = None, [], set(), [], set()
     for position, page in enumerate(pages):
         require(isinstance(page, dict) and 'arguments' in page and 'response' in page,
                 'Each page needs its actual arguments and response')
         args, response = page['arguments'], fireplay.payload(page['response'])
-        require(args == {**config['query'], **({'cursor': expected} if expected else {})},
+        require(args == {**query, **({'cursor': expected} if expected else {})},
                 'Keep exact monitor filters and follow the cursor chain from the first page')
         require(position == 0 or expected, 'Page provided after pagination ended')
         require(isinstance(response.get('items'), list), 'Summary response needs items')
+        require(_time(response.get('serverTime')) is not None
+                and -60 <= _time(utc_now()) - _time(response['serverTime']) <= 600,
+                'Summary page needs a fresh serverTime; refresh the scan')
+        require(response.get('returned', len(response['items'])) == len(response['items'])
+                and not response.get('query_meta', {}).get('source_limit_reached'),
+                'Summary page is truncated or has inconsistent row counts')
         for row in response['items']:
             require(fireplay._uuid(row.get('id')) and row.get('assetType') == 'video',
                     'Visible video row needs its real requirement UUID')
             require(_matches(row, config), 'Response includes a requirement outside the selected assignees')
+            require('status' not in query or row.get('status') in query['status'],
+                    'Response includes a requirement outside the requested active statuses')
+            require('requirement_ids' not in query or row['id'] in query['requirement_ids'],
+                    'Response includes a requirement outside the tracked UUIDs')
             require(row['id'] not in seen_ids, 'Duplicate row in live pagination; refresh the scan')
             seen_ids.add(row['id'])
             rows.append(row)
         page_hashes.append(object_hash(page))
         expected = response.get('next_cursor')
         require(not response.get('has_more') or expected, 'Incomplete pagination without a cursor')
+        require(not response.get('next_offset') and
+                (not response.get('query_meta', {}).get('total_exact')
+                 or response.get('total') == len(response['items']) or expected),
+                'Incomplete cursor pagination; refresh the scan')
+        require(not expected or isinstance(expected, str) and expected not in cursors,
+                'Repeated or invalid pagination cursor; refresh the scan')
+        if expected:
+            cursors.add(expected)
     return rows, expected, page_hashes
 
 
 def scan(spec=None, root=ROOT):
     config = policy(root)
-    if spec is None:
-        return {'state': 'needs_summary', 'host_actions': [{'tool': 'requirement_list', 'arguments': config['query']}],
-                'external_write': False, 'workflow': 'agent/workflows/fireplay-monitor.md'}
-    spec = fireplay.payload(spec)
-    rows, cursor, hashes = _rows(spec, config)
+    spec = fireplay.payload(spec) if spec is not None else {}
+    mode = spec.get('scan_mode', 'active')
+    query = _query(config, mode, spec.get('requirement_ids'))
+    if mode == 'tracked':
+        known_ids = set(_state(root)['requirements'])
+        for request_path in (Path(root) / 'state/fireplay').glob('*/request.json'):
+            known_ids.add(read_json(request_path)['requirement_id'])
+        require(set(query['requirement_ids']) <= known_ids, 'Tracked scan UUIDs must already be known locally')
+    if 'summary_pages' not in spec:
+        return {'state': 'needs_summary', 'scan_mode': mode,
+                'host_actions': [{'tool': 'requirement_list', 'arguments': query}],
+                'polling': status(root)['polling'], 'external_write': False,
+                'workflow': 'agent/workflows/fireplay-monitor.md'}
+    rows, cursor, hashes = _rows(spec, config, query)
     if cursor:
-        return {'state': 'needs_more_pages', 'host_actions': [{'tool': 'requirement_list',
-                'arguments': {**config['query'], 'cursor': cursor}}], 'checkpoint_advanced': False}
+        return {'state': 'needs_more_pages', 'scan_mode': mode, 'host_actions': [{'tool': 'requirement_list',
+                'arguments': {**query, 'cursor': cursor}}], 'checkpoint_advanced': False}
     path = _directory(root) / 'state.json'
     with lock(path.with_suffix('.lock')):
         state = _state(root)
@@ -129,8 +222,7 @@ def scan(spec=None, root=ROOT):
             if registered:
                 registered_record = read_json(Path(root) / 'state/fireplay' / code / 'request.json')
                 entry['state'] = 'needs_information' if registered_record.get('blockers') else 'registered'
-                if previous and (previous['row'].get('updatedAt') != row.get('updatedAt') or
-                                 previous['summary_version'] != _summary_version(row)):
+                if previous and _summary_changed(previous, row):
                     entry['review_pending'] = True
             elif conditional and (not previous or previous.get('conditional_policy_version') != object_hash(conditional)):
                 entry.update(state='needs_review', reason='human_conditional_intake_policy')
@@ -143,24 +235,44 @@ def scan(spec=None, root=ROOT):
             elif not _matches(previous['row'], config):
                 entry.update(state='needs_review', reason='new_assignment_in_scope')
                 fresh.append(code)
-            elif (previous['row'].get('updatedAt') != row.get('updatedAt')
-                  or previous['summary_version'] != _summary_version(row)
-                  or (_conditional_intake(row, config)
-                      and set(previous['row'].get('assigneeIds') or []) != set(row.get('assigneeIds') or []))):
+            elif (entry['state'] == 'not_eligible' and row.get('status') == 'in_progress'
+                  and entry.get('eligibility_policy_version') != object_hash(config['eligible_statuses'])):
+                entry.update(state='needs_review', reason='updated_content_or_metadata',
+                             previous_summary_version=previous['summary_version'], previous_row=previous['row'])
+                changed.append(code)
+            elif _summary_changed(previous, row):
                 # Changes can be status-only. The Agent compares actual brief
                 # content; an updated timestamp alone never starts paid work.
                 entry.update(state='needs_review', reason='updated_content_or_metadata',
                              previous_summary_version=previous['summary_version'],
                              previous_row=previous['row'])
                 changed.append(code)
-            entry.update(row=row, summary_version=_summary_version(row), last_seen_at=now)
+            entry.update(row=row, summary_version=_summary_version(row), last_seen_at=now,
+                         eligibility_policy_version=object_hash(config['eligible_statuses']))
             state['requirements'][row['id']] = entry
-        scan_id = object_hash(hashes)
-        state.update(last_success_at=now, last_scan_id=scan_id, visible_count=len(rows),
-                     baseline_at=state.get('baseline_at', now), policy_sha256=object_hash(config))
+        scan_id = object_hash({'scan_mode': mode, 'query': query, 'pages': hashes})
+        state.update(policy_sha256=object_hash(config))
+        state.update({f'last_{mode}_success_at': now, f'last_{mode}_scan_id': scan_id})
+        if mode == 'full':
+            state.update(last_success_at=now, last_scan_id=scan_id, visible_count=len(rows),
+                         baseline_at=state.get('baseline_at', now))
+        elif mode == 'active':
+            state['active_visible_count'] = len(rows)
+        else:
+            returned_ids = {row['id'] for row in rows}
+            for requirement_id in query['requirement_ids']:
+                state.setdefault('tracking_checkpoints', {})[requirement_id] = {'checked_at': now, 'scan_id': scan_id}
+                gaps = state.setdefault('tracking_gaps', {})
+                if requirement_id in returned_ids:
+                    gaps.pop(requirement_id, None)
+                else:
+                    gaps[requirement_id] = {'checked_at': now, 'scan_id': scan_id,
+                                            'reason': 'not_returned_under_current_permissions_and_assignee_filter'}
         write_json(_directory(root) / 'scans' / (scan_id + '.json'),
-                   {'completed_at': now, 'page_hashes': hashes, 'rows': len(rows), 'new_codes': fresh,
-                    'changed_codes': changed, 'first_baseline': first, 'authority': config['authority']})
+                   {'completed_at': now, 'scan_mode': mode, 'query': query,
+                    'summary_pages': spec['summary_pages'], 'page_hashes': hashes, 'rows': len(rows),
+                    'new_codes': fresh, 'changed_codes': changed,
+                    'first_baseline': first and mode == 'full', 'authority': config['polling']['authority']})
         write_json(path, state)
     return status(root)
 
@@ -252,7 +364,8 @@ def assess(code, spec, root=ROOT):
             if not summary_changed and (not old_brief or old_brief == snap['content_version']):
                 uncertain_historical = decision['is_translation']
         saved = {'code': code, 'requirement_id': row['id'], 'snapshot': spec['snapshot'], 'decision': decision,
-                 'assessed_at': utc_now(), 'authority': explicit or config['authority']}
+                 'assessed_at': utc_now(), 'authority': explicit or config['authority'],
+                 'polling_scope_authority': config['polling']['authority']}
         write_json(_directory(root) / 'assessments' / (object_hash(saved) + '.json'), saved)
         entry.update(assessed_brief_version=snap['content_version'], decision=decision, row=row,
                      summary_version=_summary_version(row), review_pending=False)
@@ -271,6 +384,7 @@ def assess(code, spec, root=ROOT):
                          reason='Translation intent confirmed; resolve existing chat/delivery evidence or ask the owner once. Historical timing alone does not authorize production.')
         else:
             authority = explicit or {**config['authority'], 'scope_update_quote': config['scope_update_quote'],
+                         'polling_scope_authority': config['polling']['authority'],
                          'authorization_ref': config['authority']['authorization_ref'] + ':' + row['id'],
                          'standing_authorization_ref': config['authority']['authorization_ref'], 'mode': 'first',
                          'user_request': config['authority']['source_quote'] + '\n自动发现并独立制作：' + code,
@@ -563,7 +677,9 @@ def status(root=ROOT):
         packet.update(state=entry['state'], reason=entry.get('reason'))
         if entry['state'] == 'needs_review' or entry.get('review_pending'):
             packet['host_action'] = {'tool': 'requirement_list', 'arguments': {
-                'scope': 'all', 'view': 'blind_brief', 'requirement_ids': [row['id']]}}
+                'scope': 'all', 'view': 'blind_brief', 'asset_type': 'video',
+                **({'assignee_ids': config['query']['assignee_ids']} if config['assignee_mode'] == 'strict' else {}),
+                'requirement_ids': [row['id']]}}
             review.append(packet)
         if entry['state'] == 'needs_revision_review':
             revisions.append(packet)
@@ -584,6 +700,7 @@ def status(root=ROOT):
             if p.exists() and not read_json(p).get('blockers') and read_json(p).get('chat', {}).get('state') != 'ready':
                 queue.append(packet)
     followup_items = followups(root)
+    watch = completion_watch_status(followup_items, root)
     return {'state': 'ready' if state.get('baseline_at') else 'needs_baseline', 'interval_minutes': config['interval_minutes'],
             'scope': config['group_policy'], 'baseline_at': state.get('baseline_at'), 'last_success_at': state.get('last_success_at'),
             'visible_count': state.get('visible_count', 0), 'needs_review': _ordered(review), 'ready_to_dispatch': _ordered(queue),
@@ -592,6 +709,6 @@ def status(root=ROOT):
             'historical_review_required': _ordered(historical),
             'waiting_for_assignment': _ordered(waiting),
             'publication_followups': followup_items, 'max_active_requirements': config['max_active_requirements'],
-            'completion_watch': completion_watch_status(followup_items, root),
+            'completion_watch': watch, 'polling': _polling_plan(config, state, watch, root),
             'priority_policy': read_json(Path(root) / 'config/fireplay-intake.json').get('priority_policy', {}),
             'p1_waits_for_p0': False, 'automatic_paid_execution_by_script': False}

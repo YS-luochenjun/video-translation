@@ -1,0 +1,48 @@
+{
+  "source_sha256": "75854fbf07c34d6b71df223eecfb318a21f154ecfb25986bee9d2ae788b34ec7",
+  "audio_sha256": "a7bf79be1405ecec6a3c11f09a0c2f87e2b12d217162b28325037c5c704e566b",
+  "video_sha256": "39e11a4b5fab43f5bbff56638528e8f035c845d45325833a81f4d688a9b06b2f",
+  "model": "gemini-3-8-flash-openai",
+  "response_id": "chatcmpl-c0ef5d5cc9bf41dc963c7123beae638b",
+  "analysis": {
+    "has_speech": true,
+    "detected_language": "hi",
+    "speech_segments": [
+      {
+        "start": 0.0,
+        "end": 2.4,
+        "source_text": "हाथों से प्रिज्म इफेक्ट ऐसे बनाएं।"
+      },
+      {
+        "start": 4.1,
+        "end": 7.3,
+        "source_text": "यह सच में बहुत आसान है। मैं आपको तरीका दिखाती हूँ।"
+      },
+      {
+        "start": 12.5,
+        "end": 16.2,
+        "source_text": "नीचे क्लिक करें, अपनी फोटो अपलोड करें और आज़माएँ।"
+      }
+    ],
+    "background_music": {
+      "same_track": true,
+      "reason": "The background music track, tempo, and arrangement match Audio A exactly."
+    },
+    "sound_effects": {
+      "preserved": true,
+      "reason": "There are no distinct sound effects outside of the background music track, which is fully preserved."
+    },
+    "dialogue_translation": {
+      "complete": true,
+      "reason": "All spoken instructions, monologue, and call to action are translated completely and accurately into Hindi without omissions."
+    },
+    "foreign_speech_remaining": [],
+    "sync": {
+      "acceptable": true,
+      "reason": "The speech segments closely align with the original audio timings."
+    },
+    "uncertain_intervals": [],
+    "summary": "Audio B is a complete and faithful Hindi localization of Audio A, retaining the original background music track and timing."
+  },
+  "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"
+}

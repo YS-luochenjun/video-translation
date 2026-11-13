@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "APC-20261111-004-fr-bounded-6f24280848-case",
+  "created_at": "2026-11-11T06:44:22+00:00",
+  "files": [
+    {
+      "path": "evidence/cta-repair-v7.json",
+      "sha256": "fd89889b7e91468a39ced69e27f4319a6b4b8774773ecda8dd5b5587a7090fc6",
+      "bytes": 1133
+    },
+    {
+      "path": "evidence/final-v6-head.wav",
+      "sha256": "e3eb5705f30bca4d4940eb42b26a2028eb79226099f3dc4d60286ba5d6dfbe25",
+      "bytes": 144078
+    },
+    {
+      "path": "evidence/final-v6-tail-padded-review.wav",
+      "sha256": "6cd352b3edd2798d11b4bd025beef1bdd33b9b4d88cfa5bc6a5045618643fd18",
+      "bytes": 176078
+    },
+    {
+      "path": "evidence/final-v6-tail-slow-review.wav",
+      "sha256": "f882cb82d316dec0f06eec5a6c69078a5047b9c4e57a61eb15876fcbadb9f019",
+      "bytes": 203834
+    },
+    {
+      "path": "evidence/final-v6-tail.wav",
+      "sha256": "a3f061ad07d88b7448002ba7231a9eb260a6b266d412ac40d82db2f27d3fd25b",
+      "bytes": 112078
+    },
+    {
+      "path": "evidence/final-v7-tail.wav",
+      "sha256": "0f15cd992676fdace1ee8867360ba49be4c1c2932ba5d87d1bfdb655249f01c0",
+      "bytes": 112078
+    },
+    {
+      "path": "evidence/fr-v6-overview.jpg",
+      "sha256": "f1ec3b707adec60f571c2fbc6ec18458a087de92e60728212f662314aff1d372",
+      "bytes": 562794
+    },
+    {
+      "path": "evidence/observations-v6.json",
+      "sha256": "8903b4551deda870949a428b878201160c0dedd153845f636b7a72b29d8a6ff3",
+      "bytes": 6384
+    },
+    {
+      "path": "evidence/offline-asr-final-v6-head.json",
+      "sha256": "d7b39317b3cd9a3e4e424ddbdc715ffc4e7b377c09705a7c39b295ceecbd43cb",
+      "bytes": 4359
+    },
+    {
+      "path": "evidence/offline-asr-final-v6-tail-padded-review.json",
+      "sha256": "b67b5d9aeef6a7ec9f7dc2bf7de7925b8a283c713e9e59aaf3fd5a4b91c2527b",
+      "bytes": 3403
+    },
+    {
+      "path": "evidence/offline-asr-final-v6-tail-slow-review.json",
+      "sha256": "d9e23485b76648bad53d5f8abddf321676ba608f114b8336ff5134e9d832ae0f",
+      "bytes": 3239
+    },
+    {
+      "path": "evidence/offline-asr-final-v6-tail.json",
+      "sha256": "86a9304ae8178baa71859ba2fcf832d5fc9b8cbd05f9bc22d2f01a74c3f801c4",
+      "bytes": 3238
+    },
+    {
+      "path": "evidence/offline-asr-final-v7-tail.json",
+      "sha256": "fd799f003f2b8c144845e2d65e9804a1fab5b1f5e4b9ba1de9f80275dea7552c",
+      "bytes": 3196
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+      "target_language": "fr",
+      "language_match": "exact"
+    },
+    "status": "candidate",
+    "lesson": "For this exact source, compare the complete outgoing UI boundary and every input placeholder before accepting text coverage. Retain observed lower-resolution donor, repair texture and transition defects as limitations. Check actual encoded head and tail audio independently after sample-index mixing; successful TTS or mixing does not establish spoken coverage. Two full French TTS outputs omitted the CTA. Slowed V6 audio recovered the expected phrase, while normal-speed V6 and the lower-tempo V7 trial remained ambiguous. This is evidence of unresolved verification, not proof that ASR is correct or that pronunciation is wrong; V7 remains an unselected trial and external publication stays blocked.",
+    "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+    "video_sha256": "6f24280848ece1025d8fd1fed7d0c7de105d9ed9f95f56a6eaf7d1b2c8da1e07",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

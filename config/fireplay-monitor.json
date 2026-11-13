@@ -8,8 +8,12 @@
     "view": "summary",
     "asset_type": "video",
     "pagination": "cursor",
-    "limit": 200,
+    "limit": 40,
     "offset": 0,
+    "status": [
+      "not_started",
+      "in_progress"
+    ],
     "assignee_ids": [
       "b2fbcgab"
     ]
@@ -28,9 +32,29 @@
   "scope_update_quote": "目前确定了，只需要查看包含“邹彬”的需求，才会有需要做的需求。你可以进行项目修改，与筛选的修改",
   "latest_scope_quote": "目前确定了，只需要查看包含“邹彬”的需求，才会有需要做的需求。你可以进行项目修改，与筛选的修改",
   "eligible_statuses": [
-    "not_started"
+    "not_started",
+    "in_progress"
   ],
-  "max_active_requirements": 8,
+  "polling": {
+    "page_size": 40,
+    "full_reconciliation_hours": 24,
+    "tracked_batch_size": 40,
+    "authority": {
+      "authority": "user",
+      "authorization_ref": "user-fireplay-active-incremental-polling-20261111",
+      "source_thread_id": "01a1bffe-1cca-7293-a615-90b51f080f89",
+      "source_quote": "未开始 和 进行中，都可以看看。都有可能是没有做的。请你去解决目前的轮训",
+      "rule": "Every 30 minutes discover not_started and in_progress videos across all visible groups assigned to b2fbcgab. Compare UUID/updatedAt locally, recheck unresolved known IDs without status/date filters, and reconcile all statuses every 24 hours. Preserve historical baseline, existing owners, budgets, unknown operations and delivery gates."
+    }
+  },
+  "max_active_requirements": 15,
+  "concurrency_authority": {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-concurrency-15-20261111",
+    "source_thread_id": "01a1bffe-1cca-7293-a615-90b51f080f89",
+    "source_quote": "目前8个并发有点少，更新到15个，且你和规划图片翻译自动化会话说说，同步一下",
+    "scope": "视频需求调度上限与全局活跃原片上限均调整为15；保留每需求原片上限、原负责聊天、预算、未知操作及质量门禁。"
+  },
   "reserve_p1_slot": true,
   "quantity_mode": "one_per_locale",
   "conditional_intakes": [
@@ -121,7 +145,7 @@
     "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
     "authorization_ref": "user-fireplay-new-unfinished-translation-only-20261101",
     "source_quote": "目前你需要筛选的是，没有完成的需求的，新需求的，翻译需求。注意不要完成错了，也不要完成重复了",
-    "rule": "Only newly created, currently not_started, bindable translation requirements in the Zoubin scope. Reconcile existing exact-code chats, requests, ledgers and bindings before production. Done or in_progress rows do not start again. Historical records, budgets and unknown operations are preserved."
+    "rule": "New bindable translation requirements in the Zoubin scope may be not_started or in_progress under polling.authority. In_progress is not proof that production started. Reconcile existing exact-code chats, requests, ledgers and bindings before production; reuse existing ownership and never repeat completed work. Historical records, budgets and unknown operations are preserved."
   },
   "lifecycle": {
     "authority": "user",

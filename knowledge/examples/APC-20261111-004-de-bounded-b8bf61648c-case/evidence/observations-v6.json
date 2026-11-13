@@ -1,0 +1,30 @@
+{
+  "video_sha256": "b8bf61648c84d9310ecc701f180cc9b0ef7a1ee5b62a7a22640d47ccb0821aa9",
+  "checks": {
+    "translation": "German opening, Liebestest titles, instructions, labels, buttons, keyboard suggestions and JETZT TESTEN are present in inspected encoded frames. Pink second-name placeholder was omitted in v4, repaired and observed in actual v6 at frame140. No independent linguistic acceptance claimed.",
+    "source_text_removed": "V4 source/base/target exit sequence337-346 confirmed outgoing English UI erased. V6 retains that base and additionally erases pink second-name placeholder. Faint white texture in placeholder field and soft source transition smears remain; frame sampling cannot certify every possible single-frame trace.",
+    "protected_graphics": "Full-scene samples retain all three human shots, hearts, score numerals, cat, keyboard geometry, final cartoon heart and three yellow arrows. The low-resolution clean opening donor is visibly softer than source.",
+    "native_motion": "555 native frames and source timing retained; translated UI follows registered trajectories including outgoing purple slide. Dense third-screen entry and exit samples inspected, but no independent full normal-speed playback approval.",
+    "speech_complete": "Actual encoded head ASR recognizes full German opening including mutig and Schwarmes; actual encoded tail recognizes Jetzt testen. Final v6 extracted PCM head/tail SHA256 equal the previously transcribed v4 clips exactly. No missing required sentence observed in model evidence.",
+    "head_tail_audio": "Source sample0 head and real tail independently transcribed; target current encoded clips extracted through end. No expected transcript supplied. German language hint and no VAD used. Full-track decode performed by capture/quality/finalize; direct listening and absolute absence of UVR residue remain unverified.",
+    "music_effects": "Actual source accompaniment retained throughout via UVR and sample-index mixing; narration ducking used. Source nonverbal reaction may be attenuated by separation. No listening-based claim of music timbre or effects preservation.",
+    "caption_sync": "Opening source-style target word pops use observed German TTS word boundaries and sample-index placement. Compound wraps over two lines. Formal per-word final audiovisual timing audit remains pending; no quality pass claimed."
+  },
+  "head_tail_audio": {
+    "video_sha256": "b8bf61648c84d9310ecc701f180cc9b0ef7a1ee5b62a7a22640d47ccb0821aa9",
+    "method": "Whisper small multilingual CPU int8, no VAD, German hint, no expected text; current encoded PCM hashes checked against actual transcribed clips",
+    "source_head": {"path":"analysis/source-head.wav","interval":[0,4.5],"observed":"Y'all are brave for using this filter as it reveals your crush's first initial.","speech_ids":["a001"]},
+    "source_tail": {"path":"analysis/source-tail.wav","observed":"Woo! Test now!","speech_ids":["a002"],"limitation":"Woo is nonverbal source reaction; preservation after UVR not listening-certified."},
+    "target_head": {"path":"analysis/final-v6-head.wav","sha256":"b1329bb01baa658c735b418f635c38d9ad65fc90ec622736449acb3732aafe16","interval":[0,4.5],"observed":"Ihr seid mutig. Dieser Filter verrät den Anfangsbuchstaben eures Schwarmes.","speech_ids":["a001"],"decision":"pass_for_model_sentence_coverage_only","asr":"analysis/offline-asr-final-v4-head.json"},
+    "target_tail": {"path":"analysis/final-v6-tail.wav","sha256":"4e8ab4a4847e81a73bdd62658fd04d07d08f1911eab621a6c12ec286c9e5ce21","interval":[15,18.5],"observed":"Jetzt testen!","speech_ids":["a002"],"decision":"pass_for_model_sentence_coverage_only","asr":"analysis/offline-asr-final-v4-tail.json"},
+    "remaining":"Listening, residual original-language certainty, exact perceptual loudness and independent acceptance pending."
+  },
+  "pilot_observations": {
+    "residue":"Compared source/base/target around third keyboard heart: original LOVE TEST decoration absent from inspected base and German LIEBESTEST visible from entry403 onward; vertical entry smear remains above header. Outgoing purple English previously exposed at337-344 is cleared in separately inspected v4 sequence reused in v6.",
+    "subject":"Keyboard, pink heart decoration, original cat, source heart score and incoming blue result retain recognizable source composition. No large-area tearing or damaged human subject in inspected full-scene frames.",
+    "lettering":"German title uses real italic display face; UI labels and instruction fit original regions; keyboard-heart LIEBESTEST uses heavy outlined type. Typeface and local repair texture differ from source, retained as ordinary defects.",
+    "timing":"Third title appears with native entry at403, follows screen movement through454 and ends before blue result. Opening words use observed voice boundaries. Sequence samples inspected; full normal-speed independent motion acceptance remains pending."
+  },
+  "evidence":["analysis/de-v6-overview.jpg","analysis/de-v6-placeholder.png","analysis/de-v4-exit.jpg","analysis/final-v6-head.wav","analysis/final-v6-tail.wav","analysis/offline-asr-final-v4-head.json","analysis/offline-asr-final-v4-tail.json","analysis/offline-asr-source-head.json","analysis/offline-asr-source-tail.json"],
+  "limitations":["Same-agent sampled full-frame and ASR review; no human listening, independent review or user/company acceptance.","Formal caption synchronization, per-instance restoration/style approval and normal-speed perceptual review remain pending; internal quality remains revise.","Clean opening donor lower resolution; local UI repair softness, small white placeholder texture and entry/exit smears remain.","German spoken Schwarmes is grammatical genitive variant of written Schwarms; voice accelerated1.5x to retain all opening words.","Source accompaniment retained through UVR; nonverbal reaction and music timbre preservation not listening-certified.","Failed Wan cleanup224credits and ambiguous audio-analysis2credit reservation preserved in original shared pool."]
+}

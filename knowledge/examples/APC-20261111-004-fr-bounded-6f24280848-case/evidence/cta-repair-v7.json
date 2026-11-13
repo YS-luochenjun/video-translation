@@ -1,0 +1,20 @@
+{
+  "source_video_sha256": "6f24280848ece1025d8fd1fed7d0c7de105d9ed9f95f56a6eaf7d1b2c8da1e07",
+  "result_video_sha256": "c1ce06430d69bb111874def2c63bee69561ea8ba464ca6f8f70c59cde1ff43b7",
+  "tail_source_sha256": "5c9e75923f138a69b8c2c781983da50ce73fa5061b0400469f2feca930d0639e",
+  "mix_sha256": "30226f811f40c2b3db7072c1ec8ce99d7feb30d36a3118d1eb511534452ff023",
+  "change": "Only actual CTA tempo 1.35 to 1.15; trim source at1.51 after observed speech end1.38; source onset retained17.17; video stream copied.",
+  "why": "Actual encoded tail was ambiguous at1.35; slowing its actual PCM by0.8 recovered Teste maintenant without text prompt. Trial of lower actual mix tempo within existing assets; no new paid TTS.",
+  "old_evidence": [
+    "analysis/offline-asr-final-v6-tail.json",
+    "analysis/offline-asr-final-v6-tail-slow-review.json",
+    "analysis/offline-asr-final-v6-tail-padded-review.json"
+  ],
+  "speech_end_reference_seconds": 1.38,
+  "trim_end_seconds": 1.51,
+  "tempo": 1.15,
+  "offset_seconds": 17.17,
+  "stem_sample_count": 58293,
+  "candidate_audio_checks": "pending_actual_encoded_ASR",
+  "new_paid_tasks": 0
+}

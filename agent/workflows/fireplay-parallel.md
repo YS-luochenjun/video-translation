@@ -28,6 +28,6 @@
 
 交付与领取分别收尾。负责聊天在 `fireplay-close` 后仍检查本需求的原领取；平台已绑定或请求已结案不会自动把领取改成 `worker_complete`。先用真实worker状态及交接记录确认已停止写入、在途任务已交代，再以原 `task_id`、`claim_token` 和允许目录内的当前哈希证据执行 `complete`。核对该任务状态和活跃原片计数的变化；具体操作回执留work/state。宿主暂时未加载历史worker、查不到ID或租约过期都不能证明已停止；缺证据保留具体阻塞，由原负责聊天核实，主控不改全局账本抢占名额。该步骤只交还写入职责，不改变原质量、费用或平台结论。
 
-负责聊天在切换阶段、派发和恢复前读取 `fireplay-parallel status --code CODE`；全局主控读 `fireplay-parallel status`。新需求提示词自动带此流程。巡检发现多源积压时先读原负责聊天，再保存调度signal及真实发送回执，让原聊天领取/分派；已运行且已采用本政策的不重复催。跨需求仍遵守八需求上限、P0仅优先冲突资源、P1继续。并行来源上限与需求数是两层限制，不能用子代理绕过需求授权。
+负责聊天在切换阶段、派发和恢复前读取 `fireplay-parallel status --code CODE`；全局主控读 `fireplay-parallel status`。新需求提示词自动带此流程。巡检发现多源积压时先读原负责聊天，再保存调度signal及真实发送回执，让原聊天领取/分派；已运行且已采用本政策的不重复催。跨需求遵守config/fireplay-monitor.json的max_active_requirements（当前15），全局活跃原片遵守config/fireplay-parallel.json的max_active_sources_global（当前15）；P0仅优先冲突资源、P1继续。并行来源上限与需求数是两层限制，不能用子代理绕过需求授权。
 
 现有需求逐项接续，不批量覆盖request、chat或预算。正文新增原片是内容修订：保留原版本现场，沿原聊天明确审查；活动请求修订门禁不能通过手改JSON或子代理绕过。完成时仍核验全部当前原片×目标语的实际哈希、平台ID、共享、标签、归属和绑定。

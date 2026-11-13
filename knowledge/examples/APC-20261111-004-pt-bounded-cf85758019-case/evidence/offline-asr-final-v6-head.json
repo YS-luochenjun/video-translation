@@ -1,0 +1,110 @@
+{
+  "signature": {
+    "version": 1,
+    "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+    "video_sha256": null,
+    "audio_path": "analysis/final-v6-head.wav",
+    "audio_sha256": "bbef03f01eb34f9db2e239b9da1235ee8efb2cc68d7b6f3d10991400825c3af4",
+    "model_files": {
+      "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671",
+      "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+      "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+      "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913"
+    },
+    "engine_version": "1.2.1",
+    "vad": false,
+    "language_hint": "pt",
+    "word_timestamps": true,
+    "decoder_version": "ffmpeg version 9.0 Copyright (c) 2000-2026 the FFmpeg developers\nbuilt with Apple clang version 13.1.6 (clang-1316.0.21.2.5)\nconfiguration: --prefix=/Volumes/tempdisk/sw --extra-cflags=-fno-stack-check --arch=arm64 --cc=/usr/bin/clang --enable-gpl --enable-libvmaf --enable-libopenjpeg --enable-libopus --enable-libmp3lame --enable-libx264 --enable-libx265 --enable-libvvenc --enable-libvpx --enable-libwebp --enable-libass --enable-libfreetype --enable-fontconfig --enable-libtheora --enable-libvorbis --enable-libsnappy --enable-libaom --enable-libvidstab --enable-libzimg --enable-libsvtav1 --enable-libharfbuzz --enable-libkvazaar --pkg-config-flags=--static --enable-ffplay --enable-neon --enable-runtime-cpudetect --disable-indev=qtkit --disable-indev=x11grab_xcb\nlibavutil      61.  1.100 / 61.  1.100\nlibavcodec     63.  1.100 / 63.  1.100\nlibavformat    63.  1.100 / 63.  1.100\nlibavdevice    63.  1.100 / 63.  1.100\nlibavfilter    12.  1.100 / 12.  1.100\nlibswscale     10.  1.100 / 10.  1.100\nlibswresample   7.  1.100 /  7.  1.100\n\nExiting with exit code 0\n",
+    "implementation": "5bf170f7edf2ec2438f41f03c3fb7c100566ebe88df322963a9ef5bf6d9dfcb9"
+  },
+  "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+  "video_sha256": null,
+  "audio_path": "analysis/final-v6-head.wav",
+  "audio_sha256": "bbef03f01eb34f9db2e239b9da1235ee8efb2cc68d7b6f3d10991400825c3af4",
+  "model_sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671",
+  "engine": "faster-whisper small multilingual CPU int8",
+  "language": "pt",
+  "language_probability": 1,
+  "language_hint": "pt",
+  "vad_filter": false,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 3.94,
+      "text": " Que coragem! Este filtro revela a inicial de quem você gosta!",
+      "avg_logprob": -0.3447345840303521,
+      "no_speech_prob": 0.03968769684433937,
+      "words": [
+        {
+          "text": " Que",
+          "start": 0.0,
+          "end": 0.42,
+          "probability": 0.856231153011322
+        },
+        {
+          "text": " coragem!",
+          "start": 0.42,
+          "end": 1.28,
+          "probability": 0.9961253702640533
+        },
+        {
+          "text": " Este",
+          "start": 1.52,
+          "end": 1.74,
+          "probability": 0.8232652544975281
+        },
+        {
+          "text": " filtro",
+          "start": 1.74,
+          "end": 2.14,
+          "probability": 0.9736497104167938
+        },
+        {
+          "text": " revela",
+          "start": 2.14,
+          "end": 2.58,
+          "probability": 0.9891325235366821
+        },
+        {
+          "text": " a",
+          "start": 2.58,
+          "end": 2.62,
+          "probability": 0.6764562129974365
+        },
+        {
+          "text": " inicial",
+          "start": 2.62,
+          "end": 2.98,
+          "probability": 0.9696835279464722
+        },
+        {
+          "text": " de",
+          "start": 2.98,
+          "end": 3.22,
+          "probability": 0.9915800094604492
+        },
+        {
+          "text": " quem",
+          "start": 3.22,
+          "end": 3.4,
+          "probability": 0.9879055023193359
+        },
+        {
+          "text": " você",
+          "start": 3.4,
+          "end": 3.68,
+          "probability": 0.9831220507621765
+        },
+        {
+          "text": " gosta!",
+          "start": 3.68,
+          "end": 3.94,
+          "probability": 0.9878260493278503
+        }
+      ]
+    }
+  ],
+  "proof_boundary": "Actual audio transcription, no expected script supplied. Language hint is not detected-language proof. Not listening or acceptance.",
+  "data_sha256": "8f4e849e33491beb5d5c137a41b494a81c86181bebda9b828e6e49bbb4cb7beb"
+}

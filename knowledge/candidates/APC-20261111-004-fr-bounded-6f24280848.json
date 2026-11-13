@@ -1,0 +1,28 @@
+{
+  "id": "APC-20261111-004-fr-bounded-6f24280848",
+  "created_at": "2026-11-11T06:44:22+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+    "target_language": "fr",
+    "language_match": "exact"
+  },
+  "hypothesis": "For this exact source, compare the complete outgoing UI boundary and every input placeholder before accepting text coverage. Retain observed lower-resolution donor, repair texture and transition defects as limitations. Check actual encoded head and tail audio independently after sample-index mixing; successful TTS or mixing does not establish spoken coverage. Two full French TTS outputs omitted the CTA. Slowed V6 audio recovered the expected phrase, while normal-speed V6 and the lower-tempo V7 trial remained ambiguous. This is evidence of unresolved verification, not proof that ASR is correct or that pronunciation is wrong; V7 remains an unselected trial and external publication stays blocked.",
+  "outcome": "required_audio_unverified",
+  "evidence": {
+    "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+    "video_sha256": "6f24280848ece1025d8fd1fed7d0c7de105d9ed9f95f56a6eaf7d1b2c8da1e07",
+    "case_manifest_sha256": "244b1d501249fd1027e2ac11ea7254485190fd1914941a34db8ddf5d2b4ac708",
+    "observation_sha256": "8903b4551deda870949a428b878201160c0dedd153845f636b7a72b29d8a6ff3"
+  },
+  "limitations": [
+    "Exact source and locale only; same-agent samples and ASR, no normal-speed human listening or independent acceptance.",
+    "No new company preference, quality standard or cross-source method is activated.",
+    "Ordinary visual defects remain; publication does not mean internal quality passed."
+  ],
+  "company_preference": false,
+  "promotion": "Candidate only; separately review the independent evidence before any activation.",
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

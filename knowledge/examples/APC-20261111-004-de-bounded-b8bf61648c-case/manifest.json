@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "APC-20261111-004-de-bounded-b8bf61648c-case",
+  "created_at": "2026-11-11T06:44:20+00:00",
+  "files": [
+    {
+      "path": "evidence/de-v6-overview.jpg",
+      "sha256": "5813ed958cc3f90e74724fd6fdd66defaa77236fbb13973af3d3f3bd4e720c0c",
+      "bytes": 572234
+    },
+    {
+      "path": "evidence/final-v6-head.wav",
+      "sha256": "b1329bb01baa658c735b418f635c38d9ad65fc90ec622736449acb3732aafe16",
+      "bytes": 144078
+    },
+    {
+      "path": "evidence/final-v6-tail.wav",
+      "sha256": "4e8ab4a4847e81a73bdd62658fd04d07d08f1911eab621a6c12ec286c9e5ce21",
+      "bytes": 112078
+    },
+    {
+      "path": "evidence/observations-v6.json",
+      "sha256": "525ed6c0e145fbd7f4d398f1282ddcae1cc864c0671633bf74c52558c7be2199",
+      "bytes": 6079
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+      "target_language": "de",
+      "language_match": "exact"
+    },
+    "status": "candidate",
+    "lesson": "For this exact source, compare the complete outgoing UI boundary and every input placeholder before accepting text coverage. Retain observed lower-resolution donor, repair texture and transition defects as limitations. Check actual encoded head and tail audio independently after sample-index mixing; successful TTS or mixing does not establish spoken coverage.",
+    "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+    "video_sha256": "b8bf61648c84d9310ecc701f180cc9b0ef7a1ee5b62a7a22640d47ccb0821aa9",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false
+  }
+}

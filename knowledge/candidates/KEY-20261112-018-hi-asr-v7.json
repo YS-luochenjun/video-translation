@@ -1,0 +1,31 @@
+{
+  "id": "KEY-20261112-018-hi-asr-v7",
+  "created_at": "2026-11-12T10:10:45.227541+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "hi",
+    "source_sha256": "75854fbf07c34d6b71df223eecfb318a21f154ecfb25986bee9d2ae788b34ec7"
+  },
+  "outcome": "audio_model_supported_visual_incomplete",
+  "hypothesis": "本源印地语v7整段离线ASR仅返回异常碎片，不能据此推断口播缺失。相同实际编码音轨的分段识别可恢复中段两句，另一个明确归因的外部音频比较支持首句、中段和CTA完整。保留相互矛盾的ASR和真实音轨哈希；模型支持不等于人工听审、发音验收或整片质量通过。已知清单之外的画廊小字仍漏译，音频结论不能豁免视觉完整性。",
+  "trigger": "Whole-track ASR contradicts targeted actual encoded-audio evidence for this exact source/language/version.",
+  "action": "Check actual head, middle and tail with attributed evidence; keep contradictory recognitions and distinct visual completeness findings.",
+  "failure_signature": "Whole-track Hindi transcript is only ॐ६ुुौु while actual segment and independent model recognize sentences.",
+  "evidence": {
+    "case_path": "knowledge/examples/KEY-20261112-018-hi-asr-v7-case",
+    "case_manifest_sha256": "3ab4a959e3e9b0d8b880d2eae294f46e8d68681d52e74a1bf715a7b210738bc7",
+    "source_sha256": "75854fbf07c34d6b71df223eecfb318a21f154ecfb25986bee9d2ae788b34ec7",
+    "video_sha256": "39e11a4b5fab43f5bbff56638528e8f035c845d45325833a81f4d688a9b06b2f"
+  },
+  "limitations": [
+    "Only this source, encoded v7 and Hindi; not evidence for all ASR engines or languages.",
+    "No direct Codex/human listening or continuous perceptual playback claimed.",
+    "Source gallery crop is evidence of ambiguity, not a proposed reading."
+  ],
+  "counterevidence": "Unresolved gallery phrase and pending continuous review prevent whole-video approval despite supported target narration.",
+  "company_preference": false,
+  "promotion": "Candidate only. No rule promotion, quality acceptance or external submission authorized by this observation.",
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}
