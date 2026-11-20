@@ -1,6 +1,7 @@
 """Fireplay acceptance closes the owner workflow; YouTube runs on the platform."""
 import unittest
 import json
+from unittest.mock import patch
 import test_fireplay as fixtures
 from video_localizer import fireplay, fireplay_monitor, fireplay_submission, batches
 from video_localizer.common import WorkflowError, utc_now, write_json
@@ -35,6 +36,33 @@ class SubmissionClosureTests(unittest.TestCase):
         write_json(self.folder/'user-approved-return-1.json', {'requirement_id': fixtures.RID,
                    'state': 'pending', 'items': self.rows})
         self.assertEqual(fireplay_submission.bound_materials(self.record(), self.record()['videos'][0], self.root), [])
+
+    def test_quality_hold_reopens_only_the_rejected_source_locale(self):
+        record = self.record()
+        record['videos'][0]['source'] = {'sha256': 'c' * 64}
+        self.save(record)
+        self.assertTrue(self.completion()['complete'])
+        with patch('video_localizer.quality_holds.active',
+                   side_effect=lambda source, asset, root: [{'id': 'rejected'}] if asset == 'a' * 64 else []):
+            progress = fireplay_submission.coverage(record, record['videos'][0], self.root)
+            self.assertEqual(progress['missing_locales'], ['es'])
+            self.assertEqual(progress['bound_locales'], ['ko'])
+            self.assertFalse(fireplay_submission.completion_gate(record, self.root)['can_close'])
+            result = self.completion()
+            self.assertEqual(result['verified_count'], 1)
+            self.assertEqual(result['missing'][0]['reason'], 'active_quality_hold')
+            self.assertEqual(len(fireplay_submission.bound_materials(record, record['videos'][0], self.root)), 2)
+
+    def test_repaired_bytes_keep_the_old_quality_hold_without_blocking_completion(self):
+        record = self.record()
+        record['videos'][0]['source'] = {'sha256': 'c' * 64}
+        self.save(record)
+        self.rows[0]['sha256'] = 'd' * 64
+        with patch('video_localizer.quality_holds.active',
+                   side_effect=lambda source, asset, root: [{'id': 'rejected'}] if asset == 'a' * 64 else []):
+            self.assertTrue(self.completion()['complete'])
+            self.assertTrue(fireplay_submission.coverage(record, record['videos'][0], self.root)['complete'])
+            self.assertTrue(fireplay_submission.completion_gate(record, self.root)['can_close'])
 
     def test_partial_manual_return_does_not_hide_missing_locales(self):
         write_json(self.folder/'user-approved-return-1.json', {'requirement_id': fixtures.RID,

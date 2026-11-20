@@ -2,6 +2,67 @@
 from .common import file_hash, require, utc_now, write_json
 
 
+def linked_repair_request(previous, decision, root):
+    from copy import deepcopy
+    from .common import inside, read_json
+    from . import bundles
+    reference = decision.get('repair_continuity')
+    if not reference:
+        return previous
+    require(decision.get('continue_user_requested_repair') is True
+            and decision.get('repair_authority') == 'user'
+            and decision.get('repair_authorization_ref') and decision.get('repair_source_quote'),
+            'Linked repair requires explicit user repair authority')
+    evidence = inside(root, reference['path'])
+    require(evidence.is_file() and file_hash(evidence) == reference['sha256'],
+            'Linked repair continuity evidence changed')
+    data = read_json(evidence)
+    require(data.get('delivery_requirement') == {
+                'code': previous['code'], 'id': previous['requirement_id']}
+            and data.get('authority', {}).get('authorization_ref')
+            and data.get('authority', {}).get('source_quote'),
+            'Linked repair evidence belongs to another delivery request')
+    origin = data['original_requirement']
+    original_path = inside(root, 'state/fireplay/' + origin['code'] + '/request.json')
+    original = read_json(original_path)
+    require(original['requirement_id'] == origin['id']
+            and original.get('budget') == data.get('original_budget_id')
+            and (not previous.get('budget') or previous['budget'] == original['budget']),
+            'Linked repair must retain the original funded request')
+    require(len(previous['videos']) == len(original['videos']) == 1
+            and set(previous['targets']) == set(original['targets']) == set(data['targets']),
+            'Linked repair source/language scope differs')
+    current_video, original_video = previous['videos'][0], original['videos'][0]
+    require(current_video['source_url'] == original_video['source_url']
+            and current_video['source']['sha256'] == original_video['source']['sha256'] == data['source_sha256']
+            and original_video.get('members') == data['original_runs']
+            and original_video.get('chat', {}).get('threadId') == data['owner_thread_id'],
+            'Linked repair production identity differs')
+    outbox = read_json(inside(root, 'state/fireplay/' + previous['code'] + '/return-1.json'))
+    require(outbox.get('state') == 'returned'
+            and outbox.get('operations', {}).get('bind', {}).get('state') == 'verified'
+            and all(operation.get('state') == 'verified' for operation in outbox['operations'].values()),
+            'Settle prior external operations before linked repair')
+    observed = set()
+    for package in outbox['packages']:
+        manifest = bundles.verify(inside(root, package['package']))
+        metadata = manifest['metadata']
+        require(metadata['origin_run_id'] in data['original_runs']
+                and metadata['source_sha256'] == data['source_sha256']
+                and metadata['target_language'] == package['locale']
+                and metadata['video_sha256'] == package['sha256'],
+                'Prior returned package does not belong to linked production')
+        observed.add(package['locale'])
+    require(observed == set(data['targets']), 'Linked repair requires the full prior delivery matrix')
+    record = deepcopy(previous)
+    record['budget'] = original['budget']
+    record['repair_continuity'] = reference
+    for key in ('members', 'pilot', 'batch', 'chat'):
+        if key in original_video:
+            record['videos'][0][key] = original_video[key]
+    return record
+
+
 def completed_repair_pending(previous, folder, root, video_indices=None):
     """Detect a full, newly finalized repair without reopening funding or writes.
 
@@ -133,9 +194,114 @@ def quantity_correction(previous, snap, decision, targets):
             and decision.get('revision_reason') and previous.get('targets') == targets
             and all(before.get(k) == after.get(k) for k in keys)
             and before.get('quantity') != after.get('quantity')
-            and after.get('quantity') == sum(len(v['targets']) for v in previous.get('videos', [])),
+            and (after.get('quantity') == 1
+                 or after.get('quantity') == sum(len(v['targets']) for v in previous.get('videos', []))
+                 or after.get('quantity') == len(previous.get('videos', []))
+                 or (len(previous.get('videos', [])) > 1
+                     and after.get('quantity') == len(targets))),
             'Quantity-only review needs unchanged funded source/language scope and the exact old version')
     return True
+
+
+def reference_scope_correction(previous, snap, sources, decision, targets, folder, root):
+    """Reconcile an official reference-only URL correction after delivery.
+
+    The platform's audited content edit may remove a URL that was parsed as a
+    second source. This preserves the delivered source/run/budget records,
+    archives the old request, and drops only unproduced reference entries.
+    """
+    from copy import deepcopy
+    from .common import inside, object_hash, read_json
+
+    require(decision.get('review_reference_scope_correction') is True
+            and decision.get('reviewed_content_version') == previous.get('content_version')
+            and decision.get('revision_reason'),
+            'Reference scope correction needs the exact old content version and reason')
+    require(previous.get('budget') and len(previous.get('videos', [])) >= 2
+            and len(sources) == 1 and any(v.get('members') for v in previous['videos']),
+            'Reference scope correction needs a funded multi-source request with production')
+    require(all(not v.get('members') and not v.get('run') and not v.get('batch')
+                for v in previous['videos'][1:]),
+            'Reference scope correction cannot remove a produced source')
+    require(previous['videos'][0].get('source_url') == sources[0].get('source_url')
+            and previous['videos'][0].get('youtube_video_id') == sources[0].get('youtube_video_id')
+            and previous['videos'][0].get('targets') == targets
+            and targets == previous.get('targets'),
+            'Reference scope correction must retain source 1 and all target languages')
+    removed_urls = [v['source_url'] for v in previous['videos'][1:]]
+    require(decision.get('removed_reference_urls') == removed_urls,
+            'Reference scope correction must name every removed reference URL')
+    receipt_path = inside(root, decision.get('revision_receipt', 'missing'))
+    require(receipt_path.is_file(), 'Reference scope correction needs the platform edit receipt')
+    require(file_hash(receipt_path) == decision.get('revision_receipt_sha256'),
+            'Reference scope correction receipt changed')
+    receipt = read_json(receipt_path)
+    applied = receipt.get('write_result', {}).get('items', [{}])[0]
+    readback = receipt.get('readback', {})
+    require(receipt.get('tool') == 'requirement_edit_fields'
+            and receipt.get('requirement_id') == previous.get('requirement_id')
+            and applied.get('outcome') == 'applied'
+            and applied.get('success') is True
+            and readback.get('ref_text') == snap['brief'].get('refText')
+            and readback.get('removed_reference_urls') == removed_urls,
+            'Platform receipt does not prove the exact reference-only edit')
+    archive = folder / 'revisions' / (object_hash(previous) + '.json')
+    if archive.exists():
+        require(read_json(archive) == previous, 'Existing scope revision archive changed')
+    else:
+        write_json(archive, previous)
+    result = deepcopy(previous)
+    retained = deepcopy(previous['videos'][0])
+    retained['index'] = 1
+    retained['title'] = sources[0].get('title') or retained.get('title')
+    retained['targets'] = list(targets)
+    result['videos'] = [retained]
+    result['revision_history'] = [*previous.get('revision_history', []), {
+        'content_version': previous['content_version'],
+        'new_content_version': snap['content_version'],
+        'path': archive.relative_to(root).as_posix(),
+        'scope': 'reference_only_source_exclusion',
+        'reason': decision['revision_reason'],
+        'removed_reference_urls': removed_urls,
+        'reviewed_at': utc_now(),
+        'authority': {
+            'receipt': decision['revision_receipt'],
+            'sha256': decision['revision_receipt_sha256']},
+        'budget_preserved': previous['budget'],
+        'delivery_preserved': True}]
+    result['content_version'] = snap['content_version']
+    result['source_scope_content_version'] = snap['content_version']
+    return result
+
+
+def reconcile_quantity_return(record, outbox, path, root):
+    from .common import inside, object_hash, read_json
+
+    if outbox.get('content_version') == record['content_version']:
+        return outbox
+    revisions = [entry for entry in record.get('revision_history', [])
+                 if entry.get('scope') == 'quantity_only'
+                 and entry.get('content_version') == outbox.get('content_version')]
+    require(len(revisions) == 1, 'Return version needs an exact quantity-only revision')
+    previous = read_json(inside(root, revisions[0]['path']))
+    decision = dict(record['decision'], reviewed_content_version=previous['content_version'])
+    require(quantity_correction(previous, record['snapshot'], decision, record['targets'])
+            and previous['videos'] == record['videos']
+            and previous.get('budget') == record.get('budget')
+            and outbox.get('requirement_id') == record['requirement_id']
+            and outbox.get('state') == 'returned'
+            and outbox.get('operations', {}).get('bind', {}).get('state') == 'verified'
+            and all(operation.get('state') == 'verified' for operation in outbox['operations'].values()),
+            'Only settled unchanged submissions can follow a quantity-only revision')
+    archive = path.parent / 'revisions' / ('return-quantity-' + object_hash(outbox) + '.json')
+    write_json(archive, outbox)
+    outbox.setdefault('content_revision_history', []).append({
+        'content_version': outbox['content_version'], 'scope': 'quantity_only',
+        'path': archive.relative_to(root).as_posix(), 'reason': revisions[0]['reason'],
+        'reviewed_at': utc_now()})
+    outbox['content_version'] = record['content_version']
+    write_json(path, outbox)
+    return outbox
 
 
 def append_reviewed_sources(previous, snap, sources, decision, targets, folder, root):
@@ -202,11 +368,16 @@ def append_reviewed_sources(previous, snap, sources, decision, targets, folder, 
     for key in ('title', 'description', 'refText'):
         require(clean_text(old_brief.get(key), urls) == clean_text(new_brief.get(key), urls),
                 'This review cannot change non-source brief content: ' + key)
-    for key in ('landingUrl', 'assetType', 'aiMode', 'bizLine', 'category', 'quantity',
+    for key in ('landingUrl', 'assetType', 'aiMode', 'bizLine', 'category',
                 'locales', 'channels', 'priority', 'tags', 'requesterIds', 'dueDate'):
         require(old_brief.get(key) == new_brief.get(key),
                 'This review cannot change other requirement fields: ' + key)
-    require(previous['snapshot']['row'].get('assigneeIds') == snap['row'].get('assigneeIds'),
+    require(old_brief.get('quantity') == new_brief.get('quantity')
+            or (old_brief.get('quantity') == sum(len(video['targets']) for video in old_sources)
+                and new_brief.get('quantity') == sum(len(video['targets']) for video in sources)),
+            'Source addition quantity must preserve the count or match the exact appended locale matrix')
+    require(set(previous['snapshot']['row'].get('assigneeIds') or [])
+            == set(snap['row'].get('assigneeIds') or []),
             'Review an assignee change separately from source addition')
 
     # Archive first; the caller holds request.json's lock and writes the new

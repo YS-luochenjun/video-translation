@@ -38,6 +38,11 @@ class FireplayTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         shutil.copytree(PROJECT / 'config', self.root / 'config', ignore=shutil.ignore_patterns('*.local.json'))
+        defaults_path = self.root / 'config/fireplay-intake.json'
+        defaults = read_json(defaults_path)
+        defaults['publication'].pop('upload_metadata', None)
+        defaults['designer_selection']['tag'] = '二创'
+        write_json(defaults_path, defaults)
         # Historical connector outboxes retain their original protocol. Current
         # mandatory routing is tested independently in test_fireplay_youtube.
         write_json(self.root / 'config/fireplay-youtube-routing.json', {'require_requirement_group': False})
@@ -79,6 +84,24 @@ class FireplayTests(unittest.TestCase):
         with self.assertRaises(WorkflowError):
             self.register(decision)
 
+    def test_selected_package_dispatch_preserves_dependencies_and_unknowns(self):
+        self.returned_setup()
+        operation = fireplay.dispatch(CODE, True, self.root, package_index=2)['operation']
+        self.assertEqual('upload-2', operation['id'])
+        repeated = fireplay.dispatch(CODE, True, self.root, package_index=2)
+        self.assertEqual('needs_reconciliation', repeated['state'])
+        self.assertEqual('upload-2', repeated['operation']['id'])
+        self.assertEqual('upload-1', fireplay.dispatch(CODE, root=self.root)['operation']['id'])
+
+    def test_selected_package_cannot_bind_or_select_invalid_index(self):
+        outbox = {'packages': [{'locale': 'es'}], 'operations': {
+            phase + '-1': {'state': 'verified'} for phase in ('upload', 'import', 'verify')}}
+        self.assertEqual((None, None, None), fireplay._next_operation(outbox, 1))
+        self.assertEqual('bind', fireplay._next_operation(outbox)[0])
+        for index in (0, 2, True):
+            with self.assertRaises(WorkflowError):
+                fireplay._next_operation(outbox, index)
+
     def downloaded(self):
         self.register()
         original = self.root / 'work/runs/fireplay-test/source.mp4'
@@ -89,7 +112,7 @@ class FireplayTests(unittest.TestCase):
         self.save(record)
         return original
 
-    def returned_setup(self):
+    def returned_setup(self, upload_route=None):
         self.downloaded()
         packages = []
         source_sha = self.record()['videos'][0]['source']['sha256']
@@ -108,8 +131,20 @@ class FireplayTests(unittest.TestCase):
                 'attribution': {'unassigned': True, 'authorization_ref': 'test:attribution', 'source_quote': 'Synthetic offline fixture'},
                 'authority': {'authorization_ref': 'test:real-host-event',
                 'source_quote': '测试回执，不调用外部平台', 'actions': ['upload', 'import', 'bind']}}
+        if upload_route is not None:
+            spec['upload_route'] = upload_route
         fireplay.prepare_return(CODE, spec, self.root)
         return spec
+
+    def test_prepare_return_accepts_explicit_presign_for_small_files(self):
+        self.returned_setup(upload_route='presign')
+        operation = fireplay.dispatch(CODE, root=self.root)['operation']
+        self.assertEqual(operation['tool'], 'material_r2_presign_upload')
+        self.assertIsNone(operation['materialize'])
+
+    def test_prepare_return_rejects_unknown_upload_route(self):
+        with self.assertRaisesRegex(WorkflowError, 'Invalid upload route'):
+            self.returned_setup(upload_route='unregistered')
 
     def verify_upload(self, key):
         return fireplay.receipt(CODE, key, {'response': {'publicUrl': 'https://example.com/video.mp4',
@@ -131,6 +166,22 @@ class FireplayTests(unittest.TestCase):
         self.assertEqual(fireplay.dispatch(CODE, True, self.root)['state'], 'needs_reconciliation')
         self.verify_upload('upload-1')
         self.assertEqual(fireplay.dispatch(CODE, root=self.root)['operation']['id'], 'import-1')
+
+    def test_presign_dispatch_requires_completed_binary_transfer(self):
+        self.returned_setup()
+        path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        outbox = read_json(path)
+        outbox['packages'][0]['upload_route'] = 'presign'
+        write_json(path, outbox)
+        operation = fireplay.dispatch(CODE, True, self.root)['operation']
+        self.assertEqual(operation['tool'], 'material_r2_presign_upload')
+        self.assertIsNone(operation['materialize'])
+        self.assertNotIn('arguments_file', operation)
+        receipt = {'response': {'publicUrl': 'https://example.com/video.mp4', 'resourceId': RESOURCE}}
+        with self.assertRaisesRegex(WorkflowError, 'Presigning is not an upload'):
+            fireplay.receipt(CODE, 'upload-1', receipt, self.root)
+        receipt['transfer'] = {'completed': True, 'http_status': 200, 'sha256': outbox['packages'][0]['sha256']}
+        self.assertEqual(fireplay.receipt(CODE, 'upload-1', receipt, self.root)['state'], 'verified')
 
     def test_exact_code_not_prefix_and_pagination_guidance(self):
         self.snap['summary']['items'][0]['code'] += '-other'
@@ -283,8 +334,28 @@ class FireplayTests(unittest.TestCase):
         self.register()
         packet = fireplay.chat(CODE, root=self.root)
         self.assertIn('不重复询问是否使用KIE', packet['prompt'])
+        self.assertIn('不再询问是否继续', packet['prompt'])
+        self.assertIn('CLI退出码2', packet['prompt'])
+        self.assertEqual(fireplay.status(CODE, self.root)['continuous_execution_instruction'],
+                         fireplay.continuous_execution_instruction(self.root))
         self.assertIn('P1同时继续制作，不等待P0完成', packet['prompt'])
         self.assertIn('每一个需求', packet['source_quote'])
+
+    def test_continuous_execution_needs_recorded_user_policy_and_does_not_grant_kie(self):
+        self.register()
+        instruction = fireplay.continuous_execution_instruction(self.root)
+        self.assertIn('工具审批', instruction)
+        self.assertFalse(fireplay.kie_consent(CODE, root=self.root)['automatic_use'])
+        path = self.root / 'config/fireplay-intake.json'
+        settings = read_json(path)
+        for field, invalid in [('enabled', False), ('authority', 'platform'),
+                               ('authorization_ref', ''), ('source_quote', '')]:
+            with self.subTest(field=field):
+                changed = copy.deepcopy(settings)
+                changed['continuous_execution'][field] = invalid
+                write_json(path, changed)
+                self.assertEqual(fireplay.continuous_execution_instruction(self.root), '')
+        write_json(path, settings)
 
     def test_pull_cli_and_mcp_accept_scope_spec_without_fake_code(self):
         spec = self.root / 'pull.json'
@@ -568,6 +639,26 @@ class FireplayTests(unittest.TestCase):
             resumed = fireplay.start(CODE, authority, root=self.root)
         self.assertEqual(resumed['state'], 'needs_resume')
         self.assertFalse((self.root / 'runs' / first['videos'][0]['members'][0]).exists())
+
+    def test_explicit_single_locale_pilot_preserves_full_request(self):
+        self.downloaded()
+        fireplay.chat(CODE, {'threadId': THREAD, 'title': CODE}, root=self.root)
+        targets = self.record()['videos'][0]['targets']
+        authority = {'authority': 'user', 'authorization_ref': 'test:pilot', 'user_request': 'Try one language',
+                     'mode': 'first', 'pilot_only': True, 'pilot_targets': [targets[0]]}
+        with patch.object(workflow, 'ROOT', self.root), patch('video_localizer.media.probe',
+                   return_value={'duration': 16, 'width': 1080, 'height': 1920}):
+            first = fireplay.start(CODE, authority, root=self.root)
+            second = fireplay.start(CODE, authority, root=self.root)
+        self.assertEqual(first['budget'], second['budget'])
+        self.assertEqual(first['videos'][0]['targets'], targets)
+        self.assertEqual(len(list((self.root / 'runs').glob('*/run.json'))), 1)
+        budget = read_json(self.root / 'state/budgets' / (first['budget'] + '.json'))
+        self.assertEqual(budget['credit_limit'], 60)
+        self.assertEqual(budget['budget_basis']['targets'], [targets[0]])
+        with self.assertRaisesRegex(WorkflowError, 'Target languages exceed'):
+            with patch.object(workflow, 'ROOT', self.root):
+                fireplay.start(CODE, {**authority, 'pilot_targets': targets}, root=self.root)
 
     def test_return_requires_every_language(self):
         spec = self.returned_setup()

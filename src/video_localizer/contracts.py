@@ -106,7 +106,7 @@ def validate_inventory(inventory, run, meta):
     require(abs(previous - meta["duration"]) < 0.025, "Shots do not cover full source duration")
     text_ids = set()
     for item in inventory.get("text_instances", []):
-        require(bool(re.fullmatch(r"t[0-9]{3}", item.get("id", ""))), "Invalid text instance id")
+        require(bool(re.fullmatch(r"(?:t[0-9]{3}|title-[0-9]+|cta-[0-9]+)", item.get("id", ""))), "Invalid text instance id")
         require(item["id"] not in text_ids, "Duplicate text id")
         text_ids.add(item["id"])
         start = require_number(item["start"], "text.start", maximum=meta["duration"])
@@ -135,7 +135,8 @@ def validate_inventory(inventory, run, meta):
         if "source_interval" in item:
             require(len(item["source_interval"]) == 2, "source_interval needs start/end")
             first, last = [require_number(value, "source_interval", maximum=meta["duration"]+.01) for value in item["source_interval"]]
-            require(item["start"] <= first < last <= item["end"], "Source erase interval must remain inside instance bounds")
+            require(0 <= first < last <= meta["duration"] + 0.01,
+                    "Source erase interval must remain inside the source duration")
         display = item.get("display", {})
         for key, default, minimum in (("font_size", 64, 8), ("line_height", 88, 8),
                                      ("outline", 5, 0), ("reveal_seconds", 0, 0)):
@@ -167,7 +168,7 @@ def validate_inventory(inventory, run, meta):
         require(replacement.is_file(), "Replacement audio is missing; import reviewed dubbing/TTS first")
     speech_ids = set()
     for item in speeches:
-        require(bool(re.fullmatch(r"a[0-9]{3}", item.get("id", ""))) and item["id"] not in speech_ids,
+        require(bool(re.fullmatch(r"(?:a|v)[0-9]{3}", item.get("id", ""))) and item["id"] not in speech_ids,
                 "Invalid/duplicate speech id")
         speech_ids.add(item["id"])
         start = require_number(item["start"], "speech.start", maximum=meta["duration"])

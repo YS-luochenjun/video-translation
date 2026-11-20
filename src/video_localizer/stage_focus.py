@@ -43,7 +43,7 @@ def focus(stage, inventory, root):
                     'cta' in str(item.get('source_style_id', '')).lower(), bool(item.get('trajectory')))
         candidate = max(items, key=risk)
         pilot = {'suggested_instance': candidate.get('id'), 'interval': [candidate.get('start'), candidate.get('end')],
-                 'action': '按实际原片选择最难镜头，可替换建议。扩语种前运行 pilot-compare，播放全幅三路片段，登记残字、主体、字形与出现/退场时机。'}
+                 'action': '优先选择最难镜头执行 pilot-compare 并记录实际观察；无法完成时，完整fast代表片可按best_available放行并如实标记未验证，继续其他语种。'}
     return {'pilot_before_expansion': pilot, 'stage': stage, 'method': 'knowledge/rules/' + method + '.md', 'check': action,
             'inspect_intervals': inspections, 'similar_cases': [
                 {k: entry.get(k) for k in ('id', 'path', 'scope')} for entry in matches[:2]],

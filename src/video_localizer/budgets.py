@@ -226,7 +226,15 @@ def amend_limit(scope, limit, authorization_ref, source_quote, root=ROOT, target
             require(set(t.casefold() for t in basis['targets']).issubset(t.casefold() for t in languages),
                     'Target amendment cannot remove already registered languages')
         amendments = record.setdefault('authorized_amendments', [])
+        standing_ref = 'user-video-budget-increase-up-to-original-20261119'
         prior = [a for a in amendments if a.get('authorization_ref') == authorization_ref]
+        if authorization_ref == standing_ref or authorization_ref.startswith(standing_ref + ':'):
+            previous = [a for a in amendments if a.get('authorization_ref') == standing_ref
+                        or a.get('authorization_ref', '').startswith(standing_ref + ':')]
+            original_limit = previous[0]['previous_limit'] if previous else record['credit_limit']
+            require((bool(prior) or limit >= record['credit_limit']) and limit <= 2 * original_limit,
+                    'Standing budget authorization permits increases up to twice the original limit')
+            require(languages is None, 'Standing budget increase does not authorize new target languages')
         if prior:
             require(prior[-1]['new_total_credit_limit'] == limit, 'Amendment identity changed')
             require(prior[-1].get('targets') == languages, 'Amendment target identity changed')
@@ -335,6 +343,8 @@ def _refresh(record, root):
     for name in record['runs']:
         for path in (Path(root) / 'runs' / name / 'jobs').glob('*.json'):
             job = read_json(path)
+            if not job.get('id'):
+                continue
             key = job['id']
             receipt = ('task:' + job['task_id']) if job.get('task_id') else ('response:' + job['response_id']) if job.get('response_id') else None
             if receipt in record.get('historical_receipts', []):

@@ -1,0 +1,31 @@
+{
+  "id": "MOG-20261117-029-th-shaping-audio-observations",
+  "status": "candidate",
+  "created_at": "2026-11-17T10:35:51+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "e02c634314bcdcf238c3e0f5d41ee9cb46df62d759665adadfabea13a544367a",
+    "target_language": "th",
+    "validation_level": "single_source_sampled_encoded_frames_and_exact_decoded_audio"
+  },
+  "hypothesis": "On this exact source and Thai target, the earlier Pillow-rendered captions showed detached vowel/tone marks and dotted circles. CoreText rendering with the actual bound Thonburi font removed these defects in the inspected encoded opening, reaction, footer, monitor and CTA frames. The final CTA uses upright real bold type; source italic slant and segmented monitor lettering remain approximations. For a pixel-only correction, complete decoded WAV equality allowed only the existing audio-model findings to be reused. The original model report retains its old video hash, and a separate equality receipt connects the two exact WAVs; visual review remains separate. These observations cover one source, sampled frames and an external audio model. They do not establish continuous playback, personal listening, native-speaker acceptance, cross-source effectiveness or a quality pass.",
+  "company_preference": false,
+  "reflection_state": "observed_candidate",
+  "outcome": "sampled_thai_shaping_repair_observed_quality_still_not_passed",
+  "evidence": {
+    "case_manifest_sha256": "c624a3edddaf6ceba20d95250014c0a893856c184991081b225323b42d55171a",
+    "video_sha256": "0f96728b4c64d0edd6b378daf305da4e18c20135c04ba28f88ee897a0251ad3a",
+    "decoded_audio_sha256": "68bb17708e31bcb498aa953224ae0bb5a4fa656cf07baef82abd0895e7f20412"
+  },
+  "limitations": [
+    "One video source only",
+    "Sampled frame evidence; continuous playback unverified",
+    "External audio-model evidence; no personal listening",
+    "Local repair seams, font style and motion approximations remain",
+    "Same-source font-engine change does not establish a universal font solution"
+  ],
+  "next_action": "Review the independent case before activation. Keep source/language scope and the existing unsuccessful quality result.",
+  "inbox": "knowledge/local/inbox/MOG-20261117-029-th-shaping-audio-observations.json",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

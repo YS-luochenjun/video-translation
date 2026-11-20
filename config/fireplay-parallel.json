@@ -1,15 +1,32 @@
 {
   "schema_version": 1,
   "enabled": true,
-  "max_active_sources_per_requirement": 2,
-  "max_active_sources_global": 15,
+  "max_active_sources_per_requirement": null,
+  "max_active_sources_global": null,
   "concurrency_authority": {
     "authority": "user",
-    "authorization_ref": "user-fireplay-concurrency-15-20261111",
-    "source_thread_id": "01a1bffe-1cca-7293-a615-90b51f080f89",
-    "source_quote": "目前8个并发有点少，更新到15个，且你和规划图片翻译自动化会话说说，同步一下",
-    "scope": "视频需求调度上限与全局活跃原片上限均调整为15；保留每需求原片上限、原负责聊天、预算、未知操作及质量门禁。"
+    "authorization_ref": "user-fireplay-unlimited-concurrency-20261117",
+    "source_thread_id": "01a1d42b-0add-79e2-905d-04dd831de0c5",
+    "source_quote": "为什么还是说全局16个。请你直接去掉并发上限的安排",
+    "scope": "视频翻译取消需求、全局原片及每需求原片数量上限；null表示不设限。保留单原片单写入者、原负责聊天、预算、unknown及质量门禁；图片项目独立。"
   },
+  "concurrency_authority_history": [
+    {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-concurrency-16-20261113",
+    "source_thread_id": "01a1d42b-0add-79e2-905d-04dd831de0c5",
+"source_quote": "更新项目，最多16个名额",
+    "scope_clarification_quote": "目前说的16个，是关于视频翻译的，你开启的内容，不是说视频和图片翻译一起，，你搞错了",
+    "scope": "仅视频翻译：视频需求调度上限与全局活跃原片上限均为16，图片翻译独立计算，不占用视频名额；保留每需求原片上限、原负责聊天、预算、未知操作及质量门禁。"
+    },
+    {
+      "authority": "user",
+      "authorization_ref": "user-fireplay-concurrency-15-20261111",
+      "source_thread_id": "01a1bffe-1cca-7293-a615-90b51f080f89",
+      "source_quote": "目前8个并发有点少，更新到15个，且你和规划图片翻译自动化会话说说，同步一下",
+      "scope": "视频需求调度上限与全局活跃原片上限均调整为15；保留每需求原片上限、原负责聊天、预算、未知操作及质量门禁。"
+    }
+  ],
   "lease_minutes": 120,
   "worker_kind": "subagent",
   "delegation_depth": 1,

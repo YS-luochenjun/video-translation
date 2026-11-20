@@ -3,7 +3,7 @@ from .common import require
 
 
 def select(frame, region, spec, cv2, np):
-    require(set(spec) <= {'hsv_ranges', 'near_hsv_ranges', 'near_radius', 'open_kernel', 'components', 'fill_holes', 'dilate'},
+    require(set(spec) <= {'hsv_ranges', 'near_hsv_ranges', 'near_radius', 'top_hat', 'open_kernel', 'components', 'fill_holes', 'dilate'},
             'Unknown mask selector setting')
     ranges = spec.get('hsv_ranges')
     require(isinstance(ranges, list) and ranges, 'Explicit HSV ranges required')
@@ -34,6 +34,16 @@ def select(frame, region, spec, cv2, np):
         mask &= support
     else:
         require('near_radius' not in spec, 'Nearby radius requires nearby HSV ranges')
+    if 'top_hat' in spec:
+        contrast = spec['top_hat']
+        require(isinstance(contrast, dict) and set(contrast) == {'kernel', 'minimum'},
+                'Explicit top-hat kernel and contrast required')
+        kernel, minimum = contrast['kernel'], contrast['minimum']
+        require(type(kernel) is int and 3 <= kernel <= 63 and kernel % 2 == 1
+                and type(minimum) is int and 1 <= minimum <= 255, 'Invalid top-hat selector')
+        detail = cv2.morphologyEx(hsv[:, :, 2], cv2.MORPH_TOPHAT,
+                                 cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kernel, kernel)))
+        mask &= (detail >= minimum).astype(np.uint8) * 255
     if 'open_kernel' in spec:
         kernel = spec['open_kernel']
         require(len(kernel)==2 and all(type(v) is int and 1<=v<=31 for v in kernel), 'Invalid opening kernel')

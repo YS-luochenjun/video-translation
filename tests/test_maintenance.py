@@ -91,6 +91,46 @@ class MaintenanceTests(unittest.TestCase):
         self.assertEqual(maintenance.maintain(self.run)['state'], 'deferred')
         self.assertTrue(cache.exists())
 
+    def test_reference_scan_stops_when_every_candidate_must_be_kept(self):
+        cache = self.scratch()
+        reference = self.run / 'analysis/inventory.json'
+        write_json(reference, {'path': cache.relative_to(self.root).as_posix()})
+        with patch.object(Path, 'rglob', return_value=iter([reference])) as scan:
+            result = maintenance._references(self.root, {
+                cache.relative_to(self.root).as_posix(): {'sha256': file_hash(cache)}
+            }, errors=[])
+        self.assertEqual(result, {cache.relative_to(self.root).as_posix()})
+        self.assertEqual(scan.call_count, 1)
+
+    def test_reference_scan_checks_owning_run_before_unrelated_runs(self):
+        cache = self.scratch()
+        write_json(self.run / 'analysis/inventory.json', {
+            'path': cache.relative_to(self.root).as_posix()
+        })
+        unrelated = self.root / 'runs/earlier/large.json'
+        write_json(unrelated, {'unrelated': True})
+        original_read = Path.read_text
+
+        def read_without_unrelated(path, *args, **kwargs):
+            self.assertNotEqual(path, unrelated)
+            return original_read(path, *args, **kwargs)
+
+        with patch.object(Path, 'read_text', read_without_unrelated):
+            result = maintenance._references(self.root, {
+                cache.relative_to(self.root).as_posix(): {'sha256': file_hash(cache)}
+            }, errors=[])
+        self.assertEqual(result, {cache.relative_to(self.root).as_posix()})
+
+    def test_reference_scan_timeout_retains_every_candidate(self):
+        cache = self.scratch()
+        self.delivery()
+        with patch('video_localizer.maintenance.time.monotonic', side_effect=[0, 31]):
+            result = maintenance.maintain(self.run)
+        self.assertEqual(result['state'], 'deferred')
+        self.assertEqual(result['deleted_cache'], [])
+        self.assertEqual(result['reference_scan_errors'][0]['error_type'], 'ReferenceScanTimeout')
+        self.assertTrue(cache.exists())
+
     def test_unsettled_job_and_active_work_prevent_cleanup(self):
         cache = self.scratch()
         self.delivery()

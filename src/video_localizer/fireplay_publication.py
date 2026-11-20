@@ -51,6 +51,39 @@ def _path(root, code, digest):
     return Path(root) / 'state/fireplay' / code / 'publication-reviews' / (digest + '.json')
 
 
+def held(code, source_sha256, asset_sha256, root=ROOT):
+    from . import bundles, quality_holds
+    holds = quality_holds.active(source_sha256, asset_sha256, root)
+    if not holds:
+        return False
+    accepted = _path(root, code, asset_sha256).parent.parent / 'publication-acceptances' / (asset_sha256 + '.json')
+    if not accepted.exists():
+        return True
+    value = read_json(accepted)
+    if any(hold.get('recorded_at', '') > value.get('accepted_at', '') for hold in holds):
+        return True
+    require(value.get('code') == code and value.get('source_sha256') == source_sha256
+            and value.get('video_sha256') == asset_sha256, 'User acceptance belongs to a different asset')
+    folder = inside(root, value['package'])
+    manifest = bundles.verify(folder)
+    require(file_hash(folder / 'final.mp4') == asset_sha256
+            and manifest['metadata']['source_sha256'] == source_sha256,
+            'Accepted publication asset changed')
+    approval = eligible(code, folder, manifest, root)
+    require(approval['mode'] == 'exact_version_user_acceptance', 'Quality hold needs exact-version user acceptance')
+    prior = read_json(inside(root, value['prior_review']['path']))
+    require(all(prior.get('assessment', {}).get(key) is True
+                for key in ('translation_complete', 'required_audio_complete', 'watchable')),
+            'Visual acceptance cannot waive incomplete translation, audio or an unwatchable output')
+    return False
+
+
+def require_clear(code, source_sha256, asset_sha256, root=ROOT):
+    from . import quality_holds
+    if not quality_holds.active(source_sha256, asset_sha256, root) or held(code, source_sha256, asset_sha256, root):
+        quality_holds.require_clear(source_sha256, asset_sha256, root)
+
+
 def _new_audio_evidence(previous, folder, manifest, root):
     """Resolve missing verification with new evidence for unchanged video bytes."""
     require(previous.get('decision') == 'blocked_major_or_incomplete'
@@ -168,6 +201,12 @@ def review(code, spec, root=ROOT):
                 prior.get('assessment', {}).get(k) is True
                 for k in ('translation_complete', 'required_audio_complete', 'watchable')),
                 'Visual acceptance cannot waive incomplete translation, required audio or an unwatchable output')
+        require(not any(defect.get('severity') == 'critical' or defect.get('kind') in SEVERE_KINDS
+                        or defect.get('publication_impact') == 'severe'
+                        for defect in prior.get('assessment', {}).get('defects', []))
+                and not any(finding['publication_impact'] == 'severe'
+                            for finding in _observed_findings(folder, manifest)),
+                'Visual acceptance cannot waive severe damage or incomplete required content')
         value = {'code': code, 'package': str(folder.relative_to(root)),
                  'source_sha256': meta['source_sha256'], 'video_sha256': meta['video_sha256'],
                  'manifest_sha256': file_hash(folder / 'manifest.json'), 'user_acceptance': approval,

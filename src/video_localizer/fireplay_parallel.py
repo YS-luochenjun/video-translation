@@ -24,8 +24,11 @@ def policy(root=ROOT):
     for field, default in (('max_active_sources_per_requirement', 2),
                            ('max_active_sources_global', 15), ('lease_minutes', 120)):
         number = value.get(field, default)
+        if number is None and field != 'lease_minutes':
+            value[field] = None
+            continue
         require(isinstance(number, int) and not isinstance(number, bool) and number > 0,
-                'Parallel policy limits must be positive integers')
+                'Parallel policy limits must be positive integers or null; lease_minutes must be positive')
         value[field] = number
     return value
 
@@ -169,6 +172,28 @@ def _current(task, record, root):
             'Assigned targets or shared budget changed; review the original claim')
 
 
+def _migration_release(task, record, spec, root):
+    chat = record['chat']
+    receipt = chat.get('migration_receipt')
+    require(spec.get('action') == 'release' and spec.get('actor_id') == _owner(record)
+            and chat.get('predecessor_thread_id') == task['owner_thread_id']
+            and isinstance(receipt, str) and receipt
+            and spec.get('migration_receipt') == receipt
+            and receipt in (spec.get('evidence') or []),
+            'Owner chat changed; release requires the recorded migration receipt')
+    path = inside(root, receipt)
+    handoff = read_json(path)
+    matches = [item for item in handoff.get('replacements', [])
+               if item.get('code') == task['code']]
+    require(handoff.get('status') == 'READY' and len(matches) == 1
+            and matches[0].get('old_thread_id') == task['owner_thread_id']
+            and matches[0].get('new_thread_id') == _owner(record),
+            'Migration receipt does not confirm this source owner handoff')
+    return {'previous_owner_thread_id': task['owner_thread_id'],
+            'successor_thread_id': _owner(record), 'receipt': receipt,
+            'sha256': file_hash(path)}
+
+
 def update(code, spec, root=ROOT):
     require(isinstance(spec, dict), 'Expected a parallel update object')
     settings = policy(root)
@@ -204,9 +229,11 @@ def update(code, spec, root=ROOT):
                             and t['video_index'] == scope['video_index'] for t in state['tasks'].values()),
                     'A previous source/content version still owns this video; reconcile or release it')
             live = [t for t in state['tasks'].values() if t['state'] in LIVE]
-            require(len(live) < settings['max_active_sources_global'], 'Global active source limit reached')
-            require(sum(t['requirement_id'] == scope['requirement_id'] for t in live)
-                    < settings['max_active_sources_per_requirement'], 'Requirement active source limit reached')
+            global_limit = settings['max_active_sources_global']
+            requirement_limit = settings['max_active_sources_per_requirement']
+            require(global_limit is None or len(live) < global_limit, 'Global active source limit reached')
+            require(requirement_limit is None or sum(t['requirement_id'] == scope['requirement_id'] for t in live)
+                    < requirement_limit, 'Requirement active source limit reached')
             kind = spec.get('assignee_kind')
             require(kind in ('owner', 'subagent'), 'Assignee kind must be owner or subagent')
             assignee = spec.get('assignee_id')
@@ -225,7 +252,9 @@ def update(code, spec, root=ROOT):
             require(task['claim_token'] == token, 'Claim token does not match')
             require(actor == owner or (actor == task.get('assignee_id') and actor is not None),
                     'Only the owner or the assigned worker can update this task')
-            require(task['owner_thread_id'] == owner, 'Owner chat changed; inspect the original delegation before recovery')
+            migration = None
+            if task['owner_thread_id'] != owner:
+                migration = _migration_release(task, record, spec, root)
             if action == 'release':
                 require(actor == owner, 'Only the owner chat can release source ownership')
                 require(spec.get('relinquish') is True and spec.get('work_stopped') is True and spec.get('reason'),
@@ -234,6 +263,8 @@ def update(code, spec, root=ROOT):
                     require(spec.get('reconciled_no_worker') is True,
                             'Unknown dispatch must be reconciled before release; expiry is insufficient')
                 task['release_evidence'] = _evidence(spec.get('evidence'), root)
+                if migration:
+                    task['release_migration'] = migration
                 task['state'] = 'released'
             elif action == 'reconcile':
                 require(actor == owner, 'Only the owner chat can reconcile actual worker identity')
@@ -281,11 +312,16 @@ def instruction(root=ROOT):
     settings = policy(root)
     if settings.get('enabled') is not True:
         return ''
+    requirement_limit = settings['max_active_sources_per_requirement']
+    global_limit = settings['max_active_sources_global']
+    limits = ('每需求活跃原片不设数量上限，' if requirement_limit is None
+              else f'每需求最多{requirement_limit}条活跃原片（含负责聊天），')
+    limits += ('全局活跃原片不设数量上限。' if global_limit is None
+               else f'全局登记最多{global_limit}条。')
     return ('\n多原片按原片并行：保留本需求原负责聊天和共享预算，先读 agent/workflows/fireplay-parallel.md，'
             '用 fireplay-parallel plan 登记前检查各原片现场；负责聊天先认领自己处理的原片，'
             '再逐条claim登记dispatch_unknown，实际spawn子代理后用真实回执reconcile绑定。'
-            f'每需求最多{settings["max_active_sources_per_requirement"]}条活跃原片（含负责聊天），'
-            f'全局登记最多{settings["max_active_sources_global"]}条。每条原片仅一个负责人，'
+            f'{limits}每条原片仅一个负责人，'
             '子代理只写分派run目录、不再分派、不新建预算、不发付费模型、不做平台提交；'
             '所需付费调用交原负责聊天沿原账本调度。已发模型及未知费用先查原任务，不重复制作。'
             'lease到期不自动夺取；unknown先核查真实子代理。子代理完成只代表交回审核，'

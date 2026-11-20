@@ -1,0 +1,39 @@
+{
+  "id": "SHE-20261117-038-source2-cta-entry-residue",
+  "scope": {
+    "source_sha256": "e386c750c91aaffa330d874a5d6cec271402904afd48bd44acb1526d2ccae7c0",
+    "locales": [
+      "zh-TW",
+      "es",
+      "pt",
+      "de",
+      "fr",
+      "id",
+      "th",
+      "pl",
+      "tr",
+      "hi",
+      "ar",
+      "it",
+      "vi",
+      "nl",
+      "ru"
+    ]
+  },
+  "hypothesis": "For this source, checking only the settled CTA missed flying English letters during entrance. Dense entrance-frame comparison revealed the leak; a pre-entry frame donor with moving foreground protection removed the observed source glyphs while leaving accepted ordinary repair defects.",
+  "trigger": "Animated source CTA enters from outside its settled text area.",
+  "actions": [
+    "Inspect the entrance and exit sequence beyond the final text bounds.",
+    "Compare source, cleaned base and localized frames.",
+    "Repair the proven source-letter interval and rerender affected locale outputs before publication."
+  ],
+  "failure_signature": "Readable source letters survive at animation entrance although settled CTA frames appear clean.",
+  "limitations": [
+    "Observed source2 interval is frames394-439 with donor frame393; coordinates and timing do not generalize.",
+    "User acceptance covers demonstrated ordinary visual defects, not a new quality standard.",
+    "Frame observations do not establish normal-speed playback or native audio review."
+  ],
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

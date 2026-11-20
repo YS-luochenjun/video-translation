@@ -12,7 +12,7 @@
 
 优先级不是接入条件。所有等级（含P2、其他值和未标等级）都按同一范围判断承接，排序与推进规则读取config/fireplay-intake.json.priority_policy；低优先级不得被静默丢弃或等待所有高优先级结束。排队须保留ready_to_dispatch，具体信息/权限/费用/质量缺口分别记录。普通单条语言确认不扩展为全局别名；用户2026-11-09已明确将sa统一为ar，按config/language-aliases.json及[语言解析政策](../../knowledge/rules/language-aliases-v3.md)执行，不再逐条询问sa。旧请求/账本/费用及历史确认保留。
 
-发起规范：在需求面板指派邹彬；可另加实际设计师，没有则留空。用户最新明确将“包含邹彬”设为巡检硬条件，使用精确assignee_ids筛选，多执行人只要包含该ID即在范围内；进入范围后仍按实际内容判断翻译。巡检不擅自修改平台执行人，不把范围外需求判成非翻译，也不删除其旧聊天、账本、绑定或未完成记录。旧单条条件授权仍保留，但本轮接入须同时满足当前全局筛选。设计师仍按提交归属合同排除两位运营后解析。需求调度上限读取config/fireplay-monitor.json的max_active_requirements，当前为15；该值不承诺所有需求同时完成。
+发起规范：在需求面板指派邹彬；可另加实际设计师，没有则留空。用户最新明确将“包含邹彬”设为巡检硬条件，使用精确assignee_ids筛选，多执行人只要包含该ID即在范围内；进入范围后仍按实际内容判断翻译。巡检不擅自修改平台执行人，不把范围外需求判成非翻译，也不删除其旧聊天、账本、绑定或未完成记录。旧单条条件授权仍保留，但本轮接入须同时满足当前全局筛选。设计师仍按提交归属合同排除两位运营后解析。当前用户已取消视频翻译并发数量上限，config/fireplay-monitor.json的max_active_requirements为null；不以已有16个需求或原片阻止新接入，实际宿主/服务阻塞另行记录。
 
 ## 分层轮询与判断
 
@@ -32,7 +32,7 @@
 1. 新建、未开始或进行中且可绑定的实际翻译需求，经assess登记独立request与state/fireplay/CODE/monitor-authority.json。它引用真实持续授权及平台UUID，不伪造新用户消息。每原片每去重语种一版，数量/多套含糊先处理本项，不开跨需求语言总池。
 2. 先按编号接入下载全部原片，复用已登记ready聊天。unknown先查list_threads/read_thread；确需新建时list_projects匹配本项目，project/local按需求编号建一个聊天，完整fireplay-chat prompt附authority路径，保存真实threadId。所有原片/语言由此聊天管理，-1/-2区分文件/run，不改模型或建worktree。
 3. 负责聊天对各原片fireplay-start，使用真实去重语言×60的本需求共享池；持续KIE同意按config/fireplay-intake.json.kie绑定。未知费用/旧限额保留，API及本地日志恢复，不问后台登录，不因轮询/重试补额度。
-4. 并发需求上限读取config/fireplay-monitor.json的max_active_requirements，wait_threads(timeoutMs=0)判断真实活动。P0先用冲突资源；P1持续推进，有排队P1时保留可用名额，不等待全部P0。已有P1不被新P0中断；制作已完成、只待平台异步上传的任务不因YouTube进度占制作名额。排队保留ready_to_dispatch，下轮恢复而非重开请求。
+4. 用wait_threads(timeoutMs=0)判断真实活动。视频需求、全局原片及每需求原片均不设项目数量上限，不按旧16条限制排队。P0先用实际冲突资源，其他优先级持续推进，已运行项不被新P0中断；真实信息/权限/服务资源阻塞保存具体原因。排队保留ready_to_dispatch，阻塞解除后沿原请求继续。
 5. 每次真实建聊/恢复及每轮status后处理 `completion_watch`：[20分钟完成盯办](fireplay-completion-watch.md)按config.completion_watch单独调度。`host_action=ensure_active` 时先核对角色文件、manifest及应用真实定时任务；已有活动盯办复用并追加新项，没有才通过automation_update创建；已删除的旧盯办遇到新接入必须重新创建，不能沿用旧ID或旧批次已完成结论。创建/更新提示使用config指定的可迁移模板，按当前项目和实际主控聊天绑定，不把本机ID当跨机器安装证据。保存真实ID/回执后更新manifest与角色文件，不以本地计划冒充已创建；创建unknown先核查。长期发现巡检始终保持30分钟ACTIVE。
 
 ## 补交与经验收尾
@@ -45,7 +45,7 @@ status.publication_followups逐项导航未完整交付的原片/语种。auto_r
 
 固定提交使用config/fireplay-publication.json.submission_consent的持续授权，不再主动询问上传或对应组共享。宿主实际拒绝且要求人类处理的项目不算普通漏交，不能因为聊天空闲就重派以绕过拦截；先读当前及原负责聊天中的真实人类答复，匹配精确成片/组范围，已确认则登记来源并沿原聊天继续，未确认保持具体阻塞且相同指纹只问一次。历史“等待确认”快照不能覆盖后来的真实回复。
 
-sent只表示消息已送达。租约默认120分钟，到期signal_state=owner_check_required：保存真实wait_threads/read_thread回执，调用signal附owner_observation，字段为threadId、status（idle/running/needs_attention/error）、observed_at、source以及evidence:{path,sha256}。running只续租；已送达、租约到期且确实idle/error时，signal生成新unknown派发并保留历史，执行后登记真实发送回执；重派回执还须附本次attempt，防止旧回执确认新派发。最多两次停滞重派，之后escalation_required；主控读取具体失败并定位/升级，不能假报完成、无限催同一句或自动重试付费任务。needs_attention按实际缺口处理，不从状态推断用户许可。配置见config/fireplay-monitor.json.delivery_followup。
+sent只表示消息已送达。租约默认120分钟，到期signal_state=owner_check_required；未到期也要检查真实会话，不能用租约代替运行状态。保存真实wait_threads/read_thread回执，调用signal附owner_observation，字段为threadId、status（idle/running/needs_attention/error）、observed_at、source以及evidence:{path,sha256}。running只续租；已送达且确认idle/error时，先核对具体阻塞、在途任务与unknown，存在可执行工作才调用signal生成新unknown派发并保留历史，执行后登记真实发送回执；重派回执还须附本次attempt，防止旧回执确认新派发。最多两次停滞重派，之后定位或升级；不能假报完成、无限催同一句或自动重试付费任务。needs_attention按实际缺口处理，不从状态推断用户许可。配置见config/fireplay-monitor.json.delivery_followup。
 
 partial和pending始终保留在恢复队列；同一旧阻塞不反复通知，不等于停止执行已授权补漏。设计师由负责聊天查Fireplay真实成员/原生页面自行判断，不向用户索要DID；KIE在本需求持续授权及原额度内直接使用，不重复项目同意问题。主控只向已交办负责聊天派发恢复，不向无关聊天或第三人发消息。
 

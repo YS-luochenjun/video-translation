@@ -1,6 +1,7 @@
 """Incremental task-scoped housekeeping; durable packages are never cache targets."""
 from pathlib import Path
 import os
+import time
 
 from .common import (WorkflowError, file_hash, inside, object_hash, read_json,
                      require, run_operation, utc_now, write_json)
@@ -73,7 +74,31 @@ def _references(root, candidates, errors=None):
     referenced = set()
     if not candidates:
         return referenced
+    deadline = time.monotonic() + 30
+
+    def timed_out(record):
+        if time.monotonic() < deadline:
+            return False
+        if errors is None:
+            raise WorkflowError('Reference scan exceeded30seconds; retain registered scratch')
+        errors.append({'path': record.relative_to(root).as_posix(),
+                       'error_type': 'ReferenceScanTimeout', 'seconds': 30})
+        return True
+
     targets = {(root / relative).resolve(): relative for relative in candidates}
+    owning_runs = {Path(relative).parts[2] for relative in candidates
+                   if Path(relative).parts[:2] == ('work', 'runs')
+                   and len(Path(relative).parts) > 3}
+
+    def records(area):
+        if area == 'runs':
+            for name in sorted(owning_runs):
+                yield from (root / area / name).rglob('*')
+        for record in (root / area).rglob('*'):
+            if area == 'runs' and record.relative_to(root / area).parts[0] in owning_runs:
+                continue
+            yield record
+
     def strings(value):
         if isinstance(value, str):
             yield value
@@ -84,7 +109,9 @@ def _references(root, candidates, errors=None):
             for item in value:
                 yield from strings(item)
     for area in ('runs', 'outputs', 'media', 'knowledge', 'state'):
-        for record in (root / area).rglob('*'):
+        for record in records(area):
+            if timed_out(record):
+                return set(candidates)
             if record.suffix.lower() not in ('.json', '.md', '.txt', '.py') or not record.is_file():
                 continue
             if record.is_relative_to(root / 'state/maintenance'):
@@ -108,11 +135,15 @@ def _references(root, candidates, errors=None):
             for relative in candidates:
                 if relative in text or str(root / relative).replace('\\', '/') in text:
                     referenced.add(relative)
+            if len(referenced) == len(candidates) and not errors:
+                return referenced
             if record.suffix.lower() == '.json':
                 bases = [root, record.parent]
                 if area == 'runs':
                     bases.append(root / 'runs' / record.relative_to(root / 'runs').parts[0])
                 for value in strings(parsed):
+                    if timed_out(record):
+                        return set(candidates)
                     if not value or len(value) > 1024 or '\n' in value or '://' in value:
                         continue
                     for base in bases:

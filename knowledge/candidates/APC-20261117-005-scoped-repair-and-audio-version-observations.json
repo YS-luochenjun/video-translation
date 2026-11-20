@@ -1,0 +1,54 @@
+{
+  "id": "APC-20261117-005-scoped-repair-and-audio-version-observations",
+  "created_at": "2026-11-19",
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "company_preference": false,
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "d36876adbbdbfab6f19e27f1678a6ca3bac58d4a77095f157c8a29fee8a0c5f3",
+    "target_languages": ["de", "es", "fr", "it", "ja", "ko", "nl", "pl", "pt", "th", "tr", "vi"],
+    "validation_level": "single_source_sampled_visual_review_and_model_audio_observations",
+    "audio_repair_language": "fr"
+  },
+  "hypothesis": "For this source, reviewing native CTA entrance samples and a tail filmstrip exposed a jagged yellow boundary, arrow incision and missing source glyph blur that a readable final hold frame did not exclude. Reusing a prior formal audio track preserved an obsolete clipped French CTA; PCM identity to that earlier version alone could not establish semantic completeness. Recovery of the exact full genuine TTS and exact source-separated bed allowed a new complete-tail mix without a new generation call. These are observations from one source, not a general claim that the visual repair or pronunciation passed.",
+  "observations": [
+    {
+      "source_record_sha256": "805d8d1441ec9e42f15dc51609c98c69312e136054dd943d3e0575957037561c",
+      "source_record_role": "German source/base/target pilot comparison identity",
+      "source_quote": "Native entry frame shows a jagged lower yellow boundary and incision above the arrow; local neck texture seams persist.",
+      "quote_origin": "Same-agent pilot report observations.residue",
+      "video_sha256": "3896ebd8d9015e14fb1ae429fa94b34ad6ffa81719bfe0427a081760cc84c6b9",
+      "action_basis": "Observed sampled counterexample to final-hold-only visual judgment; inspect entrance and tail against source before accepting a repair.",
+      "causal_hypothesis": "Overlapping CTA, arrow and neck repair regions may cause the visible boundary defects; no isolated-variable experiment establishes a general cause."
+    },
+    {
+      "source_record_role": "French exact replacement and current endpoint observations",
+      "video_sha256": "f96daf06dd871f08caf4fbaee2153dd9606653709464690242008a65485e3f4b",
+      "rejected_prior_video_sha256": "eda0790e3702bcea1af4a69c935538d5877887d1f40825fc29ccd48a0c78bfb4",
+      "genuine_tts_sha256": "433f20d1e800a7fe03dd28a4b7a8cca926a442f0ce7d4eb1f9aa229a29362660",
+      "source_bed_sha256": "06f4d0f588a4ffa7656858e381672233ef8bffcb6a74b3a1955c69c35d2d0c6c",
+      "target_text": "Tu oses essayer ?",
+      "full_voice_interval": [20.85, 22.380975056689344],
+      "tail_margin_seconds": 0.2190249433106577,
+      "voice_time_scale": 1,
+      "encoded_video_elementary_stream_unchanged": true,
+      "source_quote": "Gemini CTA seconds 9.9–11.1 are incorrect. Actual full genuine TTS placement is 20.85–22.380975 with 0.219025 seconds before visual end; no model sync approval adopted.",
+      "quote_origin": "Current repaired endpoint observations timing_observation",
+      "action_basis": "Observed same-source repair: verify intended audio version, recover the full genuine take, mix against exact source bed and review the new actual output. These seconds are source-specific.",
+      "causal_hypothesis": "Selecting an older formal version carried forward the clipped CTA; the repair addresses that version selection and tail placement, while recognition disagreement prevents a pronunciation pass."
+    }
+  ],
+  "outcome": "complete_outputs_submitted_as_best_available_internal_quality_not_passed",
+  "reflection_state": "observed_candidate",
+  "limitations": [
+    "Only one source; twelve locales and repeated revisions are not independent sources.",
+    "Thai user acceptance covers the displayed exact visual version only: fbdc1dfcffee813743d71ad89f47c0e5dcbaba050bf2a5132f211c0a410efd48.",
+    "No direct listening, independent review or full-speed audiovisual acceptance was obtained.",
+    "French full-audio model review and endpoint Whisper disagree; timestamp, pronunciation and exact sync approval are not inferred.",
+    "Neck texture seams, grey-room hair/background patch, CTA entry edge/arrow differences, missing CTA glyph blur and some small scene copy remain.",
+    "Successful platform submission does not alter quality_passed=false or resolve unknown historical costs.",
+    "Hashes and text observations are durable provenance; they cannot restore expired media or replace independently packaged media evidence for activation."
+  ],
+  "next_action": "Keep candidate pending. Before any activation, package and inspect the necessary source/base/target entrance comparison and French head/tail audio, retain recognition disagreement, and seek direct audiovisual review. Do not reuse coordinates, timing values or Thai visual acceptance as a broader default."
+}

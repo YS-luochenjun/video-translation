@@ -1,0 +1,31 @@
+{
+  "id": "APC-20261117-060-font-size-hypothesis-rejected",
+  "status": "candidate",
+  "created_at": "2026-11-17T12:17:00+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+    "locales": ["ja", "es", "pt", "de", "fr"],
+    "condition": "This exact source and the APC-20261117-060 typography refinement attempt"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "A font-size refinement can recover the source title and CTA visual weight while preserving the tested source-style lettering layer. The recorded APC-20261117-060 refinement did not establish that result: the target ink mass remained smaller and the source font stayed unidentified, so the refinement is rejected as a reusable success claim.",
+  "limitations": [
+    "The actual tested outputs retain a smaller target ink mass and simplified patterned red fill/sparkle treatment.",
+    "Montserrat Black and Hiragino Sans W6 are approximations selected from observed weight and shape; exact source font identity was not established.",
+    "The observation is based on sampled source/target frames and encoded evidence; it does not establish continuous normal-speed viewing or user acceptance.",
+    "This candidate records a rejected hypothesis and does not change the current source-led typography policy."
+  ],
+  "evidence": {
+    "run": "APC-20261117-060",
+    "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+    "finalized_locales": "work/state/APC060-finalized-locales.json",
+    "refinement_log": "work/state/APC060-refine-sizes.log"
+  },
+  "reflection_state": "rejected_hypothesis",
+  "quality_passed": false,
+  "company_preference": false,
+  "promotion": "Keep as a source-scoped rejected hypothesis; do not promote or use as a default font-sizing rule.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Exact source and locale scope only; future reuse requires a fresh source-style capture and current encoded review."
+}

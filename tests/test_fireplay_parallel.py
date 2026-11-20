@@ -96,6 +96,30 @@ class ParallelTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'Global active source limit'):
             self.claim(2, 'subagent', code=other)
 
+    def test_unlimited_policy_admits_more_than_sixteen_sources_and_preserves_ownership(self):
+        settings = read_json(self.root / 'config/fireplay-parallel.json')
+        settings.update(max_active_sources_per_requirement=None, max_active_sources_global=None)
+        write_json(self.root / 'config/fireplay-parallel.json', settings)
+        for requirement_index in range(6):
+            code = f'MOG-20261105-{requirement_index + 100:03d}'
+            self.make_requirement(code, f'01a1aabd-c3e8-7d49-8e0f-{requirement_index:012d}')
+            for source_index in range(1, 4):
+                self.claim(source_index, code=code)
+        self.assertEqual(parallel.status(root=self.root)['active_source_count'], 18)
+        with self.assertRaisesRegex(WorkflowError, 'already has an owner'):
+            self.claim(1, code='MOG-20261105-100', token='different-token')
+        instruction = parallel.instruction(self.root)
+        self.assertIn('每需求活跃原片不设数量上限', instruction)
+        self.assertIn('全局活跃原片不设数量上限', instruction)
+        self.assertNotIn('None', instruction)
+
+    def test_unlimited_policy_keeps_positive_lease_requirement(self):
+        settings = read_json(self.root / 'config/fireplay-parallel.json')
+        settings.update(max_active_sources_per_requirement=None, max_active_sources_global=None, lease_minutes=None)
+        write_json(self.root / 'config/fireplay-parallel.json', settings)
+        with self.assertRaisesRegex(WorkflowError, 'lease_minutes must be positive'):
+            parallel.policy(self.root)
+
     def test_unknown_dispatch_must_have_actual_receipt_before_work(self):
         task = self.claim(1, 'subagent')
         with self.assertRaisesRegex(WorkflowError, 'Reconcile actual worker first'):
@@ -162,6 +186,40 @@ class ParallelTests(unittest.TestCase):
         self.assertEqual(result['sources'][0]['state'], 'source_not_ready')
         with self.assertRaisesRegex(WorkflowError, 'SHA256 changed'):
             self.claim()
+
+    def test_successor_can_only_release_with_exact_ready_handoff(self):
+        task = self.claim()
+        successor = '01a1c005-a4a1-7973-a99f-1a7dbd4e977e'
+        receipt = 'work/handoff.json'
+        self.record['chat'].update(threadId=successor, predecessor_thread_id=OWNER,
+                                   migration_receipt=receipt)
+        self.save()
+        handoff = {'status': 'READY', 'replacements': [
+            {'code': CODE, 'old_thread_id': OWNER, 'new_thread_id': successor}]}
+        write_json(self.root / receipt, handoff)
+        spec = {'actor_id': successor, 'relinquish': True, 'work_stopped': True,
+                'reason': 'successor verified stopped work',
+                'evidence': ['work/observation.json', receipt], 'migration_receipt': receipt}
+        for action in ['heartbeat', 'complete', 'block']:
+            with self.subTest(action=action), self.assertRaisesRegex(WorkflowError, 'Owner chat changed'):
+                self.change(task, action, **spec)
+        with self.assertRaisesRegex(WorkflowError, 'recorded migration receipt'):
+            self.change(task, 'release', **{**spec, 'migration_receipt': 'work/other.json'})
+        for invalid in [{'status': 'PENDING'}, {'replacements': []},
+                        {'replacements': [{'code': CODE, 'old_thread_id': successor,
+                                           'new_thread_id': successor}]}]:
+            write_json(self.root / receipt, {**handoff, **invalid})
+            with self.subTest(invalid=invalid), self.assertRaisesRegex(WorkflowError, 'does not confirm'):
+                self.change(task, 'release', **spec)
+        write_json(self.root / receipt, handoff)
+        with self.assertRaisesRegex(WorkflowError, 'stopped-work confirmation'):
+            self.change(task, 'release', **{**spec, 'work_stopped': False})
+        result = self.change(task, 'release', **spec)
+        self.assertEqual(result['state'], 'released')
+        self.assertEqual(result['owner_thread_id'], OWNER)
+        self.assertEqual(result['release_migration']['successor_thread_id'], successor)
+        self.assertEqual(result['release_migration']['sha256'], file_hash(self.root / receipt))
+        self.assertEqual(parallel.status(root=self.root)['active_source_count'], 0)
 
     def test_complete_requires_scoped_actual_files_and_does_not_close_requirement(self):
         task = self.claim()

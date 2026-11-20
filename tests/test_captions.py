@@ -102,6 +102,27 @@ class CaptionContractTests(unittest.TestCase):
         for left, right in (("95%", "95"), ("1.5", "15"), ("95%", "99%"), ("一起学", "学"), ("can't", "cant")):
             self.assertNotEqual(captions.normalized(left), captions.normalized(right))
 
+    def test_cumulative_arabic_reveal_keeps_script_words_and_resets_at_phrase_boundary(self):
+        item = self.inventory['text_instances'][0]
+        item.update(target_text='بحذر يا فتيات لا أريد', start=0, end=3,
+                    display={'caption_reveal': 'cumulative', 'caption_reveal_resets': [3],
+                             'timed_fragments': [[0, .3, 'بحذر '], [.4, .6, 'يا '], [.6, 1, 'فتيات '],
+                                                 [1.2, 1.5, 'لا '], [1.5, 2, 'أريد']]})
+        before = copy.deepcopy(item)
+        rendered = captions.render_instances([item])
+        self.assertEqual([fragment['target_text'] for fragment in rendered],
+                         ['بحذر ', 'بحذر يا ', 'بحذر يا فتيات ', 'لا ', 'لا أريد'])
+        self.assertEqual(rendered[0]['end'], .4)
+        self.assertEqual(rendered[2]['end'], 1)
+        self.assertEqual(item, before)
+
+    def test_cumulative_reveal_rejects_invalid_reset_index(self):
+        item = self.inventory['text_instances'][0]
+        item['display'] = {'caption_reveal': 'cumulative', 'caption_reveal_resets': [2],
+                           'timed_fragments': [[0, 1, 'one']]}
+        with self.assertRaisesRegex(WorkflowError, 'reset index'):
+            captions.render_instances([item])
+
     def test_mixer_cannot_read_independent_retranslation(self):
         with self.assertRaisesRegex(WorkflowError, "Narration copy differs"):
             captions.validate_spoken_copy(self.inventory, [{"id": "a001", "target_text": "如何制作手势特效？"}])

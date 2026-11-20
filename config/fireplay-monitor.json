@@ -47,15 +47,32 @@
       "rule": "Every 30 minutes discover not_started and in_progress videos across all visible groups assigned to b2fbcgab. Compare UUID/updatedAt locally, recheck unresolved known IDs without status/date filters, and reconcile all statuses every 24 hours. Preserve historical baseline, existing owners, budgets, unknown operations and delivery gates."
     }
   },
-  "max_active_requirements": 15,
+  "max_active_requirements": null,
   "concurrency_authority": {
     "authority": "user",
-    "authorization_ref": "user-fireplay-concurrency-15-20261111",
-    "source_thread_id": "01a1bffe-1cca-7293-a615-90b51f080f89",
-    "source_quote": "目前8个并发有点少，更新到15个，且你和规划图片翻译自动化会话说说，同步一下",
-    "scope": "视频需求调度上限与全局活跃原片上限均调整为15；保留每需求原片上限、原负责聊天、预算、未知操作及质量门禁。"
+    "authorization_ref": "user-fireplay-unlimited-concurrency-20261117",
+    "source_thread_id": "01a1d42b-0add-79e2-905d-04dd831de0c5",
+    "source_quote": "为什么还是说全局16个。请你直接去掉并发上限的安排",
+    "scope": "视频翻译取消需求、全局原片及每需求原片数量上限；null表示不设限。保留原负责聊天、单原片单写入者、预算、unknown及质量门禁；图片项目独立。"
   },
-  "reserve_p1_slot": true,
+  "concurrency_authority_history": [
+    {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-concurrency-16-20261113",
+    "source_thread_id": "01a1d42b-0add-79e2-905d-04dd831de0c5",
+"source_quote": "更新项目，最多16个名额",
+    "scope_clarification_quote": "目前说的16个，是关于视频翻译的，你开启的内容，不是说视频和图片翻译一起，，你搞错了",
+    "scope": "仅视频翻译：视频需求调度上限与全局活跃原片上限均为16，图片翻译独立计算，不占用视频名额；保留每需求原片上限、原负责聊天、预算、未知操作及质量门禁。"
+    },
+    {
+      "authority": "user",
+      "authorization_ref": "user-fireplay-concurrency-15-20261111",
+      "source_thread_id": "01a1bffe-1cca-7293-a615-90b51f080f89",
+      "source_quote": "目前8个并发有点少，更新到15个，且你和规划图片翻译自动化会话说说，同步一下",
+      "scope": "视频需求调度上限与全局活跃原片上限均调整为15；保留每需求原片上限、原负责聊天、预算、未知操作及质量门禁。"
+    }
+  ],
+  "reserve_p1_slot": false,
   "quantity_mode": "one_per_locale",
   "conditional_intakes": [
     {
@@ -86,7 +103,7 @@
     "authority": "user",
     "authorization_ref": "user-fireplay-half-hour-intake-standard",
     "source_quote": "需求受理（全天扫描）：每半小时检查一遍是否有新需求；同时处理需求数量8。",
-    "rule": "All-day 30-minute intake polling; preserve baseline, request ownership, budgets and the eight-active-requirement scheduling ceiling."
+    "rule": "All-day 30-minute intake polling; preserve baseline, request ownership and budgets. The historical numeric ceiling is superseded by concurrency_authority."
   },
   "delivery_followup": {
     "lease_minutes": 120,
@@ -162,7 +179,7 @@
   },
   "completion_watch": {
     "enabled": true,
-    "interval_minutes": 20,
+    "interval_minutes": 10,
     "kind": "heartbeat",
     "name": "Fireplay 在制新需求完成盯办",
     "manifest": "work/fireplay-monitor/current-completion-watch.json",
@@ -179,7 +196,7 @@
       "idle_or_error_owner": "inspect_then_resume_original_thread",
       "unknown_operations": "reconcile_before_retry",
       "host_forced_approval": "human_only_no_bypass",
-      "budget_increase": false,
+      "budget_increase": "when_needed_up_to_one_original_limit_per_requirement_20261119",
       "severe_quality_waiver": false
     },
     "authority": {
@@ -201,6 +218,12 @@
         "source_thread_id": "01a17bfc-80be-7461-8f19-592fa0ef2ae3",
         "source_quote": "请你修改项目，修改为，发现需求，有需求正在执行时，开启一个轮询的定时任务，每20mins检查目前新开的需求，是否已经完全完成并提交。如果没有推进继续，帮忙点击相关的内容，都点击第一个推荐的内容，以方便开发者人工。"
       }
-    ]
+    ],
+    "current_authority": {
+      "authority": "user",
+      "authorization_ref": "user-fireplay-completion-watch-10m-20261119",
+      "source_quote": "请你今天一直盯着他们，直到所有会话都完毕，每10分钟检查一次",
+      "rule": "每10分钟核对全部在制负责人会话的真实状态。空闲、结束或异常且未完成时沿原会话继续，直至全部原片和目标语种完成上传、绑定、completion-check及fireplay-close。"
+    }
   }
 }

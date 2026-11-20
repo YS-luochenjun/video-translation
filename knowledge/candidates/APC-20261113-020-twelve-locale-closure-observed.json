@@ -1,0 +1,44 @@
+{
+  "id": "APC-20261113-020-twelve-locale-closure-observed",
+  "status": "candidate",
+  "created_at": "2026-11-13T12:08:52+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f22297c73550d66da23a2e432f5631e825dec8dd877bfb09fc2d7b859b194701",
+    "target_languages": [
+      "ar",
+      "de",
+      "en",
+      "fr",
+      "hi",
+      "it",
+      "nl",
+      "pl",
+      "pt",
+      "th",
+      "tr",
+      "vi"
+    ],
+    "validation_level": "single_source_observations"
+  },
+  "hypothesis": "For this single Spanish fruit-dialogue source and twelve reviewed target versions, whole-scene samples and native-frame clean-plate comparison exposed refrigerator/door texture seams that text-crop checks alone could miss. Voice-aligned phrase rebuilding preserved sequential target reveals but left awkward isolated ending words in some languages. Full encoded audio comparison and separate head/tail extraction must be retained as distinct evidence: ASR omitted parts of the Polish, Thai and Turkish CTA tails, while dedicated tail model reviews reported complete speech. These model reports are not direct listening or continuous audiovisual approval. All twelve packages were accepted by Fireplay with real designer attribution and exact material binding; internal quality remains revise/pending and quality_passed=false. Do not expand these observations into a cross-source efficacy or speaker-gender-match claim.",
+  "outcome": "delivered_with_issues_platform_bound_12_of_12",
+  "evidence": {
+    "case_manifest_sha256": "d6eb31ff5f76e0350ecd13efbd2f776a7346ad9188278011c613cfc1ca4a9bb9",
+    "source_sha256": "f22297c73550d66da23a2e432f5631e825dec8dd877bfb09fc2d7b859b194701",
+    "records": 24
+  },
+  "limitations": [
+    "No continuous normal-speed playback or direct listening",
+    "No native-speaker or user acceptance",
+    "Single source only",
+    "Shared seams, caption rhythm and voice/lip differences remain",
+    "Historical two-credit unknown analysis charge remains unresolved"
+  ],
+  "company_preference": false,
+  "reflection_state": "observed_candidate",
+  "next_action": "Review the independent scoped case before any rule activation; obtain actual playback/listening evidence before asserting audiovisual quality.",
+  "inbox": "knowledge/local/inbox/APC-20261113-020-twelve-locale-closure-observed.json",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

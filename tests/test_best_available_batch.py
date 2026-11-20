@@ -61,6 +61,14 @@ class BestAvailableBatchTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'master differs'):
             batches.gate(self.child, {'segments': [{'start': 0, 'end': 1, 'prepared_video': {'sha256': 'unapproved'}}]})
 
+    def test_completed_fast_pilot_auto_releases_for_child_expansion(self):
+        batches.gate(self.child)
+        record = read_json(self.path)
+        self.assertEqual(record['state'], 'pilot_completed_with_issues')
+        self.assertEqual(record['pilot_release']['scope'], 'best_available')
+        self.assertFalse(record['pilot_release']['quality_passed'])
+        self.assertIn('pilot_review_unverified', record['pilot_release'])
+
     def test_changed_completed_video_revokes_release(self):
         batches.approve('fixture', self.root, best_available=True)
         (self.pilot / 'outputs/final.mp4').write_bytes(b'changed')

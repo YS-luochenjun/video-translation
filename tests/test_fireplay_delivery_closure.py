@@ -164,6 +164,24 @@ class DeliveryClosureTests(unittest.TestCase):
         self.assertEqual(r['state'], 'sent')
         self.assertEqual(monitor.followups(self.root)[0]['signal_state'], 'sent')
 
+    def test_fresh_idle_owner_can_resume_before_lease_expires(self):
+        t = self.owner()
+        monitor.signal({'key': t['key']}, self.root)
+        monitor.signal({'key': t['key'], 'response': {'threadId': fixtures.THREAD}}, self.root)
+        self.assertEqual(monitor.followups(self.root)[0]['signal_state'], 'sent')
+        result = monitor.signal({'key': t['key'], 'owner_observation': self.observation()}, self.root)
+        self.assertEqual((result['state'], result['attempt']), ('unknown', 2))
+        self.assertTrue((self.root / result['previous_dispatch']).is_file())
+
+    def test_retry_limit_applies_even_before_lease_expires(self):
+        t, p = self.expired_signal()
+        data = read_json(p)
+        data['attempt'] = 3
+        data['receipt_at'] = utc_now()
+        write_json(p, data)
+        result = monitor.signal({'key': t['key'], 'owner_observation': self.observation()}, self.root)
+        self.assertEqual((result['state'], result['attempt']), ('sent', 3))
+
     def test_unknown_send_cannot_be_retried_on_idle_observation(self):
         t = self.owner()
         monitor.signal({'key': t['key']}, self.root)

@@ -1,0 +1,40 @@
+{
+  "id": "MOG-20261116-026-source2-scoped-review-limits",
+  "status": "candidate",
+  "created_at": "2026-11-16T09:30:13+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "1f2cff653c5bef62eaae3e6f58d93a91cc31758651f4f0fc90747f5cf00c4cdd",
+    "target_languages": [
+      "de",
+      "es",
+      "fr",
+      "hi",
+      "ja",
+      "ko",
+      "pt",
+      "vi"
+    ],
+    "validation_level": "single_source_sampled_encoded_frames_and_unhinted_asr_with_complete_decode",
+    "primary_observed_locale": "de"
+  },
+  "hypothesis": "On this source, cut repairs depended on aligned source/output frame timebases. Sparse representative review missed a one-frame English DRAWING residue; the final German M opening-frame sequence records its removal with fish-aligned source-pixel repair. Local fish-region flattening, contour smoothing, cut-frame softness and target typography differences remain. Same-source versions and locale siblings are not independent cross-source validation. Full decode and unhinted head/tail/full ASR provide technical/model evidence only; no personal listening, normal-speed audiovisual playback, exact phonetic-sync acceptance, independent review or user/company acceptance occurred.",
+  "company_preference": false,
+  "outcome": "best_available_delivered_with_issues_quality_not_passed",
+  "reflection_state": "manually_scoped_observation_with_independent_case",
+  "evidence": {
+    "case_manifest_sha256": "e8a3c7d1cda273b0f89d54d8a4d46e7d97ee44e0f86fee87485d0e9255d1c393",
+    "final_german_video_sha256": "e376399203e8be5210dcb024fdb0cab57fe28f706ee2a2334a8b9be695c0eff4"
+  },
+  "limitations": [
+    "One source only; sequential versions and locale siblings do not add independent validation",
+    "Actual final images were sampled; no continuous normal-speed playback or personal listening",
+    "Existing before-M records preserve historical judgments; they do not certify final-M video",
+    "Automatic reflect remains not_ready for finalize-route artifacts; no normal candidate/origin:quality files were fabricated",
+    "Required source-save and per-run reflection follow-ups remain durably queued; this case does not silently clear them"
+  ],
+  "next_action": "Review preserved source-scoped case before activation; support finalize-route reflection with actual schemas and obtain actual listening/playback evidence before stronger quality claims.",
+  "inbox": "knowledge/local/inbox/MOG-20261116-026-source2-scoped-review-limits.json",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

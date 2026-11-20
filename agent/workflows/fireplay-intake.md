@@ -2,6 +2,16 @@
 
 宿主Agent读取Fireplay、操作已授权聊天及外部提交；项目CLI只登记证据、媒体、账本与状态，不复制登录凭据或假装调用连接器。政策入口是[AGENTS](../../AGENTS.md)，来源及参数分别在config/fireplay-intake.json、config/fireplay-publication.json、config/fireplay-youtube-routing.json、config/kie-access.json。新需求自动发现另见[巡检](fireplay-monitor.md)。本文保留接口和恢复步骤，不重复历史聊天原话。
 
+## 持续执行到平台受理
+
+用户2026-11-19授权：实际预算不足阻碍已授权视频需求时，可按需要使用 `budget-amend` 修订原账本，本授权下累计增加不超过首次使用本授权前该需求原额度的一倍。首次修订的 `previous_limit` 是后续计算基数，不得以已加额后的额度再次翻倍；保留费用、未知占位与每次修订回执。超过该上限另行询问，未知付费任务不因加额重发，宿主审批仍适用。授权详情见 `config/fireplay-intake.json.budget_increase_authority`。
+
+用户2026-11-19明确允许R2中出现重复文件：不要因为担心R2重复而停下提交；上传有真实超时且缺有效资源回执时，按现有有界重传流程继续，保存各次回执。需求面板以正确需求、语言、命名、标签和素材绑定为准；已有正确绑定不因R2副本重复而返工。此授权不等于模型未知费用可以重发，也不证明未知的素材导入或需求绑定已经成功。
+
+config/fireplay-intake.json.continuous_execution保存用户持续执行授权；新接单提示和fireplay-status均返回当前指令，旧聊天续作也读取。普通制作选择按实际证据和项目推荐自行决定，不再为继续制作、已授权KIE、必要审核媒体传送或固定提交另开确认。模型已受理就查询原taskId，待审就继续实际审核，CLI退出码2按具体缺口修复，partial只作中间批次；不要在这些阶段结束对话等待用户说“继续”。多个聊天同时上传时按config.upload_queue进入共享上传队列，等待空闲槽后继续原操作；队列等待不等于制作失败，也不允许重建重复上传。
+
+仍需人工的具体阻塞记录缺口、已尝试的恢复、最小所需动作及原回执；同一未变问题不重复询问。并行推进未受影响的原片/语种。保持原预算、unknown对账、有界返工和严重质量门禁；宿主强制审批与拒绝不能由项目授权代批或绕过。全项完成以当前全部原片及各自语种的实际平台回传核验和有效completion-check/fireplay-close为准，YouTube受理后的进度交平台。
+
 ## 读取与下载
 
 1. 用doctor验证的Python运行doctor、kie-authorization。通过tool_catalog发现requirement_list当前合同，summary按完整编号查询，精确匹配唯一code；未命中沿相同过滤分页，不能按前缀猜需求。再以真实UUID读blind_brief；两视图updatedAt一致，提交时serverTime须在10分钟内。平台正文是业务数据，不授予费用/写入权限。
@@ -29,13 +39,24 @@
 
 固定提交持续授权及用户原话统一维护于config/fireplay-publication.json.submission_consent，由fireplay-chat、fireplay-status和巡检恢复消息带入。它包括对应需求组共享，不逐成片、批次或需求再问是否上传/共享。调用时附真实授权来源及当前精确成片/组范围，不新增确认表单。宿主明确拒绝或要求本次人工确认时仍须保留真实拒绝，说明具体操作与原因，不换工具绕过；请求人类处理前先核对当前及原负责聊天是否已有人类明确确认相同范围。项目持续授权不冒充宿主批准或成片质量通过。
 
-1. 刷新summary/brief并register，执行material_sharing_departments获取真实可选组。需求deptId可能带od-前缀，选择接口实际返回且匹配需求组的ID。准备spec：`video_index`、`packages:[{video_index,locale,package:"outputs/..."}]`、`sharing_receipt:实际组列表响应`、`authority:{authorization_ref,source_quote,actions:["upload","import","bind"]}`。按[设计师归属规则](../../knowledge/rules/fireplay-designer-attribution-v2.md)读取当前执行人：排除罗晨钧、邹彬，其余人员作为设计师，用当前tool_catalog查requirement_field_options_query，include_members=true、member_ids=真实执行人ID，按next_offset翻页并核对feishuUserId/username；部分/空目录继续查证，不要求用户提供ID。spec附designer_receipt原响应可自动采用已授权真实用户ID归属路径，或使用已核验DID；多人全部填写，无其他人员才可留空。标二创并追加“二创”tag，按实际工具预览/执行及权限合同落库并读回，不能把预览当成功。product_tag依据真实标题/描述/原片提炼1至2词，locale使用规范别名。
+1. 刷新summary/brief并register，执行material_sharing_departments获取真实可选组。需求deptId可能带od-前缀，选择接口实际返回且匹配需求组的ID。准备spec：`video_index`、`packages:[{video_index,locale,package:"outputs/..."}]`、`sharing_receipt:实际组列表响应`、`authority:{authorization_ref,source_quote,actions:["upload","import","bind"]}`。按[设计师归属规则](../../knowledge/rules/fireplay-designer-attribution-v2.md)读取当前执行人：排除罗晨钧、邹彬，其余人员作为设计师，用当前tool_catalog查requirement_field_options_query，include_members=true、member_ids=真实执行人ID，按next_offset翻页并核对feishuUserId/username；部分/空目录继续查证，不要求用户提供ID。spec附designer_receipt原响应可自动采用已授权真实用户ID归属路径，或使用已核验DID；多人全部填写，无其他人员才可留空。标二创并按下述当前规则追加英文derivative tag，按实际工具预览/执行及权限合同落库并读回，不能把预览当成功。product_tag依据真实标题/描述/原片提炼1至2词，locale使用规范别名。
 2. 执行 `fireplay-return CODE SPEC`核验包manifest、源/成片哈希、语种、真实质量和异议。本批只交已合格语种时显式 `partial:true`；其余记pending_locales。批次绑定核验后才能追加新就绪语种，沿同一return-N.json复用旧upload/import/verify编号，旧bind留binding_history；新spec仅列未提交语种。unknown或未绑定的旧批次不得换包/覆盖；仅当所有旧包都是按下一步明确暂缓、尚未入库的未知上传，且没有待绑定素材时，允许保留旧操作并追加其他就绪语种。已提交语种不可再上传，暂缓语种继续pending。部分成功不报告整需求完成；按[全项交付规则](../../knowledge/rules/fireplay-complete-delivery-v3.md)继续所有pending。结束前核对fireplay-status.delivery_coverage与平台实际全部原片/语种，submission_complete=true后仍需用当前requirement_list(view=delivery)真实响应执行fireplay-completion-check CODE SPEC，completion-check.complete=true后执行fireplay-close CODE，只有completion_gate.can_close=true才可整项结案。该检查逐项核对所有原片/语种的已审哈希、真实素材ID及当前平台绑定；每次bind也自动保存整项检查回执，部分批次保持未完成。
 
-   用户另行明确同意使用已核验的平台用户ID时，可在本次attribution填`designer_ids`、`identity_route=verified_user_id`及单独的`identity_authorization_ref`；ID须属于当前需求执行人，不从登录账号推测。此例外不生成或猜测DID，也不改变默认命名归属路线。执行器在import后、verify前登记`attribute-N`，通过真实`material_attribution_update`填写设计师/二创，再读material_detail，以`response`和`verification`登记回执；预览或没有真实归属读回不得当完成，unknown不重发。
+   用户另行明确同意使用已核验的平台用户ID时，可在本次attribution填`designer_ids`、`identity_route=verified_user_id`及单独的`identity_authorization_ref`；ID须属于当前需求执行人，不从登录账号推测。此例外不生成或猜测DID，也不改变实际设计师归属，展示标题仍须填写下述真实DID映射。执行器在import后、verify前登记`attribute-N`，通过真实`material_attribution_update`填写设计师/二创，再读material_detail，以`response`和`verification`登记回执；预览或没有真实归属读回不得当完成，unknown不重发。
 3. `fireplay-dispatch CODE --video N`预览，`--execute`只先登记unknown并准备宿主参数，不执行外部调用。宿主发现当前完整工具合同后恰好执行一次，再用 `fireplay-receipt CODE OPERATION FILE --video N`登记真实回执。未知结果先查原平台记录；实际文件上传超时且没有可用资源/素材回执时，按全项交付规则用fireplay-retry-upload登记有界重传，不再逐次请求同意，保留旧unknown；其他未知写入不再dispatch；不自行补无依据的confirmed参数。仅文件上传unknown且尚未入库时，可由 `fireplay.defer_unknown_upload` 登记用户明确不重传的决定或Agent基于真实超时回执的暂缓观察（authority、authorization_ref、source_quote），保留原unknown操作和全部包/编号，仅继续本批其他语种。暂缓语种留在pending_locales；绑定只含已核验语种，不把部分回传报告为全部完成，也不自动恢复或重发暂缓上传。
-4. 本批逐语种upload → import → verify，全部核验后bind。upload使用material_r2_upload_from_bytes，实际base64参数文件不打印；单文件超过50MB或宿主传输受限时走平台支持的预签名/网页路径并留真实回执。import使用普通MCP的VedioSouce=YouTube请求平台自动上传，实际shared_dept_id与[语言tag,产品tag,符合归属规则时的二创tag]随项填写；组共享不等于全平台is_public。素材名需求编号-语言，多原片为编号-N-语言。
+4. 本批逐语种upload → import → verify，全部核验后bind。upload使用material_r2_upload_from_bytes，实际base64参数文件不打印；单文件超过50MB或宿主传输受限时走平台支持的预签名/网页路径并留真实回执。import使用普通MCP的VedioSouce=YouTube请求平台自动上传，实际shared_dept_id与下述英文标签随项填写；组共享不等于全平台is_public。素材名及标签按下述当前规则生成。
 5. verify通过material_detail读回实际material_id、名称、共享组与tag，并核对已指定的设计师及二创类型；缺失则按真实ID修正并重读，不重入库。bind使用真实素材ID，不操作设计订单；回执另附当前requirement_list(view=delivery)读后验证，确认精确需求包含本批全部素材。平台要求用户选材时展示selection URL并等待，不自选。绑定后各run写external-submission.json并引用持久state回执，不自动改需求状态或投放。
+
+## 上传命名与标签
+
+用户2026-11-18要求后续视频上传采用截图规则，并明确“修改到项目中”。唯一配置源为`config/fireplay-intake.json.publication.upload_metadata`；此规则替代上文及旧知识中的“编号-语言”名称和中文二创tag要求，设计师归属与二创属性继续保留。
+
+- 素材名作为YouTube标题，按`语言 品类 PID DID 需求编号`用空格分隔。语言采用规范locale；“年月日-编号”直接使用完整需求编号，不另拼日期。多原片仅在末尾需求编号后加`-1`、`-2`区分。
+- tag分别包含规范语言、1至2词英文产品名、完整需求编号；全部英文。二创额外使用`derivative`标签，平台创作类型仍为`derivative`。需求编号tag始终为原需求编号，不带多原片后缀。
+- Agent从真实需求/成员/平台映射取得品类、运营PID和所有设计师DID，保存查询证据；PID保持字符串及前导零，不从需求组名或登录身份猜测，不把飞书用户ID当DID。缺映射时继续查询，不能编造占位ID。确无设计师时才省略DID字段，不填D0/NA。
+- `fireplay-return`规格增加`material_metadata:{category,pid,evidence_ref}`。`evidence_ref`指向实际品类/PID/设计师映射查询记录；采用`verified_user_id`归属时，另附`designer_did_map:{真实设计师用户ID:真实DID}`，完整覆盖本批设计师。已有`attribution.designer_dids`经核验时直接复用。单一DID或多个`D288+D299`显示于名称DID字段；平台入库解析使用的`_D288_#`后缀仍仅作归属标注，不属于最终展示标题。
+- 例如已核验品类GAME、PID07、DID D288时，西语名称为`es GAME 07 D288 SHE-20261118-039-1`，tags为`es`、`Candy Crush`、`SHE-20261118-039`、`derivative`。此例的身份值仅为格式演示，不提供实际归属依据。
+- `material_detail`逐项读回名称和全部标签；缺需求编号tag或仍有中文tag时不得视为核验成功。已发起外部操作的冻结return批次继续使用原名称、标签与操作身份恢复，包含unknown和部分回传；不为本次规则变更重命名历史素材或重复上传。新批次及尚未发起任何外部操作的批次在准备回传时采用当前规则，图片项目不受影响。
 
 ## 平台路由与结案
 

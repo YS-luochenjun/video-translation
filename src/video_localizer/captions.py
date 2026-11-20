@@ -187,10 +187,23 @@ def render_instances(instances):
             result.append(item)
             continue
         require(bool(item.get("display", {}).get("timed_fragments")), "Speech captions need actual-audio alignment before local typesetting")
-        for unit in units(item):
+        display = item["display"]
+        reveal_mode = display.get("caption_reveal", "replace")
+        require(reveal_mode in ("replace", "cumulative"), "Invalid caption reveal mode")
+        fragments = units(item)
+        resets = display.get("caption_reveal_resets", [])
+        require(isinstance(resets, list) and all(type(index) is int and 0 <= index < len(fragments)
+                                               for index in resets), "Invalid caption reveal reset index")
+        accumulated = ""
+        for index, unit in enumerate(fragments):
+            if index in resets:
+                accumulated = ""
+            accumulated += unit["text"]
             fragment = copy.deepcopy(item)
             fragment.update(unit)
-            fragment["target_text"] = unit["text"]
+            fragment["target_text"] = accumulated if reveal_mode == "cumulative" else unit["text"]
+            if reveal_mode == "cumulative" and index + 1 < len(fragments) and index + 1 not in resets:
+                fragment["end"] = fragments[index + 1]["start"]
             fragment["display"]["reveal_seconds"] = 0
             for point in fragment.get("trajectory", []):
                 point.pop("target_text", None)

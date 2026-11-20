@@ -82,6 +82,14 @@ def _completion_navigation(run, source_sha, completion):
 
 
 def build(run, stage=None):
+    result = _build(run, stage)
+    if (run / 'inputs/fireplay.json').exists():
+        from .fireplay import continuous_execution_instruction
+        result['continuous_execution_instruction'] = continuous_execution_instruction(run.parent.parent)
+    return result
+
+
+def _build(run, stage=None):
     root = run.parent.parent
     from .ledger import tracking_packet
     ledger_tracking = tracking_packet(run)

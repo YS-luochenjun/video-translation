@@ -124,6 +124,21 @@ class LanguageBudgetTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'identity changed'):
             budgets.amend_limit(record['id'], 240, 'human:add-german', 'same event', self.root)
 
+    def test_standing_increase_uses_fixed_original_limit_and_keeps_unknown(self):
+        record = self.open()
+        run = self.make_run('pending')
+        with budgets.operation():
+            budgets.reserve(run, 'a' * 64, 80)
+        ref = 'user-video-budget-increase-up-to-original-20261119'
+        budgets.amend_limit(record['id'], 240, ref + ':1', 'user authorization', self.root)
+        budgets.amend_limit(record['id'], 360, ref + ':2', 'user authorization', self.root)
+        with self.assertRaisesRegex(WorkflowError, 'twice the original limit'):
+            budgets.amend_limit(record['id'], 361, ref + ':3', 'user authorization', self.root)
+        with self.assertRaisesRegex(WorkflowError, 'does not authorize new target'):
+            budgets.amend_limit(record['id'], 360, ref + ':4', 'user authorization', self.root,
+                                targets=['ja', 'es', 'pt', 'de'])
+        self.assertEqual(budgets.status(record['id'], self.root)['unknown_billing_jobs'], 1)
+
     def test_new_reuse_gets_sixty_per_language_and_keeps_old_request_closed(self):
         old = self.open()
         self.spec.update(mode='reuse', authorization_ref='human:new-reuse', reuse_of=old['id'], reuse_confirmation='new_user_request')

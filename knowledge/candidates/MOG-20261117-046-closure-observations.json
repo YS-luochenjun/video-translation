@@ -1,0 +1,31 @@
+{
+  "id": "MOG-20261117-046-closure-observations",
+  "created_at": "2026-11-17T10:26:41+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "1914ef80ce5603a8e880391494db52dea89a7a9c751a5b7b456f29b1d291acfd",
+    "target_languages": [
+      "it",
+      "pt",
+      "vi"
+    ],
+    "evidence_kind": "bounded_closure_observation"
+  },
+  "outcome": "observed_with_unresolved_quality",
+  "hypothesis": "For the recorded source/version, compare encoded closing speech separately from coarse model timestamps; recover valid saved fenced JSON before paying again; reconcile compacted platform previews against exact identities and an intact read-only binding response. These observations do not establish quality acceptance or applicability to another source.",
+  "limitations": [
+    "Single source and these exact versions only; no new default rule.",
+    "A successful API or fourteen bindings does not establish video quality.",
+    "Original unknown uploads, partial responses and expenses remain preserved."
+  ],
+  "company_preference": false,
+  "evidence": {
+    "source_sha256": "1914ef80ce5603a8e880391494db52dea89a7a9c751a5b7b456f29b1d291acfd",
+    "observation_sha256": "d72fa56924fe4809c881bc45c87bffda5298c118fc9fa304247156bb48510e80",
+    "video_sha256": "be178545bcd46f6bf005b2032e8ddee2e72018ed567c1ddae0e2a8a9b5dd085b"
+  },
+  "next_action": "Review the independently preserved speech-content evidence; retain timing/playback gaps and do not activate a broader rule.",
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

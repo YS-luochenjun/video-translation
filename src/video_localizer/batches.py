@@ -2,8 +2,8 @@
 from pathlib import Path
 import re
 
-from .common import (ROOT, file_hash, inside, lock, read_json, require, require_number,
-                     run_operation, utc_now, write_json)
+from .common import (ROOT, WorkflowError, file_hash, inside, lock, read_json, require,
+                     require_number, run_operation, utc_now, write_json)
 
 
 def _path(batch_id, root):
@@ -185,15 +185,59 @@ def approve(batch_id, root=ROOT, best_available=False):
     snapshot = _finalized_pilot_snapshot(record, root) if best_available else _pilot_snapshot(record, root)
     from .pilot_review import release_check
     if len(record['members']) > 1:
-        review_sha = release_check(Path(root) / 'runs' / record['pilot'], snapshot, best_available)
-        if review_sha:
-            snapshot['pilot_review_sha256'] = review_sha
+        pilot = Path(root) / 'runs' / record['pilot']
+        if best_available and not (pilot / 'review/pilot-review.json').is_file():
+            snapshot['pilot_review_unverified'] = {
+                'inventory_sha256': file_hash(pilot / 'analysis/inventory.json'),
+                'limitation': 'Pilot comparison was not reviewed; visual and audio quality remain unverified.',
+            }
+        else:
+            review_sha = release_check(pilot, snapshot, best_available)
+            if review_sha:
+                snapshot['pilot_review_sha256'] = review_sha
     with lock(path.with_suffix('.lock')):
         record = read_json(path)
         record.update(pilot_release=snapshot, state='pilot_completed_with_issues' if best_available else 'pilot_reviewed')
         write_json(path, record)
     return {'batch': batch_id, 'pilot_release': snapshot,
             'scope': 'Existing attributable video review and current technical gates; this command does not assert human acceptance.'}
+
+
+def _auto_release_fast_pilot(record, root):
+    """Record a disclosed fast release when the pilot is already complete.
+
+    A fast batch must keep its quality evidence and serious holds. It does not
+    need a second human-shaped command just to let independent locales start.
+    """
+    if record.get('pilot_release'):
+        return record
+    pilot = Path(root) / 'runs' / record['pilot']
+    request_path = pilot / 'inputs/request.json'
+    if not request_path.exists() or read_json(request_path).get('delivery_mode') != 'fast':
+        return record
+    try:
+        snapshot = _finalized_pilot_snapshot(record, root)
+    except (WorkflowError, OSError, KeyError, ValueError):
+        return record
+    if len(record['members']) > 1:
+        review = pilot / 'review/pilot-review.json'
+        if review.is_file():
+            from .pilot_review import release_check
+            review_sha = release_check(pilot, snapshot, True)
+            if review_sha:
+                snapshot['pilot_review_sha256'] = review_sha
+        else:
+            snapshot['pilot_review_unverified'] = {
+                'inventory_sha256': file_hash(pilot / 'analysis/inventory.json'),
+                'limitation': 'Pilot comparison was not reviewed; visual and audio quality remain unverified.',
+            }
+    path = _path(record['id'], root)
+    with lock(path.with_suffix('.lock')):
+        current = read_json(path)
+        if not current.get('pilot_release'):
+            current.update(pilot_release=snapshot, state='pilot_completed_with_issues')
+            write_json(path, current)
+        return current
 
 
 def gate(run, plan=None):
@@ -203,7 +247,9 @@ def gate(run, plan=None):
     record = read_json(path)
     if Path(run).name == record['pilot']:
         return
-    require(record.get('pilot_release'), 'Review the representative language and run batch-approve before expanding')
+    if not record.get('pilot_release'):
+        record = _auto_release_fast_pilot(record, Path(run).parent.parent)
+    require(record.get('pilot_release'), 'Complete the representative language before expanding')
     best_available = record['pilot_release'].get('scope') == 'best_available'
     if best_available:
         require(read_json(Path(run) / 'inputs/request.json').get('delivery_mode') == 'fast',
@@ -213,6 +259,14 @@ def gate(run, plan=None):
     if 'pilot_review_sha256' in record['pilot_release']:
         from .pilot_review import release_check
         snapshot['pilot_review_sha256'] = release_check(Path(run).parent.parent / 'runs' / record['pilot'], snapshot, best_available)
+    if 'pilot_review_unverified' in record['pilot_release']:
+        pilot = Path(run).parent.parent / 'runs' / record['pilot']
+        require(not (pilot / 'review/pilot-review.json').exists(),
+                'A pilot review is now available; inspect it and approve the pilot again')
+        snapshot['pilot_review_unverified'] = {
+            'inventory_sha256': file_hash(pilot / 'analysis/inventory.json'),
+            'limitation': 'Pilot comparison was not reviewed; visual and audio quality remain unverified.',
+        }
     require(snapshot == record['pilot_release'], 'Pilot changed since batch release; review and approve the new version')
     if plan is not None:
         require(masters(plan) == snapshot['masters'], 'Batch neutral master differs from the reviewed pilot')

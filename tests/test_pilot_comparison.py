@@ -8,6 +8,25 @@ from video_localizer.common import WorkflowError, file_hash, object_hash, write_
 
 
 class PilotComparisonTests(unittest.TestCase):
+    def test_best_available_can_expand_with_disclosed_missing_review(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            pilot, child = root/'runs/pilot', root/'runs/child'
+            inventory = pilot/'analysis/inventory.json'
+            write_json(inventory, {'text_instances': [{'id': 'title', 'action': 'translate'}]})
+            write_json(child/'inputs/request.json', {'delivery_mode': 'fast'})
+            write_json(child/'run.json', {'source_sha256': 'source'})
+            write_json(root/'state/batches/demo.json', {'id': 'demo', 'pilot': 'pilot',
+                       'members': ['pilot', 'child'], 'source_sha256': 'source'})
+            snapshot = {'video_sha256': 'video', 'scope': 'best_available', 'masters': []}
+            with patch.object(batches, '_finalized_pilot_snapshot', side_effect=lambda *args: dict(snapshot)):
+                approved = batches.approve('demo', root, best_available=True)['pilot_release']
+                self.assertIn('unverified', approved['pilot_review_unverified']['limitation'])
+                batches.gate(child)
+                write_json(pilot/'review/pilot-review.json', {'decision': 'repair'})
+                with self.assertRaisesRegex(WorkflowError, 'review is now available'):
+                    batches.gate(child)
+
     def test_segmented_demo_keeps_transition_at_source_time(self):
         with tempfile.TemporaryDirectory() as temp:
             run = Path(temp) / 'runs/pilot-segment-demo'

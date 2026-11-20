@@ -1,0 +1,39 @@
+{
+  "source": {
+    "path": "knowledge/candidates/SHE-20261118-007-17-0e759f76fc.json",
+    "sha256": "be2bd8ad79808072b88d94fab3abd7db09b5590ffb3ec31cdb1d772a20fa66ee"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent closure review",
+  "origin": "Hash-bound actual native-frame and encoded-audio ASR observations from this locale; no independent or company acceptance.",
+  "resolution": "pending",
+  "reason": "Preserve the automatic reflection and original revise decision. The scoped advisory records actual limitations; exact phonetic content and normal-speed quality remain unverified.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "Actual full UI, CTA and disclaimer sheets show translated text at original positions. Faint grey/light glyph-repair smears remain beside UI labels. No readable original English copy found in inspected regions; every transient frame is not certified.",
+    "Actual native-frame samples retain icons, phone, battery and hand scene. The continuous last 51-frame Wan plate changes phone/checkmark/arrow/confetti geometry modestly; no severe destruction observed in samples.",
+    "Bound actual locale fonts show readable UI, CTA and disclaimer glyphs. CTA retains yellow fill, black/white outline and source placement. Long Latin/Cyrillic copy has reduced visual weight; non-Latin fonts use upright bold instead of source italic. FaceTime/TV/App Store are intentional product names. Arabic اضغط على الرابط / أدناه الآن is joined and ordered right-to-left; no boxes observed.",
+    "Actually viewed entry frames 512,513,515,517,519: no CTA at 512; complete two-line phrase rises at 513, overshoots by 515 and settles at 517/519. This is phrase animation with simplified source squash/stretch. Frame450 battery scene is intact. Normal-speed playback was not directly observed.",
+    "Full encoded ASR supports six timed turns but charger phrase is noisy. Separate actual turn 4 recovers كيف فعلت ذلك and turn 5 recovers the app explanation. Generated full audio recognizes لا أجد الشاحن. Standalone encoded tail recovers full Arabic CTA. Exact turn 3 pronunciation remains uncertain."
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope.",
+  "retrieval_features": [],
+  "advisory": {
+    "summary": "Actual full UI, CTA and disclaimer sheets show translated text at original positions. Faint grey/light glyph-repair smears remain beside UI labels. No readable original English copy found in inspected regions; every transient frame is not certified. Bound actual locale fonts show readable UI, CTA and disclaimer glyphs. CTA retains yellow fill, black/white outline and source placement. Long Latin/Cyrillic copy has reduced visual weight; non-Latin fonts use upright bold instead of source italic. FaceTime/TV/App Store are intentional product names. Arabic اضغط على الرابط / أدناه الآن is joined and ordered right-to-left; no boxes observed. Full encoded ASR supports six timed turns but charger phrase is noisy. Separate actual turn 4 recovers كيف فعلت ذلك and turn 5 recovers the app explanation. Generated full audio recognizes لا أجد الشاحن. Standalone encoded tail recovers full Arabic CTA. Exact turn 3 pronunciation remains uncertain. Source-specific same-agent observations; quality remains unpassed. No direct listening or normal-speed playback proof.",
+    "limitations": [
+      "One source and this exact target locale only. Same-source locale variants are not independent source replication.",
+      "Frame inspection and ASR do not prove phonetic accuracy, exact motion, lip sync, music/FX fidelity or company acceptance."
+    ],
+    "next_check": "Use the exact reviewed output hash for direct listening and normal-speed playback; retain ASR disagreements until resolved."
+  },
+  "video_sha256": "0e759f76fce5cde8f06cd4e607af9ebd234d0a2b4c027e7c37ea96824b8466bf",
+  "source_review_sha256": "7501e7908a14a31ff8012c008fec680664d37f6f7048164f7d4084a8818d9bb0",
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-11-18T07:52:31+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

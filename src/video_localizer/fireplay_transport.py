@@ -5,6 +5,54 @@ import json
 from .common import file_hash, inside, read_json, require, utc_now, write_json
 
 
+def reroute_unsent(path, old, value, grant, root):
+    """Change transport before an external upload, preserving preparation history."""
+    require(grant.get('authority') == 'agent' and grant.get('reviewer') and grant.get('reason'),
+            'Unsent transport revision needs an attributed reason')
+    digest = file_hash(path)
+    require(grant.get('previous_outbox_sha256') == digest, 'Transport outbox changed')
+    operations = old.get('operations', {})
+    require(not old.get('upload_attempts') and old.get('state') == 'ready',
+            'Only an outbox without upload attempts may change transport')
+    if operations:
+        ref = grant.get('host_non_execution', {})
+        evidence = inside(root, ref.get('path', ''))
+        require(evidence.is_file() and file_hash(evidence) == ref.get('sha256'),
+                'Prepared upload needs hash-bound host non-execution evidence')
+        observed = read_json(evidence)
+        require(observed.get('outbox_sha256') == digest and observed.get('reviewer')
+                and observed.get('basis') and observed.get('external_call_executed') is False
+                and observed.get('file_selected') is False
+                and set(observed.get('operation_ids', [])) == set(operations),
+                'Host evidence must identify every prepared operation and confirm no external call')
+        require(all(key.startswith('upload-') and op.get('state') == 'unknown'
+                    and not any(op.get(k) for k in ('result', 'receipt_sha256', 'last_observed_receipt'))
+                    for key, op in operations.items()),
+                'Only locally prepared uploads without external receipts may be rerouted')
+    require(len(old['packages']) == len(value['packages']) and old['packages'],
+            'Transport revision cannot add or remove packages')
+    for previous, revised in zip(old['packages'], value['packages']):
+        a, b = dict(previous), dict(revised)
+        a.pop('upload_route', None)
+        b.pop('upload_route', None)
+        require(a == b and revised.get('upload_route') in {'presign', 'web'},
+                'Only the unsent upload transport may change')
+    archive = path.parent / 'transport-revisions' / f'{path.stem}-{digest}.json'
+    if not archive.exists():
+        write_json(archive, old)
+    require(file_hash(archive) == digest, 'Transport archive differs')
+    result = copy.deepcopy(old)
+    result['packages'] = value['packages']
+    result['operations'] = {}
+    result.setdefault('transport_history', []).append({
+        'prior_outbox': str(archive.relative_to(root)), 'prior_outbox_sha256': digest,
+        'basis': 'host_attested_unexecuted_preparation' if operations else 'wholly_undispatched_transport_change',
+        'observation': grant,
+        'recorded_at': utc_now()})
+    write_json(path, result)
+    return result
+
+
 def replace_rejected_upload(path, old, value, grant, root):
     require(grant.get('authority') == 'agent' and grant.get('reviewer') and grant.get('reason'),
             'Transport replacement needs an attributed host observation')

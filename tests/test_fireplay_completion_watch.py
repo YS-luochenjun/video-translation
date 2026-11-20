@@ -23,10 +23,12 @@ class CompletionWatchTests(unittest.TestCase):
     def plan(self):
         return monitor.completion_watch_status(monitor.followups(self.root), self.root)
 
-    def test_unfinished_owner_requires_one_twenty_minute_watch(self):
+    def test_unfinished_owner_requires_one_ten_minute_watch(self):
         value = self.plan()
         self.assertEqual(value['host_action'], 'ensure_active')
-        self.assertEqual(value['interval_minutes'], 20)
+        self.assertEqual(value['interval_minutes'], 10)
+        self.assertEqual(value['owner_status_checks'][0]['threadId'], fixtures.THREAD)
+        self.assertFalse(value['owner_status_is_completion_evidence'])
         self.assertEqual(len(value['requirements']), 1)
         self.manifest()
         value = self.plan()

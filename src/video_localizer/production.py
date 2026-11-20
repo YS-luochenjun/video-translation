@@ -132,7 +132,19 @@ def advance_batch(batch_id, deliver=False, root=ROOT):
             result = {'run': name, 'state': 'blocked', 'reason': str(exc)}
         results.append(result)
         if name == record['pilot'] and not record.get('pilot_release'):
-            break  # batch-approve is an explicit review checkpoint, never auto-signed.
+            if result['state'] in finished:
+                refreshed = read_json(batches._path(batch_id, root))
+                pilot_request = Path(root) / 'runs' / name / 'inputs/request.json'
+                if (not refreshed.get('pilot_release') and pilot_request.exists()
+                        and read_json(pilot_request).get('delivery_mode') == 'fast'):
+                    batches._auto_release_fast_pilot(refreshed, root)
+                    refreshed = read_json(batches._path(batch_id, root))
+                if refreshed.get('pilot_release'):
+                    record = refreshed
+                else:
+                    break
+            else:
+                break  # A fast pilot must be complete before other locales start.
         # An isolated locale failure must not starve the remaining independent
         # languages. Provider/budget/pilot gates still run for every member.
     done = {row['run'] for row in results if row['state'] in finished}

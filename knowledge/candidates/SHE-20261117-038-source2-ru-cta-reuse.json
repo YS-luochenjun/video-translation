@@ -1,0 +1,25 @@
+{
+  "id": "SHE-20261117-038-source2-ru-cta-reuse",
+  "scope": {
+    "source_sha256": "e386c750c91aaffa330d874a5d6cec271402904afd48bd44acb1526d2ccae7c0",
+    "locale": "ru",
+    "language_match": "exact"
+  },
+  "video_sha256": "58ac24c7e7b42c10767b4473b4f0d6d0fd3f40c35a3b0dba8e37d72cc179cd1f",
+  "hypothesis": "This Russian source2 narration response omitted its final CTA despite API success. Existing same-language Charon speech from source1 supplied the complete approved CTA; the adopted text and alignment were updated, with encoded full/head/tail ASR retained.",
+  "trigger": "Returned narration ends before the last required utterance.",
+  "actions": [
+    "Compare actual recognized speech and remaining audio signal against each required line.",
+    "Reuse an authorized same-language, same-voice take only after validating exact text, provenance and source audio hash.",
+    "Update the final wording and alignment, then verify the encoded output boundaries."
+  ],
+  "failure_signature": "ASR ends after the preceding line and remaining signal cannot support a complete CTA.",
+  "limitations": [
+    "Donor audio SHA256 e506c9402219211fab7cb8b2a2b600e96308a7934b45193368d9e35720150d60; source2 Russian only.",
+    "Approximately1.25x rate and ASR completeness do not prove native pronunciation, prosody or a direct listening pass.",
+    "Internal best_available quality=false remains unchanged."
+  ],
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

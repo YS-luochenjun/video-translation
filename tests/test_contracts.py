@@ -78,6 +78,55 @@ class ContractTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, "coverage"):
             validate_inventory({"schema_version": 1, "coverage": {}}, Path.cwd(), {"duration": 8})
 
+    def inventory_fixture(self, run):
+        (run / "evidence.txt").write_text("Synthetic inventory validation fixture")
+        return {
+            "schema_version": 1,
+            "coverage": {kind: {"status": "reviewed", "method": "fixture", "evidence": ["evidence.txt"]}
+                         for kind in ("visual", "speech", "timeline")},
+            "shots": [{"id": "s001", "start": 0, "end": 8,
+                       "description": "fixture", "keyframe": "evidence.txt"}],
+            "text_instances": [{"id": "title-1", "start": 2, "end": 6,
+                                "source_interval": [1, 7], "source_text": "Source",
+                                "target_text": "Target", "reason": "fixture",
+                                "action": "model_edit", "bbox": [0, 0, 100, 100],
+                                "evidence": ["evidence.txt"]}],
+            "audio": {"has_speech": True, "strategy": "model", "reason": "fixture"},
+            "speech_segments": [{"id": "v001", "start": 0, "end": 7,
+                                 "source_text": "Source", "target_text": "Target",
+                                 "evidence": ["evidence.txt"]}]}
+
+    def test_semantic_ids_allow_independent_source_erasure_timing(self):
+        with tempfile.TemporaryDirectory(dir=TEST_TEMP) as temporary:
+            run = Path(temporary)
+            inventory = self.inventory_fixture(run)
+            with patch('video_localizer.captions.contract'), patch('video_localizer.source_styles.contract'):
+                for text_id in ('t001', 'title-1', 'cta-2'):
+                    for speech_id in ('a001', 'v001'):
+                        inventory['text_instances'][0]['id'] = text_id
+                        inventory['speech_segments'][0]['id'] = speech_id
+                        validate_inventory(inventory, run, {'duration': 8, 'width': 1080,
+                                                           'height': 1920, 'has_audio': True})
+
+    def test_erasure_timing_and_instance_identity_remain_bounded(self):
+        with tempfile.TemporaryDirectory(dir=TEST_TEMP) as temporary:
+            run = Path(temporary)
+            inventory = self.inventory_fixture(run)
+            meta = {'duration': 8, 'width': 1080, 'height': 1920, 'has_audio': True}
+            for interval in ([-1, 7], [1, 9], [7, 1], [1, 1]):
+                inventory['text_instances'][0]['source_interval'] = interval
+                with self.assertRaises(WorkflowError):
+                    validate_inventory(inventory, run, meta)
+            inventory['text_instances'][0]['source_interval'] = [1, 7]
+            for identity in ('../title-1', 'title-1/2', 'cta-abc', 'v001'):
+                inventory['text_instances'][0]['id'] = identity
+                with self.assertRaisesRegex(WorkflowError, 'Invalid text instance id'):
+                    validate_inventory(inventory, run, meta)
+            inventory['text_instances'][0]['id'] = 'title-1'
+            inventory['text_instances'].append(dict(inventory['text_instances'][0]))
+            with self.assertRaisesRegex(WorkflowError, 'Duplicate text id'):
+                validate_inventory(inventory, run, meta)
+
     def test_candidate_expired_scope_and_superseded_are_filtered(self):
         with tempfile.TemporaryDirectory(dir=TEST_TEMP) as temporary:
             root = Path(temporary)

@@ -531,6 +531,8 @@ class MonitorTests(unittest.TestCase):
         task = monitor.followups(self.root)[0]
         first = monitor.signal({'key':task['key']}, self.root)
         self.assertEqual(first['state'], 'unknown')
+        self.assertIn(fireplay.continuous_execution_instruction(self.root),
+                      first['host_action']['arguments']['prompt'])
         self.assertEqual(monitor.signal({'key':task['key']}, self.root), first)
         with self.assertRaisesRegex(WorkflowError, 'another chat'):
             monitor.signal({'key':task['key'],'response':{'threadId':RID}}, self.root)

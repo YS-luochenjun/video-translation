@@ -1,0 +1,28 @@
+{
+  "id": "MOG-20261117-049-03-completion-a1def8b6be",
+  "status": "candidate",
+  "created_at": "2026-11-17T11:23:23+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "e02c634314bcdcf238c3e0f5d41ee9cb46df62d759665adadfabea13a544367a",
+    "target_language": "es"
+  },
+  "hypothesis": "For this single source, replacing UI text over a moving phone and monitor left visible bezel/shirt seams, navigation texture and monitor perspective/defocus mismatches. Translation coverage and a playable complete output did not establish strict restoration/style or precise caption timing approval. Use whole-image source/clean/target comparisons through motion and defocus; keep bounded publication acceptance separate from internal visual quality. Audio-model lexical conclusions do not validate timing when returned timestamps exceed the encoded duration.",
+  "outcome": "delivered_with_issues",
+  "reflection_state": "observed_candidate",
+  "evidence": {
+    "run": "MOG-20261117-049-03",
+    "video_sha256": "a1def8b6becbcf5da83118c323d2402b75e649fbe516f506a07510dc8ede95a8",
+    "completion_sha256": "3f1b8653e0c1ac07be6d01d90fcdde0b64032a94fe466e786b7b2aadfa78ccbb"
+  },
+  "limitations": [
+    "One source across nine locales is not nine independent source validations.",
+    "Same-agent review; no human audition, independent approval or user acceptance.",
+    "Internal visual quality remains revise (2/5); strict instance style/caption checks pending.",
+    "Platform binding is submission evidence only; original unknown model charge remains unresolved."
+  ],
+  "company_preference": false,
+  "promotion": "Candidate only; no default or quality-policy change.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

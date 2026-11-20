@@ -1,0 +1,31 @@
+{
+  "id": "APC-20261117-060-asr-model-disagreement",
+  "status": "candidate",
+  "created_at": "2026-11-17T12:17:00+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+    "locales": ["ja", "es", "pt", "de", "fr"],
+    "condition": "Short localized ad speech with music and tight head/tail crops"
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "ASR and comparative audio models can disagree on short localized ad phrases and timestamps when music, tight crops and mixed speech are present. APC-20261117-060 supports using the final script, measured mix boundaries and actual encoded audio as the deciding evidence while retaining model disagreement as a limitation.",
+  "limitations": [
+    "Spanish, German and French showed lexical or timing disagreement across Whisper, raw TTS and Gemini evidence; Portuguese Gemini hallucinated CTA timing; the complete takes were retained in the encoded mixes.",
+    "No direct continuous normal-speed listening or independent native-speaker acceptance was performed.",
+    "This observation does not establish a model ranking or a universal timing tolerance.",
+    "The candidate records a bounded review method and remains pending broader evidence."
+  ],
+  "evidence": {
+    "run": "APC-20261117-060",
+    "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+    "audio_review": "work/state/APC060-review-audio.log",
+    "finalized_locales": "work/state/APC060-finalized-locales.json"
+  },
+  "reflection_state": "observed_candidate",
+  "quality_passed": false,
+  "company_preference": false,
+  "promotion": "Keep as a source-scoped candidate; do not promote a model hierarchy or waive encoded audio review.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Exact source, mix and locale scope; new productions require their own script, mix, head/tail and encoded review."
+}

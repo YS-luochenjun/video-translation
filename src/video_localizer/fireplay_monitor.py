@@ -552,20 +552,21 @@ def signal(spec, root=ROOT):
                 return old
             if not spec.get('owner_observation'):
                 return old
-            from .fireplay_followup import observe, state as signal_state
+            from .fireplay_followup import observe, settings
             observation = observe(spec, task, root)
-            current = signal_state(old, policy(root))
             if observation['status'] == 'running':
                 old.update(owner_observation=observation, owner_checked_at=utc_now())
                 write_json(path, old)
                 return old
             require(old['state'] == 'sent', 'Reconcile an unknown send before redispatching')
-            if current != 'owner_check_required' or observation['status'] not in {'idle', 'error'}:
+            _, max_redispatches = settings(policy(root))
+            if old.get('attempt', 1) > max_redispatches or observation['status'] not in {'idle', 'error'}:
                 old['owner_observation'] = observation
                 write_json(path, old)
                 return {**old, 'next_action': 'Resolve the concrete owner blocker; delivery remains incomplete'}
-            # The old send stays immutable in history. A lease permits a recovery
-            # prompt only; it never retries a paid job or platform write itself.
+            # A fresh idle/error observation permits bounded recovery even within
+            # the lease. The caller must first resolve concrete blockers and
+            # in-flight work; this never retries a paid job or platform write.
             history = _directory(root) / 'signals/history' / task['key'] / f'{old.get("attempt", 1)}.json'
             if not history.exists():
                 write_json(history, old)
@@ -584,7 +585,8 @@ def signal(spec, root=ROOT):
                    youtube_instruction(root) +
                    fireplay.submission_consent_instruction(root) +
                    '逐项核对本需求全部原片与全部目标语种；只有全部入库、共享、标签和绑定核验后才可结案。partial和unknown继续恢复，不以部分成功收尾；不跟踪YouTube进度，不因排队/限额重入库。'
-                   + fireplay.submission_instruction(root))
+                   + fireplay.submission_instruction(root)
+                   + '\n' + fireplay.continuous_execution_instruction(root))
         value = {'state': 'unknown', 'task': task, 'dispatched_at': utc_now(),
                  'attempt': old.get('attempt', 1) + 1 if old else 1,
                  **({'previous_dispatch': str(history.relative_to(root)), 'owner_observation': observation} if old else {}),
@@ -655,9 +657,16 @@ def completion_watch_status(followup_items, root=ROOT):
     restricted = manifest.get('followup_approval_required') is True
     if restricted and pending:
         action = 'observe_only' if active else 'request_followup_approval'
+    owner_status_checks = [
+        {'code': member['code'], 'threadId': member['threadId'], 'hostId': member.get('hostId', 'local'),
+         'required': True, 'rule': 'wait_threads first; read_thread when idle, ended, error, or needs_attention'}
+        for member in pending
+    ]
     return {'enabled': True, 'interval_minutes': config['interval_minutes'], 'manifest': config['manifest'],
             'automation_id': manifest.get('automation_id') if active else None, 'host_action': action,
             'requirements': list(requirements.values()), 'pending': pending, 'verified_complete': complete,
+            'owner_status_checks': owner_status_checks,
+            'owner_status_is_completion_evidence': False,
             'scheduler_action': ('update' if active else 'create') if pending else
                                 'delete' if action == 'delete_completion_watch' else 'none',
             'restart_when_new_owner': config.get('restart_when_new_owner', True),

@@ -211,7 +211,7 @@ def _export(run, root, video_sha256=None, reuse_manifests=()):
             quality_records.append(read_json(path))
     for path in (run / "review").glob("*.json"):
         data = read_json(path)
-        if data.get("video_sha256") == video_sha256:
+        if isinstance(data, dict) and data.get("video_sha256") == video_sha256:
             sources[path.relative_to(run).as_posix()] = path
     review_folder = run / "review" / video_sha256[:12]
     for path in review_folder.rglob("*") if review_folder.exists() else ():

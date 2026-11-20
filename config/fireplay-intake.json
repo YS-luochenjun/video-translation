@@ -8,12 +8,12 @@
     ],
     "multiple_designers": "include_all_resolved_remaining_assignees",
     "creation_type": "derivative",
-    "tag": "二创",
+    "tag": "derivative",
     "no_remaining_assignees": "unassigned",
     "identity_resolution": "Current requirement assignees and live member/designer DID mapping; never infer from login or invent a DID",
     "authority": "user",
     "authorization_ref": "user-agent-resolves-fireplay-designers-20261028",
-    "rule": "提交素材时，执行人排除罗晨钧、邹彬，其余人员填为设计师，创作类型为二创，并追加二创tag。",
+    "rule": "提交素材时，执行人排除罗晨钧、邹彬，其余人员填为设计师，创作类型为二创；后续视频标签全部英文，二创tag使用derivative。",
     "source_quote": "目前增加一个提交上传的内容：如果你看到，在“执行人”一栏，发现了除了“罗晨钧 邹彬”之外的其他人，说明他就是设计师。需要在提交时，把设计师加入设计师一项中：“上传素材的设计师就用这个设计师名并打上二创的标记”，tag里面加上“二创”标记。",
     "automatic_verified_user_ids": true,
     "autonomous_resolution_quote": "查验设计师后，会让我提供准确的类似ID，我一般也不知道，需要你去fireplay中自己看，并相信自己的判断。"
@@ -55,14 +55,28 @@
     "persistence_quote": "把这些内容，包含同意kie等，都放到项目中。这个去fireplay中拿需求的流程也做到项目中",
     "scope": "用户明确交办的Fireplay翻译需求；包含必要原片、音频、参考帧及生成媒体的KIE处理和审核",
     "budget_scope": "one_requirement",
-    "limits": "每个需求沿用自己的真实目标语言、账本、模型限制和有限返工；不因拉取、建聊、续作或重试增加额度。未交办的列表项不启动付费制作。",
+    "limits": "每个需求沿用自己的真实目标语言、账本、模型限制和有限返工；实际额度不足时按用户2026-11-19授权修订原账本，不因拉取、建聊或续作自动增额。未交办的列表项不启动付费制作。",
     "project_consent_default": "approved",
     "repeat_project_consent_question": false,
     "current_authorization_ref": "user-kie-audio-video-standing-consent-20261028",
     "current_source_quote": "在对话开始时，会询问我是否使用KIE的音频或视频工具，我需要你确定，点击需要，点击同意使用。",
     "host_approval_policy_applies": true
   },
-  "submission_instruction": "入到素材库，共享到需求组开启YouTube 视频自动上传，并打上语言tag和产品tag(需求描述或者需求标题中一般有，没有就自己提炼，一到两个单词总结)，最后再绑定到当前需求。素材名称用“需求编号+语言”",
+  "budget_increase_authority": {
+    "authority": "user",
+    "authorization_ref": "user-video-budget-increase-up-to-original-20261119",
+    "source_quote": "对于增加少量的credits（一倍以内），你如果看到是这样的原因，也放行。",
+    "rule": "实际额度不足阻碍已授权视频需求时，沿原账本按需要增加；本授权下累计增加不得超过该需求首次使用本授权前的额度，总额至多为该额度两倍。首次修订记录原额度，后续以首次修订previous_limit为基数，不按增额后的额度滚动翻倍。保留费用和未知占位，使用budget-amend记录真实授权及各次修订身份；不因预算授权重发未知付费任务或绕过宿主审批。超出上限须另获授权。"
+  },
+  "continuous_execution": {
+    "enabled": true,
+    "authority": "user",
+    "authorization_ref": "user-fireplay-continue-through-upload-20261113",
+    "source_thread_id": "01a1bffe-1cca-7293-a615-90b51f080f89",
+    "source_quote": "目前总是断，总是询问我问题，确实不够好。需要让他们能一直干直到完成与上传后，会比较好。",
+    "instruction": "已合法接入的翻译需求由原负责聊天持续推进到全部原片及各自目标语种完成制作、实际审核、Fireplay入库/共享/标签/归属/绑定核验及有效completion-check/fireplay-close。普通制作选择自行按实际证据和项目推荐决定；不再询问是否继续、是否使用已授权KIE、是否上传审核媒体或是否提交已有授权成片。阶段完成、CLI退出码2、待审、已提交模型任务及部分上传均不作为结束理由；查询已有taskId并推进独立工作。每次阶段结束先核对全部原片和各自目标语种的剩余制作、审核、提交与绑定，选择下一项可执行工作继续，不能把阶段结果当作最终交付或以阶段总结结束；仅全部提交核验并有效结案后才能称整项完成。确实无法继续时明确标记未完成，写明已完成和未完成范围、具体阻塞、已尝试的恢复及下一步，不把中间候选称为最终交付。需要恢复时沿原聊天、原账本和原任务继续。仅真正缺少必要素材或不可推断信息、范围变更、超出加额授权的预算变更、需用户选材、宿主强制审批/拒绝或严重质量阻塞才请求人工；先说明具体缺口、已尝试恢复和所需动作，并继续未受影响的原片/语种。同一未变阻塞只通知一次，变化后再核查；unknown先对账不盲重发；实际额度不足时按budget_increase_authority有限加额，保留质量限制。平台受理核验后YouTube进度、排队和限额交Fireplay，不等待链接。持续执行指令不替代fireplay-start授权绑定、工具审批或真实平台回执。"
+  },
+  "submission_instruction": "入到素材库，共享到需求组开启YouTube 视频自动上传；视频素材名（作为YouTube标题）按“语言 品类 PID DID 需求编号”用空格分隔，年月日-编号直接使用需求编号，多原片在需求编号后加-N。tag全部英文，分别打语言tag、1至2词产品tag和完整需求编号tag；二创属性保留，二创tag使用derivative。品类、PID及DID由Agent查询真实需求/成员映射并保存来源，不猜测、不把用户ID当DID；确无设计师时省略DID字段。回传spec附material_metadata，最后再绑定到当前需求。完整规则见agent/workflows/fireplay-intake.md的上传命名与标签。",
   "publication": {
     "youtube_auto_upload": true,
     "share_to_requirement_group": true,
@@ -72,10 +86,31 @@
       2
     ],
     "name_separator": "-",
+    "upload_metadata": {
+      "version": 1,
+      "name_fields": ["language", "category", "pid", "did", "requirement_code"],
+      "separator": " ",
+      "required_tags": ["language", "product", "requirement_code"],
+      "english_tags_only": true,
+      "missing_designer": "omit_did_only_when_unassigned",
+      "authority": "user",
+      "authorization_ref": "user-video-upload-name-tags-20261118",
+      "source_quote": "后续视频上传时命名和tag，按照这个规则。修改到项目中",
+      "screenshot_quotes": ["语言 品类 pid did 年月日-编号", "tag 用全部用英文，打上语言tag、产品tag、和需求编号", "年月日-编号可以直接用需求编号"],
+      "scope": "Subsequent video uploads; retain outboxes with external operations and historical material identities"
+    },
     "authority": "user",
     "authorization_ref": "user-fireplay-fixed-submission-instruction-20261026",
     "source_quote": "入到素材库，共享到需求组开启YouTube 视频自动上传，并打上语言tag和产品tag，最后再绑定到当前需求。素材名称用需求编号+语言",
     "track_youtube_progress_after_submission": false
+  },
+  "upload_queue": {
+    "enabled": true,
+    "max_active_external_uploads": 1,
+    "behavior_when_busy": "queue_and_poll",
+    "same_operation": "idempotent",
+    "unknown_operation": "reconcile_before_retry",
+    "rule": "Multiple owner chats may prepare uploads in parallel. Only the external media write is serialized. A busy slot keeps the exact operation queued and resumable; it does not stop production or create a duplicate upload."
   },
   "status_update": false,
   "background_polling": false

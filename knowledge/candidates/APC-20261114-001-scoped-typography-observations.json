@@ -1,0 +1,34 @@
+{
+  "id": "APC-20261114-001-scoped-typography-observations",
+  "status": "candidate",
+  "created_at": "2026-11-14T12:51:14+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ce16e130593b1eceb33bed66a236bdf9f01ad4f97fd619214079e37e0f350ba7",
+    "target_languages": [
+      "th",
+      "ar"
+    ],
+    "validation_level": "single_source_sampled_frames_and_external_audio_reports"
+  },
+  "hypothesis": "On this source, Thai character-based wrapping split words and vowel groups; explicit phrase breaks produced readable whole-word lines in the reviewed final instance frames. Arabic nominal font size did not reliably express visible ink size; larger actual Arabic glyphs remained joined, RTL and unclipped in the reviewed title, dialogue and CTA frames. Inspect the actual midpoint of every short caption instance: a fixed global sampling schedule can miss a complete short second clause. These are same-source sampled observations, not continuous playback, native-speaker acceptance or cross-source causal proof. External full-audio and head/tail model reports are distinct from personal listening; the Arabic male-register difference remained disclosed rather than silently marked consistent.",
+  "company_preference": false,
+  "outcome": "sampled_typography_repair_observed_with_remaining_quality_limits",
+  "reflection_state": "observed_candidate",
+  "evidence": {
+    "case_manifest_sha256": "2e3eeb4f58eb6c8bb9943411a0dd804431558472148e122024e2266da57934f3",
+    "thai_video_sha256": "8dc7e16727e55b3493d479dbcdc7ffed8a92a5c3ec6b8343f36cfd1e7f503cf5",
+    "arabic_video_sha256": "f2c9fabfb9b1231c28bd8835d96f8fdc1a09a356fdf98042b1778b8f8bd403f0"
+  },
+  "limitations": [
+    "Single source only",
+    "Before-repair visual contrast is not independently packaged in this candidate",
+    "No personal audio listening or full normal-speed visual playback",
+    "Exact caption-to-dub sync remains unverified",
+    "Ordinary shared restoration texture differences remain"
+  ],
+  "next_action": "Review the preserved scoped evidence before any activation; obtain explicit continuous playback and listening observations before expanding the quality claim.",
+  "inbox": "knowledge/local/inbox/APC-20261114-001-scoped-typography-observations.json",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

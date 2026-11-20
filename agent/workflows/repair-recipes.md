@@ -18,6 +18,8 @@ bin/va.ps1 repair-run RUN inputs/repair.json
 
 项目 state/repair-trials/<RUN>.json 跨配方累计实际尝试和耗时，默认4次、600秒。缓存命中不增加次数；修改配方不重置预算。需继续时提供 --extension-reason 解释失败和下一变量，仅增加1次及300秒；这不是付费授权或质量豁免。达到时间预算会停止局部计算，半成品不是检查点。
 
+`bin/repair_source_ui_glyphs.py RUN RECIPE` 是小字区域的流式执行入口，与上面的入口共用该run的试验台账。配方显式绑定原片、已有底片、原尺寸、帧率、帧数和逐实例区域；`repair_method` 默认`telea`，也可选择既有的`source_restore`或`horizontal_fill`操作。后两者额外使用整数`bbox`，逐行重建仍需`left_columns/right_columns`，其适用范围与下文相同。可选`selector.top_hat`使用奇数`kernel`（3–63）和`minimum`（1–255）限制局部亮度对比，不证明选中的像素就是文字。该入口不把整条原片解码留在内存；失败的整片尝试继续保留，流式重试仍记录实际次数和耗时。执行和像素保护通过不代表补底自然，输出继续保持`approved_for_reuse=false`。
+
 进程中断后先按现有规则核对 run/resource 锁及 PID；不要删除活锁。确认进程已退出后可运行 repair-reconcile RUN --reason "有来源的中断原因"，它只核验本地检查点或标记中断，不重发远端任务。work-packet 返回尝试记录、已有问题和图片展示游标，展示不等于审查通过。旧的一次性脚本未接入此预算，不能据此宣称所有历史脚本都已受控。
 
 ## 旧脚本迁移与逐帧复用

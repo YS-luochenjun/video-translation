@@ -68,6 +68,21 @@ class WorkflowOptimizationTests(unittest.TestCase):
         summary = {'state': 'planned', 'jobs': [{'id': 'job1', 'state': 'ambiguous', 'task_id': 'provider-task'}]}
         with patch.object(cli, 'status', return_value=summary):
             result = work_packet.build(self.run, 'translation')
+            self.assertNotIn('continuous_execution_instruction', result)
+            write_json(self.run / 'inputs/fireplay.json', {'code': 'TEST-001'})
+            settings = {'continuous_execution': {'enabled': True, 'authority': 'user',
+                        'authorization_ref': 'test:human', 'source_quote': 'Continue through upload',
+                        'instruction': 'Continue within the original budget; reconcile unknown jobs'}}
+            write_json(self.root / 'config/fireplay-intake.json', settings)
+            resumed = work_packet.build(self.run, 'translation')
+            self.assertEqual(resumed['continuous_execution_instruction'],
+                             settings['continuous_execution']['instruction'])
+            self.assertEqual(resumed['jobs'], result['jobs'])
+            self.assertEqual(resumed['blockers'], result['blockers'])
+            self.assertFalse(resumed['automatic_pass'])
+            settings['continuous_execution']['enabled'] = False
+            write_json(self.root / 'config/fireplay-intake.json', settings)
+            self.assertEqual(work_packet.build(self.run, 'translation')['continuous_execution_instruction'], '')
         self.assertFalse(result['automatic_pass'])
         self.assertEqual(result['jobs'][0]['task_id'], 'provider-task')
         self.assertTrue(result['blockers'])

@@ -1,0 +1,39 @@
+{
+  "source": {
+    "path": "knowledge/candidates/SHE-20261118-007-10-ecb4f89fa7.json",
+    "sha256": "8dfae1d3ee63fe62778e2713846970b2d3f2d6646df14a082ca476079c512912"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex same-agent closure review",
+  "origin": "Hash-bound actual native-frame and encoded-audio ASR observations from this locale; no independent or company acceptance.",
+  "resolution": "pending",
+  "reason": "Preserve the automatic reflection and original revise decision. The scoped advisory records actual limitations; exact phonetic content and normal-speed quality remain unverified.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "Actual full UI, CTA and disclaimer sheets show translated text at original positions. Faint grey/light glyph-repair smears remain beside UI labels. No readable original English copy found in inspected regions; every transient frame is not certified.",
+    "Actual native-frame samples retain icons, phone, battery and hand scene. The continuous last 51-frame Wan plate changes phone/checkmark/arrow/confetti geometry modestly; no severe destruction observed in samples.",
+    "Bound actual locale fonts show readable UI, CTA and disclaimer glyphs. CTA retains yellow fill, black/white outline and source placement. Long Latin/Cyrillic copy has reduced visual weight; non-Latin fonts use upright bold instead of source italic. FaceTime/TV/App Store are intentional product names. Devanagari matras and joined forms are present in अभी नीचे दिए / लिंक पर क्लिक करो.",
+    "Actually viewed entry frames 512,513,515,517,519: no CTA at 512; complete two-line phrase rises at 513, overshoots by 515 and settles at 517/519. This is phrase animation with simplified source squash/stretch. Frame450 battery scene is intact. Normal-speed playback was not directly observed.",
+    "Full encoded ASR recovered only CTA. Separate actual crops recover each of turns 1–5, including charger question and full app explanation; head/tail support opening and final CTA. Devanagari ASR spelling is noisy."
+  ],
+  "all_material_accounted": false,
+  "remaining_disposition": "needs_evidence",
+  "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope.",
+  "retrieval_features": [],
+  "advisory": {
+    "summary": "Actual full UI, CTA and disclaimer sheets show translated text at original positions. Faint grey/light glyph-repair smears remain beside UI labels. No readable original English copy found in inspected regions; every transient frame is not certified. Bound actual locale fonts show readable UI, CTA and disclaimer glyphs. CTA retains yellow fill, black/white outline and source placement. Long Latin/Cyrillic copy has reduced visual weight; non-Latin fonts use upright bold instead of source italic. FaceTime/TV/App Store are intentional product names. Devanagari matras and joined forms are present in अभी नीचे दिए / लिंक पर क्लिक करो. Full encoded ASR recovered only CTA. Separate actual crops recover each of turns 1–5, including charger question and full app explanation; head/tail support opening and final CTA. Devanagari ASR spelling is noisy. Source-specific same-agent observations; quality remains unpassed. No direct listening or normal-speed playback proof.",
+    "limitations": [
+      "One source and this exact target locale only. Same-source locale variants are not independent source replication.",
+      "Frame inspection and ASR do not prove phonetic accuracy, exact motion, lip sync, music/FX fidelity or company acceptance."
+    ],
+    "next_check": "Use the exact reviewed output hash for direct listening and normal-speed playback; retain ASR disagreements until resolved."
+  },
+  "video_sha256": "ecb4f89fa7e029149adc68b4e27161060b6a9c3fe1dfe3406c429a62166ca11f",
+  "source_review_sha256": "6183495d665403665823587b58641332d95d1161ace4a3117ab29f5ebda36711",
+  "schema_version": 1,
+  "closed": false,
+  "recorded_at": "2026-11-18T07:52:28+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

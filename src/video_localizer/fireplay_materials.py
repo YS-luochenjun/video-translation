@@ -9,11 +9,13 @@ from datetime import datetime, timezone
 from .common import object_hash, require
 
 
-def verify_tags(expected, actual, locale, root=None):
+def verify_tags(expected, actual, locale, root=None, english_only=False):
     """Accept configured language aliases while retaining exact product tags."""
     from .languages import resolve
     from .common import WorkflowError
     actual = {tag for tag in actual if isinstance(tag, str)}
+    if english_only:
+        require(all(_english_tag(tag) for tag in actual), 'All video upload tags must be English')
     canonical = resolve(locale, root)['target_language']
     languages = set()
     for tag in actual:
@@ -24,6 +26,48 @@ def verify_tags(expected, actual, locale, root=None):
     products = set(expected) - {locale}
     require(canonical in languages and products.issubset(actual),
             'Material read-back is missing language or product tags')
+
+
+def _english_tag(value):
+    return isinstance(value, str) and bool(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9 .&+'()/_-]*", value))
+
+
+def upload_metadata(record, spec, defaults, publication, attribution, source_name, locale):
+    policy = publication['policy'].get('upload_metadata')
+    product = publication['product_tag']
+    if not policy:
+        return {'display_name': f'{source_name}-{locale}',
+                'tags': list(dict.fromkeys([locale, product] +
+                         (['二创'] if attribution.get('creation_type') == 'derivative' else [])))}
+    require(policy.get('version') == 1 and policy.get('authority') == 'user' and
+            policy.get('authorization_ref'), 'Unsupported video upload metadata policy')
+    metadata = spec.get('material_metadata') or {}
+    category, pid = metadata.get('category'), metadata.get('pid')
+    require(isinstance(category, str) and category.strip() and len(category) <= 80 and
+            not re.search(r'[\r\n\t]', category), 'Resolve the actual material category in material_metadata')
+    require(isinstance(pid, str) and re.fullmatch(r'[A-Za-z0-9]+', pid),
+            'Resolve the actual operator PID in material_metadata; preserve leading zeros')
+    require(isinstance(metadata.get('evidence_ref'), str) and metadata['evidence_ref'].strip(),
+            'Record the actual category/PID/designer mapping evidence_ref')
+    dids = attribution.get('designer_dids') or ''
+    designer_ids = attribution.get('designer_ids') or []
+    if designer_ids:
+        mapping = metadata.get('designer_did_map') or {}
+        require(isinstance(mapping, dict) and set(mapping) == set(designer_ids) and
+                all(isinstance(value, str) and re.fullmatch(r'D[0-9]+', value) for value in mapping.values()) and
+                len(set(mapping.values())) == len(mapping),
+                'Resolve real DID mappings for every selected designer; user IDs are not DIDs')
+        dids = '+'.join(dict.fromkeys(mapping[identifier] for identifier in designer_ids))
+    require(dids or attribution.get('unassigned') is True, 'Missing verified designer DID for video title')
+    tags = [locale, product, record['code']]
+    if attribution.get('creation_type') == 'derivative':
+        tags.append(defaults['designer_selection']['tag'])
+    require(all(_english_tag(tag) for tag in tags), 'All video upload tags must be English; translate the product tag')
+    fields = {'language': locale, 'category': category.strip(), 'pid': pid,
+              'did': dids, 'requirement_code': source_name}
+    return {'display_name': policy['separator'].join(fields[field] for field in policy['name_fields'] if fields[field]),
+            'tags': list(dict.fromkeys(tags)), 'metadata_policy_version': policy['version'],
+            'metadata_evidence_ref': metadata['evidence_ref']}
 
 
 def resolve_assignees(record, receipt, defaults):

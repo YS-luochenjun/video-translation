@@ -1,0 +1,76 @@
+{
+  "id": "MOG-20261116-036-eight-locale-closure-observed",
+  "created_at": "2026-11-16T04:48:03+00:00",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "4705cdc01341014b02074feb4759cbaf4ba7ed67f5c61badc3d9a2df83842533",
+    "target_languages": [
+      "de",
+      "es",
+      "fr",
+      "hi",
+      "ja",
+      "ko",
+      "pt",
+      "vi"
+    ]
+  },
+  "outcome": "delivered_with_issues",
+  "hypothesis": "本源八语种观察：原生毫秒PTS需按实际时间映射核对，不能用四舍五入帧号代替；目标字形覆盖、视觉重量和emoji邻接需用实际字面样张核对，越南语曾因缺字拒绝窄体候选并采用有字形覆盖的压缩字层。当前原位标题和场景词在抽样整帧可读，遗留模糊带及局部轮廓差异仍存在。完整解码及首尾实际波形ASR仅证明技术/转写范围，不能推出连续运动、声学听审或公司验收。该结论仅适用于本源及记录中的八个版本，未跨源推广。",
+  "evidence": {
+    "run": "MOG-20261116-036-01",
+    "case_manifest_sha256": "b0afa168737130cdcb742d53ed959e1c9fee33fc85ce2a37af94cbfe009a5b48",
+    "actual_outputs": [
+      {
+        "locale": "de",
+        "video_sha256": "be982d89b8087d440411bfcd89dfb7db9813693fd943506a8f357548c96b02ae",
+        "quality_passed": false
+      },
+      {
+        "locale": "es",
+        "video_sha256": "c70454c81136bac7efd6e56d4021d430444b891b29a77f01500d4c67410c3f50",
+        "quality_passed": false
+      },
+      {
+        "locale": "fr",
+        "video_sha256": "e7c2795f8a3a84392f6446fbb01d55d4eb49e141180b62ea909147cbf099c3c6",
+        "quality_passed": false
+      },
+      {
+        "locale": "hi",
+        "video_sha256": "186602b4a19aba693e787e4cfa565045b5604fa9893eacb8983b0669431c2bf5",
+        "quality_passed": false
+      },
+      {
+        "locale": "ja",
+        "video_sha256": "4487b71b05a2fa59fe701c7c76f7a05653113ae315922fccabc4e83ffeae90f0",
+        "quality_passed": false
+      },
+      {
+        "locale": "ko",
+        "video_sha256": "687cd7bfa00ef7a1bb1a06a4ed829e1b6057eebb5ba45e4427259bc05e876eaa",
+        "quality_passed": false
+      },
+      {
+        "locale": "pt",
+        "video_sha256": "6eecf029a4f52df45e7bbd6e80613deb56c6c8e30ffce757a2bcd37a86a9f88c",
+        "quality_passed": false
+      },
+      {
+        "locale": "vi",
+        "video_sha256": "a32d095dfc0768e01acf3b5508eee891364bb72fff59437136e58e4406bc5a84",
+        "quality_passed": false
+      }
+    ]
+  },
+  "limitations": [
+    "One source only",
+    "Sampled visual evidence and waveform ASR; no direct audiovisual normal-speed acceptance",
+    "Legacy blur/texture defects and Hindi phonetic uncertainty preserved"
+  ],
+  "company_preference": false,
+  "promotion": "Candidate only; requires scoped review, does not alter active policies or quality conclusions.",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

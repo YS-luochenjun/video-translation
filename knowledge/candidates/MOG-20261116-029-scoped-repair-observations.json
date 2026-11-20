@@ -1,0 +1,47 @@
+{
+  "id": "MOG-20261116-029-scoped-repair-observations",
+  "created_at": "2026-11-16T04:45:20+00:00",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "56cdb95dc84129447c37114e1acc43e6a45558ab4e3bc5f200109cca2fae2053",
+    "target_languages": [
+      "de",
+      "es",
+      "fr",
+      "hi",
+      "ja",
+      "ko",
+      "pt",
+      "vi"
+    ],
+    "validation_level": "single_source_sampled_frames_and_audio_model_reports"
+  },
+  "hypothesis": "On this source, Hindi V3 CTA clipped at both sides; V4 reduced its font size from 230 to 136 and the reviewed entrance, hold and tail samples fit. Vietnamese required testing actual diacritic glyph coverage: the selected Helvetica Neue faces supported the reviewed text while the earlier Arial Rounded/Narrow choices did not. Korean prototype speech required extending the selected source-audio cut from 5.35 to 5.65 seconds to retain the observed voice boundary at 5.37125 seconds. These are source-scoped repair observations; font size and timing values are not reusable defaults.",
+  "company_preference": false,
+  "outcome": "sampled_repairs_observed_delivery_with_issues",
+  "reflection_state": "observed_candidate",
+  "evidence": {
+    "video_sha256_by_locale": {
+      "de": "1b1198373a3c45c185cde6092727c166aa76082d116157d8a858a3f7c4de5fe2",
+      "es": "f0d9a9ac706b3d4e9e658fd556c72576fddff74ee4ca93f9e6e9b39f7a17ef80",
+      "fr": "ed7e8d8f3797392e78a08666b3221a5d3d03712fa05c39e2ae39a1b37d734c95",
+      "hi": "7a720260ae576215e3154efd1b31703445ced750dd1057926750759d7943d48f",
+      "ja": "86d91485dee0156fb1ceea32aa5d4fdcea613ef6550b3395f3d6b77fe94b5f34",
+      "ko": "993a47f30a1222b6387896f33fcc3bce5523f5be1d4a412ef7ba44affd41783f",
+      "pt": "ed837e8f53fc19a26befa6cc238e6b760806eb8b13293a79d9c0556fb46e309e",
+      "vi": "43c976f0ca2c748a83be9541b575703128c9e43d0dc97e22274b360fa3cdd9f1"
+    },
+    "case_manifest_sha256": "b8a9592071e56c804420bc934b4f35637e841c67cd9ed4925cbfc9b02ff595f6"
+  },
+  "limitations": [
+    "One source only; no cross-source causal validation.",
+    "No direct listening, normal-speed continuous playback or independent acceptance.",
+    "Adapted type style, texture changes and approximate reveal/sparkle remain.",
+    "Audio-model spelling and pronunciation uncertainty remains unresolved."
+  ],
+  "next_action": "Review preserved observations and actual media before activation; do not infer perceptual quality acceptance from platform binding.",
+  "inbox": "knowledge/local/inbox/MOG-20261116-029-scoped-repair-observations.json",
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

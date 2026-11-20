@@ -1,5 +1,6 @@
 """Recognize verified Fireplay acceptance without tracking downstream YouTube progress."""
 from pathlib import Path
+import re
 from .common import ROOT, file_hash, object_hash, read_json, require, utc_now, write_json
 
 
@@ -64,6 +65,19 @@ def bound_materials(record, video, root=ROOT):
     return []
 
 
+def _held_material(video, material, root, code=None):
+    from . import quality_holds
+    source = video.get('source', {}).get('sha256')
+    asset = material.get('sha256')
+    if not all(isinstance(digest, str) and re.fullmatch(r'[a-f0-9]{64}', digest)
+               for digest in (source, asset)):
+        return False
+    if code:
+        from .fireplay_publication import held
+        return held(code, source, asset, root)
+    return bool(quality_holds.active(source, asset, root))
+
+
 def coverage(record, video, root=ROOT):
     """Compare requested locales with verified acceptance, including partial returns."""
     from . import fireplay
@@ -85,7 +99,7 @@ def coverage(record, video, root=ROOT):
             proven = value.get('state') == 'returned_user_approved' or value.get('all_bound') is True
             materials.extend(r for r in (value.get('items') or value.get('records') or [])
                              if fireplay._uuid(r.get('material_id')) and (proven or r.get('bound_verified') is True))
-    accepted = {r['locale'] for r in materials} & expected
+    accepted = {r['locale'] for r in materials if not _held_material(video, r, root, record['code'])} & expected
     return {'expected_locales': sorted(expected), 'bound_locales': sorted(accepted),
             'missing_locales': sorted(expected - accepted), 'complete': expected == accepted and bool(expected)}
 
@@ -123,6 +137,8 @@ def verify_completion(code, spec, root=ROOT):
                 mid = material['material_id']
                 if len(digest) != 64 or any(c not in '0123456789abcdef' for c in digest):
                     reason = 'missing_reviewed_video_identity'
+                elif _held_material(video, material, root, record['code']):
+                    reason = 'active_quality_hold'
                 elif mid not in actual:
                     reason = 'material_not_in_current_platform_binding'
                 elif mid in seen:
@@ -151,7 +167,8 @@ def completion_gate(record, root=ROOT):
     actual = {(r.get('video_index'), r.get('locale')): (r.get('material_id'), r.get('sha256'))
               for r in value.get('verified', [])}
     current = {(v['index'], m['locale']): (m['material_id'], m.get('sha256'))
-               for v in record['videos'] for m in bound_materials(record, v, root)}
+               for v in record['videos'] for m in bound_materials(record, v, root)
+               if not _held_material(v, m, root, record['code'])}
     complete = (value.get('complete') is True and value.get('content_version') == record['content_version']
                 and value.get('requirement_id') == record['requirement_id'] and set(actual) == expected
                 and len(value.get('verified', [])) == len(expected) and actual == current and bool(expected))
