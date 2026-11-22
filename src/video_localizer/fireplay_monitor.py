@@ -40,10 +40,17 @@ def policy(root=ROOT):
     return value
 
 
-def _matches(row, config):
+def _matches(row, config, *, include_excluded=False):
+    if not include_excluded and _exclusion(config, row.get('code'), row.get('id')):
+        return False
     if config['assignee_mode'] == 'hint_only':
         return True
     return bool(set(row.get('assigneeIds') or []) & set(config['query']['assignee_ids']))
+
+
+def _exclusion(config, code, requirement_id):
+    return next((row for row in config.get('excluded_requirements', [])
+                 if row['code'] == code and row['requirement_id'] == requirement_id), None)
 
 
 def _conditional_intake(row, config):
@@ -155,7 +162,8 @@ def _rows(spec, config, query):
         for row in response['items']:
             require(fireplay._uuid(row.get('id')) and row.get('assetType') == 'video',
                     'Visible video row needs its real requirement UUID')
-            require(_matches(row, config), 'Response includes a requirement outside the selected assignees')
+            require(_matches(row, config, include_excluded=True),
+                    'Response includes a requirement outside the selected assignees')
             require('status' not in query or row.get('status') in query['status'],
                     'Response includes a requirement outside the requested active statuses')
             require('requirement_ids' not in query or row['id'] in query['requirement_ids'],
@@ -217,6 +225,12 @@ def scan(spec=None, root=ROOT):
                              row=row, summary_version=_summary_version(row), last_seen_at=now)
                 state['requirements'][row['id']] = entry
                 continue
+            excluded = _exclusion(config, code, row['id'])
+            if excluded:
+                entry.update(state='excluded', reason=excluded['reason'], row=row,
+                             summary_version=_summary_version(row), last_seen_at=now, review_pending=False)
+                state['requirements'][row['id']] = entry
+                continue
             registered = (Path(root) / 'state/fireplay' / code / 'request.json').is_file()
             conditional = _conditional_intake(row, config)
             if registered:
@@ -232,7 +246,7 @@ def scan(spec=None, root=ROOT):
                     fresh.append(code)
                 elif not first:
                     entry.update(state='newly_visible_old', reason='Creation predates activation; no automatic historical backlog')
-            elif not _matches(previous['row'], config):
+            elif entry['state'] == 'excluded' or not _matches(previous['row'], config):
                 entry.update(state='needs_review', reason='new_assignment_in_scope')
                 fresh.append(code)
             elif (entry['state'] == 'not_eligible' and row.get('status') == 'in_progress'
@@ -312,6 +326,7 @@ def assess(code, spec, root=ROOT):
         waiting_assignment = conditional['assignee_id'] not in (row.get('assigneeIds') or [])
         if not waiting_assignment:
             explicit = conditional_authority
+    require(not _exclusion(config, code, row['id']), 'User withdrew this Fireplay requirement')
     require(_matches(row, config), 'Requirement is no longer assigned to the selected people')
     require(isinstance(decision.get('is_translation'), bool) and decision.get('reason')
             and decision.get('evidence'), 'Agent must judge translation scope with actual brief evidence')
@@ -607,7 +622,8 @@ def completion_watch_status(followup_items, root=ROOT):
     manifest_path = root / config['manifest']
     manifest = read_json(manifest_path) if manifest_path.exists() else {}
     active = manifest.get('status') == 'ACTIVE'
-    members = {m['code']: m for m in manifest.get('requirements', [])} if active else {}
+    members = ({m['code']: m for m in manifest.get('requirements', [])
+                if not _exclusion(monitor_policy, m['code'], m['requirement_id'])} if active else {})
     watched_codes = set(members)
     enrollment_start = manifest.get('enrollment_started_at') or manifest.get('created_at')
     # Human-created requests can acquire an owner between discovery scans. A

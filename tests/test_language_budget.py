@@ -105,7 +105,7 @@ class LanguageBudgetTests(unittest.TestCase):
             for name in result['members'].values():
                 run = self.root / 'runs' / name
                 self.assertFalse((run / 'inputs/budget.json').exists())
-                self.assertEqual(workflow.execution_limits(run)['max_paid_jobs_per_run'], 32)
+                self.assertEqual(workflow.execution_limits(run)['max_paid_jobs_per_run'], 52)
                 self.assertEqual(workflow.execution_limits(run)['max_estimated_credits_per_run'], 180)
         self.assertEqual(result['credit_limit'], 180)
 
@@ -165,5 +165,5 @@ class LanguageBudgetTests(unittest.TestCase):
         write_json(run / 'analysis/inventory.json', {'speech_segments': [{'character_id': f'role{i}'} for i in range(12)]})
         with patch.object(workflow, 'ROOT', self.root):
             limits = workflow.execution_limits(run)
-        self.assertEqual(limits['max_paid_jobs_per_run'], 38)
+        self.assertEqual(limits['max_paid_jobs_per_run'], 62)
         self.assertEqual(limits['max_estimated_credits_per_run'], 180)

@@ -197,9 +197,13 @@ def submit(run, relative, client=None, retry_failed=False, retry_upload=False):
     if retry_failed:
         # Follow the recorded chain instead of repeatedly returning a failed
         # first retry. Active/ambiguous attempts are reused, never duplicated.
-        for retry_attempt in range(1, min(2, execution_limits(run)['max_revision_rounds']) + 1):
+        retry_limits = execution_limits(run)
+        max_retries = min(4, retry_limits.get('max_provider_task_retries', retry_limits.get('max_revision_rounds', 2)))
+        for retry_attempt in range(1, max_retries + 1):
             failed = read_json(run / 'jobs' / (original + '.json'))
-            require((failed.get('state') in ('fail', 'failed') and failed.get('task_id') and failed.get('credits_consumed') == 0)
+            require((failed.get('state') in ('fail', 'failed') and failed.get('task_id')
+                     and failed.get('credits_consumed') == 0
+                     and str(failed.get('provider_code') or '') in ('', '500', '502', '503', '504', '524'))
                     or _authorized_rate_limit_retry(run, failed),
                     'Retry requires a known terminal zero-cost provider failure')
             digest = object_hash({'packet': data, 'retry_of': original})
@@ -250,9 +254,9 @@ def submit(run, relative, client=None, retry_failed=False, retry_upload=False):
             job['retry_of'] = original
             job['retry_attempt'] = retry_attempt
             job['retry_reason'] = ('Explicit user-authorized identical-packet retry after provider 429 rejection; '
-                                   'prior billing reservation retained, at most two rounds'
+                                   'prior billing reservation retained'
                                    if _authorized_rate_limit_retry(run, failed) else
-                                   'Explicit identical-packet retry after known zero-cost terminal provider failure; at most two rounds')
+                                   'Explicit identical-packet retry after known zero-cost terminal provider failure')
         write_json(path, job)
         try:
             job['credits_before'] = client.credits()

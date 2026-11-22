@@ -74,6 +74,27 @@ class MonitorTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'outside the selected assignees'):
             monitor.scan(self.pages([other]), self.root)
 
+    def test_withdrawn_owner_is_excluded_even_with_a_saved_watch_entry(self):
+        from video_localizer import fireplay
+        monitor.scan(self.pages(), self.root)
+        monitor.assess(CODE, self.decision(), self.root)
+        fireplay.chat(CODE, receipt={'threadId': THREAD, 'hostId': 'local', 'title': CODE}, root=self.root)
+        manifest = self.root / self.config['completion_watch']['manifest']
+        write_json(manifest, {'status': 'ACTIVE', 'requirements': [
+            {'code': CODE, 'requirement_id': RID, 'threadId': THREAD}]})
+        self.assertIn(CODE, [item['code'] for item in monitor.status(self.root)['publication_followups']])
+
+        self.config['excluded_requirements'] = [
+            {'code': CODE, 'requirement_id': RID, 'reason': 'Handled externally'}]
+        write_json(self.root / 'config/fireplay-monitor.json', self.config)
+        result = monitor.scan(self.pages(mode='active'), self.root)
+        self.assertEqual(self.state()['requirements'][RID]['state'], 'excluded')
+        self.assertEqual(result['publication_followups'], [])
+        self.assertEqual(result['completion_watch']['pending'], [])
+        self.assertEqual(fireplay._record(CODE, self.root)['chat']['threadId'], THREAD)
+        with self.assertRaisesRegex(WorkflowError, 'User withdrew'):
+            monitor.assess(CODE, self.decision(), self.root)
+
     def test_all_priorities_are_admitted_and_remain_queued_with_p0_first(self):
         from video_localizer import fireplay
         snapshots = []

@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT / 'src'))
-from video_localizer import bundles, fireplay, fireplay_submission, workflow
+from video_localizer import bundles, fireplay, fireplay_pinterest, fireplay_submission, workflow
 from video_localizer.common import WorkflowError, file_hash, read_json, utc_now, write_json
 
 CODE = 'APC-20261027-020'
@@ -31,6 +31,26 @@ def fixture():
 
 
 class FireplayTests(unittest.TestCase):
+    def test_pinterest_source_keeps_exact_pin_and_does_not_select_related_video(self):
+        pin = '123456789'
+        url = f'https://www.pinterest.com/pin/{pin}/'
+        self.snap['brief']['items'][0]['description'] = url
+        self.register()
+        self.assertEqual(self.record()['videos'][0]['source_url'], url)
+        clip = {'url': 'https://v1.pinimg.com/videos/test.mp4',
+                'duration': 3000, 'width': 720, 'height': 1280}
+        related_clip = {**clip, 'url': 'https://v1.pinimg.com/videos/related.mp4'}
+
+        def pin_response(entity_id, metadata):
+            return json.dumps({'__typename': 'PinResponse', 'data': {
+                'entityId': entity_id, 'videos': {'videoList': {'v720P': metadata}},
+            }})
+
+        related = pin_response('987654321', related_clip)
+        self.assertEqual(fireplay_pinterest.video_metadata(related + pin_response(pin, clip), pin), clip)
+        with self.assertRaises(WorkflowError):
+            fireplay_pinterest.video_metadata(related, pin)
+
     def setUp(self):
         directory = PROJECT / 'work/test-tmp'
         directory.mkdir(parents=True, exist_ok=True)
@@ -473,6 +493,62 @@ class FireplayTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'content changed'):
             self.register()
         self.assertEqual(self.record()['content_version'], before)
+
+    def test_funded_delivery_clarification_preserves_work_and_rejects_scope_change(self):
+        self.snap['brief']['items'][0]['description'] = '视频链接: ' + URL
+        self.register()
+        old = self.record()
+        old['budget'] = 'original-budget'
+        old['videos'][0].update(chat={'state': 'ready', 'threadId': THREAD}, members=['already-started'])
+        self.save(old)
+        brief = self.snap['brief']['items'][0]
+        brief['description'] = '视频链接: 直接翻译尺寸9:16.声音要清晰。' + URL
+        decision = {'authorization_ref': 'test:human', 'source_quote': 'Complete this translation',
+                    'review_delivery_clarification': True, 'reviewed_content_version': old['content_version'],
+                    'revision_reason': 'The same source and languages with clarified delivery specs'}
+        for change in (' source change', '换开头'):
+            with self.subTest(change=change):
+                brief['description'] += change
+                with self.assertRaises(WorkflowError):
+                    self.register(decision)
+                self.assertEqual(self.record(), old)
+                brief['description'] = brief['description'][:-len(change)]
+        return_path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        write_json(return_path, {'state': 'unknown'})
+        with self.assertRaisesRegex(WorkflowError, 'no existing return'):
+            self.register(decision)
+        return_path.unlink()
+        self.register(decision)
+        new = self.record()
+        self.assertEqual(new['budget'], old['budget'])
+        self.assertEqual(new['videos'], old['videos'])
+        self.assertEqual(new['delivery_specifications'], {'aspect_ratio': [9, 16], 'clear_audio': True})
+        self.assertEqual(read_json(self.root / new['revision_history'][0]['path']), old)
+
+    def test_funded_title_size_clarification_keeps_existing_source_and_owner(self):
+        brief = self.snap['brief']['items'][0]
+        brief['description'] = '只翻译文字和口播' + URL
+        self.register()
+        old = self.record()
+        old['budget'] = 'original-budget'
+        old['chat'] = {'state': 'ready', 'threadId': THREAD}
+        old['videos'][0]['members'] = ['already-started']
+        self.save(old)
+        decision = {'authorization_ref': 'test:human', 'source_quote': 'Complete this translation',
+                    'review_delivery_clarification': True, 'reviewed_content_version': old['content_version'],
+                    'revision_reason': 'Match the source title size'}
+        clarification = '\n标题文字要大一些，跟原视频中差不多'
+        brief['description'] = '只翻译文字和口播' + clarification + '，并替换片头' + URL
+        with self.assertRaisesRegex(WorkflowError, 'source-matched title size'):
+            self.register(decision)
+        self.assertEqual(self.record(), old)
+
+        brief['description'] = '只翻译文字和口播' + clarification + URL
+        self.assertEqual(self.register(decision)['delivery_specifications'], {'title_scale': 'match_source'})
+        new = self.record()
+        for key in ('budget', 'chat', 'videos', 'targets'):
+            self.assertEqual(new[key], old[key])
+        self.assertEqual(read_json(self.root / new['revision_history'][-1]['path']), old)
 
     def test_reviewed_unstarted_revision_preserves_old_sources_and_isolates_new_downloads(self):
         self.register()

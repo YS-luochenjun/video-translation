@@ -69,6 +69,6 @@ def require_remote_task(model, root=None, run=None, authorization=None):
             'TTS model authorization does not match this source/model')
     require(request['target_language'] in grant.get('target_languages', []),
             'TTS model authorization does not cover this language')
-    from .budgets import for_source
-    require(for_source(source, run.parent.parent)['id'] == grant.get('request_budget'),
+    from .budgets import for_run
+    require(for_run(run)['id'] == grant.get('request_budget'),
             'TTS model authorization does not match this request budget')

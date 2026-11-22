@@ -32,6 +32,11 @@ def _english_tag(value):
     return isinstance(value, str) and bool(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9 .&+'()/_-]*", value))
 
 
+def _product_tag(value):
+    value = value.strip() if isinstance(value, str) else ''
+    return value if _english_tag(value) and len(value) <= 80 and len(value.split()) <= 2 else ''
+
+
 def upload_metadata(record, spec, defaults, publication, attribution, source_name, locale):
     policy = publication['policy'].get('upload_metadata')
     product = publication['product_tag']
@@ -42,32 +47,39 @@ def upload_metadata(record, spec, defaults, publication, attribution, source_nam
     require(policy.get('version') == 1 and policy.get('authority') == 'user' and
             policy.get('authorization_ref'), 'Unsupported video upload metadata policy')
     metadata = spec.get('material_metadata') or {}
-    category, pid = metadata.get('category'), metadata.get('pid')
-    require(isinstance(category, str) and category.strip() and len(category) <= 80 and
-            not re.search(r'[\r\n\t]', category), 'Resolve the actual material category in material_metadata')
-    require(isinstance(pid, str) and re.fullmatch(r'[A-Za-z0-9]+', pid),
-            'Resolve the actual operator PID in material_metadata; preserve leading zeros')
-    require(isinstance(metadata.get('evidence_ref'), str) and metadata['evidence_ref'].strip(),
-            'Record the actual category/PID/designer mapping evidence_ref')
+    category = _optional_name_part(metadata.get('category'), r'[^\r\n\t]{1,80}')
+    pid = _optional_name_part(metadata.get('pid'), r'[A-Za-z0-9]+')
     dids = attribution.get('designer_dids') or ''
     designer_ids = attribution.get('designer_ids') or []
     if designer_ids:
         mapping = metadata.get('designer_did_map') or {}
-        require(isinstance(mapping, dict) and set(mapping) == set(designer_ids) and
-                all(isinstance(value, str) and re.fullmatch(r'D[0-9]+', value) for value in mapping.values()) and
-                len(set(mapping.values())) == len(mapping),
-                'Resolve real DID mappings for every selected designer; user IDs are not DIDs')
-        dids = '+'.join(dict.fromkeys(mapping[identifier] for identifier in designer_ids))
-    require(dids or attribution.get('unassigned') is True, 'Missing verified designer DID for video title')
-    tags = [locale, product, record['code']]
+        if (isinstance(mapping, dict) and set(mapping) == set(designer_ids)
+                and all(isinstance(value, str) and re.fullmatch(r'D[0-9][A-Za-z0-9]*', value)
+                        for value in mapping.values())
+                and len(set(mapping.values())) == len(mapping)):
+            dids = '+'.join(dict.fromkeys(mapping[identifier] for identifier in designer_ids))
+    if policy.get('missing_content') == 'omit_unresolved_name_fields_and_tags':
+        product = _product_tag(product)
+    tags = [locale, product, record.get('code')]
     if attribution.get('creation_type') == 'derivative':
         tags.append(defaults['designer_selection']['tag'])
-    require(all(_english_tag(tag) for tag in tags), 'All video upload tags must be English; translate the product tag')
+    tags = [tag.strip() for tag in tags if isinstance(tag, str) and tag.strip()]
+    require(all(_english_tag(tag) for tag in tags), 'All video upload tags must be English')
     fields = {'language': locale, 'category': category.strip(), 'pid': pid,
               'did': dids, 'requirement_code': source_name}
     return {'display_name': policy['separator'].join(fields[field] for field in policy['name_fields'] if fields[field]),
             'tags': list(dict.fromkeys(tags)), 'metadata_policy_version': policy['version'],
-            'metadata_evidence_ref': metadata['evidence_ref']}
+            **({'metadata_evidence_ref': metadata['evidence_ref']}
+               if isinstance(metadata.get('evidence_ref'), str) and metadata['evidence_ref'].strip()
+               else {})}
+
+
+def _optional_name_part(value, pattern):
+    """Return a verified title component, or an empty component when lookup had no result."""
+    if not isinstance(value, str):
+        return ''
+    value = value.strip()
+    return value if re.fullmatch(pattern, value) else ''
 
 
 def resolve_assignees(record, receipt, defaults):
@@ -109,6 +121,7 @@ def attribution_instruction():
             '用requirement_field_options_query(include_members=true,member_ids=真实assigneeIds)查询并完整翻页；'
             '空目录或部分目录不表示没有设计师，继续按真实组/当前执行人查询或查看Fireplay原生页面，不要求用户提供DID/用户ID。'
             '回传spec可附designer_receipt实际成员响应，项目按feishuUserId/username核对后采用用户已授权的真实ID归属路径；'
+            '标题DID、品类、PID或英文产品tag无法核验时省略该字段，继续回传；已核验的实际设计师归属仍写入。'
             '若已有真实DID映射也可使用命名归属。归属写入必须遵守实际接口的预览/执行及权限合同，读回designerIds和二创状态，不能把预览算成功。')
 
 
@@ -125,17 +138,25 @@ def publication(record, spec, defaults, sharing):
                   d.get('deptId') in (source_id, source_id[3:] if source_id.startswith('od-') else source_id)]
     require(len(candidates) == 1, 'Read current material_sharing_departments and resolve the exact requirement group')
     product = spec.get('product_tag')
-    if not product:
+    optional_product = (policy.get('upload_metadata', {}).get('missing_content') ==
+                        'omit_unresolved_name_fields_and_tags')
+    if product is None:
         for field in ('title', 'description'):
             text = record['snapshot']['brief'].get(field) or ''
             if '翻译' in text:
-                candidate = text.split('翻译', 1)[0].strip()
-                if candidate and not re.search(r'https?://|[【\[\n]', candidate):
-                    product = candidate
+                product = _product_tag(text.split('翻译', 1)[0])
+                if product:
                     break
-    require(isinstance(product, str) and 1 <= len(product.strip().split()) <= 2 and
-            len(product.strip()) <= 80 and not re.search(r'https?://|[\n\r]', product),
-            'Agent must derive a one- or two-word product tag from the brief or actual video')
+    if product is None:
+        product = ''
+    if optional_product:
+        product = _product_tag(product)
+    else:
+        require(isinstance(product, str) and
+                (not product.strip() or
+                 (1 <= len(product.strip().split()) <= 2 and
+                  len(product.strip()) <= 80 and not re.search(r'https?://|[\n\r]', product))),
+                'Product tag must be one- or two-word English tag when available')
     return {'policy': policy, 'shared_dept_id': candidates[0]['deptId'], 'dept_name': candidates[0]['deptName'],
             'product_tag': product.strip(), 'sharing_receipt_sha256': object_hash(sharing),
             'youtube_status': 'requested_not_verified', 'instruction': defaults.get('submission_instruction', '')}

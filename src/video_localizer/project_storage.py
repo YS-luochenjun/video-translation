@@ -300,14 +300,29 @@ def execute(root, expected, reset=False, now=None):
 
 def auto(root):
     root = Path(root).resolve()
-    if not authorized(root) or _locks(root):
+    lifecycle_lock = root / 'state/storage-lifecycle-check.lock'
+    storage_lock = root / 'state/project-storage.lock'
+    if not authorized(root) or lifecycle_lock.exists() or storage_lock.exists() or _locks(root):
         return {'state':'deferred_or_disabled'}
-    path = root / 'state/storage-lifecycle-latest.json'
-    old = read_json(path) if path.exists() else {}
-    maintenance = read_json(root / 'config/maintenance.json')
-    if time.time()-old.get('checked_unix',0) < maintenance.get('lifecycle_check_seconds',3600):
-        return {'state':'not_due'}
-    plan = preview(root)
-    result = execute(root,plan['fingerprint']) if plan['selected'] or plan['unavailable_entries'] else {'state':'no_eligible_data','pressure':plan['pressure']}
-    write_json(path,{'checked_unix':time.time(),**result})
-    return result
+    try:
+        # Several chats can finish a stage together. Let one run the potentially
+        # expensive preview, and check for resumed production before execution.
+        with lock(lifecycle_lock):
+            path = root / 'state/storage-lifecycle-latest.json'
+            old = read_json(path) if path.exists() else {}
+            maintenance = read_json(root / 'config/maintenance.json')
+            if time.time() - old.get('checked_unix', 0) < maintenance.get('lifecycle_check_seconds', 3600):
+                return {'state':'not_due'}
+            if storage_lock.exists() or _locks(root):
+                return {'state':'deferred_or_disabled'}
+            plan = preview(root)
+            if storage_lock.exists() or _locks(root):
+                return {'state':'deferred_or_disabled'}
+            result = (execute(root, plan['fingerprint']) if plan['selected'] or plan['unavailable_entries']
+                      else {'state':'no_eligible_data','pressure':plan['pressure']})
+            write_json(path, {'checked_unix':time.time(), **result})
+            return result
+    except WorkflowError as exc:
+        if isinstance(exc.__cause__, FileExistsError) and exc.__cause__.filename == str(lifecycle_lock):
+            return {'state':'deferred_or_disabled'}
+        raise

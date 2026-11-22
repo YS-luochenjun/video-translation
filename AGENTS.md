@@ -43,7 +43,7 @@
 
 用户最新固定提交：**入素材库 → 共享需求组并请求YouTube自动上传 → 英文语言/产品/需求编号tag → 按当前上传命名规则命名 → 绑定当前需求**。执行人中除罗晨钧、邹彬外的人员填为设计师，标记二创并追加英文derivative tag；Agent自行查询Fireplay真实成员，已核验用户ID可直接采用，不向用户索要DID；无其他人员才可留空，见[设计师归属规则](knowledge/rules/fireplay-designer-attribution-v2.md)。不改需求状态或投放。config/fireplay-youtube-routing.json采用platform_managed：普通MCP按平台路由，不强制账号截图或任务组核验，不因后台组显示卡住合格成片。仍核验真实入库、共享、名称、标签及绑定，unknown恢复原请求；真实上传超时按持续授权有界重传并保留原记录，已知资源/素材复用ID、不重入库。有限预算/返工内做到最好的正式完整outputs可带普通不合格提交；fireplay-publication-review记录best_available及实际影响，内部revise、评分和普通瑕疵数量不单独阻断。大面积撕裂、无法观看、严重主体损坏、漏译、缺必需配音或有效质量异议仍阻断对应版本，不改写内部质量。partial:true仅作中间批次，保留pending_locales并持续补交；[全部原片及全部目标语种](knowledge/rules/fireplay-complete-delivery-v3.md)真实入库/共享/标签/绑定核验并通过fireplay-completion-check → fireplay-close后才可整项结案，不能上传一半就结束。保留旧操作/绑定历史。全项受理绑定后经验收尾，YouTube进度/排队/限额/向量化交平台；账号或组额度不足、暂未创建YouTube任务也不阻塞结案，不等待额度、不催办；不为缺链接重传、替换或删除；保留旧异常，不冒称已修正或改整个账号组。完整政策见config/fireplay-publication.json及[提交知识](knowledge/rules/fireplay-completion-recovery-v4.md)。
 
-后续视频上传的命名/tag以用户2026-11-18规则及`config/fireplay-intake.json.publication.upload_metadata`为准：素材名（YouTube标题）为“语言 品类 PID DID 需求编号”，空格分隔，日期与序号直接使用需求编号；多原片在末尾编号后加-N。tag全部英文，含语言、1至2词产品、完整需求编号；二创tag改用derivative，归属及二创属性保留。当前命名和英文标签规则详见[上传命名与标签](agent/workflows/fireplay-intake.md#上传命名与标签)。Agent查询真实PID/DID并保留来源，缺映射不编造；确无设计师才省略DID。已发起外部操作的冻结回传批次和历史素材按原身份恢复，不因本次规则重传或改名；仅适用于视频。
+后续视频上传的命名/tag以用户2026-11-18规则及`config/fireplay-intake.json.publication.upload_metadata`为准：素材名（YouTube标题）为“语言 品类 PID DID 需求编号”，空格分隔，日期与序号直接使用需求编号；多原片在末尾编号后加-N。tag全部英文，含语言、1至2词产品、完整需求编号；二创tag改用derivative，归属及二创属性保留。当前命名和英文标签规则详见[上传命名与标签](agent/workflows/fireplay-intake.md#上传命名与标签)。Agent查询真实品类、PID、DID和产品标签并保留来源。查不到的命名字段或产品标签留空，继续上传。已核验的实际设计师归属照常写入。已发起外部操作的冻结回传批次和历史素材按原身份恢复，不因本次规则重传或改名；仅适用于视频。
 
 ## 数据、知识与维护
 

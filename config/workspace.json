@@ -10,5 +10,6 @@
   "request_budget_policy": "per_target_language",
   "require_target_audio_for_speech": true,
   "max_revision_rounds": 2,
-  "note": "New first/reuse request allowance is 60 credits per distinct normalized target language in config/budget-policy.json. The allowance is a flexible shared pool for all declared languages, shared preparation, models and retries. Historical ledgers retain their limits, spending and unknown reservations. Clips and duplicate aliases do not create allowance. Finite task slots follow original source segments/known roles and two repair rounds per unit."
+  "note": "New requests share 60 credits per distinct normalized target language. Historical limits, spending and unknown reservations are preserved. Provider retries and content revisions have separate limits.",
+  "max_provider_task_retries": 4
 }

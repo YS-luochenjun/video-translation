@@ -27,32 +27,47 @@ class VideoUploadMetadataTests(unittest.TestCase):
 
     def test_verified_user_ids_require_actual_did_mapping(self):
         self.attribution = {'designer_ids': ['user-one', 'user-two'], 'creation_type': 'derivative'}
-        with self.assertRaisesRegex(WorkflowError, 'real DID mappings'):
-            self.metadata()
+        result = self.metadata()
+        self.assertNotIn('user-one', result['display_name'])
+        self.assertNotIn('user-two', result['display_name'])
+        self.assertIn('derivative', result['tags'])
         self.spec['material_metadata']['designer_did_map'] = {'user-one': 'D288', 'user-two': 'D299'}
         self.assertIn(' D288+D299 ', self.metadata()['display_name'])
         self.spec['material_metadata']['designer_did_map']['user-one'] = 'user-one'
-        with self.assertRaises(WorkflowError):
-            self.metadata()
+        self.assertNotIn('user-one', self.metadata()['display_name'])
 
     def test_actual_unassigned_material_omits_did(self):
         self.attribution = {'unassigned': True}
         self.assertEqual(self.metadata()['display_name'], f'es GAME 07 {fixtures.CODE}')
         self.assertNotIn('derivative', self.metadata()['tags'])
 
-    def test_missing_metadata_is_not_invented(self):
+    def test_missing_metadata_is_omitted_without_blocking_upload(self):
         for field in ('category', 'pid', 'evidence_ref'):
             with self.subTest(field=field):
                 spec = copy.deepcopy(self.spec)
                 del spec['material_metadata'][field]
-                with self.assertRaises(WorkflowError):
-                    upload_metadata(self.record, spec, self.defaults, self.publication,
-                                    self.attribution, fixtures.CODE, 'es')
+                result = upload_metadata(self.record, spec, self.defaults, self.publication,
+                                         self.attribution, fixtures.CODE, 'es')
+                self.assertIn('es', result['display_name'])
+                if field == 'category':
+                    self.assertNotIn(' GAME ', f' {result["display_name"]} ')
+                elif field == 'pid':
+                    self.assertNotIn(' 07 ', f' {result["display_name"]} ')
+                else:
+                    self.assertIn('GAME', result['display_name'])
+                    self.assertIn('07', result['display_name'])
 
-    def test_non_english_product_is_rejected(self):
-        self.publication['product_tag'] = '糖果消除'
-        with self.assertRaisesRegex(WorkflowError, 'English'):
-            self.metadata()
+    def test_missing_product_tag_is_omitted_without_blocking_upload(self):
+        publication = {'policy': self.defaults['publication'], 'product_tag': ''}
+        result = upload_metadata(self.record, self.spec, self.defaults, publication,
+                                 self.attribution, fixtures.CODE, 'es')
+        self.assertEqual(result['tags'], ['es', fixtures.CODE, 'derivative'])
+
+    def test_unusable_optional_product_tag_is_omitted(self):
+        for product in ('糖果消除', 'Not A Product Tag', 'https://example.invalid'):
+            with self.subTest(product=product):
+                self.publication['product_tag'] = product
+                self.assertEqual(self.metadata()['tags'], ['es', fixtures.CODE, 'derivative'])
 
     def test_readback_requires_code_and_rejects_non_english_extras(self):
         expected = self.metadata()['tags']
@@ -83,14 +98,15 @@ class VideoUploadMetadataIntegrationTests(unittest.TestCase):
         self.enable_current_policy()
         self.assertEqual(fireplay.prepare_return(fixtures.CODE, spec, self.root), frozen)
 
-    def test_unstarted_batch_needs_current_mapping_before_any_write(self):
+    def test_unstarted_batch_allows_missing_mapping_before_any_write(self):
         spec = self.returned_setup()
-        path = self.root / 'state/fireplay' / fixtures.CODE / 'return-1.json'
-        frozen = read_json(path)
         self.enable_current_policy()
-        with self.assertRaisesRegex(WorkflowError, 'actual material category'):
-            fireplay.prepare_return(fixtures.CODE, spec, self.root)
-        self.assertEqual(read_json(path), frozen)
+        spec['material_metadata'] = {}
+        spec['product_tag'] = '没有可核验的英文产品名'
+        result = fireplay.prepare_return(fixtures.CODE, spec, self.root)
+        self.assertEqual(result['packages'][0]['name'], f'es {fixtures.CODE}')
+        self.assertEqual(result['packages'][0]['tags'], ['es', fixtures.CODE])
+        self.assertEqual(fireplay.dispatch(fixtures.CODE, root=self.root)['operation']['id'], 'upload-1')
 
     def test_new_batch_dispatches_current_title_and_requirement_tag(self):
         spec = self.returned_setup()

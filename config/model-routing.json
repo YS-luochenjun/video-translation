@@ -9,6 +9,17 @@
   "audio_analysis": "gemini-3-8-flash-openai",
   "separation": "uvr-inst-hq3",
   "tts": "google/gemini-2-5-pro-tts",
+  "tts_recovery": {
+    "fallback_models": [
+      "google/gemini-3-1-flash-tts",
+      "google/gemini-3-8-flash-lite-tts"
+    ],
+    "selection": "Small live probes confirmed both alternatives are callable. Use a source, locale and request-budget bound grant for a replacement after a confirmed zero-credit transient failure. Keep any unresolved request and its reservation.",
+    "authority": "user",
+    "authorization_ref": "current-user-kie-model-stability-probe-20261119",
+    "source_quote": "如果是换模型可以解决，你可以去测试相关的模型，哪一些连接稳定，哪一些不容易断联",
+    "evidence": "work/fireplay-monitor/kie-model-stability-20261119.json"
+  },
   "video": "wan/3-0-video",
   "video_authority": {
     "authority": "user",

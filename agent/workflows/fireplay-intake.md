@@ -21,7 +21,11 @@ config/fireplay-intake.json.continuous_execution保存用户持续执行授权�
 
 正文、原片、语种、数量等内容版本变化时保留原run/账本，显式审查修订；状态、优先级、更新时间等元数据不触发重做。已完成、有人制作、缺权限/信息各自保留真实状态，其他需求继续。
 
+正文提供公开 Pinterest Pin 时，`fireplay-source CODE --download` 按精确 Pin ID 解析页面中该帖的视频，保存来源证据，并核对下载文件的时长、尺寸和哈希。页面未给出唯一可验证的视频时保留原片缺口。
+
 已开工、尚无任何return操作的需求，仅新增“只翻译文案的口播”且其他业务正文、原片、逐片语种及数量完全不变时，可用`review_scope_narrowing:true`、`scope:ad_narration_only`、精确`reviewed_content_version`和`scope_revision_authority`走受限修订。授权文件须绑定真实人类同意、需求UUID、新旧版本、原账本/额度、源哈希和全部语种；平台正文不充当授权。入口归档旧request并保留原聊天、run、模型、未知费用与预算，记录画面保留、仅广告旁白翻译；其他已开工正文修订仍阻断。
+
+已开工且尚未准备任何回传时，若正文只补充「尺寸9:16」「声音清晰」或「标题文字要大一些，跟原视频中差不多」，用 `fireplay CODE --snapshot FILE --decision FILE` 登记。在决策文件填写 `review_delivery_clarification:true`、精确 `reviewed_content_version` 和 `revision_reason`，保留既有授权来源。要求需求身份、其他文案、原片、语种、数量及既有授权范围一致。沿原聊天、run 和预算继续。按新增要求核对成片尺寸、与成片哈希绑定的音频审核，或在现有发布自审中对照原片和成片的标题视觉大小。已符合新增要求的成片可直接复用。
 
 已在制作且部分交付的需求后来变为done时，用户明确要求继续补交，可在decision登记`continue_pending_delivery:true`与当前`continuation_content_version`，并记录该续作的真实authorization_ref/source_quote。仅接受内容版本未变、已有账本和制作成员、原return仍有pending_locales且有绑定权限的续作；不重开制作、不修改平台状态、不覆盖旧回执。普通巡检仍阻止自动重做done需求。
 
@@ -49,14 +53,14 @@ config/fireplay-intake.json.continuous_execution保存用户持续执行授权�
 
 ## 上传命名与标签
 
-用户2026-11-18要求后续视频上传采用截图规则，并明确“修改到项目中”。唯一配置源为`config/fireplay-intake.json.publication.upload_metadata`；此规则替代上文及旧知识中的“编号-语言”名称和中文二创tag要求，设计师归属与二创属性继续保留。
+用户2026-11-18要求后续视频上传采用截图规则，并明确“修改到项目中”。唯一配置源为`config/fireplay-intake.json.publication.upload_metadata`；此规则替代上文及旧知识中的“编号-语言”名称和中文二创tag要求，设计师归属与二创属性继续保留。2026-11-19补充，品类、PID、DID和产品tag等内容如果无法从真实回执中取得，保留为空并继续上传，不能因为元数据查不到而停住制作或提交；语言tag仍以实际目标语种为准，所有已写入的tag必须为英文。
 
 - 素材名作为YouTube标题，按`语言 品类 PID DID 需求编号`用空格分隔。语言采用规范locale；“年月日-编号”直接使用完整需求编号，不另拼日期。多原片仅在末尾需求编号后加`-1`、`-2`区分。
-- tag分别包含规范语言、1至2词英文产品名、完整需求编号；全部英文。二创额外使用`derivative`标签，平台创作类型仍为`derivative`。需求编号tag始终为原需求编号，不带多原片后缀。
-- Agent从真实需求/成员/平台映射取得品类、运营PID和所有设计师DID，保存查询证据；PID保持字符串及前导零，不从需求组名或登录身份猜测，不把飞书用户ID当DID。缺映射时继续查询，不能编造占位ID。确无设计师时才省略DID字段，不填D0/NA。
-- `fireplay-return`规格增加`material_metadata:{category,pid,evidence_ref}`。`evidence_ref`指向实际品类/PID/设计师映射查询记录；采用`verified_user_id`归属时，另附`designer_did_map:{真实设计师用户ID:真实DID}`，完整覆盖本批设计师。已有`attribution.designer_dids`经核验时直接复用。单一DID或多个`D288+D299`显示于名称DID字段；平台入库解析使用的`_D288_#`后缀仍仅作归属标注，不属于最终展示标题。
+- tag包含规范语言和完整需求编号。有可核验的1至2词英文产品名时添加产品tag，没有合适的英文值时省略。二创额外使用`derivative`标签，平台创作类型仍为`derivative`。需求编号tag始终为原需求编号，不带多原片后缀。
+- Agent从真实需求/成员/平台映射取得品类、运营PID和所有设计师DID，保存查询证据；PID保持字符串及前导零，不从需求组名或登录身份猜测，不把飞书用户ID当DID。缺映射时继续查询，仍无法取得时将对应标题字段和tag留空，不填D0/NA，也不阻断上传。
+- `fireplay-return`规格可附`material_metadata:{category,pid,evidence_ref}`。能查到的品类、PID、DID和产品tag写入并保留实际证据；查不到的字段留空并从标题或tag中省略。采用`verified_user_id`归属时，附`designer_did_map:{真实设计师用户ID:真实DID}`，只有完整且格式有效的映射才写入标题DID字段。已有`attribution.designer_dids`经核验时直接复用。单一DID或多个`D288+D299`显示于名称DID字段；平台入库解析使用的`_D288_#`后缀仍仅作归属标注，不属于最终展示标题。
 - 例如已核验品类GAME、PID07、DID D288时，西语名称为`es GAME 07 D288 SHE-20261118-039-1`，tags为`es`、`Candy Crush`、`SHE-20261118-039`、`derivative`。此例的身份值仅为格式演示，不提供实际归属依据。
-- `material_detail`逐项读回名称和全部标签；缺需求编号tag或仍有中文tag时不得视为核验成功。已发起外部操作的冻结return批次继续使用原名称、标签与操作身份恢复，包含unknown和部分回传；不为本次规则变更重命名历史素材或重复上传。新批次及尚未发起任何外部操作的批次在准备回传时采用当前规则，图片项目不受影响。
+- `material_detail`读回标题及本批已登记的全部标签。省略的可选字段不参与核验。已发起外部操作的冻结return批次继续使用原名称、标签与操作身份恢复，包含unknown和部分回传；不为本次规则变更重命名历史素材或重复上传。新批次及尚未发起任何外部操作的批次在准备回传时采用当前规则，图片项目不受影响。
 
 ## 平台路由与结案
 

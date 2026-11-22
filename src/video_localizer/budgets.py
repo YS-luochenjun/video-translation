@@ -82,8 +82,8 @@ def run_allowance(run):
     return request_allowance(inside(run, read_json(run / 'run.json')['source']), [request['target_language']], root)
 
 
-def job_allowance(run, allowance, segment_seconds):
-    """Finite planning guard; money and two repair rounds remain separate gates."""
+def job_allowance(run, allowance, segment_seconds, provider_retries=2):
+    """Reserve finite task slots separately from the credit and revision limits."""
     basis = allowance.get('budget_basis', {})
     require(basis.get('policy') in ('source_duration', 'per_target_language'), 'Job allowance needs its original source basis')
     units = math.ceil(basis['source_duration_seconds'] / require_number(segment_seconds, 'segment seconds', minimum=.001))
@@ -92,7 +92,7 @@ def job_allowance(run, allowance, segment_seconds):
         roles = {line['character_id'] for line in read_json(inventory).get('speech_segments', [])
                  if line.get('character_id') and line['character_id'] != 'unknown'}
         units = max(units, len(roles))
-    return max(2, units * 3 + 2)  # Initial task + two repairs per unit, plus audio review slots.
+    return units * (1 + provider_retries) + 2
 
 
 @contextmanager
@@ -255,6 +255,18 @@ def for_source(source_sha, root=ROOT):
     record = read_json(_record(root, index['sources'][source_sha]))
     require(record['state'] == 'open', 'Request budget is closed')
     return record
+
+
+def for_run(run):
+    """Resolve a run's request budget, including requirement-scoped budgets."""
+    run = Path(run).resolve()
+    root = run.parent.parent
+    index = _index(root)
+    if run.name in index.get('runs', {}):
+        return bind(run)
+    meta = read_json(run / 'run.json')
+    source_sha = meta.get('source_sha256') or _run_source(run)
+    return for_source(source_sha, root)
 
 
 def attach_source(scope, source, authorization_ref, root=ROOT):

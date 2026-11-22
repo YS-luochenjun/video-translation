@@ -5,6 +5,7 @@ import ipaddress
 import json
 import mimetypes
 import socket
+import time
 import uuid
 from pathlib import Path
 from urllib.error import HTTPError, URLError
@@ -44,26 +45,71 @@ class KieClient:
         from .budgets import authorize_request
         authorize_request(url, body)
         data = body if isinstance(body, bytes) else json.dumps(body).encode() if body is not None else None
-        request = Request(url, data=data, headers={"Authorization": f"Bearer {self.key}",
-                          "Content-Type": content_type, "User-Agent": "AdLocalizer/0.1"})
+        safe_read = body is None
+        max_attempts = 3 if safe_read else 1
+        transient_http = {408, 425, 429, 500, 502, 503, 504, 524}
+
+        for attempt in range(1, max_attempts + 1):
+            request = Request(url, data=data, headers={"Authorization": f"Bearer {self.key}",
+                              "Content-Type": content_type, "User-Agent": "AdLocalizer/0.1"})
+            try:
+                with self.opener.open(request, timeout=min(timeout, 12) if safe_read else timeout) as response:
+                    result = json.load(response)
+                    if not isinstance(result, dict):
+                        raise ValueError("Expected a KIE response object")
+            except HTTPError as exc:
+                provider_response = self._error_response(exc)
+                if safe_read and exc.code in transient_http and attempt < max_attempts:
+                    time.sleep(0.5 * (2 ** (attempt - 1)))
+                    continue
+                detail = self._error_detail(provider_response, exc.reason).replace(self.key, '[REDACTED]')
+                raise ApiError(
+                    f"KIE HTTP {exc.code}: {detail[:300]}",
+                    ambiguous=not safe_read and (exc.code == 408 or exc.code >= 500),
+                    provider_response=provider_response) from exc
+            except (URLError, TimeoutError, OSError, ValueError) as exc:
+                if safe_read and attempt < max_attempts:
+                    time.sleep(0.5 * (2 ** (attempt - 1)))
+                    continue
+                raise ApiError(
+                    f"KIE transport/response failure ({type(exc).__name__}); inspect provider log before resubmitting",
+                    ambiguous=body is not None) from exc
+
+            if ((envelope or "code" in result) and result.get("code") != 200) or result.get("success") is False:
+                code = result.get('code')
+                if safe_read and str(code).isdigit() and int(code) in transient_http and attempt < max_attempts:
+                    time.sleep(0.5 * (2 ** (attempt - 1)))
+                    continue
+                safe_response = self._redact(result)
+                detail = self._error_detail(safe_response, "request rejected")
+                uncertain = not safe_read and str(code).isdigit() and (int(code) == 408 or int(code) >= 500)
+                raise ApiError(f"KIE code {code}: {detail[:300]}", ambiguous=uncertain,
+                               provider_response=safe_response)
+            if not envelope:
+                return result.get("data") if "choices" not in result and isinstance(result.get("data"), dict) else result
+            return result.get("data")
+
+    def _redact(self, value):
+        if value is None:
+            return None
         try:
-            with self.opener.open(request, timeout=timeout) as response:
-                result = json.load(response)
-        except HTTPError as exc:
-            raise ApiError(f"KIE HTTP {exc.code}", ambiguous=body is not None and exc.code >= 500) from exc
-        except (URLError, TimeoutError, OSError, ValueError) as exc:
-            raise ApiError(f"KIE transport/response failure ({type(exc).__name__}); inspect provider log before resubmitting",
-                           ambiguous=body is not None) from exc
-        if ((envelope or "code" in result) and result.get("code") != 200) or result.get("success") is False:
-            detail = str(result.get("msg", "request rejected")).replace(self.key, "[REDACTED]")
-            safe_response = json.loads(json.dumps(result).replace(self.key, '[REDACTED]'))
-            code = result.get('code')
-            uncertain = body is not None and str(code).isdigit() and int(code) >= 500
-            raise ApiError(f"KIE code {code}: {detail[:300]}", ambiguous=uncertain,
-                           provider_response=safe_response)
-        if not envelope:
-            return result.get("data") if "choices" not in result and isinstance(result.get("data"), dict) else result
-        return result.get("data")
+            return json.loads(json.dumps(value).replace(self.key, '[REDACTED]'))
+        except (TypeError, ValueError):
+            return {'raw': str(value).replace(self.key, '[REDACTED]')}
+
+    def _error_response(self, error):
+        try:
+            raw = error.read()
+            parsed = json.loads(raw.decode('utf-8', 'replace') if isinstance(raw, bytes) else raw)
+            return self._redact(parsed)
+        except (AttributeError, OSError, TypeError, ValueError):
+            return self._redact({'http_status': error.code, 'reason': str(error.reason)})
+
+    @staticmethod
+    def _error_detail(response, fallback):
+        if isinstance(response, dict):
+            return str(response.get('msg') or response.get('message') or response.get('error') or fallback)
+        return str(fallback)
 
     @timed('kie.analyze_audio')
     def analyze_audio(self, audio_url, prompt, model=None, *, run=None, model_authorization=None):
@@ -132,7 +178,7 @@ def public_url(url):
 
 
 @timed('kie.download')
-def download(url, destination, max_bytes=500 * 1024 * 1024):
+def download(url, destination, max_bytes=500 * 1024 * 1024, *, fixed_https_origin=None):
     """Unauthenticated media fetch; validate each redirect and never forward the API key."""
     opener = build_opener(NoRedirect)
     destination = Path(destination)
@@ -140,12 +186,17 @@ def download(url, destination, max_bytes=500 * 1024 * 1024):
     temporary = destination.with_suffix(destination.suffix + ".part")
     try:
         for _ in range(4):
-            public_url(url)
+            if fixed_https_origin:
+                parsed = urlparse(url)
+                require(parsed.scheme == 'https' and parsed.netloc == fixed_https_origin,
+                        'Media URL does not match the fixed HTTPS origin')
+            else:
+                public_url(url)
             try:
                 response = opener.open(Request(url, headers={"User-Agent": "AdLocalizer/0.1"}), timeout=60)
                 break
             except HTTPError as exc:
-                if exc.code not in (301, 302, 303, 307, 308):
+                if fixed_https_origin or exc.code not in (301, 302, 303, 307, 308):
                     raise WorkflowError(f"Media download HTTP {exc.code}") from exc
                 url = urljoin(url, exc.headers["Location"])
         else:

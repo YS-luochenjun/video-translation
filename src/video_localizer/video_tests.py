@@ -22,8 +22,8 @@ def authorize(model, run, authorization):
     require(isinstance(models, list) and models and set(models).issubset(MODELS) and model in models,
             'Video test model is outside the explicit comparison scope')
     require(request['target_language'] in grant.get('target_languages', []), 'Video test language binding changed')
-    from .budgets import for_source
-    require(for_source(source, run.parent.parent)['id'] == grant.get('request_budget'),
+    from .budgets import for_run
+    require(for_run(run)['id'] == grant.get('request_budget'),
             'Video test authorization does not match this request budget')
     require_number(grant.get('max_estimated_credits'), 'comparison credit limit', minimum=.01)
     require(grant.get('max_submissions_per_model') == 1, 'Comparison authorizes one initial submission per model')

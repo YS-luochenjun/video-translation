@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 66,
-    "no_adoption_record": 811,
+    "no_adoption_record": 812,
     "synthetic_only": 4
   },
   "entries": [
@@ -10110,6 +10110,21 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "MOG-20261122-002-10-encoded-letter-repeat",
+      "path": "knowledge/candidates/MOG-20261122-002-10-encoded-letter-repeat.json",
+      "original_sha256": "446ce305bb0fd6237957166522d263e61e2c791e5022046417dbe6d8d6a2fd11",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "vi",
+        "source_sha256": "d18d4e30b27ef606e73d8673fba6177a34800f6ae7ecf98323b1f6975aa2f80b"
+      },
+      "historical_outcome": "delivered_with_issues",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "ab30ebc704a4c9208e6150249160536db89d6dd62a6498be6812266586a98d63"
     },
     {
       "id": "SHE-20261026-054-01-dd6b88a60f",

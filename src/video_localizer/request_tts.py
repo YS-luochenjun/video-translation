@@ -30,8 +30,8 @@ def validate(run, relative):
             and grant.get('model') == MODEL and grant.get('source_sha256') == source
             and request['target_language'] in grant.get('target_languages', []),
             'Microsoft speech needs explicit source/model/language-bound human authorization')
-    from .budgets import for_source
-    require(for_source(source, run.parent.parent)['id'] == grant.get('request_budget'),
+    from .budgets import for_run
+    require(for_run(run)['id'] == grant.get('request_budget'),
             'Speech authorization belongs to another request budget')
     inventory = read_json(run / 'analysis/inventory.json')
     lines = spec.get('lines', [])

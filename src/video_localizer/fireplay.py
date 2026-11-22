@@ -14,6 +14,7 @@ from uuid import UUID
 
 from .common import (ROOT, WorkflowError, file_hash, inside, lock, object_hash,
                      read_json, require, utc_now, write_json)
+from .fireplay_pinterest import pin_id
 
 
 def payload(value):
@@ -305,8 +306,9 @@ def register(code, spec, decision=None, root=ROOT):
     for url in urls:
         url = url.rstrip('.,;，。；')
         video_id = youtube_id(url)
-        key = video_id or url
-        if key not in seen and (video_id or urlsplit(url).path.lower().endswith(('.mp4', '.mov', '.webm'))):
+        pinterest_id = pin_id(url)
+        key = video_id or (f'pinterest:{pinterest_id}' if pinterest_id else url)
+        if key not in seen and (video_id or pinterest_id or urlsplit(url).path.lower().endswith(('.mp4', '.mov', '.webm'))):
             sources.append({'source_url': url, 'youtube_video_id': video_id})
             seen.add(key)
     if not sources:
@@ -380,6 +382,10 @@ def register(code, spec, decision=None, root=ROOT):
         elif old and old['content_version'] != snap['content_version'] and decision.get('review_locale_addition'):
             from .fireplay_locale_revision import accept
             old = accept(old, snap, sources, decision, targets, path.parent, Path(root))
+        elif (old and old['content_version'] != snap['content_version']
+                and decision.get('review_delivery_clarification') is True):
+            from .fireplay_revision import accept_delivery_clarification
+            old = accept_delivery_clarification(old, snap, sources, decision, targets, path.parent, Path(root))
         elif old and old['content_version'] != snap['content_version'] and decision.get('review_intake_metadata_only'):
             before, after = old.get('snapshot', {}).get('brief', {}), snap['brief']
             keys = ('id', 'code', 'deptId', 'title', 'description', 'refText', 'assetType', 'channels')
@@ -410,7 +416,7 @@ def register(code, spec, decision=None, root=ROOT):
             old_sources = {v.get('youtube_video_id') or v['source_url']: v for v in old['videos']}
             for source in sources:
                 previous_source = old_sources.get(source.get('youtube_video_id') or source['source_url'], {})
-                for key in ('resolved', 'source', 'source_detail', 'source_metadata_review'):
+                for key in ('resolved', 'source', 'source_detail', 'source_metadata_review', 'pin_media'):
                     if previous_source.get(key):
                         source[key] = previous_source[key]
             history = [*old.get('revision_history', []), {
@@ -424,6 +430,10 @@ def register(code, spec, decision=None, root=ROOT):
         if old:
             require(old['content_version'] == snap['content_version'],
                     'Requirement content changed; preserve the original request/runs/budget and review the revision explicitly')
+            if (not old['videos'] and sources and all(pin_id(v['source_url']) for v in sources)
+                    and _unstarted(old, path.parent)):
+                # Newly supported Pin URLs can unblock unfunded requests with unchanged briefs.
+                old['videos'] = sources
             require([v['source_url'] for v in old['videos']] == [v['source_url'] for v in sources],
                     'Interpretation changed; explicit revision review required')
             if old['targets'] != targets:
@@ -480,11 +490,23 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
             if result.get('material_detail'):
                 video['source_detail'] = result['material_detail']
             write_json(_folder(code, root) / f'source-{index}-receipt.json', result)
-        url = video.get('resolved', {}).get('video_r2_url') or (video['source_url'] if not video['youtube_video_id'] else None)
+        pin = pin_id(video['source_url'])
+        if pin and not download:
+            return {'state': 'ready_for_source_download', 'source_url': video['source_url'],
+                    'pinterest_pin_id': pin, 'external_write': False}
+        if pin and not video.get('pin_media'):
+            from .fireplay_pinterest import resolve
+            video['pin_media'] = resolve(video['source_url'])
+            write_json(_folder(code, root) / f'source-{index}-pin-evidence.json', video['pin_media'])
+            write_json(path, record)
+        url = (video.get('resolved', {}).get('video_r2_url')
+               or video.get('pin_media', {}).get('video_url')
+               or (video['source_url'] if not video['youtube_video_id'] else None))
         if not url:
             return {'state': 'needs_source_lookup', 'tool': 'material_youtube_original_lookup',
                     'arguments': {'youtube_urls': [video['source_url']]}, 'external_write': False}
-        public_url(url)
+        if not pin:
+            public_url(url)
         if download:
             source_folder = (video['title'] + '-source-' + record['source_storage_revision'][:16]
                              if record.get('source_storage_revision') else video['title'] + '-01')
@@ -496,12 +518,17 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
                 # A completed fetch survives a crash before journaling. Probe it,
                 # then bind its bytes; never use a partial download as a video.
                 if not local.exists():
-                    fetch(url, local)
+                    if pin:
+                        from .fireplay_pinterest import download_video
+                        download_video(url, local)
+                    else:
+                        fetch(url, local)
                 metadata = probe(local)
-                resolved = video.get('resolved', {})
+                resolved = video.get('resolved') or video.get('pin_media', {})
                 require(not resolved.get('duration') or abs(metadata['duration'] - resolved['duration']) < 1,
                         'Downloaded duration differs from the source lookup; inspect the actual original')
                 if resolved.get('width') and (metadata['width'], metadata['height']) != (resolved['width'], resolved['height']):
+                    require(not pin, 'Downloaded dimensions differ from the exact Pinterest video metadata')
                     # Some legacy YouTube dimensions are only HD classifications.
                     # Accept actual bytes only with an exact resource/size binding
                     # and an explicit platform statement that dimensions are not exact.
@@ -744,6 +771,10 @@ def prepare_return(code, spec, root=ROOT):
             quality_records = [read_json(inside(folder, asset['path'])) for asset in manifest['files']
                                if asset['path'] == 'payload/outputs/quality.json' or
                                (asset['path'].startswith('payload/outputs/quality-history/') and asset['path'].endswith('.json'))]
+            if record.get('delivery_specifications'):
+                from .fireplay_revision import verify_delivery_specifications
+                verify_delivery_specifications(record['delivery_specifications'], movie, quality_records,
+                                               meta['video_sha256'])
             acceptance = None
             if manifest['kind'] == 'delivery' and meta['status'] == 'delivered' and meta['technical_decision'] == 'pass':
                 require(any(q.get('decision') == 'pass' and q.get('video_sha256') == meta['video_sha256'] for q in quality_records),
@@ -859,6 +890,8 @@ def defer_unknown_upload(code, locale, spec, root=ROOT, index=1):
         if locale not in outbox['pending_locales']:
             outbox['pending_locales'].append(locale)
         write_json(path, outbox)
+        from .fireplay_upload_queue import release
+        release(code, index, f'upload-{number}', 'deferred_unknown_upload', root)
         return decision
 
 
@@ -1171,6 +1204,8 @@ def status(code, root=ROOT):
     result = {k: record[k] for k in ('code', 'requirement_id', 'content_version', 'targets', 'requested_targets', 'blockers', 'warnings', 'videos')}
     result['state'] = 'needs_information' if record['blockers'] else 'ready_for_intake'
     result['budget'] = record.get('budget')
+    if record.get('delivery_specifications'):
+        result['delivery_specifications'] = record['delivery_specifications']
     result['production_workflow'] = 'agent/workflows/fireplay-intake.md'
     result['continuous_execution_instruction'] = continuous_execution_instruction(root)
     from .fireplay_parallel import instruction as parallel_instruction

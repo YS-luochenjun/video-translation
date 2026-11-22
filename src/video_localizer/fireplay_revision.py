@@ -1,5 +1,69 @@
-"""Narrow review of quantity corrections without replacing funded production."""
+"""Narrow revision reviews that preserve funded production."""
+import re
+
 from .common import file_hash, require, utc_now, write_json
+
+
+def accept_delivery_clarification(previous, snap, sources, decision, targets, folder, root):
+    """Accept specific delivery specs without changing the inputs of funded work."""
+    from .common import object_hash
+
+    before, after = previous['snapshot']['brief'], snap['brief']
+    stable_fields = ('id', 'code', 'deptId', 'title', 'refText', 'assetType', 'quantity', 'locales', 'channels')
+    require(decision.get('reviewed_content_version') == previous['content_version']
+            and decision.get('revision_reason') and previous.get('budget')
+            and snap['row'].get('status') in ('not_started', 'in_progress', 'pending_upload')
+            and snap['row'].get('canBindMaterials') is True
+            and all(before.get(key) == after.get(key) for key in stable_fields)
+            and previous['targets'] == targets
+            and [(v['source_url'], v['targets']) for v in previous['videos']]
+            == [(v['source_url'], v['targets']) for v in sources]
+            and not any(folder.glob('return-*.json')),
+            'Delivery clarification needs the exact prior version, unchanged funded scope and no existing return')
+    old_text, new_text = before.get('description') or '', after.get('description') or ''
+    start = next((i for i, (a, b) in enumerate(zip(old_text, new_text)) if a != b), len(old_text))
+    end = start + len(new_text) - len(old_text)
+    require(end > start and new_text[end:] == old_text[start:],
+            'Delivery clarification must be a single addition to the original description')
+    added = re.sub(r'[\s.。！!，,；;]', '', new_text[start:end])
+    match_source_title = added == '标题文字要大一些跟原视频中差不多'
+    require(added and (match_source_title or re.fullmatch(
+        r'(?:(?:直接翻译)?(?:尺寸|画幅|比例)[:：]?9[:：]16)?'
+        r'(?:(?:声音|音频)(?:要|需)?清晰)?', added)),
+        'Delivery clarification only supports adding 9:16, clear audio or the source-matched title size')
+    rules = dict(previous.get('delivery_specifications', {}))
+    if '9:16' in added.replace('：', ':'):
+        rules['aspect_ratio'] = [9, 16]
+    if added.endswith('清晰'):
+        rules['clear_audio'] = True
+    if match_source_title:
+        rules['title_scale'] = 'match_source'
+    archive = folder / 'revisions' / (object_hash(previous) + '.json')
+    write_json(archive, previous)
+    return {**previous, 'content_version': snap['content_version'], 'delivery_specifications': rules,
+            'revision_history': [*previous.get('revision_history', []), {
+                'content_version': previous['content_version'], 'scope': 'delivery_clarification',
+                'new_content_version': snap['content_version'], 'path': archive.relative_to(root).as_posix(),
+                'reason': decision['revision_reason'], 'reviewed_at': utc_now()}]}
+
+
+def verify_delivery_specifications(specs, movie, quality_records, video_sha256):
+    # Title scale is a relative visual judgment in the existing publication review.
+    if 'aspect_ratio' not in specs and not specs.get('clear_audio'):
+        return
+    from .media import probe
+
+    media = probe(movie)
+    if 'aspect_ratio' in specs:
+        width, height = specs['aspect_ratio']
+        require(media['width'] * height == media['height'] * width,
+                'Final video does not match the clarified aspect ratio')
+    if specs.get('clear_audio'):
+        require(media['has_audio'] and any(
+            q.get('video_sha256') == video_sha256
+            and (q.get('decision') == 'pass' or (q.get('audio_model_check') or {}).get('decision') == 'pass')
+            for q in quality_records),
+            'Clarified clear-audio delivery needs a hash-bound passing audio review')
 
 
 def linked_repair_request(previous, decision, root):

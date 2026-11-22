@@ -139,10 +139,18 @@ def lock(path):
 
 
 @contextmanager
-def run_operation(run, *, resume=True):
+def run_operation(run, *, resume=True, storage_wait_seconds=0):
     """Serialize run access with sweeps; only production work revokes closure."""
     run = Path(run).resolve()
-    require(not (run.parent.parent / 'state/project-storage.lock').exists(),
+    storage_lock = run.parent.parent / 'state/project-storage.lock'
+    if storage_wait_seconds and storage_lock.exists():
+        deadline = time.monotonic() + storage_wait_seconds
+        while storage_lock.exists():
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            time.sleep(min(1, remaining))
+    require(not storage_lock.exists(),
             'Project storage maintenance is active; resume after its receipt completes')
     path = run.parent / ".locks" / (run.name + ".lock")
     held = getattr(_operations, "held", set())
@@ -151,7 +159,7 @@ def run_operation(run, *, resume=True):
         return
     with lock(path):
         # A sweep can acquire its lock between the first check and our run lock.
-        require(not (run.parent.parent / 'state/project-storage.lock').exists(),
+        require(not storage_lock.exists(),
                 'Project storage maintenance is active; resume after its receipt completes')
         require(run.is_dir(), "Run was removed or does not exist")
         if resume:
@@ -179,7 +187,9 @@ def guarded(function):
         from .budgets import operation
         operation_path = Path(run).resolve().parent / '.locks' / (Path(run).name + '.lock')
         outermost = operation_path not in getattr(_operations, 'held', set())
-        with run_operation(run), operation():
+        provider_operation = function.__name__ in ('submit', 'poll', 'analyze_audio')
+        storage_wait_seconds = 20 if provider_operation else 0
+        with run_operation(run, storage_wait_seconds=storage_wait_seconds), operation():
             from .timing import measure
             from .resources import admission
             stage = function.__module__.rsplit('.', 1)[-1] + '.' + function.__name__
@@ -187,7 +197,7 @@ def guarded(function):
                 try:
                     result = function(run, *args, **kwargs)
                 finally:
-                    if function.__name__ in ('submit', 'poll', 'analyze_audio'):
+                    if provider_operation:
                         from .batches import sync
                         # Reservations remain conservative if settlement fails; the next
                         # reserve refreshes all journals before admitting further work.
@@ -199,7 +209,9 @@ def guarded(function):
             if outermost and not stage.startswith('retention.'):
                 from .maintenance import after_stage
                 after_stage(run, stage)
-        if outermost and Path(run).parent.name == 'runs' and not stage.startswith('retention.'):
+        # Return the provider receipt after settlement instead of keeping the
+        # caller waiting through a workspace-wide storage sweep.
+        if outermost and not provider_operation and Path(run).parent.name == 'runs' and not stage.startswith('retention.'):
             from .project_storage import auto
             try:
                 auto(Path(run).parent.parent)

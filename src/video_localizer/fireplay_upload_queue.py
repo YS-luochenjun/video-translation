@@ -31,10 +31,14 @@ def acquire(code, index, operation_id, package, root=ROOT):
         for entry in entries:
             if entry.get('state') == 'active':
                 active_path = Path(root) / entry.get('outbox', '')
-                active_op = read_json(active_path).get('operations', {}).get(entry['operation_id'], {}) if active_path.is_file() else {}
+                outbox = read_json(active_path) if active_path.is_file() else {}
+                active_op = outbox.get('operations', {}).get(entry['operation_id'], {})
                 if active_op.get('state') in ('verified', 'retryable_conflict'):
                     entry.update(state='completed', completed_at=utc_now(),
                                  completion_reason=active_op.get('state'))
+                elif outbox.get('deferred_uploads', {}).get(entry.get('locale'), {}).get('operation_id') == entry['operation_id']:
+                    entry.update(state='completed', completed_at=utc_now(),
+                                 completion_reason='deferred_unknown_upload')
         current = next((entry for entry in entries if entry.get('key') == key
                         and entry.get('state') in ('queued', 'active')), None)
         active = next((entry for entry in entries if entry.get('state') == 'active'), None)

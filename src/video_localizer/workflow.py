@@ -121,7 +121,8 @@ def execution_limits(run):
         allowance = budgets.run_allowance(run)
         settings['max_estimated_credits_per_run'] = allowance['credit_limit']
         if allowance.get('budget_basis', {}).get('policy') in ('source_duration', 'per_target_language'):
-            settings['max_paid_jobs_per_run'] = budgets.job_allowance(run, allowance, settings['max_segment_seconds'])
+            settings['max_paid_jobs_per_run'] = budgets.job_allowance(
+                run, allowance, settings['max_segment_seconds'], settings.get('max_provider_task_retries', 2))
     path = run / "inputs/budget.json"
     if not allowance and not path.exists() and (run / 'inputs/reuse-manifest.json').exists():
         settings['max_estimated_credits_per_run'] = min(settings['max_estimated_credits_per_run'],

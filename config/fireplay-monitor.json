@@ -19,6 +19,16 @@
     ]
   },
   "group_policy": "translation_intent_in_all_visible_groups",
+  "excluded_requirements": [
+    {"code": "MOG-20261120-013", "requirement_id": "8d3ae3b0-f8e4-51c5-9872-83045989a9d6", "reason": "用户明确撤回制作，同事已承接"},
+    {"code": "APC-20261120-003", "requirement_id": "907d58be-9606-528e-896e-23f075316484", "reason": "用户明确撤回制作，同事已承接"},
+    {"code": "APC-20261120-004", "requirement_id": "01a1f6cb-90cc-7812-87dc-ba4c10fe9c4a", "reason": "用户明确撤回制作，同事已承接"},
+    {"code": "APC-20261119-050", "requirement_id": "01a1f2b9-93c2-7c07-99c2-1a82e6c6941f", "reason": "用户明确撤回制作，同事已承接"},
+    {"code": "KEY-20261118-033", "requirement_id": "01a1ed64-bf17-7fed-9b39-721a43e22cae", "reason": "用户明确要求跳过，停止制作、付费和上传"},
+    {"code": "APC-20261120-019", "requirement_id": "01a1f6f9-553c-7e5d-8f4e-705124a168f9", "reason": "用户明确确认同事正在制作"},
+    {"code": "APC-20261120-039", "requirement_id": "7eabf597-f2dc-5b9b-a22d-a85c4a2ac043", "reason": "用户明确确认同事正在制作"},
+    {"code": "APC-20261120-041", "requirement_id": "836733d4-b13b-50cd-bcaa-b7e47ed72865", "reason": "用户明确确认同事正在制作"}
+  ],
   "assignee_mode": "strict",
   "assignees": [
     {

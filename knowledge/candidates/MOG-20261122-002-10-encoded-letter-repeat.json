@@ -1,0 +1,24 @@
+{
+  "id": "MOG-20261122-002-10-encoded-letter-repeat",
+  "status": "candidate",
+  "created_at": "2026-11-22T07:08:39+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "target_language": "vi",
+    "source_sha256": "d18d4e30b27ef606e73d8673fba6177a34800f6ae7ecf98323b1f6975aa2f80b"
+  },
+  "hypothesis": "合成姓名逐字母拼读时，生成语音可能吞掉重复辅音。本素材的越语初版独立示例窗口转写 E-M-I-L-Y。复用同一配音中已观察到的 L 音并重新编码后，示例窗口转写 E-M-I-L-L-Y。下次先检查实际配音音节和位点，再对编码成片的示例单独取窗复核，保留前后证据。",
+  "outcome": "delivered_with_issues",
+  "evidence": {
+    "video_sha256": "7f012e5e726fff2b1f174804b532d664ed17d791db2ebca5911f3efcd8c483b2",
+    "before_video_sha256": "621f9490f4f52df739cd9bfd8df128d2edbbd50e8d52d00b96bca7a19c40ef57",
+    "example_sha256": "10dce4fb6e1fb5d206e9cc94f79aead5adee4a6a29270546d1e288ad1b0a1cfe"
+  },
+  "limitations": [
+    "仅单源、单语、同一声音复用前后对照。",
+    "目标音色、口型与混音听感未人工验证。"
+  ],
+  "company_preference": false,
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}
