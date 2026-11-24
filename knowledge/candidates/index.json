@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 66,
-    "no_adoption_record": 812,
+    "no_adoption_record": 825,
     "synthetic_only": 4
   },
   "entries": [
@@ -2682,6 +2682,111 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "hypothesis_sha256": "aef43a5c6bcd75c9015937f2d95f8b4b330d9f133003c9b32111dcccaa4cea57"
+    },
+    {
+      "id": "APC-20261124-025-01-fd3e3b95cd",
+      "path": "knowledge/candidates/APC-20261124-025-01-fd3e3b95cd.json",
+      "original_sha256": "107aea64591272a39b6f87a7c2d84a53ba87559b4096c82595231067b7528f6b",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "zh-TW",
+        "source_sha256": "22b26ee14158860be74043d61075399c0fdabee4c11c9c23931b1bda988d9e20"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "df2c4b2f2c44a4ec5402f7d594cd4aef6c590409bad38c78bd604012d4f7c5d7"
+    },
+    {
+      "id": "APC-20261124-025-02-2f84cd0526",
+      "path": "knowledge/candidates/APC-20261124-025-02-2f84cd0526.json",
+      "original_sha256": "4708f1d48b751d7d9180b0d7ad6dbc8d8e41f3c3ec711a5f034e6c671808a797",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "22b26ee14158860be74043d61075399c0fdabee4c11c9c23931b1bda988d9e20"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "df2c4b2f2c44a4ec5402f7d594cd4aef6c590409bad38c78bd604012d4f7c5d7"
+    },
+    {
+      "id": "APC-20261124-025-03-6f41f9f33a",
+      "path": "knowledge/candidates/APC-20261124-025-03-6f41f9f33a.json",
+      "original_sha256": "bf61c6bf016e8af7dff9f4f0faa7633343ae0ca2431e43736fd57e58c601fa62",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "pt",
+        "source_sha256": "22b26ee14158860be74043d61075399c0fdabee4c11c9c23931b1bda988d9e20"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "df2c4b2f2c44a4ec5402f7d594cd4aef6c590409bad38c78bd604012d4f7c5d7"
+    },
+    {
+      "id": "APC-20261124-025-04-0dcadc9c37",
+      "path": "knowledge/candidates/APC-20261124-025-04-0dcadc9c37.json",
+      "original_sha256": "09af9ffdf30e4c52d6079d64ee545e59e51b6aa01e321d74416697224d8ea7a2",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "de",
+        "source_sha256": "22b26ee14158860be74043d61075399c0fdabee4c11c9c23931b1bda988d9e20"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "df2c4b2f2c44a4ec5402f7d594cd4aef6c590409bad38c78bd604012d4f7c5d7"
+    },
+    {
+      "id": "APC-20261124-025-05-e049141cd3",
+      "path": "knowledge/candidates/APC-20261124-025-05-e049141cd3.json",
+      "original_sha256": "4779a684638d1a0ddf734ed27fd69bc1c76974589a2c68f579943f8903635f64",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "vi",
+        "source_sha256": "22b26ee14158860be74043d61075399c0fdabee4c11c9c23931b1bda988d9e20"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "df2c4b2f2c44a4ec5402f7d594cd4aef6c590409bad38c78bd604012d4f7c5d7"
+    },
+    {
+      "id": "APC-20261124-025-06-79eb6ef658",
+      "path": "knowledge/candidates/APC-20261124-025-06-79eb6ef658.json",
+      "original_sha256": "304fd5469664c2d084d24ed9645db50718bee94b724bb27b0419137832a1c007",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "tr",
+        "source_sha256": "22b26ee14158860be74043d61075399c0fdabee4c11c9c23931b1bda988d9e20"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "df2c4b2f2c44a4ec5402f7d594cd4aef6c590409bad38c78bd604012d4f7c5d7"
+    },
+    {
+      "id": "APC-20261124-025-07-72de044913",
+      "path": "knowledge/candidates/APC-20261124-025-07-72de044913.json",
+      "original_sha256": "ac6c4b416ff92a58633715bc0d5578a07337551a3f9733265b2825d35158bf21",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "ar",
+        "source_sha256": "22b26ee14158860be74043d61075399c0fdabee4c11c9c23931b1bda988d9e20"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "9a98a0fc943699e575d1654f6ead2b207db9940fd5006cb19374f35a144741de"
     },
     {
       "id": "DEV-20261104-gemini-tts-two-speaker-guard",
@@ -10127,6 +10232,36 @@
       "hypothesis_sha256": "ab30ebc704a4c9208e6150249160536db89d6dd62a6498be6812266586a98d63"
     },
     {
+      "id": "MOG-20261124-040-1-01-8e930095f0",
+      "path": "knowledge/candidates/MOG-20261124-040-1-01-8e930095f0.json",
+      "original_sha256": "e1a2a5ef39c3b07466f8e9a499e996e81e6dc77ead7538c341d3d2a1da565763",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "c6a82fc019d488fc8efa10bc8a57d6e021f08c1822bd4176095f6e9258e97cce"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "MOG-20261124-040-3-01-f4b1d7d09e",
+      "path": "knowledge/candidates/MOG-20261124-040-3-01-f4b1d7d09e.json",
+      "original_sha256": "238cb0961751c9a1d93498314415b7d3d8c37d047316b4b97de693166efe61e3",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "es",
+        "source_sha256": "894e0a7bfff973ef4596209d6c8a2256a958f273dfed759e9e3703a762d0bb75"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
       "id": "SHE-20261026-054-01-dd6b88a60f",
       "path": "knowledge/candidates/SHE-20261026-054-01-dd6b88a60f.json",
       "original_sha256": "00487877fd7bb00c765091364ea3c708f02dcf3578eca6aa44c4946751712d5e",
@@ -14021,6 +14156,66 @@
       },
       "current_targets": [],
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "SHE-20261124-044-1-01-f737bc347f",
+      "path": "knowledge/candidates/SHE-20261124-044-1-01-f737bc347f.json",
+      "original_sha256": "dc6d2232e11a19dfafd5f41049668b85165a0c590bb8df2c76818a0602887465",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "en",
+        "source_sha256": "2fc95023ef8eb34422153d99059756f3fedaedd9fcbc77877dc597ed244c4fa0"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "SHE-20261124-044-2-01-31c348a395",
+      "path": "knowledge/candidates/SHE-20261124-044-2-01-31c348a395.json",
+      "original_sha256": "f20af1e182ba653cdaad14b6005427b2148c76d1c0099c4dea0453765c1929af",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "en",
+        "source_sha256": "abafe8a30eced6805b07f56d096e04d45c4a68ae99039c64296a08153000c4b6"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "SHE-20261124-044-2-01-7cbb34d2a2",
+      "path": "knowledge/candidates/SHE-20261124-044-2-01-7cbb34d2a2.json",
+      "original_sha256": "cb4548a55d73b901b64f6cd194ebb6f85952cb3246705de3082d972c5b01cdc0",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "en",
+        "source_sha256": "abafe8a30eced6805b07f56d096e04d45c4a68ae99039c64296a08153000c4b6"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
+    },
+    {
+      "id": "SHE-20261124-044-3-01-d69a5fa210",
+      "path": "knowledge/candidates/SHE-20261124-044-3-01-d69a5fa210.json",
+      "original_sha256": "8efe2af1d04a66615f156afccc984aec80b9df41b740ab0063706a718d1981c2",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "en",
+        "source_sha256": "433ba3983f8cf9efaced3a95b84e127b2aebeadce50d1960332b24eaefd11dcd"
+      },
+      "historical_outcome": "revise",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "609126790d586080f47efcd1b90b8f895983d912124ee2476a9b8e36f3a22604"
     },
     {
       "id": "SHE031-hi-tail-model-disagreement-v1",
@@ -19211,6 +19406,8 @@
         "knowledge/candidates/MOG-20261117-053-05-a75a9f35d3.json",
         "knowledge/candidates/MOG-20261117-053-06-cfbf682bb2.json",
         "knowledge/candidates/MOG-20261117-053-07-81e6c04922.json",
+        "knowledge/candidates/MOG-20261124-040-1-01-8e930095f0.json",
+        "knowledge/candidates/MOG-20261124-040-3-01-f4b1d7d09e.json",
         "knowledge/candidates/SHE-20261026-054-01-dd6b88a60f.json",
         "knowledge/candidates/SHE-20261026-054-01-e52a625b01.json",
         "knowledge/candidates/SHE-20261026-054-02-8d02dd90ac.json",
@@ -19366,6 +19563,9 @@
         "knowledge/candidates/SHE-20261118-007-15-61b586efa6.json",
         "knowledge/candidates/SHE-20261118-007-16-ac978b2c9c.json",
         "knowledge/candidates/SHE-20261118-007-17-0e759f76fc.json",
+        "knowledge/candidates/SHE-20261124-044-1-01-f737bc347f.json",
+        "knowledge/candidates/SHE-20261124-044-2-01-31c348a395.json",
+        "knowledge/candidates/SHE-20261124-044-2-01-7cbb34d2a2.json",
         "knowledge/candidates/WOW-20261027-012-01-de9a4a65b6.json",
         "knowledge/candidates/WOW-20261027-012-02-9049fbb5bd.json",
         "knowledge/candidates/WOW-20261027-012-03-e4579036fe.json",
@@ -19498,6 +19698,17 @@
         "knowledge/candidates/ad31-kr-20261020-3c98a197e9.json",
         "knowledge/candidates/ad31-pt-20261020-136a53dc7e.json",
         "knowledge/candidates/ad31-vn-20261020-4be25ec620.json"
+      ]
+    },
+    {
+      "hypothesis_sha256": "df2c4b2f2c44a4ec5402f7d594cd4aef6c590409bad38c78bd604012d4f7c5d7",
+      "members": [
+        "knowledge/candidates/APC-20261124-025-01-fd3e3b95cd.json",
+        "knowledge/candidates/APC-20261124-025-02-2f84cd0526.json",
+        "knowledge/candidates/APC-20261124-025-03-6f41f9f33a.json",
+        "knowledge/candidates/APC-20261124-025-04-0dcadc9c37.json",
+        "knowledge/candidates/APC-20261124-025-05-e049141cd3.json",
+        "knowledge/candidates/APC-20261124-025-06-79eb6ef658.json"
       ]
     },
     {
