@@ -152,14 +152,19 @@ def _region(item, width, height):
     return [x, y, right-x, bottom-y]
 
 
-def _selection(numbers):
+def _selection(numbers, *, balanced=False):
     groups = []
     for number in sorted(set(numbers)):
         if groups and number == groups[-1][1]+1:
             groups[-1][1] = number
         else:
             groups.append([number, number])
-    return '+'.join(f'between(n,{a},{b})' for a, b in groups)
+    terms = [f'between(n,{start},{end})' for start, end in groups]
+    if balanced:
+        while len(terms) > 1:
+            terms = [f'({terms[index]}+{terms[index+1]})' if index+1 < len(terms) else terms[index]
+                     for index in range(0, len(terms), 2)]
+    return '+'.join(terms)
 
 
 def _extract(path, numbers, region, destination):

@@ -287,3 +287,45 @@ def status(batch_id, root=ROOT):
             'unknown_billing_jobs': accounting['unknown_billing_jobs'], 'request_accounting': accounting,
             'timing': report([Path(root) / 'runs' / name for name in record['members']]),
             'scope': 'Conservative estimate gate; unknown charges stay reserved. Supplier overbilling cannot be prevented by local estimates.'}
+
+
+def poll_pending(batch_id, root=ROOT):
+    from . import workflow
+
+    record = read_json(_path(batch_id, root))
+    require(record['state'] != 'initializing', 'Batch initialization incomplete; inspect its recorded members')
+    members = list(dict.fromkeys(record['members']))
+    results, attention = [], []
+    for name in members:
+        try:
+            require(isinstance(name, str) and re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}', name),
+                    'Invalid batch run id')
+            run = inside(Path(root) / 'runs', name)
+            require(run.name == name and read_json(run / 'run.json')['source_sha256'] == record['source_sha256'],
+                    'Batch run or source mismatch')
+            job_ids = []
+            for path in sorted((run / 'jobs').glob('*.json')):
+                try:
+                    job = read_json(path)
+                    require(isinstance(job, dict) and job.get('id') == path.stem, 'Job journal identity mismatch')
+                    state = job.get('state')
+                    unsettled = (state in ('success', 'failed', 'fail', 'response_invalid')
+                                 and job.get('credits_consumed') is None and job.get('estimated_credits'))
+                    if workflow.pending_poll(job):
+                        job_ids.append(path.stem)
+                    elif unsettled or state in ('ambiguous', 'submitting', 'preparing') or state in workflow.PENDING_POLL_STATES:
+                        attention.append({'run': name, 'id': path.stem, 'state': state,
+                                          'has_task_id': bool(job.get('task_id')), 'action': 'inspect_existing_journal'})
+                except (WorkflowError, OSError, ValueError, TypeError) as exc:
+                    attention.append({'run': name, 'id': path.stem, 'state': 'journal_error', 'error': str(exc)})
+            for start in range(0, len(job_ids), workflow.POLL_BATCH_LIMIT):
+                chunk = job_ids[start:start + workflow.POLL_BATCH_LIMIT]
+                try:
+                    receipt = workflow.poll_batch(run, chunk, pending_only=True)
+                    results.extend({'run': name, **job} for job in receipt['jobs'])
+                except (WorkflowError, OSError, ValueError) as exc:
+                    attention.append({'run': name, 'ids': chunk, 'state': 'poll_error', 'error': str(exc)})
+        except (WorkflowError, OSError, KeyError, ValueError, TypeError) as exc:
+            attention.append({'run': name, 'state': 'run_error', 'error': str(exc)})
+    return {'batch': batch_id, 'runs_in_batch': len(members), 'jobs': results,
+            'attention': attention, 'new_paid_submission': False}

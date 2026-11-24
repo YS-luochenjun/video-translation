@@ -58,23 +58,16 @@ def capture(run):
     duration = actual["duration"]
     video_stream = next(stream for stream in actual["raw"]["streams"] if stream["codec_type"] == "video")
     video_end = min(duration, float(video_stream.get("duration", duration)))
-    for name, timestamp in (("boundary-start.jpg", 0), ("boundary-end.jpg", max(0, video_end-0.05))):
-        if not (directory / name).exists():
-            media.ffmpeg(["-ss", timestamp, "-i", source, "-frames:v", "1", "-pix_fmt", "yuvj420p", "-q:v", "2", directory / name])
-        require((directory / name).is_file(), "Boundary frame was not decoded; inspect the actual video stream timeline")
-    if (run / "plan.json").exists():
-        plan = read_json(run / "plan.json")
-        if plan["id"] == candidate["plan_id"]:
-            for segment in plan["segments"][1:]:
-                for label, offset in (("pre", -1/30), ("at", 0), ("post", 1/30)):
-                    image = directory / f"seam-{segment['id']}-{label}.jpg"
-                    if not image.exists():
-                        media.ffmpeg(["-ss", max(0, min(duration-0.05, segment["start"]+offset)), "-i", source,
-                                      "-frames:v", "1", "-pix_fmt", "yuvj420p", "-q:v", "2", image])
-    policy = read_json(run / "analysis/inventory.json")["audio"]
-    audio_check = audio_tools.evaluate(workflow.source_path(run), source, policy,
-                                       read_json(run / "analysis/media.json")["duration"])
-    write_json(directory / "audio-report.json", audio_check)
+    boundary_frames = ((directory / "boundary-start.jpg", 0),
+                       (directory / "boundary-end.jpg", max(0, video_end-0.05)))
+    frame_requests = list(boundary_frames)
+    plan_path = run / "plan.json"
+    plan = read_json(plan_path) if plan_path.exists() else None
+    if plan is not None and plan["id"] == candidate["plan_id"]:
+        for segment in plan["segments"][1:]:
+            for label, offset in (("pre", -1/30), ("at", 0), ("post", 1/30)):
+                image = directory / f"seam-{segment['id']}-{label}.jpg"
+                frame_requests.append((image, max(0, min(duration-0.05, segment["start"]+offset))))
     inventory = read_json(run / "analysis/inventory.json")
     if inventory.get("audio", {}).get("has_speech") is True:
         # Decode around each planned word/phrase, including one-frame pre/post.
@@ -84,9 +77,14 @@ def capture(run):
                          unit["end"]-1/30, unit["end"])
                 for position, timestamp in enumerate(times):
                     frame = directory / f"caption-{item['id']}-{index:03d}-{position}.jpg"
-                    if not frame.exists():
-                        media.ffmpeg(["-ss", max(0, min(video_end-.05, timestamp)), "-i", source,
-                                      "-frames:v", "1", "-pix_fmt", "yuvj420p", "-q:v", "2", frame])
+                    frame_requests.append((frame, max(0, min(video_end-.05, timestamp))))
+    media.capture_stills(source, frame_requests, actual)
+    for image, _ in boundary_frames:
+        require(image.is_file(), "Boundary frame was not decoded; inspect the actual video stream timeline")
+    audio_check = audio_tools.evaluate_cached(run, workflow.source_path(run), source, inventory["audio"],
+                                              read_json(run / "analysis/media.json")["duration"])
+    write_json(directory / "audio-report.json", audio_check)
+    if inventory.get("audio", {}).get("has_speech") is True:
         report = directory / "caption-sync.json"
         if not report.exists():
             wav = directory / "audio.wav"
@@ -95,12 +93,9 @@ def capture(run):
     from .review_probes import generate as whole_scene_probes
     probes = whole_scene_probes(run, candidate)
     restoration = None
-    plan_path = run / 'plan.json'
-    if plan_path.exists():
-        plan = read_json(plan_path)
-        if plan['id'] == candidate['plan_id'] and plan.get('restoration_probe_contract') == 1:
-            from .restoration_probes import generate as restoration_probes
-            restoration = restoration_probes(run, candidate, plan)
+    if plan is not None and plan['id'] == candidate['plan_id'] and plan.get('restoration_probe_contract') == 1:
+        from .restoration_probes import generate as restoration_probes
+        restoration = restoration_probes(run, candidate, plan)
     record = {"video_sha256": file_hash(source), "review_probes": probes,
               "restoration_probes": restoration, "files": {path.relative_to(run).as_posix(): file_hash(path)
               for path in sorted(directory.rglob('*')) if path.is_file()},
@@ -109,17 +104,18 @@ def capture(run):
     return {"capture": str(directory.relative_to(ROOT)), "files": len(record["files"]), "review_probes": probes}
 
 
-def status(run):
-    record = read_json(run / "run.json")
+def status(run, *, read_navigation=read_json):
+    record = read_navigation(run / "run.json")
     jobs = [read_json(path) for path in sorted((run / "jobs").glob("*.json"))]
-    quality = read_json(run / "outputs/quality.json") if (run / "outputs/quality.json").exists() else None
+    quality = read_navigation(run / "outputs/quality.json") if (run / "outputs/quality.json").exists() else None
     state = "created"
+    plan = None
     plan_error = None
     preparation_blockers = []
     style_state = None
     if (run / "analysis/inventory.json").exists():
         state = "awaiting_agent_inventory"
-        inventory = read_json(run / 'analysis/inventory.json')
+        inventory = read_navigation(run / 'analysis/inventory.json')
         if all(inventory.get('coverage', {}).get(key, {}).get('status') == 'reviewed'
                for key in ('visual', 'speech', 'timeline')):
             state = 'needs_planning'
@@ -141,18 +137,21 @@ def status(run):
                     state = 'awaiting_source_styles'
     if (run / "plan.json").exists():
         try:
-            workflow.current_plan(run)
+            plan = workflow.current_plan(run)
             state = "planned"
         except WorkflowError as exc:
             plan_error = str(exc)
             state = "needs_replanning"
     if state == "planned" and jobs:
-        relevant = [job for job in jobs if job["plan_id"] == read_json(run / "plan.json")["id"]]
-        state = "needs_reconciliation" if any(job["state"] in ("ambiguous", "submitting", "preparing") for job in relevant) else "awaiting_model" if any(job["state"] in ("submitted", "waiting", "queuing", "generating") for job in relevant) else state
+        relevant = [job for job in jobs if job["plan_id"] == plan["id"]]
+        if any(job["state"] in ("ambiguous", "submitting", "preparing") for job in relevant):
+            state = "needs_reconciliation"
+        elif any(job["state"] in workflow.PENDING_POLL_STATES for job in relevant):
+            state = "awaiting_model"
     candidate_holds = []
     if (run / "outputs/candidate.json").exists() and state not in ("needs_replanning", "needs_reconciliation"):
-        candidate = read_json(run / "outputs/candidate.json")
-        if (run / "plan.json").exists() and candidate["plan_id"] == read_json(run / "plan.json")["id"]:
+        candidate = read_navigation(run / "outputs/candidate.json")
+        if plan is not None and candidate["plan_id"] == plan["id"]:
             state = "needs_review"
             review_path = run / ("review/fast-review.json" if candidate.get("mode") == "fast" or
                                  (quality or {}).get("scope") == "fast-basic" else "review/review.json")
@@ -160,7 +159,7 @@ def status(run):
                     quality.get("review_sha256") is None or review_path.exists() and file_hash(review_path) == quality["review_sha256"]):
                 state = "ready_to_deliver" if quality["decision"] == "pass" else "needs_revision"
             if (run / "outputs/delivery.json").exists() and state == "ready_to_deliver":
-                delivery = read_json(run / "outputs/delivery.json")
+                delivery = read_navigation(run / "outputs/delivery.json")
                 final = inside(run, delivery["video"])
                 if delivery["sha256"] == candidate["sha256"] and final.exists() and file_hash(final) == delivery["sha256"]:
                     state = "delivered"
@@ -170,11 +169,11 @@ def status(run):
                 state = "quality_feedback_requires_revision"
     completion = run / 'outputs/completion.json'
     if completion.is_file():
-        completed = read_json(completion)
+        completed = read_navigation(completion)
         final = run / 'outputs/final.mp4'
         if final.is_file() and file_hash(final) == completed.get('video_sha256'):
             from .work_packet import _completion_navigation
-            state = _completion_navigation(run, record['source_sha256'], completed)['state_hint']
+            state = _completion_navigation(run, record['source_sha256'], completed, read_navigation=read_navigation)['state_hint']
     return {"state": state, "run": {key: value for key, value in record.items() if key != "state"},
             "jobs": jobs, "quality": quality, "candidate_quality_holds": candidate_holds, "plan_error": plan_error, 'preparation_blockers': preparation_blockers, 'source_styles': style_state}
 
@@ -198,6 +197,8 @@ def main(argv=None):
     command.add_argument('run')
     command.add_argument('--stage', choices=['recognize', 'image'], default='recognize')
     command.add_argument('--spec', help='Run-relative JSON with optional images and instructions')
+    command.add_argument('--context-references', action='store_true',
+                         help='Use hash-bound knowledge paths instead of embedding their text')
     command = commands.add_parser('codex-result', help='Register actual Codex observations/edited images; never auto-approve')
     command.add_argument('run')
     command.add_argument('packet')
@@ -221,6 +222,9 @@ def main(argv=None):
     command = commands.add_parser('work-packet', help='Read current blockers, exact job IDs and stage-specific AI work/knowledge')
     command.add_argument('run')
     command.add_argument('--stage', choices=['source', 'translation', 'neutral', 'render', 'review', 'delivery'])
+    packet_options = command.add_mutually_exclusive_group()
+    packet_options.add_argument('--checkpoint', action='store_true', help='Return the full packet and a checkpoint for this session')
+    packet_options.add_argument('--since', metavar='TOKEN', help='Return current gates and changed repeatable sections')
     command = commands.add_parser('visual-evidence', help='Generate native-size comparison evidence and pending per-instance templates')
     command.add_argument('run')
     command.add_argument('--stage', choices=['neutral', 'final'], default='final')
@@ -365,6 +369,9 @@ def main(argv=None):
     for name in ('batch-status', 'batch-approve', 'batch-run'):
         command = commands.add_parser(name)
         command.add_argument('id')
+        if name == 'batch-status':
+            command.add_argument('--poll', action='store_true',
+                                 help='Check recorded pending model tasks across the batch and return a compact receipt')
         if name == 'batch-run':
             command.add_argument('--deliver', action='store_true')
         if name == 'batch-approve':
@@ -490,7 +497,8 @@ def main(argv=None):
         if name == "plan":
             command.add_argument("--experiment", choices=["local_overlay", "model_edit"])
         if name == "poll":
-            command.add_argument("job")
+            command.add_argument("jobs", nargs="+", metavar="JOB",
+                                 help="Recorded job IDs; multiple IDs check once each without waiting")
             command.add_argument("--wait", type=int, default=0, choices=range(46), metavar="0..45")
     command = commands.add_parser("knowledge")
     command.add_argument("--target", default="zh-CN")
@@ -603,6 +611,8 @@ def main(argv=None):
                 result = batches.approve(args.id, ROOT, best_available=args.best_available)
             elif name == 'batch-run':
                 result = production.advance_batch(args.id, args.deliver, ROOT)
+            elif args.poll:
+                result = batches.poll_pending(args.id, ROOT)
             else:
                 result = batches.status(args.id, ROOT)
         elif name == "language-resolve":
@@ -703,7 +713,7 @@ def main(argv=None):
                 result = compare(run, args.instance, args.video, args.base, args.base_limit)
             elif name == 'work-packet':
                 from .work_packet import build
-                result = build(run, args.stage)
+                result = build(run, args.stage, checkpoint=args.checkpoint, since=args.since)
             elif name == 'repair-preflight':
                 from .repair import preflight
                 result = preflight(run, detect_cuts=True)
@@ -722,7 +732,7 @@ def main(argv=None):
                 result = transcribe(run, args.audio, args.model, args.download, not args.no_vad, args.language)
             elif name == 'codex-packet':
                 from .codex_visual import packet
-                result = packet(run, args.stage, args.spec, root=ROOT)
+                result = packet(run, args.stage, args.spec, root=ROOT, context_references=args.context_references)
             elif name == 'codex-result':
                 from .codex_visual import record
                 result = record(run, args.packet, args.report, root=ROOT)
@@ -829,7 +839,11 @@ def main(argv=None):
             elif name in ("packet", "submit"):
                 result = workflow.submit(run, args.segment, retry_failed=args.retry_failed) if name == "submit" and args.execute else workflow.prepare_packet(run, args.segment)
             elif name == "poll":
-                result = workflow.poll(run, args.job, args.wait)
+                if len(args.jobs) == 1:
+                    result = workflow.poll(run, args.jobs[0], args.wait)
+                else:
+                    require(args.wait == 0, 'Batch polling requires --wait 0')
+                    result = workflow.poll_batch(run, args.jobs)
             elif name == "render":
                 result = workflow.render(run)
             elif name == "capture":

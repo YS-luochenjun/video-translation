@@ -35,6 +35,26 @@ class AudioTests(unittest.TestCase):
     def tearDownClass(cls):
         cls.temporary.cleanup()
 
+    def test_technical_cache_reuses_only_matching_checked_reports(self):
+        run = self.root / 'audio-cache-run'
+        policy = {'strategy': 'preserve'}
+        original = audio.evaluate(self.source, self.source, policy, 2)
+        with patch.object(audio, 'evaluate', wraps=audio.evaluate) as evaluate:
+            self.assertEqual(audio.evaluate_cached(run, self.source, self.source, policy, 2), original)
+            self.assertEqual(audio.evaluate_cached(run, self.source, self.source, policy, 2), original)
+            self.assertEqual(evaluate.call_count, 1)
+            path = run / 'review/audio-technical-cache.json'
+            tampered = read_json(path)
+            tampered['report']['failures'] = ['altered']
+            write_json(path, tampered)
+            self.assertEqual(audio.evaluate_cached(run, self.source, self.source, policy, 2), original)
+            self.assertIn('audio_duration_mismatch',
+                          audio.evaluate_cached(run, self.source, self.source, policy, 1)['failures'])
+            self.assertIn('audio_track_mismatch',
+                          audio.evaluate_cached(run, self.source, self.visual, policy, 2)['failures'])
+            self.assertEqual(audio.evaluate_cached(run, self.source, self.visual, {'strategy': 'mute'}, 2)['failures'], [])
+            self.assertEqual(evaluate.call_count, 5)
+
     def test_preserve_mux_keeps_audible_source_after_silent_visual_processing(self):
         output = self.root / "retained.mp4"
         media.assemble([self.visual], self.source, output, 2)

@@ -4,6 +4,7 @@ import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from video_localizer import captions, fast_delivery, media
 from video_localizer.common import file_hash, object_hash, read_json, write_json
@@ -97,6 +98,24 @@ class FastAudioQualityTests(unittest.TestCase):
         self.assertEqual(result['caption_check']['decision'], 'pass')
         self.assertEqual(result['audio_model_check']['decision'], 'not_requested')
         self.assertFalse((self.run / 'jobs').exists())
+
+    def test_source_frame_count_is_reused_across_runs_but_target_is_counted_again(self):
+        source = self.run / 'source.mp4'
+        original_run = self.run
+        second_run = self.root / 'runs/second-fixture'
+        shutil.copytree(original_run, second_run)
+        with patch.object(fast_delivery, '_count_video_frames', wraps=fast_delivery._count_video_frames) as count:
+            self.assertEqual(self.quality()['decision'], 'pass')
+            self.assertEqual(fast_delivery.quality(second_run)['decision'], 'pass')
+            self.assertEqual([call.args[0] for call in count.call_args_list],
+                             [source, original_run / 'localized.mp4', second_run / 'localized.mp4'])
+            cache = next((self.root / 'state/fast-source-frames').glob('*.json'))
+            record = read_json(cache)
+            record['frame_count'] += 1
+            write_json(cache, record)
+            self.assertEqual(fast_delivery._source_frame_count(self.root, source, file_hash(source),
+                                                               record['identity']['decoder']), 60)
+            self.assertEqual(count.call_count, 4)
 
     def test_missing_caption_review_blocks_pass_checkboxes(self):
         (self.directory / 'caption-sync.json').unlink()

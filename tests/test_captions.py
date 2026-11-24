@@ -22,6 +22,34 @@ TEMP.mkdir(parents=True, exist_ok=True)
 POLICY = read_json(PROJECT / "config/quality.json")["caption_sync"]
 
 
+@unittest.skipUnless(shutil.which("ffmpeg") and shutil.which("ffprobe"), "FFmpeg media integration")
+class CaptionCaptureTests(unittest.TestCase):
+    def test_batched_stills_match_single_seek_and_resume_missing_output(self):
+        with tempfile.TemporaryDirectory(dir=TEMP) as temporary:
+            directory = Path(temporary)
+            movie = directory / "sample.mp4"
+            media.ffmpeg(["-f", "lavfi", "-i", "testsrc2=size=96x160:rate=30:duration=2",
+                          "-c:v", "libx264", "-pix_fmt", "yuv420p", movie])
+            metadata = media.probe(movie)
+            timestamps = [0, 1 / 30] + [(index + .4) / 30 for index in range(15)]
+            requests = [(directory / f"check-{index}.jpg", stamp) for index, stamp in enumerate(timestamps)]
+            requests.append((directory / "same-frame.jpg", timestamps[-1]))
+            with patch.object(media, "ffmpeg", wraps=media.ffmpeg) as extraction:
+                media.capture_stills(movie, requests, metadata)
+                self.assertLess(extraction.call_count, len(timestamps))
+            for index, (still, stamp) in enumerate(requests):
+                legacy = directory / f"legacy-{index}.jpg"
+                media.ffmpeg(["-ss", stamp, "-i", movie, "-frames:v", "1", "-pix_fmt", "yuvj420p", "-q:v", "2", legacy])
+                self.assertEqual(file_hash(still), file_hash(legacy))
+            missing, _ = requests[-1]
+            digest = file_hash(missing)
+            missing.unlink()
+            with patch.object(media, "ffmpeg", wraps=media.ffmpeg) as extraction:
+                media.capture_stills(movie, requests, metadata)
+                self.assertEqual(extraction.call_count, 1)
+            self.assertEqual(file_hash(missing), digest)
+
+
 def example_inventory():
     return {"source_sha256": "source-hash", "audio": {"has_speech": True, "strategy": "replace", "replacement_path": "mix.wav"},
             "text_instances": [

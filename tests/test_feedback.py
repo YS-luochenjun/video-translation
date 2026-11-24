@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from video_localizer import model_tasks as audio_tasks, media, compositor, workflow, cost, prepared, knowledge
 from video_localizer.common import WorkflowError, file_hash, object_hash, read_json, write_json
 from video_localizer.kie import ApiError
+from video_localizer.model_routing import selected
 
 PROJECT = Path(__file__).resolve().parents[1]
 TEMP = PROJECT / 'work/test-tmp'
@@ -29,7 +30,7 @@ class AudioTaskTests(unittest.TestCase):
         write_json(self.run / 'run.json', {'source': 'inputs/source.mp4', 'source_sha256': file_hash(source)})
         write_json(self.run / 'analysis/inventory.json', {'speech_segments': [{'id': 'a001', 'target_text': '你好'}]})
         self.data = {'source_sha256': file_hash(source), 'purpose': 'Chinese narration trial', 'estimated_credits': 5, 'speech_ids': ['a001'],
-                     'payload': {'model': 'google/gemini-2-5-pro-tts', 'input': {'speakers': [{'speaker_id': 'Speaker 1', 'voice_name': 'Kore'}], 'dialogue_turns': [{'speaker_id': 'Speaker 1', 'text': '你好'}]}}}
+                     'payload': {'model': selected('tts'), 'input': {'speakers': [{'speaker_id': 'Speaker 1', 'voice_name': 'Kore'}], 'dialogue_turns': [{'speaker_id': 'Speaker 1', 'text': '你好'}]}}}
         write_json(self.run / 'inputs/tts.json', self.data)
         self.calls = []
         outer = self

@@ -45,11 +45,12 @@ def create(directory, kind, identity, sources, metadata=None):
     return verify(directory)
 
 
-def verify(directory):
+def verify(directory, *, hashes=None):
     directory = Path(directory)
     record = read_json(directory / "manifest.json")
     require(record.get("schema_version") == 1 and bool(record.get("files")), "Incomplete bundle manifest")
-    seen, hashes = set(), {}
+    seen = set()
+    hashes = {} if hashes is None else hashes
     storage = catalog(directory)
     for asset in record["files"]:
         require(asset["path"] not in seen, "Duplicate bundle path")

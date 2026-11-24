@@ -184,9 +184,10 @@ def execute(run, relative, probe=False, extension_reason=None):
     model = CODE_ROOT/'.runtime/models/inpaint/lama_fp32.onnx'
     uses_lama = any(op['method']=='lama' for op in recipe['operations'])
     require(not uses_lama, 'New image repair belongs to Codex: use codex-packet --stage image. LaMa inference is retired.')
-    identity = object_hash({'recipe': recipe_hash, 'implementation': _engine(), 'probe': probe,
+    engine = _engine()
+    identity = object_hash({'recipe': recipe_hash, 'implementation': engine, 'probe': probe,
                             'model':file_hash(model) if uses_lama else None,
-                            'encoder':media.command(['ffmpeg','-version']).stdout})[:24]
+                            'encoder':engine.get('encoder')})[:24]
     parent = run/'outputs/local-repair'
     folder = parent/identity
     candidates = [folder, *sorted(parent.glob(identity+'-rebuild-*'))]
@@ -225,7 +226,7 @@ def execute(run, relative, probe=False, extension_reason=None):
             require(file_hash(frozen) == recipe_hash and read_json(frozen) == recipe,
                     'Repair recipe changed before freezing')
             deadline = started + max(0,600+300*len(ledger['extensions'])-spent)
-            result = _execute(run, recipe, source, frozen.relative_to(run).as_posix(), folder, probe, deadline)
+            result = _execute(run, recipe, source, frozen.relative_to(run).as_posix(), folder, probe, engine, deadline)
             require(file_hash(source) == recipe['source_sha256'], 'Repair source changed during execution')
             for name in ('base_video', 'proposal_video'):
                 if name in recipe:
@@ -241,7 +242,7 @@ def execute(run, relative, probe=False, extension_reason=None):
         write_json(ledger_path,ledger)
 
 
-def _execute(run, recipe, source, relative, folder, probe, deadline=None):
+def _execute(run, recipe, source, relative, folder, probe, engine, deadline=None):
     # Optional native/model packages are imported only for local repair execution.
     from .runtime import vision_path
     sys.path.insert(0, str(vision_path(CODE_ROOT)))
@@ -257,13 +258,7 @@ def _execute(run, recipe, source, relative, folder, probe, deadline=None):
             'Repair decoded memory budget exceeded; select a bounded source clip first')
     fps = media.probe(base_path)['fps']
     require(all(abs((b-a)-1/fps)<.002 for a,b in zip(times,times[1:])), 'Variable frame rate repair needs explicit normalization')
-    cap = cv2.VideoCapture(str(source)); frames = []
-    while True:
-        ok, frame = cap.read()
-        if not ok: break
-        frames.append(frame)
-    cap.release(); require(len(frames)==len(source_times), 'Decoded frame coverage mismatch')
-    require(len(times)>=len(frames) and len(times)-len(frames)<=recipe.get('hold_source_tail_frames',0),
+    require(len(times)>=len(source_times) and len(times)-len(source_times)<=recipe.get('hold_source_tail_frames',0),
             'Base/source coverage differs without an explicit bounded tail hold')
     require(all(abs(a-b)<.002 for a,b in zip(times,source_times)), 'Base/source frame clocks differ')
     for op in recipe['operations']:
@@ -282,7 +277,6 @@ def _execute(run, recipe, source, relative, folder, probe, deadline=None):
         selected = {n for n,t in enumerate(times) if any(w['start']<=t<=w['end'] for w in risks)
                     or any(abs(t-e)<=2/fps for e in boundaries)}
     folder.mkdir(parents=True,exist_ok=True)
-    engine = _engine()
     model = CODE_ROOT/'.runtime/models/inpaint/lama_fp32.onnx'
     model_hash = file_hash(model) if any(o['method']=='lama' for o in recipe['operations']) else None
     def frame_key(n):
@@ -300,6 +294,19 @@ def _execute(run, recipe, source, relative, folder, probe, deadline=None):
                             'engine':engine, 'operations':active})
     keys = {n:frame_key(n) for n in selected}
     previous = repair_frames.PreviousFrames(run,keys,cv2)
+    if not probe:
+        linked = previous.reuse_master(folder)
+        if linked is not None:
+            return _result(run, recipe, relative, probe, linked, previous, 'linked_master')
+    cap = cv2.VideoCapture(str(source)); frames = []
+    try:
+        while True:
+            ok, frame = cap.read()
+            if not ok: break
+            frames.append(frame)
+    finally:
+        cap.release()
+    require(len(frames)==len(source_times), 'Decoded frame coverage mismatch')
     missing = set(selected)-set(previous.rows)
     needed = {i for i,op in enumerate(recipe['operations'])
               if any(_active(op,n,times[n]) for n in missing)}
@@ -384,11 +391,16 @@ def _execute(run, recipe, source, relative, folder, probe, deadline=None):
     index_path=folder/'frame-index.json';write_json(index_path,index)
     frame_index={'path':index_path.relative_to(run).as_posix(),'sha256':file_hash(index_path)}
     artifacts.append(frame_index)
+    return _result(run, recipe, relative, probe, artifacts, previous, 'probe' if probe else 'encoded')
+
+
+def _result(run, recipe, relative, probe, artifacts, previous, media_mode):
+    frame_count = len(previous.keys)
     return {'source_sha256':recipe['source_sha256'],'target_language':None,'contains_target_typography':False,
             'approved_for_reuse':False,'probe_only':probe,'artifacts':artifacts,
-            'frame_index':frame_index,
-            'incremental':{'reused_frames':previous.hits,'computed_frames':len(selected)-previous.hits,
-                           'total_frames':len(selected),'extra_cached_media':0,
+            'frame_index':artifacts[-1],
+            'incremental':{'reused_frames':previous.hits,'computed_frames':frame_count-previous.hits,
+                           'total_frames':frame_count,'extra_cached_media':0,'media_mode':media_mode,
                            'previous_output':previous.record['output'] if previous.hits else None},
             **({'output':artifacts[0]} if not probe else {}),
             'inputs':[{'path':read_json(run/'run.json')['source'],'sha256':recipe['source_sha256']},

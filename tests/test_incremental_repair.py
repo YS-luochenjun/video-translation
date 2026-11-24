@@ -43,6 +43,7 @@ class IncrementalRepairTests(unittest.TestCase):
         second = self.execute('two')
         self.assertEqual(second['incremental']['reused_frames'], 5)
         self.assertEqual(second['incremental']['computed_frames'], 1)
+        self.assertEqual(second['incremental']['media_mode'], 'encoded')
         self.assertFalse(second['approved_for_reuse'])
         self.assertEqual(file_hash(self.run/first['output']['path']), first['output']['sha256'])
         # A different run has no previous repair to borrow.
@@ -55,6 +56,32 @@ class IncrementalRepairTests(unittest.TestCase):
         fresh_pixels = self.pixels(fresh)
         self.run = original
         self.assertEqual(self.pixels(second), fresh_pixels)
+
+    def test_equivalent_recipe_keeps_an_independent_path_to_identical_master(self):
+        first = self.execute('one')
+        self.recipe['operations'][0]['reason'] = 'updated observation with identical repair parameters'
+        with patch.object(repair.subprocess, 'Popen', wraps=repair.subprocess.Popen) as launch:
+            second = self.execute('two')
+        self.assertFalse(any('rawvideo' in call.args[0] for call in launch.call_args_list))
+        original = self.run/first['output']['path']
+        linked = self.run/second['output']['path']
+        self.assertNotEqual(original, linked)
+        self.assertTrue(original.samefile(linked))
+        self.assertEqual(second['incremental']['media_mode'], 'linked_master')
+        self.assertEqual(second['incremental']['reused_frames'], 6)
+        self.assertFalse(second['automatic_pass'])
+        self.assertEqual(self.pixels(first), self.pixels(second))
+        original.unlink()
+        self.assertEqual(file_hash(linked), first['output']['sha256'])
+
+    def test_equivalent_recipe_reencodes_when_links_are_unavailable(self):
+        first = self.execute('one')
+        self.recipe['operations'][0]['reason'] = 'updated observation with identical repair parameters'
+        with patch.object(repair.repair_frames.os, 'link', side_effect=OSError('unsupported')):
+            second = self.execute('two')
+        self.assertEqual(second['incremental']['media_mode'], 'encoded')
+        self.assertEqual(second['incremental']['reused_frames'], 6)
+        self.assertEqual(self.pixels(first), self.pixels(second))
 
     def test_changed_parameters_invalidate_active_frames_only(self):
         self.execute('one')

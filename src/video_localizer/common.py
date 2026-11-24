@@ -187,7 +187,7 @@ def guarded(function):
         from .budgets import operation
         operation_path = Path(run).resolve().parent / '.locks' / (Path(run).name + '.lock')
         outermost = operation_path not in getattr(_operations, 'held', set())
-        provider_operation = function.__name__ in ('submit', 'poll', 'analyze_audio')
+        provider_operation = function.__name__ in ('submit', 'poll', 'poll_batch', 'analyze_audio')
         storage_wait_seconds = 20 if provider_operation else 0
         with run_operation(run, storage_wait_seconds=storage_wait_seconds), operation():
             from .timing import measure

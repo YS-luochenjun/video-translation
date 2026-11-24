@@ -1,5 +1,8 @@
 """Compact stage guidance from existing state and knowledge; no invented reviews."""
-from .common import WorkflowError, file_hash, inside, read_json, require
+from functools import cache
+import re
+
+from .common import WorkflowError, file_hash, inside, object_hash, read_json, require, write_json
 from .knowledge import context_for, retrieve, source_references, related_source_references
 from .knowledge_advisories import retrieve as advisory_retrieve
 from .knowledge_usage import followup as knowledge_followup
@@ -29,6 +32,11 @@ STAGES = {
                  'commands': ['deliver', 'delivery-index', 'reflect', 'close-failure', 'knowledge-use', 'knowledge-queue', 'knowledge-review']},
 }
 
+REPEATABLE_SECTIONS = {
+    'knowledge', 'knowledge_context', 'knowledge_advisories', 'source_references',
+    'related_source_references', 'model_routing', 'guidance', 'text_timing',
+}
+
 
 def _next_action(run, state, jobs):
     actions = {
@@ -53,18 +61,25 @@ def _next_action(run, state, jobs):
         'awaiting_model': ('poll_existing', [], 'Poll recorded task IDs; continue independent local review while waiting.'),
     }
     kind, commands, reason = actions.get(state, ('inspect_state', ['status'], 'Inspect the recorded state before execution.'))
-    pending = [job for job in jobs if job['state'] in ('submitted', 'waiting', 'queuing', 'generating') and job.get('task_id')]
-    invocations = [f'bin/va.ps1 poll {run.name} {job["id"]} --wait 0' for job in pending] if kind == 'poll_existing' else []
+    pending = [job for job in jobs if job['state'] in workflow.PENDING_POLL_STATES and job.get('task_id')]
+    invocations = []
+    if kind == 'poll_existing' and pending:
+        ids = list(dict.fromkeys(job['id'] for job in pending))
+        if len(ids) == 1:
+            invocations.append(f'bin/va.ps1 poll {run.name} {ids[0]} --wait 0')
+        else:
+            for start in range(0, len(ids), workflow.POLL_BATCH_LIMIT):
+                invocations.append(f'bin/va.ps1 poll {run.name} ' + ' '.join(ids[start:start + workflow.POLL_BATCH_LIMIT]))
     return {'kind': kind, 'command_entries': commands, 'invocations': invocations, 'reason': reason,
             'new_paid_submission': False, 'scope': 'Navigation only. Execution and any paid submission retain existing gates.'}
 
 
-def _completion_navigation(run, source_sha, completion):
+def _completion_navigation(run, source_sha, completion, *, read_navigation=read_json):
     """Historical output completion cannot suppress a newer quality objection."""
     from .quality_holds import active
     holds = active(source_sha, completion['video_sha256'], run.parent.parent)
     path = run / 'outputs/candidate.json'
-    candidate = read_json(path) if path.exists() else None
+    candidate = read_navigation(path) if path.exists() else None
     newer = bool(candidate and candidate.get('sha256') not in (completion['video_sha256'], completion.get('candidate_sha256_at_completion')))
     candidate_holds = active(source_sha, candidate['sha256'], run.parent.parent) if newer else []
     if holds or candidate_holds:
@@ -81,32 +96,64 @@ def _completion_navigation(run, source_sha, completion):
             'next_action': 'Show the actual final video and disclosed limitations; do not repeat paid work.'}
 
 
-def build(run, stage=None):
+def build(run, stage=None, *, checkpoint=False, since=None):
+    require(since is None or re.fullmatch(r'[a-f0-9]{64}', since), 'Invalid work-packet checkpoint')
     result = _build(run, stage)
     if (run / 'inputs/fireplay.json').exists():
         from .fireplay import continuous_execution_instruction
         result['continuous_execution_instruction'] = continuous_execution_instruction(run.parent.parent)
-    return result
+    return _delta(run, stage, result, since) if checkpoint or since is not None else result
+
+
+def _delta(run, stage, result, since):
+    candidate = result.get('candidate') or result.get('current_candidate') or {}
+    improvement = result.get('improvement_loop') or {}
+    effective_stage = result.get('stage') or (result.get('stage_focus') or {}).get('stage') or stage
+    scope = {'version': 2, 'run': run.name, 'stage': effective_stage,
+             'run_sha256': file_hash(run / 'run.json'), 'state': result['state_hint'],
+             'plan_id': result.get('plan_id') or candidate.get('plan_id'),
+             'candidate': candidate.get('sha256') or improvement.get('candidate_sha256'),
+             'formal_output': improvement.get('formal_output_sha256')}
+    sections = {key: object_hash(result[key]) for key in sorted(REPEATABLE_SECTIONS & result.keys())}
+    current = {'scope': scope, 'sections': sections}
+    path = run / 'analysis/work-packet-checkpoints' / f'{stage or "auto"}.json'
+    previous = None
+    if since is not None:
+        try:
+            saved = read_json(path)
+            if saved.get('scope') == scope and object_hash(saved) == since and isinstance(saved.get('sections'), dict):
+                previous = saved['sections']
+        except (OSError, ValueError, AttributeError, TypeError):
+            pass
+    unchanged = [key for key, digest in sections.items() if previous is not None and previous.get(key) == digest]
+    if previous != sections:
+        write_json(path, current)
+    return {**{key: value for key, value in result.items() if key not in unchanged},
+            'packet_checkpoint': {'token': object_hash(current), 'mode': 'full' if previous is None else 'delta',
+                                  'unchanged_sections': unchanged,
+                                  'removed_sections': sorted(previous.keys() - sections.keys()) if previous is not None else []}}
 
 
 def _build(run, stage=None):
     root = run.parent.parent
+    read_navigation = cache(read_json)
     from .ledger import tracking_packet
     ledger_tracking = tracking_packet(run)
     if stage is not None:
         require(stage in STAGES, "Unknown production stage")
-    source_sha = file_hash(workflow.source_path(run))
+    _, source_sha = workflow.verified_source(run)
     inventory_path = run / 'analysis/inventory.json'
-    inventory = read_json(inventory_path) if inventory_path.exists() else {'source_sha256': source_sha}
+    inventory = read_navigation(inventory_path) if inventory_path.exists() else {'source_sha256': source_sha}
     request = read_json(run / 'inputs/request.json')
     from .library import find as find_packages
     reusable_packages = find_packages(source_sha, root=root)
     from .maintenance import status as maintenance_status
     maintenance = maintenance_status(run)
     completion_path = run / 'outputs/completion.json'
-    if (completion_path.exists() and (run / 'outputs/delivery.json').exists()
-            and read_json(run / 'outputs/delivery.json').get('scope') == 'best_available'):
-        completion = read_json(completion_path)
+    delivery_path = run / 'outputs/delivery.json'
+    if (completion_path.exists() and delivery_path.exists()
+            and read_navigation(delivery_path).get('scope') == 'best_available'):
+        completion = read_navigation(completion_path)
         require(file_hash(run / 'outputs/final.mp4') == completion['video_sha256'], 'Finalized output changed')
         selected = {}
         if completion.get('knowledge_selection'):
@@ -114,21 +161,22 @@ def _build(run, stage=None):
             path = inside(run, asset['path'])
             require(file_hash(path) == asset['sha256'], 'Finalization knowledge selection changed')
             selected = read_json(path)
-        navigation = _completion_navigation(run, source_sha, completion)
+        navigation = _completion_navigation(run, source_sha, completion, read_navigation=read_navigation)
         resume_stage = 'delivery' if navigation['state_hint'] == 'delivered_with_issues' else 'review'
         return {'stage_focus': focus(stage or resume_stage, inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, **navigation, 'completion': completion,
                 'text_timing': timing_diagnostics(run, inventory),
-                'improvement_loop': improvement_agenda(run),
+                'improvement_loop': improvement_agenda(run, read_navigation=read_navigation),
                 'knowledge': selected.get('knowledge', []), 'source_references': selected.get('source_references', []),
                 'knowledge_advisories': selected.get('knowledge_advisories', []),
                 'routing_assessment': selected.get('routing_assessment'),
                 'knowledge_record_state': 'finalization_selection_only' if selected else 'legacy_not_recorded',
                 'reusable_packages': reusable_packages, 'maintenance': maintenance, 'automatic_pass': False}
     from .cli import status
-    current = status(run)
-    if (run / 'plan.json').exists() and read_json(run / 'plan.json').get('mode') == 'fast':
+    current = status(run, read_navigation=read_navigation)
+    plan_path = run / 'plan.json'
+    plan = read_navigation(plan_path) if plan_path.exists() else {}
+    if plan.get('mode') == 'fast':
         from . import budgets, fast_delivery
-        plan = read_json(run / 'plan.json')
         if current['state'] == 'needs_replanning':
             return {'run': run.name, 'mode': 'fast', 'state_hint': 'needs_replanning',
                     'stage_focus': focus(stage or 'render', inventory, root),
@@ -145,14 +193,14 @@ def _build(run, stage=None):
                         'needs_revision': 'Inspect current failures and make a bounded repair or finalize the best complete translation.'}
         return {'stage_focus': focus(stage or fast_stage, inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, 'mode': 'fast', 'plan_id': plan['id'],
                 'text_timing': timing_diagnostics(run, inventory),
-                'improvement_loop': improvement_agenda(run),
+                'improvement_loop': improvement_agenda(run, read_navigation=read_navigation),
                 'knowledge': plan.get('knowledge', []), 'source_references': plan.get('source_references', []),
                 'knowledge_advisories': plan.get('knowledge_advisories', []),
                 'knowledge_context': plan.get('knowledge_context'),
                 'related_source_references': related_source_references(plan.get('knowledge_context') or context_for(request, inventory, root), root=root),
                 'routing_assessment': plan.get('routing_assessment'),
                 'knowledge_record_state': 'frozen' if plan.get('knowledge_snapshot_version') == 1 else 'legacy_missing_re_register',
-                'knowledge_followup': knowledge_followup(run, root),
+                'knowledge_followup': knowledge_followup(run, root, read_navigation=read_navigation),
                 'reusable_packages': reusable_packages, 'maintenance': maintenance,
                 'model_control': 'agent/contracts/model-routing.md',
                 'output_policy': 'agent/workflows/always-output.md',
@@ -196,7 +244,7 @@ def _build(run, stage=None):
                             'sha256': draft.get('sha256'), 'integrity_ok': intact,
                             'status': 'diagnostic_only_not_approved'})
     candidate_path = run / 'outputs/candidate.json'
-    candidate = read_json(candidate_path) if candidate_path.exists() else None
+    candidate = read_navigation(candidate_path) if candidate_path.exists() else None
     if candidate:
         require(file_hash(inside(run, candidate['path'])) == candidate['sha256'], 'Work packet candidate changed')
         from .quality_holds import require_clear
@@ -210,8 +258,7 @@ def _build(run, stage=None):
     if batch and run.name != batch['pilot'] and not batch.get('pilot_release'):
         blockers.append('Representative language has not been released: work on the pilot first')
     context = context_for(request, inventory, root)
-    delivery_path = run / 'outputs/delivery.json'
-    delivery = read_json(delivery_path) if delivery_path.exists() else None
+    delivery = read_navigation(delivery_path) if delivery_path.exists() else None
     progress = []
     for path in sorted((root/'state/review-progress'/run.name).glob('*.json')):
         progress.append({'manifest_prefix':path.stem, 'instances':read_json(path)})
@@ -226,7 +273,7 @@ def _build(run, stage=None):
     from .model_routing import policy
     return {'stage_focus': focus(stage, inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, 'stage': stage, 'state_hint': current['state'], 'model_routing': policy(root),
             'text_timing': timing_diagnostics(run, inventory),
-            'improvement_loop': improvement_agenda(run),
+            'improvement_loop': improvement_agenda(run, read_navigation=read_navigation),
             'reusable_packages': reusable_packages, 'maintenance': maintenance,
             'output_policy': 'agent/workflows/always-output.md',
             'reuse_action': 'Prefer verified outputs packages before recreating assets. References and held results are not approved masters.',
@@ -244,7 +291,8 @@ def _build(run, stage=None):
             'knowledge': retrieve(context, root=root), 'source_references': source_references(context, root=root),
             'knowledge_context': context, 'routing_assessment': inventory.get('routing_assessment'),
             'related_source_references': related_source_references(context, root=root),
-            'knowledge_advisories': advisory_retrieve(context, root), 'knowledge_followup': knowledge_followup(run, root),
+            'knowledge_advisories': advisory_retrieve(context, root),
+            'knowledge_followup': knowledge_followup(run, root, read_navigation=read_navigation),
             'guidance': STAGES[stage], 'resources': resources.status(root),
             'review_cursor': progress, 'repair_trials': trials, 'recorded_issues': observations,
             'preproduction_failures': [read_json(p) for p in sorted((run/'review/failures').glob('*/closure.json'))],

@@ -4,7 +4,10 @@ import json
 import re
 import shutil
 import subprocess
+from bisect import bisect_left
+from fractions import Fraction
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from .common import CODE_ROOT, WorkflowError, inside, require, require_number, write_json
 from .timing import timed
@@ -41,6 +44,70 @@ def probe(path):
 @timed('media.ffmpeg')
 def ffmpeg(args, cwd=None):
     return command(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", *args], cwd)
+
+
+def _capture_batch(source, requests, metadata):
+    video_streams = [stream for stream in metadata["raw"]["streams"] if stream["codec_type"] == "video"]
+    container = metadata["raw"]["format"]
+    if (len(video_streams) != 1 or video_streams[0].get("codec_name") != "h264"
+            or "mp4" not in container.get("format_name", "").split(",")
+            or float(container.get("start_time", -1)) != 0
+            or video_streams[0].get("start_pts") != 0):
+        return None
+    from .visual_audit import _selection, _timestamps
+    times = _timestamps(source)
+    if len(times) != int(video_streams[0].get("nb_frames", 0)):
+        return None
+    tolerance = max(0.000002, float(Fraction(video_streams[0]["time_base"])))
+    selected = {}
+    for timestamp in requests:
+        index = bisect_left(times, timestamp)
+        neighbors = times[max(0, index - 1):index + 1]
+        if index < len(times) and all(abs(timestamp - pts) > tolerance for pts in neighbors):
+            selected[timestamp] = index
+    if len(set(selected.values())) < 2:
+        return None
+    numbers = sorted(set(selected.values()))
+    return selected, numbers, _selection(numbers, balanced=True)
+
+
+def capture_stills(source, requests, metadata):
+    """Group missing stills by time and batch compatible seeks without changing their labels."""
+    missing = {}
+    for destination, timestamp in requests:
+        if not destination.is_file():
+            missing.setdefault(timestamp, []).append(destination)
+    if not missing:
+        return
+    directory = next(iter(missing.values()))[0].parent
+    with TemporaryDirectory(dir=directory) as staging:
+        scratch = Path(staging)
+        decoded = {}
+        if len(missing) >= 12:
+            try:
+                batch = _capture_batch(source, missing, metadata)
+                if batch:
+                    selected, numbers, expression = batch
+                    ffmpeg(["-i", source, "-vf", f"select='{expression}'", "-an",
+                            "-fps_mode", "passthrough", "-pix_fmt", "yuvj420p", "-q:v", "2",
+                            scratch / "batch-%06d.jpg"])
+                    pictures = sorted(scratch.glob("batch-*.jpg"))
+                    if len(pictures) == len(numbers):
+                        frames = dict(zip(numbers, pictures))
+                        decoded = {timestamp: frames[index] for timestamp, index in selected.items()}
+            except (WorkflowError, KeyError, ValueError, ZeroDivisionError):
+                decoded = {}
+        for index, (timestamp, destinations) in enumerate(missing.items()):
+            picture = decoded.get(timestamp)
+            if picture is None:
+                picture = scratch / f"seek-{index}.jpg"
+                ffmpeg(["-ss", timestamp, "-i", source, "-frames:v", "1",
+                        "-pix_fmt", "yuvj420p", "-q:v", "2", picture])
+            if picture.is_file():
+                staged = scratch / "publish.jpg"
+                for destination in destinations:
+                    shutil.copyfile(picture, staged)
+                    staged.replace(destination)
 
 
 def ass_filter(filename, fonts_directory=None):

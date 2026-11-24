@@ -74,15 +74,15 @@ def record(run, spec, root=None):
     return {**pointer, "state": "recorded_non_use" if non_use_only(value) else "awaiting_knowledge_review", "automatic_promotion": False}
 
 
-def followup(run, root=None):
+def followup(run, root=None, *, read_navigation=read_json):
     root = Path(root or ROOT).resolve()
     plan_path = Path(run) / "plan.json"
     if not plan_path.exists():
         return {"state": "no_plan", "remaining": []}
-    plan = read_json(plan_path)
+    plan = read_navigation(plan_path)
     selected = plan.get("knowledge", []) + plan.get("source_references", []) + plan.get("knowledge_advisories", [])
     candidate_path = Path(run) / "outputs/candidate.json"
-    video = read_json(candidate_path).get("sha256") if candidate_path.exists() else None
+    video = read_navigation(candidate_path).get("sha256") if candidate_path.exists() else None
     accounted = set()
     for pointer in (Path(run) / "review/knowledge-use").glob("*.json"):
         ref = read_json(pointer)

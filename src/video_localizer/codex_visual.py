@@ -1,4 +1,5 @@
 """Project-bound visual work for the host Codex: real inputs, knowledge and output receipts."""
+from hashlib import sha256
 from pathlib import Path
 
 from PIL import Image
@@ -36,7 +37,7 @@ def _source(run):
 
 
 @guarded
-def packet(run, stage='recognize', spec=None, root=None):
+def packet(run, stage='recognize', spec=None, root=None, *, context_references=False):
     run = Path(run).resolve()
     root = Path(root or run.parent.parent).resolve()
     require(stage in ('recognize', 'image'), 'Codex visual stage must be recognize or image')
@@ -75,10 +76,15 @@ def packet(run, stage='recognize', spec=None, root=None):
     if request.get('profile'):
         names.append(f'config/profiles/{request["profile"]}/profile.json')
     texts = []
-    for name in names:
+    for name in dict.fromkeys(names):
         path = inside(root, name)
         require(path.is_file(), f'Missing Codex project context: {name}')
-        texts.append({'path': name, 'sha256': file_hash(path), 'text': path.read_text(encoding='utf-8-sig')})
+        if context_references:
+            texts.append({'path': name, 'sha256': file_hash(path)})
+        else:
+            content = path.read_bytes()
+            texts.append({'path': name, 'sha256': sha256(content).hexdigest(),
+                          'text': content.decode('utf-8-sig').replace('\r\n', '\n').replace('\r', '\n')})
     data = {'schema_version': 1, 'executor': 'codex', 'stage': stage, 'source': source,
             'request': request, 'request_asset': _asset(run, 'inputs/request.json'),
             'inventory_asset': _asset(run, 'analysis/inventory.json'),
@@ -87,6 +93,7 @@ def packet(run, stage='recognize', spec=None, root=None):
             'stage_focus': focus(focus_stage, inventory, root),
             'deferred_delivery_paths': sorted(deferred_paths),
             'context': texts, 'knowledge': methods, 'source_references': references,
+            **({'context_mode': 'references'} if context_references else {}),
             'related_source_references': related_source_references(context, root),
             'knowledge_advisories': advisory_retrieve(context, root),
             'instructions': task.get('instructions') or (
@@ -111,7 +118,10 @@ def packet(run, stage='recognize', spec=None, root=None):
     return {'packet': relative, 'sha256': file_hash(run / relative), 'executor': 'codex',
             'stage_focus': data['stage_focus'],
             'state': 'awaiting_codex', 'automatic_pass': False,
-            'next': 'Read packet, view actual images, perform the work, then codex-result RUN PACKET REPORT'}
+            'next': ('Read packet and the listed knowledge paths, reusing only paths already read at the exact SHA256. '
+                     'View the actual images before reporting with codex-result RUN PACKET REPORT'
+                     if context_references else
+                     'Read packet, view actual images, perform the work, then codex-result RUN PACKET REPORT')}
 
 
 def _verify_packet(run, relative, root, check_inventory=False):

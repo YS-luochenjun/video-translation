@@ -106,6 +106,7 @@
     "source_quote": "入到素材库，共享到需求组开启YouTube 视频自动上传，并打上语言tag和产品tag，最后再绑定到当前需求。素材名称用需求编号+语言",
     "track_youtube_progress_after_submission": false
   },
+  "default_upload_route": "presign",
   "upload_queue": {
     "enabled": true,
     "max_active_external_uploads": 1,

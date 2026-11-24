@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 
 from video_localizer import model_tasks, workflow
 from video_localizer.common import WorkflowError, object_hash, read_json, write_json
+from video_localizer.model_routing import selected
 
 
 class AudioTaskRetryTests(unittest.TestCase):
@@ -12,7 +13,7 @@ class AudioTaskRetryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'work/test-tmp') as tmp:
             run=Path(tmp)/'runs/fixture';run.mkdir(parents=True)
             packet={'source_sha256':'source','purpose':'fixed narration','estimated_credits':2,
-                    'payload':{'model':'google/gemini-2-5-pro-tts','input':{}}}
+                    'payload':{'model':selected('tts'),'input':{}}}
             first=object_hash(packet)
             old={'id':first,'state':'failed','error':'KIE code 429: call frequency too high','estimated_credits':2}
             path=run/'jobs'/f'{first}.json';write_json(path,old)
@@ -39,7 +40,7 @@ class AudioTaskRetryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'work/test-tmp') as tmp:
             run=Path(tmp)/'runs/fixture';run.mkdir(parents=True)
             packet={'source_sha256':'source','purpose':'fixed character','estimated_credits':1,
-                    'payload':{'model':'google/gemini-2-5-pro-tts','input':{}}}
+                    'payload':{'model':selected('tts'),'input':{}}}
             first=object_hash(packet)
             write_json(run/'jobs'/f'{first}.json',{'id':first,'state':'fail','task_id':'original','credits_consumed':0})
             client=Mock();client.credits.return_value=100;client.create.side_effect=['retry1','retry2']

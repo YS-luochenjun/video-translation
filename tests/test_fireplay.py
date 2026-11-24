@@ -60,6 +60,7 @@ class FireplayTests(unittest.TestCase):
         shutil.copytree(PROJECT / 'config', self.root / 'config', ignore=shutil.ignore_patterns('*.local.json'))
         defaults_path = self.root / 'config/fireplay-intake.json'
         defaults = read_json(defaults_path)
+        defaults.pop('default_upload_route', None)
         defaults['publication'].pop('upload_metadata', None)
         defaults['designer_selection']['tag'] = '二创'
         write_json(defaults_path, defaults)
@@ -161,6 +162,23 @@ class FireplayTests(unittest.TestCase):
         operation = fireplay.dispatch(CODE, root=self.root)['operation']
         self.assertEqual(operation['tool'], 'material_r2_presign_upload')
         self.assertIsNone(operation['materialize'])
+
+    def test_default_presign_avoids_full_video_json_and_preserves_frozen_bytes_route(self):
+        frozen_spec = self.returned_setup()
+        defaults_path = self.root / 'config/fireplay-intake.json'
+        defaults = read_json(defaults_path)
+        defaults['default_upload_route'] = 'presign'
+        write_json(defaults_path, defaults)
+        frozen = fireplay.prepare_return(CODE, frozen_spec, self.root)
+        self.assertTrue(all('upload_route' not in package for package in frozen['packages']))
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root)['operation']['tool'],
+                         'material_r2_upload_from_bytes')
+        (self.root / 'state/fireplay' / CODE / 'return-1.json').unlink()
+        fireplay.prepare_return(CODE, frozen_spec, self.root)
+        result = fireplay.dispatch(CODE, True, self.root)
+        self.assertEqual(result['operation']['tool'], 'material_r2_presign_upload')
+        self.assertNotIn('arguments_file', result['operation'])
+        self.assertFalse(list((self.root / 'work').rglob('fireplay-upload-*.json')))
 
     def test_prepare_return_rejects_unknown_upload_route(self):
         with self.assertRaisesRegex(WorkflowError, 'Invalid upload route'):

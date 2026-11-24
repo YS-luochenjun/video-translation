@@ -20,15 +20,7 @@ def _clock_tolerance(source_meta, base_meta):
 def _extract_sparse(path, numbers, region, destination):
     from . import media
     from .visual_audit import _selection
-    # A linear sum of >100 isolated between() terms overflows FFmpeg's
-    # expression parser even on an 80x96 fixture. Balance the expression tree;
-    # do not silently drop instances or decode every frame into retained PNGs.
-    def balanced(terms):
-        if len(terms) == 1:
-            return terms[0]
-        middle = len(terms)//2
-        return '('+balanced(terms[:middle])+'+'+balanced(terms[middle:])+')'
-    selection = balanced(_selection(numbers).split('+'))
+    selection = _selection(numbers, balanced=True)
     destination.mkdir(parents=True, exist_ok=True)
     x,y,w,h = region
     media.ffmpeg(['-threads','2','-i',path,'-filter_threads','1','-vf',
@@ -75,8 +67,39 @@ def sample_frames(item, times):
     return sorted(selected)
 
 
-def generate(run, candidate, plan):
+def _write_strips(run, rows, source, target, frame_region, staging, scratch):
     from PIL import Image
+
+    groups = {}
+    for index, row in enumerate(rows):
+        region = tuple(row['region'])
+        inputs = ((source, row['source_frame']), (inside(run, row['base_asset']['path']), row['base_frame']),
+                  (target, row['source_frame']))
+        for column, (movie, number) in enumerate(inputs):
+            regions = groups.setdefault(movie, {}).setdefault(number, {})
+            regions.setdefault(region, []).append((index, column))
+    crops = {}
+    for requests_index, (movie, requests) in enumerate(groups.items()):
+        with TemporaryDirectory(dir=scratch) as directory:
+            frames = _extract_sparse(movie, list(requests), frame_region, Path(directory))
+            for number, regions in requests.items():
+                with Image.open(frames[number]) as image:
+                    for region_index, ((left, top, width, height), placements) in enumerate(regions.items()):
+                        crop = scratch / f'{requests_index}-{number}-{region_index}.png'
+                        image.crop((left, top, left + width, top + height)).save(crop)
+                        for placement in placements:
+                            crops[placement] = crop
+    for index, row in enumerate(rows):
+        width, height = row['region'][2:]
+        strip = Image.new('RGB', (width * 3, height))
+        for column in range(3):
+            with Image.open(crops[index, column]) as image:
+                strip.paste(image, (column * width, 0))
+        row['image'] = f'{index:04}.png'
+        strip.save(staging / row['image'])
+
+
+def generate(run, candidate, plan):
     from .workflow import source_path
     from .visual_audit import _clock, _region
     from .text_restoration import items
@@ -139,34 +162,10 @@ def generate(run, candidate, plan):
                          'observation': 'pending'})
     folder.parent.mkdir(parents=True, exist_ok=True)
     with TemporaryDirectory(prefix='.restoration-', dir=folder.parent) as temporary:
-        staging = Path(temporary) / 'bundle'
+        scratch = Path(temporary)
+        staging = scratch / 'bundle'
         staging.mkdir()
-        # Decode each movie once. Extraction scratch is temporary, not a second
-        # retained copy of full frames; only native comparison strips survive.
-        groups = {}
-        for index, row in enumerate(rows):
-            for role, movie, number in (('source', source, row['source_frame']),
-                                       ('base', inside(run, row['base_asset']['path']), row['base_frame']),
-                                       ('target', target, row['source_frame'])):
-                groups.setdefault(movie, []).append((index, role, number))
-        for movie, requests in groups.items():
-            with TemporaryDirectory(dir=temporary) as scratch:
-                frames = _extract_sparse(movie, [r[2] for r in requests],
-                                  [0, 0, meta['width'], meta['height']], Path(scratch))
-                for index, role, number in requests:
-                    x,y,w,h = rows[index]['region']
-                    with Image.open(frames[number]) as image:
-                        image.crop((x,y,x+w,y+h)).save(staging / f'{index:04}-{role}.png')
-        for index, row in enumerate(rows):
-            paths = [staging / f'{index:04}-{role}.png' for role in ('source', 'base', 'target')]
-            w,h = row['region'][2:]
-            strip = Image.new('RGB', (w*3, h))
-            for column, path in enumerate(paths):
-                with Image.open(path) as image:
-                    strip.paste(image, (column*w, 0))
-                path.unlink()  # Scratch crops, already represented losslessly in strip.
-            row['image'] = f'{index:04}.png'
-            strip.save(staging / row['image'])
+        _write_strips(run, rows, source, target, [0, 0, meta['width'], meta['height']], staging, scratch)
         body = ''.join('<p>'+html.escape(f"{r['id']} / frame {r['source_frame']} / {r['source_pts']:.4f}s")+
                        '</p><img src="'+r['image']+'">' for r in rows)
         (staging/'index.html').write_text('<!doctype html><meta charset="utf-8"><title>去字三路对照</title>'

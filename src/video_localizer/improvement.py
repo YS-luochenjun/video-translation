@@ -3,10 +3,10 @@ from .common import (file_hash, guarded, inside, object_hash, read_json,
                      require, write_json)
 
 
-def agenda(run):
+def agenda(run, *, read_navigation=read_json):
     """Navigation invoked by work-packet; never manufacture a review or a retry."""
     inventory_path = run / 'analysis/inventory.json'
-    inventory = read_json(inventory_path) if inventory_path.exists() else {}
+    inventory = read_navigation(inventory_path) if inventory_path.exists() else {}
     items = inventory.get('text_instances', [])
     questions = [
         {'id': 'whole_scene', 'question': '与原片同一时刻整幅比较：主体、手势、箭头、图标或背景是否被去字一起抹掉？'},
@@ -18,9 +18,9 @@ def agenda(run):
     if inventory.get('audio', {}).get('has_speech'):
         questions.append({'id': 'listening', 'question': '完整听完目标人声及首末词了吗？对白、旁白、性别、音乐音效和字幕节奏是否与实际音轨一致？'})
     candidate_path = run / 'outputs/candidate.json'
-    candidate = read_json(candidate_path) if candidate_path.exists() else {}
+    candidate = read_navigation(candidate_path) if candidate_path.exists() else {}
     completion_path = run / 'outputs/completion.json'
-    completion = read_json(completion_path) if completion_path.exists() else {}
+    completion = read_navigation(completion_path) if completion_path.exists() else {}
     # A finalized best-available output may differ from the earlier candidate.
     # Do not present the earlier candidate's probes as a review of that output.
     selected_sha = completion.get('video_sha256') or candidate.get('sha256')
@@ -28,7 +28,7 @@ def agenda(run):
     capture = read_json(capture_path) if capture_path.exists() else {}
     probes = capture.get('review_probes') if capture.get('video_sha256') == selected_sha else None
     quality_path = run / 'outputs/quality.json'
-    quality = read_json(quality_path) if quality_path.exists() else {}
+    quality = read_navigation(quality_path) if quality_path.exists() else {}
     records = [read_json(p) for p in sorted((run / 'review/improvements').glob('*.json'))]
     policy_path = run.parent.parent / 'config/workspace.json'
     policy = read_json(policy_path) if policy_path.exists() else {}

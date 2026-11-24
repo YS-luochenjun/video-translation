@@ -27,11 +27,11 @@ class CodexVisualTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text('Project constraint: preserve product identity.', encoding='utf-8')
 
-    def make_packet(self, stage='recognize'):
+    def make_packet(self, stage='recognize', **options):
         from video_localizer import codex_visual
         with patch.object(codex_visual, 'retrieve', return_value=[]), \
                 patch.object(codex_visual, 'source_references', return_value=[]):
-            return codex_visual.packet(self.run, stage, root=self.root)
+            return codex_visual.packet(self.run, stage, root=self.root, **options)
 
     def report(self, packet, **changes):
         frozen = read_json(self.run / packet['packet'])
@@ -50,6 +50,19 @@ class CodexVisualTests(unittest.TestCase):
         self.assertEqual(frozen['stage'], 'recognize')
         self.assertEqual(frozen['images'][0]['sha256'], file_hash(self.run / 'frame.png'))
         self.assertTrue(frozen['context'])
+        self.assertFalse(result['automatic_pass'])
+
+    def test_context_references_preserve_knowledge_and_image_binding(self):
+        from video_localizer import codex_visual
+        full = read_json(self.run / self.make_packet()['packet'])
+        packet = self.make_packet(context_references=True)
+        compact = read_json(self.run / packet['packet'])
+        self.assertEqual(compact['images'], full['images'])
+        self.assertEqual(compact['context'],
+                         [{k: entry[k] for k in ('path', 'sha256')} for entry in full['context']])
+        with self.assertRaisesRegex(WorkflowError, 'knowledge read'):
+            codex_visual.record(self.run, packet['packet'], self.report(packet, knowledge_read=[]), root=self.root)
+        result = codex_visual.record(self.run, packet['packet'], self.report(packet), root=self.root)
         self.assertFalse(result['automatic_pass'])
 
     def test_delivery_rule_is_discoverable_without_inlining_its_body(self):

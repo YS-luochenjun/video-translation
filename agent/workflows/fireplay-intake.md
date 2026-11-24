@@ -39,6 +39,8 @@ config/fireplay-intake.json.continuous_execution保存用户持续执行授权�
 
 ## 就绪、部分提交与unknown
 
+同一成片先完成实际视听审核，再用该版已有观察和证据做发布裁定。已记录的普通瑕疵沿用原影响判断，达到已有停止条件时记录 `best_available` 并继续提交。回传、上传、绑定和超时恢复读取已冻结的成片哈希、归档清单及裁定。成片或审核依据改变、有新增严重发现或有效异议时，处理受影响版本。平台传输超时沿原回执核对实际上传状态，按已有恢复规则处理。
+
 质量通过的完整正式outputs直接回传，不停在deliver后再问固定动作同意。有限预算/返工/能力内已做到最好的完整成品，普通不合格也可提交：实际看成片后执行 `fireplay-publication-review CODE SPEC`，填写完整翻译/必需配音/可观看判断、实际缺陷影响和best_available的stop_condition、reason及包内evidence。内部revise、评分低或普通瑕疵数量不单独阻断；大面积撕裂、无法观看、严重主体损坏、漏译、缺必需配音或有效质量异议仍阻断对应版本。旧普通问题否决可用reassess_under_current_policy追加新审查，保留原决定；不能重编码伪造新版本来绕过旧判断。模板见 `agent/templates/fireplay-publication-review.json`。共用底片的共同缺陷集中修复；单个语种的配音/译字/排版仍独立检查，不从一个成功外推全部。
 
 固定提交持续授权及用户原话统一维护于config/fireplay-publication.json.submission_consent，由fireplay-chat、fireplay-status和巡检恢复消息带入。它包括对应需求组共享，不逐成片、批次或需求再问是否上传/共享。调用时附真实授权来源及当前精确成片/组范围，不新增确认表单。宿主明确拒绝或要求本次人工确认时仍须保留真实拒绝，说明具体操作与原因，不换工具绕过；请求人类处理前先核对当前及原负责聊天是否已有人类明确确认相同范围。项目持续授权不冒充宿主批准或成片质量通过。
@@ -48,7 +50,7 @@ config/fireplay-intake.json.continuous_execution保存用户持续执行授权�
 
    用户另行明确同意使用已核验的平台用户ID时，可在本次attribution填`designer_ids`、`identity_route=verified_user_id`及单独的`identity_authorization_ref`；ID须属于当前需求执行人，不从登录账号推测。此例外不生成或猜测DID，也不改变实际设计师归属，展示标题仍须填写下述真实DID映射。执行器在import后、verify前登记`attribute-N`，通过真实`material_attribution_update`填写设计师/二创，再读material_detail，以`response`和`verification`登记回执；预览或没有真实归属读回不得当完成，unknown不重发。
 3. `fireplay-dispatch CODE --video N`预览，`--execute`只先登记unknown并准备宿主参数，不执行外部调用。宿主发现当前完整工具合同后恰好执行一次，再用 `fireplay-receipt CODE OPERATION FILE --video N`登记真实回执。未知结果先查原平台记录；实际文件上传超时且没有可用资源/素材回执时，按全项交付规则用fireplay-retry-upload登记有界重传，不再逐次请求同意，保留旧unknown；其他未知写入不再dispatch；不自行补无依据的confirmed参数。仅文件上传unknown且尚未入库时，可由 `fireplay.defer_unknown_upload` 登记用户明确不重传的决定或Agent基于真实超时回执的暂缓观察（authority、authorization_ref、source_quote），保留原unknown操作和全部包/编号，仅继续本批其他语种。暂缓语种留在pending_locales；绑定只含已核验语种，不把部分回传报告为全部完成，也不自动恢复或重发暂缓上传。
-4. 本批逐语种upload → import → verify，全部核验后bind。upload使用material_r2_upload_from_bytes，实际base64参数文件不打印；单文件超过50MB或宿主传输受限时走平台支持的预签名/网页路径并留真实回执。import使用普通MCP的VedioSouce=YouTube请求平台自动上传，实际shared_dept_id与下述英文标签随项填写；组共享不等于全平台is_public。素材名及标签按下述当前规则生成。
+4. 本批逐语种upload → import → verify，全部核验后bind。新准备的包按 `config/fireplay-intake.json.default_upload_route` 默认使用 `material_r2_presign_upload`，对正式 MP4 进行二进制 PUT，再登记真实 HTTP 成功、文件 SHA256 及资源回执。已冻结的包沿原上传路线恢复。显式 `upload_route: bytes` 仍使用原 `material_r2_upload_from_bytes`，实际 Base64 参数文件不打印。import 使用普通 MCP 的 `VedioSouce=YouTube` 请求平台自动上传，实际 `shared_dept_id` 与下述英文标签随项填写；组共享不等于全平台 is_public。素材名及标签按下述当前规则生成。
 5. verify通过material_detail读回实际material_id、名称、共享组与tag，并核对已指定的设计师及二创类型；缺失则按真实ID修正并重读，不重入库。bind使用真实素材ID，不操作设计订单；回执另附当前requirement_list(view=delivery)读后验证，确认精确需求包含本批全部素材。平台要求用户选材时展示selection URL并等待，不自选。绑定后各run写external-submission.json并引用持久state回执，不自动改需求状态或投放。
 
 ## 上传命名与标签

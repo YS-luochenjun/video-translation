@@ -16,11 +16,16 @@ from .knowledge import context_for, retrieve, source_references
 from .knowledge_advisories import retrieve as advisory_retrieve
 
 
-def source_path(run):
+def verified_source(run):
     record = read_json(run / "run.json")
     source = inside(run, record["source"])
-    require(file_hash(source) == record["source_sha256"], "Source changed; create a new run")
-    return source
+    digest = file_hash(source)
+    require(digest == record["source_sha256"], "Source changed; create a new run")
+    return source, digest
+
+
+def source_path(run):
+    return verified_source(run)[0]
 
 
 def profile_path(run):
@@ -353,16 +358,17 @@ def current_plan(run):
     require(plan["id"] == object_hash({key: value for key, value in plan.items() if key != "id"})[:16],
             "Plan content changed; regenerate it from the inventory")
     require(plan["inventory_sha256"] == file_hash(run / "analysis/inventory.json"), "Inventory changed; regenerate plan")
+    inventory = read_json(run / 'analysis/inventory.json')
     from .source_styles import verify_contract as verify_style_contract
-    verify_style_contract(run, plan, read_json(run/'analysis/inventory.json'))
+    verify_style_contract(run, plan, inventory)
     from .text_restoration import validate as validate_text_restoration
-    validate_text_restoration(run, read_json(run / 'analysis/inventory.json'))
-    codex_source = read_json(run / 'analysis/inventory.json').get('codex_source_result')
+    validate_text_restoration(run, inventory)
+    codex_source = inventory.get('codex_source_result')
     if codex_source:
         from .codex_visual import verify
         verify(run, codex_source['path'], codex_source['sha256'], root=ROOT, stage='recognize')
     require(plan["request_sha256"] == file_hash(run / "inputs/request.json"), "Request changed; regenerate plan")
-    require(plan["source_sha256"] == file_hash(source_path(run)), "Plan source mismatch")
+    require(plan["source_sha256"] == verified_source(run)[1], "Plan source mismatch")
     require(plan["profile_sha256"] == file_hash(profile_path(run)), "Profile changed; regenerate plan")
     require(plan["quality_sha256"] == file_hash(ROOT / "config/quality.json"), "Quality standards changed; regenerate plan")
     for asset in plan.get("audio_assets", []):
@@ -374,6 +380,7 @@ def current_plan(run):
         limits = execution_limits(run)
         require(all(plan["execution_limits"][key] == limits[key] for key in plan["execution_limits"]),
                 "Run budget changed; regenerate plan")
+    request = None
     for segment in plan["segments"]:
         if segment.get('codex_image_result'):
             from .codex_visual import verify
@@ -381,9 +388,10 @@ def current_plan(run):
             verify(run, asset.get('path', asset.get('record')), asset['sha256'], root=ROOT, stage='image')
         if segment.get('surface_typography'):
             from . import surface
-            inventory = read_json(run / 'analysis/inventory.json')
+            if request is None:
+                request = read_json(run / 'inputs/request.json')
             surface.verify(run, segment['surface_typography'], plan['source_sha256'],
-                           read_json(run / 'inputs/request.json')['target_language'],
+                           request['target_language'],
                            [item for item in inventory['text_instances'] if item['id'] in segment['instance_ids']])
         if segment.get('prepared_video'):
             from .prepared import verify
@@ -397,7 +405,7 @@ def current_plan(run):
             if kind in ("day", "night"):
                 require(file_hash(inside(run, asset["path"])) == asset["sha256"], "Reference plate changed; regenerate plan")
     from . import typography
-    typography.verify_contract(run, plan, read_json(run / 'analysis/inventory.json'))
+    typography.verify_contract(run, plan, inventory)
     return plan
 
 
@@ -640,13 +648,13 @@ def build_plan(run, experiment=None):
     directory = run / "plans" / plan_id
     directory.mkdir(parents=True, exist_ok=True)
     write_json(directory / "plan.json", plan)
+    from .plan_inputs import freeze
     for name, path in {"inventory.json": run / "analysis/inventory.json", "request.json": run / "inputs/request.json",
                        "media.json": run / "analysis/media.json", "profile.json": profile_path(run),
                        "quality.json": ROOT / "config/quality.json"}.items():
         frozen = directory / "inputs" / name
         if not frozen.exists():
-            frozen.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(path, frozen)
+            freeze(run, plan_id, name, path)
     for index, entry in enumerate(knowledge):
         frozen = directory / "knowledge" / f"{index+1:02d}.md"
         if not frozen.exists():
@@ -908,14 +916,50 @@ def submit(run, segment_id, client=None, retry_failed=False):
     return {"job": digest, "state": job["state"], "task_id": job["task_id"]}
 
 
+POLL_BATCH_LIMIT = 32
+PENDING_POLL_STATES = frozenset({'submitted', 'waiting', 'queuing', 'generating'})
+
+
+def pending_poll(job):
+    state = job.get('state')
+    return bool(job.get('task_id')) and (
+        state in PENDING_POLL_STATES or state == 'success' and not job.get('result'))
+
+
+def _validate_poll_id(job_id):
+    require(len(job_id) == 64 and all(c in "0123456789abcdef" for c in job_id), "Invalid job id")
+
+
 @guarded
 def poll(run, job_id, wait_seconds=0, client=None):
-    require(len(job_id) == 64 and all(c in "0123456789abcdef" for c in job_id), "Invalid job id")
-    path = inside(run / "jobs", job_id + ".json")
+    _validate_poll_id(job_id)
     require_number(wait_seconds, "wait_seconds", maximum=45)
-    client = client or KieClient()
+    return _poll_job(run, job_id, wait_seconds, client or KieClient())
+
+
+@guarded
+def poll_batch(run, job_ids, client=None, *, pending_only=False):
+    require(1 <= len(job_ids) <= POLL_BATCH_LIMIT, f'Provide 1 to {POLL_BATCH_LIMIT} recorded jobs')
+    for job_id in job_ids:
+        _validate_poll_id(job_id)
+    results = []
+    for job_id in dict.fromkeys(job_ids):
+        try:
+            if client is None:
+                client = KieClient()
+            results.append(_poll_job(run, job_id, 0, client, pending_only=pending_only))
+        except (WorkflowError, OSError, KeyError, ValueError) as exc:
+            results.append({'id': job_id, 'state': 'poll_error', 'error': str(exc)})
+    return {'jobs': results, 'new_paid_submission': False}
+
+
+def _poll_job(run, job_id, wait_seconds, client, *, pending_only=False):
+    path = inside(run / "jobs", job_id + ".json")
     with lock(run / "jobs" / (job_id + ".poll.lock")):
         job = read_json(path)
+        receipt_keys = ("id", "state", "result", "credits_consumed", "provider_code", "provider_error")
+        if pending_only and not pending_poll(job):
+            return {**{key: job.get(key) for key in receipt_keys}, 'skipped': True}
         require(bool(job.get("task_id")), "Job has no known task id; reconcile with KIE log before any retry")
         deadline = time.monotonic() + wait_seconds
         while True:
@@ -945,7 +989,7 @@ def poll(run, job_id, wait_seconds=0, client=None):
                     job["result_sha256"] = file_hash(destination)
             write_json(path, job)
             if job["state"] in ("success", "fail", "failed") or time.monotonic() >= deadline:
-                return {key: job.get(key) for key in ("id", "state", "result", "credits_consumed", "provider_code", "provider_error")}
+                return {key: job.get(key) for key in receipt_keys}
             time.sleep(min(10, max(0, deadline-time.monotonic())))
 
 
@@ -1113,7 +1157,7 @@ def quality(run):
     if (actual["width"], actual["height"]) != (source["width"], source["height"]):
         failures.append("dimensions_changed")
     inventory = read_json(run / "analysis/inventory.json")
-    audio_check = audio_tools.evaluate(source_path(run), path, inventory["audio"], source["duration"])
+    audio_check = audio_tools.evaluate_cached(run, source_path(run), path, inventory["audio"], source["duration"])
     failures.extend(audio_check["failures"])
     capture_path = run / "review/capture.json"
     captured = read_json(capture_path) if capture_path.exists() else {}

@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta, timezone
 import unittest
 import json
+from unittest.mock import patch
 
 import test_fireplay as fixtures
 import test_fireplay_publication as publication_fixtures
@@ -49,6 +50,21 @@ class DeliveryClosureTests(unittest.TestCase):
         assessment['defects'][0]['kind'] = 'large_area_tearing'
         r = publication.review(fixtures.CODE, {'package': spec['packages'][0]['package'], 'assessment': assessment}, self.root)
         self.assertEqual(r['decision'], 'blocked_major_or_incomplete')
+
+    def test_dispatch_hashes_reviewed_media_once_per_operation_and_rechecks_later(self):
+        spec, assessment = self.complete_output('major', many=True)
+        self.best(assessment)
+        item = spec['packages'][0]
+        publication.review(fixtures.CODE, {'package': item['package'], 'assessment': assessment}, self.root)
+        spec.update(packages=[item], partial=True)
+        box = fireplay.prepare_return(fixtures.CODE, spec, self.root)
+        movie = self.root / box['packages'][0]['file']
+        with patch('video_localizer.common.file_hash', wraps=file_hash) as digest:
+            self.assertEqual(fireplay.dispatch(fixtures.CODE, root=self.root)['state'], 'preview')
+            self.assertEqual(sum(call.args[0] == movie for call in digest.call_args_list), 1)
+        movie.write_bytes(b'changed after preview')
+        with self.assertRaisesRegex(WorkflowError, 'Reviewed deliverable changed'):
+            fireplay.dispatch(fixtures.CODE, root=self.root)
 
     def test_legacy_minor_review_remains_idempotent_under_new_policy(self):
         spec, assessment = self.complete_output()

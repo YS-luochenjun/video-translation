@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from video_localizer import bundles, improvement, knowledge_review, media, review_probes
+from video_localizer import bundles, improvement, knowledge_review, media, review_probes, visual_audit
 from video_localizer.common import WorkflowError, file_hash, read_json, write_json
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -134,8 +134,65 @@ class ProbeTests(unittest.TestCase):
             self.assertAlmostEqual(manifest['pairs'][-1]['target_pts'], 23/24, places=5)
             with patch.object(media, 'ffmpeg', side_effect=AssertionError('Must not re-decode unchanged probes')):
                 self.assertTrue(review_probes.generate(run, candidate)['reused'])
+            media.ffmpeg(['-f', 'lavfi', '-i', 'color=c=green:s=80x96:r=24:d=1',
+                          '-c:v', 'libx264', '-pix_fmt', 'yuv420p', run / 'revised.mp4'])
+            revised = {'path': 'revised.mp4', 'sha256': file_hash(run / 'revised.mp4'), 'plan_id': 'fixture'}
+            with patch.object(visual_audit, '_extract', wraps=visual_audit._extract) as extract:
+                new_result = review_probes.generate(run, revised)
+            self.assertEqual([call.args[0].name for call in extract.call_args_list], ['revised.mp4'])
+            new_manifest = read_json(run / new_result['manifest'])
+            self.assertEqual(new_manifest['binding']['video_sha256'], revised['sha256'])
+            self.assertTrue(all(row['observation'] == 'pending' for row in new_manifest['pairs']))
+            old_source = (run / result['manifest']).parent / manifest['pairs'][0]['source_image']
+            new_source = (run / new_result['manifest']).parent / new_manifest['pairs'][0]['source_image']
+            self.assertEqual(old_source.read_bytes(), new_source.read_bytes())
             frame = run / result['manifest']
             image = frame.parent / manifest['pairs'][0]['target_image']
             image.write_bytes(b'tampered fixture')
             with self.assertRaisesRegex(WorkflowError, 'evidence changed'):
                 review_probes.generate(run, candidate)
+
+    @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'FFmpeg required')
+    def test_whole_scene_source_frames_reuse_within_request(self):
+        with tempfile.TemporaryDirectory(dir=PROJECT / 'work/test-tmp') as temporary:
+            root = Path(temporary)
+            for name, color in [('source.mp4', 'blue'), ('after.mp4', 'yellow'), ('other.mp4', 'green')]:
+                media.ffmpeg(['-f', 'lavfi', '-i', f'color=c={color}:s=80x96:r=24:d=1',
+                              '-c:v', 'libx264', '-pix_fmt', 'yuv420p', root / name])
+
+            def capture(name, requirement, target):
+                run = root / 'runs' / name
+                run.mkdir(parents=True)
+                for filename in ('source.mp4', target):
+                    shutil.copyfile(root / filename, run / filename)
+                write_json(run / 'run.json',
+                           {'source': 'source.mp4', 'source_sha256': file_hash(run / 'source.mp4')})
+                write_json(run / 'inputs/fireplay.json', {'requirement_id': requirement})
+                write_json(run / 'analysis/inventory.json', {'text_instances': [], 'shots': []})
+                candidate = {'path': target, 'sha256': file_hash(run / target), 'plan_id': name}
+                with patch.object(visual_audit, '_extract', wraps=visual_audit._extract) as extract:
+                    result = review_probes.generate(run, candidate)
+                manifest_path = run / result['manifest']
+                manifest = read_json(manifest_path)
+                return manifest_path, manifest, [call.args[0].name for call in extract.call_args_list]
+
+            first, first_manifest, decoded = capture('de', 'request-a', 'after.mp4')
+            self.assertEqual(decoded, ['source.mp4', 'after.mp4'])
+            second, second_manifest, decoded = capture('fr', 'request-a', 'other.mp4')
+            self.assertEqual(decoded, ['other.mp4'])
+            self.assertNotEqual(first_manifest['binding']['video_sha256'], second_manifest['binding']['video_sha256'])
+            self.assertEqual(first_manifest['omitted_probes'], second_manifest['omitted_probes'])
+            self.assertFalse(second_manifest['automatic_pass'])
+            for first_pair, second_pair in zip(first_manifest['pairs'], second_manifest['pairs']):
+                self.assertEqual(first_pair['source_pts'], second_pair['source_pts'])
+                self.assertEqual(second_pair['observation'], 'pending')
+                self.assertTrue((first.parent / first_pair['source_image']).samefile(
+                    second.parent / second_pair['source_image']))
+
+            _, _, decoded = capture('ko', 'request-b', 'other.mp4')
+            self.assertEqual(decoded, ['source.mp4', 'other.mp4'])
+            source_frame = second.parent / second_manifest['pairs'][0]['source_image']
+            source_frame.unlink()
+            _, _, decoded = capture('ja', 'request-a', 'other.mp4')
+            self.assertEqual(decoded, ['source.mp4', 'other.mp4'])
+            self.assertTrue((first.parent / first_manifest['pairs'][0]['source_image']).is_file())

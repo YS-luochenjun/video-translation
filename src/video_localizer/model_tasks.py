@@ -10,7 +10,9 @@ from .common import file_hash, guarded, inside, lock, object_hash, read_json, re
 from .kie import ApiError, KieClient, download
 
 VIDEO_MODELS = ('wan/3-0-video', 'wan/2-7-videoedit', 'bytedance/seedance-2-fast', 'wan/2-6-flash-video-to-video', 'bytedance/seedance-2-mini')
-GEMINI_TTS_MODELS = ('google/gemini-2-5-pro-tts', 'google/gemini-3-1-flash-tts', 'google/gemini-3-8-flash-lite-tts')
+GEMINI_FLASH_TTS = 'google/gemini-3-8-flash-tts'
+GEMINI_38_TTS_MODELS = (GEMINI_FLASH_TTS, 'google/gemini-3-8-flash-lite-tts')
+GEMINI_TTS_MODELS = ('google/gemini-2-5-pro-tts', 'google/gemini-3-1-flash-tts', *GEMINI_38_TTS_MODELS)
 
 
 def _reference_image(path):
@@ -103,7 +105,7 @@ def packet(run, relative):
         if 'stability' in inputs:
             require_number(inputs['stability'], 'ElevenLabs stability', minimum=0, maximum=1)
     elif model in GEMINI_TTS_MODELS:
-        modern = model == 'google/gemini-3-8-flash-lite-tts'
+        modern = model in GEMINI_38_TTS_MODELS
         if model != 'google/gemini-2-5-pro-tts':
             from .model_routing import require_remote_task
             require_remote_task(model, run=run, authorization=data.get('model_authorization'))
@@ -120,7 +122,10 @@ def packet(run, relative):
                         and ('style' not in turn or isinstance(turn['style'], str))
                         for turn in inputs.get('dialogue_turns', [])), 'Invalid Gemini 3.8 dialogue turn')
         require(bool(inputs.get('speakers')) and bool(inputs.get('dialogue_turns')), 'Gemini TTS needs speaker configuration and lines')
-        require(all(isinstance(s, dict) and set(s) <= {'speaker_id', 'voice_name', 'audio_profile', 'accent', 'style', 'pace'}
+        speaker_fields = {'speaker_id', 'voice_name'}
+        if model != GEMINI_FLASH_TTS:
+            speaker_fields.update({'audio_profile', 'accent', 'style', 'pace'})
+        require(all(isinstance(s, dict) and set(s) <= speaker_fields
                     and isinstance(s.get('voice_name'), str) and s['voice_name'].strip()
                     for s in inputs['speakers']), 'Gemini TTS needs explicit voice_name and documented speaker fields')
         # Optional delivery controls remain available. Their provider enums must be

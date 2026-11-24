@@ -12,6 +12,7 @@ from unittest.mock import Mock, patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from video_localizer import batches, budgets, common, model_tasks, production, timing, workflow
 from video_localizer.common import WorkflowError, file_hash, read_json, write_json
+from video_localizer.model_routing import selected
 
 PROJECT = Path(__file__).resolve().parents[1]
 
@@ -135,7 +136,7 @@ class BatchBudgetTests(unittest.TestCase):
     def test_model_task_budget_blocks_before_any_provider_call(self):
         run = self.runs[0]
         self.reserve(run, 'a'*64, 60)
-        data = {'payload': {'model': 'google/gemini-2-5-pro-tts'}, 'estimated_credits': 1}
+        data = {'payload': {'model': selected('tts')}, 'estimated_credits': 1}
         client = Mock()
         with patch.object(model_tasks, 'packet', return_value=data), patch.object(workflow, 'execution_limits', return_value={
                 'max_paid_jobs_per_run': 2, 'max_estimated_credits_per_run': 60}):

@@ -1,10 +1,12 @@
 """Small, native-frame whole-scene comparisons; observations stay with the Agent."""
 import bisect
 import html
+import os
+import shutil
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from .common import file_hash, inside, object_hash, read_json, require, write_json
+from .common import WorkflowError, file_hash, inside, lock, object_hash, read_json, require, write_json
 
 MAX_PAIRS = 12
 VERSION = 1
@@ -44,9 +46,126 @@ def _nearest(times, value):
                key=lambda n: (abs(times[n] - value), n))
 
 
+def _previous_frames(run, decoder, digests):
+    frames = {}
+    for path in sorted((run / 'review').glob('*/whole-scene-*/manifest.json')):
+        try:
+            manifest = read_json(path)
+            if manifest.get('frame_decoder') != decoder:
+                continue
+            for role, field in (('source', 'source_sha256'), ('target', 'video_sha256')):
+                digest = manifest['binding'][field]
+                if digest not in digests:
+                    continue
+                for row in manifest['pairs']:
+                    relative = row[f'{role}_image']
+                    image = inside(path.parent, relative)
+                    if image.is_file():
+                        frames.setdefault((digest, row[f'{role}_frame']),
+                                          (image, manifest['files'][relative]))
+        except (OSError, ValueError, WorkflowError, KeyError, TypeError, AttributeError):
+            continue
+    return frames
+
+
+def _source_index(run, digest, decoder, region):
+    root = run.parent.parent
+    binding = run / 'inputs/fireplay.json'
+    scope = {'kind': 'local'}
+    if binding.exists() or binding.is_symlink():
+        try:
+            requirement = read_json(binding)['requirement_id']
+            if not isinstance(requirement, str) or not requirement:
+                return None
+        except (OSError, ValueError, KeyError, TypeError):
+            return None
+        scope = {'kind': 'fireplay', 'requirement_id': requirement}
+    key = object_hash({'version': VERSION, 'scope': scope, 'source': digest,
+                       'decoder': decoder, 'region': region})
+    return root / 'state/visual-decode-cache/whole-scene-source' / f'{key}.json'
+
+
+def _read_source_index(index):
+    try:
+        record = read_json(index)
+        frames = record['frames']
+        if isinstance(frames, dict) and record['sha256'] == object_hash(frames):
+            return frames
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    return {}
+
+
+def _shared_frames(root, index, digest, numbers):
+    if index is None:
+        return {}
+    entries = _read_source_index(index)
+    frames = {}
+    for number in set(numbers):
+        try:
+            entry = entries[str(number)]
+            path = inside(root, entry['path'])
+            parts = path.relative_to(root).parts
+            if (len(parts) == 7 and parts[0] == 'runs' and parts[2] == 'review'
+                    and parts[4].startswith('whole-scene-') and parts[5] == 'source'
+                    and path.suffix == '.png'):
+                frames[digest, number] = (path, entry['sha256'])
+        except (WorkflowError, OSError, ValueError, KeyError, TypeError):
+            continue
+    return frames
+
+
+def _publish_source_frames(root, index, directory, source_frames, staging, manifest):
+    if index is None:
+        return
+    entries = {}
+    for number, path in source_frames.items():
+        relative = path.relative_to(staging)
+        entries[str(number)] = {'path': (directory / relative).relative_to(root).as_posix(),
+                                'sha256': manifest['files'][relative.as_posix()]}
+    try:
+        with lock(index.with_suffix('.lock')):
+            frames = {**_read_source_index(index), **entries}
+            write_json(index, {'frames': frames, 'sha256': object_hash(frames)})
+    except (OSError, WorkflowError):
+        return
+
+
+def _reuse_frame(cached, destination):
+    source, digest = cached
+    try:
+        try:
+            os.link(source, destination)
+        except OSError:
+            shutil.copyfile(source, destination)
+        if file_hash(destination) == digest:
+            return True
+    except FileNotFoundError:
+        pass
+    destination.unlink(missing_ok=True)
+    return False
+
+
+def _frames(movie, digest, numbers, meta, staging, scratch, previous):
+    from .visual_audit import _extract
+    staging.mkdir(parents=True, exist_ok=True)
+    frames, missing = {}, {}
+    for position, number in enumerate(sorted(set(numbers)), 1):
+        destination = staging / f'{position:06d}.png'
+        frames[number] = destination
+        cached = previous.get((digest, number))
+        if not cached or not _reuse_frame(cached, destination):
+            missing[number] = destination
+    if missing:
+        decoded = _extract(movie, list(missing), [0, 0, meta['width'], meta['height']], scratch)
+        for number, image in decoded.items():
+            image.rename(missing[number])
+    return frames
+
+
 def generate(run, candidate):
     from .workflow import source_path
-    from .visual_audit import _clock, _extract
+    from .visual_audit import _clock
     original = source_path(run)
     target = inside(run, candidate['path'])
     require(file_hash(target) == candidate['sha256'], 'Whole-scene candidate changed')
@@ -68,19 +187,29 @@ def generate(run, candidate):
         # shared with restoration evidence. Reuse their verified decoding only;
         # the per-candidate comparison and review remain independent.
         from .visual_reuse import EvidenceCache
-        clocks = {'_reuse': EvidenceCache(run.parent.parent)}
+        cache = EvidenceCache(run.parent.parent)
+        clocks = {'_reuse': cache}
+        decoder = object_hash(cache.engine)
+        previous = _previous_frames(run, decoder, {binding['source_sha256'], binding['video_sha256']})
         source_times, source_meta = _clock(original, clocks)
         target_times, target_meta = _clock(target, clocks)
         selected, omitted = select_times(inventory, source_times[-1])
         pairs = [{**row, 'source_frame': _nearest(source_times, row['time']),
                   'target_frame': _nearest(target_times, row['time'])} for row in selected]
+        source_numbers = [row['source_frame'] for row in pairs]
+        root = run.parent.parent
+        index = _source_index(run, binding['source_sha256'], decoder,
+                              [0, 0, source_meta['width'], source_meta['height']])
+        source_previous = {**_shared_frames(root, index, binding['source_sha256'], source_numbers),
+                           **previous}
         directory.parent.mkdir(parents=True, exist_ok=True)
         with TemporaryDirectory(prefix='.whole-scene-', dir=directory.parent) as temporary:
-            staging = Path(temporary) / 'bundle'
-            source_frames = _extract(original, [p['source_frame'] for p in pairs],
-                [0, 0, source_meta['width'], source_meta['height']], staging / 'source')
-            target_frames = _extract(target, [p['target_frame'] for p in pairs],
-                [0, 0, target_meta['width'], target_meta['height']], staging / 'target')
+            scratch = Path(temporary)
+            staging = scratch / 'bundle'
+            source_frames = _frames(original, binding['source_sha256'], source_numbers,
+                                    source_meta, staging / 'source', scratch / 'decode-source', source_previous)
+            target_frames = _frames(target, binding['video_sha256'], [p['target_frame'] for p in pairs],
+                                    target_meta, staging / 'target', scratch / 'decode-target', previous)
             for row in pairs:
                 row.update(source_pts=source_times[row['source_frame']], target_pts=target_times[row['target_frame']],
                            source_image=source_frames[row['source_frame']].relative_to(staging).as_posix(),
@@ -95,11 +224,13 @@ def generate(run, candidate):
                 'div{display:flex;gap:12px}figure{width:48%;margin:0}img{max-width:100%;height:auto}</style>'
                 '<h1>整幅画面对照：待实际审核</h1><p>看主体、背景、文字风格和片尾；抽帧不能代替完整播放和听审。</p>' + rows,
                 encoding='utf-8')
-            manifest = {'binding': binding, 'pairs': pairs, 'omitted_probes': omitted,
+            manifest = {'binding': binding, 'pairs': pairs, 'omitted_probes': omitted, 'frame_decoder': decoder,
                         'automatic_pass': False, 'limitation': 'Bounded static probes; no proof of motion, audio or every frame.',
                         'files': {p.relative_to(staging).as_posix(): file_hash(p) for p in sorted(staging.rglob('*')) if p.is_file()}}
             write_json(staging / 'manifest.json', manifest)
+            cache.verify_inputs()
             staging.rename(directory)
+            _publish_source_frames(root, index, directory, source_frames, staging, manifest)
         reused = False
     return {'manifest': manifest_path.relative_to(run).as_posix(), 'sha256': file_hash(manifest_path),
             'viewer': (directory / 'index.html').relative_to(run).as_posix(), 'pairs': len(manifest['pairs']),

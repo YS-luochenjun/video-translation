@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 from . import media
-from .common import file_hash, read_json, require, write_json
+from .common import file_hash, object_hash, read_json, require, write_json
 
 SAMPLE_RATE = 16000
 
@@ -210,6 +210,29 @@ def evaluate(source_path, candidate_path, policy, duration):
             "source": source, "candidate": actual, "waveform_match": match,
             "failures": list(dict.fromkeys(failures)),
             "proof_boundary": "Signal, duration and retained-waveform checks; not listening, ASR, dialogue translation or lip-sync proof"}
+
+
+def evaluate_cached(run, source_path, candidate_path, policy, duration):
+    inputs = {'source_sha256': file_hash(source_path), 'video_sha256': file_hash(candidate_path),
+              'policy': policy, 'duration': duration,
+              'audio_code': file_hash(Path(__file__)), 'media_code': file_hash(Path(media.__file__)),
+              'tools': [media.command([tool, '-version']).stdout for tool in ('ffmpeg', 'ffprobe')]}
+    signature = object_hash(inputs)
+    path = run / 'review/audio-technical-cache.json'
+    try:
+        cached = read_json(path)
+        report = cached['report']
+        if (cached['signature'] == signature and cached['report_sha256'] == object_hash(report)
+                and report['source_sha256'] == inputs['source_sha256']
+                and report['video_sha256'] == inputs['video_sha256']):
+            return report
+    except (OSError, ValueError, TypeError, KeyError):
+        pass
+    report = evaluate(source_path, candidate_path, policy, duration)
+    require(report['source_sha256'] == inputs['source_sha256'] and report['video_sha256'] == inputs['video_sha256'],
+            'Technical audio inputs changed during evaluation')
+    write_json(path, {'signature': signature, 'report_sha256': object_hash(report), 'report': report})
+    return report
 
 
 def prompt(policy, language, source_has_audio, speeches, start, end):

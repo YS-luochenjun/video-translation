@@ -168,16 +168,21 @@ def tts_packet(run, voice, estimate, speech_ids=None):
     selected = {line['id']: line for line in lines}
     require(ids and all(key in selected for key in ids), 'Select existing final speech segments')
     locale = read_json(run / 'inputs/request.json')['target_language']
+    model = selected_model('tts')
+    direction = (f'Read only the exact supplied dialogue in {locale}, in the given order. '
+                 'Preserve names, numbers and claims. Do not translate, paraphrase, omit, repeat, '
+                 'or speak instructions or speaker labels. Use clear natural advertising speech '
+                 'and finish every word. Voice only: no music, sound effects or extra speech.')
+    turn = {'speaker_id': 'Speaker 1', 'text': '\n\n'.join(selected[key]['target_text'] for key in ids)}
+    inputs = {'speakers': [{'speaker_id': 'Speaker 1', 'voice_name': voice}], 'dialogue_turns': [turn]}
+    if model in model_tasks.GEMINI_38_TTS_MODELS:
+        turn['style'] = direction
+    else:
+        inputs['scene'] = direction
     data = {'source_sha256': file_hash(workflow.source_path(run)),
             'purpose': 'Narration from finalized speech copy; alignment and actual listening/review remain required',
             'estimated_credits': estimate, 'speech_ids': ids,
-            'payload': {'model': selected_model('tts'), 'input': {
-                'speakers': [{'speaker_id': 'Speaker 1', 'voice_name': voice}],
-                'scene': (f'Read only the exact supplied dialogue in {locale}, in the given order. '
-                          'Preserve names, numbers and claims. Do not translate, paraphrase, omit, repeat, '
-                          'or speak instructions or speaker labels. Use clear natural advertising speech '
-                          'and finish every word. Voice only: no music, sound effects or extra speech.'),
-                'dialogue_turns': [{'speaker_id': 'Speaker 1', 'text': '\n\n'.join(selected[key]['target_text'] for key in ids)}]}}}
+            'payload': {'model': model, 'input': inputs}}
     relative = 'inputs/tts-' + object_hash(data)[:16] + '.json'
     write_json(run / relative, data)
     model_tasks.packet(run, relative)

@@ -12,7 +12,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 from uuid import UUID
 
-from .common import (ROOT, WorkflowError, file_hash, inside, lock, object_hash,
+from .common import (ROOT, WorkflowError, file_hash, inside, lock, object_hash, operation_hash,
                      read_json, require, utc_now, write_json)
 from .fireplay_pinterest import pin_id
 
@@ -737,8 +737,8 @@ def prepare_return(code, spec, root=ROOT):
         defaults_path = Path(root) / 'config/fireplay-intake.json'
         defaults = read_json(defaults_path) if defaults_path.exists() else {}
         metadata_upgrade = False
-        if path.exists():
-            prior = read_json(path)
+        prior = read_json(path) if path.exists() else None
+        if prior is not None:
             frozen = prior['publication']
             metadata_upgrade = (not prior.get('operations') and
                                 defaults.get('publication', {}).get('upload_metadata') !=
@@ -752,9 +752,12 @@ def prepare_return(code, spec, root=ROOT):
             spec = {**spec, 'designer_receipt': payload(spec['designer_receipt'])}
         attribution, suffix = material_policy.attribution(record, spec, defaults)
         packages = []
+        frozen_routes = {(item['video_index'], item['locale'], item['file'], item['sha256']):
+                         item.get('upload_route', 'bytes') for item in (prior or {}).get('packages', [])}
         selected_video = _video(record, index)
         expected = {(index, lang) for lang in selected_video['targets']}
         seen = set()
+        hashes = {}
         for item in spec['packages']:
             key = (item['video_index'], item['locale'])
             require(key in expected and key not in seen, 'Duplicate or unexpected deliverable')
@@ -763,11 +766,11 @@ def prepare_return(code, spec, root=ROOT):
             require(video.get('source'), 'Source must be hash-bound before delivery')
             folder = inside(root, item['package'])
             require(folder.is_relative_to((Path(root) / 'outputs').resolve()), 'Delivery package must be inside outputs')
-            manifest = bundles.verify(folder)
+            manifest = bundles.verify(folder, hashes=hashes)
             meta = manifest['metadata']
             movie = folder / 'final.mp4'
             require(meta['source_sha256'] == video['source']['sha256'] and meta['target_language'] == item['locale']
-                    and file_hash(movie) == meta['video_sha256'], 'Package source, locale or video hash mismatch')
+                    and operation_hash(movie, hashes) == meta['video_sha256'], 'Package source, locale or video hash mismatch')
             quality_records = [read_json(inside(folder, asset['path'])) for asset in manifest['files']
                                if asset['path'] == 'payload/outputs/quality.json' or
                                (asset['path'].startswith('payload/outputs/quality-history/') and asset['path'].endswith('.json'))]
@@ -783,13 +786,17 @@ def prepare_return(code, spec, root=ROOT):
                 from .fireplay_publication import eligible
                 acceptance = eligible(code, folder, manifest, root)
             require_clear(code, meta['source_sha256'], meta['video_sha256'], root)
-            upload_route = spec.get('upload_route') or ('presign' if movie.stat().st_size > 15 * 1024 * 1024 else 'bytes')
+            relative_movie = str(movie.relative_to(root))
+            frozen_route = frozen_routes.get((*key, relative_movie, meta['video_sha256']))
+            upload_route = spec.get('upload_route') or frozen_route or defaults.get('default_upload_route')
+            if not upload_route:
+                upload_route = 'presign' if movie.stat().st_size > 15 * 1024 * 1024 else 'bytes'
             require(upload_route in {'bytes', 'presign', 'web'}, 'Invalid upload route')
             metadata = material_policy.upload_metadata(record, spec, defaults, publication, attribution,
                                                       video['title'], item['locale'])
             display_name = metadata['display_name']
             packages.append({**item, 'sha256': meta['video_sha256'], 'manifest_sha256': file_hash(folder / 'manifest.json'),
-                             'file': str(movie.relative_to(root)), 'name': display_name + suffix, 'display_name': display_name,
+                             'file': relative_movie, 'name': display_name + suffix, 'display_name': display_name,
                              **metadata,
                              **({'publication_acceptance': acceptance} if acceptance else {}),
                              **({'upload_route': upload_route} if upload_route != 'bytes' else {})})
@@ -801,8 +808,8 @@ def prepare_return(code, spec, root=ROOT):
                  'attribution': attribution,
                  'publication': publication,
                  'operations': {}, 'pending_locales': pending, 'created_at': utc_now(), 'state': 'ready'}
-        if path.exists():
-            old = read_json(path)
+        if prior is not None:
+            old = prior
             if metadata_upgrade:
                 write_json(path, value)
                 return value
@@ -918,6 +925,22 @@ def _next_operation(outbox, package_index=None):
     return None, None, None
 
 
+def _verify_frozen_package(code, record, item, root, hashes):
+    from .fireplay_publication import require_clear
+    folder = inside(root, item['package'])
+    require(operation_hash(folder / 'manifest.json', hashes) == item['manifest_sha256'] and
+            operation_hash(inside(root, item['file']), hashes) == item['sha256'],
+            'Reviewed deliverable changed')
+    video = _video(record, item['video_index'])
+    require_clear(code, video['source']['sha256'], item['sha256'], root)
+    if item.get('publication_acceptance'):
+        from . import bundles
+        from .fireplay_publication import eligible
+        manifest = bundles.verify(folder, hashes=hashes)
+        require(eligible(code, folder, manifest, root) == item['publication_acceptance'],
+                'Publication judgment changed after dispatch preparation')
+
+
 def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
     """Journal uncertainty BEFORE exposing a write packet; never retry unknown operations."""
     _video(_record(code, root), index)
@@ -972,18 +995,9 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
                 require(youtube_route.get('video_sha256') == item['sha256'] and
                         youtube_route.get('operation_id') == key, 'Account selection belongs to another video/operation')
                 fireplay_youtube.validate(record, youtube_route, root)
+        hashes = {}
         if item:
-            folder = inside(root, item['package'])
-            require(file_hash(folder / 'manifest.json') == item['manifest_sha256'] and
-                    file_hash(inside(root, item['file'])) == item['sha256'], 'Reviewed deliverable changed')
-            from .fireplay_publication import require_clear
-            video = _video(record, item['video_index'])
-            require_clear(code, video['source']['sha256'], item['sha256'], root)
-            if item.get('publication_acceptance'):
-                from . import bundles
-                from .fireplay_publication import eligible
-                require(eligible(code, folder, bundles.verify(folder), root) == item['publication_acceptance'],
-                        'Publication judgment changed after dispatch preparation')
+            _verify_frozen_package(code, record, item, root, hashes)
         if phase == 'upload':
             if item.get('upload_route') == 'presign':
                 tool, materialize = 'material_r2_presign_upload', None
@@ -1024,21 +1038,8 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
                 arguments['creation_type'] = outbox['attribution']['creation_type']
         else:
             tool, materialize = 'requirement_bind_materials', None
-            # Recheck every hash/quality hold before the association, including
-            # files uploaded earlier in a long or interrupted return operation.
             for package in outbox['packages']:
-                require(file_hash(inside(root, package['file'])) == package['sha256'] and
-                        file_hash(inside(root, package['package']) / 'manifest.json') == package['manifest_sha256'],
-                        'Reviewed deliverable changed before binding')
-                from .fireplay_publication import require_clear
-                source_video = _video(record, package['video_index'])
-                require_clear(code, source_video['source']['sha256'], package['sha256'], root)
-                if package.get('publication_acceptance'):
-                    from . import bundles
-                    from .fireplay_publication import eligible
-                    folder = inside(root, package['package'])
-                    require(eligible(code, folder, bundles.verify(folder), root) == package['publication_acceptance'],
-                            'Publication judgment changed before binding')
+                _verify_frozen_package(code, record, package, root, hashes)
             ids = [outbox['operations'][f'import-{i}']['result']['material_id'] for i, _ in _active_packages(outbox)]
             arguments = {'items': [{'requirement_id': outbox['requirement_id'], 'material_ids': ids}]}
         operation = {'id': key, 'tool': tool, 'arguments': arguments, 'materialize': materialize,

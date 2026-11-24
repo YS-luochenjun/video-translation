@@ -12,6 +12,7 @@ from . import media, timing
 
 
 def _freeze_knowledge(run, plan):
+    from .plan_inputs import freeze
     directory = run / 'plans' / plan['id']
     frozen = directory / 'plan.json'
     if frozen.exists():
@@ -28,11 +29,7 @@ def _freeze_knowledge(run, plan):
                 shutil.copyfile(source, target)
             require(file_hash(target) == entry['sha256'], 'Frozen knowledge changed')
     for name, relative in (('request.json', 'inputs/request.json'), ('inventory.json', 'analysis/inventory.json')):
-        target = directory / 'inputs' / name
-        target.parent.mkdir(parents=True, exist_ok=True)
-        if not target.exists():
-            shutil.copyfile(run / relative, target)
-        require(file_hash(target) == file_hash(run / relative), 'Frozen fast input changed')
+        freeze(run, plan['id'], name, run / relative)
 
 
 def policy(root=ROOT):
@@ -44,9 +41,11 @@ def validate_plan(run, plan):
     for key, relative in [('request_sha256', 'inputs/request.json'),
                           ('inventory_sha256', 'analysis/inventory.json')]:
         require(file_hash(run / relative) == plan[key], 'Fast inputs changed; register the new recipe/output')
-    require(read_json(run / 'inputs/request.json').get('delivery_mode') == 'fast', 'Fast scope is not selected')
+    request = read_json(run / 'inputs/request.json')
+    require(request.get('delivery_mode') == 'fast', 'Fast scope is not selected')
+    inventory = read_json(run / 'analysis/inventory.json')
     from .text_restoration import validate as validate_text_restoration
-    validate_text_restoration(run, read_json(run / 'analysis/inventory.json'))
+    validate_text_restoration(run, inventory)
     root = run.parent.parent
     require(file_hash(root / 'config/fast-delivery.json') == plan['policy_sha256'], 'Fast policy changed')
     for asset in plan['assets']:
@@ -55,15 +54,15 @@ def validate_plan(run, plan):
         from .restoration_probes import validate_base
         validate_base(run, plan.get('restoration_base'), plan['assets'])
     from .source_styles import verify_contract as verify_style_contract
-    verify_style_contract(run, plan, read_json(run/'analysis/inventory.json'))
-    from .workflow import source_path
-    require(file_hash(source_path(run)) == plan['source_sha256'], 'Source changed')
+    verify_style_contract(run, plan, inventory)
+    from .workflow import verified_source
+    require(verified_source(run)[1] == plan['source_sha256'], 'Source changed')
     from .typography import verify_contract, verify_receipt
-    verify_contract(run, plan, read_json(run/'analysis/inventory.json'))
+    verify_contract(run, plan, inventory)
     for asset in plan.get('typography_assets', []):
         verify_receipt(run, asset)
     from .typography import verify_assets
-    verify_assets(run,plan.get('typography_assets',[]),read_json(run/'analysis/inventory.json'))
+    verify_assets(run,plan.get('typography_assets',[]),inventory)
     if plan.get('knowledge_snapshot_version') == 1:
         directory = run / 'plans' / plan['id']
         require(read_json(directory / 'plan.json') == plan, 'Frozen fast plan changed')
@@ -73,7 +72,7 @@ def validate_plan(run, plan):
             for index, entry in enumerate(plan[group]):
                 require(file_hash(directory / group / f'{index+1:02d}.md') == entry['sha256'], 'Frozen knowledge changed')
     else:
-        require(not read_json(run / 'inputs/request.json').get('routing_contract_version'),
+        require(not request.get('routing_contract_version'),
                 'Register the fast recipe with routing and frozen knowledge before continuing')
     return plan
 
@@ -226,6 +225,33 @@ def visual_finish_failures(review, run, acceptance):
     return failures
 
 
+def _count_video_frames(path):
+    import json
+    counted = json.loads(media.command(['ffprobe', '-v', 'error', '-count_frames', '-select_streams', 'v:0',
+        '-show_entries', 'stream=nb_read_frames', '-of', 'json', path]).stdout)
+    return int(counted['streams'][0]['nb_read_frames'])
+
+
+def _source_frame_count(root, source, digest, decoder):
+    identity = {'version': 1, 'source_sha256': digest, 'decoder': decoder}
+    path = root / 'state/fast-source-frames' / (object_hash(identity) + '.json')
+    require(file_hash(source) == digest, 'Source changed before frame count')
+    try:
+        cached = read_json(path)
+        count = cached['frame_count']
+        if (cached['identity'] == identity and type(count) is int and count > 0
+                and cached['sha256'] == object_hash({'identity': identity, 'frame_count': count})):
+            return count
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    count = _count_video_frames(source)
+    require(file_hash(source) == digest, 'Source changed during frame count')
+    if count > 0:
+        record = {'identity': identity, 'frame_count': count}
+        write_json(path, {**record, 'sha256': object_hash(record)})
+    return count
+
+
 @guarded
 def quality(run):
     plan = validate_plan(run, read_json(run / 'plan.json'))
@@ -262,31 +288,30 @@ def quality(run):
     # Reuse the full decode only when the actual bytes and decoder are unchanged.
     check_path = run / 'outputs/fast-technical.json'
     cached = read_json(check_path) if check_path.exists() else {}
+    probe_version = media.command(['ffprobe', '-version']).stdout
     signature = object_hash({'video': candidate['sha256'], 'source': plan['source_sha256'],
                              'code': file_hash(Path(__file__)),
                              'audio_code': file_hash(Path(__file__).with_name('audio.py')),
                              'audio_policy': inv.get('audio', {}),
-                             'decoder': media.command(['ffmpeg', '-version']).stdout})
+                             'decoder': media.command(['ffmpeg', '-version']).stdout,
+                             'probe': probe_version})
     if cached.get('signature') != signature:
         from .workflow import source_path
         with timing.measure(run, 'fast.technical_decode'):
-            source, actual = media.probe(source_path(run)), media.probe(video)
+            original = source_path(run)
+            source, actual = media.probe(original), media.probe(video)
             media.command(['ffmpeg', '-v', 'error', '-xerror', '-i', video, '-f', 'null', '-'])
             errors = []
             if abs(actual['duration'] - source['duration']) > .1: errors.append('duration_changed')
             if (source['width'], source['height']) != (actual['width'], actual['height']): errors.append('dimensions_changed')
             if abs(source['fps'] - actual['fps']) > .001: errors.append('frame_rate_changed')
-            import json
-            counts = []
-            for path in (source_path(run), video):
-                counted = json.loads(media.command(['ffprobe', '-v', 'error', '-count_frames', '-select_streams', 'v:0',
-                    '-show_entries', 'stream=nb_read_frames', '-of', 'json', path]).stdout)
-                counts.append(int(counted['streams'][0]['nb_read_frames']))
+            counts = [_source_frame_count(run.parent.parent, original, plan['source_sha256'], probe_version),
+                      _count_video_frames(video)]
             if counts[0] != counts[1]: errors.append('frame_count_changed')
-            from .audio import evaluate
-            audio = evaluate(source_path(run), video, inv.get('audio') or {'strategy': 'preserve'}, source['duration'])
-            errors.extend(audio['failures'])
-            cached = {'signature': signature, 'source': source, 'actual': actual, 'frame_counts': counts, 'audio': audio, 'failures': errors}
+            audio_report = audio.evaluate_cached(run, original, video,
+                                                 inv.get('audio') or {'strategy': 'preserve'}, source['duration'])
+            errors.extend(audio_report['failures'])
+            cached = {'signature': signature, 'source': source, 'actual': actual, 'frame_counts': counts, 'audio': audio_report, 'failures': errors}
             write_json(check_path, cached)
     failures.extend(cached['failures'])
     result = {'decision': 'pass' if not failures else 'revise', 'scope': 'fast-basic',

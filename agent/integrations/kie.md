@@ -7,7 +7,7 @@
 | 能力 | 当前模型 | 进入条件与命令 |
 | --- | --- | --- |
 | 真实音频理解与比较 | `gemini-3-8-flash-openai` | 转写存在疑点、无法直接听音，或需比较原音与成片时使用 `audio-analyze RUN --execute`；成片比较加 `--candidate` |
-| 目标语言配音 | `google/gemini-2-5-pro-tts` | 口播定稿后用 `tts-packet` 生成请求，再用 `model-task --execute` 提交 |
+| 目标语言配音 | 以 `config/model-routing.json` 的 `tts` 为准 | 口播定稿后用 `tts-packet` 生成请求，再用 `model-task --execute` 提交 |
 | 原视频编辑 | `wan/3-0-video` | Codex 图片处理与本地合成无法满足连续运动要求时，使用 `model_edit` 路线，先 `packet` 再 `submit --execute` |
 
 两次生产账本内的小样本确认 `google/gemini-3-1-flash-tts` 与 `google/gemini-3-8-flash-lite-tts` 可作为配音备选。默认模型见配置。确认原任务终态失败、实扣为零并核对源、语种、账本及模型授权后，可选已验证备选。保留原任务和费用记录。
@@ -37,6 +37,8 @@ Fireplay需求沿用[接入流程](../workflows/fireplay-intake.md)和config/fir
 用户明确允许本次素材更换复核模型时，可用 `--model gemini-3.1-pro --model-authorization inputs/授权.json`。授权绑定真实用户原话、音频分析能力、源哈希、语种和原请求预算；不改变默认模型，旧请求未知费用继续占位。该接口按官方文档接收同一 `image_url` 音频结构，单笔保守预留20 credits，成功回执再结算。
 
 配音使用定稿的 `speech_segments[].target_text`，`tts-packet` 绑定实际稿件和语言。Gemini TTS 的 `speaker_id` 使用 `Speaker 1` 格式，必须指定 `voice_name`。可选控制字段只能按实际接口合同填写，不把语言名当作口音枚举。声音生成后核对是否完整说出定稿，按实际混音对齐字幕；模型返回音频不等于时长、发音或同步通过。流程见 [音频](../contracts/audio.md) 与 [字幕](../contracts/captions.md)。
+
+[Gemini 3.8 Flash TTS](https://docs.kie.ai/market/google/gemini-3-8-flash-tts) 将朗读要求放在 `dialogue_turns[].style`，`dialogue_turns[].text` 保存定稿。使用预设声线，填充词保持关闭。
 
 ## 视频请求与结果
 

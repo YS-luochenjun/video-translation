@@ -1,11 +1,13 @@
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-from video_localizer.common import WorkflowError
+from video_localizer.common import WorkflowError, file_hash, read_json, write_json
 from video_localizer.kie import KieClient
+from video_localizer.production import tts_packet
 
 
 class ModelRoutingTests(unittest.TestCase):
@@ -34,9 +36,31 @@ class ModelRoutingTests(unittest.TestCase):
 
     def test_single_video_and_tts_models_are_accepted(self):
         client = KieClient(key='fixture-key')
-        for model in ('wan/3-0-video', 'google/gemini-2-5-pro-tts'):
+        for model in ('wan/3-0-video', 'google/gemini-3-8-flash-tts'):
             with patch.object(client, '_request', return_value={'taskId': 'fixture-task'}):
                 self.assertEqual(client.create({'model': model, 'input': {}}), 'fixture-task')
+
+    def test_default_tts_packet_separates_flash_style_from_exact_dialogue(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            run = Path(temporary) / 'runs' / 'flash-tts'
+            run.mkdir(parents=True)
+            source = run / 'source.mp4'
+            source.write_bytes(b'fixture source')
+            write_json(run / 'run.json', {'source': source.name, 'source_sha256': file_hash(source)})
+            write_json(run / 'inputs/request.json', {'target_language': 'th'})
+            text = 'สวัสดีค่ะ'
+            write_json(run / 'analysis/inventory.json', {'speech_segments': [
+                {'id': 'speech', 'target_text': text, 'caption_policy': 'none',
+                 'caption_ids': [], 'caption_reason': 'Fixture has no source captions.'}]})
+            result = tts_packet(run, 'Kore', 1)
+            payload = read_json(run / result['packet'])['payload']
+            self.assertFalse(result['paid_submission'])
+            self.assertEqual(payload['model'], 'google/gemini-3-8-flash-tts')
+            self.assertEqual(set(payload['input']), {'speakers', 'dialogue_turns'})
+            self.assertEqual(payload['input']['speakers'], [{'speaker_id': 'Speaker 1', 'voice_name': 'Kore'}])
+            turn = payload['input']['dialogue_turns'][0]
+            self.assertEqual(turn['text'], text)
+            self.assertIn('dialogue in th', turn['style'])
 
     def test_audio_default_is_flash_and_pro_does_not_silently_fallback(self):
         client = KieClient(key='fixture-key')

@@ -1,7 +1,7 @@
 """Publication judgment is separate from internal quality and actual upload."""
 from pathlib import Path
 
-from .common import ROOT, file_hash, inside, lock, object_hash, read_json, require, utc_now, write_json
+from .common import ROOT, file_hash, inside, lock, object_hash, operation_hash, read_json, require, utc_now, write_json
 
 ACCEPTABLE = {'minor_issues_acceptable', 'bounded_best_available_acceptable', 'exact_version_accepted_by_user'}
 SEVERE_KINDS = {'large_area_tearing', 'unwatchable', 'severe_subject_damage', 'corrupt_file',
@@ -181,13 +181,14 @@ def review(code, spec, root=ROOT):
     record = fireplay._record(code, root)
     folder = inside(root, spec['package'])
     require(folder.is_relative_to((Path(root) / 'outputs').resolve()), 'Publication review needs a formal outputs package')
-    manifest = bundles.verify(folder)
+    hashes = {}
+    manifest = bundles.verify(folder, hashes=hashes)
     meta = manifest['metadata']
     require(meta['target_language'] in record['targets'] and any(
             v.get('source', {}).get('sha256') == meta['source_sha256'] for v in record['videos']),
             'Publication review belongs to a different requirement source/locale')
     _complete(folder, manifest)
-    require(file_hash(folder / 'final.mp4') == meta['video_sha256'], 'Publication video hash changed')
+    require(operation_hash(folder / 'final.mp4', hashes) == meta['video_sha256'], 'Publication video hash changed')
     if spec.get('user_acceptance'):
         approval = spec['user_acceptance']
         require(approval.get('authority') == 'user' and approval.get('accepted') is True
@@ -232,7 +233,7 @@ def review(code, spec, root=ROOT):
     require(isinstance(evidence, list) and evidence, 'Publication judgment needs actual output evidence')
     files = {asset['path']: asset['sha256'] for asset in manifest['files']}
     for item in evidence:
-        require(isinstance(item, str) and item in files and file_hash(inside(folder, item)) == files[item],
+        require(isinstance(item, str) and item in files and operation_hash(inside(folder, item), hashes) == files[item],
                 'Publication evidence must be a verified file inside the delivery package')
     observed_findings = _observed_findings(folder, manifest)
     basic = all(assessment[k] for k in ('translation_complete', 'required_audio_complete', 'watchable'))

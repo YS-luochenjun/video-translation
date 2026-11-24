@@ -26,6 +26,8 @@ Fireplay多原片采用[原片并行分工](fireplay-parallel.md)：原负责人
 
 ## 可恢复执行
 
+同一原片有多个语言 run 等模型时，执行 `batch-status ID --poll` 一次巡查该批次。命令查询已登记供应商 ID 的待处理任务，并恢复已成功但尚未下载的结果。回执带上每个任务所属 run 和待处理异常。无法确认扣费或缺少任务 ID 时查看原日志。对单个任务可继续用 `poll RUN JOB`。轮询沿用每个 run 的原凭据、账本结算和锁。
+
 新增的 ASR / 分离 / 混音检查点、视觉片段复用和阶段导航见 [P0/P1 流程优化](../../docs/workflow-optimization.md)。优先 `work-packet RUN` 读取当前机械状态；`asr`、`audio-mix` 与旧脚本共用实现，采用返回的实际输出路径。默认同工作区一次一个重任务，资源忙时保留现场后重试，不主动删锁或重发付费任务。`production --force-render` 同时跳过整片和片段编码缓存。
 
 production编码检查点绑定计划、inputs/analysis字节、模型结果、项目字体、编码器版本与代码；各语言不复用目标成片。有效检查点仅跳过重复编码，capture、quality、质量异议仍重查。系统安装字体变化不在项目字体哈希中，改变后须 `production RUN --force-render`。返工应修改实际方案，不能反复编码同一失败方案。
