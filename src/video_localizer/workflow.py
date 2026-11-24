@@ -989,7 +989,14 @@ def _poll_job(run, job_id, wait_seconds, client, *, pending_only=False):
                     job["result_sha256"] = file_hash(destination)
             write_json(path, job)
             if job["state"] in ("success", "fail", "failed") or time.monotonic() >= deadline:
-                return {key: job.get(key) for key in receipt_keys}
+                receipt = {key: job.get(key) for key in receipt_keys}
+                if job['state'] in ('fail', 'failed'):
+                    from .tts_recovery import tts_recovery_model
+                    model = tts_recovery_model(run.parent.parent, job)
+                    if model:
+                        receipt['tts_fallback'] = {'model': model, 'prepare': [
+                            'tts-fallback', run.name, job['packet'], job_id]}
+                return receipt
             time.sleep(min(10, max(0, deadline-time.monotonic())))
 
 

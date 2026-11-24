@@ -152,6 +152,7 @@ def verify_completion(code, spec, root=ROOT):
               'complete': not missing and bool(verified), 'expected_count': sum(len(v['targets']) for v in record['videos']),
               'verified_count': len(verified), 'verified': verified, 'missing': missing,
               'verification_sha256': object_hash(verification), 'platform_read_at': verification['serverTime'],
+              'platform_updated_at': row.get('updatedAt'),
               'checked_at': utc_now(), 'request_sha256': file_hash(fireplay._folder(code, root) / 'request.json'),
               'scope': 'Current Fireplay binding of every requested source/locale; no downstream YouTube publication proof'}
     write_json(fireplay._folder(code, root) / 'completion-check.json', result)
@@ -172,20 +173,28 @@ def completion_gate(record, root=ROOT):
     complete = (value.get('complete') is True and value.get('content_version') == record['content_version']
                 and value.get('requirement_id') == record['requirement_id'] and set(actual) == expected
                 and len(value.get('verified', [])) == len(expected) and actual == current and bool(expected))
+    from .fireplay_status_transition import confirmed
+    next_action = 'Complete missing source/locales, then fireplay-completion-check with actual current platform delivery view'
+    if complete:
+        next_action = ('Confirm the Fireplay done status with fireplay-transition'
+                       if record.get('status_managed') and not confirmed(record, 'finish', root)
+                       else 'fireplay-close ' + record['code'])
     return {'can_close': complete, 'expected_count': len(expected), 'verified_count': len(actual) if complete else 0,
-            'next_action': 'fireplay-close ' + record['code'] if complete else
-                           'Complete missing source/locales, then fireplay-completion-check with actual current platform delivery view',
+            'next_action': next_action,
             'completion_record': str(path.relative_to(root)) if path.exists() else None}
 
 
 def close_delivery(code, root=ROOT):
     from . import fireplay
     from .common import lock
+    from .fireplay_status_transition import confirmed
     folder = fireplay._folder(code, root)
     with lock(folder / 'request.lock'):
         record = fireplay._record(code, root)
         gate = completion_gate(record, root)
         require(gate['can_close'], 'Whole requirement is incomplete or lacks platform completion verification; do not close after a partial batch')
+        require(not record.get('status_managed') or confirmed(record, 'finish', root),
+                'Confirm the Fireplay done status before closing this requirement')
         check = folder / 'completion-check.json'
         value = {'code': code, 'content_version': record['content_version'], 'requirement_id': record['requirement_id'],
                  'complete': True, 'completion_check_sha256': file_hash(check),

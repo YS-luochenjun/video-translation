@@ -54,7 +54,8 @@ def require_remote_task(model, root=None, run=None, authorization=None):
     current = policy(root)
     if model in (current['video'], current['tts']):
         return
-    require(model in ('elevenlabs/text-to-dialogue-v3', 'elevenlabs/text-to-speech-turbo-2-5', 'google/gemini-3-1-flash-tts', 'google/gemini-3-8-flash-lite-tts')
+    tts_alternatives = current.get('tts_recovery', {}).get('fallback_models', [])
+    require(model in ('elevenlabs/text-to-dialogue-v3', 'elevenlabs/text-to-speech-turbo-2-5', *tts_alternatives)
             and run is not None and authorization,
             f'New remote tasks use {current["video"]} for video or {current["tts"]} for TTS; '
             f'{model} needs an explicit source/request-bound user authorization. No automatic fallback.')

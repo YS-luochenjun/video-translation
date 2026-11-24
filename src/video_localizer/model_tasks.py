@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import copy
+import re
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -135,7 +136,6 @@ def packet(run, relative):
                 'Gemini speaker controls must be nonempty strings')
         speakers = {speaker.get('speaker_id') for speaker in inputs['speakers']}
         require(len(speakers) == len(inputs['speakers']), 'Duplicate Gemini TTS speaker')
-        import re
         require(all(isinstance(speaker, str) and re.fullmatch(r'Speaker [1-9][0-9]*', speaker) for speaker in speakers), 'Gemini speaker_id must use Speaker N format')
         require(all(turn.get('speaker_id') in speakers and turn.get('text') for turn in inputs['dialogue_turns']), 'Unbound Gemini TTS speaker or text')
     else:

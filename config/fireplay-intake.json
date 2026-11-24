@@ -24,9 +24,9 @@
     "authorization_ref": "request_user_input_async/call_aa0ae8447c64492ca529b18b6b3b1bf6/0",
     "source_quote": "都行吧。之前的对话中，请你查看，很多都是没有填写设计师"
   },
-  "thread_policy": "one_chat_per_requirement_all_sources_and_locales",
+  "thread_policy": "one_chat_per_source_video_all_locales",
   "parallel_policy": "config/fireplay-parallel.json",
-  "thread_policy_source": "2026-10-27用户：每一个需求需要有一个自己的对话，而不是把9个需求混为一谈。各需求独立查看视频、语种和计费。",
+  "thread_policy_source": "用户：每一个会话只做一个视频，命名可以为需求号-1、-2、-3。每一个需求共用自己的账本。",
   "priority_order": [
     "P0",
     "P1",
@@ -115,6 +115,13 @@
     "unknown_operation": "reconcile_before_retry",
     "rule": "Multiple owner chats may prepare uploads in parallel. Only the external media write is serialized. A busy slot keeps the exact operation queued and resumable; it does not stop production or create a duplicate upload."
   },
-  "status_update": false,
+  "status_update": {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-video-translation-status-and-queue",
+    "ai_mode": "video_translate",
+    "intake_status": "not_started",
+    "production_status": "in_progress",
+    "completed_status": "done"
+  },
   "background_polling": false
 }

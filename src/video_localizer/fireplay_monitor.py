@@ -27,16 +27,16 @@ def policy(root=ROOT):
     require(value.get('assignee_mode') in ('hint_only', 'strict'), 'Unknown assignee selection policy')
     filters = {'assignee_ids': selected} if value['assignee_mode'] == 'strict' else {}
     polling = value.get('polling', {})
-    require(value.get('eligible_statuses') == ['not_started', 'in_progress']
+    require(value.get('eligible_statuses') == ['not_started']
             and polling.get('page_size') == 40 and polling.get('tracked_batch_size') == 40
             and polling.get('full_reconciliation_hours') == 24
             and polling.get('authority', {}).get('authority') == 'user'
             and polling['authority'].get('authorization_ref') and polling['authority'].get('source_quote'),
             'Active polling needs its explicit scope authority and reconciliation policy')
     require(value['query'] == {'scope': 'all', 'view': 'summary', 'asset_type': 'video', **filters,
-                              'status': value['eligible_statuses'],
+                              'status': value['eligible_statuses'], 'ai_mode': 'video_translate',
                               'pagination': 'cursor', 'limit': polling['page_size'], 'offset': 0},
-            'Monitor must scan both active statuses across all visible video groups with complete cursor pagination')
+            'Monitor must scan unstarted video translations with complete cursor pagination')
     return value
 
 
@@ -80,13 +80,18 @@ def _time(value):
 
 
 def _summary_version(row):
-    return object_hash({key: row.get(key) for key in ('title', 'locales', 'quantity', 'deptId', 'assetType')})
+    return object_hash({key: row.get(key) for key in ('title', 'locales', 'quantity', 'deptId', 'assetType', 'aiMode')})
+
+
+def _eligible(row, config):
+    return (row.get('status') in config['eligible_statuses']
+            and row.get('aiMode') == config['query']['ai_mode'])
 
 
 def _summary_changed(previous, row):
     return (previous['summary_version'] != _summary_version(row)
             or any(previous['row'].get(key) != row.get(key)
-                   for key in ('updatedAt', 'status', 'canBindMaterials', 'assigneeIds')))
+                   for key in ('updatedAt', 'status', 'canBindMaterials', 'canUpdateStatus', 'assigneeIds')))
 
 
 def _query(config, mode, requirement_ids=None):
@@ -94,6 +99,7 @@ def _query(config, mode, requirement_ids=None):
     query = dict(config['query'])
     if mode != 'active':
         query.pop('status')
+        query.pop('ai_mode')
     if mode == 'tracked':
         require(isinstance(requirement_ids, list) and requirement_ids
                 and len(requirement_ids) <= config['polling']['tracked_batch_size']
@@ -166,6 +172,8 @@ def _rows(spec, config, query):
                     'Response includes a requirement outside the selected assignees')
             require('status' not in query or row.get('status') in query['status'],
                     'Response includes a requirement outside the requested active statuses')
+            require('ai_mode' not in query or row.get('aiMode') == query['ai_mode'],
+                    'Response includes a requirement outside the requested AI mode')
             require('requirement_ids' not in query or row['id'] in query['requirement_ids'],
                     'Response includes a requirement outside the tracked UUIDs')
             require(row['id'] not in seen_ids, 'Duplicate row in live pagination; refresh the scan')
@@ -240,6 +248,8 @@ def scan(spec=None, root=ROOT):
                     entry['review_pending'] = True
             elif conditional and (not previous or previous.get('conditional_policy_version') != object_hash(conditional)):
                 entry.update(state='needs_review', reason='human_conditional_intake_policy')
+            elif not _eligible(row, config):
+                entry.update(state='not_eligible', reason='Outside automatic video translation intake', review_pending=False)
             elif previous is None:
                 if (_time(row.get('createdAt')) or 0) >= activation:
                     entry.update(state='needs_review', reason='newly_created')
@@ -249,11 +259,9 @@ def scan(spec=None, root=ROOT):
             elif entry['state'] == 'excluded' or not _matches(previous['row'], config):
                 entry.update(state='needs_review', reason='new_assignment_in_scope')
                 fresh.append(code)
-            elif (entry['state'] == 'not_eligible' and row.get('status') == 'in_progress'
-                  and entry.get('eligibility_policy_version') != object_hash(config['eligible_statuses'])):
-                entry.update(state='needs_review', reason='updated_content_or_metadata',
-                             previous_summary_version=previous['summary_version'], previous_row=previous['row'])
-                changed.append(code)
+            elif entry['state'] == 'not_eligible' and (_time(row.get('createdAt')) or 0) >= activation:
+                entry.update(state='needs_review', reason='newly_eligible')
+                fresh.append(code)
             elif _summary_changed(previous, row):
                 # Changes can be status-only. The Agent compares actual brief
                 # content; an updated timestamp alone never starts paid work.
@@ -261,8 +269,7 @@ def scan(spec=None, root=ROOT):
                              previous_summary_version=previous['summary_version'],
                              previous_row=previous['row'])
                 changed.append(code)
-            entry.update(row=row, summary_version=_summary_version(row), last_seen_at=now,
-                         eligibility_policy_version=object_hash(config['eligible_statuses']))
+            entry.update(row=row, summary_version=_summary_version(row), last_seen_at=now)
             state['requirements'][row['id']] = entry
         scan_id = object_hash({'scan_mode': mode, 'query': query, 'pages': hashes})
         state.update(policy_sha256=object_hash(config))
@@ -388,8 +395,12 @@ def assess(code, spec, root=ROOT):
             entry['conditional_policy_version'] = object_hash(conditional)
         if not decision['is_translation']:
             entry.update(state='ignored', reason=decision['reason'])
-        elif row.get('status') not in config['eligible_statuses'] or row.get('canBindMaterials') is not True:
+        elif (row.get('canBindMaterials') is not True or
+              (not old_record.exists() and not _eligible(row, config)
+               and not (explicit and row.get('status') in {'not_started', 'in_progress'}))):
             entry.update(state='not_eligible', reason='Not in an eligible status or lacks execution permission')
+        elif (not old_record.exists() and _eligible(row, config) and row.get('canUpdateStatus') is not True):
+            entry.update(state='needs_information', reason='No permission to set the required production status')
         elif waiting_assignment and not old_record.exists():
             entry.update(state='waiting_for_assignment',
                          reason='User authorized this exact requirement only after the specified assignee is assigned')
@@ -430,6 +441,7 @@ def assess(code, spec, root=ROOT):
 def followups(root=ROOT):
     """Navigation only. Existing return gates still verify every actual package."""
     from .fireplay_submission import coverage, bound_materials, completion_gate
+    from .fireplay_status_transition import confirmed
     config = policy(root)
     from .delivery_layout import catalog
     index_path = catalog(Path(root))
@@ -531,10 +543,18 @@ def followups(root=ROOT):
         # Batch receipts do not replace the final full platform read-back.
         if record['videos'] and all(coverage(record, v, root)['complete'] for v in record['videos']):
             chat = record.get('chat') or record['videos'][0].get('chat', {})
-            if chat.get('state') == 'ready' and not completion_gate(record, root)['can_close']:
-                task = {'code': record['code'], 'video_index': record['videos'][0]['index'],
+            gate = completion_gate(record, root)
+            missing_status = record.get('status_managed') and not confirmed(record, 'finish', root)
+            if chat.get('state') == 'ready' and (not gate['can_close'] or missing_status
+                                                or (record.get('status_managed') and not
+                                                    (path.parent / 'delivery-closure.json').exists())):
+                coordinator = next((video['index'] for video in record['videos']
+                                    if video.get('chat', {}).get('threadId') == chat['threadId']),
+                                   record['videos'][0]['index'])
+                task = {'code': record['code'], 'video_index': coordinator,
                         'threadId': chat['threadId'], 'hostId': chat.get('hostId', 'local'),
-                        'action': 'verify_completion', 'artifact_identity': object_hash([
+                        'action': 'finish_requirement' if gate['can_close'] else 'verify_completion',
+                        'artifact_identity': object_hash([
                             bound_materials(record, v, root) for v in record['videos']]), 'missing_locales': []}
                 task['key'] = object_hash(task)
                 note = _directory(root) / 'signals' / (task['key'] + '.json')
@@ -589,7 +609,10 @@ def signal(spec, root=ROOT):
         from .kie_access import instruction as kie_access_instruction
         from .fireplay_youtube import instruction as youtube_instruction
         from .fireplay_materials import attribution_instruction
-        message = (f'按已授权项目流程继续需求{task["code"]}第{task["video_index"]}个原片的回传。'
+        direction = (f'按已授权项目流程协调整单 {task["code"]} 的交付核验及状态更新。'
+                     if task['action'] in ('verify_completion', 'finish_requirement') else
+                     f'按已授权项目流程继续需求{task["code"]}第{task["video_index"]}个原片的回传。')
+        message = (direction +
                    f'当前待办：{task["action"]}，缺少语种：{task["missing_locales"]}。复用既有run、素材ID、outbox和真实回执；未知写入先核查，不重复上传。'
                    '用户已允许有限预算/返工内做到最好的完整成品带普通不合格提交；按fireplay-publication-review记录实际影响和best_available证据，内部revise不等于禁止提交。大面积撕裂、无法观看、严重主体损坏、漏译或缺必需配音仍阻断对应版本。'
                    f'先交本次可提交语种{task.get("ready_locales", [])}，同时继续其余缺项，不等待全部制作完成。'
@@ -678,6 +701,13 @@ def completion_watch_status(followup_items, root=ROOT):
          'required': True, 'rule': 'wait_threads first; read_thread when idle, ended, error, or needs_attention'}
         for member in pending
     ]
+    seen_threads = {item['threadId'] for item in owner_status_checks}
+    for item in followup_items:
+        if item['code'] in requirements and item['threadId'] not in seen_threads:
+            owner_status_checks.append({'code': item['code'], 'threadId': item['threadId'],
+                                        'hostId': item.get('hostId', 'local'), 'required': True,
+                                        'rule': 'Inspect the dedicated source chat before dispatching follow-ups'})
+            seen_threads.add(item['threadId'])
     return {'enabled': True, 'interval_minutes': config['interval_minutes'], 'manifest': config['manifest'],
             'automation_id': manifest.get('automation_id') if active else None, 'host_action': action,
             'requirements': list(requirements.values()), 'pending': pending, 'verified_complete': complete,
@@ -722,10 +752,26 @@ def status(root=ROOT):
             historical.append(packet)
         if entry['state'] in ('admitted', 'registered'):
             p = Path(root) / 'state/fireplay' / row['code'] / 'request.json'
-            if p.exists() and not read_json(p).get('blockers') and read_json(p).get('chat', {}).get('state') != 'ready':
-                queue.append(packet)
+            if p.exists():
+                record = read_json(p)
+                if record.get('blockers'):
+                    continue
+                chat = record.get('chat', {})
+                split = record.get('thread_policy') == 'one_chat_per_source_video_all_locales' or not chat
+                from .fireplay_submission import coverage
+                pending = [{'video_index': video['index'], 'title': video['title'],
+                            'state': video.get('chat', {}).get('state', 'unclaimed'),
+                            'source_registered': bool(video.get('source'))}
+                           for video in record['videos']
+                           if video.get('chat', {}).get('state') != 'ready'
+                           and not coverage(record, video, root)['complete']]
+                if split and pending:
+                    queue.append({**packet, 'sources': pending})
+                elif not split and chat.get('state') != 'ready':
+                    queue.append(packet)
     followup_items = followups(root)
     watch = completion_watch_status(followup_items, root)
+    from .fireplay_parallel import capacity
     return {'state': 'ready' if state.get('baseline_at') else 'needs_baseline', 'interval_minutes': config['interval_minutes'],
             'scope': config['group_policy'], 'baseline_at': state.get('baseline_at'), 'last_success_at': state.get('last_success_at'),
             'visible_count': state.get('visible_count', 0), 'needs_review': _ordered(review), 'ready_to_dispatch': _ordered(queue),
@@ -734,6 +780,6 @@ def status(root=ROOT):
             'historical_review_required': _ordered(historical),
             'waiting_for_assignment': _ordered(waiting),
             'publication_followups': followup_items, 'max_active_requirements': config['max_active_requirements'],
-            'completion_watch': watch, 'polling': _polling_plan(config, state, watch, root),
+            'completion_watch': watch, 'source_capacity': capacity(root), 'polling': _polling_plan(config, state, watch, root),
             'priority_policy': read_json(Path(root) / 'config/fireplay-intake.json').get('priority_policy', {}),
             'p1_waits_for_p0': False, 'automatic_paid_execution_by_script': False}

@@ -278,7 +278,8 @@ class FireplayTests(unittest.TestCase):
         self.assertEqual(result['blockers'], [])
         self.assertEqual([v['targets'] for v in result['videos']], [['es'], ['ko']])
         packet = fireplay.chat(CODE, root=self.root)
-        self.assertCountEqual(packet['targets'], ['es', 'ko'])
+        self.assertEqual(packet['targets'], ['es'])
+        self.assertEqual(fireplay.chat(CODE, index=2, root=self.root)['targets'], ['ko'])
         self.assertIn('videos[].targets', packet['prompt'])
         changed = copy.deepcopy(decision)
         changed['source_targets'] = {URL: ['ko'], second: ['es']}
@@ -695,7 +696,7 @@ class FireplayTests(unittest.TestCase):
         self.assertEqual(video['source_metadata_review']['actual_dimensions'], [608, 1080])
 
     def test_chat_preview_no_create_unknown_does_not_create_twice(self):
-        self.register()
+        self.downloaded()
         preview = fireplay.chat(CODE, root=self.root)
         self.assertEqual(preview['title'], CODE)
         self.assertNotIn('chat', self.record()['videos'][0])

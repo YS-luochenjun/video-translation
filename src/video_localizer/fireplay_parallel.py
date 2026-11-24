@@ -42,6 +42,38 @@ def _state(root):
     return read_json(path) if path.exists() else {'schema_version': 1, 'tasks': {}}
 
 
+def slot_lock(root):
+    return lock(_path(root).with_suffix('.lock'))
+
+
+def active_sources(root, registry=None):
+    from .fireplay_submission import coverage
+    if registry is None:
+        registry = _state(root)['tasks']
+    active = {(task['requirement_id'], task['video_index']) for task in registry.values()
+              if task['state'] in LIVE}
+    for path in (Path(root) / 'state/fireplay').glob('*/request.json'):
+        record = read_json(path)
+        shared = record.get('chat', {}).get('threadId')
+        shared_policy = record.get('thread_policy') != 'one_chat_per_source_video_all_locales'
+        for video in record['videos']:
+            chat = video.get('chat', {})
+            inherited = shared_policy and chat.get('threadId') == shared and video['index'] != 1
+            occupied = (chat.get('state') in {'reserved', 'unknown', 'ready'}
+                        and (not inherited or video.get('members')))
+            key = record['requirement_id'], video['index']
+            if occupied and key not in active and not coverage(record, video, root)['complete']:
+                active.add(key)
+    return active
+
+
+def capacity(root, active=None):
+    limit = policy(root)['max_active_sources_global']
+    count = len(active_sources(root) if active is None else active)
+    return {'active_source_count': count, 'max_active_sources_global': limit,
+            'available_source_slots': max(0, limit - count) if limit is not None else None}
+
+
 def _record(code, root):
     return read_json(inside(Path(root) / 'state/fireplay', _code(code)) / 'request.json')
 
@@ -97,8 +129,7 @@ def status(code=None, root=ROOT):
     if code is not None:
         _code(code)
     tasks = [_public(t) for t in _state(root)['tasks'].values() if code is None or t['code'] == code]
-    return {'policy': policy(root), 'tasks': tasks,
-            'active_source_count': sum(t['state'] in LIVE for t in tasks),
+    return {'policy': policy(root), 'tasks': tasks, **capacity(root),
             'external_actions': False, 'whole_requirement_completion_authority': 'existing_owner_only'}
 
 
@@ -202,7 +233,7 @@ def update(code, spec, root=ROOT):
     require(action in {'claim', 'heartbeat', 'release', 'block', 'complete', 'reconcile'},
             'Unknown parallel action')
     path = _path(root)
-    with lock(path.with_suffix('.lock')):
+    with slot_lock(root):
         state = _state(root)
         record = _record(code, root)
         owner = _owner(record)
@@ -211,6 +242,8 @@ def update(code, spec, root=ROOT):
         require(isinstance(token, str) and 8 <= len(token) <= 200, 'Stable claim_token of 8 to 200 characters is required')
         require('allowed_paths' not in spec, 'Write paths are derived from the registered source; overrides are prohibited')
         if action == 'claim':
+            require(record.get('thread_policy') != 'one_chat_per_source_video_all_locales',
+                    'Dedicated source chats reserve their place with fireplay-chat')
             require(actor == owner and spec.get('owner_thread_id') == owner,
                     'Only the existing owner chat can claim a source')
             require(not record.get('blockers'), 'Resolve requirement blockers before delegation')
@@ -228,11 +261,12 @@ def update(code, spec, root=ROOT):
             require(not any(t['state'] in LIVE and t['requirement_id'] == scope['requirement_id']
                             and t['video_index'] == scope['video_index'] for t in state['tasks'].values()),
                     'A previous source/content version still owns this video; reconcile or release it')
-            live = [t for t in state['tasks'].values() if t['state'] in LIVE]
+            live = active_sources(root, state['tasks'])
             global_limit = settings['max_active_sources_global']
             requirement_limit = settings['max_active_sources_per_requirement']
-            require(global_limit is None or len(live) < global_limit, 'Global active source limit reached')
-            require(requirement_limit is None or sum(t['requirement_id'] == scope['requirement_id'] for t in live)
+            already_counted = (scope['requirement_id'], scope['video_index']) in live
+            require(already_counted or global_limit is None or len(live) < global_limit, 'Global active source limit reached')
+            require(already_counted or requirement_limit is None or sum(key[0] == scope['requirement_id'] for key in live)
                     < requirement_limit, 'Requirement active source limit reached')
             kind = spec.get('assignee_kind')
             require(kind in ('owner', 'subagent'), 'Assignee kind must be owner or subagent')
@@ -308,12 +342,16 @@ def update(code, spec, root=ROOT):
         return _public(task)
 
 
-def instruction(root=ROOT):
+def instruction(root=ROOT, *, legacy=False):
     settings = policy(root)
     if settings.get('enabled') is not True:
         return ''
     requirement_limit = settings['max_active_sources_per_requirement']
     global_limit = settings['max_active_sources_global']
+    if not legacy and settings.get('worker_kind') == 'source_chat':
+        return (f'\n每个原片会话只制作自己的原片和指定语种，全部原片共用本需求原账本。'
+                f'调度端在建聊前全局登记原片名额，当前上限为 {global_limit}。'
+                '各会话分批回传自己的成片。整单状态由已登记的协调会话收口。')
     limits = ('每需求活跃原片不设数量上限，' if requirement_limit is None
               else f'每需求最多{requirement_limit}条活跃原片（含负责聊天），')
     limits += ('全局活跃原片不设数量上限。' if global_limit is None

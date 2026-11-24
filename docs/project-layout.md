@@ -25,6 +25,17 @@ Remotion是可选下载依赖：源码只保留`src/remotion_renderer`的项目�
 
 `runs/<任务>/outputs/` 是现场的一部分；根 `outputs/` 展示最终结果，`.packages`保存可到期的独立恢复包，索引移到state。`media/`保存源解析，不是已验收底片。按[现行存储合同](../agent/contracts/storage.md)执行最新版本/14天到期及容量清理；知识和账本独立保留，过期后不再承诺原片/完整视频可恢复。
 
+## 维护入口
+
+| 职责 | 实现 | 操作规则 |
+| --- | --- | --- |
+| 发现和接入需求 | `fireplay_monitor.py`、`fireplay.py` | [巡检](../agent/workflows/fireplay-monitor.md)、[编号接入](../agent/workflows/fireplay-intake.md) |
+| 原片并行与需求状态 | `fireplay_parallel.py`、`fireplay_status_transition.py` | [并行制作](../agent/workflows/fireplay-parallel.md) |
+| 逐版回传与整单核验 | `fireplay_submission.py`、`fireplay.py` | [编号接入](../agent/workflows/fireplay-intake.md) |
+| 配音备援与模型任务 | `tts_recovery.py`、`model_tasks.py` | [KIE 集成](../agent/integrations/kie.md) |
+
+实现位于 `src/video_localizer/`。CLI 参数由 `cli.py` 接收，具体操作由对应模块执行。模型、接单与并行策略分别由 `config/model-routing.json`、`config/fireplay-intake.json` 与 `config/fireplay-parallel.json` 管理。
+
 ## 生成源码副本
 
 ```powershell

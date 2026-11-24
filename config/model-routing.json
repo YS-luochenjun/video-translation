@@ -10,15 +10,19 @@
   "separation": "uvr-inst-hq3",
   "tts": "google/gemini-3-8-flash-tts",
   "tts_recovery": {
+    "preferred_fallback": "google/gemini-2-5-pro-tts",
+    "transient_provider_codes": ["500", "502", "503", "504", "524"],
+    "estimated_credits_per_line": 3,
     "fallback_models": [
+      "google/gemini-2-5-pro-tts",
       "google/gemini-3-1-flash-tts",
       "google/gemini-3-8-flash-lite-tts"
     ],
-    "selection": "Small live probes confirmed both alternatives are callable. Use a source, locale and request-budget bound grant for a replacement after a confirmed zero-credit transient failure. Keep any unresolved request and its reservation.",
+    "selection": "After a confirmed terminal zero-credit Gemini 3.8 TTS provider failure, prefer Gemini 2.5 Pro single-speaker, single-line packets. Keep the original request ledger and reconcile in-flight or unknown TTS tasks first.",
     "authority": "user",
-    "authorization_ref": "current-user-kie-model-stability-probe-20261119",
-    "source_quote": "如果是换模型可以解决，你可以去测试相关的模型，哪一些连接稳定，哪一些不容易断联",
-    "evidence": "work/fireplay-monitor/kie-model-stability-20261119.json"
+    "authorization_ref": "user-gemini-25-on-38-failure-20261123",
+    "source_quote": "在有问题时，都让调用gemini 2.5去。请你实现在项目中与智慧这三个会话制作",
+    "evidence": "KEY-20261123-043-3 Arabic production audio tasks"
   },
   "video": "wan/3-0-video",
   "video_authority": {

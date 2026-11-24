@@ -37,4 +37,4 @@
 
 平台状态变为done不自动重做。对用户明确要求的未交付续作，按执行合同登记真实来源、当前内容版本和continuation决定；复用已有制作成员、账本、原outbox及待交语种，并重查绑定权限。只更正数量时，`fireplay_revision.quantity_correction`要求原稿、原片范围、语种与one_per_locale解释不变，当前数量等于已登记原片目标组合数，且显式审阅旧版本并保留快照；不借数量修正追加素材或额度。回归入口为`tests/test_fireplay_quantity_review.py`。
 
-本地分批绑定齐全后，还须用真实当前delivery视图执行`fireplay-completion-check`，再`fireplay-close`保存本地结案回执；不修改平台需求状态。`fireplay_followup`维护已派发负责聊天的租约：unknown先核对原发送，sent到期须读取真实聊天状态再有界恢复，不能据消息已送达推断制作完成，也不能由此重发未知付费任务。完整参数和执行顺序仍以[接入](../agent/workflows/fireplay-intake.md)及[巡检](../agent/workflows/fireplay-monitor.md)为准。
+分批绑定齐全后，用当前delivery视图执行 `fireplay-completion-check`。采用新接单规则的需求由协调会话按[状态流程](../agent/workflows/fireplay-intake.md#需求状态)更新并核验「已完成」，随后以 `fireplay-close` 保存本地结案回执。`fireplay_followup` 维护已派发会话的租约。未知发送先核对原操作，消息到期后从真实会话状态有界恢复。

@@ -6,20 +6,20 @@
 
 本定时任务只负责发现、范围判断、接入和调度。具体制作/回传由原需求聊天继续；全局经验总结与全局存储整理分别按[三项定时职责](../../docs/scheduled-tasks.md)独立执行，巡检轮次不兼做这两项。
 
-多原片接入及现有未完成积压按[并行制作](fireplay-parallel.md)执行：读取 `fireplay-parallel status`，由原负责聊天原子领取并创建单层制作子代理；巡检不自行抢占已领取原片。新授权首次传达需保存实际调度signal和send_message_to_thread回执；已传达且运行中不重复催。超时只查原代理状态和证据，不自动重新分派。原负责聊天统一原预算、付费提交、平台回传及整项结案，模型unknown和旧费用保留。
+新需求按原片拆分会话。读取 `source_capacity` 和 `ready_to_dispatch[].sources`，在每个原片建聊前占用全局10个名额之一。旧需求的聊天和已领取原片沿原执行者续作。派发、恢复和状态更新保留真实回执。操作未知时先查原记录。步骤见[并行制作](fireplay-parallel.md)。
 
-用户最新接入条件须同时满足：执行人包含邹彬、属于新增、当前未开始或进行中且可绑定、实际内容明确要求翻译。平台“进行中”也可能尚未制作，不能仅凭该状态排除；已完成或已证实存在负责聊天/制作记录的需求不重复启动。新建聊天/付费制作前按精确编号和UUID核对原聊天、request、账本及平台绑定，已承接项沿原记录恢复，不重复创建或制作；本地登记成功不等于平台已完成。此次用户授权及原选择政策分别保存在config.polling.authority和intake_selection_authority，旧基线与历史积压保护保留。
+自动接单同时检查执行人包含邹彬、AI承接交付为视频翻译、状态为未开始、具备绑定及状态权限。读取正文确认原片和实际语种。建聊和付费前按编号及UUID核对原聊天、请求、账本与平台绑定。其他状态保留日常跟踪和具体判断。
 
 用户明确撤回或确认由同事接手的需求，在 `config/fireplay-monitor.json.excluded_requirements` 按编号和 UUID 记录。保留原需求、聊天及回执，排除后续接入、派发和完成盯办。
 
 优先级不是接入条件。所有等级（含P2、其他值和未标等级）都按同一范围判断承接，排序与推进规则读取config/fireplay-intake.json.priority_policy；低优先级不得被静默丢弃或等待所有高优先级结束。排队须保留ready_to_dispatch，具体信息/权限/费用/质量缺口分别记录。普通单条语言确认不扩展为全局别名；用户2026-11-09已明确将sa统一为ar，按config/language-aliases.json及[语言解析政策](../../knowledge/rules/language-aliases-v3.md)执行，不再逐条询问sa。旧请求/账本/费用及历史确认保留。
 
-发起规范：在需求面板指派邹彬；可另加实际设计师，没有则留空。用户最新明确将“包含邹彬”设为巡检硬条件，使用精确assignee_ids筛选，多执行人只要包含该ID即在范围内；进入范围后仍按实际内容判断翻译。巡检不擅自修改平台执行人，不把范围外需求判成非翻译，也不删除其旧聊天、账本、绑定或未完成记录。旧单条条件授权仍保留，但本轮接入须同时满足当前全局筛选。设计师仍按提交归属合同排除两位运营后解析。当前用户已取消视频翻译并发数量上限，config/fireplay-monitor.json的max_active_requirements为null；不以已有16个需求或原片阻止新接入，实际宿主/服务阻塞另行记录。
+发起规范在需求面板指派邹彬，可另加实际设计师。巡检用精确assignee_ids筛选，多执行人中包含该ID即可。按同一全局原片上限排队。需求数独立保留，原片的所有语言合占一个名额。
 
 ## 分层轮询与判断
 
-1. 用doctor验证的Python运行fireplay-monitor status、scan。日常每30分钟执行scan返回的active查询：scope=all、asset_type=video、assignee_ids=["b2fbcgab"]、status=["not_started","in_progress"]、pagination=cursor、limit=40、offset=0，所有组、所有优先级。复制next_cursor完整翻页，其余参数不变。requestDate不是创建/更新时间，不加“两天”、关键词等限制。常规调用不再逐轮读取全部历史。brief及后续summary复核保留执行人和video筛选；当前已改派时保留旧记录，停止本轮接入。
-2. 每页保存真实arguments/response到work/fireplay-monitor；以 `{"scan_mode":"active","summary_pages":[实际页面]}` 调用scan --spec。UUID、updatedAt及元数据均未变化的条目复用原判断，只有新项或变化项读取brief；保存完整证据，模型上下文只看紧凑变化。status.polling.full_reconciliation_due为true时，同轮执行polling.full_reconciliation的无状态查询，完整翻页后以scan_mode=full入账；首次升级及之后每24小时核对全部状态。full查询只删去status，不改变人员/视频/组范围。跨天离线后下次唤醒补做，不假报漏跑期间成功。
+1. 用doctor验证的Python运行fireplay-monitor status、scan。日常每30分钟执行程序返回的active查询，其中 `ai_mode=video_translate`、`status=["not_started"]`。所有组和优先级均覆盖。沿 `next_cursor` 完整翻页。复核时保留人员和视频范围。
+2. 每页保存真实arguments/response到work/fireplay-monitor，以 `{"scan_mode":"active","summary_pages":[实际页面]}` 调用scan --spec。UUID、updatedAt及元数据未变化时复用原判断。每24小时执行polling.full_reconciliation，按返回参数核对全部状态及AI分类。人员、视频及组范围沿用原筛选。
 3. 每轮还执行status.polling.tracking内各批精确UUID查询（每批最多40，无状态/日期条件），以 `{"scan_mode":"tracked","requirement_ids":[该批UUID],"summary_pages":[实际页面]}` 入账。覆盖原负责聊天未结项、排队、缺片/缺语种、修订及待确认项，包含平台变成pending_upload/done的已接入需求。单批未返回的UUID进入tracking_gaps，核对权限/改派，不能据缺席或平台done宣告完成。active/full/tracked分别维护last_active_success_at、last_full_success_at、每UUID tracking_checkpoints；last_success_at/visible_count只表示完整full结果。失败、坏JSON、重复ID、循环游标或筛选变化不推进对应检查点，不清空旧记录。实时分页不是事务快照，重叠轮询和每日全量共同补漏。
 4. 按status.needs_review的真实UUID读取blind_brief，再刷新summary；updatedAt须一致且serverTime在10分钟内。Agent结合title、description、refText、locales、原片理解实际翻译意图：多语种加原片即使未写翻译也审查；US多套、换人物/模板、新开头等创意需求不自动承接。缺来源/语种、权限不符、已有制作或已完成分别保留，其他需求继续。
 5. `fireplay-monitor assess --code CODE --spec FILE`登记 `{"snapshot":{"summary":真实响应,"brief":真实响应},"decision":{"is_translation":真实布尔值,"reason":"实际判断","evidence":["brief.description"],"targets":[必要时补实际语种]}}`。evidence必须指向非空正文/摘要字段，不猜原片或用关键词代替理解。
@@ -31,10 +31,10 @@
 
 ## 承接与调度
 
-1. 新建、未开始或进行中且可绑定的实际翻译需求，经assess登记独立request与state/fireplay/CODE/monitor-authority.json。它引用真实持续授权及平台UUID，不伪造新用户消息。每原片每去重语种一版，数量/多套含糊先处理本项，不开跨需求语言总池。
-2. 先按编号接入下载全部原片，复用已登记ready聊天。unknown先查list_threads/read_thread；确需新建时list_projects匹配本项目，project/local按需求编号建一个聊天，完整fireplay-chat prompt附authority路径，保存真实threadId。所有原片/语言由此聊天管理，-1/-2区分文件/run，不改模型或建worktree。
-3. 负责聊天对各原片fireplay-start，使用真实去重语言×60的本需求共享池；持续KIE同意按config/fireplay-intake.json.kie绑定。未知费用/旧限额保留，API及本地日志恢复，不问后台登录，不因轮询/重试补额度。
-4. 用wait_threads(timeoutMs=0)判断真实活动。视频需求、全局原片及每需求原片均不设项目数量上限，不按旧16条限制排队。P0先用实际冲突资源，其他优先级持续推进，已运行项不被新P0中断；真实信息/权限/服务资源阻塞保存具体原因。排队保留ready_to_dispatch，阻塞解除后沿原请求继续。
+1. `assess` 登记合范围请求及 `state/fireplay/CODE/monitor-authority.json`，沿用精确UUID及用户持续授权。
+2. 按 `ready_to_dispatch` 及其 `sources` 顺序推进。先准备该原片，再运行 `fireplay-chat CODE --video N --execute`。有名额时登记预约。首片需按[需求状态](fireplay-intake.md#需求状态)改为「进行中」并读回，再建聊。建聊回执逐原片绑定。`unknown` 先查 `list_threads`/`read_thread`。已有聊天沿原编号继续。
+3. 各原片聊天在自己的序号上执行 `fireplay-start`，共用本需求去重语种×60的账本。各片沿自己的回传进度交付，首个绑定的会话协调整单结案。
+4. 无名额时保留 `ready_to_dispatch`，按全局占用继续排队。原片完成真实绑定后开放名额。P0优先用有冲突的资源，其余优先级有空位即推进。
 5. 每次真实建聊/恢复及每轮status后处理 `completion_watch`：[20分钟完成盯办](fireplay-completion-watch.md)按config.completion_watch单独调度。`host_action=ensure_active` 时先核对角色文件、manifest及应用真实定时任务；已有活动盯办复用并追加新项，没有才通过automation_update创建；已删除的旧盯办遇到新接入必须重新创建，不能沿用旧ID或旧批次已完成结论。创建/更新提示使用config指定的可迁移模板，按当前项目和实际主控聊天绑定，不把本机ID当跨机器安装证据。保存真实ID/回执后更新manifest与角色文件，不以本地计划冒充已创建；创建unknown先核查。长期发现巡检始终保持30分钟ACTIVE。
 
 ## 补交与经验收尾

@@ -81,7 +81,7 @@ def snapshot(code, spec):
     content = {k: brief.get(k) for k in ('id', 'code', 'deptId', 'title', 'description',
                'refText', 'assetType', 'quantity', 'locales', 'channels')}
     row = {**summary, **brief, **{key: summary.get(key) for key in
-           ('status', 'assigneeIds', 'canBindMaterials', 'canUpdateStatus')}}
+           ('status', 'assigneeIds', 'canBindMaterials', 'canUpdateStatus', 'aiMode')}}
     return {'row': row, 'brief': brief, 'content_version': object_hash(content),
             'server_time': payload(spec['summary']).get('serverTime'), 'raw': spec}
 
@@ -456,6 +456,11 @@ def register(code, spec, decision=None, root=ROOT):
         record = old or {'schema_version': 1, 'code': code, 'requirement_id': row['id'],
                          'content_version': snap['content_version'], 'targets': targets,
                          'requested_targets': requested, 'videos': sources, 'created_at': utc_now()}
+        from .fireplay_status_transition import policy as status_policy
+        lifecycle = status_policy(root)
+        if lifecycle and 'status_managed' not in record and _unstarted(record, path.parent):
+            if row.get('status') == lifecycle['intake_status'] and row.get('aiMode') == lifecycle['ai_mode']:
+                record['status_managed'] = True
         record.update(snapshot=snap, decision=decision or record.get('decision', {}),
                       blockers=blockers, warnings=warnings, refreshed_at=utc_now())
         write_json(path, record)
@@ -560,37 +565,61 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
     return status(code, root)
 
 
-def chat(code, receipt=None, index=1, dispatch=False, root=ROOT):
+def chat(code, receipt=None, index=1, dispatch=False, root=ROOT, *, release_reservation=False):
     """Use the configured user-owned chat scope; unknown creates block retries."""
     path = _folder(code, root) / 'request.json'
-    with lock(path.with_suffix('.lock')):
+    from .fireplay_parallel import active_sources, slot_lock, capacity, policy as parallel_policy
+    from .fireplay_status_transition import confirmed, policy as status_policy
+    from .fireplay_submission import coverage
+    with slot_lock(root), lock(path.with_suffix('.lock')):
         record = _record(code, root)
         video = _video(record, index)
         settings_path = Path(root) / 'config/fireplay-intake.json'
         settings = read_json(settings_path) if settings_path.exists() else {}
-        per_requirement = settings.get('thread_policy') == 'one_chat_per_requirement_all_sources_and_locales'
+        shared_policy = 'one_chat_per_requirement_all_sources_and_locales'
+        source_policy = 'one_chat_per_source_video_all_locales'
+        thread_policy = record.get('thread_policy') or (shared_policy if record.get('chat') else settings.get('thread_policy'))
+        per_requirement = thread_policy == shared_policy
         title = code if per_requirement else video['title']
         owner = record if per_requirement else video
+        old = owner.get('chat', {})
+        if release_reservation:
+            require(old.get('state') == 'reserved' and not receipt and not dispatch,
+                    'Only a reservation with no chat dispatch can be released')
+            owner.pop('chat')
+            write_json(path, record)
+            return {'title': title, 'state': 'reservation_released'}
         if receipt:
             result = payload(receipt)
             require(_uuid(result.get('threadId')), 'Need the ready threadId from create_thread, not clientThreadId')
             require(result.get('title') == title, 'Set the dedicated chat title to the exact requirement/video code and record it')
-            old = owner.get('chat', {})
             require(not old.get('threadId') or old['threadId'] == result['threadId'], 'A different chat is already bound')
+            lifecycle = status_policy(root)
+            managed_chat = (record.get('status_managed') or
+                            (not per_requirement and lifecycle and
+                             record['snapshot']['row'].get('aiMode') == lifecycle['ai_mode']))
+            if managed_chat and not old.get('threadId'):
+                require(old.get('state') == 'unknown', 'Reserve a slot and verify the platform start before creating the chat')
+            if not per_requirement:
+                require(all(member['index'] == index or member.get('chat', {}).get('threadId') != result['threadId']
+                            for member in record['videos']), 'Another source already owns this chat')
             owner['chat'] = {**result, 'title': title, 'state': 'ready'}
+            record['thread_policy'] = thread_policy
             if per_requirement:
                 for member in record['videos']:
                     member['chat'] = owner['chat']
+            elif not record.get('chat'):
+                record['chat'] = owner['chat']
             write_json(path, record)
             return owner['chat']
-        if owner.get('chat'):
-            return owner['chat']
+        if old and old.get('state') != 'reserved':
+            return old
         subject = f'全部{len(record["videos"])}个原视频' if per_requirement else f'第{index}个原视频'
         from .kie_access import instruction as kie_access_instruction
         from .fireplay_youtube import instruction as youtube_instruction
         from .fireplay_materials import attribution_instruction
         from .fireplay_parallel import instruction as parallel_instruction
-        packet = {'title': title, 'project_path': str(Path(root).resolve()),
+        packet = {'title': title, 'video_index': index, 'project_path': str(Path(root).resolve()),
                   'targets': record['targets'] if per_requirement else video['targets'], 'state': 'prepared',
                   'host_actions': ['list_projects: match this workspace', 'create_thread: project/local',
                                    'set_thread_title: exact title; record ready threadId with fireplay-chat'],
@@ -598,7 +627,11 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT):
                              f'在这个聊天内管理全部目标语言 {", ".join(record["targets"] if per_requirement else video["targets"])}，不要按语言另开聊天。'
                              '各原片只制作fireplay-status中对应videos[].targets指定的语种，不将需求语言并集与全部原片交叉相乘。'
                              f'先读 agent/workflows/fireplay-intake.md，运行 fireplay-status {code}。'
-                             + parallel_instruction(root) +
+                             + parallel_instruction(root, legacy=per_requirement) +
+                             ('' if per_requirement else
+                              f'\n只处理原片 {index}；所有带 --video 的接入和回传命令明确加 --video {index}，回传规格填 video_index={index}。'
+                              '建聊正准备登记，等实际 threadId 绑定后再 fireplay-start。有待交语种时保留本原片现场。'
+                              '其他原片由各自聊天执行，整单收口由 fireplay-status 的 coordinator_chat 推进。') +
                              '\n' + settings.get('priority_policy', {}).get('rule', '') +
                              '按现有知识、模型、预算和实际审核流程制作；审核后才回传。'
                              '有限预算/返工内已做到最好的完整译片，普通不合格也提交；不以内部revise、分数低或普通瑕疵数量单独拒交。'
@@ -619,6 +652,28 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT):
                   'source_quote': settings.get('thread_policy_source', '')}
         if dispatch:
             require(not record['blockers'], 'Resolve intake blockers before creating a production chat')
+            require(not coverage(record, video, root)['complete'], 'This source has already been delivered')
+            active = active_sources(root)
+            limits = capacity(root, active)
+            per_request_limit = parallel_policy(root)['max_active_sources_per_requirement']
+            occupied = (record['requirement_id'], index) in active
+            if not occupied and (limits['available_source_slots'] == 0 or
+                                 (per_request_limit is not None and
+                                  sum(key[0] == record['requirement_id'] for key in active) >= per_request_limit)):
+                return {'title': title, 'video_index': index, 'state': 'queued', **limits}
+            if thread_policy == source_policy and settings.get('status_update'):
+                require(video.get('source'), 'Download and probe this source before reserving a production slot')
+            record['thread_policy'] = thread_policy
+            if record.get('status_managed'):
+                lifecycle = status_policy(root)
+                if not confirmed(record, 'start', root):
+                    owner['chat'] = {'state': 'reserved', 'title': title, 'reserved_at': old.get('reserved_at') or utc_now()}
+                    write_json(path, record)
+                    return {'title': title, 'video_index': index, 'state': 'needs_status_start',
+                            'next': f'fireplay-transition {code} start SNAPSHOT --execute'}
+                _fresh(record)
+                require(record['snapshot']['row']['status'] == lifecycle['production_status'],
+                        'Platform status changed; reconcile before creating another source chat')
             owner['chat'] = {**packet, 'state': 'unknown', 'dispatched_at': utc_now(),
                              'next': 'Create exactly once; if interrupted, inspect list_threads before recording the existing threadId'}
             write_json(path, record)
@@ -636,6 +691,11 @@ def start(code, authority, index=1, root=ROOT):
         record = _record(code, root)
         require(not record['blockers'], 'Resolve intake blockers first')
         _fresh(record)
+        if record.get('status_managed'):
+            from .fireplay_status_transition import confirmed, policy as status_policy
+            require(confirmed(record, 'start', root) and
+                    record['snapshot']['row']['status'] == status_policy(root)['production_status'],
+                    'Reconcile the platform production status before starting this source')
         video = _video(record, index)
         selected_targets = authority.get('pilot_targets', video['targets'])
         require(isinstance(selected_targets, list) and selected_targets and
@@ -652,18 +712,28 @@ def start(code, authority, index=1, root=ROOT):
         require(video.get('source'), 'Download and probe the original first')
         original = inside(root, video['source']['path'])
         require(file_hash(original) == video['source']['sha256'], 'Source changed before batch creation')
+        budget_source_index = record.get('budget_source_index', 1)
         if record.get('budget'):
             budget = budgets.status(record['budget'], root)
             budgets.require_targets(budget, selected_targets, root)
         else:
-            require(index == 1, 'Start the first source first to establish the shared request budget')
+            dedicated = record.get('thread_policy') == 'one_chat_per_source_video_all_locales'
+            require(dedicated or index == 1, 'Start the first source first to establish the shared request budget')
+            if dedicated and 'budget_source_index' not in record:
+                budget_source_index = index
+                record['budget_source_index'] = index
+                write_json(path, record)
+            budget_source = original if index == budget_source_index else inside(
+                root, _video(record, budget_source_index)['source']['path'])
             budget = budgets.open_request({**authority, 'scope_requirement': code,
-                                           'source': str(original), 'targets': selected_targets}, root)
+                                           'source': str(budget_source),
+                                           'targets': record['targets'] if dedicated and len(record['videos']) > 1
+                                           else selected_targets}, root)
             record['budget'] = budget['id']
         record['funded_targets'] = budget.get('budget_basis', {}).get('targets', record['targets'])
         write_json(path, record)
         kie_consent(code, authority, root)
-        if index > 1:
+        if index != budget_source_index:
             budgets.attach_source(record['budget'], original, authority['authorization_ref'], root)
         batch_id = video['title']
         batch_path = Path(root) / 'state/batches' / (batch_id + '.json')
@@ -1205,12 +1275,15 @@ def status(code, root=ROOT):
     result = {k: record[k] for k in ('code', 'requirement_id', 'content_version', 'targets', 'requested_targets', 'blockers', 'warnings', 'videos')}
     result['state'] = 'needs_information' if record['blockers'] else 'ready_for_intake'
     result['budget'] = record.get('budget')
+    result['coordinator_chat'] = record.get('chat')
+    result['status_managed'] = record.get('status_managed', False)
     if record.get('delivery_specifications'):
         result['delivery_specifications'] = record['delivery_specifications']
     result['production_workflow'] = 'agent/workflows/fireplay-intake.md'
     result['continuous_execution_instruction'] = continuous_execution_instruction(root)
     from .fireplay_parallel import instruction as parallel_instruction
-    result['parallel_production_instruction'] = parallel_instruction(root)
+    result['parallel_production_instruction'] = parallel_instruction(
+        root, legacy=bool(record.get('chat') and record.get('thread_policy') != 'one_chat_per_source_video_all_locales'))
     result['submission_instruction'] = submission_instruction(root)
     result['submission_consent_instruction'] = submission_consent_instruction(root)
     result['kie_consent'] = kie_consent(code, root=root)
@@ -1228,7 +1301,10 @@ def status(code, root=ROOT):
     result['delivery_coverage'] = {v['index']: coverage(record, v, root) for v in record['videos']}
     result['submission_complete'] = all(v['complete'] for v in result['delivery_coverage'].values())
     result['completion_gate'] = completion_gate(record, root)
-    result['whole_requirement_complete'] = result['completion_gate']['can_close']
+    from .fireplay_status_transition import confirmed
+    result['platform_done_confirmed'] = (confirmed(record, 'finish', root) if record.get('status_managed') else None)
+    result['whole_requirement_complete'] = (result['completion_gate']['can_close']
+                                            and result['platform_done_confirmed'] is not False)
     from .fireplay_upload_queue import status as upload_queue_status
     result['upload_queue'] = upload_queue_status(root)
     return result

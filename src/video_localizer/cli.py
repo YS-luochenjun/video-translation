@@ -307,6 +307,12 @@ def main(argv=None):
     command.add_argument('code')
     command.add_argument('--snapshot')
     command.add_argument('--decision')
+    command = commands.add_parser('fireplay-transition', help='Journal a Fireplay status write and confirm it with a fresh platform read')
+    command.add_argument('code')
+    command.add_argument('action', choices=['start', 'finish'])
+    command.add_argument('spec')
+    command.add_argument('--execute', action='store_true')
+    command.add_argument('--retry', action='store_true', help='Allow one retry after reconciling an unknown status write')
     for action in ('source', 'chat', 'start', 'return', 'dispatch', 'receipt', 'retry-upload', 'completion-check', 'close', 'status'):
         command = commands.add_parser('fireplay-' + action)
         command.add_argument('code')
@@ -314,6 +320,8 @@ def main(argv=None):
             command.add_argument('--video', type=int, default=1)
         if action in ('source', 'chat'):
             command.add_argument('--receipt')
+        if action == 'chat':
+            command.add_argument('--release-reservation', action='store_true')
         if action == 'source':
             command.add_argument('--download', action='store_true')
         if action in ('chat', 'dispatch', 'retry-upload'):
@@ -465,6 +473,12 @@ def main(argv=None):
     command.add_argument("--execute", action="store_true")
     command.add_argument("--retry-failed", action="store_true")
     command.add_argument("--retry-upload", action="store_true", help="Recover a proven pre-dispatch asset failure using its existing reservation")
+    command = commands.add_parser("tts-fallback", help="Prepare Gemini 2.5 Pro TTS packets after a settled Gemini 3.8 provider failure")
+    command.add_argument("run")
+    command.add_argument("packet", help="Current, finalized Gemini 3.8 TTS packet")
+    command.add_argument("failed_job")
+    command.add_argument("--failed-run", help="Evidence run from the same source and original request budget")
+    command.add_argument("--speech-id", action="append", help="Only prepare this missing speech line. Repeat to select several.")
     command = commands.add_parser("captions", help="Compile reviewed final-mix alignment; --apply updates inventory, no paid call")
     command.add_argument("run")
     command.add_argument("--alignment", required=True, help="Run-relative reviewed alignment JSON")
@@ -565,6 +579,9 @@ def main(argv=None):
             elif name == 'fireplay-close':
                 from .fireplay_submission import close_delivery
                 result = close_delivery(args.code, ROOT)
+            elif name == 'fireplay-transition':
+                from .fireplay_status_transition import transition
+                result = transition(args.code, args.action, args.spec, args.execute, ROOT, retry=args.retry)
             elif name == 'fireplay-youtube-route':
                 from .fireplay_youtube import record_route
                 result = record_route(args.code, args.spec, args.video, ROOT)
@@ -575,7 +592,8 @@ def main(argv=None):
             elif name == 'fireplay-source':
                 result = fireplay.source(args.code, args.receipt, args.video, args.download, ROOT)
             elif name == 'fireplay-chat':
-                result = fireplay.chat(args.code, args.receipt, args.video, args.execute, ROOT)
+                result = fireplay.chat(args.code, args.receipt, args.video, args.execute, ROOT,
+                                       release_reservation=args.release_reservation)
             elif name == 'fireplay-start':
                 result = fireplay.start(args.code, args.spec, args.video, ROOT)
             elif name == 'fireplay-return':
@@ -810,6 +828,11 @@ def main(argv=None):
                 from . import model_tasks
                 result = model_tasks.submit(run, args.packet, retry_failed=args.retry_failed,
                                             retry_upload=args.retry_upload) if args.execute else model_tasks.packet(run, args.packet)
+            elif name == "tts-fallback":
+                from .tts_recovery import prepare_tts_fallback
+                failed_run = inside(run.parent, args.failed_run) if args.failed_run else None
+                result = prepare_tts_fallback(run, args.packet, args.failed_job, failed_run=failed_run,
+                                              speech_ids=args.speech_id)
             elif name == "archive":
                 result = library.export(run, root=ROOT)
             elif name == "captions":

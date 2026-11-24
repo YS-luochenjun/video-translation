@@ -2,15 +2,20 @@
   "schema_version": 1,
   "enabled": true,
   "max_active_sources_per_requirement": null,
-  "max_active_sources_global": null,
+  "max_active_sources_global": 10,
   "concurrency_authority": {
     "authority": "user",
-    "authorization_ref": "user-fireplay-unlimited-concurrency-20261117",
-    "source_thread_id": "01a1d42b-0add-79e2-905d-04dd831de0c5",
-    "source_quote": "为什么还是说全局16个。请你直接去掉并发上限的安排",
-    "scope": "视频翻译取消需求、全局原片及每需求原片数量上限；null表示不设限。保留单原片单写入者、原负责聊天、预算、unknown及质量门禁；图片项目独立。"
+    "authorization_ref": "user-fireplay-video-translation-status-and-queue",
+    "source_quote": "最多10个视频并行制作",
+    "scope": "同一项目的全部视频翻译需求共用10个原片名额。每原片的所有语言合计占一个名额。"
   },
   "concurrency_authority_history": [
+    {
+      "authority": "user",
+      "authorization_ref": "user-fireplay-unlimited-concurrency-20261117",
+      "source_thread_id": "01a1d42b-0add-79e2-905d-04dd831de0c5",
+      "source_quote": "为什么还是说全局16个。请你直接去掉并发上限的安排"
+    },
     {
     "authority": "user",
     "authorization_ref": "user-fireplay-concurrency-16-20261113",
@@ -28,7 +33,7 @@
     }
   ],
   "lease_minutes": 120,
-  "worker_kind": "subagent",
+  "worker_kind": "source_chat",
   "delegation_depth": 1,
   "paid_model_writer": "requirement_owner",
   "platform_writer": "requirement_owner",

@@ -10,7 +10,9 @@
 | 目标语言配音 | 以 `config/model-routing.json` 的 `tts` 为准 | 口播定稿后用 `tts-packet` 生成请求，再用 `model-task --execute` 提交 |
 | 原视频编辑 | `wan/3-0-video` | Codex 图片处理与本地合成无法满足连续运动要求时，使用 `model_edit` 路线，先 `packet` 再 `submit --execute` |
 
-两次生产账本内的小样本确认 `google/gemini-3-1-flash-tts` 与 `google/gemini-3-8-flash-lite-tts` 可作为配音备选。默认模型见配置。确认原任务终态失败、实扣为零并核对源、语种、账本及模型授权后，可选已验证备选。保留原任务和费用记录。
+默认配音及恢复模型见 `config/model-routing.json`。Gemini 3.8 Flash／Lite TTS 出现配置中的临时错误、且 `poll` 确认原任务终态失败并实扣为零时，优先改用 Gemini 2.5 Pro TTS。`poll` 返回 `tts_fallback.prepare`。若上轮已留下回执，直接使用 `tts-fallback RUN CURRENT_PACKET FAILED_JOB` 生成逐句请求。`CURRENT_PACKET` 必须匹配当前定稿和声线。其他语种可用 `--failed-run` 引用同一原片、同一请求账本的故障证据。已有可用录音时仅用 `--speech-id` 选缺失句子。已受理的任务查原 taskId，未知费用先对账。配音包仍通过 `model-task --execute` 提交并沿原账本登记。
+
+Gemini 2.5 Pro 的恢复包每笔绑定一个角色和一句定稿，使用顶层 `scene`。逐句检查实际发音、完整性和角色声线，混音后按原流程检查时间和首尾。
 
 KIE 的只读余额和 `recordInfo` 查询遇到临时 408、425、429、500、502、503、504 或 524，以及连接层超时，会做最多三次读取尝试，失败后退避。创建任务、上传附件和音频生成请求不自动重发，建任务响应不明确时保留 `ambiguous` 并先核对已保存回执，有原 taskId 时查询原任务。
 

@@ -12,4 +12,6 @@
 
 每次准备停止前再运行新鲜status并追加新负责项；有制作中、待选项、等待模型、具体阻塞、待补交或缺结案的需求就维持同一个ACTIVE盯办。无任何未结负责需求后通过automation_update删除本10分钟任务，保存真实删除回执与COMPLETE_DELETED检查点。保留制作聊天和长期30分钟fireplay发现巡检。长期巡检发现并接入下一条需求后，必须重新创建20分钟盯办；保存新真实ID，不复用已删除ID，不因旧批次完成而停掉长期巡检。
 
+`owner_status_checks` 可包含同一需求下的多个原片会话。逐片恢复各自的制作和回传。整单状态由 `coordinator_chat` 核对，处理 `finish_requirement` 待办时按 `fireplay-intake.md` 的需求状态流程更新并读回「已完成」后结案。
+
 证据保存work/fireplay-monitor。状态未变保持安静；仅完成、重要变化、明确失败或确需人类动作时通知。不兼做全局知识/存储整理。
