@@ -77,7 +77,7 @@
       "authority": "user",
       "source_quote": "但是也要注意，不是说只有完美才进行提交，提交还是都要做的，只要尽力做完了，就要确保提交",
       "rule": "Aim for complete source-style translation; submit every source/locale after bounded effort despite ordinary visual imperfections. Preserve severe damage, missing translation/audio and exact-version objections.",
-      "policy": "knowledge/rules/content-aware-text-restoration-v5.md"
+      "policy": "knowledge/rules/content-aware-text-restoration-v6.md"
     }
   }
 }

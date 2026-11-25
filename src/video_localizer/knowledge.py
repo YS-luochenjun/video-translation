@@ -175,9 +175,14 @@ def related_source_references(context, root=None, limit=4):
 @guarded
 def reflect(run, root=None):
     from .workflow import current_plan
-    from .learning import capture_case, enqueue, record_project_candidate
     root = Path(root or ROOT)
-    required = ("plan.json", "outputs/candidate.json", "outputs/quality.json", "review/review.json")
+    plan_path = run / "plan.json"
+    recorded_plan = read_json(plan_path) if plan_path.exists() else {}
+    review_relative = "review/review.json"
+    if recorded_plan.get("mode") == "fast" and (run / "review/fast-review.json").is_file():
+        review_relative = "review/fast-review.json"
+    review_path = run / review_relative
+    required = ("plan.json", "outputs/candidate.json", "outputs/quality.json", review_relative)
     missing = [relative for relative in required if not (run / relative).is_file()]
     if missing:
         return {"status": "not_ready", "missing": missing,
@@ -189,37 +194,85 @@ def reflect(run, root=None):
     candidate = read_json(run / "outputs/candidate.json")
     require(result["plan_id"] == plan["id"] and result["video_sha256"] == candidate["sha256"], "Quality is stale; run quality again")
     require(file_hash(inside(run, candidate["path"])) == candidate["sha256"], "Candidate changed before reflection")
-    if result.get("review_sha256"):
-        require(file_hash(run / "review/review.json") == result["review_sha256"], "Review changed; run quality again")
-    report = read_json(run / "review/review.json") if (run / "review/review.json").exists() else {}
-    candidate_id = run.name + "-" + result["video_sha256"][:10]
+    review_digest = file_hash(review_path)
+    require(review_digest == result.get("review_sha256"), "Review missing from the quality binding or changed; run quality again")
+    report = read_json(review_path)
+    require(report.get("video_sha256") == candidate["sha256"] and report.get("plan_id") == plan["id"]
+            and report.get("reviewer") and report.get("method"),
+            "Reflection requires an attributed review bound to the current plan and video")
+    return _record_reflection(run, root, plan["source_sha256"], result["video_sha256"],
+                              result["decision"], report, review_path, run / "outputs/quality.json")
+
+
+def reflect_finalized(run, root, delivery):
+    from .finalization import validate_completion
+
+    completion_path = inside(run, delivery["completion_record"])
+    require(file_hash(completion_path) == delivery["completion_sha256"], "Finalization receipt changed")
+    completion = read_json(completion_path)
+    review_path = inside(run, completion["spec"])
+    require(file_hash(review_path) == completion["spec_sha256"], "Finalization review changed")
+    report = read_json(review_path)
+    video = validate_completion(run, report)
+    require(file_hash(video) == completion["video_sha256"] == delivery["sha256"],
+            "Finalization review belongs to another delivered video")
+    return _record_reflection(run, root, completion["source_sha256"], delivery["sha256"],
+                              completion["state"], report, review_path, completion_path,
+                              [inside(run, record["path"]) for record in report["evidence"]])
+
+
+def _record_reflection(run, root, source_sha, video_sha, outcome, report, review_path, result_path, extra_records=()):
+    from .evidence import EVIDENCE_SUFFIXES
+    from .knowledge_records import placeholder_lesson
+    from .learning import capture_case, enqueue, record_project_candidate
+
+    review_digest = file_hash(review_path)
+    result_digest = file_hash(result_path)
+    no_new_reason = report.get("knowledge_no_new_reason")
+    lesson = report.get("lesson", "Needs an evidence-backed lesson")
+    pending_lesson = placeholder_lesson(lesson)
+    if no_new_reason is not None:
+        require(not placeholder_lesson(no_new_reason) and pending_lesson,
+                "Knowledge disposition needs a concrete reason and cannot discard a recorded lesson")
+    candidate_id = run.name + "-" + video_sha[:10]
     path = root / "knowledge/local/candidates" / f"{candidate_id}.json"
     scope = {"workflow": "video-localization", "target_language": read_json(run / "inputs/request.json")["target_language"],
-             "source_sha256": plan["source_sha256"]}
-    lesson = report.get("lesson", "Needs an evidence-backed lesson")
+             "source_sha256": source_sha}
+    if pending_lesson:
+        receipt_path = root / "state/knowledge-reflection" / f"{candidate_id}-{review_digest[:10]}.json"
+        receipt = {"status": "no_new_knowledge" if no_new_reason else "recorded_without_lesson",
+                   "scope": scope, "run": run.name,
+                   "video_sha256": video_sha, "quality_decision": outcome,
+                   "quality_sha256": result_digest,
+                   "review_sha256": review_digest,
+                   "reason": no_new_reason.strip() if no_new_reason else "No reusable lesson was submitted with this review."}
+        if not receipt_path.exists() or read_json(receipt_path) != receipt:
+            write_json(receipt_path, receipt)
+        return {**receipt, "receipt": receipt_path.relative_to(root).as_posix(),
+                "candidate": None, "project_candidate": None, "case": None, "inbox": None}
+    if path.exists():
+        previous = read_json(path)
+        if previous.get("hypothesis") != lesson or previous.get("outcome") != outcome or previous.get("scope") != scope:
+            candidate_id += "-" + review_digest[:10]
+            path = path.with_name(f"{candidate_id}.json")
     case_id = candidate_id + "-case"
-    case = capture_case(case_id, lesson, scope, root, run, result["video_sha256"],
-                        records=[run / "review/review.json", run / "outputs/quality.json"])
+    evidence = [review_path, result_path, *(path for path in extra_records if path.suffix.lower() in EVIDENCE_SUFFIXES)]
+    case = capture_case(case_id, lesson, scope, root, run, video_sha, records=evidence)
     record = {"id": candidate_id, "status": "candidate", "created_at": utc_now(),
                      "scope": scope, "case": str(case.relative_to(root).as_posix()),
-                     "outcome": result["decision"], "hypothesis": report.get("lesson", "Needs an evidence-backed lesson"),
-                     "evidence": {"run": run.name, "video_sha256": result["video_sha256"],
-                                  "quality_sha256": file_hash(run / "outputs/quality.json")},
+                     "outcome": outcome, "hypothesis": lesson,
+                     "evidence": {"run": run.name, "video_sha256": video_sha, "quality_sha256": result_digest},
                      "limitations": report.get("limitations", []), "company_preference": False,
                      "promotion": "Requires scoped evidence and developer/company review; not loaded by retrieval"}
-    from .knowledge_records import placeholder_lesson
-    pending_lesson = placeholder_lesson(record['hypothesis'])
-    record['reflection_state'] = 'needs_lesson' if pending_lesson else 'observed_candidate'
-    record['evidence_digest'] = {'quality_decision': result['decision'],
-                               'failure_codes': result.get('failures', []),
+    record['reflection_state'] = 'observed_candidate'
+    record['evidence_digest'] = {'quality_decision': outcome,
+                               'failure_codes': read_json(result_path).get('failures', []),
                                'reviewer': report.get('reviewer'),
                                'known_defect_count': (len(report['known_defects']) if isinstance(report.get('known_defects'), list) else None)}
-    if pending_lesson:
-        record['next_action'] = 'Read the bound review and actual defect evidence; write a scoped lesson before advisory recall or promotion. Do not infer quality acceptance from this reflection.'
     if path.exists():
         # Legacy reflection bytes remain immutable. A separate case/inbox closes the old dependency.
         previous = read_json(path)
-        require(previous["evidence"]["video_sha256"] == result["video_sha256"], "Existing reflection belongs to another video")
+        require(previous["evidence"]["video_sha256"] == video_sha, "Existing reflection belongs to another video")
     else:
         write_json(path, record)
     queued = enqueue(record, root)

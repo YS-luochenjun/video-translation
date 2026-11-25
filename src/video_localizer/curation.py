@@ -19,6 +19,7 @@ SHANGHAI = timezone(timedelta(hours=8), "Asia/Shanghai")
 
 def settings(root):
     value = read_json(root / "config/hooks.json")["knowledge_daily"]
+    require(type(value.get("automatic", True)) is bool, "Invalid automatic curation setting")
     require(value["timezone"] == "Asia/Shanghai", "This hook currently supports Asia/Shanghai")
     require(re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", value["time"]), "Invalid hook time")
     require(value["engine"] in {"codex_cli", "packet"}, "Unknown curation engine")
@@ -29,34 +30,55 @@ def settings(root):
 
 
 def source_files(root):
-    from .knowledge_review import closed_sources
-    from .knowledge_records import non_use_only, evidence_payload
-    closed = closed_sources(root)
+    from .knowledge_review import closed_sources, decisions, reflection_copies
+    from .knowledge_records import candidate_files, non_use_only, evidence_payload
+    heads = decisions(root)
+    closed = closed_sources(root, heads)
     files = []
     for directory in SOURCES:
         base = inside(root, directory)
         if base.is_dir():
             files.extend(p for p in base.rglob("*") if p.is_file() and p.suffix in {".json", ".md"}
                          and not p.name.startswith("index") and p.resolve().is_relative_to(base.resolve()))
-    return sorted(p for p in set(files) if (p.relative_to(root).as_posix(), file_hash(p)) not in closed
-                  and not any(part in {"bundle", "evidence"} for part in p.relative_to(root).parts)
-                  and not (p.is_relative_to(root / 'knowledge/local/feedback') and
-                           evidence_payload(p, root / 'knowledge/local/feedback'))
-                  and not (p.is_relative_to(root / "knowledge/local/feedback/knowledge-use") and non_use_only(read_json(p))))
+    local_candidates = root / "knowledge/local/candidates"
+    local_files = {p for p in files if p.is_relative_to(local_candidates)}
+    origins = dict(candidate_files(root))
+    origins.update((p.relative_to(root).as_posix(), p) for p in local_files)
+    copies = reflection_copies(root, heads, origins)
+    excluded = closed | set(heads) | set(copies)
+    active = {p for p in files if (p.relative_to(root).as_posix(), file_hash(p)) not in excluded
+              and not any(part in {"bundle", "evidence"} for part in p.relative_to(root).parts)
+              and not (p.is_relative_to(root / 'knowledge/local/feedback') and
+                       evidence_payload(p, root / 'knowledge/local/feedback'))
+              and not (p.is_relative_to(root / "knowledge/local/feedback/knowledge-use") and non_use_only(read_json(p)))}
+    inbox = root / "knowledge/local/inbox"
+    for pointer_path in sorted(p for p in active if p.parent == inbox and p.suffix == ".json"):
+        candidate_path = local_candidates / pointer_path.name
+        if candidate_path not in local_files:
+            continue
+        pointer, candidate = read_json(pointer_path), read_json(candidate_path)
+        concept = object_hash({"lesson": candidate.get("hypothesis"), "scope": candidate.get("scope")})
+        if (set(pointer) == {"id", "concept_id", "status", "case", "created_at", "activation"}
+                and pointer.get("id") == candidate.get("id") and pointer.get("case") == candidate.get("case")
+                and pointer.get("concept_id") == concept and pointer.get("status") == "pending_distillation"):
+            active.remove(pointer_path)
+    return sorted(active)
 
 
 def fingerprint(root, path):
     return {"path": path.relative_to(root).as_posix(), "sha256": file_hash(path)}
 
 
-def baseline(root=None):
+def baseline(root=None, *, include_existing=False):
     root = Path(root or ROOT)
     path = root / STATE / "checkpoint.json"
-    require(not path.exists(), "Baseline already exists; preserve previous incremental history")
-    records = [dict(fingerprint(root, p), disposition="historical_baseline") for p in source_files(root)]
-    write_json(path, {"schema_version": 1, "initialized_at": utc_now(), "seen_record_versions": records,
-                     "pending": [], "artifacts": [], "last_successful_run_at": None})
-    return {"state": "baseline_created", "records": len(records)}
+    with lock(path.parent / "lock.json"):
+        require(not path.exists(), "Baseline already exists; preserve previous incremental history")
+        sources = source_files(root)
+        records = [] if include_existing else [dict(fingerprint(root, p), disposition="historical_baseline") for p in sources]
+        write_json(path, {"schema_version": 1, "initialized_at": utc_now(), "seen_record_versions": records,
+                         "pending": [], "artifacts": [], "last_successful_run_at": None})
+    return {"state": "baseline_created", "records": len(records), "existing_sources_pending": len(sources) - len(records)}
 
 
 def checkpoint(root):
@@ -75,6 +97,11 @@ def inventory(root, state):
     seen = {(p["path"], p["sha256"]) for p in state["seen_record_versions"]}
     return [record for p in source_files(root) if (record := fingerprint(root, p))
             and (record["path"], record["sha256"]) not in seen]
+
+
+def pending_sources(state, available):
+    active = {(record["path"], record["sha256"]) for record in available}
+    return [record for record in state.get("pending", []) if (record["path"], record["sha256"]) in active]
 
 
 def protected(root):
@@ -122,14 +149,17 @@ def status(root=None, now=None):
     root = Path(root or ROOT)
     config, state = settings(root), checkpoint(root)
     review_queue = queue(root)
-    return {"owner": "project", "enabled": config["enabled"], "time": config["time"],
+    automatic = config["enabled"] and config.get("automatic", True)
+    available = inventory(root, state)
+    pending = pending_sources(state, available)
+    return {"owner": "project", "enabled": config["enabled"], "automatic": automatic, "time": config["time"],
             "timezone": config["timezone"], "engine": config["engine"],
             "engine_available": bool(curation_engine.executable(root)) if config["engine"] == "codex_cli" else True,
-            "new_records": len(inventory(root, state)), "pending": state.get("pending", []),
+            "new_records": len(available) - len(pending), "pending": pending,
             "adoption_queue_open": len(review_queue),
             "review_required": bool(review_queue),
             "review_next_action": "knowledge-queue; review evidence and adopt or record a concrete gap" if review_queue else None,
-            "due": due(config, state, now or datetime.now(timezone.utc)),
+            "due": automatic and due(config, state, now or datetime.now(timezone.utc)),
             "last_successful_run_at": state.get("last_successful_run_at"),
             "lock_present": (root / STATE / "lock.json").exists(), "paid_media_model_credits": 0}
 
@@ -150,7 +180,7 @@ def packet(root, state, config, *, oversized=None):
     def priority(record):
         path = inside(root, record['path'])
         data = read_json(path) if path.suffix == '.json' else {}
-        if record['path'].startswith('knowledge/local/feedback/improvements/'):
+        if record['path'].startswith('knowledge/local/feedback/'):
             return (0, record['path'])
         if data.get('outcome') in ('counterexample', 'ineffective', 'regressed'):
             return (0, record['path'])
@@ -356,10 +386,7 @@ def persist(root, state, value, response, oversized=()):
     updated = copy.deepcopy(state)
     updated["seen_record_versions"].extend(handled)
     current_paths = {e["path"] for e in [*value["events"], *oversized]}
-    from .knowledge_review import closed_sources
-    closed = closed_sources(root)
-    updated["pending"] = [e for e in state.get("pending", []) if e["path"] not in current_paths
-                          and (e["path"], e["sha256"]) not in closed]
+    updated["pending"] = [e for e in pending_sources(state, inventory(root, updated)) if e["path"] not in current_paths]
     updated["pending"].extend({**events[e["event_id"]], "reason": e["reason"]} for e in response["pending"])
     updated["pending"].extend(oversized)
     updated["lessons"] = list(heads.values())
@@ -394,6 +421,8 @@ def _execute(root, due_only, prepare_only, response_file, engine, now):
     root = Path(root or ROOT)
     config = settings(root)
     require(config["enabled"], "Project daily curation hook is disabled")
+    if due_only and not config.get("automatic", True):
+        return {"state": "manual_only", "paid_media_model_credits": 0}
     with lock(root / STATE / "lock.json"):
         state = checkpoint(root)
         catalogs(root, state)

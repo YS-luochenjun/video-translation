@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "content-aware-text-restoration-v6",
+  "created_at": "2026-11-24T10:57:58+00:00",
+  "files": [
+    {
+      "path": "evidence/content-aware-text-restoration-v5.md",
+      "sha256": "88ea4e28ecefdad4c7a4be54b47bba0327f49679948e0422100019e275ef9ee7",
+      "bytes": 6743
+    },
+    {
+      "path": "evidence/model-routing.md",
+      "sha256": "58af3c122d4f01c587317ba0afa2b43d7e1f69fe9e4808448bcca2dface41038",
+      "bytes": 11076
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 自然去字与源风格重建\n\n适用快速和严格广告本地化的画面文字与发布者标记处理。执行[原位替换](in-place-text-replacement-v2.md)及[源视觉语言](source-led-visual-localization-v1.md)。\n\n1. **擦字之前保存源文字。** 清点原文、人声和时段。用 style-capture 记录位置、风格、强调、字形边缘、布局及运动。\n2. **恢复自然底片。** 清除原字本体、描边、阴影和进出场轨迹。稳定底面用核验的同源供体或自然重建，图片优先宿主 ImageGen。复杂运动、纹理和遮挡按[模型合同](../../agent/contracts/model-routing.md)评估当前视频编辑能力。\n3. **原位写回。** 绑定目标语实际字形、字重、颜色、描边与间距。艺术字可用少量透明资产；字幕按实际配音及原来短语或逐词节奏呈现。原有容器可自然保留或重建。\n4. **三路对照。** 在困难区及入退场、片尾比较全幅原片、无字底片与译片，分别审查去字、背景、样式、运动和前景对象。先修共用底片的明显缺陷，再扩展语言。小语种轮次保留各自排版、声音和成片审查。\n\n禁止新增可见实心或半透明色块、底条、胶囊底板、矩形补片、马赛克和生硬模糊带。内部位置掩模可用于约束修复。透明度、羽化、算法名、局部单帧或译文可读性均不足以证明背景连续。判断须覆盖边缘、全幅和正常播放。\n\n## 有限降级\n\n自然路线已实际失败或危及主体，且有界条件内确实无法自然恢复时，才评估最小局部、随源运动、羽化且部分透明的模糊。记录真实失败或不安全候选的哈希、实际困难、模型判断、修复范围及停止原因。单凭时间、连接、预算或一次算法失败不足以启用例外。检查原字完全清除、运动和主体保留，披露降级。生硬条带、可辨矩形、接缝、源字仍可读或主体损坏超出此例外。\n\n## 记录与提交\n\n新请求写 `text_restoration_contract_version=2`，逐实例记录 `restoration` 方法、理由和实际证据，有限降级使用现有 `fallback`。审核绑定当前成片 `text_restoration_review`，逐项记录 `visible_coverup`、`source_text_removed`、`background_continuity`、`motion_preserved` 及对照观察。样式和运动另见 `source_style_review`。\n\n达到预算与返工边界后 finalize 最佳完整译片，披露缺陷。按[质量合同](../../agent/contracts/quality.md)和[全项提交规则](fireplay-complete-delivery-v3.md)区分真实漏译、缺必需配音、严重破坏、有效异议和有界修复后的普通外观问题。具备完整译文、配音及正常播放条件的有限最佳结果可按实际发布审核提交。原文持续可读又另加底部译文依原位替换政策判断。保留原始评价及其成片绑定。\n\n修订依据为 evidence:previous、evidence:routing。原样式认可和难例观察沿上一版证据读取。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "previous": "evidence/content-aware-text-restoration-v5.md",
+      "routing": "evidence/model-routing.md"
+    }
+  }
+}

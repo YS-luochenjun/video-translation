@@ -6,7 +6,7 @@
 
 | 问题 | 实际经验 | 以后使用的入口 |
 | --- | --- | --- |
-| 清底不干净 | 共用底片的字影、横条和主体变形会向多语种复制；透明化和模型成功不证明清底。先看原片、无字底片、译片，复核困难区和连续边界。 | [自然去字](../knowledge/rules/content-aware-text-restoration-v5.md) |
+| 清底不干净 | 共用底片的字影、横条和主体变形会向多语种复制；透明化和模型成功不证明清底。先看原片、无字底片、译片，复核困难区和连续边界。 | [自然去字](../knowledge/rules/content-aware-text-restoration-v6.md) |
 | 字体像直接打字 | 源标题、正文、按钮和艺术CTA要分别还原。字体有字形不等于整句不裁边；家族加bold不等于实际用了正确字面。 | [源视觉语言](../knowledge/rules/source-led-visual-localization-v1.md)、[复盘第二版](../knowledge/rules/multilingual-thread-lessons-v2.md) |
 | 文字时机奇怪 | 原字清除、源UI/场景事件、目标实际混音是三条时轴；招牌须随物体并在切镜退出。末帧以真正解码帧为准，不看概览填充格。 | [字幕合同](../agent/contracts/captions.md)、[复盘第二版](../knowledge/rules/multilingual-thread-lessons-v2.md) |
 | 音频看似完整 | 整体complete字段不能覆盖逐句漏句、截尾、角色性别或原声残留；ASR和模型时间戳不能冒充实际精确同步或母语听审。 | [音频合同](../agent/contracts/audio.md)、[角色配音](../knowledge/rules/short-drama-character-voices-v2.md) |

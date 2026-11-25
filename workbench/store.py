@@ -235,7 +235,12 @@ class Store:
             state = 'expired' if latest.get('expired') else latest['status']
         if not output and not record and not plan:
             state = 'unavailable'
-        current_sha = candidate.get('sha256') if recent_work else (latest or {}).get('video_sha256') or completion.get('video_sha256') or candidate.get('sha256')
+        candidate_sha = candidate.get('sha256')
+        completed_sha = completion.get('video_sha256') or delivery.get('sha256')
+        revised = not latest and candidate_sha and completed_sha and candidate_sha not in (
+            completed_sha, completion.get('candidate_sha256_at_completion'))
+        current_sha = (candidate_sha if recent_work or revised else
+                       (latest or {}).get('video_sha256') or completed_sha or candidate_sha)
         held = self._holds(source_sha, current_sha)
         quality_state = 'not_reviewed'
         if state == 'delivered_with_issues':
@@ -267,7 +272,7 @@ class Store:
         tracked = [base + '/' + p for p in ('run.json', 'analysis/inventory.json', 'plan.json', 'outputs/candidate.json',
                    'outputs/quality.json', 'outputs/delivery.json', 'outputs/completion.json')]
         times = [self.path(p).stat().st_mtime for p in tracked if self.path(p).is_file()]
-        task_data = {'id': task, 'archived': archived, 'source_sha256': source_sha,
+        task_data = {'id': task, 'archived': archived, 'source_sha256': source_sha, 'current_video_sha256': current_sha,
                      'target_language': request.get('target_language') or (latest or {}).get('target_language') or '—',
                      'brief': clean(request.get('brief', '')), 'mode': plan.get('mode') or request.get('delivery_mode') or '未记录',
                      'state': state, 'state_label': label, 'next_action': next_action,
@@ -359,7 +364,7 @@ class Store:
         value['warnings'] += warnings
         return value
 
-    def knowledge(self):
+    def knowledge(self, include_queue=True):
         entries = []
         for relative, kind in [('knowledge/index.json', 'method'), ('knowledge/cases/index.json', 'reference'),
                                ('knowledge/candidates/index.json', 'candidate')]:
@@ -368,12 +373,86 @@ class Store:
                 e['kind'] = kind
                 e['key'] = kind + ':' + str(e.get('id') or e.get('path'))
                 entries.append(e)
-        return {'entries': entries, 'counts': dict(Counter(e['kind'] for e in entries)),
-                'candidate_states': self.read('knowledge/candidates/index.json').get('counts', {})}
+        result = {'entries': entries, 'counts': dict(Counter(e['kind'] for e in entries)),
+                  'candidate_states': self.read('knowledge/candidates/index.json').get('counts', {})}
+        if not include_queue:
+            return result
+        from video_localizer.common import WorkflowError
+        from video_localizer.knowledge_review import queue
+        try:
+            review_rows = queue(self.root, include_closed=True)
+        except (WorkflowError, OSError, ValueError, KeyError, TypeError):
+            review_rows = []
+            result['review_queue_state'] = 'unavailable'
+        else:
+            result['review_queue_state'] = 'available'
+        by_path = {row['path']: row for row in review_rows}
+        catalog_paths = {entry.get('path') for entry in entries}
+        for row in review_rows:
+            if row['path'] in catalog_paths or row['status'] == 'evidence_copy':
+                continue
+            public = not row['path'].startswith('knowledge/local/')
+            if row['status'] == 'reviewed_closed' and not row['path'].startswith('knowledge/distillations/'):
+                continue
+            source = Path(row['path'])
+            label = source.stem if public else row['sha256'][:12]
+            entries.append({'kind': 'candidate', 'key': 'candidate:' + row['sha256'],
+                            'path': row['path'] if public else None, 'review_path': row['path'], 'id': label,
+                            'scope': clean(row['scope']) if public else {'target_language': row['scope'].get('target_language')},
+                            'status': 'candidate', 'visibility': 'project' if public else 'local'})
+        feedback = []
+        for entry in entries:
+            if entry['kind'] != 'candidate':
+                entry['view'] = entry['kind'] if entry.get('status') == 'active' and not entry.get('superseded_by') else 'history'
+                continue
+            relative = entry.pop('review_path', entry.get('path'))
+            row = by_path.get(relative)
+            if row and entry.get('visibility') == 'project' and isinstance(row['record'].get('method'), dict):
+                method = row['record']['method']
+                entry['title'] = clean(method.get('title') or entry['id'])
+                entry['summary'] = clean(method.get('action'))
+            if entry.get('queue_state') == 'archived':
+                entry.update(view='history', review_state='archived')
+            elif row and row['status'] == 'reviewed_closed':
+                entry.update(view='history', review_state='closed')
+            elif row:
+                decision = row['decision'] or {}
+                is_feedback = relative.startswith('knowledge/local/feedback/')
+                state = 'needs_review'
+                if decision.get('resolution') in {'pending', 'partial'}:
+                    state = 'needs_evidence'
+                elif row['reflection_state'] == 'needs_lesson':
+                    state = 'needs_lesson'
+                entry.update(view='candidate', review_state=state,
+                             conflict_with_rules=row['conflict_with_rules'],
+                             source_type='feedback' if is_feedback else 'candidate',
+                             next_action=clean(row['next_action']) if entry.get('visibility') != 'local' else None)
+                if is_feedback:
+                    entry['title'] = '修复对照' if '/improvements/' in relative else '实际使用反馈'
+                    feedback.append(entry)
+                elif row['reflection_state'] != 'needs_lesson':
+                    hypothesis = row['record'].get('hypothesis')
+                    source = row['scope'].get('source_sha256')
+                    if isinstance(hypothesis, str) and hypothesis.strip() and source not in (None, '', '*'):
+                        shared_scope = {key: value for key, value in row['scope'].items() if key != 'target_language'}
+                        entry['review_group'] = digest([shared_scope, hypothesis.strip(), relative.startswith('knowledge/local/'),
+                                                        state, row['conflict_with_rules']])
+                        if not relative.startswith('knowledge/local/'):
+                            entry['summary'] = clean(hypothesis)
+            else:
+                entry.update(view='candidate', review_state='unverified')
+        if feedback:
+            feedback_ids = {entry['key'] for entry in feedback}
+            result['entries'] = feedback + [entry for entry in entries if entry['key'] not in feedback_ids]
+        result['view_counts'] = dict(Counter(entry['view'] for entry in entries))
+        result['review_counts'] = dict(Counter(entry['review_state'] for entry in entries if entry.get('view') == 'candidate'))
+        result['conflict_count'] = sum(bool(entry.get('conflict_with_rules')) for entry in entries if entry.get('view') == 'candidate')
+        return result
 
     def document(self, relative):
         path = self.path(relative)
-        if Path(relative).parts[0] not in {'knowledge', 'agent'} or path.suffix.lower() not in {'.md', '.json'}:
+        parts = path.relative_to(self.root).parts
+        if not parts or parts[0] not in {'knowledge', 'agent'} or parts[:2] == ('knowledge', 'local') or path.suffix.lower() not in {'.md', '.json'}:
             raise ValueError('Only project knowledge and contract text is available')
         if path.stat().st_size > 2 * 1024 * 1024:
             raise ValueError('Document exceeds read limit')
@@ -383,20 +462,27 @@ class Store:
         # Long bodies are returned as bounded plain text; never evaluated as HTML.
         return {'path': relative, 'sha256': self.sha(relative), 'text': clean(text)}
 
-    def snapshot(self):
-        warnings = []
-        versions = self.versions(warnings)
-        names = {v['origin_run_id'] for v in versions if v.get('origin_run_id')}
-        names.update(Path(p).parent.name for p in self.glob('runs', '*/run.json'))
+    def task_records(self, versions):
+        packages = {}
+        for version in versions:
+            if version.get('origin_run_id'):
+                packages.setdefault(version['origin_run_id'], []).append(version)
+        names = set(packages) | {Path(path).parent.name for path in self.glob('runs', '*/run.json')}
         tasks = []
         for task in sorted(names):
             try:
-                tasks.append(self._task(task, [v for v in versions if v['origin_run_id'] == task]))
+                tasks.append(self._task(task, packages.get(task, [])))
             except (OSError, ValueError, KeyError, TypeError) as exc:
                 tasks.append({'id': task, 'state': 'unavailable', 'state_label': '记录需检查', 'quality_state': 'invalid',
                               'next_action': '任务记录暂时无法读取；其他任务仍可查看', 'target_language': '—',
                               'warnings': [{'message': type(exc).__name__}], 'archived': False})
         tasks.sort(key=lambda r: r.get('updated_at') or '', reverse=True)
+        return tasks
+
+    def snapshot(self):
+        warnings = []
+        versions = self.versions(warnings)
+        tasks = self.task_records(versions)
         budget_rows = []
         for path in self.glob('state/budgets', '*.json'):
             if path.endswith('/index.json'):
@@ -416,7 +502,7 @@ class Store:
                 locks.append({'name': Path(path).name, 'owner': self.path(path).read_text()[:80]})
             except OSError:
                 pass
-        knowledge = self.knowledge()
+        knowledge = self.knowledge(include_queue=False)
         settings = self.read('config/resources.local.json')
         value = {'tasks': tasks, 'stats': {'tasks': len(tasks), 'outputs': sum(bool(t.get('output_available')) for t in tasks),
                  'needs_attention': sum(t['quality_state'] in {'issues', 'revise', 'hold', 'invalid', 'stale'} or bool(t.get('warnings')) for t in tasks),

@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "knowledge/candidates/KEY-20261110-032-06-066243ecd8.json",
+    "sha256": "945ccf73ee2a45b3ca124c794227ceeec890662bfa52a30bade86ad023279a63"
+  },
+  "previous_review": "4dc1ee18bf6fe55584dd6a0c6340030e12599ee515a73e5b71b393c702c38ab8",
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project knowledge review",
+  "origin": "已核对同源各语言的原质检及视频哈希。",
+  "resolution": "rejected",
+  "reason": "原经验栏为空白。该语种抽样所见的共用底片缺陷与箭头保留在同源组重复出现。语言自己的转录和质检继续按原版本保留。",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "保留该版本的画面限制、独立质检与转录。正常速度连续视听审查未作新判断。"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-25T04:17:14+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

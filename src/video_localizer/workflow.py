@@ -48,11 +48,13 @@ def _create_run(video, target, brief, name, source_url=None):
     require(not (ROOT / 'state/project-storage.lock').exists(), 'Project storage maintenance is active')
     import re
     from .languages import resolve
+    from .storage_policy import require_intake_space
     require(bool(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}", name)), "Invalid run id")
     language = resolve(target, ROOT)
     target = language["target_language"]
     source = Path(video).resolve()
     require(source.is_file(), "Video file not found")
+    require_intake_space(ROOT, source.stat().st_size)
     meta = media.probe(source)
     require_number(meta["duration"], "source duration", minimum=.001)
     run = inside(ROOT / "runs", name)
@@ -83,9 +85,11 @@ def _create_run(video, target, brief, name, source_url=None):
 def ingest(url, target, brief, name):
     # URLs are received from a verified material tool/page, never guessed API routes.
     import uuid
+    from .storage_policy import require_intake_space
+    require_intake_space(ROOT)
     temporary = ROOT / "work" / (uuid.uuid4().hex + ".mp4")
-    download(url, temporary)
     try:
+        download(url, temporary)
         return create_run(temporary, target, brief, name, source_url=url)
     finally:
         temporary.unlink(missing_ok=True)
@@ -1007,6 +1011,7 @@ def render(run, force_segments=False):
     gate(run, plan)
     inventory = read_json(run / "analysis/inventory.json")
     meta = read_json(run / "analysis/media.json")
+    from .resources import preflight, render_write_budget
     for segment in plan["segments"]:
         # Validate ALL shared masters before spending time on any segment.
         if segment.get('prepared_video'):
@@ -1030,6 +1035,7 @@ def render(run, force_segments=False):
         if cached_visual:
             visuals.append(cached_visual)
             continue
+        preflight(run.parent.parent, directory, render_write_budget(meta, segment["end"] - segment["start"]))
         if segment["route"] == "local_overlay":
             visuals.append(media.render_local(source_path(run), segment, inventory["text_instances"], meta, directory, run=run))
         elif segment["route"] == "reference_composite":
@@ -1094,6 +1100,7 @@ def render(run, force_segments=False):
         require(len(model_audio) == len(plan["segments"]), "Each segment needs returned model audio; no silent/foreign-source fallback")
         audio_path = audio_tools.concatenate(model_audio, run / "outputs" / ("model-audio-" + plan["id"] + ".wav"))
     destination = run / "outputs" / ("candidate-" + plan["id"] + ".mp4")
+    preflight(run.parent.parent, destination, render_write_budget(meta, meta["duration"]))
     media.assemble(visuals, audio_path, destination, meta["duration"])
     audio_record = run / "outputs" / ("audio-selection-" + plan["id"] + ".json")
     write_json(audio_record, {"strategy": audio["strategy"], "source_sha256": file_hash(source_path(run)),
@@ -1295,8 +1302,8 @@ def deliver(run):
     require(result["decision"] == "pass", "Candidate is not accepted; see outputs/quality.json")
     candidate = read_json(run / "outputs/candidate.json")
     output = run / "outputs/final.mp4"
-    shutil.copyfile(inside(run, candidate["path"]), output)
-    write_json(run / "outputs/delivery.json", {"video": "outputs/final.mp4", "sha256": file_hash(output),
+    media.copy_verified_video(inside(run, candidate["path"]), output, candidate["sha256"])
+    write_json(run / "outputs/delivery.json", {"video": "outputs/final.mp4", "sha256": candidate["sha256"],
                "quality_record": result["record_path"], "quality_sha256": file_hash(run / result["record_path"]), "delivered_at": utc_now(),
                "request_sha256": file_hash(run / "inputs/request.json"), "plan_id": candidate["plan_id"]})
     from . import library
@@ -1304,7 +1311,7 @@ def deliver(run):
     archived = library.export(run, root=ROOT)
     learning = reflect(run, root=ROOT)
     snapshot = source_state.save(run, ROOT)
-    return {"final": archived["package"] + "/final.mp4", "sha256": file_hash(output),
+    return {"final": archived["package"] + "/final.mp4", "sha256": candidate["sha256"],
             "package": archived, "learning": learning, "source_snapshot": snapshot,
             "run_copy": str(output.relative_to(ROOT))}
 

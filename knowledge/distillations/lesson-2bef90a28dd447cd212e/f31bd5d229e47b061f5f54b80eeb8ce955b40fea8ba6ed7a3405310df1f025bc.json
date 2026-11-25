@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-2bef90a28dd447cd212e",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+    "target_language": "fr",
+    "condition": "Comparative Gemini audio review timed out without a queryable task ID"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "法语同步音频请求超时的未知费用边界",
+    "trigger": "该源法语比较音频请求超时且没有可查询任务ID。",
+    "action": "保留原超时和未知费用，不自动重发；仅使用已有证据并保留音频审查限制。",
+    "failure_signature": "无任务ID，费用未确定，比较音频请求未重发。",
+    "limitations": [
+      "该次请求未核销，不代表免费或退款。",
+      "法语语义审查仅有已有TTS、编码ASR和混音证据，内部质量仍为revise。",
+      "Quoted observations do not prove causality or validate the proposed action; controller review required."
+    ],
+    "next_counterexample_test": "若取得真实响应或账单回执，沿原记录核对，不以余额差估算。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/APC-20261117-060-french-timeout-billing-boundary.json",
+      "sha256": "c920c5f45c8973c55ee4c672409e027817d3aaf873830fb540a7b52467aebb5b",
+      "event_id": "43073d6a6663cd4c0fe3e8f9a4329899c1250a9ad5c22bf175dad796a412e957",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+        "target_language": "fr",
+        "condition": "Comparative Gemini audio review timed out without a queryable task ID"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "APC-20261117-060-french-timeout-billing-boundary",
+        "status": "candidate",
+        "created_at": "2026-11-17T12:17:00+00:00",
+        "scope": {
+          "workflow": "video-localization",
+          "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+          "target_language": "fr",
+          "condition": "Comparative Gemini audio review timed out without a queryable task ID"
+        },
+        "outcome": "delivered_with_issues",
+        "hypothesis": "When a paid comparative model request times out without a queryable task ID, the correct boundary is to preserve the timeout and unknown billing state, avoid an automatic resubmission, and complete the locale using already available bounded evidence if no severe quality blocker remains.",
+        "limitations": [
+          "The French comparative Gemini request timed out and its billing remains unknown; no task ID was available for reconciliation.",
+          "The request was not resubmitted, so French semantic audio review remains limited to raw TTS, encoded ASR and mix evidence.",
+          "This candidate records an accounting and retry boundary for this event; it does not prove the charge was refunded or absent.",
+          "The locale was delivered as bounded best available with disclosed limitations and remains internally marked revise."
+        ],
+        "evidence": {
+          "run": "APC-20261117-060-05",
+          "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+          "video_sha256": "4729ffb5996c1f716c3e9b8c91c797e959bf217c9a16acaefd6bb585f190b348",
+          "publication_spec": "work/state/APC060-publication-fr.json",
+          "finalized_locales": "work/state/APC060-finalized-locales.json"
+        },
+        "reflection_state": "unknown_billing_boundary",
+        "quality_passed": false,
+        "company_preference": false,
+        "promotion": "Keep as a source-scoped unknown-cost and retry boundary; do not reclassify the charge or auto-retry without a real task ID.",
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "One French request on this source; future timeouts require their own API receipt and billing reconciliation."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": false,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation",
+  "analysis": {
+    "observations": [
+      {
+        "event_id": "43073d6a6663cd4c0fe3e8f9a4329899c1250a9ad5c22bf175dad796a412e957",
+        "pointer": "/limitations/0",
+        "quote": "The French comparative Gemini request timed out and its billing remains unknown; no task ID was available for reconciliation."
+      }
+    ],
+    "causal_hypothesis": "",
+    "action_basis": "proposed"
+  },
+  "analysis_status": "source_linked",
+  "adoption_proposal": {
+    "action": "source_case",
+    "target_ids": [
+      "kie-api-local-verification-v1"
+    ],
+    "reason": "现行API恢复规则已覆盖该未知费用及禁止盲目重发的情况。",
+    "missing_evidence": [
+      "可恢复的真实响应或计费回执",
+      "独立音频听审"
+    ]
+  },
+  "next_action": "knowledge-review: source_case: 现行API恢复规则已覆盖该未知费用及禁止盲目重发的情况。"
+}

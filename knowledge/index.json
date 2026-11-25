@@ -2020,7 +2020,7 @@
       "origin": "Direct user approval of French still, request to extend to video, actual French composition and source-bound user-reported rectangular CTA counterexample. Retains prior multi-source evidence; new video is sampled same-agent review only.",
       "reviewed_by": "Codex: method/decomposition and native-frame comparisons; no full normal-speed playback/listening or user video acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-26T03:30:05+00:00",
       "method_sha256": "418f804d6e1f4d3ec89dcb6ae4d4886a2827e4f1e73a3c32211a70d8e1519b7b",
       "case": "knowledge/examples/method-source-neutral-preparation-v5",
@@ -2140,7 +2140,8 @@
       },
       "requires_features": [
         "onscreen_text"
-      ]
+      ],
+      "superseded_by": "method-source-neutral-preparation-v6"
     },
     {
       "id": "content-led-localization-v1",
@@ -2241,7 +2242,7 @@
       "origin": "Direct project user budget instruction and visual concern, 2026-10-26; Codex implementation and routing review",
       "reviewed_by": "Codex, same-agent developer review; budget amount explicitly specified by project user",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-27T03:13:15+00:00",
       "method_sha256": "f0fb6b33570f43684a3085d886af8d9ba005b81a349efd46f27008bac1ce3330",
       "case": "knowledge/examples/user-language-budget-60-20261026",
@@ -2254,7 +2255,8 @@
         "fast",
         "strict"
       ],
-      "retrieval_role": "required"
+      "retrieval_role": "required",
+      "superseded_by": "user-language-budget-60-v2"
     },
     {
       "id": "content-aware-text-restoration-v2",
@@ -2684,7 +2686,7 @@
       "origin": "Explicit current user request to review remaining candidates, consolidate valuable observations and resolve conflicts; limited developer/source review.",
       "reviewed_by": "Codex same-agent review of candidate contents, immutable cases and selected screenshots; no new media acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-27T07:50:08+00:00",
       "method_sha256": "e16a65745e8800a4d9e89d567b587f7303c3e62bc172dafab9a9fb42058370c1",
       "case": "knowledge/examples/route-selection-v4",
@@ -2700,7 +2702,8 @@
       "selection_review": {
         "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
         "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
-      }
+      },
+      "superseded_by": "route-selection-v5"
     },
     {
       "id": "method-animated-text-occlusion-v8",
@@ -3186,7 +3189,7 @@
       "origin": "Explicit user clarification and stronger preference for useful ImageGen/Wan combinations, without restricting independent routes",
       "reviewed_by": "User explicit route preference; Codex scope and prior trial review, no new video acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-28T10:25:07+00:00",
       "method_sha256": "f756d8e814439e0288a1a63df56c06b3d170fa3fa4dfb77c8f2c12e8c7a33055",
       "case": "knowledge/examples/imagegen-first-v3",
@@ -3197,7 +3200,8 @@
       "delivery_modes": [
         "fast",
         "strict"
-      ]
+      ],
+      "superseded_by": "imagegen-first-v4"
     },
     {
       "id": "fireplay-complete-delivery-v3",
@@ -3242,7 +3246,7 @@
       "origin": "Direct user 2026-10-28 bounded-best publication, autonomous identity lookup and standing KIE consent; same-agent offline recovery/closure implementation review",
       "reviewed_by": "Codex same-agent policy and code-contract review; no new production-video or independent acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-29T04:32:52+00:00",
       "method_sha256": "86355626281d0db2add7c56c5fbbf0b01d667186ca29e144bc7db7fc4f7b7dd5",
       "case": "knowledge/examples/fireplay-designer-attribution-v2",
@@ -3254,7 +3258,8 @@
       "delivery_modes": [
         "fast",
         "strict"
-      ]
+      ],
+      "superseded_by": "fireplay-designer-attribution-v3"
     },
     {
       "id": "fireplay-completion-recovery-v4",
@@ -3269,7 +3274,7 @@
       "origin": "Direct user 2026-10-28 bounded-best publication, autonomous identity lookup and standing KIE consent; same-agent offline recovery/closure implementation review",
       "reviewed_by": "Codex same-agent policy and code-contract review; no new production-video or independent acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-29T04:32:52+00:00",
       "method_sha256": "dfb6effc7c35e253ee320444778b9d16211033bd75deda34f03b107d9dfb8e28",
       "case": "knowledge/examples/fireplay-completion-recovery-v4",
@@ -3282,7 +3287,8 @@
         "fast",
         "strict"
       ],
-      "retrieval_role": "required"
+      "retrieval_role": "required",
+      "superseded_by": "fireplay-completion-recovery-v5"
     },
     {
       "id": "source-led-visual-localization-v1",
@@ -3397,7 +3403,7 @@
       "origin": "Explicit user clarification: full source-style translation and mandatory bounded best-complete submission; production route constraints are separate from publication eligibility",
       "reviewed_by": "Codex same-agent implementation review; user preference, not new media acceptance",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-11-02T10:36:30+00:00",
       "method_sha256": "88ea4e28ecefdad4c7a4be54b47bba0327f49679948e0422100019e275ef9ee7",
       "case": "knowledge/examples/content-aware-text-restoration-v5",
@@ -3410,7 +3416,8 @@
         "fast",
         "strict"
       ],
-      "retrieval_role": "required"
+      "retrieval_role": "required",
+      "superseded_by": "content-aware-text-restoration-v6"
     },
     {
       "id": "multilingual-thread-lessons-v2",
@@ -3706,6 +3713,302 @@
         "fast",
         "strict"
       ]
+    },
+    {
+      "id": "route-selection-v5",
+      "path": "knowledge/rules/route-selection-v5.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "ads"
+      ],
+      "origin": "2026-11-24 用户授权的知识整理。核对当前执行合同、旧版正文和索引适用范围。",
+      "reviewed_by": "Codex 开发审查",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-24T10:57:58+00:00",
+      "method_sha256": "e50de65a94e23249e30bbdc160edad9f4e7c927014d9edf6af4e322e13fc8bf0",
+      "case": "knowledge/examples/route-selection-v5",
+      "case_manifest_sha256": "06653bd4487f132eae65e4264c7e35427282de0f4359454d7fc649015868dfe3",
+      "supersedes": "route-selection-v4",
+      "knowledge_type": "developer_method",
+      "validation_level": "developer_reviewed_guidance",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required",
+      "selection_review": {
+        "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
+        "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
+      }
+    },
+    {
+      "id": "method-source-neutral-preparation-v6",
+      "path": "knowledge/rules/method-source-neutral-preparation-v6.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "reuse",
+        "text",
+        "timing",
+        "ads",
+        "visual",
+        "typography"
+      ],
+      "origin": "2026-11-24 用户授权的知识整理。核对当前执行合同、旧版正文和索引适用范围。",
+      "reviewed_by": "Codex 开发审查",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-24T10:57:58+00:00",
+      "method_sha256": "b1b7c995c771767f05a6d00f7aae2ab695fdfa26e1c4549c15aced9f86965c55",
+      "case": "knowledge/examples/method-source-neutral-preparation-v6",
+      "case_manifest_sha256": "ac7fcc5815c306726ab006f987c53c6b7e7815c955c4e74034c0327d91feed0e",
+      "supersedes": "method-source-neutral-preparation-v5",
+      "requires_features": [
+        "onscreen_text"
+      ],
+      "knowledge_type": "class_method",
+      "validation_level": "multi_source_observations",
+      "topic": "reuse",
+      "evidence_sources": [
+        {
+          "path": "knowledge/examples/supplements/hand-zh-sync-user-approved-20261020/af4c1a3fad6c8543ba89452b0b29a057251a435bd946cde490205ccd14a8f049",
+          "manifest_sha256": "c57f2ff01f27cdf220f4b2eb227482b65c4ef193570d465325889a3cbf57dfbe",
+          "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe"
+        },
+        {
+          "path": "knowledge/examples/supplements/live-photo-zh-art-user-approved-20261019/dc505053f9eaa92cb524ba5f311558ba16ade538056da5d71df134fc704f8e88",
+          "manifest_sha256": "f2e3c2178a63b1cf17a2e6b099399dbdeea146f7ec2a3e1a3c94b5c3cc0ec3ea",
+          "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
+        },
+        {
+          "path": "knowledge/examples/supplements/family-time-zh-local-repair-user-approved-20261019/8454b9620778cc71324b13c1cd3a85f18b803b652604827e8b181f418a5a2f89",
+          "manifest_sha256": "cb5e16d3360bea62f01e2127ac169b293acea52940b3ebe9e98983ec429ac059",
+          "source_sha256": "5d8d9dff51eb8b8721eb9fbf3559343675f405253002e7ecfa7226043b6286ed"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-1-1-es-20261020",
+          "manifest_sha256": "8b1bda23c3840fc89a3feecb4534bda8d08cba18b9a62976a3b399b94627e242",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-video-1-2-es-20261020-01",
+          "manifest_sha256": "ce07584e31d3b86fc4e39cefe1445dfce996b3306a09385df619cb4df6e0cab4",
+          "source_sha256": "7f984bf00b758f02ee26d6a295b3f2e91e596ccc0d8fe2e9514b5e0d00535680"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-2-1-es-20261020",
+          "manifest_sha256": "17d4dc09d282f01314e194d259ae0484ce8fa48d8b9cc05451adebd7b9874ebe",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-ad31-es-20261020",
+          "manifest_sha256": "e07bbd5f235803fa7ef8aba50df046e3331e19ff883dde3a9ee86070afb27625",
+          "source_sha256": "64e61bf114fb260c0c79f21be6deed5339d94fb66eb82840692312a554364d87"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-4-1-es-20261020",
+          "manifest_sha256": "683d2db356592d7bb5974d8a71aff5768cbf885712e7bd26892cc6c1a09f76a1",
+          "source_sha256": "f9df83df9a7ad5112d68ec4fd89d745bd530f6a863460437a6d4619ac4bf7131"
+        },
+        {
+          "path": "knowledge/examples/batch-20261020-4-2-es-20261020",
+          "manifest_sha256": "b2a5b613e7007c7be317b1062d163ea621d813f9aa256c227857b3b141596a27",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-1-visual-counterexample-20261020",
+          "manifest_sha256": "1f140a5653b43231654ea0014929c73b9f72d2d353eb47a95a423c4973ab9903",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-3-visual-counterexample-20261020",
+          "manifest_sha256": "a346d2423a0e7a215424c2260de87d2ecbeb0a851b470b2f6bdd57180adc317d",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/supervision-2-1-visual-counterexample-20261020",
+          "manifest_sha256": "9377962858ba11def86ef5ce0f557d688b1ce7130e868d4c053b705ef48633d5",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/supervision-4-2-visual-counterexample-20261020",
+          "manifest_sha256": "30934df5482e93f00b999d77242f4df5f3c0eaa7ff1a8ebc4870645050dd7ed2",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        },
+        {
+          "path": "knowledge/examples/supervision-1-1-repair-observation-20261020",
+          "manifest_sha256": "b3c9c6e5dd980e0db7972cc4ef8a0a88ade1176a0ddb9b4ddc08b6ee7172aec2",
+          "source_sha256": "f4c3a79d549715e64064ee5b2fc2927e393393a677d7d4692a269c96c45b0eb3"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-1-3-20261021",
+          "manifest_sha256": "87f57d8f03f7f2aab3bc2ed184005e2d1133e4b2f946a1dfba3838c361197573",
+          "source_sha256": "77618927457ed278f97b0687c441fd60e9e42679bd4f5f85a2ad2b0c136c1572"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-2-1-20261021",
+          "manifest_sha256": "0f12b203ead8a3fae9b1e9329dab27104cce7e2e566f35fd57b207aaa299cc86",
+          "source_sha256": "ab71ad3c1cfed82d6e858e39c3e3309d2dbac6733ec285042f347885796fde8a"
+        },
+        {
+          "path": "knowledge/examples/repair-learning-4-2-20261021",
+          "manifest_sha256": "84c74d1440128991906ea9ee3f98815ceca46e52e751f2bd615cde03f59df635",
+          "source_sha256": "b4294d785a3f57b377a6cb44a80f75a3bd42aff4b613ab972ca5988a8d902b5d"
+        }
+      ],
+      "evidence_caveat": "Retains prior multi-source evidence. New audit sampled26 frames across4 actual source families and six latest KEY language outputs; static clean image user-approved, French replacement same-agent reviewed only. Dynamic transfer remains to be tested.",
+      "retrieval_role": "required",
+      "selection_review": {
+        "path": "knowledge/curation/policies/content-led-routing-review-20261026.json",
+        "sha256": "fd9fb83860f7478fbb92313e306524368efe7aeb057f80bcbcae9790a734d618"
+      }
+    },
+    {
+      "id": "content-aware-text-restoration-v6",
+      "path": "knowledge/rules/content-aware-text-restoration-v6.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "restoration"
+      ],
+      "origin": "2026-11-24 用户授权的知识整理。核对当前执行合同、旧版正文和索引适用范围。",
+      "reviewed_by": "Codex 开发审查",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-24T10:57:58+00:00",
+      "method_sha256": "e6e622bb2ea8aa6e77c2cd28ff71f3b10bf4b057fd688b27076d7093b6164bdd",
+      "case": "knowledge/examples/content-aware-text-restoration-v6",
+      "case_manifest_sha256": "1e9376ad236f0df56a464057d21c204588a5f01553729cb47a28a8c946bda759",
+      "supersedes": "content-aware-text-restoration-v5",
+      "knowledge_type": "method",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
+    },
+    {
+      "id": "imagegen-first-v4",
+      "path": "knowledge/rules/imagegen-first-v4.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "visual",
+        "text",
+        "imagegen",
+        "wan"
+      ],
+      "origin": "2026-11-24 用户授权的知识整理。核对当前执行合同、旧版正文和索引适用范围。",
+      "reviewed_by": "Codex 开发审查",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-24T10:57:58+00:00",
+      "method_sha256": "c8dde15e794a3d3f6c707e1775f5cacd533e8fa0c6bd88d6b41269558427d56e",
+      "case": "knowledge/examples/imagegen-first-v4",
+      "case_manifest_sha256": "423896516daea1e9327ed5cf75cce1f10f7ab39e52fdb10791883d7954781fbc",
+      "supersedes": "imagegen-first-v3",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_preference_with_scoped_trials",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ]
+    },
+    {
+      "id": "fireplay-completion-recovery-v5",
+      "path": "knowledge/rules/fireplay-completion-recovery-v5.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "delivery",
+        "workflow"
+      ],
+      "origin": "2026-11-24 用户授权的知识整理。核对当前执行合同、旧版正文和索引适用范围。",
+      "reviewed_by": "Codex 开发审查",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-24T10:57:58+00:00",
+      "method_sha256": "27002958b9465b3498aff150981b031b5efec7852711737a40ac065730fc26da",
+      "case": "knowledge/examples/fireplay-completion-recovery-v5",
+      "case_manifest_sha256": "de33328a8e429d267f0e68dc31d4e9ffe48a6f45b43d9150a65e2e1c7779eeab",
+      "supersedes": "fireplay-completion-recovery-v4",
+      "knowledge_type": "method",
+      "validation_level": "explicit_user_instruction_and_offline_contract_tests",
+      "topic": "delivery",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
+    },
+    {
+      "id": "fireplay-designer-attribution-v3",
+      "path": "knowledge/rules/fireplay-designer-attribution-v3.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "fireplay",
+        "designer",
+        "submission",
+        "derivative"
+      ],
+      "origin": "2026-11-24 用户授权的知识整理。核对当前执行合同、旧版正文和索引适用范围。",
+      "reviewed_by": "Codex 开发审查",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-24T10:57:58+00:00",
+      "method_sha256": "acf2c6d8fc208b1279afa02a3f5f998eb568c9ea9fdf97241debb50e695b52f5",
+      "case": "knowledge/examples/fireplay-designer-attribution-v3",
+      "case_manifest_sha256": "94aad6915badc7d6f8e0e2dd6306cc7ed3516045033c0feddafa26ea3a958a64",
+      "supersedes": "fireplay-designer-attribution-v2",
+      "knowledge_type": "project_policy",
+      "validation_level": "explicit_user_instruction_and_offline_contract_tests",
+      "topic": "delivery",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ]
+    },
+    {
+      "id": "user-language-budget-60-v2",
+      "path": "knowledge/rules/user-language-budget-60-v2.md",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "tags": [
+        "budget",
+        "cost"
+      ],
+      "origin": "2026-11-24 knowledge curation. Use the current routing contract with the existing approved budget and scope.",
+      "reviewed_by": "Codex 开发审查",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-24T11:21:00+00:00",
+      "method_sha256": "e8b86c191f271c9b1e8fa758af79c55229eb8935540b3e2fe6b2cebd13e468d4",
+      "case": "knowledge/examples/user-language-budget-60-v2",
+      "case_manifest_sha256": "3198720ad5120b9185aeec3aefaf7423666a4c11dbd6d019b652fc2344fef5f4",
+      "supersedes": "user-language-budget-60-20261026",
+      "knowledge_type": "project_policy",
+      "validation_level": "developer_reviewed_guidance",
+      "delivery_modes": [
+        "fast",
+        "strict"
+      ],
+      "retrieval_role": "required"
     }
   ],
   "purpose": "Video-independent methods and workspace policies; exact-source references are in knowledge/cases/index.json"

@@ -40,7 +40,7 @@
 
 ## 水印修复与原尺寸检查
 
-已将用户对 de2us 去水印的局部认可入库；[通用检查规范](../knowledge/rules/moving-watermark-removal-v1.md)保留单源验证限制，[同源参考](../knowledge/cases/de2us-watermark-approved-20261022.md)不扩大为音频或整片验收。
+已将用户对 de2us 去水印的局部认可入库，覆盖范围以[同源参考](../knowledge/cases/de2us-en-watermark-approved-v2.md)为准。新任务遵循[发布者水印政策](../knowledge/rules/publisher-watermark-removal-v2.md)。
 
 | 优先级 | 当前实现 | 仍由 AI 判断 |
 | --- | --- | --- |

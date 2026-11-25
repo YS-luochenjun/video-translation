@@ -14,6 +14,8 @@ from console_dispatch import prepare, acknowledge
 from console_timeline import chains
 from console_panel import handoff, notified, read_api
 from console_events import EventHub
+from material_launch import plan as plan_launch, record as record_launch
+from video_localizer.ledger import now
 
 
 class ConsoleTests(unittest.TestCase):
@@ -135,8 +137,45 @@ class ConsoleTests(unittest.TestCase):
         p = folder/'automation.toml'
         p.write_text('id="test"\nname="本项目任务"\nstatus="ACTIVE"\ntarget_thread_id="thread-1"')
         self.assertEqual(len(self.data.automations()['automations']), 1)
+        self.assertIsNone(self.data.automations()['knowledge_owner_id'])
+        p.write_text('id="test"\nname="项目经验总结"\nstatus="ACTIVE"\ntarget_thread_id="thread-1"')
+        self.assertEqual(self.data.automations()['knowledge_owner_id'], 'test')
         p.write_text('id="test"\nname="别的项目"\nstatus="ACTIVE"\ntarget_thread_id="outside"')
         self.assertEqual(self.data.automations()['automations'], [])
+
+    def test_catalog_separates_active_history_and_private_review_placeholders(self):
+        self.put('knowledge/index.json', {'entries': [
+            {'id': 'new', 'path': 'knowledge/rules/new.md', 'status': 'active'},
+            {'id': 'old', 'path': 'knowledge/rules/old.md', 'status': 'active', 'superseded_by': 'new'}]})
+        self.put('knowledge/cases/index.json', {'entries': [
+            {'id': 'case', 'path': 'knowledge/cases/case.md', 'status': 'active'}]})
+        private_path = 'knowledge/local/candidates/private-title.json'
+        self.put(private_path, {'hypothesis': 'Needs an evidence-backed lesson', 'private_text': 'private detail'})
+        result = read_api(self.data, '/api/knowledge')
+        self.assertEqual(result['view_counts'], {'method': 1, 'reference': 1, 'history': 1, 'candidate': 1})
+        self.assertEqual(result['review_counts'], {'needs_lesson': 1})
+        self.assertNotIn('private-title', json.dumps(result))
+        self.assertNotIn('private detail', json.dumps(result))
+        with self.assertRaises(ValueError):
+            read_api(self.data, '/api/document?path='+private_path)
+
+    def test_same_source_review_groups_preserve_locale_and_privacy(self):
+        source = 'a' * 64
+        hypothesis = 'Inspect the label through the shared transition.'
+        for folder, locale, origin in [
+            ('knowledge/candidates', 'de', source),
+            ('knowledge/candidates', 'fr', source),
+            ('knowledge/candidates', 'en', 'b' * 64),
+            ('knowledge/local/candidates', 'es', source),
+        ]:
+            self.put(f'{folder}/{locale}.json', {'hypothesis': hypothesis, 'scope': {
+                'source_sha256': origin, 'workflow': 'video-localization', 'target_language': locale}})
+        entries = {entry['scope']['target_language']: entry for entry in read_api(self.data, '/api/knowledge')['entries']}
+        self.assertEqual(entries['de']['review_group'], entries['fr']['review_group'])
+        self.assertNotEqual(entries['de']['review_group'], entries['en']['review_group'])
+        self.assertNotEqual(entries['de']['review_group'], entries['es']['review_group'])
+        self.assertNotIn('summary', entries['es'])
+        self.assertNotIn('path', {key: value for key, value in entries['es'].items() if value is not None})
 
     def test_knowledge_versions_claims_and_run_isolation(self):
         self.fixture_artifact()
@@ -269,9 +308,9 @@ class ConsoleTests(unittest.TestCase):
                    'snapshot': {'row': {'description': '真实需求正文', 'status': 'not_started'}}}
         path = self.put('state/fireplay/ABC-20261103-001/request.json', request)
         ledger = {'id': 'fireplay:real-id', 'code': request['code'], 'content_version': 'v1',
-                  'state': 'complete', 'countable': True, 'task_count': 2, 'output_count': 2,
+                  'origin': 'fireplay', 'state': 'complete', 'countable': True, 'task_count': 2, 'output_count': 2,
                   'quality_count': 0, 'issue_count': 2, 'stage_counts': {'delivered_with_issues': 2},
-                  'threads': [{'threadId': 'thread-1'}, {'threadId': 'outside'}]}
+                  'scope': [{'targets': ['es', 'ja']}], 'threads': [{'threadId': 'thread-1'}, {'threadId': 'outside'}]}
         self.data.ledger_rows = lambda: [ledger]
         return path, request, ledger
 
@@ -279,6 +318,7 @@ class ConsoleTests(unittest.TestCase):
         self.requirement_fixture()
         row = self.data.requirement_board()['requirements'][0]
         self.assertEqual(row['state'], 'output')
+        self.assertEqual(row['progress_state'], 'active')
         self.assertEqual(row['output_count'], 2)
         self.assertEqual(row['quality_count'], 0)
         self.assertEqual(row['issue_count'], 2)
@@ -301,13 +341,224 @@ class ConsoleTests(unittest.TestCase):
         self.put('state/fireplay/ABC-20261103-001/delivery-closure.json',
                  {'receipt': str(closure_path.relative_to(self.root)), 'sha256': hashlib.sha256(closure_path.read_bytes()).hexdigest()})
         self.data.cache.clear()
-        self.assertEqual(self.data.requirement_board()['requirements'][0]['state'], 'closed')
+        ledger['blockers'] = ['旧的阻塞记录']
+        closed = self.data.requirement_board()['requirements'][0]
+        self.assertEqual(closed['state'], 'closed')
+        self.assertEqual(closed['progress_state'], 'done')
+        ledger.pop('blockers')
         request['content_version'] = 'v2';path.write_text(json.dumps(request));self.data.cache.clear()
         row = self.data.requirement_board()['requirements'][0]
         self.assertEqual(row['platform']['state'], 'stale')
         self.assertIsNone(row['platform']['verified'])
         self.assertIsNone(row['output_count'])
         self.assertEqual(row['state'], 'unknown')
+
+    def test_requirement_uses_only_newer_matching_monitor_status(self):
+        path, request, _ = self.requirement_fixture()
+        request['refreshed_at'] = '2026-11-03T01:00:00Z'
+        path.write_text(json.dumps(request))
+        monitored = {'row': {'id': 'real-id', 'code': request['code'], 'status': 'pending_upload'},
+                     'last_seen_at': '2026-11-03T02:00:00Z'}
+        for override, status, observed_at in (
+            ({}, 'pending_upload', monitored['last_seen_at']),
+            ({'last_seen_at': '2026-11-03T00:59:00Z'}, 'not_started', request['refreshed_at']),
+            ({'row': {**monitored['row'], 'id': 'other-id'}}, 'not_started', request['refreshed_at']),
+        ):
+            self.put('state/fireplay/monitor/state.json', {'requirements': {'real-id': {**monitored, **override}}})
+            self.data.cache.clear()
+            row = self.data.requirement_board()['requirements'][0]
+            self.assertEqual((row['platform_status'], row['platform_snapshot_at']), (status, observed_at))
+            self.assertIsNone(row['platform']['verified'])
+
+    def test_status_refresh_retains_closed_delivery_only_with_matching_current_bindings(self):
+        _, request, _ = self.requirement_fixture()
+        folder = 'state/fireplay/ABC-20261103-001'
+        items = [{'video_index': 1, 'locale': locale, 'sha256': str(index)*64,
+                  'material_id': f'00000000-0000-0000-0000-00000000000{index}'}
+                 for index, locale in enumerate(('es', 'ja'), 1)]
+        identity = {key: request[key] for key in ('code', 'requirement_id', 'content_version')}
+        check = {**identity, 'request_sha256': self.data.store.sha(folder+'/request.json'),
+                 'expected_count': 2, 'verified_count': 2, 'complete': True, 'missing': [], 'verified': items}
+        check_file = self.put(folder+'/completion-check.json', check)
+        closure = self.put(folder+'/delivery-closures/receipt.json',
+                           {**identity, 'expected_count': 2, 'verified_count': 2, 'complete': True,
+                            'completion_check_sha256': hashlib.sha256(check_file.read_bytes()).hexdigest(),
+                            'closed_at': '2026-11-03T01:01:00Z'})
+        self.put(folder+'/delivery-closure.json',
+                 {'receipt': str(closure.relative_to(self.root)), 'sha256': hashlib.sha256(closure.read_bytes()).hexdigest()})
+        binding = {'requirement_id': request['requirement_id'], 'state': 'returned_user_approved', 'items': items}
+        self.put(folder+'/user-approved-return-1.json', binding)
+        request['snapshot']['row']['status'] = 'done'
+        request['blockers'] = ['Requirement is already done; no automatic reproduction']
+        self.put(folder+'/request.json', request)
+
+        def observed():
+            self.data.cache.clear()
+            row = self.data.requirement_board()['requirements'][0]
+            return row['platform']['state'], row['platform']['verified'], row['progress_state']
+
+        self.assertEqual(observed(), ('closed', 2, 'done'))
+        self.put(folder+'/user-approved-return-1.json', {**binding, 'items': items[:1]})
+        self.assertEqual(observed(), ('stale', None, 'done'))
+        request['blockers'].append('Current delivery hold')
+        self.put(folder+'/request.json', request)
+        self.assertEqual(observed(), ('stale', None, 'done'))
+        board = self.data.requirement_board()
+        self.assertEqual(board['requirements'][0]['state'], 'completed')
+        self.assertEqual(board['summary']['attention'], 0)
+        self.assertEqual(self.data.session_usage()['sessions'], [])
+        session = next(row for row in self.data.overview()['sessions'] if row['id'] == 'thread-1')
+        self.assertEqual(session['business_state'], 'completed')
+        self.assertFalse(session['blocked'])
+        self.assertNotIn('thread-1', {row['id'] for row in self.data.overview(state='attention')['sessions']})
+        request['snapshot']['row']['status'] = 'in_progress'
+        self.put(folder+'/request.json', request)
+        self.assertEqual(observed(), ('stale', None, 'blocked'))
+
+    def test_session_publication_step_matches_current_source_language_and_version(self):
+        path, request, _ = self.requirement_fixture()
+        source_sha, candidate_sha, delivered_sha = 'a'*64, 'b'*64, 'c'*64
+        request['videos'][0].update(members=['run-1'], source={'sha256': source_sha})
+        self.put(path.relative_to(self.root), request)
+        self.put('runs/run-1/run.json', {'source_sha256': source_sha})
+        self.put('runs/run-1/inputs/request.json', {'target_language': 'es'})
+        self.put('runs/run-1/outputs/completion.json', {
+            'state': 'delivered_with_issues', 'video_sha256': delivered_sha,
+            'candidate_sha256_at_completion': candidate_sha})
+        self.put('runs/run-1/outputs/candidate.json', {'sha256': candidate_sha})
+        item = {'video_index': 1, 'locale': 'es', 'sha256': delivered_sha,
+                'material_id': '00000000-0000-0000-0000-000000000001'}
+        check = {**{key: request[key] for key in ('code', 'requirement_id', 'content_version')},
+                 'request_sha256': self.data.store.sha(str(path.relative_to(self.root))),
+                 'expected_count': 2, 'verified_count': 1, 'complete': False, 'verified': [item]}
+        check_path = 'state/fireplay/ABC-20261103-001/completion-check.json'
+
+        def publication_state():
+            info = self.data.detail('thread-1', 'run-1')
+            return next(node['state'] for node in info['nodes'] if node['id'] == 'publication')
+
+        for receipt in ({**item, 'video_index': 2}, {**item, 'locale': 'ja'}, {**item, 'sha256': candidate_sha}):
+            self.put(check_path, {**check, 'verified': [receipt]})
+            self.assertNotEqual(publication_state(), 'verified')
+        self.put(check_path, check)
+        self.assertEqual(publication_state(), 'verified')
+        self.put('runs/run-1/run.json', {'source_sha256': 'd'*64})
+        self.assertNotEqual(publication_state(), 'verified')
+        self.put('runs/run-1/run.json', {'source_sha256': source_sha})
+        self.put('runs/run-1/outputs/candidate.json', {'sha256': 'e'*64})
+        self.assertNotEqual(publication_state(), 'verified')
+
+    def test_session_usage_does_not_duplicate_shared_request_credits(self):
+        path, request, ledger = self.requirement_fixture()
+        rollout = self.home/'sessions/thread-1.jsonl'
+        rollout.parent.mkdir()
+        self._write_token_usage(rollout, '2026-11-03T00:00:00Z', 12000, 345, 9000)
+        with sqlite3.connect(self.home/'state_5.sqlite') as db:
+            db.execute('ALTER TABLE threads ADD COLUMN tokens_used INTEGER')
+            db.execute("UPDATE threads SET tokens_used=12345, rollout_path=? WHERE id='thread-1'", (str(rollout),))
+        request.update(budget='shared', videos=[
+            {'index': 1, 'targets': ['es'], 'members': ['run-first'], 'chat': {'threadId': 'thread-1'}},
+            {'index': 2, 'targets': ['ja'], 'members': ['run-second'], 'chat': {'threadId': 'thread-2'}},
+        ])
+        path.write_text(json.dumps(request))
+        budget = {'id': 'shared', 'reservations': {
+            'billed-first': {'run': 'run-first', 'actual_credits': 12},
+            'billed-second': {'run': 'run-second', 'actual_credits': 19},
+            'unknown': {'run': 'run-first', 'actual_credits': None},
+            'unassigned': {'run': 'other-run', 'actual_credits': 23},
+        }}
+        self.put('state/budgets/shared.json', budget)
+        self.assertEqual(self.data.session_usage()['sessions'], [])
+        self.assertFalse((self.root/'state/ledger/session-usage.sqlite3').exists())
+        check = {**{key: request[key] for key in ('code', 'requirement_id', 'content_version')},
+                 'request_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+                 'complete': True, 'missing': [], 'expected_count': 2, 'verified_count': 2}
+        self.put('state/fireplay/ABC-20261103-001/completion-check.json', check)
+        self.data.cache.clear()
+        sessions = self.data.session_usage()['sessions']
+        self.assertEqual(len(sessions), 2)
+        first = next(row for row in sessions if row['codex_total']==12345)
+        self.assertEqual(first['requirements'], [{'code': request['code'], 'language_count': 2}])
+        self.assertEqual(first['kie'], {'known': 12, 'unknown': 1, 'ambiguous': 1})
+        self.assertEqual(first['codex_breakdown'], {'input': 12000, 'output': 345, 'cached_input': 9000})
+        self.assertEqual(sum(row['kie']['known'] for row in sessions if row['kie']), 31)
+        self.assertNotIn(23, [row['kie']['known'] for row in sessions if row['kie']])
+        budget['reservations']['unknown']['actual_credits'] = 3
+        self.put('state/budgets/shared.json', budget)
+        with sqlite3.connect(self.home/'state_5.sqlite') as db:
+            db.execute("UPDATE threads SET tokens_used=99999 WHERE id='thread-1'")
+        self.data.cache.clear()
+        self.assertEqual(self.data.session_usage()['sessions'], sessions)
+        ledger['content_version'] = 'v2'
+        self.data.cache.clear()
+        self.assertEqual(self.data.session_usage()['sessions'], [])
+
+    def _write_token_usage(self, path, timestamp, inputs, outputs, cached):
+        record = {'timestamp': timestamp, 'type': 'event_msg', 'payload': {'type': 'token_count', 'info': {
+            'total_token_usage': {'input_tokens': inputs, 'output_tokens': outputs,
+                                  'cached_input_tokens': cached, 'total_tokens': inputs+outputs},
+            'last_token_usage': {'input_tokens': 1, 'output_tokens': 1, 'total_tokens': 2}}}}
+        with path.open('a') as stream:
+            stream.write(json.dumps(record)+'\n')
+
+    def test_legacy_usage_backfills_only_from_the_frozen_total_and_time(self):
+        state = self.root/'state/ledger'
+        state.mkdir(parents=True)
+        frozen = {'codex_total': 120, 'kie': {'known': 7}, 'recorded_at': '2026-11-03T00:10:00+00:00'}
+        with sqlite3.connect(state/'session-usage.sqlite3') as db:
+            db.execute('CREATE TABLE snapshots (thread TEXT, scope TEXT, usage TEXT NOT NULL, PRIMARY KEY (thread, scope))')
+            db.executemany('INSERT INTO snapshots VALUES (?, ?, ?)', [
+                ('thread-1', 'scope', json.dumps(frozen)),
+                ('thread-2', 'scope', json.dumps({**frozen, 'codex_total': 333})),
+                ('thread-3', 'scope', json.dumps(frozen)),
+            ])
+        rollout = self.home/'archived_sessions/history.jsonl'
+        rollout.parent.mkdir()
+        self._write_token_usage(rollout, '2026-11-03T00:04:00Z', 100, 20, 80)
+        self._write_token_usage(rollout, '2026-11-03T00:06:00Z', 150, 30, 100)
+        self._write_token_usage(rollout, '2026-11-03T00:11:00Z', 110, 10, 99)
+        self._write_token_usage(rollout, '2026-11-03T00:12:00Z', 300, 33, 260)
+        outside = self.home/'other.jsonl'
+        outside.write_bytes(rollout.read_bytes())
+        threads = {f'thread-{number}': {'name': str(number), 'tokens_used': 333,
+                   'rollout_path': str(outside if number == 3 else rollout)} for number in (1, 2, 3)}
+        eligible = dict.fromkeys(threads, 'scope')
+        rows = {row['title']: row for row in self.data._completed_usage(threads, eligible, {}, {}, {})}
+        self.assertEqual(rows['1'], {'title': '1', 'requirements': [], **frozen,
+                                    'codex_breakdown': {'input': 100, 'output': 20, 'cached_input': 80}})
+        self.assertIsNone(rows['2']['codex_breakdown'])
+        self.assertIsNone(rows['3']['codex_breakdown'])
+        self._write_token_usage(rollout, '2026-11-03T00:07:00Z', 115, 5, 1)
+        self.assertEqual({row['title']: row for row in self.data._completed_usage(threads, eligible, {}, {}, {})}, rows)
+
+    def test_live_launch_check_reports_only_materials_returned_for_current_receipt(self):
+        path, request, ledger = self.requirement_fixture()
+        first, second = '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000002'
+        check = {**{key: request[key] for key in ('code', 'requirement_id', 'content_version')},
+                 'request_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+                 'complete': True, 'expected_count': 2, 'verified_count': 2,
+                 'verified': [{'material_id': first}, {'material_id': second}]}
+        check_path = 'state/fireplay/ABC-20261103-001/completion-check.json'
+        self.put(check_path, check)
+        ledger['platform'] = {'check_path': check_path, 'verified': 2}
+
+        class LedgerFixture:
+            def view(self, **kwargs):
+                return {'requirements': [ledger]}
+
+        scope = LedgerFixture()
+        query = plan_launch(self.data.store, scope)[0]
+        self.assertEqual(set(query['materialIds']), {first, second})
+        observed_at = now()
+        response = {'query_meta': {'filters': {**query, 'page': 1, 'resultSource': 'all'},
+                                   'queried_at': observed_at, 'truncated': False, 'launch_status_scope': None},
+                    'has_more': False, 'total': 1, 'items': [{'id': first, 'hasLaunchRecord': True}]}
+        self.assertEqual(record_launch(self.data.store, scope, response)['updated'], 1)
+        self.assertEqual(self.data.requirement_board()['requirements'][0]['launch'],
+                         {'materials': 2, 'checked': 1, 'launched': 1, 'observed_at': observed_at})
+        response['items'] = [{'id': 'outside', 'hasLaunchRecord': False}]
+        with self.assertRaises(ValueError):
+            record_launch(self.data.store, scope, response)
 
     def test_registered_requirement_without_ledger_does_not_fabricate_zero_progress(self):
         self.requirement_fixture()
@@ -381,7 +632,8 @@ class ConsoleHTTPTests(unittest.TestCase):
         status, body = self.request(server, 'GET', '/api/console/sessions?page=2')
         self.assertEqual(status, 200);self.assertEqual(len(json.loads(body)['sessions']), 8)
         self.assertEqual(self.request(server, 'GET', '/api/console/detail?id=outside')[0], 400)
-        for path in ['/console', '/console/app.js', '/console/styles.css']:
+        self.assertEqual(self.request(server, 'GET', '/console'), (302, b''))
+        for path in ['/', '/console/app.js', '/console/styles.css']:
             status, body = self.request(server, 'GET', path)
             self.assertEqual(status, 200);self.assertTrue(body)
         status, body = self.request(server, 'GET', '/api/console/requirements')

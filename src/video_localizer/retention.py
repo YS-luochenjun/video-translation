@@ -99,14 +99,6 @@ def preserve(run, root=None):
     observations = select(run, video, history=True)
     case = learning.capture_case(case_id, "Run observations preserved before deletion; conclusions still require review.",
         scope, root, run, video, records=observations)
-    candidate_record = {"id": case_id, "status": "candidate", "scope": scope,
-        "hypothesis": "Preserved source observations, decisions and failure records await distillation.",
-        "case": case.relative_to(root).as_posix(), "evidence": {"run": run.name, "video_sha256": video},
-        "company_preference": False, "promotion": "No rule or user acceptance is inferred by deleting a run."}
-    candidate_path = root / "knowledge/local/candidates" / (case_id + ".json")
-    if not candidate_path.exists():
-        write_json(candidate_path, candidate_record)
-    inbox = learning.enqueue(candidate_record, root)
     # A no-analysis run still needs its original bytes for future analysis.
     recovery = root / "state/run-recovery" / run.name / identity
     source = inside(run, record["source"])
@@ -114,16 +106,14 @@ def preserve(run, root=None):
     bundles.create(recovery, "run-recovery", identity,
                    {record["source"]: source, "run.json": run / "run.json", "inputs/request.json": run / "inputs/request.json"},
                    {"source_sha256": record["source_sha256"], "origin_run_id": run.name})
-    receipt = {"schema_version": 1, "run": run.name, "fingerprint": identity, "files": content,
-        "case": candidate_record["case"], "case_manifest_sha256": file_hash(case / "manifest.json"),
-        "inbox": inbox, "candidate": candidate_path.relative_to(root).as_posix(),
-        "candidate_sha256": file_hash(candidate_path), "inbox_sha256": file_hash(root / inbox),
+    receipt = {"schema_version": 2, "run": run.name, "fingerprint": identity, "files": content,
+        "case": case.relative_to(root).as_posix(), "case_manifest_sha256": file_hash(case / "manifest.json"),
         "source_snapshot": snapshot, "package": package,
         "recovery": recovery.relative_to(root).as_posix(), "recovery_manifest_sha256": file_hash(recovery / "manifest.json"),
         "preserved_at": utc_now(), "status": "preserved"}
     write_json(root / "state/run-retention" / (run.name + ".json"), receipt)
     return {"run": run.name, "fingerprint": identity, "case": receipt["case"], "source_snapshot": snapshot,
-            "package": package, "status": "preserved", "knowledge_status": "candidate_not_activated"}
+            "package": package, "status": "preserved", "knowledge_status": "evidence_preserved"}
 
 
 def inspect(run, root=None):
@@ -145,8 +135,10 @@ def inspect(run, root=None):
         case = inside(root, receipt["case"])
         require(file_hash(case / "manifest.json") == receipt["case_manifest_sha256"], "Preserved knowledge case changed")
         bundles.verify(case)
-        for key in ("candidate", "inbox"):
-            require(file_hash(inside(root, receipt[key])) == receipt[key + "_sha256"], "Preserved learning queue changed")
+        require(receipt.get("schema_version") in {1, 2}, "Unknown run preservation receipt")
+        if receipt["schema_version"] == 1:
+            for key in ("candidate", "inbox"):
+                require(file_hash(inside(root, receipt[key])) == receipt[key + "_sha256"], "Preserved learning queue changed")
         recovery = inside(root, receipt["recovery"])
         require(file_hash(recovery / "manifest.json") == receipt["recovery_manifest_sha256"], "Recovery manifest changed")
         bundles.verify(recovery)

@@ -37,6 +37,7 @@ def revision(root):
 
 def update(ledger):
     """Called after reconciliation. Establish baseline once, never enroll old work."""
+    cohort, exclusions = ledger.cohort()
     with ledger.connection(True) as db:
         requirements = [json.loads(r['data']) for r in db.execute('SELECT data FROM requirements')]
         row = db.execute('SELECT value FROM meta WHERE key=?', (KEY,)).fetchone()
@@ -51,20 +52,28 @@ def update(ledger):
                     any(not isinstance(settings[k], int) or isinstance(settings[k], bool) or settings[k] < 1 for k in ('p90_min_samples', 'minimum_exploratory_samples')) or
                     not isinstance(settings['profile_version'], str) or not settings['profile_version']):
                 raise ValueError('Invalid benchmark grouping or sample thresholds')
-            activation = {'started_at': now(), 'baseline_ids': sorted(r['id'] for r in requirements),
+            activation = {'started_at': cohort.get('started_at') or now(),
+                          'baseline_ids': sorted(r['id'] for r in requirements if not cohort),
                           'settings': {**DEFAULTS, **settings}}
             db.execute('INSERT INTO meta VALUES(?,?)', (KEY, packed(activation)))
-            return activation
-        activation = json.loads(row['value'])
-        start = seconds(activation['started_at'])
+            if not cohort:
+                return activation
+        else:
+            activation = json.loads(row['value'])
         for req in requirements:
+            if not ledger.in_cohort(req, cohort, exclusions):
+                continue
             key = PREFIX + req['id']
             old = db.execute('SELECT value FROM meta WHERE key=?', (key,)).fetchone()
             sample = json.loads(old['value']) if old else None
             received = seconds(req.get('received_at'))
             if not sample:
+                start = seconds(cohort.get('started_at') or activation['started_at'])
+                if req['id'] in exclusions:
+                    start = min(start, received) if received is not None else start
                 if (req['id'] in activation['baseline_ids'] or not req.get('countable') or
-                        received is None or not start < received <= seconds(now()) or
+                        received is None or not start <= received <= seconds(now()) or
+                        (not cohort and received == start) or
                         (seconds(req.get('first_started_at')) or received) < start or
                         (seconds(req.get('first_complete_at')) or received) < start):
                     continue
@@ -220,6 +229,7 @@ def report(ledger, rows=None, at=None):
     if clock is None:
         raise ValueError('Benchmark time requires a timezone')
     allowed = {r['id'] for r in rows} if rows is not None else None
+    cohort, exclusions = ledger.cohort()
     with ledger.connection() as db:
         row = db.execute('SELECT value FROM meta WHERE key=?', (KEY,)).fetchone()
         if not row:
@@ -228,15 +238,17 @@ def report(ledger, rows=None, at=None):
         records = [json.loads(r['value']) for r in db.execute('SELECT value FROM meta WHERE key LIKE ?', (PREFIX+'%',))]
         result = []
         for sample in records:
-            if allowed is not None and sample['requirement_id'] not in allowed:
+            if ((allowed is not None and sample['requirement_id'] not in allowed) or
+                    not ledger.in_cohort(sample, cohort, exclusions)):
                 continue
             events = [{**dict(e), 'data': json.loads(e['data'])} for e in db.execute('SELECT * FROM events WHERE requirement_id=?', (sample['requirement_id'],))]
-            result.append({**sample, 'dimensions': describe(sample, activation['settings']),
+            result.append({**sample, 'time_exclusion': exclusions.get(sample['requirement_id']),
+                           'dimensions': describe(sample, activation['settings']),
                            'timing': timing(sample, events, clock), 'cost': costs(ledger.root, sample)})
     groups = {}
     for sample in result:
         # A scope change before initial completion is not a comparable first round.
-        if not sample['first_output']:
+        if not sample['first_output'] or sample['time_exclusion']:
             continue
         d = sample['dimensions']
         key = packed(d | {'longest_source_seconds': None, 'total_source_seconds': None, 'content_features': None})
@@ -252,9 +264,12 @@ def report(ledger, rows=None, at=None):
                         'production_samples': len(production),
                         'p90_first_cycle_seconds': cycles[math.ceil(.9*len(cycles))-1] if len(cycles) >= activation['settings']['p90_min_samples'] else None,
                         'exploratory': len(cycles) < activation['settings']['minimum_exploratory_samples']})
-    return {'enabled': True, 'started_at': activation['started_at'], 'baseline_excluded': len(activation['baseline_ids']),
+    return {'enabled': True, 'started_at': cohort.get('started_at') or activation['started_at'],
+            'baseline_excluded': len(activation['baseline_ids']),
             'settings': activation['settings'], 'samples': sorted(result, key=lambda s: s['received_at'], reverse=True),
             'completed_samples': sum(bool(s['first_output']) for s in result),
+            'comparable_samples': sum(c['n'] for c in cohorts),
+            'excluded_time_samples': sum(bool(s['time_exclusion']) for s in result),
             'pending_samples': sum(not s['first_output'] and not s['scope_changed'] for s in result),
             'stopped_samples': sum(not s['first_output'] and s['scope_changed'] for s in result), 'cohorts': cohorts,
             'note': '首轮截至全部原片/目标语首次完整输出；之后为返工。执行器占用非模型计算或Agent总工时；明确等待可能与并行执行重叠，不能相加。未分类保留未知；质量、当前费用、外部受理各自核验。不回放历史需求，不自动校准ETA。'}

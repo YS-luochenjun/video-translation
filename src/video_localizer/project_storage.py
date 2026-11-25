@@ -75,7 +75,7 @@ def _closed(root, name):
     p = root / 'state/storage-closed' / (name + '.json')
     from .storage_candidates import read_receipt
     gaps = []
-    record = read_receipt(p, root, gaps) if p.exists() else None
+    record = read_receipt(p, root, gaps, mapping=True) if p.exists() else None
     return None if gaps else record
 
 
@@ -228,7 +228,8 @@ def execute(root, expected, reset=False, now=None):
         require(not _locks(root), 'A producer became active; retry after it finishes')
         from . import budgets
         sync_errors = []
-        run_paths = [inside(root, row['path']) for row in plan['selected'] if row['path'].startswith('runs/')]
+        run_paths = [inside(root, row['path']) for row in plan['selected']
+                     if Path(row['path']).parts[0] == 'runs' and len(Path(row['path']).parts) == 2]
         if reset and (root / 'runs').exists():
             run_paths = [p for p in (root / 'runs').iterdir() if p.is_dir() and not p.name.startswith('.')]
         for run in run_paths:

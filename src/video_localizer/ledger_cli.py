@@ -26,7 +26,7 @@ def execute(args, root):
     if args.action == 'benchmark':
         return ledger.benchmark()
     if args.action == 'status':
-        view = ledger.view()
+        view = ledger.view(current_only=True)
         view['metrics'] = ledger.metrics(view['requirements'])
         return view
     if args.action == 'detail':

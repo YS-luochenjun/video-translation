@@ -1,6 +1,7 @@
 import importlib.util
 import io
 import json
+from datetime import datetime
 from pathlib import Path
 import tempfile
 import sys
@@ -64,6 +65,17 @@ class StorageDailyTests(unittest.TestCase):
         result = daily.run(self.root, execute=True)
         self.assertEqual(result["state"], "no_eligible_data")
         self.execute.assert_not_called()
+
+    def test_scheduled_uses_shanghai_deadline_and_retries_a_deferred_lock(self):
+        now = datetime.fromisoformat("2026-11-24T18:45:00+08:00")
+        receipt = self.root / daily.RECEIPT
+        notice = {"state": "executed", "execute_requested": True, "checked_at": "2026-11-24T10:32:00+00:00"}
+        write_json(receipt, notice)
+        self.assertEqual(daily.scheduled(self.root, now)["state"], "not_due")
+        self.preview.assert_not_called()
+        write_json(receipt, {**notice, "state": "deferred"})
+        self.assertEqual(daily.scheduled(self.root, now)["state"], "executed")
+        self.execute.assert_called_once()
 
     def test_missing_or_wrong_workspace_authorization_defers(self):
         for auth in (None, {"workspace": "another workspace", "automatic_cleanup": True},

@@ -14,7 +14,7 @@ import uuid
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from statistics import median
+from statistics import mean, median
 from zoneinfo import ZoneInfo
 
 
@@ -43,6 +43,36 @@ def packed(value):
 
 def digest(value):
     return hashlib.sha256(packed(value).encode()).hexdigest()
+
+
+def delivery_complete(row):
+    total = row.get('task_count')
+    if not total:
+        return False
+    if row.get('origin') != 'fireplay':
+        return row.get('output_count') == total
+    platform = row.get('platform') or {}
+    return platform.get('state') in {'verified', 'closed'} and platform.get('verified') == total
+
+
+def platform_completed(status):
+    return status in ('done', 'completed')
+
+
+def target_language_count(videos):
+    return len({locale for video in videos for locale in video['targets']})
+
+
+def progress_state(row):
+    state = row.get('state')
+    platform_status = row.get('platform_status')
+    if delivery_complete(row) or (row.get('origin') == 'fireplay' and platform_completed(platform_status)):
+        return 'done'
+    if row.get('publication_blocked_count') or row.get('blockers') or row.get('block_reason') or state in {'blocked', 'needs_info'}:
+        return 'blocked'
+    if state in {'executing', 'partial', 'complete'} or platform_status in {'in_progress', 'pending_upload'}:
+        return 'active'
+    return 'waiting'
 
 
 class Conflict(ValueError):
@@ -130,7 +160,12 @@ class Ledger:
                 known = [v for v in (req.get('first_scope_output_at'),scope_data.get('first_complete_at')) if v]
                 if known:
                     scope_data['first_complete_at'] = min(known,key=seconds)
+                    started = req.get('first_started_at')
+                    finished = seconds(scope_data['first_complete_at'])
+                    if not scope_data.get('first_started_at') and started and seconds(started) <= finished:
+                        scope_data['first_started_at'] = started
                 req['scope_first_complete_at'] = scope_data.get('first_complete_at')
+                req['scope_first_started_at'] = scope_data.get('first_started_at')
                 known = [v for v in (old_data.get('first_complete_at'),scope_data.get('first_complete_at')) if v]
                 req['first_complete_at'] = min(known,key=seconds) if known else None
                 # A manual ready/block event remains separate from source facts.
@@ -145,6 +180,15 @@ class Ledger:
                                {'revision': revision, 'scope_id': scope, 'state': req['state'], 'evidence': req.get('evidence', [])}, req['id'])
                 db.execute('INSERT OR REPLACE INTO scopes VALUES(?,?,?,?)', (req['id'], scope, now(), packed(scope_data)))
             for task in tasks:
+                prior = db.execute('SELECT data FROM tasks WHERE id=?', (task['id'],)).fetchone()
+                previous = json.loads(prior['data']) if prior else {}
+                historical = previous.get('first_timing') if previous.get('source_sha256') == task.get('source_sha256') else None
+                started, finished = seconds(task.get('created_at')), seconds(task.get('first_complete_at'))
+                if (started is not None and finished is not None and started <= finished <= seconds(now())
+                        and (not historical or finished < seconds(historical['finished_at']))):
+                    historical = {'started_at': task['created_at'], 'finished_at': task['first_complete_at']}
+                if historical:
+                    task['first_timing'] = historical
                 db.execute('INSERT OR REPLACE INTO tasks VALUES(?,?,?,?,?)',
                            (task['id'], task['requirement_id'], task['video_id'], task['locale'], packed(task)))
             present = {r['id'] for r in requirements}
@@ -183,9 +227,33 @@ class Ledger:
         with self.connection() as db:
             return [json.loads(r['value']) for r in db.execute("SELECT value FROM meta WHERE key LIKE 'registration:%'")]
 
+    def task_rows(self):
+        with self.connection() as db:
+            return [json.loads(row['data']) for row in db.execute('SELECT data FROM tasks')]
+
     def links(self):
         with self.connection() as db:
             return [dict(row) for row in db.execute('SELECT * FROM links')]
+
+    def cohort(self):
+        from .benchmark import read_object
+        settings = read_object(self.root / 'config/ledger.json').get('cohort', {})
+        if not settings:
+            return {}, {}
+        if not isinstance(settings, dict) or not stamp(settings.get('started_at')):
+            raise ValueError('Ledger cohort requires a start time with timezone')
+        overrides = read_object(self.path.parent / 'cohort-overrides.json')
+        exclusions = overrides.get('time_exclusions', {})
+        return settings, exclusions
+
+    @staticmethod
+    def in_cohort(row, settings, exclusions):
+        if not settings or (row.get('requirement_id') or row.get('id')) in exclusions:
+            return True
+        start = seconds(row.get('received_at'))
+        if row.get('countable') is False:
+            start = seconds(row.get('first_started_at'))
+        return start is not None and start >= seconds(settings['started_at'])
 
     def action(self, action, spec, operation_id, expected_revision=None):
         if not isinstance(spec, dict) or not re.fullmatch(r'[A-Za-z0-9_-]{8,120}', str(operation_id)):
@@ -314,11 +382,15 @@ class Ledger:
             db.execute('INSERT INTO operations VALUES(?,?,?)', (operation_id, request_hash, packed(result)))
             return result
 
-    def view(self, at=None):
+    def view(self, at=None, current_only=False, activity=True):
         moment = stamp(at) or now()
         clock = seconds(moment)
+        settings, exclusions = self.cohort()
         with self.connection() as db:
             requirements = [{**json.loads(r['data']), 'revision': r['revision']} for r in db.execute('SELECT * FROM requirements') if not json.loads(r['data']).get('resolved')]
+            if current_only:
+                requirements = [r for r in requirements if self.in_cohort(r, settings, exclusions)]
+            identifiers = {r['id'] for r in requirements}
             claims = {}
             for r in db.execute('SELECT * FROM claims'):
                 claims.setdefault(r['requirement_id'], []).append(dict(r))
@@ -327,7 +399,10 @@ class Ledger:
                 data=json.loads(r['data'])
                 estimates.setdefault((r['requirement_id'], r['scope_id'],data.get('video_id','*')), []).append({**dict(r), 'data': data})
             executors = {}
-            for row in db.execute("SELECT requirement_id,run_id,kind,occurred_at,data FROM events WHERE kind LIKE 'executor.%' ORDER BY occurred_at"):
+            executor_rows = db.execute("SELECT requirement_id,run_id,kind,occurred_at,data FROM events WHERE kind LIKE 'executor.%' ORDER BY occurred_at") if activity else ()
+            for row in executor_rows:
+                if row['requirement_id'] not in identifiers:
+                    continue
                 key = (row['requirement_id'],row['run_id'])
                 candidate = {**dict(row),'data':json.loads(row['data'])}
                 previous = executors.get(key)
@@ -336,6 +411,8 @@ class Ledger:
                     executors[key]=candidate
             sync = db.execute("SELECT value FROM meta WHERE key='sync'").fetchone()
         for req in requirements:
+            if req['id'] in exclusions:
+                req['time_exclusion'] = exclusions[req['id']]
             etas = estimates.get((req['id'], req['scope_id'],'*'), [])
             for video in req['videos']:
                 video_etas=estimates.get((req['id'],req['scope_id'],video['id']),[])
@@ -356,8 +433,11 @@ class Ledger:
             req['eta_scope'] = 'current_scope'
             if req.get('block_reason'):
                 req['state'] = 'blocked'
-        requirements.sort(key=lambda r: (not (r.get('overdue') or r.get('block_reason') or r['agent_health']=='unconfirmed'), not r.get('countable'), bool(r.get('complete_at')), r['code']))
-        return {'requirements': requirements, 'sync': json.loads(sync['value']) if sync else {}, 'read_at': moment}
+            req['progress_state'] = progress_state(req)
+        order = {'blocked': 0, 'active': 1, 'waiting': 2, 'done': 3}
+        requirements.sort(key=lambda row: (not row.get('countable'), order[row['progress_state']], row['code']))
+        return {'requirements': requirements, 'sync': json.loads(sync['value']) if sync else {},
+                'cohort': settings, 'read_at': moment}
 
     def detail(self, identifier):
         req = next((r for r in self.view()['requirements'] if r['id'] == identifier), None)
@@ -376,7 +456,9 @@ class Ledger:
     def metrics(self, rows=None, at=None, days=14, zone='America/Los_Angeles'):
         moment = stamp(at) or now()
         clock = seconds(moment)
-        rows = rows if rows is not None else self.view(moment)['requirements']
+        rows = rows if rows is not None else self.view(moment, current_only=True, activity=False)['requirements']
+        settings, exclusions = self.cohort()
+        rows = [r for r in rows if self.in_cohort(r, settings, exclusions)]
         tz = ZoneInfo(zone)
         today = datetime.fromisoformat(moment).astimezone(tz).date()
         first_day = today - timedelta(days=days-1)
@@ -396,6 +478,8 @@ class Ledger:
                         if field == 'received': received += 1
                         else: completed += 1
             in_period = end is not None and str(datetime.fromtimestamp(end, tz).date()) in daily
+            if r.get('time_exclusion') or r.get('id') in exclusions:
+                continue
             if in_period and start is not None and end >= start:
                 cycles.append(end-start)
             ready = seconds(r.get('ready_at'))
@@ -418,7 +502,7 @@ class Ledger:
                 'requirements': sum(r.get('countable') is not False for r in rows),
                 'unlinked': sum(r.get('countable') is False for r in rows),
                 'open': sum(r.get('countable') is not False and not r.get('complete_at') and r.get('state') != 'expired' for r in rows),
-                'blocked': sum(bool(r.get('block_reason') or r.get('blockers')) for r in rows),
+                'blocked': sum(progress_state(r) == 'blocked' for r in rows),
                 'overdue': sum(bool(r.get('overdue')) for r in rows),
                 'complete': sum(bool(r.get('complete_at')) and r.get('countable') is not False for r in rows),
                 'tasks': sum(r.get('task_count', 0) for r in rows if r.get('countable') is not False),
@@ -432,6 +516,36 @@ class Ledger:
     def update_benchmark(self):
         from .benchmark import update
         return update(self)
+
+    def historical_timing(self, rows, metrics, at=None):
+        clock = seconds(at or now())
+        zone = ZoneInfo(metrics['timezone'])
+        days = {day['date'] for day in metrics['daily']}
+
+        def completed_span(start, finish):
+            start, finish = seconds(start), seconds(finish)
+            if (start is not None and finish is not None and start <= finish <= clock
+                    and str(datetime.fromtimestamp(finish, zone).date()) in days):
+                return finish - start
+            return None
+
+        eligible = {row['id']: row for row in rows if row.get('countable') is not False and not row.get('time_exclusion')}
+        requests = []
+        for row in eligible.values():
+            finished = row.get('scope_first_complete_at')
+            started = row.get('scope_first_started_at') or row.get('first_started_at')
+            span = completed_span(started, finished)
+            if span is not None:
+                language_count = target_language_count(row['scope'])
+                requests.append({'id': row['id'], 'code': row['code'], 'started_at': started,
+                                 'finished_at': finished, 'seconds': span, 'task_count': row['task_count'],
+                                 'language_count': language_count,
+                                 'seconds_per_language': span / language_count if language_count else None})
+        return {
+            'request_mean_seconds': mean(item['seconds'] for item in requests) if requests else None,
+            'request_median_seconds': median(item['seconds'] for item in requests) if requests else None,
+            'requests': sorted(requests, key=lambda item: seconds(item['finished_at']), reverse=True),
+        }
 
     def benchmark(self, rows=None, at=None):
         from .benchmark import report

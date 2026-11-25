@@ -19,7 +19,7 @@ STAGES = {
                     'ai': ['Finalize translation and speech copy', 'Select voice/style and source speech windows'],
                     'commands': ['tts-packet', 'audio-mix', 'asr', 'captions']},
     'neutral': {'read': ['agent/workflows/visual-review.md', 'agent/contracts/quality.md'],
-                'ai': ['Codex directly edits images using project knowledge and host image tools; use Wan 2.7 for video-model work', 'Compare original, text-free base and translated frames before expansion; opacity/feathering is not proof of repair', 'Inspect native continuous frames and animation boundaries'],
+                'ai': ['Codex directly edits images using project knowledge and host image tools; follow agent/contracts/model-routing.md for the current video editor', 'Compare original, text-free base and translated frames before expansion; opacity/feathering is not proof of repair', 'Inspect native continuous frames and animation boundaries'],
                 'commands': ['codex-packet --stage image', 'codex-result', 'visual-evidence --stage neutral', 'visual-notes', 'visual-release-neutral']},
     'render': {'read': ['agent/workflows/batch-production.md', 'agent/contracts/captions.md'],
                'ai': ['Review layout and actual mixed-audio alignment', 'Approve the representative language before expansion'],

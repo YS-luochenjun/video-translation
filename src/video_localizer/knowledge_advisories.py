@@ -8,6 +8,8 @@ def retrieve(context, root=None, limit=3):
     require(type(limit) is int and 0 <= limit <= 5, "Advisory limit must be between zero and five")
     ranked = []
     for row in queue(root or ROOT):
+        if row.get("conflict_with_rules"):
+            continue
         record, decision, scope = row["record"], row["decision"] or {}, row["scope"]
         if not isinstance(scope, dict) or not scope or scope.get("workflow", "video-localization") != context.get("workflow"):
             continue

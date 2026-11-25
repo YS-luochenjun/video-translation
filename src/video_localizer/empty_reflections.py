@@ -53,7 +53,7 @@ def execute(root, source_hashes, expected, reviewed_by, origin, limit=24):
         archived=None
         if source['path'].startswith('knowledge/candidates/'):
             ready=archive_preview(source['path'],root)
-            archived=archive(source['path'],ready['fingerprint'],root)
+            archived=archive(source['path'],ready['fingerprint'],root,refresh_index=False)
         results.append({'source':source,'review':decision,'archive':archived})
     refresh(root)
     return {'reviewed':len(results),'archived_public':sum(bool(r['archive']) for r in results),'results':results,

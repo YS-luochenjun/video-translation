@@ -32,6 +32,6 @@
 
 已核实停写的旧版本领取可由原负责聊天执行 `release`，不要求旧内容版本能通过 `complete`。聊天已合法迁移时，由request中当前接替聊天释放：保留原task_id、claim_token及旧owner记录，传当前真实actor_id、`relinquish:true`、`work_stopped:true`、reason及真实停写证据，并将request.chat.migration_receipt的路径同时放入 `migration_receipt` 和 `evidence`。服务端核对request的predecessor_thread_id及READY交接记录中唯一的code/old_thread_id/new_thread_id映射，只开放交还写入职责；不允许借交接续租、完成旧版本或继续制作，unknown派发仍须先核实。释放回执保留交接文件哈希和新旧身份，原预算、未知费用、质量与交付结论不变。
 
-负责聊天在切换阶段、派发和恢复前读取 `fireplay-parallel status --code CODE`；全局主控读 `fireplay-parallel status`。新需求提示词自动带此流程。巡检发现多源积压时先读原负责聊天，再保存调度signal及真实发送回执，让原聊天领取/分派；已运行且已采用本政策的不重复催。视频需求数、全局活跃原片数及每需求活跃原片数均不设项目数量上限，对应配置为null；不再沿用旧16条或每需求2条限制。P0仅优先冲突资源、其他优先级继续，原请求授权、单原片单写入者及原预算保持有效。
+负责聊天在切换阶段、派发和恢复前读取 `fireplay-parallel status --code CODE`；全局主控读 `fireplay-parallel status`。新需求提示词自动带此流程。巡检发现多源积压时先读原负责聊天，再保存调度signal及真实发送回执，让原聊天领取/分派；已运行且已采用本政策的不重复催。全项目共享 10 个原片名额，需求数和单个需求的原片数不单设上限。P0仅优先冲突资源、其他优先级继续，原请求授权、单原片单写入者及原预算保持有效。
 
 现有需求逐项接续，不批量覆盖request、chat或预算。正文新增原片是内容修订：保留原版本现场，沿原聊天明确审查；活动请求修订门禁不能通过手改JSON或子代理绕过。完成时仍核验全部当前原片×目标语的实际哈希、平台ID、共享、标签、归属和绑定。

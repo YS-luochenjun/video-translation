@@ -1,16 +1,29 @@
+(() => {
 'use strict';
-const $=s=>document.querySelector(s);
+const mount=document.getElementById('console-host');
+const surface=mount ? mount.attachShadow({mode:'open'}) : document;
+if(mount) surface.append(document.getElementById('console-template').content.cloneNode(true));
+const $=selector=>surface.querySelector(selector==='#main'?'#console-content':selector);
+const setText=(selector,text)=>{const element=$(selector);if(element)element.textContent=text;};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const names={requirements:'需求进度',sessions:'会话总览',automations:'自动任务',knowledge:'经验与知识',system:'运行与接入'};
-const runtime={active:'正在运行',idle:'本轮空闲',notLoaded:'未加载',unobserved:'待宿主同步',systemError:'运行错误'};
-const businessStates={executing:'制作中',partial:'部分输出',complete:'本地输出齐备',expired:'交付包已到期',unreported:'阶段未登记',blocked:'有阻塞',waiting:'等待中',working:'处理中',ready:'信息齐备',received:'已收件'};
+const runtime={active:'正在运行',idle:'本轮空闲',notLoaded:'未加载',systemError:'运行错误'};
+const businessStates={executing:'制作中',partial:'部分输出',complete:'本地输出齐备',completed:'已完成',expired:'交付包已到期',unreported:'阶段未登记',blocked:'有阻塞',waiting:'等待中',working:'处理中',ready:'信息齐备',received:'已收件'};
 const nodeNames={intake:'接单',analysis:'解析',base:'底片',production:'配音与字层',review:'审核',output:'输出',publication:'平台回传'};
 const commandStates={queued:'待点击交办',dispatching:'正在派发',accepted:'宿主已受理',failed:'明确失败',unknown:'结果未知 · 请勿重发',rejected:'未派发 · 需核对'};
 let view='sessions',selected=null,run=null,detailTab='flow',node='analysis',page=1,filter='all',query='',archived=false;
-let config={},overview={},detail=null,autos=[],knowledge=[],knowledgeFilter='',knowledgePage=1,commands=[];
+let config={},overview={},detail=null,autos=[],knowledge=null,knowledgeFilter='',knowledgePage=1,commands=[];
+let knowledgeView='method',knowledgeReview='actionable',knowledgeOwner=false;
 let listBusy=false,listNeedsRefresh=false,detailBusy=false,toastTimer,searchTimer,artifactsNode=null,selectedArtifact=null;
 let requirementData=null,requirementQuery='',requirementFilter='all',requirementPage=1,requirementsBusy=false,requirementsNeedsRefresh=false;
-const requirementStates={waiting:'待开始 / 等待',working:'制作中',output:'本地已齐 · 待核验',verified:'平台全量已核验',closed:'已结案',attention:'需要处理',unknown:'记录待同步',expired:'历史输出已到期'};
+const requirementStates={done:'已完成',active:'进行中',blocked:'阻塞',waiting:'待开始'};
+const platformStates={not_started:'未开始',in_progress:'进行中',pending_upload:'待上传',completed:'已完成',done:'已完成',cancelled:'已取消'};
+const requirementState=row=>requirementStates[row.progress_state];
+function launchLabel(launch){
+  if (!launch?.checked) return '投放待核对';
+  const pending=launch.materials-launch.checked;
+  return `有投放记录 ${launch.launched}/${launch.checked}${pending?` · ${pending} 项待核对`:''}`;
+}
 const drafts=new Map(),pending=new Map();
 const badge=(s,cls='')=>`<span class="badge ${cls}">${esc(s)}</span>`;
 const when=v=>v?new Date(typeof v==='number'?v*1000:v).toLocaleString('zh-CN',{timeZone:'America/Los_Angeles',hour12:false}):'未记录';
@@ -19,46 +32,119 @@ function toast(s){clearTimeout(toastTimer);$('#toast').textContent=s;$('#toast')
 async function api(path,options={}){if(window.ConsoleHost){const host=window.ConsoleHost;await host.ready;if(options.method==='POST'){const payload=JSON.parse(options.body);const tool=({'/api/console/command':'session_console_command','/api/console/handoff':'session_console_handoff','/api/console/notified':'session_console_notified'})[path];if(!tool)throw Error('插件不支持此操作');return host.call(tool,payload);}return host.call('session_console_read',{path});}const r=await fetch(path,{cache:'no-store',...options});let d;try{d=await r.json();}catch{throw Error('服务响应未确认，请保留原指令ID核对');}if(!r.ok)throw Error(d.error||'请求失败');return d;}
 const handoffLabel=()=>window.ConsoleHost?.canSend?'用户点击时交办':'手动交办 · 定时桥接已停';
 const writeApi=(path,value)=>api(path,{method:'POST',headers:{'Content-Type':'application/json','X-Ledger-Token':config.csrf_token||''},body:JSON.stringify(value)});
-function head(title,sub,actions=''){return `<div class="page-head"><div><span class="eyebrow">PROJECT CONTROL CENTER · LIVE</span><h1>${title}</h1><p>${sub}</p></div><div class="actions">${actions}</div></div>`;}
+function head(title,sub,actions=''){return mount ? '' : `<div class="page-head"><div><h1>${title}</h1><p>${sub}</p></div><div class="actions">${actions}</div></div>`;}
 function switchView(next){view=next;location.hash=next;document.querySelectorAll('.nav').forEach(e=>e.classList.toggle('active',e.dataset.nav===next));$('#page-name').textContent=names[next];render();if(next==='sessions')loadList();if(next==='requirements')loadRequirements();if(next==='automations')loadAutomations();if(next==='knowledge')loadKnowledge();}
 function render(){({requirements:renderRequirements,sessions:renderSessions,automations:renderAutomations,knowledge:renderKnowledge,system:renderSystem}[view]||renderSessions)();}
 function renderSessions(){
-  $('#main').innerHTML=head('所有会话，一个工作台。','查看真实阶段、实际产物与原会话正文。',`<button class="btn" data-action="summarize">总结新增经验</button><button class="btn primary" data-action="intake">＋ 按编号接单</button>`)+
-  `<div class="live-summary"><span>当前筛选 <strong>${overview.total??'—'}</strong> 个会话</span><span>每页 <strong>8</strong> 个</span><span>按最近用户提问排序</span><span id="bridge-summary">${handoffLabel()} · ${commands.filter(c=>['queued','dispatching','unknown'].includes(c.status)).length} 条待处理指令</span></div><div class="console-grid"><section class="panel"><div class="panel-head"><h3>项目会话</h3><label class="small muted"><input type="checkbox" id="archived" ${archived?'checked':''}>归档</label></div><div class="session-tools"><input id="session-search" class="search" aria-label="搜索所有项目会话" placeholder="搜索编号或会话…" value="${esc(query)}"><div class="filters">${[['all','全部'],['active','运行中'],['attention','待处理']].map(([id,t])=>`<button class="filter ${filter===id?'active':''}" data-filter="${id}">${t}</button>`).join('')}</div></div><div class="session-list" id="session-list">${sessionRows()}</div><div class="session-pagination" id="pagination">${pager()}</div></section><section class="panel" id="session-detail">${renderDetail()}</section><aside class="panel chat" id="session-chat">${renderChat()}</aside></div>`;
+  const actions = `<button class="btn" data-action="summarize">总结新增经验</button><button class="btn primary" data-action="intake">＋ 按编号接单</button>`;
+  $('#main').innerHTML=head('会话总览','查看真实阶段、实际产物与原会话正文。')+`
+    <div class="session-toolbar" aria-label="会话概况">
+      <p><strong id="session-total">${overview.total??'—'}</strong> 个会话 <span class="muted">· 按最近提问排序</span></p>
+      <div class="actions">${actions}</div>
+    </div>
+    <div class="console-grid">
+      <section class="panel">
+        <div class="panel-head"><h3>项目会话</h3><label class="small muted"><input type="checkbox" id="archived" ${archived?'checked':''}>归档</label></div>
+        <div class="session-tools"><input id="session-search" class="search" aria-label="搜索所有项目会话" placeholder="搜索编号或会话…" value="${esc(query)}">
+          <div class="filters">${[['all','全部'],['active','运行中'],['attention','待处理']].map(([id,title])=>`<button class="filter ${filter===id?'active':''}" data-filter="${id}">${title}</button>`).join('')}</div>
+        </div>
+        <div class="session-list" id="session-list">${sessionRows()}</div>
+        <div class="session-pagination" id="pagination">${pager()}</div>
+      </section>
+      <section class="panel" id="session-detail">${renderDetail()}</section>
+      <aside class="panel chat" id="session-chat">${renderChat()}</aside>
+    </div>`;
 }
-function sessionRows(){return (overview.sessions||[]).map(s=>`<button class="session ${s.id===selected?'selected':''}" data-session="${s.id}"><div class="session-top"><span class="session-code">${esc(s.codes[0]||s.title)}</span><span ${s.status_fresh?`data-runtime-until="${new Date(s.status_observed_at).getTime()+130000}"`:''}>${badge(runtime[s.status]||s.status,s.status==='active'?'green':s.status==='unobserved'?'amber':'')}</span></div>${s.codes.length?`<div class="session-name">${esc(s.title)}</div>`:''}<div class="session-meta"><span>${s.output_count!=null?`完整输出 ${s.output_count}/${s.task_count??'?'}`:'业务阶段未登记'}</span><span>${esc(businessStates[s.business_state]||s.business_state)}</span></div><div class="session-meta"><span>最近提问 ${when(s.last_user_message_at)}</span></div></button>`).join('')||'<div class="empty">没有匹配的会话。</div>';}
+function sessionRows(){
+  const rows = (overview.sessions||[]).map(session=>{
+    const live = session.status_fresh && runtime[session.status];
+    const code = session.codes[0];
+    return `<button class="session ${session.id===selected?'selected':''}" data-session="${esc(session.id)}">
+      <div class="session-top"><span class="session-code">${esc(code||session.title)}</span>
+        ${live?`<span data-runtime-until="${new Date(session.status_observed_at).getTime()+130000}">${badge(live,session.status==='active'?'green':'')}</span>`:''}</div>
+      ${code&&code!==session.title?`<div class="session-name">${esc(session.title)}</div>`:''}
+      <div class="session-meta"><span>${session.output_count!=null?`完整输出 ${session.output_count}/${session.task_count??'?'}`:''}</span><span>${esc(businessStates[session.business_state]||session.business_state)}</span></div>
+      <div class="session-meta"><span>最近提问 ${when(session.last_user_message_at)}</span></div>
+    </button>`;
+  });
+  return rows.join('')||`<div class="empty">${filter==='active'?'暂无近期确认正在运行的会话。':'没有匹配的会话。'}</div>`;
+}
 function pager(){return `<div class="session-page-meta">共 ${overview.total||0} 个 · 每页最多 8 个</div><div class="session-page-actions"><button class="btn" data-page="${page-1}" ${page<=1?'disabled':''}>上一页</button><span>${page} / ${overview.pages||1}</span><button class="btn" data-page="${page+1}" ${page>=(overview.pages||1)?'disabled':''}>下一页</button></div>`;}
-function eta(req){const e=req?.latest_eta;if(!e)return '暂无法估计';if(req.complete_at)return '本地台账记有完成时间，平台结果另核验';if(new Date(e.upper_at)<new Date())return '旧预测已过期 · 待重新评估';return when(e.lower_at)+' — '+when(e.upper_at)+'（未校准估计）';}
 function renderDetail(){
   if(!selected)return '<div class="empty">选择一个会话查看流程与产物。</div>';
   if(!detail||detail.thread.id!==selected)return '<div class="empty">正在读取这个会话的真实记录…</div>';
   const r=detail.requirements[0],t=detail.task;
-  return `<div class="detail-top"><h2>${esc(detail.thread.title)}</h2><div class="detail-meta">${detail.thread.id}</div><div class="detail-meta"><span>${esc(t?.state_label||'此会话没有绑定的制作任务')}</span><span>完整输出 ${r?.output_count??'—'} / ${r?.task_count??'—'}</span></div><div class="detail-meta"><span>收件后历时 ${r?.received_at?duration((Date.now()-new Date(r.received_at))/1000):'未记录'}</span></div><div class="detail-meta">预计：${esc(eta(r))}</div>${detail.runs.length?`<label class="run-select">原片 / 语种 / 制作任务<select id="run-select">${detail.runs.map(x=>`<option value="${x.id}" ${x.id===detail.selected_run?'selected':''}>${esc(x.id)} · ${esc(x.locale||'未记录语种')}</option>`).join('')}</select></label>`:''}</div><div class="detail-tabs">${[['flow','产物流程'],['timeline','运行时间链路'],['runKnowledge','过程知识'],['artifacts','阶段产物'],['timing','耗时 / 费用'],['records','交付 / 记录']].map(([id,title])=>`<button class="tab ${detailTab===id?'active':''}" data-tab="${id}">${title}</button>`).join('')}</div>${({flow:renderFlow,timeline:renderTimeline,runKnowledge:renderRunKnowledge,artifacts:renderArtifacts,timing:renderTiming,records:renderRecords}[detailTab])()}`;
+  return `<div class="detail-top"><h2>${esc(detail.thread.title)}</h2><div class="detail-meta"><span>${esc(t?.state_label||'此会话没有绑定的制作任务')}</span>${r?`<span>完整输出 ${r.output_count??'—'} / ${r.task_count??'—'}</span>`:''}</div>${detail.runs.length?`<label class="run-select">原片 / 语种 / 制作任务<select id="run-select">${detail.runs.map(x=>`<option value="${x.id}" ${x.id===detail.selected_run?'selected':''}>${esc(x.id)} · ${esc(x.locale||'未记录语种')}</option>`).join('')}</select></label>`:''}</div><div class="detail-tabs">${[['flow','产物流程'],['timeline','运行时间链路'],['runKnowledge','过程知识'],['artifacts','阶段产物'],['timing','耗时 / 费用'],['records','交付 / 记录']].map(([id,title])=>`<button class="tab ${detailTab===id?'active':''}" data-tab="${id}">${title}</button>`).join('')}</div>${({flow:renderFlow,timeline:renderTimeline,runKnowledge:renderRunKnowledge,artifacts:renderArtifacts,timing:renderTiming,records:renderRecords}[detailTab])()}`;
 }
 function renderFlow(){
-  const currentNode=({created:'intake',awaiting_agent_inventory:'analysis',needs_planning:'analysis',needs_replanning:'analysis',planned:'production',awaiting_model:'production',needs_reconciliation:'production',needs_review:'review',needs_revision:'review',ready_to_deliver:'review',delivered:'output',delivered_with_issues:'output'})[detail.task?.state];
+  const returned=detail.nodes.some(item=>item.id==='publication'&&item.state==='verified');
+  const currentNode=returned?'publication':({created:'intake',awaiting_agent_inventory:'analysis',needs_planning:'analysis',needs_replanning:'analysis',planned:'production',awaiting_model:'production',needs_reconciliation:'production',needs_review:'review',needs_revision:'review',ready_to_deliver:'review',delivered:'output',delivered_with_issues:'output'})[detail.task?.state];
   if(!detail.selected_run)return '<div class="snapshot"><p>此会话暂没有制作run关联。会话状态与最近正文在右侧展示；知识维护、调度或开发会话不会被编造为视频制作流程。</p></div>';
-  return `<div class="flow-area"><div class="flow-caption">点击节点查看产物与知识 · 高亮为任务记录中的当前步骤</div>${detail.nodes.map((n,i)=>`${i?'<div class="flow-line"></div>':''}<button class="flow-node ${n.id===currentNode?'running':n.state==='recorded'?'done':'waiting'} ${node===n.id?'selected-node':''}" data-node="${n.id}"><span class="node-icon">${i+1}</span><span><strong>${esc(n.title)}</strong><small>${n.artifact_count?`${n.artifact_count} 个可查看产物`:'暂无可查看文件'} · ${n.knowledge_count||0} 条节点知识</small></span><span class="node-right">${n.id===currentNode?'当前步骤':n.state==='recorded'?'有记录':'未记录'}</span></button>`).join('')}</div><div class="node-detail"><p>阶段来自当前任务记录与产物归类。现场中间文件可能未单独登记；未找到时显示缺口，不自动重跑或补造。</p></div>`;
+  return `<div class="flow-area"><div class="flow-caption">点击节点查看产物与知识 · 高亮显示最新确认的步骤</div>${detail.nodes.map((n,i)=>`${i?'<div class="flow-line"></div>':''}<button class="flow-node ${n.id===currentNode?'running':n.state==='recorded'?'done':'waiting'} ${node===n.id?'selected-node':''}" data-node="${n.id}"><span class="node-icon">${i+1}</span><span><strong>${esc(n.title)}</strong><small>${n.artifact_count?`${n.artifact_count} 个可查看产物`:'暂无可查看文件'} · ${n.knowledge_count||0} 条节点知识</small></span><span class="node-right">${n.state==='verified'?'已核验回传':n.id===currentNode?'当前步骤':n.state==='recorded'?'有记录':'未记录'}</span></button>`).join('')}</div>`;
 }
 function cards(rows){return rows.map(a=>`<button class="artifact-card" data-artifact="${a.id}">${a.kind==='image'?`<img loading="lazy" src="${esc(a.url)}" alt="${esc(a.name)}">`:`<div class="file-preview">${{video:'▷ 视频',audio:'♫ 音轨',document:'▤ 文档'}[a.kind]||'文件'}</div>`}<span class="artifact-card-body"><strong>${esc(a.name)}</strong>${badge(nodeNames[a.node]||a.node)}<small>${when(a.modified_at)}<br>${esc(a.version_note)}</small></span></button>`).join('');}
 function renderArtifacts(){return `<div class="artifact-content"><div class="artifact-intro">真实现场与交付包中的文件，每节点展示最近40项。预览时计算文件哈希，反馈绑定选中的确切版本。</div><div class="artifact-grid">${cards(detail.artifacts)}</div>${detail.artifacts.length?'':'<div class="empty">没有可查看的产物。现场可能尚未生成或已按保留策略清理。</div>'}</div>`;}
-function renderTiming(){const r=detail.requirements[0];return `<div class="snapshot"><h3>耗时与预计完成时间</h3><p>收件：${when(r?.received_at)}<br>首次真实开工：${when(r?.first_started_at)}<br>最近活动：${when(r?.last_activity_at)}</p><p>预计完成：${esc(eta(r))}</p><p class="muted">${esc(r?.latest_eta?.data?.assumptions||'没有可用预测依据，不按节点数量推算。')}</p><h3>请求费用账本</h3>${detail.budget.length?detail.budget.map(b=>`<p>额度 ${esc(b.limit??'未记录')} credits · 已知实际 ${esc(b.known_actual)} credits · 未知 ${b.unknown_count} 笔</p>`).join(''):'<p>未关联到账本；不填作0。</p>'}<p class="notice">历时包括排队、推理、制作和等待，不能当作纯工作时长。已知费用与未知费用分别保留。</p></div>`;}
+function renderTiming(){
+  const r=detail.requirements[0];
+  const seconds=r?.first_started_at&&r?.complete_at?(new Date(r.complete_at)-new Date(r.first_started_at))/1000:null;
+  const times=[['制作开始',r?.first_started_at],['制作完成',r?.complete_at]].filter(([,value])=>value);
+  return `<div class="snapshot"><h3>实际制作时间</h3>
+    ${times.length?times.map(([name,value])=>`<p>${name} ${when(value)}</p>`).join(''):'<p>暂无制作时间记录。</p>'}
+    ${seconds>=0&&seconds!==null?`<p>制作耗时 ${duration(seconds)}（含等待）</p>`:''}
+    <h3>请求费用账本</h3>${detail.budget.length?detail.budget.map(b=>`<p>额度 ${esc(b.limit??'未记录')} credits · 已知实际 ${esc(b.known_actual)} credits · 未知 ${b.unknown_count} 笔</p>`).join(''):'<p>未关联到账本。</p>'}</div>`;
+}
 function renderRecords(){return `<div class="snapshot"><h3>当前输出与质量</h3><p>任务状态：${esc(detail.task?.state_label||'未关联')}<br>质量记录：${esc(detail.task?.quality_state||'未记录')}</p>${detail.task?.output?.url?`<video controls preload="metadata" class="output-video" src="${esc(detail.task.output.url)}"></video>`:''}<p>${esc((detail.task?.limitations||[]).map(v=>typeof v==='string'?v:JSON.stringify(v)).join('\n'))}</p><h3>需求与平台记录</h3>${detail.requirements.map(r=>`<p>${esc(r.code)} · 台账 ${esc(r.state)} · 输出 ${r.output_count}/${r.task_count} · 审核记录 ${r.quality_count}</p><p>阻塞：${esc(JSON.stringify(r.blockers||[]))}</p>`).join('')||'<p>此会话没有需求台账绑定。</p>'}<p class="notice">这里读取已保存记录；平台是否全部绑定仍以最新completion-check为准，不能从聊天结束或存在文件推断整项交齐。</p></div>`;}
 function renderChat(){
   const same=detail?.thread.id===selected,canSend=selected&&same&&!detail.thread.archived;
   return `<div class="panel-head"><h3>原会话与指令</h3>${badge(handoffLabel(),'green')}</div><div class="chat-target">发送目标<b>${esc(same?detail.thread.title:selected||'尚未选择')}</b><span>${esc(selected||'')}</span></div><div class="chat-messages" id="chat-messages">${same?(detail.messages||[]).slice(-10).map(m=>`<div class="message ${m.role==='user'?'user':''}"><div class="message-label">${m.role==='user'?'用户':'Codex'} · ${when(m.at)}</div><div class="message-body">${esc(m.text)}</div></div>`).join(''):'<p class="muted">正在读取正文…</p>'}<div id="command-receipts">${same?receiptRows(detail.commands):''}</div></div><form id="chat-form" class="composer" data-target="${esc(selected||'')}"><div class="composer-box"><textarea id="chat-input" aria-label="给选中原会话的指令" placeholder="输入给这个会话的文字…" maxlength="12000" ${canSend?'':'disabled'}>${esc(drafts.get(selected)||'')}</textarea><div class="composer-bottom"><span>固定目标 · 原会话续作</span><button class="send" type="submit" ${canSend?'':'disabled'}>保存并交办 ↑</button></div></div></form><button class="text-btn" data-action="sync-status" ${!selected?'disabled':''}>点击同步此会话桌面状态</button><p class="chat-note">用户点击才交办，不定时唤醒 Agent。插件面板可直接通知宿主；独立网页提供复制交办指令。</p>`;
 }
-async function loadList(){if(listBusy){listNeedsRefresh=true;return;}listBusy=true;const requested=JSON.stringify([query,filter,page,archived]);try{const incoming=await api('/api/console/sessions?'+new URLSearchParams({q:query,state:filter,page,archived}));if(requested!==JSON.stringify([query,filter,page,archived])){listNeedsRefresh=true;return;}overview=incoming;page=overview.page;if(!eventSource&&!window.ConsoleHost)$('#connection').textContent='真实数据 · 已同步';$('#read-time').textContent='本地同步 '+when(overview.observed_at)+' · 洛杉矶';if(!selected&&overview.sessions.length){selected=overview.sessions[0].id;render();loadDetail();}else if(view==='sessions'){if(!$('#session-list'))render();else{$('#session-list').innerHTML=sessionRows();$('#pagination').innerHTML=pager();}}}catch(e){$('#connection').textContent='连接中断 · 数据可能过期';}finally{listBusy=false;if(listNeedsRefresh){listNeedsRefresh=false;loadList();}}}
+async function loadList(){
+  if(listBusy){listNeedsRefresh=true;return;}
+  listBusy=true;
+  const requested=JSON.stringify([query,filter,page,archived]);
+  try{
+    const incoming=await api('/api/console/sessions?'+new URLSearchParams({q:query,state:filter,page,archived}));
+    if(requested!==JSON.stringify([query,filter,page,archived])){listNeedsRefresh=true;return;}
+    overview=incoming;page=overview.page;
+    setText('#session-total',overview.total);
+    if(!eventSource&&!window.ConsoleHost)setText('#connection','本机数据已同步');
+    setText('#read-time','本地同步 '+when(overview.observed_at)+' · 洛杉矶');
+    if(view!=='sessions')return;
+    if(!selected&&overview.sessions.length){select(overview.sessions[0].id);return;}
+    if(!$('#session-list'))render();
+    else{$('#session-list').innerHTML=sessionRows();$('#pagination').innerHTML=pager();}
+  }catch(error){if(mount)throw error;setText('#connection','连接中断 · 数据可能过期');}
+  finally{listBusy=false;if(listNeedsRefresh){listNeedsRefresh=false;loadList().catch(error=>toast(error.message));}}
+}
 function receiptRows(rows){return rows.map(c=>`<div class="command-receipt">${badge(commandStates[c.status]||c.status,c.status==='unknown'?'amber':'')}<small>${esc(c.id)}</small>${c.status==='queued'&&!c.notification_state?`<button class="text-btn" data-handoff="${esc(c.id)}">点击交办 →</button>`:''}${c.notification_state?`<small>${({attempted:'通知结果待核对 · 不自动重发',delivered:'交办消息已通知宿主 · 等待实际工具回执',unknown:'通知结果未知 · 请核对宿主原消息'})[c.notification_state]||''}</small>`:''}</div>`).join('');}
-async function loadConfig(){try{config=await api('/api/console/config');commands=config.commands||[];if($('#command-receipts'))$('#command-receipts').innerHTML=receiptRows(commands.filter(c=>c.thread_id===selected));if($('#bridge-summary'))$('#bridge-summary').textContent=(handoffLabel())+' · '+commands.filter(c=>['queued','dispatching','unknown'].includes(c.status)).length+' 条待处理指令';if(view==='system')renderSystem();}catch{}}
-async function loadDetail(force=false){if(!selected||detailBusy)return;detailBusy=true;const target=selected,chosenRun=run;try{const d=await api('/api/console/detail?'+new URLSearchParams({id:target,...(chosenRun?{run:chosenRun}:{})}));if(target!==selected||chosenRun!==run)return;detail=d;if(view==='sessions'){const focused=document.activeElement?.id==='chat-input';const playing=[...document.querySelectorAll('video,audio')].some(e=>!e.paused);if(force||(!focused&&!playing&&!$('#artifact-dialog').open)){renderSessions();}}}catch(e){toast(e.message);}finally{detailBusy=false;if(target!==selected||chosenRun!==run)loadDetail(true);}}
+async function loadConfig(){try{config=await api('/api/console/config');commands=config.commands||[];if($('#command-receipts'))$('#command-receipts').innerHTML=receiptRows(commands.filter(c=>c.thread_id===selected));if(view==='system')renderSystem();}catch{}}
+async function loadDetail(force=false){if(!selected||detailBusy)return;detailBusy=true;const target=selected,chosenRun=run;try{const d=await api('/api/console/detail?'+new URLSearchParams({id:target,...(chosenRun?{run:chosenRun}:{})}));if(target!==selected||chosenRun!==run)return;detail=d;if(view==='sessions'){const focused=surface.activeElement?.id==='chat-input';const playing=[...surface.querySelectorAll('video,audio')].some(media=>!media.paused);if(force||(!focused&&!playing&&!$('#artifact-dialog').open)){renderSessions();}}}catch(e){toast(e.message);}finally{detailBusy=false;if(view==='sessions'&&(target!==selected||chosenRun!==run))loadDetail(true);}}
 function select(id){selected=id;run=null;detail=null;selectedArtifact=null;renderSessions();loadDetail(true);}
-async function openNode(id){node=id;artifactsNode=id;selectedArtifact=null;const n=detail.nodes.find(n=>n.id===id);$('#artifact-title').textContent=n.title+' · 产物与知识';const rows=detail.artifacts.filter(a=>a.node===id),entries=(detail.knowledge||[]).filter(k=>k.node===id);$('#artifact-body').innerHTML=`<p class="muted small">${esc(detail.selected_run)} · 真实文件与知识记录</p><h3>节点知识 · ${entries.length} 条</h3>${knowledgeCards(entries)}<p class="small muted knowledge-note">整项计划与未标注阶段的知识在“过程知识”中查看。</p><h3>节点产物</h3><div class="artifact-grid node-output-images">${cards(rows)}</div>${rows.length?'':'<div class="node-output-empty"><p>当前没有可查看的节点文件；可能尚未生成、未登记或已清理。</p></div>'}`;if(!$('#artifact-dialog').open)$('#artifact-dialog').showModal();}
+async function openNode(id){node=id;artifactsNode=id;selectedArtifact=null;const n=detail.nodes.find(n=>n.id===id);$('#artifact-title').textContent=n.title+' · 产物与知识';const rows=detail.artifacts.filter(a=>a.node===id),entries=(detail.knowledge||[]).filter(k=>k.node===id);$('#artifact-body').innerHTML=`<p class="muted small">${esc(detail.selected_run)} · 真实文件与知识记录</p><h3>节点知识</h3>${knowledgeCards(entries)}<p class="small muted knowledge-note">整项计划与未标注阶段的知识在“过程知识”中查看。</p><h3>节点产物</h3><div class="artifact-grid node-output-images">${cards(rows)}</div>${rows.length?'':'<div class="node-output-empty"><p>当前没有可查看的节点文件；可能尚未生成、未登记或已清理。</p></div>'}`;if(!$('#artifact-dialog').open)$('#artifact-dialog').showModal();}
 async function openArtifact(id){try{const a=await api('/api/console/artifact?'+new URLSearchParams({thread:selected,run:detail.selected_run,id}));selectedArtifact=a;$('#artifact-title').textContent=a.name;$('#artifact-body').innerHTML=`<p class="muted small">${esc(a.run_id)} · ${when(a.modified_at)} · ${esc(a.version_note)}</p>${a.kind==='image'?`<img class="full-artifact" src="${esc(a.url)}" alt="${esc(a.name)}">`:a.kind==='video'?`<video class="full-artifact" controls preload="metadata" src="${esc(a.url)}"></video>`:a.kind==='audio'?`<audio class="full" controls src="${esc(a.url)}"></audio>`:`<pre class="document-text">${esc(a.text)}</pre>`}<p class="tiny-hash">SHA256 ${a.sha256}</p><p class="muted small">${esc(a.path)}</p><div class="actions"><button class="btn" data-feedback="请调整这份产物的方向，先说明问题和拟改动。">要求调整</button><button class="btn primary" data-feedback="请沿用这份产物继续，仍按项目规则完成后续审核。">沿用继续 →</button></div>`;if(!$('#artifact-dialog').open)$('#artifact-dialog').showModal();}catch(e){toast(e.message);}}
 const knowledgeStates={provided:'工作包已提供',selected:'计划选中',frozen:'计划已冻结',declared_read:'报告声明已读',usage:'采用反馈记录',learned_candidate:'本次经验候选',usage_unverified:'反馈哈希未匹配'};
 const knowledgeGroups={knowledge:'方法与规则',source_references:'同源参考',related_source_references:'关联参考',knowledge_advisories:'补充提示',context:'上下文合同',usage:'审核反馈',lesson:'复盘所得'};
-function knowledgeCards(rows){return rows.length?`<div class="run-knowledge-list">${rows.map(k=>`<button class="run-knowledge-card" data-run-knowledge="${esc(k.id)}">${badge(knowledgeStates[k.state]||k.state)} ${badge(knowledgeGroups[k.group]||k.group)}<strong>${esc(k.title)}</strong><small>${esc(k.path)}</small><span>${esc(nodeNames[k.node]||'整项过程 / 未标阶段')} · ${when(k.recorded_at)} · ${k.evidence.length} 份来源</span></button>`).join('')}</div>`:'<p class="knowledge-note muted">尚无该阶段的独立知识记录。未记录不代表没有参考知识。</p>';}
-function renderRunKnowledge(){const rows=detail.knowledge||[];return `<div class="snapshot"><h3>这次过程中拿到了哪些知识</h3><p class="knowledge-note muted">工作包提供、计划冻结、报告声明已读、采用反馈与本次经验候选分别列出。候选仍需审查。时间是证据文件的保存时间；不等同于阅读时刻或效果验证。点击查看正文、版本与来源。</p>${['process',...Object.keys(nodeNames)].map(id=>{const group=rows.filter(k=>k.node===id);return group.length?`<h3>${esc(nodeNames[id]||'整项过程 / 未标阶段')} · ${group.length} 条</h3>${knowledgeCards(group)}`:'';}).join('')||knowledgeCards([])}</div>`;}
+function knowledgeCards(rows){
+  if(!rows.length)return '<p class="knowledge-note muted">该阶段暂无独立知识记录。</p>';
+  const versions=new Map();
+  for(const row of rows){
+    const key=row.path && /^[a-f0-9]{64}$/i.test(row.sha256||'') ? JSON.stringify([row.path,row.sha256]) : row.id;
+    if(!versions.has(key))versions.set(key,[]);
+    versions.get(key).push(row);
+  }
+  const card=row=>`<button class="run-knowledge-card" data-run-knowledge="${esc(row.id)}">${badge(knowledgeStates[row.state]||row.state)} ${badge(knowledgeGroups[row.group]||row.group)}<strong>${esc(row.title)}</strong><small>${esc(row.path)}</small><span>${when(row.recorded_at)} · ${row.evidence.length} 份来源${row.sha256?'':' · 正文版本待核验'}</span></button>`;
+  const groups=[...versions.values()].map(group=>group.length===1?card(group[0]):
+    `<details><summary>${esc(group[0].title)} · ${group.length} 次记录</summary><div class="run-knowledge-list">${group.map(card).join('')}</div></details>`);
+  return `<p class="knowledge-note muted">${versions.size} 项 · ${rows.length} 次记录</p><div class="run-knowledge-list">${groups.join('')}</div>`;
+}
+function renderRunKnowledge(){
+  const rows=detail.knowledge||[];
+  const stages=['process',...Object.keys(nodeNames)].map(id=>{
+    const group=rows.filter(row=>row.node===id);
+    return group.length?`<h3>${esc(nodeNames[id]||'整项过程 / 未标阶段')}</h3>${knowledgeCards(group)}`:'';
+  });
+  return `<div class="snapshot"><h3>本次制作的知识记录</h3><p class="knowledge-note muted">同阶段的同一文件版本合在一起，可展开查看工作包、计划冻结、声明已读和使用反馈。时间为证据文件保存时间。</p>${stages.join('')||knowledgeCards([])}</div>`;
+}
 async function openRunKnowledge(id){try{const k=await api('/api/console/knowledge?'+new URLSearchParams({thread:selected,run:detail.selected_run,id}));selectedArtifact=null;$('#artifact-title').textContent=k.title;$('#artifact-body').innerHTML=`<button class="text-btn" data-knowledge-back="${detailTab==='runKnowledge'?'all':esc(k.node==='process'?'all':k.node)}">← 返回知识列表</button><p>${badge(knowledgeStates[k.state]||k.state)} ${badge(({matched:'记录版本匹配',changed:'正文与记录版本不同',unbound:'未绑定正文哈希',missing:'正文不可读'})[k.integrity])}</p><p class="knowledge-note">${esc(k.content_source||'仅保留索引')} · ${esc(k.content_path||k.path)}</p><p class="tiny-hash">记录 SHA256 ${esc(k.sha256||'未记录')}<br>正文 SHA256 ${esc(k.actual_sha256||'不可读')}${k.plan_id?`<br>计划 ${esc(k.plan_id)}`:''}</p><pre class="document-text">${esc(k.text)}</pre><h3>来源与采用依据</h3>${k.scope?`<p class="knowledge-note">适用范围：${esc(JSON.stringify(k.scope))}</p>`:''}${k.evidence.map(e=>`<div class="knowledge-evidence"><p>${esc(e.path)}</p><small>${when(e.at)} · 文件保存时间</small>${e.note?`<pre class="document-text">${esc(typeof e.note==='string'?e.note:JSON.stringify(e.note,null,2))}</pre>`:''}</div>`).join('')}`;if(!$('#artifact-dialog').open)$('#artifact-dialog').showModal();}catch(e){toast(e.message);}}
 function timelineDuration(value){if(value==null)return '未记录';if(value>0&&value<1)return '不足1秒';const s=Math.max(0,Math.floor(value)),h=Math.floor(s/3600),m=Math.floor(s%3600/60);return `${h?h+'小时 ':''}${m?m+'分 ':''}${s%60}秒`;}
 function timelineClock(value){return value?new Date(value).toLocaleString('zh-CN',{timeZone:'America/Los_Angeles',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}):'未记录';}
@@ -67,7 +153,7 @@ function renderTimeline(){const timeline=detail.timeline||{},states={running:'�
 // Display clock and expiry only: no HTTP, tool calls, or Agent wakeups.
 setInterval(()=>{
   if(document.hidden)return;
-  document.querySelectorAll('[data-runtime-until]').forEach(el=>{if(Date.now()>Number(el.dataset.runtimeUntil)){el.innerHTML=badge('待宿主同步','amber');delete el.dataset.runtimeUntil;}});
+  surface.querySelectorAll('[data-runtime-until]').forEach(el=>{if(Date.now()>Number(el.dataset.runtimeUntil))el.remove();});
   document.querySelectorAll('[data-time-start]').forEach(el=>{
     const confirmed=new Date(el.dataset.timeConfirmed).getTime(),start=new Date(el.dataset.timeStart).getTime();
     if(Date.now()-confirmed<=180000)el.textContent=timelineDuration((Date.now()-start)/1000);
@@ -91,50 +177,146 @@ async function submitCommand(payload){
 async function loadRequirements(){
   if(requirementsBusy){requirementsNeedsRefresh=true;return;}requirementsBusy=true;
   try{requirementData=await api('/api/console/requirements');$('#read-time').textContent='需求记录读取 '+when(requirementData.observed_at)+' · 洛杉矶';if(view==='requirements')renderRequirements(true);}
-  catch(e){toast(e.message);if(!requirementData&&view==='requirements')$('#requirement-table-body').innerHTML='<tr><td colspan="7" class="empty">需求记录读取失败，请点击刷新重试。</td></tr>';}
+  catch(e){toast(e.message);if(!requirementData&&view==='requirements')$('#requirement-table-body').innerHTML='<tr><td colspan="4" class="empty">需求记录读取失败，请点击刷新重试。</td></tr>';}
   finally{requirementsBusy=false;if(requirementsNeedsRefresh){requirementsNeedsRefresh=false;loadRequirements();}}
 }
 function requirementRows(){
   const all=requirementData?.requirements||[],q=requirementQuery.toLowerCase();
-  const rows=all.filter(r=>(requirementFilter==='all'||r.state===requirementFilter)&&JSON.stringify([r.code,r.title,r.targets,r.threads.map(t=>t.title)]).toLowerCase().includes(q));
+  const rows=all.filter(r=>(requirementFilter==='all'||r.progress_state===requirementFilter)&&JSON.stringify([r.code,r.title,r.targets,r.threads.map(t=>t.title)]).toLowerCase().includes(q));
   const pages=Math.max(1,Math.ceil(rows.length/12));requirementPage=Math.min(requirementPage,pages);
   const body=rows.slice((requirementPage-1)*12,requirementPage*12).map(r=>{
-    const total=r.task_count,done=r.output_count,ratio=total&&done!=null?Math.min(100,Math.round(done/total*100)):null,p=r.platform;
-    return `<tr><td><button class="requirement-title" data-requirement="${esc(r.id)}">${esc(r.code)}</button><strong class="requirement-name">${esc(r.title===r.code?'视频本地化':r.title)}</strong><small>${r.priority?esc(r.priority)+' · ':''}${r.source_count} 支原片 · ${esc(r.targets.join(' / ')||'语种待登记')}</small></td>
-    <td>${badge(requirementStates[r.state]||r.state,r.state==='attention'?'amber':['closed','verified'].includes(r.state)?'green':'')}<small>${r.scope_current?'':'当前范围台账待同步'}</small></td>
-    <td><strong>${done==null?'—':done} / ${total??'—'}</strong><small>完整输出${ratio!=null?' · '+ratio+'%':''}</small>${ratio!=null?`<progress max="100" value="${ratio}" aria-label="${esc(r.code)} 本地完整输出进度"></progress>`:''}</td>
-    <td><strong>${r.quality_count??'—'} / ${total??'—'}</strong><small>质量通过记录${r.issue_count?' · 瑕疵/异议 '+r.issue_count:''}</small></td>
-    <td><strong>${p.verified==null?'—':p.verified} / ${p.expected??total??'—'}</strong><small>${({unrecorded:'尚无核验记录',stale:'旧版核验 · 需更新',partial:'部分已核验',verified:'全量已核验',closed:'全量核验并结案'})[p.state]||'待核验'}</small><small>${p.checked_at?'核验 '+when(p.checked_at):''}</small></td>
-    <td><span>${esc(Object.entries(r.stage_counts).map(([state,count])=>`${businessStates[state]||({created:'待制作',awaiting_agent_inventory:'待内容解析',needs_planning:'待计划',needs_replanning:'待更新计划',planned:'已计划',awaiting_model:'等待模型',needs_reconciliation:'任务结果待核对',needs_review:'待审核',needs_revision:'待改进',ready_to_deliver:'待交付',delivered:'已输出',delivered_with_issues:'带瑕疵输出',not_started:'尚未开始'})[state]||'其他已登记阶段'} ${count}`).join(' · ')||'阶段未登记')}</span>${r.blockers.length?`<small class="requirement-blocker">${esc(r.blockers.map(b=>typeof b==='string'?b:JSON.stringify(b)).join('；').slice(0,180))}</small>`:''}<small>活动 ${when(r.last_activity_at)}</small></td>
-    <td><div class="requirement-links">${r.threads.map(t=>`<button class="text-btn" data-requirement-thread="${esc(t.id)}">${esc(t.title)} ↗</button>`).join('')||'<small>负责会话未关联</small>'}<button class="text-btn" data-requirement="${esc(r.id)}">需求详情 →</button></div></td></tr>`;
-  }).join('')||`<tr><td colspan="7" class="empty">${requirementData?'没有匹配的需求。':'正在读取本机已登记需求…'}</td></tr>`;
+    const total=r.task_count;
+    const uploadPending=r.platform.state==='stale'||['done','completed'].includes(r.platform_status);
+    const uploaded=r.platform.verified==null?(uploadPending?'待更新核验':'—'):`${r.platform.verified}/${total??r.platform.expected??'—'}`;
+    return `<tr data-progress="${esc(r.progress_state)}">
+      <td><button class="requirement-title" data-requirement="${esc(r.id)}">${esc(r.code)}</button>
+        ${r.title!==r.code?`<strong class="requirement-name">${esc(r.title)}</strong>`:''}<small>${r.source_count} 支原片 · ${total??'—'} 个语言任务</small></td>
+      <td><strong class="requirement-state">${esc(requirementState(r))}</strong>
+        ${r.platform_status?`<small>平台 ${esc(platformStates[r.platform_status]||r.platform_status)}</small>`:''}</td>
+      <td>制作完成 <strong>${r.output_count==null?'—':`${r.output_count}/${total??'—'}`}</strong><br>审核上传完成 <strong>${uploaded}</strong>
+        ${r.launch?`<small>${launchLabel(r.launch)}</small>`:''}</td>
+      <td><div class="requirement-links">${r.threads.map(t=>`<button class="text-btn" data-requirement-thread="${esc(t.id)}">${esc(t.title)}</button>`).join('')||'<small>未关联</small>'}</div></td>
+    </tr>`;
+  }).join('')||`<tr><td colspan="4" class="empty">${requirementData?'没有匹配的需求。':'正在读取本机已登记需求…'}</td></tr>`;
   return {body,pager:`<span>共 ${rows.length} 条 · 每页12条 · 按最近用户提问排序</span><div class="actions"><button class="btn" data-rpage="${requirementPage-1}" ${requirementPage<=1?'disabled':''}>上一页</button><span>${requirementPage} / ${pages}</span><button class="btn" data-rpage="${requirementPage+1}" ${requirementPage>=pages?'disabled':''}>下一页</button></div>`};
 }
 function renderRequirements(updateOnly=false){
-  const summary=requirementData?.summary||{},rows=requirementRows();
-  const cards=[['total','登记需求'],['waiting','待开始 / 等待'],['working','制作中'],['output','本地齐备 · 待核验'],['attention','需要处理'],['verified','已核验 · 待结案'],['closed','已结案']].map(([key,label])=>`<button class="requirement-stat ${requirementFilter===(key==='total'?'all':key)?'chosen':''}" data-rfilter="${key==='total'?'all':key}"><span>${label}</span><strong>${summary[key]??'—'}</strong></button>`).join('');
-  if(updateOnly&&$('#requirement-table-body')){$('#requirement-table-body').innerHTML=rows.body;$('#requirement-pager').innerHTML=rows.pager;$('#requirement-summary').innerHTML=cards;$('#requirement-observed').textContent='本地读取 '+when(requirementData?.observed_at);return;}
-  $('#main').innerHTML=head('需求进度，一张表看清。','按真实需求编号关联原片、目标语种、负责会话与交付核验。',`<button class="btn" data-action="refresh">刷新记录</button><button class="btn primary" data-action="intake">＋ 按编号接单</button>`)+
-    `<div class="requirement-summary" id="requirement-summary">${cards}</div><section class="panel requirement-panel"><div class="panel-head"><h3>已登记需求</h3><span class="small muted" id="requirement-observed">本地读取 ${when(requirementData?.observed_at)}</span></div><div class="requirement-tools"><input id="requirement-search" class="search" aria-label="搜索全部已登记需求" placeholder="搜索需求编号、标题、语种或会话…" value="${esc(requirementQuery)}"><select id="requirement-state" aria-label="筛选需求进度"><option value="all">全部进度</option>${Object.entries(requirementStates).map(([key,label])=>`<option value="${key}" ${requirementFilter===key?'selected':''}>${label}</option>`).join('')}</select></div><div class="requirement-table-scroll"><table class="requirement-table"><thead><tr><th>需求 / 范围</th><th>整体进度</th><th>本地输出</th><th>质量记录</th><th>平台提交核验</th><th>制作阶段 / 阻塞</th><th>负责会话</th></tr></thead><tbody id="requirement-table-body">${rows.body}</tbody></table></div><div class="requirement-pager" id="requirement-pager">${rows.pager}</div></section><p class="notice">只展示本机已登记需求。完整输出按原片×语种计数；质量记录、平台核验与结案分别展示。平台栏来自绑定当前需求版本的已保存回执，核验时间不等于实时状态，也不代表 YouTube 上传完成。页面变化由本机事件更新，不触发平台轮询或制作。</p>`;
+  const rows=requirementRows();
+  if(updateOnly&&$('#requirement-table-body')){
+    $('#requirement-table-body').innerHTML=rows.body;
+    $('#requirement-pager').innerHTML=rows.pager;
+    return;
+  }
+  const ledgerLink=window.ConsoleHost?'':'<a class="btn" href="/#ledger">详细台账 ↗</a>';
+  $('#main').innerHTML=head('需求进度','制作与审核上传按原片 × 语种计数。平台状态来自已保存的巡检或需求快照。',`${ledgerLink}<button class="btn" data-action="refresh">刷新记录</button><button class="btn primary" data-action="intake">＋ 按编号接单</button>`)+
+    `<section class="panel requirement-panel">
+      <div class="requirement-tools">
+        <input id="requirement-search" class="search" aria-label="搜索全部已登记需求" placeholder="搜索编号、标题、语种或会话" value="${esc(requirementQuery)}">
+        <select id="requirement-state" aria-label="筛选需求进度"><option value="all">全部状态</option>${Object.entries(requirementStates).map(([key,label])=>`<option value="${key}" ${requirementFilter===key?'selected':''}>${label}</option>`).join('')}</select>
+      </div>
+      <div class="requirement-table-scroll" role="region" aria-label="需求进度表" tabindex="0"><table class="requirement-table"><thead><tr><th>需求</th><th>状态</th><th>进度</th><th>负责会话</th></tr></thead>
+        <tbody id="requirement-table-body">${rows.body}</tbody></table></div>
+      <div class="requirement-pager" id="requirement-pager">${rows.pager}</div>
+    </section>`;
 }
 function openRequirement(id){
   const r=requirementData?.requirements.find(r=>r.id===id);if(!r)return;
-  const platformStates={not_started:'未开始',in_progress:'进行中',completed:'已完成',done:'已完成',cancelled:'已取消'};
   $('#artifact-title').textContent=r.code+' · 需求详情';selectedArtifact=null;
-  $('#artifact-body').innerHTML=`<p class="tiny-hash">需求ID ${esc(r.requirement_id||r.id)}</p><p>${badge(requirementStates[r.state]||r.state)} · ${esc(r.title)}</p><h3>需求面板原文快照</h3><pre class="document-text">${esc(r.description||'当前没有可读的需求正文。')}</pre><p class="muted small">平台原状态：${esc(platformStates[r.platform_status]||r.platform_status||'未记录')} · 快照 ${when(r.platform_snapshot_at)}。本地进度独立记录，未修改平台状态。</p><h3>原片与目标语种</h3>${r.sources.map(v=>`<p>${esc(v.title||v.index||'原片')} · ${esc(v.targets.join(' / ')||'待登记')}</p>`).join('')||'<p>原片范围尚未登记。</p>'}<h3>依据与负责会话</h3><p>本地最近活动 ${when(r.last_activity_at)}<br>平台核验 ${when(r.platform.checked_at)}<br>结案回执 ${when(r.platform.closed_at)}</p><div class="actions">${r.request_path?`<button class="btn" data-document="${esc(r.request_path)}">查看需求源记录</button>`:''}${r.platform.check_path?`<button class="btn" data-document="${esc(r.platform.check_path)}">查看平台核验依据</button>`:''}${r.threads.map(t=>`<button class="btn primary" data-requirement-thread="${esc(t.id)}">进入 ${esc(t.title)} →</button>`).join('')}</div>`;
+  const exceptions=[
+    r.time_exclusion?`<p>耗时已剔除效率统计。${esc(r.time_exclusion.reason)}</p>`:'',
+    r.progress_state==='blocked'&&r.publication_blocked_count?`<p>${r.publication_blocked_count} 个语言任务有严重问题，上传受阻。</p>`:'',
+    ...(r.progress_state==='blocked'?r.blockers.map(reason=>`<p>${esc(typeof reason==='string'?reason:JSON.stringify(reason))}</p>`):[]),
+  ].join('');
+  $('#artifact-body').innerHTML=`<p>${badge(requirementState(r))} · ${esc(r.title)}</p>
+    <p>制作起始 ${when(r.first_started_at)}<br>制作完成 ${when(r.complete_at)}</p>
+    <p>平台需求状态 ${esc(platformStates[r.platform_status]||r.platform_status||'未记录')} · 快照 ${when(r.platform_snapshot_at)}</p>
+    ${r.launch?`<p>${launchLabel(r.launch)}${r.launch.observed_at?` · 最早核对 ${when(r.launch.observed_at)}`:''}</p><p class="muted small">投放记录来自素材库，实际投放效果由广告报表统计。</p>`:''}
+    ${exceptions?`<details><summary>查看异常说明</summary>${exceptions}</details>`:''}
+    <details><summary>需求原文与目标语种</summary><pre class="document-text">${esc(r.description||'当前没有可读的需求正文。')}</pre>
+      ${r.sources.map(v=>`<p>${esc(v.title||v.index||'原片')} · ${esc(v.targets.join(' / ')||'待登记')}</p>`).join('')||'<p>原片范围尚未登记。</p>'}</details>
+    <details><summary>平台核验与记录</summary><p>平台核验 ${when(r.platform.checked_at)}<br>结案回执 ${when(r.platform.closed_at)}</p>
+      <div class="actions">${r.request_path?`<button class="btn" data-document="${esc(r.request_path)}">查看需求源记录</button>`:''}${r.platform.check_path?`<button class="btn" data-document="${esc(r.platform.check_path)}">查看平台核验依据</button>`:''}</div></details>
+    <div class="actions">${r.has_ledger&&!window.ConsoleHost?`<a class="btn" href="/#ledger/${encodeURIComponent(r.id)}">查看台账</a>`:''}
+      ${r.threads.map(t=>`<button class="btn" data-requirement-thread="${esc(t.id)}">${esc(t.title)}</button>`).join('')}</div>`;
   if(!$('#artifact-dialog').open)$('#artifact-dialog').showModal();
 }
-async function loadAutomations(){try{const d=await api('/api/console/automations');autos=d.automations;if(view==='automations')renderAutomations();}catch(e){toast(e.message);}}
+async function loadAutomations(){try{const d=await api('/api/console/automations');autos=d.automations;if(view==='automations')renderAutomations();}catch(error){if(mount)throw error;toast(error.message);}}
 function scheduleLabel(rule){const r=String(rule||'');const interval=r.match(/INTERVAL=(\d+)/);if(r.includes('FREQ=MINUTELY'))return '每 '+(interval?interval[1]:'1')+' 分钟';if(r.includes('FREQ=DAILY')){const h=r.match(/BYHOUR=(\d+)/),m=r.match(/BYMINUTE=(\d+)/);return '每天 '+(h?h[1].padStart(2,'0'):'--')+':'+(m?m[1].padStart(2,'0'):'00')+(r.includes('Asia/Shanghai')?' · 上海时区':' · 按原计划时区');}return '沿用宿主已有计划';}
 function renderAutomations(){$('#main').innerHTML=head('例行任务，沿用真实计划。','查看已有调度；操作经过宿主工具，读回实际状态后才更新。')+`<div class="card-grid">${autos.map(a=>`<article class="panel auto-card"><h3>${esc(a.name)}</h3>${badge(a.status==='ACTIVE'?'计划开启':'计划暂停',a.status==='ACTIVE'?'green':'')}<dl class="auto-details"><dt>调度规则</dt><dd class="schedule-text">${esc(scheduleLabel(a.rrule))}</dd><dt>负责会话</dt><dd>${esc(a.target_title||a.target_thread_id)}</dd><dt>下次触发</dt><dd>${when(a.next_run_at)}</dd></dl><div class="actions"><button class="btn" data-auto="${a.id}" data-operation="run">执行一轮</button><button class="btn" data-auto="${a.id}" data-operation="${a.status==='ACTIVE'?'pause':'resume'}">${a.status==='ACTIVE'?'暂停计划':'恢复计划'}</button></div></article>`).join('')||'<div class="empty">正在读取本机自动任务…</div>'}</div><p class="notice">下次时间未保存在可读记录时显示未记录。暂停计划不会停止当前正在制作的任务，也不会删除任何历史。</p>`;}
-async function loadKnowledge(){try{const d=await api('/api/knowledge');knowledge=d.entries.sort((a,b)=>((a.status==='active'?0:a.kind==='candidate'&&a.queue_state!=='archived'?1:2)-(b.status==='active'?0:b.kind==='candidate'&&b.queue_state!=='archived'?1:2)));if(view==='knowledge')renderKnowledge();}catch(e){toast(e.message);}}
-function renderKnowledge(){const rows=knowledge.filter(k=>`${k.id} ${k.title} ${k.path} ${k.status}`.toLowerCase().includes(knowledgeFilter.toLowerCase())),pages=Math.max(1,Math.ceil(rows.length/8));knowledgePage=Math.min(knowledgePage,pages);$('#main').innerHTML=head('让经验有来源、有边界。','查看真实知识索引与候选，发起总结后仍由原知识会话审查。',`<button class="btn primary" data-action="summarize">总结新增经验</button>`)+`<input class="search" id="knowledge-search" placeholder="搜索知识、候选或路径…" value="${esc(knowledgeFilter)}"><div class="panel wide-panel">${rows.slice((knowledgePage-1)*8,knowledgePage*8).map(k=>`<article class="knowledge-item">${badge(({method:'方法',reference:'同源参考',candidate:'经验候选'})[k.kind]||k.kind)} ${badge(k.queue_state==='archived'?'历史归档':({active:'现行',superseded:'已被替代',candidate:'候选待审'})[k.status]||k.status||'未记录')}<h3>${esc(k.title||k.id)}</h3><p>${esc(k.path||'未记录路径')}</p>${k.path?`<button class="text-btn" data-document="${esc(k.storage_path||k.path)}">查看正文 →</button>`:''}</article>`).join('')||'<div class="empty">没有匹配知识。</div>'}</div><div class="knowledge-pager actions"><button class="btn" data-kpage="${knowledgePage-1}" ${knowledgePage<=1?'disabled':''}>上一页</button><span>${knowledgePage}/${pages} · ${rows.length}条</span><button class="btn" data-kpage="${knowledgePage+1}" ${knowledgePage>=pages?'disabled':''}>下一页</button></div>`;}
-function renderSystem(){$('#main').innerHTML=head('运行与接入','查看连接、同步边界与真实指令回执。')+`<section class="panel"><div class="plan-content"><h3>当前连接</h3><p>本地真实数据：会话元数据、需求、台账、制作现场、交付包与知识索引。</p><p>宿主桥接：${handoffLabel()} · 上次 ${when(config.bridge?.observed_at)}</p><p>本地产物、台账和知识变化由本机事件监听更新页面。页面隐藏时断开监听；没有定时 Agent 唤醒。桌面状态只在用户点击同步时查询一次，并保留真实观察时间。</p><p>所有输入先写入持久指令队列。原会话收信、调度修改与接单通过宿主工具执行，保留审批和原任务上下文。</p><h3>能力边界</h3><p>已受理表示宿主接受了指令，不能代表翻译完成、质量通过或全量入库。未知结果不自动重发；平台回执仍需原制作会话核验。</p><a href="/" target="_blank" rel="noopener">打开原工作台及详细效率统计 ↗</a></div></section><section class="panel wide-panel"><div class="panel-head"><h3>最近指令回执</h3></div>${commands.map(c=>`<article class="knowledge-item">${badge(commandStates[c.status]||c.status,c.status==='unknown'?'amber':'')} <strong>${esc(c.action)}</strong><p>${esc(c.id)} · ${esc(c.thread_id||'派发时绑定原负责会话')}</p><p>${when(c.updated_at)}</p>${c.receipt?`<pre class="receipt-text">${esc(JSON.stringify(c.receipt,null,2))}</pre>`:''}</article>`).join('')||'<div class="empty">尚无从真实控制台提交的指令。</div>'}</section>`;}
-document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||b.disabled)return;try{
+async function checkKnowledgeOwner(){
+  const result=await api('/api/console/automations');
+  knowledgeOwner=Boolean(result.knowledge_owner_id);
+  return knowledgeOwner;
+}
+async function summarizeKnowledge(){
+  try{
+    if(!await checkKnowledgeOwner()){toast('经验总结缺少负责会话，可在项目中运行 hooks prepare 检查待处理经验。');return;}
+    await submitCommand({action:'summarize'});
+  }catch(error){toast(error.message);}
+}
+async function loadKnowledge(){
+  try{
+    knowledge=await api('/api/knowledge');
+    await checkKnowledgeOwner().catch(()=>{knowledgeOwner=false;});
+    if(view==='knowledge')renderKnowledge();
+  }catch(error){toast(error.message);}
+}
+function renderKnowledge(){
+  if(!knowledge){$('#main').innerHTML='<div class="empty">正在读取知识索引…</div>';return;}
+  const views={method:'现行方法与政策',reference:'现行同源案例',candidate:'待审经验',history:'历史与已审结'};
+  const states={needs_review:'待审查',needs_lesson:'待提炼',needs_evidence:'待补证',closed:'已审结',archived:'已归档',unverified:'状态待核验'};
+  const filters={actionable:'待审查或补证',all:'全部待审',needs_review:'待审查',needs_lesson:'待提炼',needs_evidence:'待补证',feedback:'修复与使用反馈'};
+  const candidateView=knowledgeView==='candidate';
+  const rows=knowledge.entries.filter(entry=>entry.view===knowledgeView
+    && (!candidateView || knowledgeReview==='all' || (knowledgeReview==='actionable' && entry.review_state!=='needs_lesson')
+      || [entry.review_state,entry.source_type].includes(knowledgeReview))
+    && JSON.stringify(entry).toLowerCase().includes(knowledgeFilter.toLowerCase()));
+  const pages=Math.max(1,Math.ceil(rows.length/8));
+  knowledgePage=Math.min(knowledgePage,pages);
+  const options=(labels,selected,count)=>Object.entries(labels).map(([value,label])=>
+    `<option value="${value}" ${value===selected?'selected':''}>${label}${count?` · ${count[value]||0}`:''}</option>`).join('');
+  const items=rows.slice((knowledgePage-1)*8,knowledgePage*8).map(entry=>`<article class="knowledge-item">
+    ${badge(states[entry.review_state]||(entry.superseded_by?'已被替代':views[entry.view]))}
+    <h3>${esc(entry.title||(entry.visibility==='local'?'本地候选':'')||entry.id)}</h3>
+    ${entry.next_action?`<p>${esc(entry.next_action)}</p>`:''}
+    <p>${esc(entry.path||entry.id)}</p>
+    ${entry.path?`<button class="text-btn" data-document="${esc(entry.storage_path||entry.path)}">查看正文 →</button>`:''}</article>`);
+  $('#main').innerHTML=`<div class="actions">
+    <select id="catalog-view" aria-label="知识类别">${options(views,knowledgeView,knowledge.view_counts)}</select>
+    <input class="search" id="knowledge-search" aria-label="搜索知识" placeholder="搜索知识、候选或路径…" value="${esc(knowledgeFilter)}">
+    ${candidateView?`<select id="catalog-review" aria-label="审查状态">${options(filters,knowledgeReview)}</select>`:''}
+    <button class="btn" data-action="summarize" ${knowledgeOwner?'':'disabled'}>总结新增经验</button></div>
+    ${knowledgeOwner?'':'<p class="notice">经验总结缺少负责会话。可在项目中运行 hooks prepare 检查待处理经验。</p>'}
+    ${candidateView&&knowledge.review_queue_state==='unavailable'?'<p class="notice">审查队列读取失败，候选状态待核验。</p>':''}
+    <div class="panel wide-panel">${items.join('')||'<div class="empty">没有匹配知识。</div>'}</div>
+    <div class="knowledge-pager actions"><button class="btn" data-kpage="${knowledgePage-1}" ${knowledgePage<=1?'disabled':''}>上一页</button><span>${knowledgePage}/${pages} · ${rows.length} 项</span><button class="btn" data-kpage="${knowledgePage+1}" ${knowledgePage>=pages?'disabled':''}>下一页</button></div>`;
+  $('#catalog-view').onchange=event=>{knowledgeView=event.target.value;knowledgePage=1;renderKnowledge();};
+  if(candidateView)$('#catalog-review').onchange=event=>{knowledgeReview=event.target.value;knowledgePage=1;renderKnowledge();};
+}
+function renderSystem() {
+  $('#main').innerHTML=head('运行概况','查看 Codex 交办记录。')+`
+    <section class="handoff-records">
+      <p class="muted">这里记录接单、发送会话消息等工作台指令的受理情况。视频上传结果可在需求台账查看。</p>
+      <div class="receipt-list">${commands.map(command=>`<article class="knowledge-item">
+        ${badge(commandStates[command.status]||command.status,command.status==='unknown'?'amber':'')} <strong>${esc(command.action)}</strong>
+        <p>${esc(command.id)} · ${when(command.updated_at)}</p>
+        ${command.receipt?`<details><summary>查看回执</summary><pre class="receipt-text">${esc(JSON.stringify(command.receipt,null,2))}</pre></details>`:''}
+      </article>`).join('')||'<div class="empty">暂无交办指令。</div>'}</div>
+    </section>`;
+}
+surface.addEventListener('click',event=>{
+  const dialog=event.target;
+  if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return;
+  const bounds=dialog.getBoundingClientRect();
+  if (event.clientX<bounds.left || event.clientX>bounds.right || event.clientY<bounds.top || event.clientY>bounds.bottom) dialog.close();
+});
+surface.addEventListener('close',event=>{
+  if (event.target.id==='artifact-dialog') $('#artifact-body').scrollTop=0;
+},true);
+surface.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||b.disabled)return;try{
   if(b.dataset.requirementThread){$('#artifact-dialog').close();select(b.dataset.requirementThread);switchView('sessions');return;}
   if(b.dataset.requirement){openRequirement(b.dataset.requirement);return;}
   if(b.dataset.rpage){requirementPage=Number(b.dataset.rpage);renderRequirements(true);return;}
-  if(b.dataset.rfilter){requirementFilter=b.dataset.rfilter;requirementPage=1;renderRequirements();return;}
   if(b.dataset.handoff){await handoffCommand(b.dataset.handoff);return;}
   if(b.dataset.action==='copy-handoff'){try{await navigator.clipboard.writeText($('#handoff-prompt').value);toast('已复制，请粘贴到当前项目的宿主聊天执行一次。');}catch{$('#handoff-prompt').select();toast('请复制选中的交办文字，粘贴到宿主聊天。');}return;}
   if(b.dataset.action==='sync-status'){if(selected)await submitCommand({action:'sync',thread_id:selected});return;}
@@ -153,25 +335,57 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
   if(b.dataset.kpage){knowledgePage=Number(b.dataset.kpage);renderKnowledge();return;}
   if(b.dataset.document){const d=await api('/api/document?'+new URLSearchParams({path:b.dataset.document}));$('#artifact-title').textContent=d.path;$('#artifact-body').innerHTML=`<pre class="document-text">${esc(d.text)}</pre><p class="tiny-hash">${d.sha256}</p>`;selectedArtifact=null;if(!$('#artifact-dialog').open)$('#artifact-dialog').showModal();return;}
   if(b.dataset.action==='intake'){$('#intake-dialog').showModal();return;}
-  if(b.dataset.action==='summarize'){await submitCommand({action:'summarize'});return;}
+  if(b.dataset.action==='summarize'){await summarizeKnowledge();return;}
   if(b.dataset.action==='refresh'){startEvents();await Promise.all([loadConfig(),loadList()]);if(view==='requirements')await loadRequirements();else if(view==='sessions')await loadDetail(true);else if(view==='automations')await loadAutomations();else if(view==='knowledge')await loadKnowledge();}
 }catch(err){toast(err.message);}});
-document.addEventListener('input',e=>{if(e.target.id==='requirement-search'){requirementQuery=e.target.value;requirementPage=1;renderRequirements(true);}if(e.target.id==='chat-input')drafts.set(selected,e.target.value);if(e.target.id==='session-search'){query=e.target.value;page=1;clearTimeout(searchTimer);searchTimer=setTimeout(loadList,250);}if(e.target.id==='knowledge-search'){knowledgeFilter=e.target.value;knowledgePage=1;clearTimeout(searchTimer);searchTimer=setTimeout(()=>{renderKnowledge();const input=$('#knowledge-search');input.focus();input.setSelectionRange(input.value.length,input.value.length);},250);}});
-document.addEventListener('change',e=>{if(e.target.id==='requirement-state'){requirementFilter=e.target.value;requirementPage=1;renderRequirements();}if(e.target.id==='archived'){archived=e.target.checked;page=1;loadList();}if(e.target.id==='run-select'){run=e.target.value;selectedArtifact=null;loadDetail(true);}});
-document.addEventListener('submit',async e=>{if(!['chat-form','intake-form'].includes(e.target.id))return;e.preventDefault();const button=e.target.querySelector('button[type="submit"]');button.disabled=true;try{if(e.target.id==='chat-form'){const text=$('#chat-input').value.trim(),target=e.target.dataset.target;if(!text)return;const payload={action:'message',thread_id:target,text};if(selectedArtifact)payload.artifact={id:selectedArtifact.id,run_id:selectedArtifact.run_id,sha256:selectedArtifact.sha256};await submitCommand(payload);drafts.delete(target);selectedArtifact=null;$('#chat-input').value='';loadDetail();}else{await submitCommand({action:'intake',code:$('#code').value.trim().toUpperCase(),note:$('#note').value.trim()});$('#intake-dialog').close();$('#intake-form').reset();}}catch{}finally{button.disabled=false;}});
-window.addEventListener('hashchange',()=>{const next=location.hash.slice(1);if(names[next]&&next!==view)switchView(next);});
+surface.addEventListener('input',e=>{if(e.target.id==='requirement-search'){requirementQuery=e.target.value;requirementPage=1;renderRequirements(true);}if(e.target.id==='chat-input')drafts.set(selected,e.target.value);if(e.target.id==='session-search'){query=e.target.value;page=1;clearTimeout(searchTimer);searchTimer=setTimeout(()=>loadList().catch(error=>toast(error.message)),250);}if(e.target.id==='knowledge-search'){knowledgeFilter=e.target.value;knowledgePage=1;clearTimeout(searchTimer);searchTimer=setTimeout(()=>{if(view!=='knowledge')return;renderKnowledge();const input=$('#knowledge-search');input.focus();input.setSelectionRange(input.value.length,input.value.length);},250);}});
+surface.addEventListener('change',e=>{if(e.target.id==='requirement-state'){requirementFilter=e.target.value;requirementPage=1;renderRequirements(true);}if(e.target.id==='archived'){archived=e.target.checked;loadList().catch(error=>toast(error.message));}if(e.target.id==='run-select'){run=e.target.value;selectedArtifact=null;loadDetail(true);}});
+surface.addEventListener('submit',async e=>{if(!['chat-form','intake-form'].includes(e.target.id))return;e.preventDefault();const button=e.target.querySelector('button[type="submit"]');button.disabled=true;try{if(e.target.id==='chat-form'){const text=$('#chat-input').value.trim(),target=e.target.dataset.target;if(!text)return;const payload={action:'message',thread_id:target,text};if(selectedArtifact)payload.artifact={id:selectedArtifact.id,run_id:selectedArtifact.run_id,sha256:selectedArtifact.sha256};await submitCommand(payload);drafts.delete(target);selectedArtifact=null;const input=$('#chat-input');if(input&&input.closest('form').dataset.target===target)input.value='';loadDetail();}else{await submitCommand({action:'intake',code:$('#code').value.trim().toUpperCase(),note:$('#note').value.trim()});$('#intake-dialog').close();$('#intake-form').reset();}}catch{}finally{button.disabled=false;}});
 let eventSource=null,eventTimer=null,eventGeneration=0;
-async function refreshFromEvent(){if(document.hidden)return;await loadConfig();if(view==='sessions')await loadList();if(view==='requirements')await loadRequirements();else if(view==='sessions')await loadDetail();else if(view==='automations')await loadAutomations();else if(view==='knowledge')await loadKnowledge();}
-function changed(){if(document.hidden||eventTimer)return;eventTimer=setTimeout(()=>{eventTimer=null;refreshFromEvent();},2500);}
+async function refreshView(force=false){
+  await loadConfig();
+  if(view==='requirements')await loadRequirements();
+  if(view==='sessions'){await loadList();await loadDetail(force);}
+  if(view==='automations')await loadAutomations();
+  if(view==='knowledge')await loadKnowledge();
+}
+function changed(){if(document.hidden||eventTimer)return;eventTimer=setTimeout(()=>{eventTimer=null;refreshView().catch(error=>toast(error.message));},2500);}
 function stopEvents(){eventGeneration++;eventSource?.close();eventSource=null;clearTimeout(eventTimer);eventTimer=null;}
 async function startEvents(){stopEvents();if(document.hidden)return;const generation=eventGeneration;
   if(window.ConsoleHost){let revision=-1;try{while(generation===eventGeneration&&!document.hidden){const result=await window.ConsoleHost.call('session_console_wait',{revision});if(generation!==eventGeneration)return;if(result.revision!==revision){revision=result.revision;changed();}$('#connection').textContent='本机事件监听 · 已连接';}}catch{$('#connection').textContent='监听不可用 · 请手动刷新';}return;}
   eventSource=new EventSource('/api/console/events');
-  eventSource.addEventListener('ready',()=>{$('#connection').textContent='本机事件监听 · 已连接';});
+  eventSource.addEventListener('ready',()=>setText('#connection','本机事件监听 · 已连接'));
   eventSource.addEventListener('change',changed);
-  eventSource.onerror=()=>{eventSource?.close();eventSource=null;$('#connection').textContent='监听断开 · 刷新可重连';};
+  eventSource.onerror=()=>{eventSource?.close();eventSource=null;setText('#connection','监听断开 · 刷新可重连');};
 }
-document.addEventListener('visibilitychange',()=>{if(document.hidden)stopEvents();else{refreshFromEvent();startEvents();}});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)stopEvents();
+  else if(view){changed();startEvents();}
+});
 window.addEventListener('pagehide',stopEvents);
 async function start(){if(window.ConsoleHost)await window.ConsoleHost.ready;await loadConfig();switchView(names[location.hash.slice(1)]?location.hash.slice(1):'sessions');startEvents();}
-start();
+if(mount){
+  view='';
+  window.ConsoleUI={
+    show(next,id){
+      if(next!==view){
+        surface.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
+        view=next;
+        if(view)render();
+      }
+      $('#main').hidden=!view;
+      if(view==='sessions'&&id&&selected!==id)select(id);
+      if(!view){if(eventSource||eventTimer)stopEvents();}
+      else if(!eventSource&&!document.hidden)startEvents();
+    },
+    refresh:refreshView,
+    async action(action){
+      if(action==='intake'){await loadConfig();$('#intake-dialog').showModal();return;}
+      if(action==='summarize'){await loadConfig();await summarizeKnowledge();}
+    },
+  };
+}else{
+  window.addEventListener('hashchange',()=>{const next=location.hash.slice(1);if(names[next]&&next!==view)switchView(next);});
+  start();
+}
+})();

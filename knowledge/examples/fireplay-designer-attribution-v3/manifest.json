@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "fireplay-designer-attribution-v3",
+  "created_at": "2026-11-24T10:57:58+00:00",
+  "files": [
+    {
+      "path": "evidence/fireplay-designer-attribution-v2.md",
+      "sha256": "86355626281d0db2add7c56c5fbbf0b01d667186ca29e144bc7db7fc4f7b7dd5",
+      "bytes": 2067
+    },
+    {
+      "path": "evidence/fireplay-intake.md",
+      "sha256": "5ded1aeba40bb8cc5bbab894c8fab8f1d3ecebc5ee287f5cedf1a65fe084c5fa",
+      "bytes": 24615
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 核对设计师和二创归属\n\n刷新当前需求执行人，排除罗晨钧、邹彬。其余执行人全部作为设计师，实际创作类型为二创。视频的新名称字段与英文 `derivative` 标签由[上传命名与标签](../../agent/workflows/fireplay-intake.md#上传命名与标签)指定。\n\n使用当前 Fireplay 工具合同按真实成员 ID 查成员目录，展开成员和分页，与执行人列表逐项核对。保存来源，采用已核验的实际用户 ID 或 DID 映射。无可核验 DID 时按现行命名规则省略 DID 字段，归属仍按已核验身份提交。无其他执行人时可留空。回传规格绑定 `designer_receipt`。\n\n入库后沿原 `material_id` 核验 `designerIds` 和 `creationType`。预览和权限状态真实记录，成功以平台写入及读回为准。已绑定或结果未知的素材沿原 ID 与操作恢复。选择和执行依据为 `config/fireplay-intake.json.designer_selection` 和当前上传规则。\n\n修订依据为 evidence:previous、evidence:upload_policy。来源仅支持相应身份和操作规则。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "previous": "evidence/fireplay-designer-attribution-v2.md",
+      "upload_policy": "evidence/fireplay-intake.md"
+    }
+  }
+}

@@ -5,7 +5,7 @@ from .common import read_json
 FOCUS = {
     'source': ('source-led-visual-localization-v1', '记录每处原字的完整效果、位置、运动及前后景，区分需翻译与获准保留的内容。'),
     'translation': ('content-led-localization-v1', '逐实例对齐定稿；有人声时按角色和实际混音核对每句起止。'),
-    'neutral': ('content-aware-text-restoration-v5', '扩语种前并排看全幅原片、底片和试译。沿原字框外检查描边、阴影及显隐边界，记录实际残影和背景变化。'),
+    'neutral': ('content-aware-text-restoration-v6', '扩语种前并排看全幅原片、底片和试译。沿原字框外检查描边、阴影及显隐边界，记录实际残影和背景变化。'),
     'render': ('source-led-visual-localization-v1', '先看代表语种与原片的字面、层级、位置和运动；复核共用底片再扩语种。'),
     'review': ('native-render-evidence-guards-v1', '正常播放并对照原片；检查字框外、切镜、主体及必需人声，区分共用缺陷与单语瑕疵。'),
     'delivery': ('fireplay-complete-delivery-v3', '核对所有原片×目标语种的正式版本与提交回执，记录有界返工后的遗留问题。'),

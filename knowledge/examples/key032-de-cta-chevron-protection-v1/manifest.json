@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "key032-de-cta-chevron-protection-v1",
+  "created_at": "2026-11-25T04:17:11+00:00",
+  "files": [
+    {
+      "path": "evidence/key032-de-reviewed-observation.json",
+      "sha256": "1f0a9c2fcd55e3bdd7372e08af42cc07ed2ea693eeb0cfe1982117cd426796b9",
+      "bytes": 731
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "target_language": "de",
+      "source_sha256": "2bfc22451f88348cf008fcf0fb08c6be0c77d091e88676792cd304984dd7249e"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# KEY032 德语片尾文字与箭头保护\n\n此案例适用于同一原片的德语版本。原评审在片尾记录了 CTA 下缘描边残留。修订后按实际描边范围调整去字区域，并在遮罩内保护青色图形。修订后的抽样画面显示被检查的原字残留消失、三枚青色箭头仍可见。依据为 evidence:review。\n\n复做时先分别标注原字边缘和箭头，检查两个区域相邻时的完整退场序列。原评审仍记录了约 7.4 至 9.4 秒的衣料与饰品纹理差异，以及正常速度声画审查待补。\n",
+    "source_sha256": "2bfc22451f88348cf008fcf0fb08c6be0c77d091e88676792cd304984dd7249e",
+    "video_sha256": "d24da44517beff6871f7c3a377df85305ae64c6b244f319f95a7c9923dc67c92",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "review": "evidence/key032-de-reviewed-observation.json"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "source": {
+    "path": "knowledge/candidates/APC-20261111-004-de-bounded-b8bf61648c.json",
+    "sha256": "3315db1a541b184586c89042911631e463bbea742f5a6c5b25b22dd4e722dbb7"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project knowledge review",
+  "origin": "用户委托整理待审知识及其原始证据。",
+  "resolution": "adopted",
+  "reason": "核对原评审、抽样截图及其成片哈希。",
+  "targets": [
+    {
+      "id": "apc004-de-placeholder-restoration-v1",
+      "path": "knowledge/cases/apc004-de-placeholder-restoration-v1.md",
+      "sha256": "c4506e2e0cde09fb61a1539e3d653fecd32d2de5b971c412e92b0505e59b0c9d",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+        "target_language": "de",
+        "language_match": "exact"
+      },
+      "snapshot": "# APC004 德语：输入框占位文字漏译\n\n只用于该原片的德语版本。同一画面有两个姓名输入框，须分别登记底色、占位文字、出现区间和退场区间。\n\n历史评审记录显示，v4 漏译了粉色的第二个姓名占位文字。v6 的编码画面在第 140 帧观察到已替换的文字。原片、无字底片和译片的退场抽样覆盖第 337 至 346 帧。现场还记录了占位框内的淡白纹理、入退场拖影和片头供体偏软。依据：evidence:review、evidence:overview。\n\n复做时逐个核对两处占位文字，并检查完整的入退场区间。上述证据来自同一制作方的画面抽样，正常速度独立审查仍待补充。\n"
+    }
+  ],
+  "adopted_parts": [
+    "单独检查粉色姓名占位文字及完整退场区间。"
+  ],
+  "retained_parts": [
+    "供体偏软、局部纹理、抽样限制与其余语音和画面质量观察留存原证据包。"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-25T04:02:00+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

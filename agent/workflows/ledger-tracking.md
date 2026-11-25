@@ -24,7 +24,7 @@
 - 阶段变化用 `stage`；实际长时间工作时用 `heartbeat`，不以后台扫描或无实质事件定时续命。执行器单独每60秒报告实际阶段存活；两类状态分开展示。
 - 等待时用 `block`，kind 为 user/model/resource/platform/unknown；reason 写当前缺口和下一步。恢复用 `resume`。仅因页面无新记录不判为失败。
 - 信息确实齐备用 `ready`，保留首次齐备时间。
-- `eta` 保存带时区的 lower_at/upper_at、reason、basis 和 assumptions。首次和调整均追加；新增范围有独立预测。规则估算是未校准的剩余工作估计，不是承诺。人工/Agent预测不会被自动规则覆盖；事后补录的预测不纳入准时率。
+- 台账只统计实际耗时，日常制作无需登记预计完成时间。旧 `eta` 记录仍可按历史事件追溯。
 - 停止负责时用 `release`，保留本轮所有事件。释放不代表完成或质量通过。
 
 `ledger register` 供非 Fireplay 的明确用户请求登记，data 包含 code、title、reason、received_at，以及 videos 列表（每项 source_sha256、targets、可选 title）。targets 使用项目规范化语言；登记不自动建制作run、开预算或调用模型。已有范围变化保留原记录并审查修订。

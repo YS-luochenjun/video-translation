@@ -19,8 +19,9 @@ from store import clean
 
 
 def owner(data, kind):
-    options = data.automations()['automations']
-    selected = next((a for a in options if a['id'] == ('fireplay' if kind == 'intake' else 'automation')), None)
+    schedule = data.automations()
+    identifier = 'fireplay' if kind == 'intake' else schedule['knowledge_owner_id']
+    selected = next((row for row in schedule['automations'] if row['id'] == identifier), None)
     if not selected or not selected.get('target_thread_id'):
         raise ValueError('找不到原负责会话，保留待核验，不猜测新建')
     data.thread(selected['target_thread_id'])
@@ -55,7 +56,7 @@ def tool_spec(data, row, payload):
     if action == 'summarize':
         tid = owner(data, 'knowledge')
         return {'tool': 'send_message_to_thread', 'args': {'hostId': 'local', 'threadId': tid,
-            'prompt': tag+'\n用户在项目译制台点击“总结经验”。请按既有knowledge-sweep与knowledge-curation技能，总结当前项目新增观察、反馈和反例，保留来源、scope、待补证与未采纳理由。沿用原检查点和本轮限额，不调用付费媒体模型、不清理媒体、不自动commit/push。'}, 'target': tid}
+            'prompt': tag+'\n用户在项目译制台点击“总结新增经验”。请按knowledge-sweep与knowledge-curation技能手动处理一轮。先按问题归组，核对现行方法和重复来源，优先处理反例和已验证修正。共用问题审一次，各语种结论保留各自证据和scope。执行hooks run时使用手动模式。报告建议更新的现行方法、限定案例与具体证据缺口，保留原检查点和本轮限额。禁止付费媒体模型、媒体清理与自动提交。'}, 'target': tid}
     if action == 'automation':
         a = next(a for a in data.automations()['automations'] if a['id'] == payload['automation_id'])
         if payload['operation'] == 'run':

@@ -67,7 +67,18 @@ def upload_metadata(record, spec, defaults, publication, attribution, source_nam
     require(all(_english_tag(tag) for tag in tags), 'All video upload tags must be English')
     fields = {'language': locale, 'category': category.strip(), 'pid': pid,
               'did': dids, 'requirement_code': source_name}
-    return {'display_name': policy['separator'].join(fields[field] for field in policy['name_fields'] if fields[field]),
+    name_parts = [fields[field] for field in policy['name_fields'] if fields[field]]
+    if 'title_marker' in metadata:
+        marker = metadata['title_marker']
+        quote = marker.get('source_quote') if isinstance(marker, dict) else None
+        description = record.get('snapshot', {}).get('brief', {}).get('description') or ''
+        require(isinstance(quote, str) and quote in description
+                and re.fullmatch(r'在视频标题上标注文字\s*[“”「"]私[“”」"]', quote)
+                and marker.get('content_version') == record.get('content_version')
+                and bool(record.get('content_version')),
+                'Title marker needs the explicit requirement quote and its current content version')
+        name_parts.append('私')
+    return {'display_name': policy['separator'].join(name_parts),
             'tags': list(dict.fromkeys(tags)), 'metadata_policy_version': policy['version'],
             **({'metadata_evidence_ref': metadata['evidence_ref']}
                if isinstance(metadata.get('evidence_ref'), str) and metadata['evidence_ref'].strip()
@@ -157,9 +168,16 @@ def publication(record, spec, defaults, sharing):
                  (1 <= len(product.strip().split()) <= 2 and
                   len(product.strip()) <= 80 and not re.search(r'https?://|[\n\r]', product))),
                 'Product tag must be one- or two-word English tag when available')
+    library_only_note = next(
+        (line.strip() for line in (record['snapshot']['brief'].get('description') or '').splitlines()
+         if re.fullmatch(r'无需\s*传\s*(?:yt|youtube)[。.!！]?', line.strip(), re.IGNORECASE)),
+        None,
+    )
     return {'policy': policy, 'shared_dept_id': candidates[0]['deptId'], 'dept_name': candidates[0]['deptName'],
             'product_tag': product.strip(), 'sharing_receipt_sha256': object_hash(sharing),
-            'youtube_status': 'requested_not_verified', 'instruction': defaults.get('submission_instruction', '')}
+            'youtube_status': 'not_requested' if library_only_note else 'requested_not_verified',
+            **({'library_only_note': library_only_note} if library_only_note else {}),
+            'instruction': defaults.get('submission_instruction', '')}
 
 
 def attribution(record, spec, defaults):

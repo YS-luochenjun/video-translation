@@ -5,14 +5,15 @@ window.LedgerUI = (() => {
   const h = v => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const dt = v => v ? new Date(v).toLocaleString('zh-CN',{timeZone:'America/Los_Angeles',hour12:false}) : '未记录';
   const duration = n => n == null ? '未记录' : Math.abs(n)<3600 ? `${(n/60).toFixed(0)} 分钟` : `${(n/3600).toFixed(1)} 小时`;
-  const labels = {discovered:'已发现',queued:'待处理',needs_info:'待补信息',executing:'有制作记录',partial:'部分输出',complete:'完整输出',blocked:'受阻',expired:'本地成片已到期'};
+  const progressLabels = {done:'已完成',active:'进行中',blocked:'阻塞',waiting:'待开始'};
+  const queueLabels = {ready:'可派发',waiting:'等名额',preparing:'待准备或核对'};
+  const platformLabels = {not_started:'未开始',in_progress:'进行中',pending_upload:'待上传',completed:'已完成',done:'已完成',cancelled:'已取消'};
   const healthLabels = {recent:'最近有上报',delayed:'心跳延迟',unconfirmed:'状态待确认',unrecorded:'无 Agent 心跳记录'};
   const stages = {created:'已建任务',awaiting_agent_inventory:'解析与清单',needs_planning:'待计划',planned:'按计划制作',awaiting_model:'等待模型',needs_reconciliation:'回执待核对',needs_review:'候选待审',needs_revision:'待修正',ready_to_deliver:'待交付',delivered:'已交付',delivered_with_issues:'带瑕疵输出',expired:'本地成片已到期',not_started:'待开始'};
-  const quality = {pass:'质量记录通过',issues:'有瑕疵',hold:'质量异议',not_reviewed:'待审／未记录'};
-  const eventLabels = {reconciled:'证据同步',stage_recorded:'脚本阶段',claim:'认领',heartbeat:'Agent 心跳',release:'释放认领',stage:'阶段更新',ready:'信息齐备',block:'登记阻塞',resume:'解除阻塞',eta:'预计调整',link:'任务关联','executor.started':'执行器开始','executor.heartbeat':'执行器心跳','executor.finished':'执行器结束','executor.failed':'执行器失败'};
+  const eventLabels = {reconciled:'证据同步',stage_recorded:'脚本阶段',claim:'认领',heartbeat:'Agent 心跳',release:'释放认领',stage:'阶段更新',ready:'信息齐备',block:'登记阻塞',resume:'解除阻塞',link:'任务关联','executor.started':'执行器开始','executor.heartbeat':'执行器心跳','executor.finished':'执行器结束','executor.failed':'执行器失败'};
   const tag = (v,kind='') => `<span class="badge ${kind}">${h(v)}</span>`;
-  let currentPage = '', selected = '', data = null, detail = null, loading = false, sequence = 0, filterTimer;
-  let filters = {q:'',state:'all',locale:'',owner:'',days:'14'};
+  let currentPage = '', selected = '', data = null, detail = null, sequence = 0, listSequence = 0, filterTimer;
+  const filters = {q:'',state:'all',progress:'all',days:'14'};
   let session = sessionStorage.getItem('ledger-session');
   if (!session) {session=crypto.randomUUID();sessionStorage.setItem('ledger-session',session);}
   let owner = sessionStorage.getItem('ledger-owner') || '';
@@ -23,75 +24,235 @@ window.LedgerUI = (() => {
     return result;
   };
   const cards = values => `<div class="ledger-cards">${values.map(([title,value,note])=>`<div class="ledger-card"><span>${h(title)}</span><strong>${h(value)}</strong><small>${h(note)}</small></div>`).join('')}</div>`;
-  const eta = value => value ? `${dt(value.lower_at)}<br>至 ${dt(value.upper_at)}<span class="quiet">${value.data.basis==='rule_estimate'?'规则估算 · 未校准':'Agent / 人工评估'}</span>` : '未记录';
+  const uploadProgress = row => {
+    if (row.platform?.verified != null) return `${row.platform.verified}/${row.task_count}`;
+    return row.platform?.state === 'stale' || ['done','completed'].includes(row.platform_status) ? '待更新核验' : '—';
+  };
+  const detailState = row => JSON.stringify([row.revision, row.progress_state, row.platform_status,
+    row.platform_refreshed_at, row.platform, row.launch]);
+  const launchLabel = launch => launch.checked ? `有投放记录 ${launch.launched}/${launch.checked}`
+    + (launch.materials>launch.checked ? ` · ${launch.materials-launch.checked} 项待核对` : '') : '投放待核对';
+
+  function renderCapacity(capacity) {
+    const panel=el('ledger-capacity');
+    if(capacity?.state!=='ready') {
+      panel.innerHTML=`<span class="quiet">${capacity?.state==='unconfigured'?'本项目无原片并发配置':'并发记录暂不可读'}</span>`;
+      return;
+    }
+    const {active_source_count:occupied,max_active_sources_global:limit,available_source_slots:available,queue}=capacity;
+    let details=panel.querySelector('details');
+    if(!details){
+      details=document.createElement('details');
+      panel.replaceChildren(details);
+    }
+    const slots=limit==null ? `${occupied} 个已占用 · 无上限` : `已占 ${occupied}/${limit} · 剩余 ${available}`;
+    const queueSummary=queue ? `排队 ${queue.waiting} · 可派发 ${queue.ready}` : '排队数据待同步';
+    details.innerHTML=`<summary><span class="ledger-capacity-line"><strong>制作并发</strong><span>${slots}</span><span>${queueSummary}</span></span></summary>
+      <p class="quiet">每部原片的所有语种共用一个名额。预约和待核对建聊也计入占用。</p>
+      ${queue?.preparing?`<p class="quiet">${queue.preparing} 部原片待准备或核对。</p>`:''}
+      ${queue?.legacy_requirements?`<p class="quiet">${queue.legacy_requirements} 条旧需求使用共享会话，待按原记录核对。</p>`:''}
+      ${queue?.sources.length?`<ul>${queue.sources.map(source=>`<li>${h(source.code)} · 原片 ${source.video_index} · ${queueLabels[source.state]}</li>`).join('')}</ul>`:''}
+      <p class="quiet">基于本地名额记录及最近巡检的待派发清单 · ${dt(capacity.observed_at)}</p>`;
+  }
 
   function show(page,id='') {
     currentPage=page;selected=id;
-    if (el('ledger-root')?.dataset.page===page) return;
-    el('content').innerHTML = `<div id="ledger-root" data-page="${page}"><div id="ledger-health" class="ledger-health">正在同步台账…</div><div class="toolbar ledger-toolbar"><input id="ledger-query" type="search" class="search" aria-label="搜索需求" placeholder="搜索需求编号、标题、原视频" value="${h(filters.q)}"><select id="ledger-state" aria-label="筛选需求状态"><option value="all">全部状态</option>${Object.entries(labels).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}<option value="overdue">预计逾期</option><option value="unlinked">待关联记录</option></select><input id="ledger-locale" class="search" aria-label="筛选语言" placeholder="语言，如 es" value="${h(filters.locale)}"><input id="ledger-owner" class="search" aria-label="筛选执行者" placeholder="执行者或聊天名称" value="${h(filters.owner)}"><select id="ledger-days" aria-label="趋势周期"><option value="7">最近 7 天趋势</option><option value="14">最近 14 天趋势</option><option value="30">最近 30 天趋势</option><option value="90">最近 90 天趋势</option></select></div><div id="ledger-metrics"></div><div id="ledger-body"></div><article id="ledger-detail" class="panel ledger-detail" hidden></article></div>`;
-    el('ledger-state').value=filters.state;el('ledger-days').value=filters.days;
-    for (const [id,key] of [['ledger-query','q'],['ledger-state','state'],['ledger-locale','locale'],['ledger-owner','owner'],['ledger-days','days']]) {
-      el(id).addEventListener(['state','days'].includes(key)?'change':'input',e=>{
-        filters[key]=e.target.value;clearTimeout(filterTimer);filterTimer=setTimeout(refresh,200);
-      });
+    if (el('ledger-root')?.dataset.page===page) {
+      if (!selected) el('ledger-detail').hidden=true;
+      else if (detail?.requirement.id!==selected) el('ledger-meta-content').parentElement.open=false;
+      return;
     }
-    refresh();
+    const search = `<input id="ledger-query" type="search" class="search" aria-label="搜索需求、语言或会话" placeholder="搜索编号、标题、语言或会话" value="${h(filters.q)}">`;
+    const status = `<select id="ledger-state" aria-label="筛选需求状态"><option value="all">全部状态</option>${Object.entries(progressLabels).map(([key,label])=>`<option value="${key}">${label}</option>`).join('')}</select>`;
+    const days = `<select id="ledger-days" aria-label="统计周期">${[7,14,30,90].map(day=>`<option value="${day}">最近 ${day} 天</option>`).join('')}</select>`;
+    el('content').innerHTML = `<div id="ledger-root" data-page="${page}">
+      <div class="toolbar ledger-toolbar">${search}${page==='ledger'?status:days}
+        <details class="ledger-meta"><summary>记录说明</summary><div id="ledger-meta-content">正在读取台账…</div></details>
+        ${page==='ledger'?'<button type="button" data-console-action="intake">＋ 按需求号接单</button>':''}
+      </div>
+      <p id="ledger-health" class="ledger-warning" role="status" hidden></p>
+      ${page==='ledger'?'<section id="ledger-capacity" class="panel ledger-capacity" aria-label="制作并发"><span class="quiet">正在读取制作并发…</span></section>':''}
+      <div id="ledger-metrics"></div><div id="ledger-body"></div><article id="ledger-detail" class="panel ledger-detail" hidden></article>
+    </div>`;
+    if (el('ledger-state')) el('ledger-state').value=filters.progress;
+    if (el('ledger-days')) el('ledger-days').value=filters.days;
+    el('ledger-query').addEventListener('input',event=>{
+      filters.q=event.target.value;
+      clearTimeout(filterTimer);
+      filterTimer=setTimeout(()=>refresh(),200);
+    });
+    el('ledger-state')?.addEventListener('change',event=>{
+      filters.state='all';
+      filters.progress=event.target.value;
+      refresh();
+    });
+    el('ledger-days')?.addEventListener('change',event=>{
+      filters.days=event.target.value;
+      refresh();
+    });
   }
 
-  async function refresh() {
-    if (loading || !el('ledger-root')) return;
-    loading=true;
+  async function refresh(force=false) {
+    const root=el('ledger-root');
+    if (!root) return;
+    const requestId=++listSequence;
+    const page=root.dataset.page;
     try {
-      const result = await request('/api/ledger?'+new URLSearchParams(filters));
-      if (!el('ledger-root')) return;
+      const params = page==='ledger' ? filters : {q:filters.q,days:filters.days};
+      const result = await request('/api/ledger?'+new URLSearchParams({...params,view:page==='ledger'?'list':'history'}));
+      if (el('ledger-root')!==root || requestId!==listSequence) return;
       data=result;
-      const c=result.collector,s=result.sync,m=result.metrics;
-      el('ledger-health').innerHTML=`<span>本地采集 <strong>${c.error?'异常，保留旧数据':c.alive?'运行中':'未运行'}</strong> · ${c.interval_seconds} 秒</span><span>最近成功 <strong>${dt(s.last_success_at)}</strong></span><span>Fireplay 快照 <strong>${dt(s.fireplay_last_snapshot_at)}</strong>（已登记范围）</span><span>同步 <strong>${s.complete?'完整读取本地记录':`部分／待同步 · ${s.warning_count || 0} 项提示`}</strong></span><span>显示时区 America/Los_Angeles</span>`;
-      if(currentPage==='ledger') {
-        el('ledger-metrics').innerHTML=cards([['已登记需求',m.requirements,`${m.tasks} 个语言任务`],['尚未完整输出',m.open,`${m.blocked} 条有阻塞`],['完整输出',m.complete,'质量与外部提交另列'],['预计逾期',m.overdue,`${m.eta_covered}/${m.requirements} 条有当前范围 ETA`]]);
+      const {collector,sync,metrics,cohort}=result;
+      const incidents=result.requirements.filter(row=>row.time_exclusion);
+      el('ledger-meta-content').innerHTML=`<p><strong>${h(cohort.label || '项目台账')}</strong></p>
+        ${cohort.started_at?`<p>统计起点 ${dt(cohort.started_at)}</p>`:''}
+        <p>${collector.error?'采集异常 · 最近成功':collector.alive?'本地同步':'已保存快照'} ${dt(sync.last_success_at)}</p>
+        ${sync.warning_count?`<p>${sync.warning_count} 项读取提示</p>`:''}
+        ${incidents.length?`<ul>${incidents.map(row=>`<li><a href="#ledger/${encodeURIComponent(row.id)}">${h(row.code)}</a>
+          · 耗时异常，已剔除效率统计</li>`).join('')}</ul>`:''}`;
+      el('ledger-health').hidden=true;
+      if(page==='ledger') {
+        renderCapacity(result.source_capacity);
+        const counted=result.requirements.filter(row=>row.countable);
+        const productionCount=counted.reduce((total,row)=>total+row.output_count,0);
+        const uploadCount=counted.reduce((total,row)=>total+(row.platform?.verified ?? 0),0);
+        el('ledger-metrics').innerHTML=cards([
+          ['已登记需求',metrics.requirements,`${metrics.tasks} 个语言任务`],
+          ['制作完成',productionCount,`共 ${metrics.tasks} 个语言任务`],
+          ['审核上传完成',uploadCount,'已核验平台绑定']
+        ]);
         renderTable();
-        if(selected) await loadDetail(selected);
+        const row=result.requirements.find(item=>item.id===selected);
+        const reveal=el('ledger-detail').hidden || detail?.requirement.id!==selected;
+        if(selected && (force || reveal || (row && detailState(row)!==detailState(detail.requirement)))) {
+          await loadDetail(selected,force || reveal);
+          if(reveal && el('ledger-root')===root) el('ledger-detail').scrollIntoView({block:'start'});
+        }
       } else renderEfficiency();
+      return result.read_at;
     } catch(error) {
-      if(el('ledger-health'))el('ledger-health').textContent=`台账读取失败：${error.message}。保留最后数据。`;
-    } finally { loading=false; }
+      if(el('ledger-root')===root && requestId===listSequence) {
+        el('ledger-health').textContent=`台账读取失败。${error.message}`;
+        el('ledger-health').hidden=false;
+      }
+    }
   }
 
   function renderTable() {
     const rows=data.requirements;
-    const scroll=el('ledger-body').querySelector('.ledger-table')?.scrollLeft || 0;
-    el('ledger-body').innerHTML=`${data.unlinked_total?`<p class="ledger-note">${data.unlinked_total} 条制作记录待关联，单独保留，不计入需求完成量。 <button data-show-unlinked>查看待关联</button></p>`:''}<p class="ledger-caption">${rows.length} / ${data.total_rows} 条记录 · 需求数按完整编号去重；历史首次预计缺失时保留“待评估”。</p><div class="ledger-table"><table><thead><tr><th>需求 / 原视频</th><th>进度与质量</th><th>负责聊天 / Agent</th><th>首次预计完成</th><th>最新预计完成</th><th>实际完整输出</th><th>当前情况</th></tr></thead><tbody>${rows.map(r=>`<tr data-selected="${selected===r.id}"><td><button class="table-action" data-requirement="${h(r.id)}">${h(r.code)}</button><span class="quiet">${r.video_count} 原片 · ${r.task_count} 语言任务</span>${!r.countable?tag('待关联','warn'):''}</td><td>${tag(labels[r.state] || r.state,r.state==='complete'?'blue':'')}<span class="quiet">输出 ${r.output_count}/${r.task_count} · 质量通过 ${r.quality_count}/${r.task_count}</span>${r.issue_count?tag(`${r.issue_count} 项瑕疵／异议`,'warn'):''}</td><td>${r.threads.length?r.threads.map(t=>`<span class="quiet">${h(t.title || t.threadId)}</span>`).join(''):'<span class="quiet">聊天未绑定</span>'}${r.claims.map(c=>`<span class="quiet">${h(c.owner)} · ${h(c.data.stage)}</span>`).join('')}<span class="quiet">${h(healthLabels[r.agent_health])}</span>${(r.executors || []).some(e=>e.health==='recent')?'<span class="quiet">本地执行器近期有上报</span>':''}</td><td class="ledger-eta">${r.first_eta?eta(r.first_eta):r.complete_at?'未记录':'待评估'}</td><td class="ledger-eta">${r.latest_eta?eta(r.latest_eta):r.complete_at?'未记录':'待评估'}${r.overdue?tag('已逾期','bad'):''}</td><td>${r.complete_at?dt(r.complete_at):'尚未完整输出'}</td><td>${h(r.block_reason || r.blockers.join('；') || (r.agent_health==='unconfirmed'?'核查执行状态':'查看详情'))}<span class="quiet">${Object.entries(r.stage_counts || {}).map(([stage,n])=>`${stages[stage] || stage} ${n}`).join(' · ')}</span><span class="quiet">最近产物记录 ${dt(r.last_activity_at)}</span></td></tr>`).join('') || '<tr><td colspan="7">没有匹配的需求；可调整筛选条件。</td></tr>'}</tbody></table></div>`;
-    el('ledger-body').querySelector('.ledger-table').scrollLeft=scroll;
+    const oldTable=el('ledger-body').querySelector('.ledger-table');
+    const tableRows=rows.map(row=>{
+      const languages = new Set((row.scope || []).flatMap(video=>video.targets)).size;
+      const tasks = row.task_count !== languages ? ` · ${row.task_count} 项语言任务` : '';
+      return `<tr data-progress="${h(row.progress_state)}" data-selected="${selected===row.id}">
+      <td><button class="table-action" data-requirement="${h(row.id)}">${h(row.code)}</button>
+        <span class="quiet">${row.video_count} 部原片 · ${languages || '—'} 种语言${tasks}</span></td>
+      <td><strong class="ledger-row-state">${h(progressLabels[row.progress_state])}</strong></td>
+      <td class="ledger-counts"><div>制作完成 <strong>${row.output_count}/${row.task_count}</strong></div>
+        <div>审核上传完成 <strong>${uploadProgress(row)}</strong></div>${row.launch?`<span class="quiet">${h(launchLabel(row.launch))}</span>`:''}</td>
+      <td>${row.threads.map(thread=>{
+        const name=h(thread.title?.trim() || '会话名称未记录');
+        const identifier=thread.threadId || thread.id;
+        return identifier ? `<a class="ledger-thread" href="#sessions/${encodeURIComponent(identifier)}">${name}</a>` : `<span class="quiet">${name}</span>`;
+      }).join('') || '未绑定'}</td>
+      <td class="ledger-times"><div>起始 <span>${row.first_started_at?dt(row.first_started_at):'—'}</span></div>
+        <div>完成 <span>${row.complete_at?dt(row.complete_at):'—'}</span></div></td>
+    </tr>`;}).join('');
+    const markup=`<p class="ledger-caption">${rows.length} 条记录${filters.state==='unlinked'?' · <button class="table-action" data-show-unlinked>返回需求</button>':data.unlinked_total?` · <button class="table-action" data-show-unlinked>待关联 ${data.unlinked_total}</button>`:''}</p>
+      <div class="ledger-table bounded-table" role="region" aria-label="需求台账表" tabindex="0"><table><thead><tr><th scope="col">需求</th><th scope="col">状态</th><th scope="col">进度</th><th scope="col">负责会话</th><th scope="col">制作起止时间</th></tr></thead>
+      <tbody>${tableRows || '<tr><td colspan="5">没有匹配的需求</td></tr>'}</tbody></table></div>`;
+    const body=el('ledger-body');
+    if(body.innerHTML===markup)return;
+    body.innerHTML=markup;
+    const table=body.querySelector('.ledger-table');
+    table.scrollLeft=oldTable?.scrollLeft || 0;
+    table.scrollTop=oldTable?.scrollTop || 0;
   }
 
   async function loadDetail(id,force=false) {
     const n=++sequence;
     const value=await request('/api/ledger/detail?id='+encodeURIComponent(id));
-    if(n!==sequence || !el('ledger-detail') || currentPage!=='ledger')return;
-    if(!force && detail?.requirement.id===id && detail.requirement.revision===value.requirement.revision && !el('ledger-detail').hidden)return;
-    detail=value;const r=value.requirement;
-    const node=el('ledger-detail');node.hidden=false;
-    node.innerHTML=`<div class="ledger-detail-header"><div><h2>${h(r.code)}</h2><p class="quiet ledger-title">${h(r.title)}</p></div><button data-close-requirement>收起</button></div><div class="ledger-actions">${[['claim','认领'],['heartbeat','上报心跳'],['stage','更新阶段'],['release','释放认领'],['ready','信息齐备'],['block','登记阻塞'],['resume','解除阻塞'],['eta','登记 / 调整预计'],['link','关联已有任务']].map(([a,t])=>`<button data-ledger-action="${a}">${t}</button>`).join('')}</div><div class="info-grid">${[['收件登记',dt(r.received_at)],['平台创建',dt(r.platform_created_at)],['首次发现',dt(r.first_seen_at)],['信息齐备',dt(r.ready_at)],['首次完整输出',dt(r.first_complete_at)],['当前范围输出',dt(r.complete_at)]].map(([k,v])=>`<div class="info"><span>${h(k)}</span><strong>${h(v)}</strong></div>`).join('')}</div>${r.block_reason?`<p class="ledger-note">${h(r.block_reason)}</p>`:''}<div class="section-title"><h3>原视频与负责聊天</h3></div>${r.videos.map(v=>`<p class="ledger-caption">${h(v.title)} · ${h(v.id)} · ${h(v.source_sha256?.slice(0,12) || '原片尚未绑定')} · 预计 ${v.latest_eta?dt(v.latest_eta.lower_at)+' 至 '+dt(v.latest_eta.upper_at):'待评估'}${v.thread?` · ${h(v.thread.title || '已绑定聊天')} (${h((v.thread.threadId || v.thread.id || '').slice(0,8))})`:''}</p>`).join('')}<div class="section-title"><h3>各语言任务与实际成片</h3><span class="quiet">输出、质量和验收分别记录</span></div><div class="table-wrap"><table><thead><tr><th>原视频 / 语言</th><th>执行记录</th><th>当前输出</th><th>质量</th><th>实际版本</th></tr></thead><tbody>${value.tasks.filter(t=>r.scope.some(v=>v.video_id===t.video_id&&v.targets.includes(t.locale))).map(t=>`<tr><td>${h(r.videos.find(v=>v.id===t.video_id)?.title || t.video_id)}<br>${h(t.locale)}</td><td>${t.runs.map(run=>`<a href="#tasks/${encodeURIComponent(run)}">${h(run)}</a>`).join('<br>') || '未开始'}</td><td>${t.complete_at?dt(t.complete_at):t.active_revision?'新版制作中':'未完整输出'}</td><td>${tag(quality[t.quality] || t.quality,t.quality==='hold'?'bad':t.quality==='issues'?'warn':'')}</td><td>${t.current?.url?`<a href="${h(t.current.url)}" target="_blank" rel="noopener">打开视频 ↗</a><br><span class="mono">${h(t.current.sha256.slice(0,12))}</span>`:'无已核验交付包'}<span class="quiet">${t.versions.length} 个输出版本 · 用户未确认</span></td></tr>`).join('')}</tbody></table></div><div class="section-title"><h3>预计完成历史</h3><span class="quiet">当前范围 ${h(r.scope_id.slice(0,10))}</span></div>${value.estimates.length?value.estimates.map(e=>`<p class="ledger-caption">${dt(e.created_at)} · ${dt(e.lower_at)} 至 ${dt(e.upper_at)} · ${h(e.data.reason)}${e.scope_id!==r.scope_id?'（历史范围）':''}</p>`).join(''):'<p class="quiet">尚未记录预测。历史任务不会补造过去的首次预计。</p>'}<details class="ledger-source"><summary>外部提交与采集依据</summary><p>平台状态：${h(r.platform_status || '未记录')}；用户验收：未记录。</p>${r.external.length?`<pre>${h(JSON.stringify(r.external,null,2))}</pre>`:'<p>没有结构化提交回执，不推断已入库、绑定或上传。</p>'}<ul>${r.evidence.map(e=>`<li class="mono">${h(e)}</li>`).join('')}</ul><p>预算引用：${h(r.budget_ids.join('、') || '未绑定')}；范围历史 ${value.scopes.length} 版。</p></details><details class="ledger-source"><summary>阶段、等待与活动时间线（最近 ${value.events.length} 条）</summary>${value.events.map(e=>`<details class="ledger-event"><summary>${h(eventLabels[e.kind] || e.kind)} · ${dt(e.occurred_at || e.recorded_at)}${e.run_id?' · '+h(e.run_id):''}</summary><pre>${h(JSON.stringify(e.data,null,2))}</pre></details>`).join('')}<p class="quiet">脚本时间可能嵌套；执行器心跳不代表 Agent 心跳。未分类时间不计作实际工作。</p></details>`;
-  }
-
-  function trend(rows) {
-    const width=700,height=240,left=38,top=18,bottom=38,plotH=height-top-bottom,plotW=width-left-12;
-    const max=Math.max(1,...rows.flatMap(d=>[d.received,d.completed]));
-    const band=plotW/rows.length;
-    return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="最近 ${rows.length} 天需求登记与首次完整输出数量柱状图">${[0,.5,1].map(f=>`<line x1="${left}" y1="${top+plotH*(1-f)}" x2="${width-10}" y2="${top+plotH*(1-f)}"/><text x="3" y="${top+plotH*(1-f)+4}">${(max*f).toFixed(max<2?1:0)}</text>`).join('')}${rows.map((d,i)=>{const x=left+i*band;return `<rect class="trend-received" x="${x+band*.12}" y="${top+plotH*(1-d.received/max)}" width="${band*.33}" height="${plotH*d.received/max}"><title>${d.date} 登记 ${d.received}</title></rect><rect class="trend-completed" x="${x+band*.5}" y="${top+plotH*(1-d.completed/max)}" width="${band*.33}" height="${plotH*d.completed/max}"><title>${d.date} 完整输出 ${d.completed}</title></rect>${i%Math.ceil(rows.length/7)===0?`<text x="${x+band*.4}" y="${height-12}" text-anchor="middle">${d.date.slice(5)}</text>`:''}`;}).join('')}</svg>`;
-  }
-
-  function benchmarkPanel(b) {
-    if(!b?.enabled)return '<section class="panel ledger-detail" id="benchmark-panel"><h2>真实需求 Benchmark</h2><p>尚未建立采集基线；启动工作台采集器或运行 ledger sync 后启用，只采集后续新需求。</p></section>';
-    const dims = d => `${d.duration_band} · ${({'motion/dialogue':'运动／遮挡／多角色','styled/surface':'艺术字／表面文字',observed_other:'其他已观察特征',unknown:'特征待补'})[d.complexity]} · ${d.video_count} 原片 / ${d.locale_count} 语种 / ${d.task_count} 任务`;
-    return `<section class="panel ledger-detail" id="benchmark-panel"><h2>真实需求 Benchmark</h2><p class="ledger-caption">启用 ${dt(b.started_at)} · 排除 ${b.baseline_excluded} 条基线记录 · 完整 ${b.completed_samples} / 进行中 ${b.pending_samples} / 范围变更停止 ${b.stopped_samples || 0}。无需重做历史需求；服务开启时自动采集，离线期间由下次 ledger sync 导入实际记录。</p><p class="ledger-note">${h(b.note)}</p><p class="ledger-caption">此处沿用需求筛选，跨日期保留全部前瞻样本；上方自然日趋势不截断 benchmark。复杂度按清单特征分组；时长档按最长原片，不按语言重复计算。P90 至少 ${b.settings.p90_min_samples} 条同组样本；少于 ${b.settings.minimum_exploratory_samples} 条仅供探索。</p><div class="table-wrap"><table><thead><tr><th>同口径分组</th><th>样本量</th><th>收件至首轮完整输出中位数</th><th>首轮制作跨度中位数</th><th>P90</th></tr></thead><tbody>${b.cohorts.map(c=>`<tr><td>${h(dims(c.dimensions))}<span class="quiet">${h(c.dimensions.profile_version)} · ${h(c.dimensions.code_revision?.slice(0,8) || '代码版本未记录')}</span></td><td>${c.n}${c.exploratory?' · 探索':''}</td><td>${duration(c.median_first_cycle_seconds)}</td><td>${duration(c.median_first_production_seconds)}<span class="quiet">${c.production_samples} 条有实际开始依据</span></td><td>${c.p90_first_cycle_seconds==null?'样本不足':duration(c.p90_first_cycle_seconds)}</td></tr>`).join('') || '<tr><td colspan="5">等待后续真实需求形成首轮完整输出。</td></tr>'}</tbody></table></div><details><summary>样本明细、返工与记录覆盖（${b.samples.length}）</summary><div class="table-wrap"><table><thead><tr><th>需求 / 范围</th><th>首轮跨度 / 收件周期</th><th>首轮执行器占用 / 明确等待</th><th>首轮未分类</th><th>返工执行 / 明确等待</th><th>首轮质量 / 当前费用</th></tr></thead><tbody>${b.samples.map(s=>`<tr><td><a href="#ledger/${encodeURIComponent(s.requirement_id)}">${h(s.code)}</a><span class="quiet">${h(dims(s.dimensions))}${s.scope_changed?' · 范围已变更，停止原样本跟踪':''}</span></td><td>${duration(s.timing.first_production_span_seconds)} / ${duration(s.timing.received_to_first_output_seconds)}<span class="quiet">${s.first_output?dt(s.first_output.at):'等待全部目标完整输出'}</span></td><td>${duration(s.timing.recorded_first_executor_seconds)} / ${duration(s.timing.recorded_first_wait_seconds)}${s.timing.open_wait?'<span class="quiet">等待尚未解除</span>':''}</td><td>${duration(s.timing.unclassified_first_seconds)}<span class="quiet">含未记录工作／等待，不能推定空闲</span></td><td>${duration(s.timing.recorded_rework_executor_seconds)} / ${duration(s.timing.recorded_rework_wait_seconds)}</td><td>${s.first_output?.quality_evidence_complete?`${s.first_output.quality_pass_count}/${s.task_count} 质量记录通过`:'首轮质量证据待补'}<span class="quiet">${s.cost.known_actual_credits==null?'实付未核实':s.cost.known_actual_credits+' credits 已知'} · ${s.cost.complete?'账单数值齐备':'费用未完整核实'}（含返工）</span><span class="quiet">${s.external_receipts?.length || 0} 条平台回执，详细状态见需求台账</span></td></tr>`).join('') || '<tr><td colspan="6">尚无新样本。</td></tr>'}</tbody></table></div></details><p class="ledger-caption">使用：新需求按 ledger-tracking 上报 claim → stage、block/resume → release；脚本计时与交付包自动关联。命令行查看：python bin/va.py ledger sync，再运行 python bin/va.py ledger benchmark。完整说明见 docs/benchmark.md。</p></section>`;
+    if(n!==sequence || id!==selected || !el('ledger-detail') || currentPage!=='ledger')return;
+    if(!force && detail?.requirement.id===id && detailState(detail.requirement)===detailState(value.requirement) && !el('ledger-detail').hidden)return;
+    const row=value.requirement;
+    const node=el('ledger-detail');
+    const opened = new Set(detail?.requirement.id===id
+      ? [...node.querySelectorAll('details[open][data-section]')].map(item=>item.dataset.section) : []);
+    detail=value;
+    const summary=(key,title,body)=>`<details class="ledger-source" data-section="${key}" ${opened.has(key)?'open':''}><summary>${title}</summary>${body}</details>`;
+    const actions=[['claim','认领'],['heartbeat','上报心跳'],['stage','更新阶段'],['release','释放认领'],['ready','信息齐备'],['block','登记阻塞'],['resume','解除阻塞'],['link','关联任务']];
+    const taskRows=value.tasks.filter(task=>row.scope.some(video=>video.video_id===task.video_id&&video.targets.includes(task.locale))).map(task=>`<tr>
+      <td>${h(row.videos.find(video=>video.id===task.video_id)?.title || task.video_id)}<br>${h(task.locale)}</td>
+      <td>${task.runs.map(run=>`<a href="#tasks/${encodeURIComponent(run)}">${h(run)}</a>`).join('<br>') || '未开始'}</td>
+      <td>${task.complete_at?dt(task.complete_at):task.active_revision?'新版制作中':'待完整输出'}
+        ${row.progress_state==='blocked' && task.publication_blocked?`<span class="quiet">${tag('严重问题阻塞上传','bad')}</span>`:''}</td>
+      <td>${task.current?.url?`<a href="${h(task.current.url)}" target="_blank" rel="noopener">播放成片</a>
+        <span class="quiet mono">${h(task.current.sha256.slice(0,12))}</span>`:'未核验交付包'}
+        <span class="quiet">${task.versions.length} 个输出版本</span></td>
+    </tr>`).join('');
+    const actualSeconds = row.received_at && row.first_complete_at ? (new Date(row.first_complete_at)-new Date(row.received_at))/1000 : null;
+    const exceptions = [
+      row.time_exclusion ? `<p><strong>耗时异常 · 已剔除效率统计</strong><br>${h(row.time_exclusion.reason)}<br>实际收件至完整输出 ${duration(actualSeconds)}。${h(row.time_exclusion.source)}</p>` : '',
+      row.progress_state==='blocked' ? [
+        row.publication_blocked_count ? `<p>${row.publication_blocked_count} 个语言任务有严重问题，上传受阻。</p>` : '',
+        ...[row.block_reason,...(row.blockers || [])].filter(Boolean).map(reason=>`<p>${h(typeof reason==='string'?reason:JSON.stringify(reason))}</p>`),
+      ].join('') : '',
+    ].join('');
+    const times=[['制作起始',dt(row.first_started_at)],['制作完成',dt(row.complete_at)],['审核上传完成',uploadProgress(row)]];
+    node.hidden=false;
+    node.innerHTML=`<div class="ledger-detail-header"><div><h2>${h(row.code)}</h2><p class="quiet ledger-title">${h(row.title)}</p></div><button data-close-requirement>收起</button></div>
+      <div class="info-grid">${times.map(([label,time])=>`<div class="info"><span>${h(label)}</span><strong>${h(time)}</strong></div>`).join('')}</div>
+      ${exceptions?summary('exceptions','查看异常说明',exceptions):''}
+      ${row.description?summary('brief','需求原文',`<pre>${h(row.description)}</pre>`):''}
+      ${summary('tasks','任务与视频',`<div class="table-wrap"><table><thead><tr><th>原片 / 语言</th><th>执行记录</th><th>当前输出</th><th>版本</th></tr></thead>
+      <tbody>${taskRows || '<tr><td colspan="4">暂无关联任务</td></tr>'}</tbody></table></div>`)}
+      ${summary('tracking','原片与会话',`
+        <p class="ledger-caption">${h(healthLabels[row.agent_health])}${row.executors.some(executor=>executor.health==='recent')?' · 执行器近期有上报':''} · 最近产物 ${dt(row.last_activity_at)}</p>
+        <p class="ledger-caption">${Object.entries(row.stage_counts || {}).map(([stage,count])=>`${h(stages[stage] || stage)} ${count}`).join(' · ')}</p>
+        ${row.videos.map(video=>`<p class="ledger-caption">${h(video.title)} · ${h(video.id)} · ${h(video.source_sha256?.slice(0,12) || '原片尚未绑定')}
+          ${video.thread?` · ${h(video.thread.title || '已绑定会话')}`:''}</p>`).join('')}`)}
+      ${summary('evidence','平台状态与采集依据',`
+        <p>平台状态 ${h(platformLabels[row.platform_status] || row.platform_status || '未记录')} · 审核上传完成 ${uploadProgress(row)} · 状态记录 ${dt(row.platform_refreshed_at)}</p>
+        ${row.launch?`<p>${h(launchLabel(row.launch))} · 素材库最早核对 ${dt(row.launch.observed_at)}</p>`:''}
+        <p>平台创建 ${dt(row.platform_created_at)} · 信息齐备 ${dt(row.ready_at)} · 首次发现 ${dt(row.first_seen_at)}</p>
+        ${row.external.length?`<pre>${h(JSON.stringify(row.external,null,2))}</pre>`:'<p>暂无结构化提交回执。</p>'}
+        <ul>${row.evidence.map(path=>`<li class="mono">${h(path)}</li>`).join('')}</ul>
+        <p>预算引用 ${h(row.budget_ids.join('、') || '未绑定')} · 范围历史 ${value.scopes.length} 版</p>`)}
+      ${summary('events','阶段与等待记录',value.events.filter(event=>event.kind!=='eta').map(event=>`<details class="ledger-event">
+        <summary>${h(eventLabels[event.kind] || event.kind)} · ${dt(event.occurred_at || event.recorded_at)}${event.run_id?' · '+h(event.run_id):''}</summary>
+        <pre>${h(JSON.stringify(event.data,null,2))}</pre></details>`).join(''))}
+      ${summary('actions','台账操作',`<div class="ledger-actions">${actions.map(([action,label])=>`<button data-ledger-action="${action}">${label}</button>`).join('')}</div>`)}`;
   }
 
   function renderEfficiency() {
-    const m=data.metrics;
-    el('ledger-metrics').innerHTML=cards([['期间首次完整输出',m.completed_in_period,`最近 ${m.days} 个自然日 · 去重需求`],['交付周期中位数',duration(m.cycle_median_seconds),`${m.cycle_samples} 条收件与输出时间齐备`],['首次预计准时率',m.eta_ontime_rate==null?'未记录':`${(m.eta_ontime_rate*100).toFixed(0)}%`,`${m.eta_ontime}/${m.eta_due} 条已到期预测（全部时间）`],['首次预计偏差中位数',duration(m.eta_bias_median_seconds),`${m.eta_error_samples} 条 · 正数为超过预计上限`]]);
-    const latest = data.requirements.filter(r=>r.first_complete_at&&r.countable).sort((a,b)=>new Date(b.first_complete_at)-new Date(a.first_complete_at)).slice(0,12);
-    el('ledger-body').innerHTML=benchmarkPanel(data.benchmark)+`<div class="ledger-grid"><section class="panel ledger-chart"><h2>登记与首次完整输出</h2><div class="ledger-legend"><span>收件登记</span><span>完整输出</span></div>${trend(m.daily)}<p class="ledger-caption">按 America/Los_Angeles 自然日；返工完成不重复增加需求完成量。</p><details><summary class="quiet">查看每日数量</summary><div class="table-wrap"><table><thead><tr><th>日期</th><th>登记</th><th>完整输出</th></tr></thead><tbody>${m.daily.map(d=>`<tr><td>${d.date}</td><td>${d.received}</td><td>${d.completed}</td></tr>`).join('')}</tbody></table></div></details></section><section class="panel ledger-chart"><h2>时间与预测覆盖</h2><div class="info-grid"><div class="info"><span>当前范围有首次 ETA</span><strong>${m.eta_covered} / ${m.requirements}</strong></div><div class="info"><span>收件时间未知</span><strong>${m.unknown_received}</strong></div><div class="info"><span>信息齐备至输出中位数</span><strong>${duration(m.ready_cycle_median_seconds)}</strong></div><div class="info"><span>信息齐备周期样本</span><strong>${m.ready_cycle_samples}</strong></div></div><p class="ledger-caption">准时率包含首次预计已到期但仍未完成的需求。首次 ETA 缺失、收件时间未知与没有反馈均保留缺失状态。</p><p class="ledger-caption">筛选应用于所有图表与指标。趋势周期用于期间产出和周期；准时率为筛选需求中全部已到期预测。</p></section></div><section class="panel ledger-detail"><h2>最近完整输出的需求</h2><div class="table-wrap"><table><thead><tr><th>需求</th><th>首次完整输出</th><th>收件至输出</th><th>当前质量通过</th></tr></thead><tbody>${latest.map(r=>`<tr><td><a href="#ledger/${encodeURIComponent(r.id)}">${h(r.code)}</a></td><td>${dt(r.first_complete_at)}</td><td>${r.received_at?duration((new Date(r.first_complete_at)-new Date(r.received_at))/1000):'未记录'}</td><td>${r.quality_count}/${r.task_count}</td></tr>`).join('') || '<tr><td colspan="4">尚无已记录的完整输出。</td></tr>'}</tbody></table></div></section>`;
+    const timing = data.historical_timing;
+    const totals = [['首次完整输出',data.metrics.completed_in_period,`最近 ${data.metrics.days} 天`]];
+    if (timing.requests.length) totals.push(
+      ['需求平均制作耗时',duration(timing.request_mean_seconds),`${timing.requests.length} 条需求样本`],
+      ['需求制作耗时中位数',duration(timing.request_median_seconds),`${timing.requests.length} 条需求样本`]
+    );
+    el('ledger-metrics').innerHTML = cards(totals);
+    const body=el('ledger-body');
+    const oldTable=el('timing-table');
+    const scrollTop=oldTable?.scrollTop || 0;
+    const scrollLeft=oldTable?.scrollLeft || 0;
+    const tableFocused=oldTable===document.activeElement;
+    const headings=['需求','开始','首次完整输出','总耗时','语种数','每种语言平均耗时'];
+    const rows=timing.requests.map(row=>`<tr><td><a href="#ledger/${encodeURIComponent(row.id)}">${h(row.code)}</a></td>
+      <td>${dt(row.started_at)}</td><td>${dt(row.finished_at)}</td><td>${duration(row.seconds)}</td>
+      <td>${row.language_count || '—'}</td><td>${duration(row.seconds_per_language)}</td></tr>`);
+    body.innerHTML=`<section class="panel timing-panel">
+      <h2>已完成需求耗时</h2>
+      <div id="timing-table" class="table-wrap bounded-table" role="region" aria-label="已完成需求耗时" tabindex="0">
+        <table><thead><tr>${headings.map(name=>`<th scope="col">${name}</th>`).join('')}</tr></thead>
+        <tbody>${rows.join('') || `<tr><td colspan="${headings.length}">所选时段暂无符合条件的耗时样本。</td></tr>`}</tbody></table>
+      </div>
+      <p class="quiet timing-note">每种语言平均耗时 = 需求总耗时 ÷ 去重后的目标语种数。总耗时从开始制作到首次完整输出，包含等待。时间为洛杉矶时间。</p>
+    </section>`;
+    const table=el('timing-table');
+    table.scrollTop=scrollTop;
+    table.scrollLeft=scrollLeft;
+    if (tableFocused) table.focus({preventScroll:true});
   }
 
   function editor(action) {
@@ -99,10 +260,9 @@ window.LedgerUI = (() => {
     let dialog=el('ledger-editor');
     if(!dialog){dialog=document.createElement('dialog');dialog.id='ledger-editor';dialog.className='ledger-editor';document.body.appendChild(dialog);}
     const r=detail.requirement;
-    const name={claim:'认领',heartbeat:'上报心跳',stage:'更新阶段',release:'释放认领',ready:'登记信息齐备',block:'登记阻塞',resume:'解除阻塞',eta:'登记预计完成',link:'关联已有任务'}[action];
+    const name={claim:'认领',heartbeat:'上报心跳',stage:'更新阶段',release:'释放认领',ready:'登记信息齐备',block:'登记阻塞',resume:'解除阻塞',link:'关联已有任务'}[action];
     let fields='';
     if(['claim','heartbeat','stage','release'].includes(action))fields=`<label>原视频<select name="video_id"><option value="*">整条需求</option>${r.videos.map(v=>`<option value="${h(v.id)}">${h(v.title)}</option>`).join('')}</select></label><label>执行者<input name="owner" required maxlength="200" value="${h(owner)}" placeholder="Agent 或负责人的名称"></label><label>会话 ID<input name="session" required value="${h(session)}"></label>${action!=='release'?'<label>当前阶段<input name="stage" required placeholder="如 翻译、配音、审核"></label>':''}<p class="quiet">仅在实际工作时上报；此页面不会定时替 Agent 发送心跳。</p>`;
-    if(action==='eta')fields=`<label>预测对象<select name="video_id"><option value="*">整条需求完整输出</option>${r.videos.map(v=>`<option value="${h(v.id)}">${h(v.title)}</option>`).join('')}</select></label>`+'<div class="form-row"><label>预计最早完成<input type="datetime-local" name="lower_at" required></label><label>预计最晚完成<input type="datetime-local" name="upper_at" required></label></div><label>估计依据<input name="basis" required value="agent_estimate"></label><label>未确认因素<textarea name="assumptions" placeholder="如模型排队、复杂遮挡、尚待审核"></textarea></label><p class="quiet">输入使用浏览器本地时区，保存为 UTC。预测目标为当前范围完整输出；每次调整保留历史。</p>';
     if(action==='block')fields='<label>等待类型<select name="kind"><option value="user">等待用户／素材</option><option value="model">等待模型</option><option value="resource">等待资源</option><option value="platform">平台异常</option><option value="unknown">待核查</option></select></label>';
     if(action==='link')fields=`<label>原视频<select name="video_id">${r.videos.map(v=>`<option value="${h(v.id)}">${h(v.title)}</option>`).join('')}</select></label><label>语言<input name="locale" required placeholder="如 es"></label><label>已有任务 ID<input name="run_id" required></label><label>原视频完整 SHA256<input name="source_sha256" required pattern="[0-9a-f]{64}"></label><p class="quiet">校验实际任务的源哈希和语言，关联结果在下一次采集中显示。</p>`;
     dialog.innerHTML=`<div class="dialog-head"><h2>${h(name)} · ${h(r.code)}</h2><button type="button" data-close-editor>关闭</button></div><form class="ledger-form" id="ledger-edit-form">${fields}<label>原因 / 证据<textarea name="reason" required placeholder="记录实际依据或恢复说明"></textarea></label><p id="ledger-form-error" class="ledger-warning" role="alert"></p><button type="submit">保存记录</button></form>`;
@@ -110,12 +270,11 @@ window.LedgerUI = (() => {
     const operation=crypto.randomUUID();
     el('ledger-edit-form').onsubmit=async e=>{
       e.preventDefault();const form=e.currentTarget;const spec=Object.fromEntries(new FormData(form));spec.requirement_id=r.id;
-      if(action==='eta'){spec.lower_at=new Date(spec.lower_at).toISOString();spec.upper_at=new Date(spec.upper_at).toISOString();}
       if(spec.owner){owner=spec.owner;sessionStorage.setItem('ledger-owner',owner);}
       const button=form.querySelector('[type=submit]');button.disabled=true;
       try{
         await request('/api/ledger/action',{method:'POST',headers:{'Content-Type':'application/json','X-Ledger-Token':data.csrf_token},body:JSON.stringify({action,data:spec,operation_id:operation,expected_revision:r.revision})});
-        dialog.close();await refresh();await loadDetail(r.id,true);
+        dialog.close();await refresh(true);
       }catch(error){el('ledger-form-error').textContent=error.message;}finally{button.disabled=false;}
     };
     dialog.showModal();
@@ -123,8 +282,18 @@ window.LedgerUI = (() => {
 
   document.addEventListener('click', e=>{
     const row=e.target.closest('[data-requirement]');
-    if(e.target.closest('[data-show-unlinked]')){filters.state='unlinked';el('ledger-state').value='unlinked';refresh();return;}
-    if(row){selected=row.dataset.requirement;location.hash='ledger/'+encodeURIComponent(selected);loadDetail(selected,true).then(()=>el('ledger-detail')?.scrollIntoView({block:'start'})).catch(err=>{el('ledger-health').textContent=err.message;});return;}
+    if(e.target.closest('[data-show-unlinked]')){
+      filters.state=filters.state==='unlinked'?'all':'unlinked';
+      filters.progress='all';
+      el('ledger-state').value='all';
+      refresh();
+      return;
+    }
+    if(row){
+      if(selected===row.dataset.requirement) el('ledger-detail').scrollIntoView({block:'start'});
+      else location.hash='ledger/'+encodeURIComponent(row.dataset.requirement);
+      return;
+    }
     if(e.target.closest('[data-close-requirement]')){selected='';el('ledger-detail').hidden=true;location.hash='ledger';return;}
     const action=e.target.closest('[data-ledger-action]');if(action)editor(action.dataset.ledgerAction);
   });

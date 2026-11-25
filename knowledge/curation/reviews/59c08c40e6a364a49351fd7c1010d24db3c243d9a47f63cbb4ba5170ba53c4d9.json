@@ -1,0 +1,39 @@
+{
+  "source": {
+    "path": "knowledge/candidates/KEY-20261110-032-01-d24da44517.json",
+    "sha256": "9bbeef3bbb88c183ff38fa3f06d0a6da17042d4906a881617d5d6b89642ffd81"
+  },
+  "previous_review": "c9387af4350a129f5572f7dd49452dfc77b45e1bc86726e32093a1e9a662a8fc",
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project knowledge review",
+  "origin": "已核对同源各语言的原质检及视频哈希。",
+  "resolution": "adopted",
+  "reason": "源限定的 CTA 描边修复及青色箭头保护已归纳为案例。",
+  "targets": [
+    {
+      "id": "key032-de-cta-chevron-protection-v1",
+      "path": "knowledge/cases/key032-de-cta-chevron-protection-v1.md",
+      "sha256": "fa65426fb7cc2dd27a05cd7f3b92cb3546825a60423c70c21680b56ceadf7213",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "de",
+        "source_sha256": "2bfc22451f88348cf008fcf0fb08c6be0c77d091e88676792cd304984dd7249e"
+      },
+      "snapshot": "# KEY032 德语片尾文字与箭头保护\n\n此案例适用于同一原片的德语版本。原评审在片尾记录了 CTA 下缘描边残留。修订后按实际描边范围调整去字区域，并在遮罩内保护青色图形。修订后的抽样画面显示被检查的原字残留消失、三枚青色箭头仍可见。依据为 evidence:review。\n\n复做时先分别标注原字边缘和箭头，检查两个区域相邻时的完整退场序列。原评审仍记录了约 7.4 至 9.4 秒的衣料与饰品纹理差异，以及正常速度声画审查待补。\n"
+    }
+  ],
+  "adopted_parts": [
+    "片尾 CTA 真实描边范围与相邻青色箭头保护。"
+  ],
+  "retained_parts": [
+    "保留该版本的画面限制、独立质检与转录。正常速度连续视听审查未作新判断。"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-25T04:17:11+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

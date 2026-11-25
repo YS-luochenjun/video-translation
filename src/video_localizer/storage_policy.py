@@ -53,6 +53,15 @@ def settings(root=None):
     return _validate(policy)
 
 
+def require_intake_space(root, incoming_bytes=0):
+    reserve = int(settings(root)["minimum_free_gib"] * 1024**3)
+    free_bytes = shutil.disk_usage(root).free
+    require(free_bytes >= reserve + incoming_bytes,
+            f"Insufficient disk space for new intake: {free_bytes} bytes free; "
+            f"{incoming_bytes} incoming bytes plus {reserve} bytes of reserve required. "
+            "Review storage-sweep before retrying.")
+
+
 def configure(root=None, *, area=None, max_count=None, max_gib=None, minimum_free_gib=None):
     root = Path(root or ROOT)
     require(area in (*AREAS, None), "Unknown storage area")

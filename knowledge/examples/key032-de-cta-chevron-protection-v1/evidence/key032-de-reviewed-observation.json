@@ -1,0 +1,11 @@
+{
+  "source_sha256": "2bfc22451f88348cf008fcf0fb08c6be0c77d091e88676792cd304984dd7249e",
+  "video_sha256": "d24da44517beff6871f7c3a377df85305ae64c6b244f319f95a7c9923dc67c92",
+  "origin_review_sha256": "191e5a4cf0a99242a514671e36e16006406f8bb4613f747d90e4b1d0e47eef23",
+  "evidence_level": "historical sampled frame observations",
+  "observations": {
+    "repair": "The sampled German CTA lower stroke residue was corrected by expanding the true text effect extent.",
+    "boundary": "The recorded late frame retained three cyan chevrons after protecting cyan pixels from the CTA mask.",
+    "limitation": "Garment and jewelry texture defects remained especially at 7.4–9.4s. Normal speed audiovisual verification pending."
+  }
+}

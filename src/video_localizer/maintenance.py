@@ -44,10 +44,60 @@ def register(run, relative, reason):
 def status(run):
     root, policy, state = _context(run)
     last = state / 'latest.json'
+    deferred = root / 'state/deferred-delivery' / (run.name + '.json')
     return {'enabled': bool(policy.get('enabled')), 'scratch_directory': f'work/runs/{run.name}',
             'last': read_json(last) if last.exists() else None,
+            'deferred_delivery': read_json(deferred) if deferred.exists() else None,
             'close_command': f'bin/va.ps1 maintain {run.name} --close',
             'contract': 'agent/contracts/storage.md'}
+
+
+def complete_deferred(run, root):
+    path = root / 'state/deferred-delivery' / (run.name + '.json')
+    if not path.exists():
+        return None
+    from .knowledge import reflect, reflect_finalized
+    from .source_state import save as save_source_state
+    record = read_json(path)
+    delivery = read_json(run / 'outputs/delivery.json')
+    require(record['run'] == run.name and record['video_sha256'] == delivery['sha256']
+            and file_hash(inside(run, delivery['video'])) == delivery['sha256'],
+            'Deferred maintenance belongs to another delivered version')
+    completed = record.setdefault('results', {})
+    tasks = record['tasks']
+    require(all(task in {'reflect', 'source-save'} for task in tasks), 'Unknown delivery maintenance task')
+    if record.get('status') == 'complete' and all(completed.get(task, {}).get('state') == 'complete' for task in tasks):
+        return record
+    for task in tasks:
+        if completed.get(task, {}).get('state') == 'complete':
+            continue
+        try:
+            if task == 'reflect':
+                if delivery.get('scope') == 'best_available' and delivery.get('completion_record'):
+                    receipt = reflect_finalized(run, root, delivery)
+                else:
+                    candidate_path = run / 'outputs/candidate.json'
+                    candidate = read_json(candidate_path) if candidate_path.exists() else {}
+                    if candidate.get('sha256') != delivery['sha256']:
+                        completed[task] = {'state': 'pending_evidence', 'reason': 'Reflect requires an actual review bound to the delivered video'}
+                        continue
+                    receipt = reflect(run, root)
+                if receipt['status'] == 'not_ready':
+                    completed[task] = {'state': 'pending_evidence', 'missing': receipt['missing']}
+                    continue
+            else:
+                if (run / 'analysis/media.json').exists() or delivery.get('scope') != 'best_available':
+                    receipt = save_source_state(run, root)
+                else:
+                    receipt = {'status': 'not_applicable', 'reason': 'No source analysis exists to export'}
+            completed[task] = {'state': 'complete', 'receipt': receipt}
+            write_json(path, record)
+        except (OSError, WorkflowError, ValueError, KeyError, TypeError) as exc:
+            completed[task] = {'state': 'pending', 'reason': str(exc)}
+    record['status'] = 'complete' if all(completed[task]['state'] == 'complete' for task in tasks) else 'pending'
+    record['updated_at'] = utc_now()
+    write_json(path, record)
+    return record
 
 
 def _empty(root, directory):
@@ -163,31 +213,42 @@ def maintain(run, close=False, stage='manual'):
         # Managed expiry already has an independent, bounded delivery package.
         # Legacy preserve would add a permanent full-source copy in state.
         from . import learning, library
-        with run_operation(run):
+        with run_operation(run, resume=False):
             require(not list((root / 'state/resources').glob('*.lock')), 'Heavy work is active')
             for job in (run / 'jobs').glob('*.json'):
                 require(read_json(job).get('state') not in {'created', 'submitted', 'running', 'processing', 'queued'},
                         'Model task remains active; finish it before closing')
             delivery = read_json(run / 'outputs/delivery.json')
             require(file_hash(inside(run, delivery['video'])) == delivery['sha256'], 'Delivered video changed')
+            deferred = complete_deferred(run, root)
             package = library.export(run, root, delivery['sha256'])
             learning.audit(root)
-            project_storage.note_closed(run)
+            pending = bool(deferred and deferred['status'] != 'complete')
+            if not pending:
+                project_storage.note_closed(run)
             result = {'run':run.name, 'stage':stage, 'checked_at':utc_now(),
-                      'state':'closed_pending_lifecycle', 'package':package,
+                      'state':'deferred' if pending else 'closed_pending_lifecycle',
+                      'package':package, 'deferred_delivery': deferred,
                       'outputs':'Verified independent package; no permanent full-video recovery copy. '
                                 'Lifecycle preserves records and original accounting before deleting the closed run.'}
+            if pending:
+                result['blockers'] = ['Delivery follow-up is pending; retain the run for evidence and retry']
             write_json(state / 'latest.json', result)
         return result
     result = {'run': run.name, 'stage': stage, 'checked_at': utc_now(), 'state': 'kept',
               'deleted_cache': [], 'removed_empty_directories': [], 'blockers': [],
               'outputs': 'Retention and latest-only expiry are handled by the workspace-authorized storage lifecycle'}
-    with run_operation(run):
+    with run_operation(run, resume=False):
         result['blockers'] = retention.blockers(run)
         if list((root / 'state/resources').glob('*.lock')):
             result['blockers'].append('Heavy work is active')
         if any(p.name != run.name + '.lock' for p in (root / 'runs/.locks').glob('*.lock')):
             result['blockers'].append('Another run is active; reference inventory may be changing')
+        if not result['blockers'] and stage == 'manual':
+            deferred = complete_deferred(run, root)
+            result['deferred_delivery'] = deferred
+            if deferred and deferred['status'] != 'complete':
+                result['blockers'].append('Delivery follow-up is pending; retain the run for evidence and retry')
         # Pending financial/model evidence remains intact, including its directories.
         if not result['blockers']:
             if policy.get('automatic_empty_directories'):

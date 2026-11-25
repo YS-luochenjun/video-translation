@@ -19,6 +19,8 @@ from video_localizer.ledger import Conflict
 from console_data import ConsoleData
 from console_events import EventHub
 from console_panel import handoff, notified
+from console_requirements import add_ledger_evidence
+from source_capacity import project_capacity
 
 STATIC = Path(__file__).resolve().parent / 'static'
 CONSOLE_STATIC = Path(__file__).resolve().parent / 'console-static'
@@ -231,36 +233,59 @@ class Handler(BaseHTTPRequestHandler):
                                       'events': self.server.console_events.status(),
                                       'bridge': self.server.console.dispatch_status(), 'commands': self.server.console.commands()}, head)
             if url.path in {'/console', '/console/'}:
-                return self.file(CONSOLE_STATIC/'index.html', head)
-            if url.path in {'/console/app.js', '/console/styles.css'}:
+                return self.send_headers(302, 0, extra={'Location': '/'})
+            if url.path in {'/console/app.js', '/console/styles.css', '/console-static/app.js', '/console-static/styles.css'}:
                 return self.file(CONSOLE_STATIC/url.path.rsplit('/', 1)[1], head)
             if url.path == '/api/ledger':
-                result = self.server.collector.view()
+                view = arg('view')
+                if view not in {'', 'list', 'efficiency', 'history'}:
+                    raise ValueError('Invalid ledger view')
+                result = self.server.collector.view(activity=view == '')
                 rows = result['requirements']
                 result['unlinked_total'] = sum(not r.get('countable') for r in rows)
+                if view in {'', 'list'}:
+                    add_ledger_evidence(store, rows)
+                    result['source_capacity'] = project_capacity(store.root)
                 query = arg('q').lower()
-                state, locale, owner = arg('state'), arg('locale'), arg('owner').lower()
+                state, progress = arg('state'), arg('progress')
+                locale, owner = arg('locale'), arg('owner').lower()
                 if query:
-                    rows = [r for r in rows if query in json.dumps([r['code'],r['title'],r.get('threads'),r.get('videos')],ensure_ascii=False).lower()]
+                    rows = [r for r in rows if query in json.dumps([
+                        r['code'], r['title'], r.get('threads'), r.get('videos'), (r.get('claim') or {}).get('owner')
+                    ], ensure_ascii=False).lower()]
                 if state and state != 'all':
                     rows = [r for r in rows if (r.get('overdue') if state=='overdue' else not r.get('countable') if state=='unlinked' else r['state']==state)]
                 elif state != 'unlinked':
                     rows = [r for r in rows if r.get('countable') is not False]
+                if progress and progress != 'all':
+                    if progress not in {'done', 'active', 'blocked', 'waiting'}:
+                        raise ValueError('Invalid progress filter')
+                    rows = [r for r in rows if r['progress_state'] == progress]
                 if locale:
                     rows = [r for r in rows if any(locale in v['targets'] for v in r['videos'])]
                 if owner:
                     rows = [r for r in rows if owner in json.dumps([r.get('claim'),r.get('threads')],ensure_ascii=False).lower()]
                 days = int(arg('days') or 14)
                 if days not in {7,14,30,90}: raise ValueError('Invalid period')
-                result.update(requirements=rows, metrics=self.server.collector.ledger.metrics(rows,days=days), benchmark=self.server.collector.ledger.benchmark(rows), total_rows=len(result['requirements']), csrf_token=self.server.ledger_token)
+                ledger = self.server.collector.ledger
+                result.update(requirements=rows, metrics=ledger.metrics(rows,days=days),
+                              total_rows=len(result['requirements']), csrf_token=self.server.ledger_token)
+                if view in {'', 'efficiency'}:
+                    result['benchmark'] = ledger.benchmark(rows)
+                if view == 'history':
+                    result['historical_timing'] = ledger.historical_timing(rows, result['metrics'], result['read_at'])
                 from store import clean
                 token = result.pop('csrf_token')
                 return self.json(200, {**clean(result), 'csrf_token': token}, head)
             if url.path == '/api/ledger/detail':
                 from store import clean
-                return self.json(200, clean(self.server.collector.ledger.detail(arg('id'))), head)
+                value = self.server.collector.ledger.detail(arg('id'))
+                add_ledger_evidence(store, [value['requirement']], include_description=True)
+                return self.json(200, clean(value), head)
             if url.path == '/api/snapshot':
                 return self.json(200, self.server.snapshot(), head)
+            if url.path == '/api/session-usage':
+                return self.json(200, self.server.console.session_usage(), head)
             if url.path == '/api/task':
                 return self.json(200, store.detail(arg('id')), head)
             if url.path == '/api/knowledge':
@@ -269,7 +294,14 @@ class Handler(BaseHTTPRequestHandler):
                 return self.json(200, store.document(arg('path')), head)
             if url.path == '/api/media':
                 return self.file(store.media(arg('path')), head)
-            static = {'/': 'index.html', '/app.js': 'app.js', '/ledger.js': 'ledger.js', '/ledger.css': 'ledger.css', '/styles.css': 'styles.css', '/tokens.css': 'tokens.css'}
+            if url.path == '/':
+                body = (STATIC/'index.html').read_text().replace(
+                    '<!-- console-dialogs -->', (CONSOLE_STATIC/'dialogs.html').read_text()).encode('utf-8')
+                self.send_headers(200, len(body), 'text/html; charset=utf-8')
+                if not head:
+                    self.wfile.write(body)
+                return
+            static = {'/app.js': 'app.js', '/ledger.js': 'ledger.js', '/ledger.css': 'ledger.css', '/styles.css': 'styles.css', '/tokens.css': 'tokens.css'}
             if url.path in static:
                 return self.file(STATIC / static[url.path], head)
             return self.json(404, {'error': '入口不存在'}, head)

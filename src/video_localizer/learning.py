@@ -163,9 +163,7 @@ def enqueue(candidate, root=None):
     return str(path.relative_to(root).as_posix())
 
 
-def record_project_candidate(candidate, root=None):
-    """Route technical learning into the project; raw observations stay private."""
-    root = Path(root or ROOT)
+def project_candidate_record(candidate):
     def references(value):
         if isinstance(value, dict):
             return {key: references(child) for key, child in value.items() if key != "case"}
@@ -178,6 +176,13 @@ def record_project_candidate(candidate, root=None):
     record = references(candidate)
     record.update(status="candidate", knowledge_class="project_training_candidate",
                   evidence_boundary="Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence.")
+    return record
+
+
+def record_project_candidate(candidate, root=None):
+    """Route technical learning into the project; raw observations stay private."""
+    root = Path(root or ROOT)
+    record = project_candidate_record(candidate)
     path = root / "knowledge/candidates" / f"{candidate['id']}.json"
     from .knowledge_records import archives, resolve
     if path.relative_to(root).as_posix() in archives(root):

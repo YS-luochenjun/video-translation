@@ -9,7 +9,7 @@
 | `examples/` | 由原始 manifest 绑定的图片、音频和观察；重复字节由共享对象保存 | 正文要求核对证据时 |
 | [candidates/index.json](candidates/index.json) 与 `candidates/` | 待处理候选；索引同时保留已归档原文位置，不自动启用 | 审查采纳，或制作时经独立 advisory 通道按需参考 |
 | `curation/` | 部分采纳、结构整理与来源对应关系 | 追溯某条经验如何进入现行方法时 |
-| `distillations/` | 项目 Hook 生成的候选及独立来源快照 | 审查每日提纯结果时 |
+| `distillations/` | 手动触发提炼产生的候选及独立来源快照 | 审查新增经验时 |
 | [history/](history/README.md) | 已被替代的规则、源案例原文及已处理候选 | 追溯旧决定与候选原始来源时 |
 | `local/` | 客户私有证据、质量异议、候选与检查点 | 本地任务需要时；不进入源码导出 |
 
@@ -28,12 +28,12 @@
 | 问题 | 现行入口 | 使用边界 |
 | --- | --- | --- |
 | 内容分类与主/辅助路线 | [Agent方法选择](rules/agent-method-selection-v2.md)、[三类广告](rules/content-led-localization-v1.md) | 按实际音频、文案、运动及遮挡选路；记录首选、备选、切换和停止条件 |
-| 图片与连续视频修复 | [ImageGen优先](rules/imagegen-first-v3.md)、[自然修复选路](rules/content-aware-text-restoration-v5.md) | 参考图须实际绑定并审核；静态供体、局部采用与连续运动分别判断 |
+| 图片与连续视频修复 | [ImageGen优先](rules/imagegen-first-v4.md)、[自然修复选路](rules/content-aware-text-restoration-v6.md) | 参考图须实际绑定并审核；静态供体、局部采用与连续运动分别判断 |
 | 发布者水印和片尾同标 | [去除范围](rules/publisher-watermark-removal-v2.md) | 逐实例解析身份；产品品牌与用户明确保留例外单列 |
 | 字面串选、描边裁边和取证漏边界 | [原生渲染与取证](rules/native-render-evidence-guards-v1.md) | 已实现的工程防错与合成回归；不证明实际清底、声音或整片验收 |
 | 配音、角色和字幕时轴 | [最终混音核查](rules/method-spoken-caption-verification-v4.md)、[角色声线](rules/short-drama-character-voices-v2.md) | 孤立TTS、模型语义时间和预设名不能替代实际混音及编码边界 |
-| 全部原片/语种提交与恢复 | [全项交付](rules/fireplay-complete-delivery-v3.md)、[固定提交与收尾](rules/fireplay-completion-recovery-v4.md) | 部分批次继续补交；真实平台读回后结案，不跟踪YouTube进度 |
-| 设计师身份与KIE核查 | [设计师归属](rules/fireplay-designer-attribution-v2.md)、[API与本地日志](rules/kie-api-local-verification-v1.md) | 自行查询真实成员，持续授权沿原需求账本，不索要后台登录或DID |
+| 全部原片/语种提交与恢复 | [全项交付](rules/fireplay-complete-delivery-v3.md)、[固定提交与收尾](rules/fireplay-completion-recovery-v5.md) | 部分批次继续补交；真实平台读回后结案，不跟踪YouTube进度 |
+| 设计师身份与KIE核查 | [设计师归属](rules/fireplay-designer-attribution-v3.md)、[API与本地日志](rules/kie-api-local-verification-v1.md) | 自行查询真实成员，持续授权沿原需求账本，不索要后台登录或DID |
 
 语言scope默认完整匹配；审查过的基础语言scope才可扩大。`related_source_references`只是同源其他语言标签的发现线索，须重新审查。条件方法按实际特征命中；背景场景和候选存在本身不决定算法。
 

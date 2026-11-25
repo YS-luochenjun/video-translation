@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "apc004-fr-cta-recognition-disagreement-v1",
+  "created_at": "2026-11-25T03:42:35+00:00",
+  "files": [
+    {
+      "path": "evidence/cta-repair-v7.json",
+      "sha256": "fd89889b7e91468a39ced69e27f4319a6b4b8774773ecda8dd5b5587a7090fc6",
+      "bytes": 1133
+    },
+    {
+      "path": "evidence/final-v6-tail-slow-review.wav",
+      "sha256": "f882cb82d316dec0f06eec5a6c69078a5047b9c4e57a61eb15876fcbadb9f019",
+      "bytes": 203834
+    },
+    {
+      "path": "evidence/final-v6-tail.wav",
+      "sha256": "a3f061ad07d88b7448002ba7231a9eb260a6b266d412ac40d82db2f27d3fd25b",
+      "bytes": 112078
+    },
+    {
+      "path": "evidence/final-v7-tail.wav",
+      "sha256": "0f15cd992676fdace1ee8867360ba49be4c1c2932ba5d87d1bfdb655249f01c0",
+      "bytes": 112078
+    },
+    {
+      "path": "evidence/observations-v6.json",
+      "sha256": "8903b4551deda870949a428b878201160c0dedd153845f636b7a72b29d8a6ff3",
+      "bytes": 6384
+    },
+    {
+      "path": "evidence/offline-asr-final-v6-tail-slow-review.json",
+      "sha256": "d9e23485b76648bad53d5f8abddf321676ba608f114b8336ff5134e9d832ae0f",
+      "bytes": 3239
+    },
+    {
+      "path": "evidence/offline-asr-final-v6-tail.json",
+      "sha256": "86a9304ae8178baa71859ba2fcf832d5fc9b8cbd05f9bc22d2f01a74c3f801c4",
+      "bytes": 3238
+    },
+    {
+      "path": "evidence/offline-asr-final-v7-tail.json",
+      "sha256": "fd799f003f2b8c144845e2d65e9804a1fab5b1f5e4b9ba1de9f80275dea7552c",
+      "bytes": 3196
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+      "target_language": "fr",
+      "language_match": "exact"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# APC004 法语片尾短句的识别分歧\n\n适用范围为原片 `b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b` 的法语 V6 成片及其 V7 对照试验。V6 成片哈希为 `6f24280848ece1025d8fd1fed7d0c7de105d9ed9f95f56a6eaf7d1b2c8da1e07`。\n\n- V6 实际编码片尾的转写为「Teste magneau」，减速后的同段转写为「Teste maintenant」。两份转写各自绑定对应音频指纹。见 evidence:v6_normal_audio、evidence:v6_normal_asr、evidence:v6_slow_audio、evidence:v6_slow_asr。\n- V7 降速重混试验的成片哈希为 `c1ce06430d69bb111874def2c63bee69561ea8ba464ca6f8f70c59cde1ff43b7`，其片尾转写为「Test Magno」。历史记录把 V7 留作未选试验，V6 的片尾口播仍待确认。见 evidence:v7_change、evidence:v7_audio、evidence:v7_asr、evidence:review。\n\n同源续作按[首尾口播政策](../rules/audio-head-tail-review-v1.md)复核当前编码音轨。保留不同速度的原始结果，优先补正常速度听审。现有自动转写支持记录分歧，实际发音和可辨度仍待听审。该版本的发布阻断和内部 `revise` 以原评审为准。\n",
+    "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+    "video_sha256": "6f24280848ece1025d8fd1fed7d0c7de105d9ed9f95f56a6eaf7d1b2c8da1e07",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "v6_normal_audio": "evidence/final-v6-tail.wav",
+      "v6_normal_asr": "evidence/offline-asr-final-v6-tail.json",
+      "v6_slow_audio": "evidence/final-v6-tail-slow-review.wav",
+      "v6_slow_asr": "evidence/offline-asr-final-v6-tail-slow-review.json",
+      "v7_audio": "evidence/final-v7-tail.wav",
+      "v7_asr": "evidence/offline-asr-final-v7-tail.json",
+      "v7_change": "evidence/cta-repair-v7.json",
+      "review": "evidence/observations-v6.json"
+    }
+  }
+}

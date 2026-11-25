@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ledger.css">
   <script src="ledger.js" defer></script>
+  <script src="../console-static/app.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -19,23 +20,37 @@
       <a href="#ledger" data-nav="ledger"><span aria-hidden="true">▦</span>需求台账</a>
       <a href="#efficiency" data-nav="efficiency"><span aria-hidden="true">↗</span>效率分析</a>
       <a href="#tasks" data-nav="tasks"><span aria-hidden="true">▤</span>任务与视频<span id="nav-count" class="nav-count">—</span></a>
+      <a href="#sessions" data-nav="sessions"><span aria-hidden="true">◫</span>会话总览</a>
+      <a href="#automations" data-nav="automations"><span aria-hidden="true">◷</span>自动任务</a>
       <a href="#knowledge" data-nav="knowledge"><span aria-hidden="true">⌘</span>知识与调用</a>
       <a href="#system" data-nav="system"><span aria-hidden="true">◷</span>运行概况</a>
     </nav>
     <div class="rail-note"><span class="read-dot"></span>本机 · 台账与制作记录<p>制作继续沿用项目门禁</p></div>
   </aside>
   <div class="workspace">
-    <header class="topbar">
-      <span class="breadcrumb">广告视频本地化<span>/</span><strong id="page-label">任务与视频</strong></span>
-      <div class="refresh-controls"><span id="connection" role="status">连接中</span><label class="auto"><input id="auto" type="checkbox" checked>自动更新</label><button id="refresh" class="icon-button" title="立即更新" aria-label="立即更新">↻</button></div>
+    <header class="pathbar">
+      <nav class="breadcrumb" aria-label="当前位置">广告视频本地化<span aria-hidden="true">/</span><strong id="page-label" aria-current="page">需求台账</strong></nav>
     </header>
     <div id="notice" class="notice" role="status" hidden></div>
     <main id="main" tabindex="-1">
-      <section class="page-heading"><div><h1 id="page-title">任务与视频</h1><p id="page-description">查看制作进展、实际产物和仍需处理的问题。</p></div><span id="read-time" class="quiet">读取项目记录…</span></section>
+      <section class="page-heading">
+        <div class="page-title-row">
+          <h1 id="page-title">需求台账</h1>
+          <button id="refresh" class="icon-button" type="button" title="立即刷新" aria-label="立即刷新">↻</button>
+        </div>
+        <p id="page-description"></p>
+      </section>
       <div id="content"><div class="empty">正在读取本地任务…</div></div>
+      <details id="console-settings" class="panel system-box" hidden><summary>Codex 交办记录 <span class="quiet">查看工作台指令的受理情况</span></summary></details>
+      <div id="console-host"></div>
     </main>
-    <footer>记录自动刷新 · 质量结论来自对应版本的审核记录<span>台账操作独立留痕 · 页面不启动制作或付费任务</span></footer>
+    <footer>本机记录自动更新<span>制作、审核与平台提交分别记录</span></footer>
   </div>
   <dialog id="document"><div class="dialog-head"><h2 id="document-title">知识正文</h2><button id="close-document">关闭</button></div><p id="document-hash" class="mono quiet"></p><pre id="document-text"></pre></dialog>
+  <template id="console-template">
+    <link rel="stylesheet" href="../console-static/styles.css">
+    <div id="console-content"></div>
+    <!-- console-dialogs -->
+  </template>
 </body>
 </html>

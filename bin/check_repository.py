@@ -45,7 +45,7 @@ def check(root=ROOT):
     by_id = {entry["id"]: entry for entry in entries}
     if len(by_id) != len(entries):
         errors.append("Duplicate knowledge ID across method and source indexes")
-    indexed = set()
+    indexed, superseded_paths = set(), {}
     for entry in entries:
         relative = entry["path"]
         indexed.add(relative)
@@ -73,6 +73,8 @@ def check(root=ROOT):
             errors.append(f"Superseded knowledge has no successor: {entry['id']}")
         if entry.get("status") == "active" and relative.startswith("knowledge/history/"):
             errors.append(f"Active knowledge stored as history: {relative}")
+        if cursor is not entry and cursor.get("status") == "active" and not cursor.get("superseded_by"):
+            superseded_paths[relative] = cursor["path"]
     bodies = {}
     for area in ("rules", "cases"):
         for path in (root / "knowledge" / area).glob("*.md"):
@@ -88,6 +90,12 @@ def check(root=ROOT):
 
     checked_links = 0
     for relative, path in files.items():
+        operating_doc = (relative in {"AGENTS.md", "knowledge/README.md"}
+                         or relative.startswith(("agent/", ".agents/skills/")))
+        if path.suffix == ".json" and relative.startswith("config/"):
+            for linked in set(re.findall(r"knowledge/(?:rules|cases)/[\w-]+\.md", path.read_text(encoding="utf-8-sig"))):
+                if linked in superseded_paths:
+                    errors.append(f"Current config points to superseded knowledge: {relative} -> {linked}; use {superseded_paths[linked]}")
         # Immutable evidence and historical prose retain their original source labels.
         if (path.suffix not in {".md", ".html"}
                 or relative.startswith(("knowledge/examples/", "knowledge/history/",
@@ -134,6 +142,8 @@ def check(root=ROOT):
                 errors.append(f"Link leaves the source package: {relative} -> {target}")
                 continue
             linked = resolved.relative_to(root).as_posix()
+            if operating_doc and linked in superseded_paths:
+                errors.append(f"Operating document points to superseded knowledge: {relative} -> {linked}; use {superseded_paths[linked]}")
             included = linked in files or any(name.startswith(linked.rstrip("/") + "/") for name in files)
             if not included:
                 errors.append(f"Link missing from source package: {relative} -> {target}")

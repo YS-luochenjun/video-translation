@@ -2,6 +2,7 @@
   "schema_version": 1,
   "knowledge_daily": {
     "enabled": true,
+    "automatic": false,
     "time": "18:00",
     "timezone": "Asia/Shanghai",
     "max_records": 24,

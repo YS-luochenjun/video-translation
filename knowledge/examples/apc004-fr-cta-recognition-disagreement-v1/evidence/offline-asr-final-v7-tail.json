@@ -1,0 +1,56 @@
+{
+  "signature": {
+    "version": 1,
+    "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+    "video_sha256": null,
+    "audio_path": "analysis/final-v7-tail.wav",
+    "audio_sha256": "0f15cd992676fdace1ee8867360ba49be4c1c2932ba5d87d1bfdb655249f01c0",
+    "model_files": {
+      "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671",
+      "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+      "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+      "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913"
+    },
+    "engine_version": "1.2.1",
+    "vad": false,
+    "language_hint": "fr",
+    "word_timestamps": true,
+    "decoder_version": "ffmpeg version 9.0 Copyright (c) 2000-2026 the FFmpeg developers\nbuilt with Apple clang version 13.1.6 (clang-1316.0.21.2.5)\nconfiguration: --prefix=/Volumes/tempdisk/sw --extra-cflags=-fno-stack-check --arch=arm64 --cc=/usr/bin/clang --enable-gpl --enable-libvmaf --enable-libopenjpeg --enable-libopus --enable-libmp3lame --enable-libx264 --enable-libx265 --enable-libvvenc --enable-libvpx --enable-libwebp --enable-libass --enable-libfreetype --enable-fontconfig --enable-libtheora --enable-libvorbis --enable-libsnappy --enable-libaom --enable-libvidstab --enable-libzimg --enable-libsvtav1 --enable-libharfbuzz --enable-libkvazaar --pkg-config-flags=--static --enable-ffplay --enable-neon --enable-runtime-cpudetect --disable-indev=qtkit --disable-indev=x11grab_xcb\nlibavutil      61.  1.100 / 61.  1.100\nlibavcodec     63.  1.100 / 63.  1.100\nlibavformat    63.  1.100 / 63.  1.100\nlibavdevice    63.  1.100 / 63.  1.100\nlibavfilter    12.  1.100 / 12.  1.100\nlibswscale     10.  1.100 / 10.  1.100\nlibswresample   7.  1.100 /  7.  1.100\n\nExiting with exit code 0\n",
+    "implementation": "5bf170f7edf2ec2438f41f03c3fb7c100566ebe88df322963a9ef5bf6d9dfcb9"
+  },
+  "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+  "video_sha256": null,
+  "audio_path": "analysis/final-v7-tail.wav",
+  "audio_sha256": "0f15cd992676fdace1ee8867360ba49be4c1c2932ba5d87d1bfdb655249f01c0",
+  "model_sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671",
+  "engine": "faster-whisper small multilingual CPU int8",
+  "language": "fr",
+  "language_probability": 1,
+  "language_hint": "fr",
+  "vad_filter": false,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 3.38,
+      "text": " Test Magno",
+      "avg_logprob": -1.042057474454244,
+      "no_speech_prob": 0.3916946351528168,
+      "words": [
+        {
+          "text": " Test",
+          "start": 0.0,
+          "end": 2.6,
+          "probability": 0.29491060972213745
+        },
+        {
+          "text": " Magno",
+          "start": 2.6,
+          "end": 3.38,
+          "probability": 0.4667319729924202
+        }
+      ]
+    }
+  ],
+  "proof_boundary": "Actual audio transcription, no expected script supplied. Language hint is not detected-language proof. Not listening or acceptance.",
+  "data_sha256": "b51b12a44d61036b274bb661bce805ee8c4c2ee8dd5b819bf36a6337a9df3ff7"
+}

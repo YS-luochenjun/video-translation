@@ -30,12 +30,19 @@ def preflight(root, destination=None, required_bytes=0):
     while not path.exists():
         path = path.parent
     require_number(required_bytes, 'required_bytes', minimum=0)
-    minimum = int(settings(root)['minimum_free_mib'] * 1024**2)
+    from .storage_policy import settings as storage_settings
+    minimum = max(int(settings(root)['minimum_free_mib'] * 1024**2),
+                  storage_settings(root)['minimum_free_gib'] * 1024**3)
     free = shutil.disk_usage(path).free
     require(free >= minimum + required_bytes,
             f'Insufficient disk space at {path}: free={free}, required={minimum + required_bytes}; '
             'preserve existing artifacts, free space or select a larger workspace and resume')
     return {'free_bytes': free, 'reserve_bytes': minimum, 'required_bytes': required_bytes}
+
+
+def render_write_budget(meta, duration):
+    pixels_per_second = meta['width'] * meta['height'] * max(1, meta['fps'])
+    return int(duration * (pixels_per_second / 4 + 192000))
 
 
 @contextmanager

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-6cf7a06506f99ec936b8",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "495afaba11462f3a453c55f20b8e4f95888cc40b1eac978bdcb236167eb53624",
+    "target_language": "fr"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "法语片尾裁切过短导致识别异常",
+    "trigger": "该源法语片尾ASR切片从CTA大部分内容之后开始。",
+    "action": "保留异常转写，扩展实际编码片尾上下文至完整句及前后空隙，再核对分歧。",
+    "failure_signature": "过短片尾切片返回无依据短语，扩展上下文后识别出目标CTA。",
+    "limitations": [
+      "记录的观察位于hypothesis；仅一源法语，未人工听审或正常播放审查。",
+      "恢复转写不证明没有低电平外语残音或声音保真。",
+      "Quoted observations do not prove causality or validate the proposed action; controller review required."
+    ],
+    "next_counterexample_test": "独立听审完整编码片尾并核对两个切片及其边界。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/APC-20261111-001-fr-closure-8a5ccdbe05.json",
+      "sha256": "e641c5df9de7d9333878025d0857ee1cb503d7ad82cc4dc05b41ee837be3ceb7",
+      "event_id": "2d63579c9ba913009d586f260b9c673682665196964259859cccd1b8595e56c4",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "495afaba11462f3a453c55f20b8e4f95888cc40b1eac978bdcb236167eb53624",
+        "target_language": "fr"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "APC-20261111-001-fr-closure-8a5ccdbe05",
+        "status": "candidate",
+        "created_at": "2026-11-11T04:02:04+00:00",
+        "scope": {
+          "workflow": "video-localization",
+          "source_sha256": "495afaba11462f3a453c55f20b8e4f95888cc40b1eac978bdcb236167eb53624",
+          "target_language": "fr"
+        },
+        "outcome": "delivered_with_issues_bound_verified",
+        "hypothesis": "Single-source French observation: the original tail-only ASR slice began after most of the CTA and returned an unsupported Amara subtitle phrase. A separate encoded ending-context slice beginning at 1.2 seconds recovered Appuie pour répondre, while the head slice recovered both intended sentences. Retain the anomalous original recognition and use independent slice context as bounded evidence; neither transcript proves absence of every low-level foreign syllable or voice/music fidelity.",
+        "evidence": {
+          "source_sha256": "495afaba11462f3a453c55f20b8e4f95888cc40b1eac978bdcb236167eb53624",
+          "video_sha256": "8a5ccdbe05b23fd9c1a0c87d9d6e8ae65391b4ef5aaedc9d2cf263c9885a9560",
+          "case_manifest_sha256": "9c213721e6e14c37b19ddbd1755c0a6b491c203ef09c4da47c0b63f295faebf6"
+        },
+        "limitations": [
+          "One source and French version only; slice recovery does not establish universal ASR reliability.",
+          "No human listening or normal-speed audiovisual review; internal quality remains revise.",
+          "No provider failure was reinterpreted as a successful audio review; unknown request costs remain preserved."
+        ],
+        "company_preference": false,
+        "reflection_state": "observed_candidate",
+        "next_action": "Scoped candidate only; independently review evidence before any promotion or scope expansion.",
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": false,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation",
+  "analysis": {
+    "observations": [
+      {
+        "event_id": "2d63579c9ba913009d586f260b9c673682665196964259859cccd1b8595e56c4",
+        "pointer": "/hypothesis",
+        "quote": "Single-source French observation: the original tail-only ASR slice began after most of the CTA and returned an unsupported Amara subtitle phrase. A separate encoded ending-context slice beginning at 1.2 seconds recovered Appuie pour répondre, while the head slice recovered both intended sentences. Retain the anomalous original recognition and use independent slice context as bounded evidence; neither transcript proves absence of every low-level foreign syllable or voice/music fidelity."
+      }
+    ],
+    "causal_hypothesis": "切片缺少完整CTA上下文可能导致识别异常。",
+    "action_basis": "proposed"
+  },
+  "analysis_status": "source_linked",
+  "adoption_proposal": {
+    "action": "source_case",
+    "target_ids": [
+      "audio-head-tail-review-v1"
+    ],
+    "reason": "现行首尾规则已要求跨界句扩展上下文，此例提供限定反例。",
+    "missing_evidence": [
+      "独立听审",
+      "原始切片和转写复审"
+    ]
+  },
+  "next_action": "knowledge-review: source_case: 现行首尾规则已要求跨界句扩展上下文，此例提供限定反例。"
+}

@@ -25,6 +25,19 @@ class VideoUploadMetadataTests(unittest.TestCase):
         self.assertEqual(result['display_name'], f'es GAME 07 D288+D299 {fixtures.CODE}-2')
         self.assertEqual(result['tags'], ['es', 'Candy Crush', fixtures.CODE, 'derivative'])
 
+    def test_explicit_case_title_marker_changes_only_the_title(self):
+        marker = '在视频标题上标注文字”私“'
+        self.record.update(content_version='verified-version',
+                           snapshot={'brief': {'description': f'翻译\n{marker}'}})
+        self.spec['material_metadata']['title_marker'] = {
+            'source_quote': marker, 'content_version': 'verified-version'}
+        result = self.metadata()
+        self.assertEqual(result['display_name'], f'es GAME 07 D288+D299 {fixtures.CODE} 私')
+        self.assertEqual(result['tags'], ['es', 'Candy Crush', fixtures.CODE, 'derivative'])
+        self.record['content_version'] = 'new-version'
+        with self.assertRaises(WorkflowError):
+            self.metadata()
+
     def test_verified_user_ids_require_actual_did_mapping(self):
         self.attribution = {'designer_ids': ['user-one', 'user-two'], 'creation_type': 'derivative'}
         result = self.metadata()

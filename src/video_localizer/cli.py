@@ -42,16 +42,7 @@ def capture(run):
     require(file_hash(source) == candidate["sha256"], "Capture candidate video changed")
     directory = run / "review" / candidate["sha256"][:12]
     directory.mkdir(parents=True, exist_ok=True)
-    # Other reviewers may create this directory first. Cache the actual outputs,
-    # not the existence of their shared parent; an interrupted capture is resumable.
-    pages_path = directory / "contact-pages.json"
-    pages = read_json(pages_path) if pages_path.exists() else []
-    frames_complete = bool(pages) and all((directory / f"frame-{n:05d}.jpg").is_file()
-        for n in range(1, pages[-1]["last_frame"]+1))
-    if not frames_complete:
-        media.ffmpeg(["-i", source, "-vf", "fps=2,scale=480:-1", "-pix_fmt", "yuvj420p", "-q:v", "2", directory / "frame-%05d.jpg"])
-    if not frames_complete or any(not (directory / p["file"]).is_file() for p in pages):
-        media.contact_sheets(directory, directory)
+    media.capture_overview(source, directory)
     actual = media.probe(source)
     if actual["has_audio"] and not (directory / "audio.wav").is_file():
         media.ffmpeg(["-i", source, "-vn", "-ac", "1", "-ar", "16000", directory / "audio.wav"])
@@ -455,6 +446,7 @@ def main(argv=None):
     command.add_argument("action", choices=["status", "baseline", "run", "prepare", "apply"])
     command.add_argument("--due", action="store_true", help="Only run after project daily time, once per successful sweep")
     command.add_argument("--response", help="Project-relative structured answer from any reasoning engine")
+    command.add_argument("--include-existing", action="store_true", help="Initialize a new checkpoint with existing open sources still pending")
     command = commands.add_parser("knowledge-promote", help="Publish a reviewed method and independent evidence using a sourced spec")
     command.add_argument("spec")
     command = commands.add_parser("archive", help="Create a standalone local delivery/reuse package")
@@ -669,10 +661,11 @@ def main(argv=None):
             from .quality_holds import record
             result = record(args.spec)
         elif name == "hooks":
+            require(not args.include_existing or args.action == "baseline", "--include-existing is only valid for hooks baseline")
             if args.action == "status":
                 result = curation.status(ROOT)
             elif args.action == "baseline":
-                result = curation.baseline(ROOT)
+                result = curation.baseline(ROOT, include_existing=args.include_existing)
             else:
                 require(args.action != "apply" or args.response, "hooks apply requires --response")
                 result = curation.execute(ROOT, due_only=args.due, prepare_only=args.action == "prepare",

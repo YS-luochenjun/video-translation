@@ -1,0 +1,37 @@
+{
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project knowledge review",
+  "origin": "User-requested review of existing lessons against current project policy and evidence.",
+  "all_material_accounted": false,
+  "remaining_disposition": "pending_evidence",
+  "source": {
+    "path": "knowledge/distillations/lesson-1ee93fac232760eed79f/55d0a581c8b2f3b0f0eae6ab12b2e32009b13fff112106221b91d8abd87ae0a4.json",
+    "sha256": "95ac5c755137f3a77abed65ca6edb875012e312e56910b50c87b070aa651a5e4"
+  },
+  "previous_review": null,
+  "resolution": "partial",
+  "reason": "现行口播核验方法已覆盖保留模型分歧、定位实际编码音轨并补上下文。稿件和混音边界可定位检查范围，现有记录不足以据此裁定语义或完整发音。",
+  "adopted_parts": [
+    "保留模型原始结果，针对实际编码音轨和上下文补证。"
+  ],
+  "retained_parts": [
+    "保留原记录报告的词句及时间分歧、葡语CTA时间争议和没有直接连续听审的限制。现有案例无独立听审。"
+  ],
+  "targets": [
+    {
+      "id": "method-spoken-caption-verification-v4",
+      "path": "knowledge/rules/method-spoken-caption-verification-v4.md",
+      "sha256": "e20eb1874113966042995c02caa3f77e15dcebe9b288ad1d1552d4a0f2890f8e",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 口播与字幕：实际混音、分歧及停止\r\n\r\n适用有人声任务。先区分对白、独白、旁白、口播字幕、独立标题/UI及配乐演唱；实际职责与用户要求决定替换范围。单人口播首选共同定稿生成真实目标语音频，字幕在裁切/变速/偏移/混音后按实际发声对齐。多角色叠加角色声线与场景方法，不默认全员同音色。\r\n\r\n首选证据是实际编码成片声音及对应字幕边界帧。检查逐句内容、完整发音、首尾、语种、音乐音效及同步。请求文字、计划时间、孤立 TTS 与成功响应不能替代最终混音。换音、改稿、变速或画面时轴改变后重新绑定相关审核。\r\n\r\nASR 空白/同音/文字系统混淆或与 Gemini 分歧：定位实际词句，保留原始结果，补真实上下文、独立分句或可用听审；必要时做一次针对疑点的音频理解。仍有分歧留 pending；只有实际错读、漏读或不可理解才补录。禁止用预期译稿替换 ASR。低能量不必然静音，短句级证据可靠时不伪造词级精度。\r\n\r\n字幕时标异常先查句前静音与混音偏移，再按实际短语定位，检查编码边界；不得为追字幕改变背景音乐速度。具体工程阈值查 quality 配置，语义和自然度仍需实际审查。\r\n\r\n停止：对应内容/同步完整且有证据；或无新补证方向/达到尝试费用能力边界。后者标明未审、已确认错误及音频可用状态，按最终输出合同处理。用户要求必须配音时字幕不代替音频。声学模型、自审、母语听审及用户验收分别记录，不保证无损分轨或逐字嘴型。\r\n\r\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\r\n"
+    }
+  ],
+  "next_action": "取得与成片哈希对应的争议音轨及各模型原始输出，补正常播放独立听审后决定是否建立仅限该源的案例。",
+  "schema_version": 1,
+  "closed": false,
+  "retrieval_features": [],
+  "recorded_at": "2026-11-25T03:33:55+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

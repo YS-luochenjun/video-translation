@@ -1596,7 +1596,7 @@
       "origin": "Direct user feedback in thread 01a15d75-c0bd-7fd3-bbba-6a5268b13f10 on 2026-10-22; watermark scope only",
       "reviewed_by": "User approved removal result; Codex scoped and reviewed the method",
       "company_preference": false,
-      "status": "active",
+      "status": "superseded",
       "reviewed_at": "2026-10-22T02:28:15+00:00",
       "method_sha256": "7b7a89b6256c53f22251a795f435eb1788b523fbfa4c00181d501d80ca7c760e",
       "case": "knowledge/examples/de2us-watermark-approved-20261022",
@@ -1617,7 +1617,8 @@
         "edge-failure-before",
         "edge-fixed-after",
         "overall-user-feedback"
-      ]
+      ],
+      "superseded_by": "de2us-en-watermark-approved-v2"
     },
     {
       "id": "tpye-us-production-recovery-20261022",
@@ -2219,6 +2220,7 @@
           "sha256": "b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba"
         }
       ],
+      "evidence_caveat": "本案保留当时暂缓语种与上传结果未知的处理回执。后续先核对原操作及真实素材ID。当前授权允许有真实超时证据时有界重传，已入库素材沿用已核验ID。新批次按 fireplay-completion-recovery-v5 及现行 Fireplay 接入流程执行。",
       "knowledge_type": "source_reference",
       "validation_level": "developer_reviewed_guidance"
     },
@@ -3000,6 +3002,181 @@
         "fast",
         "strict"
       ]
+    },
+    {
+      "id": "de2us-en-watermark-approved-v2",
+      "path": "knowledge/cases/de2us-en-watermark-approved-v2.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f",
+        "target_language": "en"
+      },
+      "tags": [
+        "text",
+        "visual",
+        "watermark",
+        "ads"
+      ],
+      "origin": "2026-11-24 用户授权的知识整理。核对当前执行合同、旧版正文和索引适用范围。",
+      "reviewed_by": "Codex 开发审查",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-24T11:00:47+00:00",
+      "method_sha256": "dfb02c505168be907fcbf97972f1bfddc50e008a05af41279575a1e253e94357",
+      "case": "knowledge/examples/de2us-en-watermark-approved-v2",
+      "case_manifest_sha256": "30e53012ab888fd2c05848ec933b52b0ebb271b11ef690676f05f346a0962c1f",
+      "reference_video_sha256": "ff1eec75f0b7242b002c0bc6b8d7b0cacd464f446571c6abc4de90bc35060f92",
+      "supersedes": "de2us-watermark-approved-20261022",
+      "knowledge_type": "source_reference",
+      "validation_level": "developer_reviewed_guidance",
+      "topic": "visual",
+      "evidence_sources": [
+        {
+          "path": "knowledge/examples/de2us-watermark-approved-20261022",
+          "manifest_sha256": "fd0e1913a5610fb08e3d6fa121bdb1930dcb71e3adee2d4c2075316b6741bc11",
+          "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f"
+        }
+      ],
+      "evidence_caveat": "Watermark outcome only; source and English result bound. Prior audiovisual restrictions and proof remain in the predecessor and its supplements."
+    },
+    {
+      "id": "apc004-fr-cta-recognition-disagreement-v1",
+      "path": "knowledge/cases/apc004-fr-cta-recognition-disagreement-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+        "target_language": "fr",
+        "language_match": "exact"
+      },
+      "tags": [
+        "audio",
+        "timing",
+        "speech",
+        "counterexample"
+      ],
+      "origin": "用户委托整理项目经验。核验已公开的源限定证据包、音频与模型结果指纹及版本对应。",
+      "reviewed_by": "Codex project knowledge review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-25T03:42:35+00:00",
+      "method_sha256": "489272995e6dd2e45c886fbad2d250d9d32d67c4ee25c2fa59617cf7c06c8d3a",
+      "case": "knowledge/examples/apc004-fr-cta-recognition-disagreement-v1",
+      "case_manifest_sha256": "7cdc1c1b61362928962d84d86b27101ebf9dbb1ac4dcee96867eb819ab07d111",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/APC-20261111-004-fr-bounded-6f24280848.json",
+          "sha256": "7c38c5def5905964f70e1a138edcca11ca03af707c15e047b1a667cea7837938"
+        },
+        {
+          "path": "knowledge/distillations/lesson-f9f6d3e800dafc2fb9cc/10b7817b77f190148a952b22030829561533881ab82f57dfc78326e4aafee5d0.json",
+          "sha256": "fb2e7b2fa2df1ccba9c36e4c277bc80340cd70e91b14d2dd2ea25fe5d338c78c"
+        }
+      ],
+      "reference_video_sha256": "6f24280848ece1025d8fd1fed7d0c7de105d9ed9f95f56a6eaf7d1b2c8da1e07",
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "转写分歧只限该法语案例。正常速度可辨度仍待听审，原质量和发布阻断继续以版本评审为准。",
+      "language_match": "exact",
+      "knowledge_type": "source_reference"
+    },
+    {
+      "id": "apc004-de-placeholder-restoration-v1",
+      "path": "knowledge/cases/apc004-de-placeholder-restoration-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+        "target_language": "de",
+        "language_match": "exact"
+      },
+      "tags": [
+        "text",
+        "ui",
+        "counterexample"
+      ],
+      "origin": "用户委托整理待审知识，复核现有项目案例包、成片绑定与原评审记录。",
+      "reviewed_by": "Codex project knowledge review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-25T04:01:59+00:00",
+      "method_sha256": "c4506e2e0cde09fb61a1539e3d653fecd32d2de5b971c412e92b0505e59b0c9d",
+      "case": "knowledge/examples/apc004-de-placeholder-restoration-v1",
+      "case_manifest_sha256": "17114043e0ddcfa6301c8dc3480c8073eef9b5b683214f5377f223df98260cdb",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/APC-20261111-004-de-bounded-b8bf61648c.json",
+          "sha256": "3315db1a541b184586c89042911631e463bbea742f5a6c5b25b22dd4e722dbb7"
+        }
+      ],
+      "reference_video_sha256": "b8bf61648c84d9310ecc701f180cc9b0ef7a1ee5b62a7a22640d47ccb0821aa9",
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "原制作方画面抽样，适用该原片德语版，正常速度独立审查待补充。",
+      "language_match": "exact",
+      "knowledge_type": "source_reference"
+    },
+    {
+      "id": "apc004-es-cta-word-boundary-v1",
+      "path": "knowledge/cases/apc004-es-cta-word-boundary-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+        "target_language": "es",
+        "language_match": "exact"
+      },
+      "tags": [
+        "audio",
+        "speech",
+        "counterexample"
+      ],
+      "origin": "用户委托整理待审知识，复核现有项目案例包、成片绑定与原评审记录。",
+      "reviewed_by": "Codex project knowledge review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-25T04:01:59+00:00",
+      "method_sha256": "557f4a55c59775c846467fc53f53ef4c73bac5e14ff39c9293db9d8ddec278b6",
+      "case": "knowledge/examples/apc004-es-cta-word-boundary-v1",
+      "case_manifest_sha256": "ad2fa83fdcb6e93c681946bf3d6889548a533bd1ec56ed52147c260693a2c661",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/APC-20261111-004-es-bounded-49c2a72941.json",
+          "sha256": "9ce3de5a02fe2ca16886970b5efa453efe2bc6ef9d676297722eff8561bd77ba"
+        }
+      ],
+      "reference_video_sha256": "49c2a7294117857277af6cc2df888a6f87fbc5858dcd5a488de3245cb5261b4e",
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "编码片尾与隔离 TTS 转写的分词差异适用该原片西语版，正常速度独立听审待补充。",
+      "language_match": "exact",
+      "knowledge_type": "source_reference"
+    },
+    {
+      "id": "key032-de-cta-chevron-protection-v1",
+      "path": "knowledge/cases/key032-de-cta-chevron-protection-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "target_language": "de",
+        "source_sha256": "2bfc22451f88348cf008fcf0fb08c6be0c77d091e88676792cd304984dd7249e"
+      },
+      "tags": [
+        "text",
+        "repair",
+        "cta"
+      ],
+      "origin": "用户委托知识整理，经原质检与案例清单哈希核对后提炼技术观察。",
+      "reviewed_by": "Codex project knowledge review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-25T04:17:11+00:00",
+      "method_sha256": "fa65426fb7cc2dd27a05cd7f3b92cb3546825a60423c70c21680b56ceadf7213",
+      "case": "knowledge/examples/key032-de-cta-chevron-protection-v1",
+      "case_manifest_sha256": "7a09bc94ee8568840b570a69ba83e88553a07a448e3aaa85df10c62cabfabeab",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/KEY-20261110-032-01-d24da44517.json",
+          "sha256": "9bbeef3bbb88c183ff38fa3f06d0a6da17042d4906a881617d5d6b89642ffd81"
+        }
+      ],
+      "reference_video_sha256": "d24da44517beff6871f7c3a377df85305ae64c6b244f319f95a7c9923dc67c92",
+      "validation_level": "single_source_observations",
+      "language_match": "exact",
+      "knowledge_type": "source_reference"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

@@ -13,7 +13,7 @@ PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT / 'src'))
 from video_localizer import budgets, fireplay_monitor as monitor, workflow
 from video_localizer.common import WorkflowError, read_json, write_json, utc_now
-from test_fireplay import fixture, CODE, RID, MID, THREAD
+from test_fireplay import attachment_receipt, fixture, CODE, RID, MID, THREAD
 
 
 class MonitorTests(unittest.TestCase):
@@ -49,6 +49,20 @@ class MonitorTests(unittest.TestCase):
     def decision(self, yes=True):
         return {'snapshot': self.snap, 'decision': {'is_translation': yes,
                  'reason': 'Observed actual fixture title and declared locales', 'evidence': ['brief.title', 'brief.locales']}}
+
+    def test_assess_resolves_previously_missing_sources_with_exact_attachment_readback(self):
+        self.snap['brief']['items'][0].update(description=None, locales=['en'])
+        monitor.scan(self.pages(), self.root)
+        self.assertEqual(monitor.assess(CODE, self.decision(), self.root)['state'], 'needs_information')
+        request_path = self.root / 'state/fireplay' / CODE / 'request.json'
+        previous = read_json(request_path)
+        self.snap['delivery'] = attachment_receipt(self.snap)
+        self.assertEqual(monitor.assess(CODE, self.decision(), self.root)['state'], 'admitted')
+        record = read_json(request_path)
+        self.assertEqual(len(record['videos']), 2)
+        self.assertEqual(record['targets'], ['en'])
+        self.assertEqual(read_json(self.root / record['revision_history'][0]['path']), previous)
+        self.assertNotIn('budget', record)
 
     def test_baseline_all_groups_excludes_old_and_survives_repeat(self):
         old = copy.deepcopy(self.snap['summary']['items'][0])

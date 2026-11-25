@@ -30,7 +30,7 @@
     "authorization": "Direct project owner request 2026-10-23 to lower visual-imperfection strictness. Do not rewrite historical failures."
   },
   "preserved_user_constraints": [
-    "Natural background repair and no visible covers, including translucent patches; see knowledge/rules/content-aware-text-restoration-v5.md"
+    "Natural background repair and no visible covers, including translucent patches; see knowledge/rules/content-aware-text-restoration-v6.md"
   ],
   "max_route_trials": 2,
   "trial_timebox_seconds": 300,

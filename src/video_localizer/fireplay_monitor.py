@@ -362,7 +362,8 @@ def assess(code, spec, root=ROOT):
         old_record = Path(root) / 'state/fireplay' / code / 'request.json'
         if old_record.exists():
             old = read_json(old_record)
-            if old['content_version'] != snap['content_version']:
+            if (old['content_version'] != snap['content_version']
+                    and not fireplay.can_resolve_missing_attachments(old, snap, old_record.parent)):
                 if decision.get('reviewed_content_version') and decision['is_translation']:
                     interpretation = {**old.get('decision', {}),
                                       'reviewed_content_version': decision['reviewed_content_version'],
@@ -721,9 +722,45 @@ def completion_watch_status(followup_items, root=ROOT):
             'discovery_automation_action': 'keep_active', 'automatic_approval': False}
 
 
+def _dispatch_candidate(root, packet):
+    from .fireplay_submission import coverage
+    path = Path(root) / 'state/fireplay' / fireplay._code(packet['code']) / 'request.json'
+    if not path.exists():
+        return None
+    record = read_json(path)
+    if record.get('blockers') or record.get('requirement_id') != packet['id']:
+        return None
+    chat = record.get('chat', {})
+    split = record.get('thread_policy') == 'one_chat_per_source_video_all_locales' or not chat
+    if not split:
+        return packet if chat.get('state') != 'ready' else None
+    pending = [{'video_index': video['index'], 'title': video['title'],
+                'state': video.get('chat', {}).get('state', 'unclaimed'),
+                'source_registered': bool(video.get('source'))}
+               for video in record['videos']
+               if video.get('chat', {}).get('state') != 'ready'
+               and not coverage(record, video, root)['complete']]
+    return {**packet, 'sources': pending} if pending else None
+
+
+def dispatch_queue(root=ROOT, *, config=None, state=None):
+    config = policy(root) if config is None else config
+    state = _state(root) if state is None else state
+    queue = []
+    for entry in state['requirements'].values():
+        row = entry['row']
+        if entry['state'] not in ('admitted', 'registered') or not _matches(row, config):
+            continue
+        packet = {key: row.get(key) for key in ('id', 'code', 'priority', 'title', 'deptName', 'createdAt', 'updatedAt')}
+        candidate = _dispatch_candidate(root, {**packet, 'state': entry['state'], 'reason': entry.get('reason')})
+        if candidate:
+            queue.append(candidate)
+    return _ordered(queue)
+
+
 def status(root=ROOT):
     config, state = policy(root), _state(root)
-    review, queue, revisions, historical, waiting = [], [], [], [], []
+    review, revisions, historical, waiting = [], [], [], []
     for entry in state['requirements'].values():
         row = entry['row']
         if not _matches(row, config):
@@ -750,31 +787,13 @@ def status(root=ROOT):
                                                       'content_version': entry.get('assessed_brief_version')}),
                           next_action='Check existing exact-code chat/request/ledger and requirement bindings; reuse proven work. If scope is still unresolved, ask the owner once for this resolution_key. Record the actual reply as assess.authority; do not silently leave pending or auto-remake history.')
             historical.append(packet)
-        if entry['state'] in ('admitted', 'registered'):
-            p = Path(root) / 'state/fireplay' / row['code'] / 'request.json'
-            if p.exists():
-                record = read_json(p)
-                if record.get('blockers'):
-                    continue
-                chat = record.get('chat', {})
-                split = record.get('thread_policy') == 'one_chat_per_source_video_all_locales' or not chat
-                from .fireplay_submission import coverage
-                pending = [{'video_index': video['index'], 'title': video['title'],
-                            'state': video.get('chat', {}).get('state', 'unclaimed'),
-                            'source_registered': bool(video.get('source'))}
-                           for video in record['videos']
-                           if video.get('chat', {}).get('state') != 'ready'
-                           and not coverage(record, video, root)['complete']]
-                if split and pending:
-                    queue.append({**packet, 'sources': pending})
-                elif not split and chat.get('state') != 'ready':
-                    queue.append(packet)
     followup_items = followups(root)
     watch = completion_watch_status(followup_items, root)
     from .fireplay_parallel import capacity
     return {'state': 'ready' if state.get('baseline_at') else 'needs_baseline', 'interval_minutes': config['interval_minutes'],
             'scope': config['group_policy'], 'baseline_at': state.get('baseline_at'), 'last_success_at': state.get('last_success_at'),
-            'visible_count': state.get('visible_count', 0), 'needs_review': _ordered(review), 'ready_to_dispatch': _ordered(queue),
+            'visible_count': state.get('visible_count', 0), 'needs_review': _ordered(review),
+            'ready_to_dispatch': dispatch_queue(root, config=config, state=state),
             'revision_reviews': _ordered(revisions),
             'historical_translation_candidates': _ordered(historical),
             'historical_review_required': _ordered(historical),

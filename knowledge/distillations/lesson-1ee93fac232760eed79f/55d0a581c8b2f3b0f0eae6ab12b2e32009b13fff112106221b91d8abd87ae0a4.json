@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-1ee93fac232760eed79f",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+    "locales": [
+      "ja",
+      "es",
+      "pt",
+      "de",
+      "fr"
+    ],
+    "condition": "Short localized ad speech with music and tight head/tail crops"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "短广告人声的模型词句与时间分歧",
+    "trigger": "该源多语短口播伴随音乐及紧裁首尾片段时。",
+    "action": "保留各模型原始结果，针对实际编码音频和完整上下文补证；不能以稿件或混音边界单独裁定语义。",
+    "failure_signature": "多个语种出现词句或时间分歧，葡语模型给出虚构CTA时间。",
+    "limitations": [
+      "单源多语；无直接正常速度听审或独立母语验收。",
+      "不建立模型排名或通用时间容差。",
+      "候选中将定稿和测得混音边界作为决定性证据的表述，与现行规则禁止单凭预期文本或波形证明语义存在冲突，待审。",
+      "Quoted observations do not prove causality or validate the proposed action; controller review required."
+    ],
+    "next_counterexample_test": "对分歧短句独立听审实际编码音频，并核对完整上下文。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/APC-20261117-060-asr-model-disagreement.json",
+      "sha256": "0f67334b305e7fa817c06a2043575ba32dbc6e3106719440f81cca56f12147b0",
+      "event_id": "28a326f34b573da8c9e7ef677ae12d9f22a087c753fd6a998dbee388ee943364",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+        "locales": [
+          "ja",
+          "es",
+          "pt",
+          "de",
+          "fr"
+        ],
+        "condition": "Short localized ad speech with music and tight head/tail crops"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "APC-20261117-060-asr-model-disagreement",
+        "status": "candidate",
+        "created_at": "2026-11-17T12:17:00+00:00",
+        "scope": {
+          "workflow": "video-localization",
+          "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+          "locales": [
+            "ja",
+            "es",
+            "pt",
+            "de",
+            "fr"
+          ],
+          "condition": "Short localized ad speech with music and tight head/tail crops"
+        },
+        "outcome": "delivered_with_issues",
+        "hypothesis": "ASR and comparative audio models can disagree on short localized ad phrases and timestamps when music, tight crops and mixed speech are present. APC-20261117-060 supports using the final script, measured mix boundaries and actual encoded audio as the deciding evidence while retaining model disagreement as a limitation.",
+        "limitations": [
+          "Spanish, German and French showed lexical or timing disagreement across Whisper, raw TTS and Gemini evidence; Portuguese Gemini hallucinated CTA timing; the complete takes were retained in the encoded mixes.",
+          "No direct continuous normal-speed listening or independent native-speaker acceptance was performed.",
+          "This observation does not establish a model ranking or a universal timing tolerance.",
+          "The candidate records a bounded review method and remains pending broader evidence."
+        ],
+        "evidence": {
+          "run": "APC-20261117-060",
+          "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+          "audio_review": "work/state/APC060-review-audio.log",
+          "finalized_locales": "work/state/APC060-finalized-locales.json"
+        },
+        "reflection_state": "observed_candidate",
+        "quality_passed": false,
+        "company_preference": false,
+        "promotion": "Keep as a source-scoped candidate; do not promote a model hierarchy or waive encoded audio review.",
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "Exact source, mix and locale scope; new productions require their own script, mix, head/tail and encoded review."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": true,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation",
+  "analysis": {
+    "observations": [
+      {
+        "event_id": "28a326f34b573da8c9e7ef677ae12d9f22a087c753fd6a998dbee388ee943364",
+        "pointer": "/limitations/0",
+        "quote": "Spanish, German and French showed lexical or timing disagreement across Whisper, raw TTS and Gemini evidence; Portuguese Gemini hallucinated CTA timing; the complete takes were retained in the encoded mixes."
+      }
+    ],
+    "causal_hypothesis": "音乐、紧裁切和混合人声可能造成模型分歧。",
+    "action_basis": "proposed"
+  },
+  "analysis_status": "source_linked",
+  "adoption_proposal": {
+    "action": "source_case",
+    "target_ids": [
+      "method-spoken-caption-verification-v4"
+    ],
+    "reason": "保留分歧反例；不吸收将稿件和混音边界视为语义决定证据的表述。",
+    "missing_evidence": [
+      "独立听审",
+      "分歧片段及原始模型输出复核"
+    ]
+  },
+  "next_action": "knowledge-review: source_case: 保留分歧反例；不吸收将稿件和混音边界视为语义决定证据的表述。"
+}

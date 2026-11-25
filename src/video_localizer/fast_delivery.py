@@ -336,7 +336,7 @@ def deliver(run):
                 'workflow': 'agent/workflows/always-output.md'}
     candidate = read_json(run / 'outputs/candidate.json')
     with timing.measure(run, 'fast.delivery_archive'):
-        shutil.copyfile(inside(run, candidate['path']), run / 'outputs/final.mp4')
+        media.copy_verified_video(inside(run, candidate['path']), run / 'outputs/final.mp4', candidate['sha256'])
         write_json(run / 'outputs/delivery.json', {'video': 'outputs/final.mp4', 'sha256': candidate['sha256'],
                    'quality_record': 'outputs/quality.json', 'quality_sha256': file_hash(run / 'outputs/quality.json'),
                    'scope': 'fast-basic', 'delivered_at': utc_now(), 'plan_id': candidate['plan_id']})

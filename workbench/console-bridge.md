@@ -1,6 +1,6 @@
 # 译制台真实接入与宿主交办
 
-真实控制台为 <http://127.0.0.1:8770/console>，原工作台 `/` 保留。2026-11-03用户明确要求停止每分钟桥接，改为本机事件监听和用户点击时交办。`automation-5` 已通过原生工具暂停并读回确认；不得因旧心跳或刷新页面重新启用。
+网页统一入口为 <http://127.0.0.1:8768/>。会话总览与自动任务和台账共用导航。宿主插件继续提供原生交办。2026-11-03 用户明确要求停止每分钟桥接，改为本机事件监听和用户点击时交办。`automation-5` 已通过原生工具暂停并读回确认。
 
 ## 数据、事件和时间
 
@@ -59,6 +59,6 @@ node .runtime/deps/remotion/node_modules/.pnpm/esbuild@0.28.1/node_modules/esbui
 
 插件安装不等于当前桌面窗口已加载新工具。禁止为刷新插件重启Codex或干预运行中的聊天；尚未加载时使用网页手动交办。宿主能力必须实际握手确认，不根据SDK文档假定支持。
 
-控制台服务使用 `python workbench/start.py --port 8770 --background --console-only`，不启动第二个台账采集器。PID/日志位于work/workbench。仅重启核验过的这个HTTP服务不会停止原制作聊天；原工作台采集职责不变。
+网页与宿主插件媒体共用 `python workbench/start.py --port 8768 --background` 启动的本机服务。PID 和日志位于 `work/workbench/`。
 
 `test_console.py` 在临时项目覆盖项目隔离、签名、同源、单次通知、精确ID领取、不重发unknown、原生文件事件与产物版本。真实验收不得向生产聊天发送测试指令或试接实际需求。无变化/相同unknown不反复报告。

@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-84953e76cd236b71da33",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+    "locales": [
+      "ja",
+      "es",
+      "pt",
+      "de",
+      "fr"
+    ],
+    "condition": "This exact source and the APC-20261117-060 typography refinement attempt"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "该源字号调整未恢复源标题视觉重量",
+    "trigger": "该源五语版本尝试通过字号调整恢复标题和CTA重量。",
+    "action": "保留该失败对照；重新捕捉源样式并比较实际编码字形墨迹、填充和装饰。",
+    "failure_signature": "调整后目标墨迹仍偏小，原字体未识别，纹理和闪光被简化。",
+    "limitations": [
+      "单源多语，抽帧证据；未完成连续播放或用户验收。",
+      "不能将近似字体或字号当作通用默认。",
+      "Quoted observations do not prove causality or validate the proposed action; controller review required."
+    ],
+    "next_counterexample_test": "在同源实际编码帧比较源与目标墨迹比例及装饰，验证新的限定调整。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/APC-20261117-060-font-size-hypothesis-rejected.json",
+      "sha256": "96d96f5b7e8f5878ffe20fa89eff4511cecfe44d3e7a12f868d67a5b987ea325",
+      "event_id": "146b47515f181e9be2ee84fe8a921fbb3d8579e7fa20810bff906cc91a75e2fb",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+        "locales": [
+          "ja",
+          "es",
+          "pt",
+          "de",
+          "fr"
+        ],
+        "condition": "This exact source and the APC-20261117-060 typography refinement attempt"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "APC-20261117-060-font-size-hypothesis-rejected",
+        "status": "candidate",
+        "created_at": "2026-11-17T12:17:00+00:00",
+        "scope": {
+          "workflow": "video-localization",
+          "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+          "locales": [
+            "ja",
+            "es",
+            "pt",
+            "de",
+            "fr"
+          ],
+          "condition": "This exact source and the APC-20261117-060 typography refinement attempt"
+        },
+        "outcome": "delivered_with_issues",
+        "hypothesis": "A font-size refinement can recover the source title and CTA visual weight while preserving the tested source-style lettering layer. The recorded APC-20261117-060 refinement did not establish that result: the target ink mass remained smaller and the source font stayed unidentified, so the refinement is rejected as a reusable success claim.",
+        "limitations": [
+          "The actual tested outputs retain a smaller target ink mass and simplified patterned red fill/sparkle treatment.",
+          "Montserrat Black and Hiragino Sans W6 are approximations selected from observed weight and shape; exact source font identity was not established.",
+          "The observation is based on sampled source/target frames and encoded evidence; it does not establish continuous normal-speed viewing or user acceptance.",
+          "This candidate records a rejected hypothesis and does not change the current source-led typography policy."
+        ],
+        "evidence": {
+          "run": "APC-20261117-060",
+          "source_sha256": "ef8a09849831de4d6743551f60b105bc3f05ce77ab204936087cf34ccf75c6cc",
+          "finalized_locales": "work/state/APC060-finalized-locales.json",
+          "refinement_log": "work/state/APC060-refine-sizes.log"
+        },
+        "reflection_state": "rejected_hypothesis",
+        "quality_passed": false,
+        "company_preference": false,
+        "promotion": "Keep as a source-scoped rejected hypothesis; do not promote or use as a default font-sizing rule.",
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "Exact source and locale scope only; future reuse requires a fresh source-style capture and current encoded review."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": false,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation",
+  "analysis": {
+    "observations": [
+      {
+        "event_id": "146b47515f181e9be2ee84fe8a921fbb3d8579e7fa20810bff906cc91a75e2fb",
+        "pointer": "/limitations/0",
+        "quote": "The actual tested outputs retain a smaller target ink mass and simplified patterned red fill/sparkle treatment."
+      }
+    ],
+    "causal_hypothesis": "",
+    "action_basis": "observed_comparison"
+  },
+  "analysis_status": "source_linked",
+  "adoption_proposal": {
+    "action": "source_case",
+    "target_ids": [
+      "in-place-text-replacement-v2",
+      "source-led-visual-localization-v1"
+    ],
+    "reason": "作为既有源视觉重量要求下的失败反例。",
+    "missing_evidence": [
+      "独立前后媒体复核",
+      "正常播放审查"
+    ]
+  },
+  "next_action": "knowledge-review: source_case: 作为既有源视觉重量要求下的失败反例。"
+}

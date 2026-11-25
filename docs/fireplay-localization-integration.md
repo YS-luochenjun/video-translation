@@ -18,7 +18,7 @@
 ## 项目已保存的运行约定
 
 1. 用户指定需求编号或组/日期/负责人等实际范围，宿主发现当前工具定义后拉取summary，逐页保存真实回执，排序并逐条读取blind_brief、下载所有原片。来源、语种缺失或冲突时仅该需求转待补信息，其他需求继续。
-2. 身份沿用宿主Fireplay连接器，需求权限按实际读回。设计师按[执行人归属规则](../knowledge/rules/fireplay-designer-attribution-v2.md)查询：除罗晨钧、邹彬外的当前执行人均填写；自行核验真实成员及用户ID/DID并读回二创归属，无其他人员才可留空。不向用户索要内部ID，不扩大素材公开范围。
+2. 身份沿用宿主Fireplay连接器，需求权限按实际读回。设计师按[执行人归属规则](../knowledge/rules/fireplay-designer-attribution-v3.md)查询：除罗晨钧、邹彬外的当前执行人均填写；自行核验真实成员及用户ID/DID并读回二创归属，无其他人员才可留空。不向用户索要内部ID，不扩大素材公开范围。
 3. 当前用户已指定固定提交动作：审核后入库、共享到需求组、开启YouTube自动上传、语言及1至2词产品tag、编号加语言命名，最后绑定需求。配置原文在config/fireplay-intake.json，视频聊天prompt自动携带。素材详情读回验证共享/tag/名称，YouTube后续进度交平台，不额外轮询；入库成功不等于YouTube完成，整项交付须完成全部原片/语种的真实绑定读回。有瑕疵本地输出不等于质量通过；用户已允许有限条件下做到最好的完整正式成品带普通不合格回传，实际发布审查与内部质量分开；普通瑕疵数量不单独阻断，严重损坏或不完整仍阻断。
 4. KIE同意与来源已持久保存到config/fireplay-intake.json.kie；对用户明确交办的需求，fireplay-start追加独立授权绑定，包含必要媒体传送。工作区automatic_use=true且在现有模型/预算内时直接执行，不逐聊天重复询问。各需求按自己的去重语种建立账本，不合并跨需求额度、不因续作重开，未交办列表项不启动付费制作。
 5. 当前由宿主Agent按用户请求执行；每60分钟应用定时唤醒主控的监控流程已接入，见agent/workflows/fireplay-monitor.md。webhook及独立服务器常驻服务仍属后续能力。P0/P1并行推进受真实资源和服务并发限制，冲突时P0先用，不让P1等全部P0结束。
@@ -31,7 +31,7 @@
 
 字体环境已接入Mac真实家族及TTC字面，见[字体说明](fonts.md)：doctor可验证中日韩、泰语、印地语、阿拉伯语及拉丁/西里尔文字的常规/粗体样例。正式制作仍按实际稿件检查缺字和成片；明确指定但缺失的字体不自动替换。macOS系统Python 3.9不能加载已安装的3.12二进制依赖，宿主应选用doctor验证过的解释器。需要宿主Agent持续执行观察、翻译、图片与审核；工作包不等于推理完成，应用定时任务状态按state/fireplay/monitor中的真实回执核对，不宣称独立服务器已部署。真实回传仍须用正式审过的样片验证归属、上传传输、绑定读回及权限；不能用本地mock冒充线上闭环。
 
-用户最新收尾约定：Fireplay受理、入库、共享、标签和需求绑定核验后即完成经验收尾，不再追踪YouTube上传进度；排队、限额和向量化交给Fireplay。已入库绑定的历史素材不为缺链接重复入库或补提。机器政策为config/fireplay-publication.json.completion，当前正式知识为[自动提交与经验收尾](../knowledge/rules/fireplay-completion-recovery-v4.md)。KIE核查仅用API和本地日志，访问限制读取config/kie-access.json。
+用户最新收尾约定：Fireplay受理、入库、共享、标签和需求绑定核验后即完成经验收尾，不再追踪YouTube上传进度；排队、限额和向量化交给Fireplay。已入库绑定的历史素材不为缺链接重复入库或补提。机器政策为config/fireplay-publication.json.completion，当前正式知识为[自动提交与经验收尾](../knowledge/rules/fireplay-completion-recovery-v5.md)。KIE核查仅用API和本地日志，访问限制读取config/kie-access.json。
 
 ## 已有制作的续作与结案
 

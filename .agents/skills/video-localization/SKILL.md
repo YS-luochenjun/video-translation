@@ -5,7 +5,7 @@ description: Localize an advertisement video into another language in this works
 
 # 视频本地化
 
-目标是全部画面文字与人声的完整本地化，并重建源文字设计与运动，不能用普通底部字幕代替原画面文字。按[自然去字与有界提交合同](../../../knowledge/rules/content-aware-text-restoration-v5.md)执行：尽力后普通瑕疵仍完整提交，制作目标不变成完美发布门槛。
+目标是全部画面文字与人声的完整本地化，并重建源文字设计与运动，不能用普通底部字幕代替原画面文字。按[自然去字与有界提交合同](../../../knowledge/rules/content-aware-text-restoration-v6.md)执行：尽力后普通瑕疵仍完整提交，制作目标不变成完美发布门槛。
 
 先读[原位替换政策](../../../knowledge/rules/in-place-text-replacement-v2.md)：清除原语言字幕/文案，在原位置按原视觉大小、字体风格、颜色、描边和运动重建目标文字；禁止原文保留、译文另放一行的双语叠加。源逐词/短语弹出必须重建对应弹出方式，阿语保持RTL词序和连写；标题/CTA按实际字形墨迹核对视觉大小。该路线错误不属于普通瑕疵放行范围；目标配音对齐不改变原位替换要求。
 

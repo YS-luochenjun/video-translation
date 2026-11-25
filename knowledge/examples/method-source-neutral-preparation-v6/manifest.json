@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "method-source-neutral-preparation-v6",
+  "created_at": "2026-11-24T10:57:58+00:00",
+  "files": [
+    {
+      "path": "evidence/method-source-neutral-preparation-v5.md",
+      "sha256": "418f804d6e1f4d3ec89dcb6ae4d4886a2827e4f1e73a3c32211a70d8e1519b7b",
+      "bytes": 10389
+    },
+    {
+      "path": "evidence/model-routing.md",
+      "sha256": "58af3c122d4f01c587317ba0afa2b43d7e1f69fe9e4808448bcca2dface41038",
+      "bytes": 11076
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 先验证修复与译字，再沿原视频合成\n\n适用于画面文字本地化。先对照原帧、无字底片和完整译后图，分离底片与目标字层。同一源可共享合格底片，各语种分别重做字层与时轴。\n\n## 建立代表关键帧\n\n1. 绑定真实源哈希、原尺寸、帧号或 PTS。记录字形类别、字重、斜体、视觉高度、描边、阴影、颜色、留白、显隐、层级和遮挡。\n2. 由 Codex 使用少量宿主图像参考或经核验的干净供体去除完整原字包络。保留原容器和图形，分别检查亮度、虚化、横向纹理及透明底下的真实运动。可见横纹、矩形和接缝须实审。\n3. 把定稿以匹配字形或艺术字层写回原位，核对目标字和标点、前景交叠以及常规播放可读性。先查完整源帧、底片与译后帧，再确定局部采用区。\n\n## 沿原时轴合成\n\n| 实际底面 | 处理与复查 |\n| --- | --- |\n| 稳定不透明卡片和按钮 | 在准确的时刻复用干净底面，动态姓名、数字、手指及图标保留。 |\n| 移动或变形平面 | 从未被文字遮住的真实纹理测量变换，按各原帧定位。核对滑动、透视和边缘。 |\n| 头发、脸部、手、衣物和半透明容器 | 按真实姿态、遮挡和新露出区域选参考。需要连续生成时按[模型合同](../../agent/contracts/model-routing.md)提交实际源片段与可用参考。审查主体、遮挡和纹理，只采用有效局部。 |\n| 切镜、闪白、显隐和淡出 | 在边界分别核对原容器与新字的透明度、完整字形包络和残影。 |\n\n确定性合成读取每一帧的对应源画面和变换。Codex 图片使用少量参考。视频编辑使用现行接口，真实源声音、目标配音及音乐音效走独立链路。参考图仅在任务记录确认实际传入时用于解释结果。\n\n扩展前验证稳定区与最难的运动或显隐区，核对原时序、正常播放、画面外观和字层边界。跨语种使用底片前核验源及依赖哈希与质量异议。同一底片的多语成片共用一个视觉证据来源。视觉返工保留已核验的音轨时，仍以当前实际混音复查字幕。达到有界停止条件，按完整输出合同保留实际限制。\n\n历史对照显示，大块同源供体即使没有新加字底，也会因亮度、虚化和运动不符出现透明矩形感。同姿态无字帧匹配当前亮度并收窄到实际旧字包络后，已观察片尾帧改善，移动前景仍取原时刻。该结论限定于原证据窗口。见 evidence:previous、evidence:routing。历史多源和原始反馈在上一版证据中保持可查。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "previous": "evidence/method-source-neutral-preparation-v5.md",
+      "routing": "evidence/model-routing.md"
+    }
+  }
+}

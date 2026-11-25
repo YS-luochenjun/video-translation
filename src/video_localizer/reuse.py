@@ -4,6 +4,7 @@ import copy
 import shutil
 
 from .common import file_hash, inside, read_json, require, run_operation, write_json
+from .media import copy_verified_video
 from .prepared import verify_for_production
 from .timing import measure
 
@@ -15,8 +16,10 @@ def neutral(target, source, source_shot, target_shot):
             stack.enter_context(run_operation(run))
         stack.enter_context(measure(target, 'reuse.neutral'))
         from .workflow import source_path
-        source_sha = file_hash(source_path(source))
-        require(file_hash(source_path(target)) == source_sha, 'Neutral master reuse requires the exact same original video')
+        original_video = source_path(source)
+        target_video = source_path(target)
+        source_sha = file_hash(original_video)
+        require(file_hash(target_video) == source_sha, 'Neutral master reuse requires the exact same original video')
         original = read_json(source / 'analysis/inventory.json')
         inventory = read_json(target / 'analysis/inventory.json')
         shot = next((s for s in original['shots'] if s['id'] == source_shot), None)
@@ -31,6 +34,9 @@ def neutral(target, source, source_shot, target_shot):
         def copied(relative, expected=None):
             old = inside(source, relative)
             require(old.is_file(), 'Missing neutral reuse evidence')
+            if old == original_video:
+                require(expected in (None, source_sha), 'Neutral source binding changed')
+                return {'path': target_video.relative_to(target).as_posix(), 'sha256': source_sha}
             digest = file_hash(old)
             require(expected is None or digest == expected, 'Neutral evidence changed during reuse')
             new = inside(target, prefix + '/' + relative)
@@ -38,7 +44,10 @@ def neutral(target, source, source_shot, target_shot):
                 require(file_hash(new) == digest, 'Conflicting neutral evidence; existing bytes are not overwritten')
             else:
                 new.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(old, new)
+                if old.suffix.lower() in {'.mp4', '.mkv', '.mov', '.webm'}:
+                    copy_verified_video(old, new, digest)
+                else:
+                    shutil.copyfile(old, new)
             require(file_hash(new) == digest, 'Neutral copy changed')
             return {'path': new.relative_to(target).as_posix(), 'sha256': digest}
 

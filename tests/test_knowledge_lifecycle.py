@@ -65,6 +65,30 @@ class KnowledgeLifecycleTests(unittest.TestCase):
         selected = advisories.retrieve(self.context, self.root)
         self.assertEqual([x["path"] for x in selected], [path])
 
+    def test_conflict_blocks_distillation_and_its_exact_source_from_advisories(self):
+        path = "knowledge/distillations/lesson/revision.json"
+        write_json(self.root / path, {"scope": self.value["scope"], "conflict_with_rules": True,
+                                     "sources": [self.review["source"]],
+                                     "method": {"action": "Use a conflicting method"}})
+        source = {"path": path, "sha256": file_hash(self.root / path)}
+        write_json(self.root / "knowledge/distillations/index.json", {"entries": [source]})
+        self.assertTrue(all(row["conflict_with_rules"] for row in reviews.queue(self.root)))
+        self.assertEqual(advisories.retrieve(self.context, self.root), [])
+        reviews.review({**self.review, "source": source, "resolution": "duplicate"}, self.root)
+        self.assertTrue(reviews.queue(self.root)[0]["conflict_with_rules"])
+        self.assertEqual(advisories.retrieve(self.context, self.root), [])
+        write_json(self.root / self.path, {**self.value, "hypothesis": "Independent revised observation"})
+        self.assertFalse(reviews.queue(self.root)[0]["conflict_with_rules"])
+        self.assertEqual([item["path"] for item in advisories.retrieve(self.context, self.root)], [self.path])
+
+    def test_conflict_marked_in_review_stays_out_until_explicitly_cleared(self):
+        spec = {**self.review, "resolution": "pending", "next_action": "Compare with current method"}
+        marked = reviews.review({**spec, "conflict_with_rules": True}, self.root)
+        updated = reviews.review({**spec, "previous_review": marked["sha256"]}, self.root)
+        self.assertEqual(advisories.retrieve(self.context, self.root), [])
+        reviews.review({**spec, "previous_review": updated["sha256"], "conflict_with_rules": False}, self.root)
+        self.assertEqual([item["path"] for item in advisories.retrieve(self.context, self.root)], [self.path])
+
     def test_private_public_copies_are_one_observation(self):
         private = "knowledge/local/candidates/observation.json"
         write_json(self.root / private, {**self.value, "case": "private-evidence"})
@@ -72,6 +96,43 @@ class KnowledgeLifecycleTests(unittest.TestCase):
         write_json(self.root / "knowledge/local/inbox/observation.json", {"id": "observation", "case": "private-evidence"})
         reviews.review({**self.review, "source": {"path": private, "sha256": file_hash(self.root / private)}}, self.root)
         self.assertNotIn(self.root / "knowledge/local/inbox/observation.json", curation.source_files(self.root))
+
+    def test_generated_private_copy_has_one_queue_item_and_keeps_evidence(self):
+        private = self.root / "knowledge/local/candidates/observation.json"
+        local = {**self.value, "case": "knowledge/local/examples/observation",
+                 "evidence": {"video_sha256": "a" * 64, "quality_sha256": "b" * 64}}
+        write_json(private, local)
+        pointer = self.root / learning.enqueue(local, self.root)
+        (self.root / self.path).unlink()
+        learning.record_project_candidate(local, self.root)
+        public = self.root / self.path
+        self.assertEqual([row["path"] for row in reviews.queue(self.root)], [self.path])
+        self.assertEqual(curation.source_files(self.root), [public])
+        alias = next(row for row in reviews.queue(self.root, True) if row["status"] == "evidence_copy")
+        self.assertEqual(alias["evidence_copy_of"], {"path": self.path, "sha256": file_hash(public)})
+        reviews.review({**self.review, "source": {"path": self.path, "sha256": file_hash(public)}}, self.root)
+        archived = reviews.archive_preview(self.path, self.root)
+        reviews.archive(self.path, archived["fingerprint"], self.root)
+        self.assertEqual(reviews.queue(self.root), [])
+        self.assertEqual(curation.source_files(self.root), [])
+        self.assertEqual(read_json(private), local)
+        self.assertTrue(pointer.is_file())
+
+    def test_private_revision_or_independent_review_keeps_its_own_queue_item(self):
+        private = self.root / "knowledge/local/candidates/observation.json"
+        relative = private.relative_to(self.root).as_posix()
+        local = {**self.value, "case": "knowledge/local/examples/observation",
+                 "evidence": {"video_sha256": "a" * 64, "quality_sha256": "b" * 64}}
+        write_json(private, local)
+        (self.root / self.path).unlink()
+        learning.record_project_candidate(local, self.root)
+        write_json(private, {**local, "limitations": ["New private evidence limit"]})
+        self.assertEqual(len(reviews.queue(self.root)), 2)
+        write_json(private, local)
+        reviews.review({**self.review, "source": {"path": relative, "sha256": file_hash(private)},
+                        "resolution": "partial", "next_action": "Review the private evidence"}, self.root)
+        self.assertEqual(len(reviews.queue(self.root)), 2)
+        self.assertEqual(curation.source_files(self.root), [self.root / self.path])
 
     def test_partial_adoption_cannot_archive(self):
         reviews.review({**self.review, "resolution": "partial", "next_action": "Check the remaining repair hypothesis"}, self.root)

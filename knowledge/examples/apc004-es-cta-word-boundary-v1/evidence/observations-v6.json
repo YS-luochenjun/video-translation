@@ -1,0 +1,80 @@
+{
+  "video_sha256": "49c2a7294117857277af6cc2df888a6f87fbc5858dcd5a488de3245cb5261b4e",
+  "checks": {
+    "translation": "Full-frame samples show ¡Qué / valientes / filtro / revela / quien word pops, Test de amor titles, Escribe dos nombres instruction, translated input placeholders, keyboard controls and ¡PRUÉBALO YA! CTA. Heart scores 0/39/14/31/13/77 and cat/human subjects remain recognizable. Encoded tail ASR splits Pruébalo as Prueba lo, while isolated actual TTS recognizes Pruébalo ya; spelling segmentation uncertainty is preserved. All registered translation instances rendered; exact tiny UI temporal fidelity remains pending.",
+    "source_text_removed": "Shared neutral-v5 source erasure used; source captions, native titles, labels and CTA replaced in inspected frames. No retained English main caption observed; edge-by-edge independent audit pending.",
+    "protected_graphics": "Couple, brunette and blonde portraits, cat, source keyboard, hearts, scores and final arrows remain recognizable in actual full-frame samples. No large-area tearing observed in these samples.",
+    "native_motion": "Native 555-frame source timeline retained; opening word events follow actual TTS timestamps, UI follows registered scale/slide trajectories. Entry smear and outgoing overlap remain.",
+    "speech_complete": "Actual encoded head ASR: ¡Qué valientes! Este filtro revela la inicial de quién te gusta. Actual encoded tail ASR: Prueba lo ya. Model sentence coverage checked; listening not claimed.",
+    "head_tail_audio": "Sample0 opening and through-end tail separately decoded and no-VAD transcribed from current encoded video. Source endpoint evidence reused by exact-source identity; no final-language approval copied.",
+    "music_effects": "Source accompaniment retained over full timeline with sample-index narration replacement and ducking. Listening-based fidelity and nonverbal reaction preservation remain unverified.",
+    "caption_sync": "Target opening words use isolated actual TTS boundaries mapped through trim/tempo. Formal final word-by-word audiovisual timing audit pending."
+  },
+  "head_tail_audio": {
+    "video_sha256": "49c2a7294117857277af6cc2df888a6f87fbc5858dcd5a488de3245cb5261b4e",
+    "method": "Whisper small multilingual CPU int8, no VAD, es language hint, no expected text; current encoded head/tail and full audio extracted.",
+    "source_head": {
+      "path": "analysis/source-head.wav",
+      "observed": "Y'all are brave for using this filter as it reveals your crush's first initial.",
+      "speech_ids": [
+        "a001"
+      ]
+    },
+    "source_tail": {
+      "path": "analysis/source-tail.wav",
+      "observed": "Woo! Test now!",
+      "speech_ids": [
+        "a002"
+      ],
+      "limitation": "Nonverbal reaction preservation after UVR not listening-certified."
+    },
+    "target_head": {
+      "path": "analysis/final-v6-head.wav",
+      "sha256": "2c70da4ebe507b149c6338c586d9152128c81e6e7fb839852aa1b09981b48a64",
+      "interval": [
+        0,
+        4.5
+      ],
+      "observed": "¡Qué valientes! Este filtro revela la inicial de quién te gusta.",
+      "speech_ids": [
+        "a001"
+      ],
+      "decision": "model_sentence_coverage_only",
+      "asr": "analysis/offline-asr-final-v6-head.json"
+    },
+    "target_tail": {
+      "path": "analysis/final-v6-tail.wav",
+      "sha256": "7a8772a73081aff91f1cba18587073bf296a50f06e9d64392a51cd561b474d31",
+      "interval": [
+        15,
+        18.5
+      ],
+      "observed": "Prueba lo ya.",
+      "speech_ids": [
+        "a002"
+      ],
+      "decision": "model_sentence_coverage_only",
+      "asr": "analysis/offline-asr-final-v6-tail.json"
+    },
+    "remaining": "Perceptual listening, source-voice residue certainty and independent acceptance pending."
+  },
+  "evidence": [
+    "analysis/es-v6-overview.jpg",
+    "analysis/final-v6-head.wav",
+    "analysis/final-v6-tail.wav",
+    "analysis/final-v6-full.wav",
+    "analysis/offline-asr-final-v6-head.json",
+    "analysis/offline-asr-final-v6-tail.json",
+    "analysis/offline-asr-source-head.json",
+    "analysis/offline-asr-source-tail.json"
+  ],
+  "limitations": [
+    "Same-agent sampled full-frame and actual encoded audio ASR review; no human listening, independent review or company/user acceptance.",
+    "Formal per-instance visual, normal-speed audiovisual and caption timing approval remain pending; internal quality remains revise.",
+    "Opening donor has lower spatial resolution; source UI erasure has soft edges, faint white input texture and third-entry zoom/exit smears.",
+    "Target typography approximates source; outgoing translated UI can overlap incoming heart briefly near slide boundary.",
+    "UVR accompaniment reused with speech ducking; music timbre, nonverbal reaction and absolute absence of faint source voice are not listening-certified.",
+    "Full-frame samples show ¡Qué / valientes / filtro / revela / quien word pops, Test de amor titles, Escribe dos nombres instruction, translated input placeholders, keyboard controls and ¡PRUÉBALO YA! CTA. Heart scores 0/39/14/31/13/77 and cat/human subjects remain recognizable. Encoded tail ASR splits Pruébalo as Prueba lo, while isolated actual TTS recognizes Pruébalo ya; spelling segmentation uncertainty is preserved.",
+    "Shared original budget retains failed Wan cleanup and unknown audio-analysis cost; no quality pass inferred from API success."
+  ]
+}

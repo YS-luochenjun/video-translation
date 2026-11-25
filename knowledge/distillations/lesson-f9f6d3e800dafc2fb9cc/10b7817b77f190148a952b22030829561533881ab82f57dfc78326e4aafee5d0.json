@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-f9f6d3e800dafc2fb9cc",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+    "target_language": "fr",
+    "language_match": "exact"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "法语CTA慢速识别恢复但正常速度仍不确定",
+    "trigger": "该源法语片尾CTA的完整性在模型结果间存在分歧。",
+    "action": "保留慢速和正常速度结果及未选用试验，补充实际编码音频的正常速度独立听审；未确认前维持对应版本阻断。",
+    "failure_signature": "两次完整TTS输出漏CTA；慢速V6识别出预期短语，正常速度V6及V7仍不明确。",
+    "limitations": [
+      "一源法语、同会话模型证据；无正常速度人工听审。",
+      "不能据此断言ASR正确或实际发音错误。",
+      "Quoted observations do not prove causality or validate the proposed action; controller review required."
+    ],
+    "next_counterexample_test": "独立听审当前实际编码片尾及完整上下文，核对CTA是否完整可懂。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/APC-20261111-004-fr-bounded-6f24280848.json",
+      "sha256": "7c38c5def5905964f70e1a138edcca11ca03af707c15e047b1a667cea7837938",
+      "event_id": "bc2931e46814d0378315dbc1cd844bd0db883d1d5db74c2b4fb6360611c78270",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+        "target_language": "fr",
+        "language_match": "exact"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "APC-20261111-004-fr-bounded-6f24280848",
+        "created_at": "2026-11-11T06:44:22+00:00",
+        "scope": {
+          "workflow": "video-localization",
+          "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+          "target_language": "fr",
+          "language_match": "exact"
+        },
+        "hypothesis": "For this exact source, compare the complete outgoing UI boundary and every input placeholder before accepting text coverage. Retain observed lower-resolution donor, repair texture and transition defects as limitations. Check actual encoded head and tail audio independently after sample-index mixing; successful TTS or mixing does not establish spoken coverage. Two full French TTS outputs omitted the CTA. Slowed V6 audio recovered the expected phrase, while normal-speed V6 and the lower-tempo V7 trial remained ambiguous. This is evidence of unresolved verification, not proof that ASR is correct or that pronunciation is wrong; V7 remains an unselected trial and external publication stays blocked.",
+        "outcome": "required_audio_unverified",
+        "evidence": {
+          "source_sha256": "b7047ff003799971658f1465158243d1fd7de8ae3abfcee6d7795cdda1ab0d0b",
+          "video_sha256": "6f24280848ece1025d8fd1fed7d0c7de105d9ed9f95f56a6eaf7d1b2c8da1e07",
+          "case_manifest_sha256": "244b1d501249fd1027e2ac11ea7254485190fd1914941a34db8ddf5d2b4ac708",
+          "observation_sha256": "8903b4551deda870949a428b878201160c0dedd153845f636b7a72b29d8a6ff3"
+        },
+        "limitations": [
+          "Exact source and locale only; same-agent samples and ASR, no normal-speed human listening or independent acceptance.",
+          "No new company preference, quality standard or cross-source method is activated.",
+          "Ordinary visual defects remain; publication does not mean internal quality passed."
+        ],
+        "company_preference": false,
+        "promotion": "Candidate only; separately review the independent evidence before any activation.",
+        "status": "candidate",
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": false,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation",
+  "analysis": {
+    "observations": [
+      {
+        "event_id": "bc2931e46814d0378315dbc1cd844bd0db883d1d5db74c2b4fb6360611c78270",
+        "pointer": "/hypothesis",
+        "quote": "For this exact source, compare the complete outgoing UI boundary and every input placeholder before accepting text coverage. Retain observed lower-resolution donor, repair texture and transition defects as limitations. Check actual encoded head and tail audio independently after sample-index mixing; successful TTS or mixing does not establish spoken coverage. Two full French TTS outputs omitted the CTA. Slowed V6 audio recovered the expected phrase, while normal-speed V6 and the lower-tempo V7 trial remained ambiguous. This is evidence of unresolved verification, not proof that ASR is correct or that pronunciation is wrong; V7 remains an unselected trial and external publication stays blocked."
+      }
+    ],
+    "causal_hypothesis": "",
+    "action_basis": "proposed"
+  },
+  "analysis_status": "source_linked",
+  "adoption_proposal": {
+    "action": "source_case",
+    "target_ids": [
+      "audio-head-tail-review-v1"
+    ],
+    "reason": "作为必需音频未确认时保留pending的源限定反例。",
+    "missing_evidence": [
+      "正常速度独立听审",
+      "实际音频与模型输出复核"
+    ]
+  },
+  "next_action": "knowledge-review: source_case: 作为必需音频未确认时保留pending的源限定反例。"
+}

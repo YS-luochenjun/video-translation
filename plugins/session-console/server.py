@@ -13,7 +13,8 @@ from console_events import EventHub
 from console_panel import read_api, handoff, notified
 
 data = ConsoleData(ROOT)
-URL = 'http://127.0.0.1:8770/console'
+ORIGIN = 'http://127.0.0.1:8768'
+URL = ORIGIN + '/'
 RESOURCE = 'ui://localization-console/panel-v3'
 
 def invalidate():
@@ -32,7 +33,7 @@ def tools():
                 '_meta': {'ui': {'resourceUri': RESOURCE, 'visibility': ['app', 'model']} if panel else {'visibility': ['app']},
                           **({'openai/ui': {'entrypoints': [{'type': 'global'}, {'type': 'thread'}]}} if panel else {})}}
     command_id = {'type': 'string', 'pattern': '^[A-Za-z0-9_-]{12,100}$'}
-    return [descriptor('session_console_open', '打开译制台插件面板：本机事件更新；仅用户点击交办时通知宿主，不使用定时 Agent 轮询。', {}, panel=True),
+    return [descriptor('session_console_open', '打开译制工作台宿主面板，支持本机事件更新与用户点击交办。', {}, panel=True),
             descriptor('session_console_sessions', '只读列出本项目会话，按最近用户提问排序。', {'query': {'type': 'string'}, 'page': {'type': 'integer'}, 'archived': {'type': 'boolean'}}),
             descriptor('session_console_read', '面板读取受限本项目接口，不触发制作。', {'path': {'type': 'string'}}, ['path']),
             descriptor('session_console_wait', '仅面板使用：等待本机文件变化，最多25秒，无变化不返回新内容，不调用模型。', {'revision': {'type': 'integer'}}, ['revision']),
@@ -48,7 +49,7 @@ def tools():
 
 def html():
     static = ROOT/'workbench/console-static'
-    value = (static/'index.html').read_text()
+    value = (static/'index.html').read_text().replace('<!-- console-dialogs -->', (static/'dialogs.html').read_text())
     value = value.replace('<link rel="stylesheet" href="/console/styles.css">', '<style>'+(static/'styles.css').read_text()+'</style>')
     value = value.replace('<script src="/console/app.js" defer></script>', '')
     # IIFE initializes the SDK immediately; app.js waits on its handshake promise.
@@ -59,7 +60,7 @@ def html():
 def assets(value):
     if isinstance(value, dict): return {k: assets(v) for k, v in value.items()}
     if isinstance(value, list): return [assets(v) for v in value]
-    if isinstance(value, str) and value.startswith('/api/media?'): return 'http://127.0.0.1:8770'+value
+    if isinstance(value, str) and value.startswith('/api/media?'): return ORIGIN + value
     return value
 
 
@@ -75,11 +76,11 @@ def handle(method, params):
                 'instructions': '本工具不启动制作或定时调度。UI指令仅在用户点击后签名入队；宿主按单次交办消息中的精确指令ID，使用本聊天官方原生工具执行并立即登记回执。'}
     if method == 'ping': return {}
     if method == 'tools/list': return {'tools': tools()}
-    if method == 'resources/list': return {'resources': [{'uri': RESOURCE, 'name': '译制台', 'mimeType': 'text/html;profile=mcp-app'}]}
+    if method == 'resources/list': return {'resources': [{'uri': RESOURCE, 'name': '译制工作台', 'mimeType': 'text/html;profile=mcp-app'}]}
     if method == 'resources/read':
         if params.get('uri') != RESOURCE: raise ValueError('未知资源')
         return {'contents': [{'uri': RESOURCE, 'mimeType': 'text/html;profile=mcp-app', 'text': html(),
-                              '_meta': {'ui': {'csp': {'resourceDomains': ['http://127.0.0.1:8770']}}}}]}
+                              '_meta': {'ui': {'csp': {'resourceDomains': [ORIGIN]}}}}]}
     if method == 'tools/call':
         args = params.get('arguments') or {}
         name = params['name']

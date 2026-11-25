@@ -17,6 +17,10 @@ from .common import (ROOT, WorkflowError, file_hash, inside, lock, object_hash, 
 from .fireplay_pinterest import pin_id
 
 
+ATTACHMENT_HOST = 'material-library.mixberry.io'
+VIDEO_SUFFIXES = ('.mp4', '.mov', '.webm')
+
+
 def payload(value):
     value = read_json(value) if isinstance(value, (str, Path)) else value
     require(isinstance(value, dict), 'Expected a connector response object')
@@ -71,6 +75,49 @@ def _rows(response, code):
     return rows[0]
 
 
+def _text_sources(brief, fields):
+    text = '\n'.join(str(brief.get(field) or '') for field in fields)
+    sources, seen = [], set()
+    for url in re.findall(r'https://[^\s<>"\]】）)]+', text):
+        url = url.rstrip('.,;，。；')
+        video_id = youtube_id(url)
+        pinterest_id = pin_id(url)
+        key = video_id or (f'pinterest:{pinterest_id}' if pinterest_id else url)
+        if key not in seen and (video_id or pinterest_id or urlsplit(url).path.lower().endswith(VIDEO_SUFFIXES)):
+            sources.append({'source_url': url, 'youtube_video_id': video_id})
+            seen.add(key)
+    return sources
+
+
+def _attachment_sources(response, summary):
+    require(payload(response).get('view') == 'delivery', 'Need the actual Fireplay delivery view for attachments')
+    row = _rows(response, summary['code'])
+    require(row.get('id') == summary['id'] and row.get('updatedAt') == summary['updatedAt'],
+            'Requirement changed between reads; refresh summary, brief and attachments')
+    attachments = row.get('attachments')
+    require(isinstance(attachments, list), 'Delivery view is missing the attachment list')
+    sources, seen = [], {}
+    for attachment in attachments:
+        require(isinstance(attachment, dict), 'Invalid requirement attachment record')
+        if not str(attachment.get('mime', '')).lower().startswith('video/'):
+            continue
+        attachment_id, url, size = (attachment.get(key) for key in ('id', 'url', 'size'))
+        require(isinstance(url, str) and _uuid(attachment_id), 'Video attachment needs its exact ID and URL')
+        parsed = urlsplit(url)
+        expected = f"/requirement-attachments/{summary['id']}/{attachment_id}"
+        require(parsed.scheme == 'https' and parsed.netloc == ATTACHMENT_HOST
+                and any(parsed.path == expected + suffix for suffix in VIDEO_SUFFIXES)
+                and isinstance(size, int) and not isinstance(size, bool) and size > 0,
+                'Video attachment must match this requirement and include its platform byte size')
+        source = {'source_url': url, 'youtube_video_id': None,
+                  'attachment': {'id': attachment_id, 'size': size}}
+        require(attachment_id not in seen or seen[attachment_id] == source, 'Conflicting video attachment records')
+        if attachment_id not in seen:
+            sources.append(source)
+            seen[attachment_id] = source
+    return sources
+
+
 def snapshot(code, spec):
     spec = payload(spec)
     summary, brief = _rows(spec['summary'], code), _rows(spec['brief'], code)
@@ -80,9 +127,18 @@ def snapshot(code, spec):
     # updatedAt/status/assignees/priority may change during our own delivery.
     content = {k: brief.get(k) for k in ('id', 'code', 'deptId', 'title', 'description',
                'refText', 'assetType', 'quantity', 'locales', 'channels')}
+    text_version = object_hash(content)
+    sources = _text_sources(brief, ('refText', 'description'))
+    attachments = []
+    if not sources and spec.get('delivery') is not None:
+        attachments = _attachment_sources(spec['delivery'], summary)
+        if attachments:
+            content['attachments'] = attachments
+    sources = sources or attachments or _text_sources(brief, ('title',))
     row = {**summary, **brief, **{key: summary.get(key) for key in
            ('status', 'assigneeIds', 'canBindMaterials', 'canUpdateStatus', 'aiMode')}}
     return {'row': row, 'brief': brief, 'content_version': object_hash(content),
+            'text_version': text_version, 'sources': sources, 'attachment_fallback': bool(attachments),
             'server_time': payload(spec['summary']).get('serverTime'), 'raw': spec}
 
 
@@ -90,8 +146,10 @@ def lookup_packet(code):
     return {'code': _code(code), 'state': 'needs_requirement', 'host_actions': [
         {'tool': 'requirement_list', 'arguments': {'scope': 'all', 'view': 'summary', 'keyword': code,
                                                   'limit': 50}, 'select': 'Exact code; follow pagination if absent'},
-        {'tool': 'requirement_list', 'arguments_from': 'exact summary row id', 'view': 'blind_brief'}],
-        'record_with': 'fireplay CODE --snapshot FILE (summary + brief raw responses)',
+        {'tool': 'requirement_list', 'arguments_from': 'exact summary row id', 'view': 'blind_brief'},
+        {'tool': 'requirement_list', 'arguments_from': 'exact summary row id', 'view': 'delivery',
+         'when': 'No supported source link in the brief description or reference field'}],
+        'record_with': 'fireplay CODE --snapshot FILE (raw summary, brief, and delivery for attachments)',
         'external_write': False}
 
 
@@ -285,6 +343,12 @@ def _unstarted(record, folder):
             and not any(folder.glob('return-*.json')))
 
 
+def can_resolve_missing_attachments(record, snap, folder):
+    return (not record['videos'] and snap['attachment_fallback'] and record['blockers']
+            and record['content_version'] == snap['text_version'] and _unstarted(record, folder)
+            and snap['row'].get('status') == 'not_started' and snap['row'].get('canBindMaterials') is True)
+
+
 def register(code, spec, decision=None, root=ROOT):
     """Freeze real summary/brief responses; no writes to Fireplay or paid calls."""
     snap = snapshot(code, spec)
@@ -300,19 +364,13 @@ def register(code, spec, decision=None, root=ROOT):
             from .budgets import target_languages
             targets = target_languages(decision['targets'], root)
             blockers = []
-    text = '\n'.join(str(snap['brief'].get(k) or '') for k in ('refText', 'description', 'title'))
-    urls = re.findall(r'https://[^\s<>"\]】）)]+', text)
-    sources, seen = [], set()
-    for url in urls:
-        url = url.rstrip('.,;，。；')
-        video_id = youtube_id(url)
-        pinterest_id = pin_id(url)
-        key = video_id or (f'pinterest:{pinterest_id}' if pinterest_id else url)
-        if key not in seen and (video_id or pinterest_id or urlsplit(url).path.lower().endswith(('.mp4', '.mov', '.webm'))):
-            sources.append({'source_url': url, 'youtube_video_id': video_id})
-            seen.add(key)
+    sources = [dict(source) for source in snap['sources']]
+    if previous and previous['content_version'] == snap['content_version'] and not snap['attachment_fallback']:
+        legacy = _text_sources(snap['brief'], ('refText', 'description', 'title'))
+        if [source['source_url'] for source in legacy] == [source['source_url'] for source in previous['videos']]:
+            sources = legacy
     if not sources:
-        blockers.append('No supported source video URL; inspect attachments/source material via connector')
+        blockers.append('No supported source video URL; read the same-version Fireplay delivery view for video attachments')
     from .fireplay_revision import quantity_correction
     quantity_revision = quantity_correction(previous, snap, decision, targets)
     reference_scope_revision = bool(decision.get('review_reference_scope_correction'))
@@ -405,6 +463,15 @@ def register(code, spec, decision=None, root=ROOT):
                 'reason': decision['revision_reason'], 'reviewed_at': utc_now(), 'scope': 'intake_metadata_only'})
             old['content_version'] = snap['content_version']
             old['requested_targets'] = requested
+        elif old and can_resolve_missing_attachments(old, snap, path.parent):
+            archive = path.parent / 'revisions' / (object_hash(old) + '.json')
+            write_json(archive, old)
+            old.setdefault('revision_history', []).append({
+                'content_version': old['content_version'], 'path': archive.relative_to(root).as_posix(),
+                'reason': 'Resolved previously missing sources from the exact requirement attachment readback',
+                'reviewed_at': utc_now(), 'scope': 'attachment_fallback'})
+            old.update(content_version=snap['content_version'], videos=sources,
+                       source_storage_revision=snap['content_version'])
         elif old and old['content_version'] != snap['content_version'] and decision.get('reviewed_content_version'):
             require(decision['reviewed_content_version'] == old['content_version'] and decision.get('revision_reason'),
                     'Revision review must identify the exact previous version and actual differences')
@@ -413,9 +480,11 @@ def register(code, spec, decision=None, root=ROOT):
                     'Only an unstarted request without chat, budget, production or return can accept this revision')
             archive = path.parent / 'revisions' / (object_hash(old) + '.json')
             write_json(archive, old)
-            old_sources = {v.get('youtube_video_id') or v['source_url']: v for v in old['videos']}
+            old_sources = {source.get('youtube_video_id') or source['source_url']: source for source in old['videos']}
             for source in sources:
                 previous_source = old_sources.get(source.get('youtube_video_id') or source['source_url'], {})
+                if source.get('attachment') != previous_source.get('attachment'):
+                    continue
                 for key in ('resolved', 'source', 'source_detail', 'source_metadata_review', 'pin_media'):
                     if previous_source.get(key):
                         source[key] = previous_source[key]
@@ -472,6 +541,27 @@ def _video(record, index):
     return record['videos'][index - 1]
 
 
+def _missing_youtube_source(record, video, result, root):
+    folder = _folder(record['code'], root)
+    evidence = folder / 'source-lookups' / f'{video["index"]}-{object_hash(result)}.json'
+    if not evidence.exists():
+        write_json(evidence, result)
+    settings = read_json(Path(root) / 'config/fireplay-intake.json').get('youtube_source_backup', {})
+    authorized = (settings.get('authority') == 'user' and settings.get('authorization_ref')
+                  and settings.get('source_quote') and not record['blockers']
+                  and record['snapshot']['row'].get('status') in ('not_started', 'in_progress')
+                  and record['snapshot']['row'].get('canBindMaterials') is True)
+    packet = {'state': 'needs_source_backup' if authorized else 'source_missing',
+              'source_url': video['source_url'], 'youtube_video_id': video['youtube_video_id'],
+              'lookup_evidence': evidence.relative_to(root).as_posix(), 'external_write': False}
+    if authorized:
+        packet.update(authorization_ref=settings['authorization_ref'],
+                      host_action={'tool': 'material_upload_from_url', 'arguments': {
+                          'items': [{'type': 'video', 'video_url': video['source_url']}]}},
+                      workflow='agent/workflows/fireplay-intake.md#youtube-缺片补取')
+    return packet
+
+
 def source(code, receipt=None, index=1, download=False, root=ROOT):
     from .kie import download as fetch, public_url
     from .media import probe
@@ -481,10 +571,14 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
         video = _video(record, index)
         if receipt:
             result = payload(receipt)
-            rows = [x for x in result.get('items', []) if x.get('youtube_video_id') == video['youtube_video_id']
-                    and youtube_id(x.get('youtube_url', '')) == video['youtube_video_id']
-                    and x.get('status') == 'found']
-            require(video['youtube_video_id'] and len(rows) == 1, 'No exact YouTube original in lookup response')
+            rows = [row for row in result.get('items', [])
+                    if row.get('youtube_video_id') == video['youtube_video_id']
+                    and youtube_id(row.get('youtube_url') or '') == video['youtube_video_id']]
+            require(video['youtube_video_id'] and len(rows) == 1 and rows[0].get('status') in ('found', 'missing'),
+                    'No exact YouTube original lookup result')
+            if rows[0]['status'] == 'missing':
+                require(not video.get('resolved'), 'Previously resolved YouTube original is missing; reconcile its material')
+                return _missing_youtube_source(record, video, result, root)
             url = rows[0]['video_r2_url']
             public_url(url)
             old = video.get('resolved')
@@ -515,7 +609,8 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
         if download:
             source_folder = (video['title'] + '-source-' + record['source_storage_revision'][:16]
                              if record.get('source_storage_revision') else video['title'] + '-01')
-            local = inside(root, f'work/runs/{source_folder}/fireplay-source.mp4')
+            suffix = Path(urlsplit(url).path).suffix if video.get('attachment') else '.mp4'
+            local = inside(root, f'work/runs/{source_folder}/fireplay-source{suffix}')
             if video.get('source'):
                 local = inside(root, video['source']['path'])
                 require(file_hash(local) == video['source']['sha256'], 'Downloaded source changed')
@@ -526,8 +621,13 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
                     if pin:
                         from .fireplay_pinterest import download_video
                         download_video(url, local)
+                    elif video.get('attachment'):
+                        fetch(url, local, fixed_https_origin=ATTACHMENT_HOST)
                     else:
                         fetch(url, local)
+                if video.get('attachment'):
+                    require(local.stat().st_size == video['attachment']['size'],
+                            'Downloaded bytes differ from the Fireplay video attachment')
                 metadata = probe(local)
                 resolved = video.get('resolved') or video.get('pin_media', {})
                 require(not resolved.get('duration') or abs(metadata['duration'] - resolved['duration']) < 1,
@@ -889,7 +989,7 @@ def prepare_return(code, spec, root=ROOT):
             publication_same = old['publication'] == publication
             publication_revision = (spec.get('repair_revision') and
                                     all(old['publication'].get(key) == publication.get(key)
-                                        for key in ('shared_dept_id', 'dept_name', 'product_tag')))
+                                        for key in ('shared_dept_id', 'dept_name', 'product_tag', 'youtube_status')))
             require((publication_same or publication_revision) and old['content_version'] == value['content_version'],
                     'An outbox already exists for different deliverables; preserve and reconcile it first')
             require(material_policy.identity(old.get('attribution', {})) == material_policy.identity(attribution),
@@ -1019,6 +1119,8 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
         record, outbox = _record(code, root), read_json(path)
         key, phase, item = _next_operation(outbox, package_index)
         if not key:
+            youtube_status = outbox.get('publication', {}).get('youtube_status', 'requested_not_verified')
+            youtube_requested = youtube_status != 'not_requested'
             if package_index is not None:
                 return {'state': 'package_verified', 'package_index': package_index, 'external_call_executed': False}
             if not _active_packages(outbox):
@@ -1026,11 +1128,13 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
                         'status_changed': False, 'next': 'All file uploads are deferred; no material binding was attempted.'}
             return {'state': 'partially_returned' if outbox.get('pending_locales') else 'returned',
                     'pending_locales': outbox.get('pending_locales', []),
-                    'status_changed': False, 'youtube_status': 'requested_not_verified',
-                    'next': ('Partial batch is bound; continue every pending locale before requirement closure. '
-                             'Do not poll downstream YouTube progress.' if outbox.get('pending_locales') else
-                             'Fireplay acceptance is verified. Record external submission and maintain RUN --close; '
-                             'YouTube execution is delegated to Fireplay, do not poll downstream progress.')}
+                    'status_changed': False, 'youtube_status': youtube_status,
+                    'next': ('Partial batch is bound; continue every pending locale before requirement closure.'
+                             if outbox.get('pending_locales') else
+                             'Fireplay acceptance is verified. Record external submission and maintain RUN --close.')
+                            + (' YouTube execution is delegated to Fireplay, do not poll downstream progress.'
+                               if youtube_requested else '')}
+        youtube_requested = outbox['publication'].get('youtube_status', 'requested_not_verified') != 'not_requested'
         existing = outbox['operations'].get(key)
         if phase == 'verify':
             material_id = outbox['operations'][key.replace('verify', 'import')]['result']['material_id']
@@ -1056,7 +1160,7 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
         _fresh(record)
         require(outbox['content_version'] == record['content_version'], 'Requirement content changed before dispatch')
         youtube_route = None
-        if phase == 'import':
+        if phase == 'import' and youtube_requested:
             from . import fireplay_youtube
             if fireplay_youtube.policy(root).get('require_requirement_group'):
                 youtube_route = item.get('youtube_route')
@@ -1079,7 +1183,7 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
                 arguments = {'host_action': 'supported_web_upload', 'file': item['file'],
                              'sha256': item['sha256'], 'name': item['name'], 'tags': item['tags'],
                              'shared_dept_id': outbox['publication']['shared_dept_id'],
-                             'youtube_auto_upload': True}
+                             'youtube_auto_upload': youtube_requested}
             else:
                 tool = 'material_r2_upload_from_bytes'
                 arguments = {'content_type': 'video/mp4', 'ext': 'mp4', 'file_name': item['name'] + '.mp4'}
@@ -1096,7 +1200,8 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
                              'expected_department': youtube_route['account']['department_name']}
             else:
                 tool = 'material_upload_from_url'
-                arguments = {'VedioSouce': 'YouTube', 'items': [{'url': upload['publicUrl'], 'resource_id': upload['resourceId'],
+                arguments = {'VedioSouce': 'YouTube' if youtube_requested else 'Other',
+                             'items': [{'url': upload['publicUrl'], 'resource_id': upload['resourceId'],
                              'already_in_r2': True, 'type': 'video', 'source': 'MCP', 'name': item['name'],
                              'shared_dept_id': outbox['publication']['shared_dept_id'], 'tags': item['tags']}]}
         elif phase == 'attribute':
@@ -1152,6 +1257,7 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
     path = _folder(code, root) / f'return-{index}.json'
     with lock(_folder(code, root) / 'request.lock'):
         outbox = read_json(path)
+        youtube_status = outbox['publication'].get('youtube_status', 'requested_not_verified')
         require(operation_id in outbox['operations'], 'Operation was not dispatched')
         operation = outbox['operations'][operation_id]
         if operation['state'] == 'verified':
@@ -1191,7 +1297,7 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             from .fireplay_youtube import verify_task
             verify_task(_record(code, root), operation, spec, ids[0], root)
             result = {'material_id': ids[0], 'warnings': _collect(raw, 'warnings'), 'check_url': raw.get('check_url'),
-                      'youtube_status': 'requested_not_verified'}
+                      'youtube_status': youtube_status}
             if spec.get('youtube_task_verification'):
                 from .fireplay_youtube import policy
                 field = 'youtube_task_verification' if policy(root).get('require_requirement_group') else 'youtube_task_observation'
@@ -1223,7 +1329,7 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
                                'Material read-back lost verified designer attribution',
                                'Material read-back lost verified designer attribution')
             result = {'material_id': material['id'], 'name': material['name'], 'tags': sorted(tags),
-                      'shared_dept_id': material['sharedDeptId'], 'youtube_status': 'requested_not_verified'}
+                      'shared_dept_id': material['sharedDeptId'], 'youtube_status': youtube_status}
         else:
             verification = payload(spec['verification'])
             rows = [r for r in verification.get('items', []) if r.get('id') == outbox['requirement_id']]

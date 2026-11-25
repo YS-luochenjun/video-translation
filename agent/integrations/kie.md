@@ -52,7 +52,7 @@ Wan3.0采用`reference_video_urls:["ASSET:video"]`，可选`reference_image_urls
 
 当前 Wan 输入合同为源视频2–10秒、宽高240–4096px、最大100MB，可附绑定文件哈希的 `reference_image`。`duration: 0` 沿用输入长度，`audio_setting: origin` 保留输入声音，`prompt_extend: false` 保留精确提示。保留原声也会保留原语言对白；需要翻译对白时另走配音、分轨和混音流程，不能把声音保留开关当作配音成功。
 
-参考图可以来自已审ImageGen结果，须实际上传并绑定哈希，提示词明确其作用；当前适配器是单图，不将原生供应商多图合同直接套入KIE载荷。参考只表达目标，连续运动、遮挡和字幕仍须实际审核，见[ImageGen优先政策](../../knowledge/rules/imagegen-first-v1.md)。
+参考图可以来自已审ImageGen结果，须实际上传并绑定哈希，提示词明确其作用；当前适配器是单图，不将原生供应商多图合同直接套入KIE载荷。参考只表达目标，连续运动、遮挡和字幕仍须实际审核，见[ImageGen优先政策](../../knowledge/rules/imagegen-first-v4.md)。
 
 `model-task`将附件分别校验：video核对实际片段时长，Wan的image核对静态PNG/JPEG/WebP、正尺寸、完整解码和原文件哈希，不要求图片具有视频时长。`ASSET:image`必须绑定image附件；未绑定的额外附件不上传。`duration:0`是Wan沿用源视频长度的参数，与静态参考图是否有时长无关。已提交任务沿原指纹恢复，不因校验修复重发；本地回归、真实参考图受理与视频质量分别举证。
 

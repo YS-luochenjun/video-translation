@@ -23,6 +23,7 @@
   --space-xs: 4px; --space-sm: 8px; --space-md: 12px; --space-lg: 16px;
   --space-xl: 24px; --space-2xl: 32px; --space-3xl: 40px;
   --text-xs: 11px; --text-sm: 12px; --text-md: 13px; --text-body: 14px; --text-lg: 18px; --text-title: 28px;
-  --radius-sm: 4px; --radius-md: 7px; --radius-lg: 10px;
+  --radius-sm: 10px; --radius-md: 16px; --radius-lg: 22px;
+  --color-scroll-thumb: oklch(70% .025 255);
   --ease-out: cubic-bezier(.2,.8,.2,1); --dur-fast: 120ms;
 }

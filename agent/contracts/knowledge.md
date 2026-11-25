@@ -10,9 +10,11 @@
 
 ## 记录、提纯、启用
 
-`deliver` 自动生成交付包、候选案例和持久inbox；已有候选及实际评审的失败结案使用 `reflect`。尚未形成候选时，按 `agent/templates/preproduction-failure.json` 用 `close-failure RUN SPEC` 保存有证据的失败观察，不补造质量报告。技术复盘另存项目candidate，原始媒体证据留私有案例；个人/客户保密复盘在review标注knowledge_class后保持私有。重复收尾不重复生成候选、不重发付费任务。自动记录不是自动证明新结论，也不代表已配置后台定时服务。
+`deliver` 生成交付包。复盘提交实质 `lesson` 时才登记候选及其证据。已有实际评审的失败结案使用 `reflect`。成片前失败用 `close-failure RUN SPEC` 保存有证据的失败观察。技术复盘可另存项目候选，原始媒体证据留私有案例。个人或客户保密复盘在评审标注 `knowledge_class` 后保持私有。
 
 每次结案保存简短结果；有可复用、经证据支持且在用户允许总结范围内的新原因、有效修正、反例或成本改善时提纯。临时平台状态、操作流水和用户明确排除的排障过程只留在work/state等本地操作记录，不进入知识候选、正式规则或召回；既有长期制作和上传规则继续保留。相同含义且范围一致的知识合并证据，保留来源、反例与版本；同一素材多次返工不算多个独立复验。正文不得引用可删除的run/output/work文件作为使用前提；资产可用性由交付库单独查询。
+
+结案评审用 `lesson` 提交有证据且会改变后续制作或审查决定的新观察。共用底片或同源修复的共同结论登记一次，各语种保留自己的评审和限制。已被规则覆盖的普通缺陷留在质检，可用 `knowledge_no_new_reason` 明确原因。缺少实质 `lesson` 时仅保存绑定评审和视频的回执。运行归档保存证据和恢复资料。用户可从工作台手动启动增量提炼，经审查后发布。
 
 `reflect` 只产生candidate，不被正式检索加载。候选包含真实结果、假设、失败签名、有效范围、限制与下一次反证。新反馈生成新记录，不把整体认可改写为分轨无损、独立评审或所有细节通过。
 
@@ -24,9 +26,12 @@
 
 ## 从提纯到采纳，再回到制作
 
+提纯或人工审查可用 `conflict_with_rules` 标记待核对的候选。标记版本及其绑定的原始候选暂停进入制作建议，工作台「待审经验」可按「规则冲突待核对」筛选。审查时对照现行规则和原始证据，逐项记录相容观察、冲突表述及待补证据。有效反例可走版本修订流程。历史判断与原文仍可追溯。
+
 制作中的新修复/反例还可按[有界改进循环](../workflows/continuous-improvement.md)使用 `improvement-record RUN SPEC`：绑定当前成片及之前版本、前后与未改区证据、漏检原因和下一次审查问题。证据独立保存至本地feedback并进入同一knowledge-queue，原scope和隐私保留；不会自动发布方法、改写质量或用户验收。相同反馈幂等，不为普通瑕疵输出额外增加知识等待门槛。
 
 1. `hooks` 提纯新增来源，建议合并目标、限定案例、新方法或缺证据项；这些建议保持candidate。`knowledge-queue` 汇总原始候选、当前提纯版本和使用反馈，显示历史采纳表、当前审查与具体下一步。不要为已处理来源换个标题再次生成候选。
+   同一次反思的项目摘要与本地记录完全对应时，队列按项目候选计一项，本地证据可用 `knowledge-queue --include-closed` 追溯。具有独立审查、独立提炼或内容变化的本地记录按各自来源处理。人工已审查的来源版本沿审查待办继续，手动增量提炼处理新来源和修订版本。
 2. 主控按 `agent/templates/knowledge-review.json` 审查。`knowledge-review SPEC` 记录原文哈希、审查者、来源、采纳部分、保留部分、目标版本和下一步。`adopted/partial/duplicate` 必须指向已启用且哈希匹配的方法/案例；新方法或修订先走 `knowledge-promote`，可用 `candidate_sources` 绑定候选来源，再登记采纳。公司偏好和质量标准变化仍遵守原有授权范围。
 3. 方法的使用效果用 `agent/templates/knowledge-use.json` 记录，执行 `knowledge-use RUN SPEC`（SPEC相对run）。只能绑定冻结计划中实际选中的正式知识、同源参考或候选，分别报告 `helpful/ineffective/counterexample/not_used`。实际使用需要真实证据；未使用需要解释，不能从检索命中推断使用或成功。当前计划、输入和视频哈希必须匹配，证据复制到独立本地反馈包。
 4. `reflect` 与 `work-packet` 的 `knowledge_followup` 列出尚未记录使用状态的条目。结案时主控补齐反馈，随后处理 `knowledge-queue`；知识收尾不替代或伪造视频验收。负面反馈在同源同语种检索原方法版本时以 `review_alerts` 返回，并进入修订队列。它不是直接改写规则；审查后发布带 `supersedes` 的新版本或说明无需修改，再关闭反馈。
@@ -48,6 +53,8 @@ bin/va.ps1 candidate-archive knowledge/candidates/actual-candidate.json --execut
 ```
 
 归档将原文件逐字节保存到 `knowledge/history/candidates/<哈希>/`，核验后从 `candidates/` 移除。映射保存在 `knowledge/curation/candidate-archives.json`；旧采纳表中的逻辑路径通过 `knowledge_records.resolve()` 继续解析，候选索引的 `storage_path` 指向实际原文。关闭的来源不再进入默认候选召回或每日提纯；`knowledge-queue --include-closed` 仍可追溯。已被部分采纳的文件不能仅凭采纳表批量删除。
+
+历史正文按用途保留。用户授权清理时，可删除已审结、无经验正文且无下游依赖的旧占位及其重复审查记录。先核对现行方法、案例、待审来源和实际运行的依赖，冻结删除清单与文件哈希。保留独立的质量、费用、交付记录和能够改变后续决策的反例。实删时同步重建导航索引，前后运行知识审计，清理回执置于本地工作状态。
 
 知识分为初始方法、源限定参考和条件类方法。类方法按topic和内容特征检索：requires_features须全部满足，非空requires_any_features须至少满足一项，两组同时存在时共同成立。多源观察须绑定至少两个独立源的长期证据，不将同源返工计作跨源复验。类方法提供触发条件、步骤、失败签名和核验标准；示例的遮罩、坐标、字体参数及验收不推广。单源细节保留候选。
 
@@ -71,7 +78,7 @@ bin/va.ps1 candidate-archive knowledge/candidates/actual-candidate.json --execut
 
 清理runs或outputs前验证知识独立性、交付包内部依赖和未结算账本。验证以离开原目录仍可读/可恢复为准，路径指针和哈希本身不能恢复已删文件。归档到期后同源资产显示expired；再次使用需重新制作或恢复冷存储并验证。
 
-直接查阅历史规则时，先核对索引状态；`superseded` 或带 `superseded_by` 的正文仅用于追溯，沿替代关系读取当前规则。预算现行入口为 [请求总预算](../../knowledge/rules/user-language-budget-60-20261026.md)，历史额度和旧plan中的知识快照不构成新调用授权。
+直接查阅历史规则时，先核对索引状态。`superseded` 或带 `superseded_by` 的正文用于追溯，沿替代关系读取当前规则。新调用使用当前授权和[请求总预算](../../knowledge/rules/user-language-budget-60-v2.md)。
 
 具体操作入口为 `.agents/skills/knowledge-curation/SKILL.md`；目录说明见 `agent/contracts/storage.md`。
 

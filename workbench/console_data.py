@@ -12,10 +12,14 @@ import json
 import mmap
 import os
 import re
+import shlex
 import sqlite3
+import sys
 import threading
 import time
 import tomllib
+from collections import defaultdict
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import quote
@@ -24,7 +28,8 @@ from store import Store, clean, MEDIA
 from collector import Ledger
 from console_knowledge import project_knowledge, knowledge_document
 from console_timeline import project_timeline
-from console_requirements import project_requirements
+from console_requirements import add_ledger_evidence, latest_platform_status, monitor_rows, project_requirements, publication, verified_items
+from video_localizer.ledger import delivery_complete, platform_completed, target_language_count
 
 PAGE_SIZE = 8
 NODES = [('intake', '接单与范围'), ('analysis', '内容解析与源样式'), ('base', '底片与资产'),
@@ -77,7 +82,9 @@ class ConsoleData:
                 return []
             with sqlite3.connect(path.as_uri()+'?mode=ro', uri=True, timeout=3) as conn:
                 conn.row_factory = sqlite3.Row
-                rows = conn.execute('SELECT id, name, title, cwd, archived, updated_at, created_at, rollout_path, source '
+                columns = {column['name'] for column in conn.execute('PRAGMA table_info(threads)')}
+                usage = 'tokens_used' if 'tokens_used' in columns else 'NULL AS tokens_used'
+                rows = conn.execute(f'SELECT id, name, title, cwd, archived, updated_at, created_at, rollout_path, source, {usage} '
                                     'FROM threads WHERE cwd=? ORDER BY id', (str(self.root),)).fetchall()
             # Internal guardian/review workers do not appear as user-facing chats.
             return [dict(r) for r in rows if 'subagent' not in str(r['source']).lower()]
@@ -113,6 +120,172 @@ class ConsoleData:
 
     def requirement_board(self):
         return self._cached('requirement_board', 5, lambda: project_requirements(self))
+
+    def session_usage(self):
+        return self._cached('session_usage', 10, self._session_usage)
+
+    def _session_usage(self):
+        threads = {thread['id']: thread for thread in self.threads()}
+        cohort = self.store.read('config/ledger.json').get('cohort', {})
+        exclusions = self.store.read('state/ledger/cohort-overrides.json').get('time_exclusions', {})
+        rows = {row['id']: dict(row) for row in self.ledger_rows()
+                if row.get('countable') is not False and Ledger.in_cohort(row, cohort, exclusions)}
+        add_ledger_evidence(self.store, rows.values())
+        requirements = defaultdict(set)
+        for row in rows.values():
+            for binding in row.get('threads', []):
+                thread_id = binding.get('threadId') or binding.get('id')
+                if thread_id in threads:
+                    requirements[thread_id].add(row['id'])
+        runs = defaultdict(set)
+        if (self.root/'state/ledger/ledger.sqlite3').is_file():
+            for task in Ledger(self.root).task_rows():
+                key = (task['requirement_id'], task['video_id'], task.get('source_sha256'))
+                runs[key].update(task['runs'])
+        assigned, known_budgets = defaultdict(set), defaultdict(set)
+        for path in self.store.glob('state/fireplay', '*/request.json'):
+            request = self.store.read(path)
+            requirement_id = 'fireplay:'+str(request.get('requirement_id'))
+            budget_id = request.get('budget')
+            videos = request.get('videos') or []
+            for video in videos:
+                binding = video.get('chat') or (request.get('chat') if len(videos) == 1 else None) or {}
+                thread_id = binding.get('threadId')
+                if thread_id not in threads:
+                    continue
+                if requirement_id in rows:
+                    requirements[thread_id].add(requirement_id)
+                if not isinstance(budget_id, str) or not re.fullmatch(r'[A-Za-z0-9_.-]+', budget_id):
+                    continue
+                known_budgets[budget_id].add(thread_id)
+                video_key = (requirement_id, 'video:'+str(video.get('index')),
+                             (video.get('source') or {}).get('sha256'))
+                for run_id in set(video.get('members') or ()) | runs[video_key]:
+                    assigned[budget_id, run_id].add(thread_id)
+        completed = {identifier for identifier, row in rows.items() if delivery_complete(row)
+                     or (row.get('origin') == 'manual' and row.get('state') == 'expired'
+                         and row.get('scope_first_complete_at') and not row.get('block_reason'))}
+        eligible = {thread_id: fingerprint(sorted(
+            (identifier, rows[identifier].get('scope_id') or rows[identifier].get('content_version'))
+            for identifier in identifiers))
+            for thread_id, identifiers in requirements.items() if identifiers <= completed}
+        if not eligible:
+            return {'sessions': []}
+        summaries = {
+            thread_id: [{'code': rows[identifier]['code'],
+                         'language_count': target_language_count(rows[identifier].get('scope') or []) or None}
+                        for identifier in sorted(requirements[thread_id])]
+            for thread_id in eligible
+        }
+        return {'sessions': self._completed_usage(threads, eligible, assigned, known_budgets, summaries)}
+
+    def _completed_usage(self, threads, eligible, assigned, known_budgets, summaries):
+        folder = self.root/'state/ledger'
+        folder.mkdir(parents=True, exist_ok=True)
+        with closing(sqlite3.connect(folder/'session-usage.sqlite3', timeout=5)) as db, db:
+            db.execute('CREATE TABLE IF NOT EXISTS snapshots (thread TEXT, scope TEXT, usage TEXT NOT NULL, '
+                       'PRIMARY KEY (thread, scope))')
+            saved = {(thread_id, scope): value
+                     for thread_id, scope, value in db.execute('SELECT thread, scope, usage FROM snapshots')}
+            frozen = {key: json.loads(value) for key, value in saved.items()}
+            missing = {thread_id for thread_id, scope in eligible.items() if (thread_id, scope) not in frozen}
+            totals = self._completed_credits(missing, assigned, known_budgets) if missing else {}
+            for thread_id, scope in eligible.items():
+                key = (thread_id, scope)
+                usage = frozen.get(key)
+                if usage is None:
+                    tokens = threads[thread_id].get('tokens_used')
+                    usage = {'codex_total': tokens if type(tokens) is int and tokens >= 0 else None,
+                             'kie': totals.get(thread_id), 'recorded_at': now()}
+                elif 'codex_breakdown' in usage:
+                    continue
+                usage['codex_breakdown'] = self._codex_breakdown(threads[thread_id], usage)
+                if key in saved:
+                    db.execute('UPDATE snapshots SET usage=? WHERE thread=? AND scope=? AND usage=?',
+                               (json.dumps(usage), thread_id, scope, saved[key]))
+                else:
+                    db.execute('INSERT OR IGNORE INTO snapshots VALUES (?, ?, ?)', (*key, json.dumps(usage)))
+                frozen[key] = json.loads(db.execute(
+                    'SELECT usage FROM snapshots WHERE thread=? AND scope=?', key).fetchone()[0])
+        return [
+            {'title': clean(threads[thread_id].get('name') or threads[thread_id].get('title') or '未命名会话'),
+             'requirements': summaries.get(thread_id, []), **usage}
+            for thread_id, usage in sorted(
+                ((thread_id, frozen[thread_id, scope]) for thread_id, scope in eligible.items()),
+                key=lambda entry: (entry[1]['recorded_at'], entry[0]), reverse=True)
+        ]
+
+    def _codex_breakdown(self, thread, snapshot):
+        total = snapshot['codex_total']
+        rollout_path = Path(thread.get('rollout_path') or '')
+        if total is None or not rollout_path.is_absolute():
+            return None
+        cutoff = datetime.fromisoformat(snapshot['recorded_at'])
+        try:
+            path = rollout_path.resolve(strict=True)
+            if not any(path.is_relative_to(self.home.resolve()/area) for area in ('sessions', 'archived_sessions')):
+                return None
+            with path.open('rb') as stream:
+                size = os.fstat(stream.fileno()).st_size
+                if not size:
+                    return None
+                stream.seek(-1, os.SEEK_END)
+                lines = reverse_lines(stream, size)
+                if stream.read(1) != b'\n':
+                    next(lines, None)
+                for line in lines:
+                    if b'"token_count"' not in line:
+                        continue
+                    try:
+                        record = json.loads(line)
+                        timestamp = datetime.fromisoformat(record['timestamp'].replace('Z', '+00:00'))
+                        payload = record['payload']
+                        if record['type'] != 'event_msg' or payload['type'] != 'token_count' or timestamp > cutoff:
+                            continue
+                        usage = payload['info']['total_token_usage']
+                        inputs, outputs = usage['input_tokens'], usage['output_tokens']
+                        cached = usage.get('cached_input_tokens')
+                        if (type(inputs) is int and type(outputs) is int and inputs >= 0 and outputs >= 0
+                                and inputs + outputs == usage['total_tokens'] == total):
+                            if type(cached) is not int or not 0 <= cached <= inputs:
+                                cached = None
+                            return {'input': inputs, 'output': outputs, 'cached_input': cached}
+                    except (ValueError, TypeError, KeyError, AttributeError):
+                        continue
+        except (OSError, RuntimeError):
+            pass
+        return None
+
+    def _completed_credits(self, eligible, assigned, known_budgets):
+        totals = {}
+        for budget_id, thread_ids in known_budgets.items():
+            included = thread_ids & eligible
+            if not included:
+                continue
+            budget = self.store.read(f'state/budgets/{budget_id}.json')
+            reservations = budget.get('reservations')
+            if budget.get('id') != budget_id or not isinstance(reservations, dict):
+                continue
+            for thread_id in included:
+                totals.setdefault(thread_id, {'known': 0, 'unknown': 0, 'ambiguous': 0})
+            for reservation in reservations.values():
+                if not isinstance(reservation, dict):
+                    continue
+                matches = assigned.get((budget_id, reservation.get('run')), set())
+                if len(matches) != 1:
+                    for thread_id in (matches or thread_ids) & included:
+                        totals[thread_id]['ambiguous'] += 1
+                    continue
+                thread_id = next(iter(matches))
+                if thread_id not in included:
+                    continue
+                total = totals[thread_id]
+                actual = reservation.get('actual_credits')
+                if type(actual) in (int, float) and 0 <= actual < float('inf'):
+                    total['known'] += actual
+                else:
+                    total['unknown'] += 1
+        return totals
 
     def last_user_message_at(self, thread):
         """Index actual user input incrementally; activity and assistant output never rank chats."""
@@ -177,6 +350,7 @@ class ConsoleData:
         statuses = observations.get('threads', {})
         requests = self.requests()
         by_code = {r.get('code'): r for r in self.ledger_rows()}
+        monitored = monitor_rows(self.store)
         rows = []
         for t in self.threads():
             if bool(t['archived']) != archived:
@@ -189,14 +363,28 @@ class ConsoleData:
             status = o.get('status', {}).get('type', 'unobserved') if fresh else 'unobserved'
             reqs = requests.get(t['id'], [])
             codes = [r.get('code') for r in reqs]
-            ledger = [by_code[code] for code in codes if code in by_code]
+            unfinished = []
+            for req in reqs:
+                previous = by_code.get(req.get('code'), {})
+                platform_status, _ = latest_platform_status(
+                    monitored, req.get('requirement_id'), req.get('code'),
+                    req.get('snapshot', {}).get('row', {}).get('status') or previous.get('platform_status'),
+                    req.get('refreshed_at') or previous.get('platform_refreshed_at'))
+                if not platform_completed(platform_status):
+                    unfinished.append(req)
+            ledger = [by_code[req['code']] for req in unfinished if req.get('code') in by_code]
             business = next((r for r in ledger if r.get('state') in ('blocked', 'working', 'waiting')), None)
             if business is None and ledger:
                 business = ledger[0]
-            business_state = (business or {}).get('state', 'unreported')
+            if reqs and not unfinished:
+                business = next((by_code[code] for code in codes if code in by_code), None)
+                business_state = 'completed'
+            else:
+                business_state = (business or {}).get('state', 'unreported')
+            blocked = business_state == 'blocked' or any(req.get('blockers') for req in unfinished)
             if state == 'active' and status != 'active':
                 continue
-            if state == 'attention' and not (business_state in ('blocked', 'waiting') or any(r.get('blockers') for r in reqs)):
+            if state == 'attention' and not (blocked or business_state == 'waiting'):
                 continue
             rows.append({'id': t['id'], 'title': clean(title)[:180], 'hostId': 'local', 'status': status,
                          'status_observed_at': o.get('observed_at'), 'status_fresh': fresh,
@@ -205,7 +393,7 @@ class ConsoleData:
                          'codes': codes, 'business_state': business_state,
                          'stage_counts': (business or {}).get('stage_counts', {}),
                          'output_count': (business or {}).get('output_count'), 'task_count': (business or {}).get('task_count'),
-                         'blocked': bool(any(r.get('blockers') for r in reqs)),
+                         'blocked': blocked,
                          'latest_eta': clean((business or {}).get('latest_eta'))})
         # Missing input history falls back to stable creation time, never execution updates.
         rows.sort(key=lambda r: (-(r['last_user_message_at'] if r['last_user_message_at'] is not None else r['created_at'] or 0), r['id']))
@@ -238,6 +426,35 @@ class ConsoleData:
     def versions(self, run_id):
         return self._cached('versions:'+run_id, 15, lambda: self.store.versions([], task=run_id))
 
+    def run_publication(self, requests, run_id, locale, task):
+        if not run_id or not locale or not task or task.get('state') not in {
+                'delivered', 'delivered_with_issues', 'expired'}:
+            return None
+        digest = task.get('current_video_sha256')
+        if not re.fullmatch(r'[0-9a-f]{64}', str(digest or '')):
+            return None
+        if (task.get('output') or {}).get('integrity') == 'changed':
+            return None
+        for request in requests:
+            code = request.get('code', '')
+            if not re.fullmatch(r'[A-Za-z]{2,8}-\d{8}-\d{3}', code):
+                continue
+            matching = [video for video in request.get('videos', [])
+                        if run_id in (video.get('members') or []) and locale in video.get('targets', [])]
+            if len(matching) != 1:
+                continue
+            video = matching[0]
+            source_sha = (video.get('source') or {}).get('sha256')
+            task_source = task.get('source_sha256')
+            if source_sha and task_source and source_sha != task_source:
+                continue
+            platform = publication(self.store, f'state/fireplay/{code}/request.json', request)
+            for item in verified_items(self.store, platform):
+                if (item.get('video_index') == video['index'] and item.get('locale') == locale
+                        and item.get('sha256') == digest):
+                    return True
+        return None
+
     def detail(self, identifier, run_id=None):
         t = self.thread(identifier)
         ids = self.run_ids(identifier)
@@ -262,7 +479,10 @@ class ConsoleData:
                 knowledge = self.run_knowledge(selected, matching)
             except (OSError, ValueError, KeyError):
                 task = {'id': selected, 'state_label': '现场或交付包暂不可读', 'state': 'unavailable'}
-        codes = [r.get('code') for r in self.requests().get(identifier, [])]
+        requests = self.requests().get(identifier, [])
+        locale = next((item['locale'] for item in runs if item['id'] == selected), None)
+        returned = self.run_publication(requests, selected, locale, task)
+        codes = [r.get('code') for r in requests]
         ledger = [r for r in self.ledger_rows() if r.get('code') in codes]
         public_ledger = [clean({k: r.get(k) for k in ('id', 'code', 'title', 'state', 'stage_counts', 'blockers',
                           'received_at', 'first_started_at', 'last_activity_at', 'latest_eta', 'complete_at',
@@ -272,7 +492,7 @@ class ConsoleData:
             own = [a for a in artifacts if a['node'] == nid]
             nodes.append({'id': nid, 'title': name, 'artifact_count': len(own),
                           'knowledge_count': len([k for k in knowledge if k['node'] == nid]),
-                          'state': 'recorded' if own else 'unrecorded'})
+                          'state': 'verified' if nid == 'publication' and returned else 'recorded' if own else 'unrecorded'})
         return {'thread': {'id': t['id'], 'title': clean(t.get('name') or t.get('title') or t['id']), 'archived': bool(t['archived'])},
                 'runs': runs, 'selected_run': selected, 'task': task, 'artifacts': artifacts, 'nodes': nodes,
                 'knowledge': [{k: v for k, v in row.items() if not k.startswith('_')} for row in knowledge],
@@ -407,7 +627,14 @@ class ConsoleData:
             owner = thread_rows[a['target_thread_id']]
             row['target_title'] = clean(owner.get('name') or owner.get('title') or owner['id'])
             result.append(row)
-        return {'automations': result, 'observed_at': now(), 'bridge': self.dispatch_status()}
+        knowledge_owners = [row['id'] for row in result
+                            if (row['id'] == 'automation' or row['name'] == '项目经验总结')
+                            and not thread_rows[row['target_thread_id']]['archived']]
+        runner = ("& '" + sys.executable.replace("'", "''") + "'" if os.name == 'nt'
+                  else shlex.quote(sys.executable))
+        return {'automations': result, 'knowledge_owner_id': knowledge_owners[0] if len(knowledge_owners) == 1 else None,
+                'knowledge_manual_command': runner + ' bin/va.py hooks run',
+                'observed_at': now(), 'bridge': self.dispatch_status()}
 
     def _db(self):
         self.folder.mkdir(parents=True, exist_ok=True)

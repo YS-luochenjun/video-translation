@@ -31,6 +31,22 @@ class CurationTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_new_checkpoint_can_keep_existing_sources_pending(self):
+        source = self.event("existing")
+        (self.root / curation.STATE / "checkpoint.json").unlink()
+        result = curation.baseline(self.root, include_existing=True)
+        self.assertEqual(result["existing_sources_pending"], 1)
+        self.assertEqual(curation.inventory(self.root, curation.checkpoint(self.root)),
+                         [curation.fingerprint(self.root, source)])
+
+    def test_generated_inbox_pointer_does_not_repeat_current_candidate(self):
+        from video_localizer.learning import enqueue
+        source = self.event("one", private=True)
+        pointer = self.root / enqueue(read_json(source), self.root)
+        self.assertEqual(curation.source_files(self.root), [source])
+        write_json(pointer, {**read_json(pointer), "observation": "Additional evidence from another review"})
+        self.assertEqual(curation.source_files(self.root), sorted([source, pointer]))
+
     def event(self, name, scope=None, private=False):
         path = self.root / ("knowledge/local/candidates" if private else "knowledge/candidates") / (name + ".json")
         write_json(path, {"id": name, "hypothesis": "Preserve original icon above translated line", "scope": scope or self.scope,
@@ -46,6 +62,21 @@ class CurationTests(unittest.TestCase):
 
     def run_hook(self):
         return curation.execute(self.root, engine=lambda value, *args: self.answer(value))
+
+    def test_manual_mode_skips_scheduled_run_and_keeps_explicit_trigger(self):
+        path = self.root / "config/hooks.json"
+        config = read_json(path)
+        config["knowledge_daily"]["automatic"] = False
+        write_json(path, config)
+        self.event("new")
+        checkpoint_path = self.root / curation.STATE / "checkpoint.json"
+        before = file_hash(checkpoint_path)
+        with patch("video_localizer.curation.curation_engine.codex_cli") as engine:
+            self.assertEqual(curation.execute(self.root, due_only=True)["state"], "manual_only")
+            engine.assert_not_called()
+        self.assertEqual(file_hash(checkpoint_path), before)
+        self.assertFalse(curation.status(self.root)["due"])
+        self.assertEqual(self.run_hook()["groups"], 1)
 
     def test_oversized_feedback_is_pending_while_other_sources_progress(self):
         big = self.event("a", private=True)
@@ -220,6 +251,7 @@ class CurationTests(unittest.TestCase):
             return {"groups": [], "pending": [{"event_id": e["event_id"], "reason": "Need actual evidence"} for e in value["events"]]}
         report = curation.execute(self.root, engine=pending)
         self.assertEqual(report["pending"], 1)
+        self.assertEqual(curation.status(self.root)["new_records"], 0)
         self.assertEqual(len(curation.checkpoint(self.root)["seen_record_versions"]), 0)
         self.event("two")
         report = self.run_hook()
@@ -227,6 +259,25 @@ class CurationTests(unittest.TestCase):
         self.assertEqual(report["pending"], 1)
         with patch.object(curation_engine, "codex_cli", side_effect=AssertionError("Must not invoke inference for unchanged pending")):
             self.assertEqual(curation.execute(self.root)["new_records"], 0)
+
+    def test_manual_gap_stays_in_review_queue_and_supersedes_hook_pending(self):
+        from video_localizer import knowledge_review
+
+        source = self.event("one")
+        def pending(value, *args):
+            return {"groups": [], "pending": [{"event_id": value["events"][0]["event_id"], "reason": "Need actual evidence"}]}
+        curation.execute(self.root, engine=pending)
+        knowledge_review.review({"source": curation.fingerprint(self.root, source),
+                                 "review_type": "developer_review", "reviewed_by": "Fixture developer",
+                                 "origin": "Fixture review", "resolution": "pending", "reason": "Need source evidence",
+                                 "adopted_parts": [], "retained_parts": [], "next_action": "Verify the actual source"},
+                                self.root)
+        self.assertEqual(len(knowledge_review.queue(self.root)), 1)
+        self.assertEqual(curation.source_files(self.root), [])
+        self.assertEqual(curation.status(self.root)["pending"], [])
+        with patch.object(curation_engine, "codex_cli", side_effect=AssertionError("Manual decision already recorded")):
+            self.assertEqual(curation.execute(self.root)["remaining_new_records"], 0)
+        self.assertEqual(curation.checkpoint(self.root)["pending"], [])
 
     def test_revision_merge_keeps_prior_evidence_and_version(self):
         self.event("one")
@@ -280,6 +331,10 @@ class CurationTests(unittest.TestCase):
         self.assertTrue(curation.due(config, state, morning))
 
     def test_due_execution_catches_up_without_inventing_a_lesson(self):
+        config_path = self.root / "config/hooks.json"
+        config = read_json(config_path)
+        config["knowledge_daily"]["automatic"] = True
+        write_json(config_path, config)
         self.event("catchup")
         path = self.root / curation.STATE / "checkpoint.json"
         state = read_json(path)

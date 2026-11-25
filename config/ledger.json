@@ -2,7 +2,12 @@
   "schema_version": 1,
   "timezone": "America/Los_Angeles",
   "collector_seconds": 15,
-  "auto_eta": true,
+  "cohort": {
+    "label": "程序优化后台账",
+    "started_at": "2026-11-24T03:48:32Z",
+    "source": "c9eb5a00daae303fe019cbbd3c0860435a9ddccf"
+  },
+  "auto_eta": false,
   "eta_rule_version": "bootstrap-v1",
   "shared_source_minutes": [8, 25],
   "per_locale_minutes": [4, 12],

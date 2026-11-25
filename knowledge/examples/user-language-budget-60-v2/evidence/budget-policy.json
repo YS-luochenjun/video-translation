@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "mode": "per_target_language",
+  "scope": "whole_request_pool_scaled_by_distinct_target_languages",
+  "authorization": "Project owner instruction 2026-10-26: each target language may have 60 credits; multi-language requests receive more budget.",
+  "historical_ledgers": "Keep original limits, spending, reservations and attributed amendments. Apply a new limit to an existing request only through an attributed host amendment.",
+  "credits_per_target_language": 60
+}

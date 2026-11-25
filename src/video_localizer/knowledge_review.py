@@ -69,10 +69,43 @@ def sources(root):
     return found
 
 
-def closed_sources(root):
+def reflection_copies(root, heads, origins):
+    from .learning import project_candidate_record
+
+    private_catalog = root / "knowledge/local/curation/private-candidates/index.json"
+    separate_sources = set(heads)
+    if private_catalog.exists():
+        for entry in read_json(private_catalog).get("entries", []):
+            record = read_json(resolve(root, entry["path"], entry["sha256"]))
+            separate_sources.update((source["path"], source["sha256"]) for source in record.get("sources", []))
+    copies = {}
+    for relative, path in origins.items():
+        if not relative.startswith("knowledge/local/candidates/") or path.suffix != ".json":
+            continue
+        local = read_json(path)
+        if not isinstance(local, dict):
+            continue
+        identifier = local.get("id")
+        evidence = local.get("evidence")
+        if (not isinstance(identifier, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", identifier)
+                or path.name != f"{identifier}.json" or not local.get("case") or not isinstance(evidence, dict)
+                or not all(isinstance(evidence.get(key), str) and re.fullmatch(r"[a-f0-9]{64}", evidence[key])
+                           for key in ("video_sha256", "quality_sha256"))):
+            continue
+        public = f"knowledge/candidates/{identifier}.json"
+        public_path = origins.get(public)
+        if public_path is None:
+            continue
+        local_key = (relative, file_hash(path))
+        if local_key not in separate_sources and read_json(public_path) == project_candidate_record(local):
+            copies[local_key] = {"path": public, "sha256": file_hash(public_path)}
+    return copies
+
+
+def closed_sources(root, heads=None):
     """Include only inbox pointers whose exact linked candidate was reviewed closed."""
     root = Path(root)
-    heads = decisions(root)
+    heads = decisions(root) if heads is None else heads
     closed = {key for key, record in heads.items() if record["closed"]}
     entries = []
     for name in ('knowledge/index.json', 'knowledge/cases/index.json', 'config/knowledge.local.json'):
@@ -127,14 +160,17 @@ def queue(root=None, include_closed=False):
     candidate_index = root / "knowledge/candidates/index.json"
     prior_adoptions = {e["path"]: e.get("reviews", []) for e in read_json(candidate_index).get("entries", [])} if candidate_index.exists() else {}
     rows = []
-    for relative, path in sorted(sources(root).items()):
+    origins = sources(root)
+    copies = reflection_copies(root, heads, origins)
+    for relative, path in sorted(origins.items()):
         digest = file_hash(path)
         value = read_json(path) if path.suffix == ".json" else {"hypothesis": path.read_text(encoding="utf-8-sig")}
         decision = heads.get((relative, digest))
-        if decision and decision["closed"] and not include_closed:
-            continue
+        copy_of = copies.get((relative, digest))
+        status = "evidence_copy" if copy_of else "reviewed_closed" if decision and decision["closed"] else "needs_review"
         rows.append({"path": relative, "storage_path": path.relative_to(root).as_posix(), "sha256": digest,
-                     "scope": value.get("scope", {}), "status": "reviewed_closed" if decision and decision["closed"] else "needs_review",
+                     "scope": value.get("scope", {}), "status": status,
+                     **({"evidence_copy_of": copy_of} if copy_of else {}),
                      "previous_review": decision["decision_sha256"] if decision else None,
                      "prior_adoptions": prior_adoptions.get(relative, []),
                      "adoption_proposal": value.get("adoption_proposal"),
@@ -142,7 +178,17 @@ def queue(root=None, include_closed=False):
                                           else value.get('reflection_state', 'needs_review')),
                      "next_action": decision["next_action"] if decision else value.get("next_action", "Review the recorded adopted parts and remaining limitations; identify a target or concrete missing evidence instead of creating an identical candidate."),
                      "decision": decision, "record": value})
-    return rows
+    conflicting_sources = {
+        (source["path"], source["sha256"])
+        for row in rows if row["record"].get("conflict_with_rules") is True
+        or (row["decision"] or {}).get("conflict_with_rules") is True
+        for source in row["record"].get("sources", [])
+    }
+    for row in rows:
+        row["conflict_with_rules"] = (row["record"].get("conflict_with_rules") is True
+                                      or (row["decision"] or {}).get("conflict_with_rules") is True
+                                      or (row["path"], row["sha256"]) in conflicting_sources)
+    return [row for row in rows if include_closed or row["status"] == "needs_review"]
 
 
 def review(spec, root=None):
@@ -162,6 +208,7 @@ def review(spec, root=None):
     closed = resolution != "partial" and resolution != "pending" and spec.get("all_material_accounted") is True
     require(not closed or spec.get("remaining_disposition") == "historical_only", "Closed review must account for all remaining material")
     require(closed or bool(spec.get("next_action")), "Open review needs a concrete next action")
+    require(type(spec.get("conflict_with_rules", False)) is bool, "Rule conflict flag must be boolean")
     private = "/local/" in source["path"]
     targets = []
     entries = []
@@ -193,6 +240,8 @@ def review(spec, root=None):
                   "next_action": "historical_record_only" if closed else spec["next_action"],
                   "retrieval_features": features, "recorded_at": utc_now(),
                   "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."}
+        if previous and previous.get("conflict_with_rules") is True:
+            record.setdefault("conflict_with_rules", True)
         require(file_hash(original) == source["sha256"], "Source changed during review")
         area = PRIVATE if private else PUBLIC
         path = root / area / (object_hash(record) + ".json")
@@ -222,7 +271,7 @@ def archive_preview(relative, root=None):
     return {**value, "fingerprint": object_hash(value)}
 
 
-def archive(relative, expected, root=None):
+def archive(relative, expected, root=None, *, refresh_index=True):
     root = Path(root or ROOT).resolve()
     with lock(root / "knowledge/local/curation/review.lock"):
         preview = archive_preview(relative, root)
@@ -241,6 +290,7 @@ def archive(relative, expected, root=None):
         if live.exists():
             require(file_hash(live) == preview["sha256"], "Candidate changed before removal")
             live.unlink()
-    from .candidate_index import refresh
-    refresh(root)
+    if refresh_index:
+        from .candidate_index import refresh
+        refresh(root)
     return {"source": relative, "archived": target.relative_to(root).as_posix(), "sha256": preview["sha256"]}

@@ -77,6 +77,76 @@ class LedgerTests(unittest.TestCase):
     def action(self,action,**kwargs):
         return self.ledger.action(action,{'requirement_id':'fireplay:req1',**kwargs},'op-'+__import__('uuid').uuid4().hex)
 
+    def test_upload_progress_requires_current_receipts_and_flags_only_publication_blocks(self):
+        self.fixture()
+        self.delivery(1, 'es')
+        self.delivery(1, 'fr')
+        request_path = 'state/fireplay/ACM-20261027-001/request.json'
+        review_folder = 'state/fireplay/ACM-20261027-001/publication-reviews'
+        for entry, decision in zip(self.entries, ('bounded_best_available_acceptable', 'blocked_major_or_incomplete')):
+            self.put(f'{review_folder}/{entry["video_sha256"]}.json', {'decision': decision})
+        check_path = 'state/fireplay/ACM-20261027-001/completion-check.json'
+        check = {'requirement_id': 'req1', 'code': self.fireplay['code'], 'content_version': 'v1',
+                 'request_sha256': self.store.sha(request_path), 'complete': False,
+                 'expected_count': 6, 'verified_count': 1, 'verified': [{'video_index': 1, 'locale': 'es'}]}
+        self.put(check_path, check)
+        self.collector.sync()
+
+        row = self.req()
+        self.assertEqual(row['output_count'], 2)
+        self.assertEqual(row['issue_count'], 2)
+        self.assertEqual(row['platform']['verified'], 1)
+        self.assertEqual(row['publication_blocked_count'], 1)
+        self.assertEqual(row['progress_state'], 'blocked')
+        tasks = self.ledger.detail(row['id'])['tasks']
+        self.assertEqual([(task['video_id'], task['locale']) for task in tasks if task.get('publication_blocked')],
+                         [('video:1', 'fr')])
+        self.assertIsNone(row['complete_at'])
+
+        self.put(request_path, {**self.fireplay, 'content_version': 'v2'})
+        self.collector.sync()
+        self.assertEqual(self.req()['platform']['state'], 'stale')
+        self.assertIsNone(self.req()['platform']['verified'])
+
+    def test_project_cohort_and_abnormal_duration_keep_original_records(self):
+        self.fixture()
+        for index in (1, 2):
+            for locale in ('es', 'fr', 'ja'):
+                self.delivery(index, locale)
+        self.collector.sync()
+        incident = dict(self.req(), id='fireplay:incident', code='ACM-20261027-002')
+        current = dict(self.req(), id='fireplay:current', code='ACM-20261027-003',
+                       received_at='2026-10-27T08:00:00Z')
+        for row in (incident, current):
+            row.update(first_scope_output_at=row['first_complete_at'])
+        self.ledger.reconcile([self.req(), incident, current], [], {})
+        self.put('config/ledger.json', {'cohort': {'started_at': '2026-10-27T08:00:00Z'}})
+        self.put('state/ledger/cohort-overrides.json', {
+            'time_exclusions': {incident['id']: {'reason': 'provider incident', 'source': 'fixture'}}
+        })
+
+        self.ledger.update_benchmark()
+        self.assertEqual({row['id'] for row in self.ledger.view(current_only=True)['requirements']},
+                         {incident['id'], current['id']})
+        self.assertEqual(self.ledger.detail('fireplay:req1')['requirement']['code'], self.fireplay['code'])
+        self.assertEqual(self.ledger.detail(incident['id'])['requirement']['first_complete_at'],
+                         incident['first_complete_at'])
+        metrics = self.ledger.metrics(at='2026-10-27T12:00:00Z', days=1)
+        self.assertEqual(metrics['completed_in_period'], 2)
+        self.assertEqual(metrics['cycle_samples'], 1)
+        self.assertEqual(metrics['cycle_median_seconds'], 3600)
+        timing = self.ledger.historical_timing(self.ledger.view(current_only=True)['requirements'], metrics,
+                                              at='2026-10-27T12:00:00Z')
+        self.assertEqual([row['id'] for row in timing['requests']], [current['id']])
+        self.assertEqual(timing['request_mean_seconds'], 3540)
+        benchmark = self.ledger.benchmark()
+        self.assertEqual(benchmark['completed_samples'], 2)
+        self.assertEqual(benchmark['comparable_samples'], 1)
+        self.assertEqual(benchmark['cohorts'][0]['median_first_cycle_seconds'], 3600)
+        cases = {sample['requirement_id']: sample for sample in benchmark['samples']}
+        self.assertEqual(cases[incident['id']]['time_exclusion']['reason'], 'provider incident')
+        self.assertEqual(cases[incident['id']]['timing']['received_to_first_output_seconds'], 3660)
+
     def test_benchmark_source_profiles_do_not_repeat_duration_and_keep_conflicts(self):
         self.fixture()
         self.put('config/content-features.json', {'aliases': {'multi_speaker': 'multi_character_dialogue'}})
@@ -102,6 +172,7 @@ class LedgerTests(unittest.TestCase):
             for locale in ['es', 'fr', 'ja']:
                 self.delivery(index, locale)
         # Migrate entries to the real managed layout, retaining JSON but no source.
+        self.collector.sync()
         for entry in self.entries:
             old = entry['package']
             entry['package'] = 'outputs/.packages/ACM/' + entry['target_language'] + '/' + entry['origin_run_id']
@@ -123,6 +194,11 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(self.req()['first_complete_at'], first)
         self.assertEqual(self.req()['output_count'], 0)
         self.assertEqual(self.req()['state'], 'expired')
+        metrics = self.ledger.metrics(at='2026-10-27T12:00:00Z', days=1)
+        timing = self.ledger.historical_timing([self.req()], metrics, at='2026-10-27T12:00:00Z')
+        self.assertEqual(timing['request_median_seconds'], 3540)
+        sample, = timing['requests']
+        self.assertEqual((sample['task_count'], sample['language_count'], sample['seconds_per_language']), (6, 3, 1180))
         self.assertEqual(self.ledger.metrics()['open'], 0)
         self.assertTrue(all(not t['output_available'] for t in self.store.snapshot()['tasks']))
 

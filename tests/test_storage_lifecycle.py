@@ -91,6 +91,50 @@ class StorageLifecycleTests(unittest.TestCase):
         self.assertIn('runs/old', self.paths())
         self.assertIn('work/runs/old', self.paths())
 
+    def test_closed_neutral_cache_keeps_reviewed_replacement_and_referenced_versions(self):
+        run = self.close('recent', 12)
+        original = self.file('runs/recent/outputs/local-repair/first/visual-master.mkv', b'old cache')
+        replacement = self.file('runs/recent/outputs/reviewed.mkv', b'new reviewed')
+        os.utime(original, (1, 1))
+        asset = {'path': original.relative_to(run).as_posix(), 'sha256': common.file_hash(original)}
+        write_json(original.with_name('preparation.json'), {
+            'output': asset, 'source_sha256': 'a' * 64, 'approved_for_reuse': False,
+            'contains_target_typography': False, 'probe_only': False})
+        write_json(run / 'analysis/media.json', {'duration': 3})
+        shot = {'start': 0, 'end': 3, 'prepared_video': {
+            'path': replacement.relative_to(run).as_posix(), 'sha256': common.file_hash(replacement)}}
+        inventory = {'source_sha256': 'a' * 64, 'shots': [shot]}
+        write_json(run / 'analysis/inventory.json', inventory)
+        marker = self.root / 'state/storage-closed/recent.json'
+        future = (self.now + timedelta(seconds=10)).timestamp()
+        os.utime(marker, (future, future))
+        with (patch('video_localizer.prepared.verify_for_production') as verify,
+              patch('video_localizer.media.probe', return_value={'duration': 3}) as probe):
+            self.assertEqual(self.paths(), {original.relative_to(self.root).as_posix()})
+            verify.assert_called_once()
+            probe.return_value = {'duration': 1}
+            self.assertEqual(self.paths(), set())
+            probe.return_value = {'duration': 3}
+            write_json(run / 'analysis/inventory.json', {**inventory, 'shots': [{**shot, 'end': 1}]})
+            self.assertEqual(self.paths(), set())
+            write_json(run / 'analysis/inventory.json', inventory)
+            consumer = self.run_folder('consumer') / 'input.json'
+            write_json(consumer, {'neutral_hash': asset['sha256']})
+            self.assertEqual(self.paths(), set())
+            consumer.unlink()
+            write_json(run / 'review/retained.json', {'old_master': asset})
+            self.assertEqual(self.paths(), set())
+
+    def test_delivered_run_without_close_receipt_is_reported_separately(self):
+        self.run_folder('working')
+        delivered = self.run_folder('delivered')
+        write_json(delivered / 'outputs/delivery.json', {'sha256': 'b' * 64})
+        self.age(delivered, 10)
+        plan = self.plan()
+        self.assertEqual(plan['selected'], [])
+        self.assertIn({'path': 'runs/delivered', 'reason': 'awaiting_close_receipt'}, plan['retained'])
+        self.assertIn({'path': 'runs/working', 'reason': 'unfinished_or_recent'}, plan['retained'])
+
     def test_empty_receipt_retains_owner_and_dependencies_only(self):
         self.close('ready')
         self.close('needed')
@@ -105,6 +149,24 @@ class StorageLifecycleTests(unittest.TestCase):
         result = project_storage.execute(self.root, plan['fingerprint'], now=self.now)
         self.assertEqual([row['path'] for row in result['deleted']], ['runs/ready'])
         self.assertTrue((self.root / gap).exists())
+        self.assertTrue((self.root / 'runs/needed').is_dir())
+
+    def test_invalid_control_receipts_do_not_block_unrelated_cleanup(self):
+        self.close('ready')
+        invalid_run = self.close('invalid')
+        invalid_marker = self.close('bad-date')
+        write_json(invalid_run / 'outputs/delivery.json', ['runs/needed/outputs/base.mp4'])
+        write_json(self.root / 'state/storage-closed/bad-date.json', {
+            'video_sha256': 'b' * 64, 'closed_at': '2026-11-24T00:00:00'})
+        self.close('needed')
+        plan = self.plan()
+        self.assertEqual([row['path'] for row in plan['selected']], ['runs/ready'])
+        for run, receipt in (
+                (invalid_run, 'runs/invalid/outputs/delivery.json'),
+                (invalid_marker, 'state/storage-closed/bad-date.json')):
+            self.assertIn({'path': 'runs/' + run.name, 'reason': 'unreadable_json_receipt',
+                           'receipts': [receipt]}, plan['retained'])
+        project_storage.execute(self.root, plan['fingerprint'], now=self.now)
         self.assertTrue((self.root / 'runs/needed').is_dir())
 
     def test_live_cross_run_reference_keeps_producer(self):
@@ -154,6 +216,25 @@ class StorageLifecycleTests(unittest.TestCase):
         write_json(self.root / 'state/maintenance/registered/scratch.json', {'files': {}})
         self.assertIn('work/runs/registered', self.paths())
         self.assertNotIn('work/runs/unknown', self.paths())
+
+    def test_legacy_orphan_cache_requires_matching_completed_retirement(self):
+        cases = (
+            ('eligible', 'eligible', 'deleted', 2),
+            ('recent', 'recent', 'deleted', 0),
+            ('different_owner', 'other', 'deleted', 2),
+            ('awaiting_deletion', 'awaiting_deletion', 'preserved', 2),
+        )
+        for name, owner, status, days in cases:
+            scratch = self.root / 'work/runs' / name
+            scratch.mkdir(parents=True)
+            self.age(scratch, 3)
+            write_json(self.root / 'state/run-retention' / (name + '.json'), {
+                'schema_version': 1, 'run': owner, 'status': status,
+                'deleted_at': (self.now - timedelta(days=days)).isoformat()})
+        self.assertEqual(self.paths(), {'work/runs/eligible'})
+        consumer = self.run_folder('consumer')
+        write_json(consumer / 'input.json', {'asset': 'work/runs/eligible/source.mp4'})
+        self.assertEqual(self.paths(), set())
 
     def test_late_consumer_or_policy_change_invalidates_preview(self):
         self.close('old')

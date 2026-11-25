@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-29da858b83e1f0d5c0ef",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "acbd790986c234eb3b38393ca84a06cd66075e99fa529d161715e14c19c87f81",
+    "target_language": "fr"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "法语字幕退出包络漏覆盖反例",
+    "trigger": "该源累积字幕退出时，按中点测得的区域未覆盖源字尾。",
+    "action": "分别记录源字完整进出场擦除包络和目标显示框，检查实际边界连续帧并保留旧质量否决。",
+    "failure_signature": "旧版源字RE与译文同屏；扩大源擦除范围后尾字消失，但局部接缝仍可见。",
+    "limitations": [
+      "一源法语见证；未证明全帧运动通过或修复干净。",
+      "现有接缝及主体、图形修复痕迹仍在。",
+      "Quoted observations do not prove causality or validate the proposed action; controller review required."
+    ],
+    "next_counterexample_test": "审查完整退出区间及正常播放，检查扩大包络是否引入新接缝。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/APC-20261105-017-fr-caption-exit-envelope-v1.json",
+      "sha256": "b4d1afc13970b74413df81ec8b66c8c541b567c10a6cee03c3ef84ee37f3d64c",
+      "event_id": "271f14f445af67e3acbe4a8785633df04d271b683aac52b814e23a148a932c0d",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "acbd790986c234eb3b38393ca84a06cd66075e99fa529d161715e14c19c87f81",
+        "target_language": "fr"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "APC-20261105-017-fr-caption-exit-envelope-v1",
+        "status": "candidate",
+        "scope": {
+          "workflow": "video-localization",
+          "source_sha256": "acbd790986c234eb3b38393ca84a06cd66075e99fa529d161715e14c19c87f81",
+          "target_language": "fr"
+        },
+        "hypothesis": "Midpoint-only source bounding boxes can under-cover the outgoing cumulative source caption. This is a supported exact-source coverage failure; it does not prove a generally clean repair method.",
+        "lesson": "On this exact source, save original text full enter/exit extent separately from target display bbox, inspect dense actual boundary frames and current normal playback, and hold the exact original-letter version until reviewed replacement exists.",
+        "observations": [
+          "Actual old French encoded caption probe shows original green/black RE at the right edge simultaneously with target Dans le monde entier. Current native112–132 frame range removes that tail, with a thin seam/geometry step visible at116–119. Source erase envelope widened while target display placement retained."
+        ],
+        "limitations": [
+          "One independent source, French witness only. No company acceptance, clean master, all-frame motion approval or cross-source inference.",
+          "Current local seams/body/graphic repair traces persist. Original negative reviews and quality holds remain."
+        ],
+        "outcome": "revise_with_finite_local_fix",
+        "reflection_state": "observed_candidate",
+        "company_preference": false,
+        "evidence": {
+          "source_sha256": "acbd790986c234eb3b38393ca84a06cd66075e99fa529d161715e14c19c87f81",
+          "video_sha256": "5b81f2e843f264244ece2279ae9ae29a61baeab31ae8ee2ce80a6d38a687985c",
+          "case_manifest_sha256": "774df05a41bce3dcc1e56a1fef1dbde330ab9b33584a70bab1b31f004abadc80"
+        },
+        "next_action": "Review this exact-source evidence before any advisory adoption; do not rewrite old midpoint review or broaden language/source scope.",
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": false,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation",
+  "analysis": {
+    "observations": [
+      {
+        "event_id": "271f14f445af67e3acbe4a8785633df04d271b683aac52b814e23a148a932c0d",
+        "pointer": "/observations/0",
+        "quote": "Actual old French encoded caption probe shows original green/black RE at the right edge simultaneously with target Dans le monde entier. Current native112–132 frame range removes that tail, with a thin seam/geometry step visible at116–119. Source erase envelope widened while target display placement retained."
+      }
+    ],
+    "causal_hypothesis": "",
+    "action_basis": "observed_comparison"
+  },
+  "analysis_status": "source_linked",
+  "adoption_proposal": {
+    "action": "source_case",
+    "target_ids": [
+      "method-animated-text-occlusion-v8"
+    ],
+    "reason": "现行方法已有完整擦除包络和独立显示区间要求，此为具体反例。",
+    "missing_evidence": [
+      "独立媒体复审",
+      "连续播放与跨源对照"
+    ]
+  },
+  "next_action": "knowledge-review: source_case: 现行方法已有完整擦除包络和独立显示区间要求，此为具体反例。"
+}

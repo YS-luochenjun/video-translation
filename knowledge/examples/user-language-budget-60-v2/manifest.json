@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "user-language-budget-60-v2",
+  "created_at": "2026-11-24T11:21:00+00:00",
+  "files": [
+    {
+      "path": "evidence/budget-policy.json",
+      "sha256": "1308c2c2b82ff3b76c75f876897ceb6ce7ccbf56650f1857bbd0365d3e6eb7d9",
+      "bytes": 495
+    },
+    {
+      "path": "evidence/model-routing.md",
+      "sha256": "64d4e493a7148d6f0c58575a17cf5272d0f1e9b38b1510917a3fa130bc54ad11",
+      "bytes": 11076
+    },
+    {
+      "path": "evidence/user-language-budget-60-20261026.md",
+      "sha256": "f0fb6b33570f43684a3085d886af8d9ba005b81a349efd46f27008bac1ce3330",
+      "bytes": 2050
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# 请求预算：每个目标语言 60 credits\n\n适用新本地化请求。按项目用户明确要求，首次及真实新复用请求的KIE额度均为60 credits×实际去重目标语言数。3种180、10种600。唯一机器参数源为config/budget-policy.json。Codex宿主费用独立于KIE账本。\n\nbudget-open必须填写真实targets，先用语言别名字典规范化，再去重。ja/JA/日语等别名只计一次。明确不同地区或文字标签仍保留。共用一个请求总池，供已登记语言、共用无字底片、音频、分段和返工灵活分配。共用底片做一次并只计费一次。达到共享池上限时按授权处理。\n\n主控登记真实用户事件。换run、拆片、改模型、配置更新及重试均沿原请求账本核算。新增用户要求的语种通过带原话、授权事件和完整targets的budget-amend调整总额，保留费用与未知占位。只有真实新复用请求且旧账已结清才可开新账，首次与新复用同价。总额不足时依据真实授权修订。\n\n预算与质量选路分别按对应合同执行。按底面和连续帧评估自然修复与当前视频模型的改善机会。可见模糊只适用自然修复合同规定的困难例外。按接口实际输入和费用足额预留。单语言60 credits是共享池计算基数，完整视频编辑的可负担性按实际预留核验。参见[自然去字](content-aware-text-restoration-v6.md)和[模型合同](../../agent/contracts/model-routing.md)。\n\n任务名额仍由原视频实际时长分段和已确认角色有限规划，每问题两轮返工。达到实际余额、尝试或能力边界即停止试验，按最终输出合同交付当前最佳完整结果并说明限制。超时或扣费未知时先恢复任务并保留占位。实际供应商计费以回执结算。\n\n依据为 evidence:previous、evidence:policy 及 evidence:routing。沿用用户预算偏好，更新制作路线引用。\n",
+    "source_sha256": null,
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "previous": "evidence/user-language-budget-60-20261026.md",
+      "policy": "evidence/budget-policy.json",
+      "routing": "evidence/model-routing.md"
+    }
+  }
+}

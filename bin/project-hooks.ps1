@@ -31,6 +31,7 @@ if ($Action -eq 'Uninstall') {
 
 if ($hook.timezone -ne 'Asia/Shanghai') { throw 'Unsupported project hook timezone' }
 if (-not $hook.enabled) { throw 'Project hook is disabled' }
+if ($hook.automatic -eq $false) { throw 'Project knowledge curation is set to manual mode' }
 if (-not (Test-Path -LiteralPath (Join-Path $projectRoot 'knowledge\local\curation\checkpoint.json'))) { throw 'Create an explicit project baseline before installing the timer' }
 if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) { throw 'Project task already exists; inspect it before replacing' }
 $user = [Security.Principal.WindowsIdentity]::GetCurrent().Name

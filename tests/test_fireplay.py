@@ -30,7 +30,80 @@ def fixture():
             'items': [{**brief, 'description': None, 'status': 'not_started', 'assigneeIds': ['test']}]}}
 
 
+def attachment_receipt(snapshot):
+    summary = snapshot['summary']['items'][0]
+    attachments = [{'id': attachment_id, 'mime': 'video/mp4', 'size': 5,
+                    'url': f'https://material-library.mixberry.io/requirement-attachments/{RID}/{attachment_id}.mp4'}
+                   for attachment_id in (MID, RESOURCE)]
+    return {'view': 'delivery', 'items': [{**summary, 'attachments': attachments,
+                                          'materials': [{'id': THREAD}]}]}
+
+
 class FireplayTests(unittest.TestCase):
+    def test_attachment_fallback_preserves_text_priority_and_versions_exact_media(self):
+        self.snap['delivery'] = attachment_receipt(self.snap)
+        self.register()
+        self.assertEqual([video['source_url'] for video in self.record()['videos']], [URL])
+        self.snap['brief']['items'][0].update(description='Translate these originals', locales=['en'])
+        alternate = tempfile.TemporaryDirectory(dir=self.root)
+        self.addCleanup(alternate.cleanup)
+        fresh_root = Path(alternate.name)
+        shutil.copytree(self.root / 'config', fresh_root / 'config')
+        result = fireplay.register(CODE, self.snap, root=fresh_root)
+        self.assertEqual([video['attachment']['id'] for video in result['videos']], [MID, RESOURCE])
+        self.assertEqual([video['title'] for video in result['videos']], [f'{CODE}-1', f'{CODE}-2'])
+        self.snap['delivery']['items'][0]['attachments'][0]['size'] = 6
+        with self.assertRaisesRegex(WorkflowError, 'content changed'):
+            fireplay.register(CODE, self.snap, root=fresh_root)
+
+    def test_attachment_download_checks_scope_and_bytes_before_hash_binding(self):
+        self.snap['brief']['items'][0].update(description=None, locales=['en'])
+        self.snap['delivery'] = attachment_receipt(self.snap)
+        delivery = self.snap['delivery']['items'][0]
+        original = copy.deepcopy(delivery)
+        delivery['updatedAt'] = 'stale'
+        with self.assertRaisesRegex(WorkflowError, 'changed between reads'):
+            self.register()
+        delivery.update(original)
+        attachment = delivery['attachments'][0]
+        valid_url = attachment['url']
+        attachment['url'] = valid_url.replace(RID, THREAD)
+        with self.assertRaisesRegex(WorkflowError, 'match this requirement'):
+            self.register()
+        attachment['url'] = valid_url
+        self.register()
+
+        def fetch(url, destination, *, fixed_https_origin):
+            self.assertEqual(url, valid_url)
+            self.assertEqual(fixed_https_origin, 'material-library.mixberry.io')
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(b'short?')
+        with patch('video_localizer.kie.download', side_effect=fetch), patch('video_localizer.media.probe',
+                  return_value={'duration': 5, 'width': 320, 'height': 240}) as probe:
+            with self.assertRaisesRegex(WorkflowError, 'Downloaded bytes differ'):
+                fireplay.source(CODE, download=True, root=self.root)
+            probe.assert_not_called()
+            path = self.root / f'work/runs/{CODE}-1-01/fireplay-source.mp4'
+            path.write_bytes(b'video')
+            fireplay.source(CODE, download=True, root=self.root)
+        self.assertEqual(self.record()['videos'][0]['source']['sha256'], file_hash(path))
+
+    def test_exact_youtube_missing_requests_only_source_import_with_standing_authority(self):
+        self.register()
+        response = {'items': [{'youtube_video_id': fireplay.youtube_id(URL), 'youtube_url': URL, 'status': 'missing'}]}
+        result = fireplay.source(CODE, response, download=True, root=self.root)
+        self.assertEqual(result['state'], 'needs_source_backup')
+        self.assertEqual(result['host_action'], {'tool': 'material_upload_from_url',
+                         'arguments': {'items': [{'type': 'video', 'video_url': URL}]}})
+        self.assertEqual(read_json(self.root / result['lookup_evidence']), response)
+        self.assertFalse(result['external_write'])
+        self.assertNotIn('source', self.record()['videos'][0])
+        config_path = self.root / 'config/fireplay-intake.json'
+        settings = read_json(config_path)
+        settings.pop('youtube_source_backup')
+        write_json(config_path, settings)
+        self.assertEqual(fireplay.source(CODE, response, root=self.root)['state'], 'source_missing')
+
     def test_pinterest_source_keeps_exact_pin_and_does_not_select_related_video(self):
         pin = '123456789'
         url = f'https://www.pinterest.com/pin/{pin}/'
@@ -162,6 +235,23 @@ class FireplayTests(unittest.TestCase):
         operation = fireplay.dispatch(CODE, root=self.root)['operation']
         self.assertEqual(operation['tool'], 'material_r2_presign_upload')
         self.assertIsNone(operation['materialize'])
+
+    def test_library_only_brief_preserves_sharing_and_skips_youtube(self):
+        self.snap['brief']['items'][0]['description'] += '\n无需传yt'
+        self.returned_setup()
+        fireplay.dispatch(CODE, True, self.root)
+        self.verify_upload('upload-1')
+        operation = fireplay.dispatch(CODE, True, self.root)['operation']
+        self.assertEqual(operation['arguments']['VedioSouce'], 'Other')
+        self.assertEqual(operation['arguments']['items'][0]['shared_dept_id'], 'test')
+        imported = fireplay.receipt(CODE, 'import-1', {'response': {'items': [{'material_id': MID}]}}, self.root)
+        self.assertEqual(imported['result']['youtube_status'], 'not_requested')
+        fireplay.dispatch(CODE, True, self.root)
+        verified = fireplay.receipt(CODE, 'verify-1', {'response': {'material': {
+            'id': MID, 'name': CODE + '-es', 'isPublic': False, 'sharedDeptId': 'test',
+            'tags': [{'name': 'es'}, {'name': 'crush'}],
+        }}}, self.root)
+        self.assertEqual(verified['result']['youtube_status'], 'not_requested')
 
     def test_default_presign_avoids_full_video_json_and_preserves_frozen_bytes_route(self):
         frozen_spec = self.returned_setup()

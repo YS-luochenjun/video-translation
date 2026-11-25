@@ -1,5 +1,11 @@
 {
   "schema_version": 1,
+  "youtube_source_backup": {
+    "authority": "user",
+    "authorization_ref": "user-fireplay-youtube-source-backup-20261124",
+    "source_quote": "且上次的，素材库中没有，只有youtube链接的视频，可以按照上次的方式进行取得。请你把这部分都加入项目中",
+    "scope": "已交办或符合自动接入条件的视频翻译需求，仅补齐精确声明的 YouTube 原片"
+  },
   "designer_selection": {
     "mode": "requirement_assignees_except_named_operators",
     "excluded_names": [

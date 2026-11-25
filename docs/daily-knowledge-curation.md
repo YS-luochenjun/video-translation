@@ -1,15 +1,15 @@
 # 项目自身的知识提纯 Hook
 
-开发者于2026-10-20授权每天北京时间09:00整理新增项目经验、合并重复内容，保留来源和适用范围；已验证翻译规则保持原样，不调用付费视频模型。2026-10-27用户进一步要求巡检、经验总结、存储整理各用独立定时任务，2026-10-28用户将执行时区调整为Asia/Shanghai，当前由独立应用经验任务每天上海时间18:00唤醒，见[三项定时职责](scheduled-tasks.md)。项目保留提纯角色、检查点与写入控制，调度与推理解耦。
+经验总结由用户手动触发。`config/hooks.json` 保留旧调度配置，`automatic=false` 关闭定时运行。Fireplay巡检和存储整理各用自己的入口。见[任务职责](scheduled-tasks.md)。
 
 ## 运行链路
 
 ```text
-deliver / reflect → 项目候选与inbox
+deliver / maintain → 基于当前成片评审的经验候选或结案回执
                               ↓
-独立经验定时任务 / 可选Windows宿主触发器
+工作台「总结新增经验」/ 在项目中手动运行
                               ↓
-config/hooks.json → curation.py：锁、到期判断、文件哈希增量
+config/hooks.json → curation.py：锁、自动模式开关、文件哈希增量
                               ↓
 config/hooks/knowledge-curation/prompt.md + 有界packet
                               ↓
@@ -24,22 +24,26 @@ knowledge-queue → 主控审查采纳目标/缺证据 → knowledge-promote / k
 正式方法与独立候选召回 → knowledge-use 使用反馈 → 修订审查队列
 ```
 
-当前文本适配器是 `codex_cli`，通过命令行使用当前登录的AI推理能力。当前独立应用任务负责唤醒，不能在关闭应用后宣称会继续运行。Windows可选择已核验的系统触发器，但不与应用经验任务重复启用。换AI时可使用相同的packet/schema与prepare/apply接口；预算边界和存储规范保持在项目内。
+当前文本适配器是 `codex_cli`。工作台「总结新增经验」优先通过在线桥接派发给负责会话，否则提供使用工作台 Python 的命令。整理完成后审查拟采纳的内容。
+
+工作台默认显示现行方法与政策。「现行同源案例」按原片和语种匹配。「待审经验」把同源同文的记录折叠展示，展开可查看各语种条目。「历史与已审结」可查询已替代版本和已归档候选。
+
+历史按[知识合同](../agent/contracts/knowledge.md#候选退出队列与归档)保留有追溯价值的条目。无内容的已审结占位在授权清理、核对引用并实删后退出历史计数。
+
+交付维护根据成片哈希查找对应评审。实质 `lesson` 进入经验候选，空白复盘只保存结案回执。可用 `knowledge_no_new_reason` 写明沿用既有方法的原因。运行归档保留证据包和恢复材料。
 
 ## 操作
 
 ```powershell
 .\bin\va.ps1 hooks status
-.\bin\va.ps1 hooks run                 # 手动执行一次
-.\bin\va.ps1 hooks run --due           # 按config/hooks.json的上海时区到期判断执行
-.\bin\project-hooks.ps1 -Action Install
-.\bin\project-hooks.ps1 -Action Status
-.\bin\project-hooks.ps1 -Action Uninstall
+.\bin\va.ps1 hooks run
 ```
 
 新机器首次部署必须显式运行 `hooks baseline`，登记当时已经整理的历史输入；已有检查点不能重建覆盖。来源为knowledge/candidates及knowledge/local下的candidates、inbox、feedback，排除目录索引和生成报告。安装定时器不会调用推理或视频模型。
 
-Windows可选任务计划程序，按带UTC+08:00时区的每日触发器执行，并在当前用户登录时检查补跑；此路线需要电脑开机、用户登录和有效CLI/Python，可不依赖桌面应用。当前macOS使用应用定时任务，需要应用运行，没有独立系统触发器的安装证据。其他宿主可显式配置系统定时器调用 `va.py hooks run --due`；仓库配置本身不会唤醒关机电脑。迁移机器后重新核对调度，不重建旧检查点。
+新工作区没有可核验且完整的检查点，已有来源仍待处理时，使用 `hooks baseline --include-existing` 初始化。现有审查决定继续生效，未审来源保持增量待处理。已有检查点需沿原历史恢复。
+
+旧宿主若调用 `hooks run --due`，项目在手动模式下返回 `manual_only`。手动执行沿用原检查点。
 
 更换推理接口或人工检查建议时：
 
@@ -66,6 +70,6 @@ Windows可选任务计划程序，按带UTC+08:00时区的每日触发器执行�
 
 当前上限与时间在 `config/hooks.json`；角色提示词在 `config/hooks/knowledge-curation/prompt.md`；宿主安装回执在 `knowledge/local/curation/schedule.json`。代码与配置可随项目管理，机器路径和运行凭据保持本地。
 
-日常主动检查不依赖用户提醒：每次制作/修复/反馈结束记录本次经验，独立经验任务读取`knowledge-queue`与`hooks status`；每日到期时运行`hooks run --due`，再按知识技能处理本轮待审。Fireplay巡检不兼做全局知识整理。`new_records`表示尚未进入提纯的输入，`adoption_queue_open`和`review_required`表示尚未闭合的审查，`pending`表示Hook保留的具体缺口，三者不能混为一谈。来源已直接审查结清时，不再重复生成提纯候选。电脑/宿主未唤醒或推理失败时保留实际缺口，不声称定时处理成功。
+制作和修复结束时记录本次观察。用户要求全局整理时读取 `knowledge-queue` 和 `hooks status`，优先审反例和有效修正，再手动提炼需要归纳的来源。`new_records` 是下次可提炼的新增或修订来源数，`pending` 是仍对应当前来源版本的提炼待补证项。人工已审查的版本沿 `knowledge-queue` 的待办处理。`adoption_queue_open` 是尚未审结的记录数。
 
 2026-10-27知识暂存整理修复：知识队列和增量Hook均排除独立案例包内副本与原始ASR证据，原文件继续保留。inbox指向已归档公开候选时，按实际候选哈希及原案例/已采纳目标核验已闭合状态，不仅按名称丢弃；无需反复提纯旧指针。当前本机在实际队列与未处理增量均归零后建立基线，不将未审来源伪装成已总结。此处不宣称已安装独立系统调度器，应用监控仍由既有定时唤醒执行。

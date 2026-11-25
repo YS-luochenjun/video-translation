@@ -1,5 +1,4 @@
 """Deliver a usable translated result without falsely approving its quality."""
-import shutil
 import json
 
 from .common import file_hash, guarded, inside, object_hash, read_json, require, utc_now, write_json
@@ -159,8 +158,8 @@ def finish(run, relative='review/finalization.json'):
         _freeze_knowledge(run, selection)
         path = run / 'plans' / selection['id'] / 'plan.json'
         selection_asset = {'path': path.relative_to(run).as_posix(), 'sha256': file_hash(path)}
-    if video.resolve() != output.resolve() and not (output.exists() and video.samefile(output)):
-        shutil.copyfile(video, output)
+    if video != output:
+        media.copy_verified_video(video, output, digest)
     candidate_path = run / 'outputs/candidate.json'
     candidate_at_finish = read_json(candidate_path).get('sha256') if candidate_path.exists() else None
     write_json(run / 'outputs/completion.json', {

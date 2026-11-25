@@ -24,6 +24,39 @@ POLICY = read_json(PROJECT / "config/quality.json")["caption_sync"]
 
 @unittest.skipUnless(shutil.which("ffmpeg") and shutil.which("ffprobe"), "FFmpeg media integration")
 class CaptionCaptureTests(unittest.TestCase):
+    def test_review_overview_paginates_without_persisting_all_samples(self):
+        with tempfile.TemporaryDirectory(dir=TEMP) as temporary:
+            directory = Path(temporary)
+            movie = directory / "sample.mp4"
+            media.ffmpeg(["-f", "lavfi", "-i", "testsrc2=size=96x160:rate=30:duration=17",
+                          "-c:v", "libx264", "-pix_fmt", "yuv420p", movie])
+            with patch.object(media, "command", wraps=media.command) as extraction:
+                media.capture_overview(movie, directory)
+                self.assertEqual(extraction.call_count, 1)
+                media.capture_overview(movie, directory)
+                self.assertEqual(extraction.call_count, 1)
+            pages = read_json(directory / "contact-pages.json")
+            self.assertEqual([(page["first_frame"], page["last_frame"], page["first_sample_seconds"])
+                              for page in pages], [(1, 32, 0), (33, 34, 16)])
+            self.assertEqual([path.name for path in directory.glob("frame-*.jpg")], ["frame-00001.jpg"])
+            all_pages = [directory / page["file"] for page in pages]
+            digests = [file_hash(path) for path in all_pages]
+            all_pages[1].unlink()
+            media.capture_overview(movie, directory)
+            self.assertEqual([file_hash(path) for path in all_pages], digests)
+
+    def test_review_overview_preserves_legacy_numbered_stills(self):
+        with tempfile.TemporaryDirectory(dir=TEMP) as temporary:
+            directory = Path(temporary)
+            files = [directory / name for name in ("frame-00001.jpg", "frame-00002.jpg", "contact-sheet.jpg")]
+            for path in files:
+                path.write_bytes(path.name.encode())
+            write_json(directory / "contact-pages.json", [
+                {"file": "contact-sheet.jpg", "first_frame": 1, "last_frame": 2}])
+            with patch.object(media, "command", side_effect=AssertionError("Rebuilt legacy evidence")):
+                media.capture_overview(directory / "unused.mp4", directory)
+            self.assertEqual([path.read_bytes() for path in files], [path.name.encode() for path in files])
+
     def test_batched_stills_match_single_seek_and_resume_missing_output(self):
         with tempfile.TemporaryDirectory(dir=TEMP) as temporary:
             directory = Path(temporary)

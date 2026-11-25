@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "de2us-en-watermark-approved-v2",
+  "created_at": "2026-11-24T11:00:47+00:00",
+  "files": [
+    {
+      "path": "evidence/de2us-watermark-approved-20261022.md",
+      "sha256": "7b7a89b6256c53f22251a795f435eb1788b523fbfa4c00181d501d80ca7c760e",
+      "bytes": 896
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f",
+      "target_language": "en"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# de2us 英语成片的水印去除反馈\n\n适用已绑定的精确原片和英语成片。原用户认可限于水印去除。观察记录覆盖移动及旋转标记、片尾同标和受保护产品图形。\n\n开头标记从底部进入时曾漏掉字尖。局部重建曾影响纹理，切镜条件不一致会造成同源供体错位。检查完整标记包络、切镜和颜色模糊边界，具体坐标、供体和旋转速度仅供同源参考。\n\n局部水印认可沿原实际成片哈希保存。配音听感、音乐音效及旧版质量异议按原记录读取。见 evidence:previous，历史评审与修复前后证据位于上一版的原案例及补证包。\n",
+    "source_sha256": "f45d6469a74fd1a0f2429ac2bb6f9a18b74aada85b2fb76e5234791593a9501f",
+    "video_sha256": "ff1eec75f0b7242b002c0bc6b8d7b0cacd464f446571c6abc4de90bc35060f92",
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "previous": "evidence/de2us-watermark-approved-20261022.md"
+    }
+  }
+}

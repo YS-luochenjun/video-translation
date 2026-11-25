@@ -184,7 +184,7 @@ class SourceRetentionTests(unittest.TestCase):
         with self.assertRaises(WorkflowError):
             retention.delete(self.run, self.root, execute=True)
 
-    def test_delete_keeps_observations_source_and_queue(self):
+    def test_delete_keeps_independent_evidence_without_opening_a_candidate(self):
         retention.preserve(self.run, self.root)
         preview = retention.delete(self.run, self.root)
         self.assertEqual(preview["decision"], "ready")
@@ -192,7 +192,8 @@ class SourceRetentionTests(unittest.TestCase):
         self.assertFalse(self.run.exists())
         self.assertEqual(bundles.verify(self.root / result["knowledge_case"])["kind"], "knowledge-case")
         self.assertEqual(learning.audit(self.root)["decision"], "pass")
-        self.assertEqual(len(list((self.root / "knowledge/local/inbox").glob("*.json"))), 1)
+        self.assertFalse(list((self.root / "knowledge/local/inbox").glob("*.json")))
+        self.assertFalse(list((self.root / "knowledge/local/candidates").glob("*.json")))
         self.assertTrue(source_state.restore(self.make_run("reuse-after-delete", "ko-KR"), self.root)["reused"])
 
     def test_mutation_after_preservation_blocks_deletion(self):

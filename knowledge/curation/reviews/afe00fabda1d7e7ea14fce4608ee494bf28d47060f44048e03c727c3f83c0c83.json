@@ -1,0 +1,61 @@
+{
+  "source": {
+    "path": "knowledge/candidates/SHE-20261109-013-05-delivery-5f7feaa2d1.json",
+    "sha256": "ef36de8ecca3cee240e39350d2fcf15bc7bd4a94453715d09a9644e86c47d3bd"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project knowledge review",
+  "origin": "User-requested knowledge backlog cleanup. Review of generated placeholder and of referenced evidence identity where present.",
+  "resolution": "duplicate",
+  "reason": "This source-specific review repeats the representative source observation text, outcome and limitations. The established instructions already cover the reusable checks. Preserve the original language result and hashes.",
+  "retained_parts": [
+    "Original record and its evidence hashes remain available, including all quality findings and restrictions."
+  ],
+  "adopted_parts": [
+    "Review source, clean base and encoded target through occlusion and motion.",
+    "Use encoded audio and verified timing boundaries, preserving limits of audio-model review.",
+    "Record platform submission separately from internal quality."
+  ],
+  "targets": [
+    {
+      "id": "method-spoken-caption-verification-v4",
+      "path": "knowledge/rules/method-spoken-caption-verification-v4.md",
+      "sha256": "e20eb1874113966042995c02caa3f77e15dcebe9b288ad1d1552d4a0f2890f8e",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 口播与字幕：实际混音、分歧及停止\r\n\r\n适用有人声任务。先区分对白、独白、旁白、口播字幕、独立标题/UI及配乐演唱；实际职责与用户要求决定替换范围。单人口播首选共同定稿生成真实目标语音频，字幕在裁切/变速/偏移/混音后按实际发声对齐。多角色叠加角色声线与场景方法，不默认全员同音色。\r\n\r\n首选证据是实际编码成片声音及对应字幕边界帧。检查逐句内容、完整发音、首尾、语种、音乐音效及同步。请求文字、计划时间、孤立 TTS 与成功响应不能替代最终混音。换音、改稿、变速或画面时轴改变后重新绑定相关审核。\r\n\r\nASR 空白/同音/文字系统混淆或与 Gemini 分歧：定位实际词句，保留原始结果，补真实上下文、独立分句或可用听审；必要时做一次针对疑点的音频理解。仍有分歧留 pending；只有实际错读、漏读或不可理解才补录。禁止用预期译稿替换 ASR。低能量不必然静音，短句级证据可靠时不伪造词级精度。\r\n\r\n字幕时标异常先查句前静音与混音偏移，再按实际短语定位，检查编码边界；不得为追字幕改变背景音乐速度。具体工程阈值查 quality 配置，语义和自然度仍需实际审查。\r\n\r\n停止：对应内容/同步完整且有证据；或无新补证方向/达到尝试费用能力边界。后者标明未审、已确认错误及音频可用状态，按最终输出合同处理。用户要求必须配音时字幕不代替音频。声学模型、自审、母语听审及用户验收分别记录，不保证无损分轨或逐字嘴型。\r\n\r\n依据：evidence:review。适用条件是选路依据，不保证新素材效果；实际候选仍按当前模式检查。\r\n"
+    },
+    {
+      "id": "fireplay-complete-delivery-v3",
+      "path": "knowledge/rules/fireplay-complete-delivery-v3.md",
+      "sha256": "cea728f25d351510ceb40584a12f5b04cc443f510a46b401bc170830103e6ad2",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 有界最佳成品提交与全部原片、全部语种闭环\n\n来源：用户2026-10-28明确允许“在有限的条件下，已经做到最好”的完整成品带普通不合格提交，大面积撕裂等大问题允许不提交，并授权结合交付闭环方案优化。见evidence:instruction。本版替代v2，保留其全原片/语种、文件超时额外两次重传及原unknown保护。唯一发布参数源为config/fireplay-publication.json；补漏期限和次数在config/fireplay-monitor.json。\n\n## 普通不合格与严重阻断\n\n完整翻译、必需配音齐全、实际可观看的成品，在预算、返工、能力边界内已做到最好时，普通质量不达标可以提交。内部revise、未达严格保真、评分或普通瑕疵数量，均不单独决定禁止发布；内部质量记录保持原样。按fireplay-publication-review记录实际缺陷、publication_impact=ordinary、best_available停止条件/理由及包内证据，不要求用户逐版批准普通瑕疵。\n\n大面积撕裂、无法观看、严重主体损坏、文件损坏、错误语种、实质漏译、缺必需配音、核心文案不可读，仍阻断对应版本。不能将严重影响改名普通以凑全。缺必要证据继续补查，达到边界仍给出具体缺项及解决动作，不冒称验收。\n\n同源多语共用底片可帮助定位共同缺陷，但一个语种可提交不能证明其他语种无严重问题；配音、译字、排版和合成各自可能失败。共用缺陷集中修复并复用同源结果；语种特有问题只修受影响项，保持原账本与有界重试。\n\n旧发布否决可在当前政策下重新看实际同一版本，明确reassess_under_current_policy；只有完整、可观看且普通问题的有界最佳版本可追加新决定。原否决和内部quality/用户质量异议保留，不通过无意义重编码制造新版本，也不自动撤销有效质量异议。\n\n## 逐项提交和恢复\n\n1. 以冻结请求各原片自己的目标语种建立清单，不错误交叉相乘。vn/vi、jp/ja按别名去重，不重新计费。各项分别记录制作、发布资格、传输、入库、共享/标签/设计师归属、需求绑定和真实素材ID。\n2. 已可提交项先交，其他项继续制作/修复/恢复；partial只是中间批次。已绑定素材沿原ID恢复，不重入库；未知旧批次先核查，按既有明确暂缓协议释放不相关项，保留原操作及绑定历史。\n3. 真实文件上传超时先找已产生的资源/素材ID，有则沿原ID继续；无可用结果且尚未入库时，fireplay-retry-upload使用真实新超时回执准备重传。每项最多额外两次自动尝试；未知原记录保留，耗尽则定位传输/大小/编码/服务故障并升级。此授权不覆盖未知付费模型重发、无限重传或重复入库。\n4. 补漏消息sent只表示送达。120分钟租约到期时，先用wait_threads/read_thread保存真实负责聊天状态；正在运行则续租，空闲/错误才允许重新派发。未知发送先对账；最多两次停滞重派后升级具体阻塞，不能无限发提示或把任务移出未完成清单。时间和次数以配置为准。\n5. 聊天结束、某轮重试停止或部分绑定成功不算整项结案。fireplay-status显示各原片语种覆盖与completion_gate；全项真实平台delivery读回通过fireplay-completion-check，再fireplay-close记录本地结案。没有完整平台回执时，巡检产生verify_completion待办。最终报告列已交/应交与具体缺项，不能只写完成。\n\nFireplay受理、共享/标签/归属/绑定核验完成即收尾，YouTube排队、账号路由及后续发布交平台，不为缺链接重新上传。经验及存储维护不代替提交完整性。该规则是有来源的执行授权及代码合同，不代表任何积压视频已经补交、任何新质量通过或无限预算。\n\n## 已授权的执行选择\n\n用户同时明确同意已交办需求使用KIE音频/视频及必要媒体传送。项目是否需要/同意KIE的选择按持续授权直接确定为需要、同意；缺本需求绑定时先fireplay-start绑定原账本，不再让用户重复点击。新增范围、超额或未知付费任务重发不因此放开；宿主强制审批不能代用户点击。设计师自行查证按fireplay-designer-attribution-v2执行，不再索要用户不知道的ID。\n"
+    },
+    {
+      "id": "content-aware-text-restoration-v6",
+      "path": "knowledge/rules/content-aware-text-restoration-v6.md",
+      "sha256": "e6e622bb2ea8aa6e77c2cd28ff71f3b10bf4b057fd688b27076d7093b6164bdd",
+      "scope": {
+        "workflow": "video-localization"
+      },
+      "snapshot": "# 自然去字与源风格重建\n\n适用快速和严格广告本地化的画面文字与发布者标记处理。执行[原位替换](in-place-text-replacement-v2.md)及[源视觉语言](source-led-visual-localization-v1.md)。\n\n1. **擦字之前保存源文字。** 清点原文、人声和时段。用 style-capture 记录位置、风格、强调、字形边缘、布局及运动。\n2. **恢复自然底片。** 清除原字本体、描边、阴影和进出场轨迹。稳定底面用核验的同源供体或自然重建，图片优先宿主 ImageGen。复杂运动、纹理和遮挡按[模型合同](../../agent/contracts/model-routing.md)评估当前视频编辑能力。\n3. **原位写回。** 绑定目标语实际字形、字重、颜色、描边与间距。艺术字可用少量透明资产；字幕按实际配音及原来短语或逐词节奏呈现。原有容器可自然保留或重建。\n4. **三路对照。** 在困难区及入退场、片尾比较全幅原片、无字底片与译片，分别审查去字、背景、样式、运动和前景对象。先修共用底片的明显缺陷，再扩展语言。小语种轮次保留各自排版、声音和成片审查。\n\n禁止新增可见实心或半透明色块、底条、胶囊底板、矩形补片、马赛克和生硬模糊带。内部位置掩模可用于约束修复。透明度、羽化、算法名、局部单帧或译文可读性均不足以证明背景连续。判断须覆盖边缘、全幅和正常播放。\n\n## 有限降级\n\n自然路线已实际失败或危及主体，且有界条件内确实无法自然恢复时，才评估最小局部、随源运动、羽化且部分透明的模糊。记录真实失败或不安全候选的哈希、实际困难、模型判断、修复范围及停止原因。单凭时间、连接、预算或一次算法失败不足以启用例外。检查原字完全清除、运动和主体保留，披露降级。生硬条带、可辨矩形、接缝、源字仍可读或主体损坏超出此例外。\n\n## 记录与提交\n\n新请求写 `text_restoration_contract_version=2`，逐实例记录 `restoration` 方法、理由和实际证据，有限降级使用现有 `fallback`。审核绑定当前成片 `text_restoration_review`，逐项记录 `visible_coverup`、`source_text_removed`、`background_continuity`、`motion_preserved` 及对照观察。样式和运动另见 `source_style_review`。\n\n达到预算与返工边界后 finalize 最佳完整译片，披露缺陷。按[质量合同](../../agent/contracts/quality.md)和[全项提交规则](fireplay-complete-delivery-v3.md)区分真实漏译、缺必需配音、严重破坏、有效异议和有界修复后的普通外观问题。具备完整译文、配音及正常播放条件的有限最佳结果可按实际发布审核提交。原文持续可读又另加底部译文依原位替换政策判断。保留原始评价及其成片绑定。\n\n修订依据为 evidence:previous、evidence:routing。原样式认可和难例观察沿上一版证据读取。\n"
+    }
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "representative": {
+    "path": "knowledge/candidates/SHE-20261109-013-01-delivery-17a9bc7d63.json",
+    "sha256": "906b210da8a90d169c42126d6532aa1c918c0b57175a58541464e9e8da5cfe07"
+  },
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-11-25T03:18:01+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

@@ -2,11 +2,12 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT / "src"))
-from video_localizer import storage, storage_policy
+from video_localizer import storage, storage_policy, workflow
 from video_localizer.common import WorkflowError, read_json, write_json
 
 TEMP = PROJECT / "work/test-tmp"
@@ -48,6 +49,20 @@ class StoragePolicyTests(unittest.TestCase):
             with self.assertRaises(WorkflowError):
                 storage_policy.configure(self.root, **args)
         self.assertFalse((self.root / storage_policy.OVERRIDE).exists())
+
+    def test_intake_requires_room_for_source_and_reserve_before_probing(self):
+        source = self.root / "test.mp4"
+        source.write_bytes(b"source")
+        storage_policy.configure(self.root, minimum_free_gib=1)
+        free = SimpleNamespace(free=1024**3 + source.stat().st_size - 1)
+        with patch.object(storage_policy.shutil, "disk_usage", return_value=free), \
+                patch.object(workflow, "ROOT", self.root), \
+                patch.object(workflow.media, "probe", side_effect=AssertionError("Probed before admission")):
+            with self.assertRaisesRegex(WorkflowError, "Insufficient disk space for new intake"):
+                workflow.create_run(source, "es", "", "low-space")
+            self.assertFalse((self.root / "runs/low-space").exists())
+            free.free += 1
+            storage_policy.require_intake_space(self.root, source.stat().st_size)
 
     def test_preview_flags_limits_and_retains_locked_unknown_and_unfinished_tasks(self):
         self.task("locked")

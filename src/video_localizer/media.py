@@ -1,15 +1,17 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
+import sys
 from bisect import bisect_left
 from fractions import Fraction
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from .common import CODE_ROOT, WorkflowError, inside, require, require_number, write_json
+from .common import CODE_ROOT, WorkflowError, file_hash, inside, read_json, require, require_number, write_json
 from .timing import timed
 
 
@@ -106,7 +108,10 @@ def capture_stills(source, requests, metadata):
             if picture.is_file():
                 staged = scratch / "publish.jpg"
                 for destination in destinations:
-                    shutil.copyfile(picture, staged)
+                    try:
+                        os.link(picture, staged)
+                    except OSError:
+                        shutil.copyfile(picture, staged)
                     staged.replace(destination)
 
 
@@ -186,8 +191,71 @@ def contact_sheets(frames, directory, columns=4, per_page=32, width=240):
     return pages
 
 
+@timed("media.capture_overview")
+def capture_overview(source, directory):
+    """Keep a representative still and paginated previews from one decode."""
+    pages_path = directory / "contact-pages.json"
+    first = directory / "frame-00001.jpg"
+    pages = read_json(pages_path) if pages_path.exists() else []
+    legacy = bool(pages) and "sampling_fps" not in pages[0]
+    if legacy:
+        frames_complete = all((directory / f"frame-{number:05d}.jpg").is_file()
+                              for number in range(1, pages[-1]["last_frame"] + 1))
+        if not frames_complete:
+            ffmpeg(["-i", source, "-vf", "fps=2,scale=480:-1", "-pix_fmt", "yuvj420p", "-q:v", "2",
+                    directory / "frame-%05d.jpg"])
+        if not frames_complete or any(not (directory / page["file"]).is_file() for page in pages):
+            contact_sheets(directory, directory)
+        return
+    if pages and first.is_file() and all((directory / page["file"]).is_file() for page in pages):
+        return
+    sampling_fps, columns, rows = 2, 4, 8
+    page_size = columns * rows
+    graph = (f"[0:v:0]fps={sampling_fps}:eof_action=pass,scale=480:-1,showinfo=checksum=0,split[still][pages];"
+             f"[pages]scale=240:-1,tile={columns}x{rows}:nb_frames={page_size}[overview]")
+    with TemporaryDirectory(dir=directory) as temporary:
+        scratch = Path(temporary)
+        result = command(["ffmpeg", "-hide_banner", "-loglevel", "info", "-nostats", "-y", "-i", source,
+                          "-filter_complex", graph, "-map", "[still]", "-frames:v", "1",
+                          "-pix_fmt", "yuvj420p", "-q:v", "2", "-update", "1", scratch / first.name,
+                          "-map", "[overview]", "-fps_mode", "passthrough", "-pix_fmt", "yuvj420p",
+                          scratch / "page-%05d.jpg"])
+        timestamps = re.findall(r"\bn:\s*\d+\s+pts:\s*-?\d+\s+pts_time:\s*(\S+)", result.stderr)
+        count = len(timestamps)
+        images = sorted(scratch.glob("page-*.jpg"))
+        require(count > 0 and len(images) == (count + page_size - 1) // page_size
+                and (scratch / first.name).is_file(), "Review overview did not produce the expected samples")
+        pages = []
+        for page, image in enumerate(images):
+            name = "contact-sheet.jpg" if page == 0 else f"contact-sheet-{page + 1:02d}.jpg"
+            offset = page * page_size
+            image.replace(directory / name)
+            pages.append({"file": name, "first_frame": offset + 1, "last_frame": min(count, offset + page_size),
+                          "sampling_fps": sampling_fps, "first_sample_seconds": float(timestamps[offset]),
+                          "columns": columns})
+        (scratch / first.name).replace(first)
+        write_json(pages_path, pages)
+
+
 def tools_available():
     return {name: shutil.which(name) for name in ("ffmpeg", "ffprobe")}
+
+
+def copy_verified_video(source, destination, digest):
+    require(file_hash(source) == digest, "Selected video changed before copying")
+    if destination.is_file() and not destination.is_symlink() and file_hash(destination) == digest:
+        return
+    with TemporaryDirectory(dir=destination.parent) as staging:
+        staged = Path(staging) / destination.name
+        if sys.platform == "darwin":
+            try:
+                subprocess.run(["/bin/cp", "-c", source, staged], check=True, capture_output=True)
+            except (OSError, subprocess.CalledProcessError):
+                shutil.copyfile(source, staged)
+        else:
+            shutil.copyfile(source, staged)
+        require(file_hash(staged) == digest, "Copy differs from selected video")
+        staged.replace(destination)
 
 
 def ass_time(seconds):

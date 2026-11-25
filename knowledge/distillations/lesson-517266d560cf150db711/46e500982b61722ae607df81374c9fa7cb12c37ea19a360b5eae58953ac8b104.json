@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-517266d560cf150db711",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "f22297c73550d66da23a2e432f5631e825dec8dd877bfb09fc2d7b859b194701",
+    "target_languages": [
+      "ar",
+      "de",
+      "en",
+      "fr",
+      "hi",
+      "it",
+      "nl",
+      "pl",
+      "pt",
+      "th",
+      "tr",
+      "vi"
+    ],
+    "validation_level": "single_source_observations"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "同源十二语整幅修复和片尾证据的限制",
+    "trigger": "该源多语版本复核修复画面、短语呈现与片尾音频时。",
+    "action": "检查整幅及底片对照、自然短语节奏，并分别保存整轨与片尾音频证据；对分歧补听审。",
+    "failure_signature": "整幅对照发现冰箱和门纹理接缝；部分语言孤立尾词，部分CTA的ASR与片尾模型报告分歧。",
+    "limitations": [
+      "十二语属于同一源，不是十二个独立源。",
+      "无连续正常播放、直接听审或母语验收；内部质量未通过。",
+      "Quoted observations do not prove causality or validate the proposed action; controller review required."
+    ],
+    "next_counterexample_test": "对存在孤立尾词及ASR分歧的版本进行连续视听和语言复核。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/APC-20261113-020-twelve-locale-closure-observed.json",
+      "sha256": "2658af167e5e847edbc1d61ece253b7b803d2d5e21a987bcafd08bf244c32a3a",
+      "event_id": "f8a24357f0a80652f440f140b3dcc157473288297ad03a18a03b7b206d7d9efc",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "f22297c73550d66da23a2e432f5631e825dec8dd877bfb09fc2d7b859b194701",
+        "target_languages": [
+          "ar",
+          "de",
+          "en",
+          "fr",
+          "hi",
+          "it",
+          "nl",
+          "pl",
+          "pt",
+          "th",
+          "tr",
+          "vi"
+        ],
+        "validation_level": "single_source_observations"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "APC-20261113-020-twelve-locale-closure-observed",
+        "status": "candidate",
+        "created_at": "2026-11-13T12:08:52+00:00",
+        "scope": {
+          "workflow": "video-localization",
+          "source_sha256": "f22297c73550d66da23a2e432f5631e825dec8dd877bfb09fc2d7b859b194701",
+          "target_languages": [
+            "ar",
+            "de",
+            "en",
+            "fr",
+            "hi",
+            "it",
+            "nl",
+            "pl",
+            "pt",
+            "th",
+            "tr",
+            "vi"
+          ],
+          "validation_level": "single_source_observations"
+        },
+        "hypothesis": "For this single Spanish fruit-dialogue source and twelve reviewed target versions, whole-scene samples and native-frame clean-plate comparison exposed refrigerator/door texture seams that text-crop checks alone could miss. Voice-aligned phrase rebuilding preserved sequential target reveals but left awkward isolated ending words in some languages. Full encoded audio comparison and separate head/tail extraction must be retained as distinct evidence: ASR omitted parts of the Polish, Thai and Turkish CTA tails, while dedicated tail model reviews reported complete speech. These model reports are not direct listening or continuous audiovisual approval. All twelve packages were accepted by Fireplay with real designer attribution and exact material binding; internal quality remains revise/pending and quality_passed=false. Do not expand these observations into a cross-source efficacy or speaker-gender-match claim.",
+        "outcome": "delivered_with_issues_platform_bound_12_of_12",
+        "evidence": {
+          "case_manifest_sha256": "d6eb31ff5f76e0350ecd13efbd2f776a7346ad9188278011c613cfc1ca4a9bb9",
+          "source_sha256": "f22297c73550d66da23a2e432f5631e825dec8dd877bfb09fc2d7b859b194701",
+          "records": 24
+        },
+        "limitations": [
+          "No continuous normal-speed playback or direct listening",
+          "No native-speaker or user acceptance",
+          "Single source only",
+          "Shared seams, caption rhythm and voice/lip differences remain",
+          "Historical two-credit unknown analysis charge remains unresolved"
+        ],
+        "company_preference": false,
+        "reflection_state": "observed_candidate",
+        "next_action": "Review the independent scoped case before any rule activation; obtain actual playback/listening evidence before asserting audiovisual quality.",
+        "inbox": "knowledge/local/inbox/APC-20261113-020-twelve-locale-closure-observed.json",
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": false,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation",
+  "analysis": {
+    "observations": [
+      {
+        "event_id": "f8a24357f0a80652f440f140b3dcc157473288297ad03a18a03b7b206d7d9efc",
+        "pointer": "/hypothesis",
+        "quote": "For this single Spanish fruit-dialogue source and twelve reviewed target versions, whole-scene samples and native-frame clean-plate comparison exposed refrigerator/door texture seams that text-crop checks alone could miss. Voice-aligned phrase rebuilding preserved sequential target reveals but left awkward isolated ending words in some languages. Full encoded audio comparison and separate head/tail extraction must be retained as distinct evidence: ASR omitted parts of the Polish, Thai and Turkish CTA tails, while dedicated tail model reviews reported complete speech. These model reports are not direct listening or continuous audiovisual approval. All twelve packages were accepted by Fireplay with real designer attribution and exact material binding; internal quality remains revise/pending and quality_passed=false. Do not expand these observations into a cross-source efficacy or speaker-gender-match claim."
+      }
+    ],
+    "causal_hypothesis": "",
+    "action_basis": "proposed"
+  },
+  "analysis_status": "source_linked",
+  "adoption_proposal": {
+    "action": "source_case",
+    "target_ids": [
+      "neutral-visual-and-animation-gate-v4",
+      "audio-head-tail-review-v1"
+    ],
+    "reason": "现有整幅与首尾检查可容纳该多语同源案例及未解决限制。",
+    "missing_evidence": [
+      "连续播放与直接听审",
+      "独立源对照"
+    ]
+  },
+  "next_action": "knowledge-review: source_case: 现有整幅与首尾检查可容纳该多语同源案例及未解决限制。"
+}

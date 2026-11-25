@@ -4,12 +4,14 @@
 
 ## 使用
 
-1. 用 doctor 验证的 Python 启动 `workbench/start.py --background`，打开 <http://127.0.0.1:8768/#efficiency>。也可先运行 `python bin/va.py ledger sync` 建立基线。首次成功采集把现有全部需求列为排除基线，并永久保存启用时间；重启不重置。
+1. 用 doctor 验证的 Python 启动 `workbench/start.py --background`，打开 <http://127.0.0.1:8768/#efficiency>。也可先运行 `python bin/va.py ledger sync`。本项目以 `config/ledger.json` 的 `cohort.started_at` 划定收件范围，来源为第一条优化提交。未配置项目范围的旧工作区沿用首次同步时冻结的排除基线。重启沿用已有样本。
 2. 后续照常接收真实需求；Agent在登记后及整轮交付/停止前各运行一次 `ledger sync`，无需用户提醒或一直打开工作台。Agent 按[台账流程](../agent/workflows/ledger-tracking.md)执行 `claim`，阶段变化 `stage`，确实暂停整条需求时 `block`，恢复 `resume`，停止负责 `release`。规格须使用真实绑定、owner/session、稳定 operation_id；不需要用户逐条录时间。脚本自身计时自动导入。一个语言等待而其他语言仍制作时，不登记整条需求阻塞。
 3. 在源清单填写真实 `content_features`；analyze 的 `analysis/media.json` 提供时长。多语种重复的源观察只计一次，有冲突或缺失则保留未知，不能为填满统计补猜。
 4. 照常完成全部原片、全部目标语言、实际审核和平台回传。工作台每15秒读本地证据；关闭浏览器仍采集，关闭服务后可用 `python bin/va.py ledger sync` 补采实际落盘记录。查看 JSON：`python bin/va.py ledger benchmark`。该查询不启用采集、不制作、不查询供应商。
 
-当前启用记录、排除基线和样本快照保存在 `state/ledger/ledger.sqlite3`，不是临时缓存；随 `ledger backup` 一起备份。首次启用时尚未登记但实际收件/开工早于基线的需求也排除。基线需求后续返工不会混成新首轮。不要删除数据库来“归零”数据。离线期间缺失的 Agent 事件无法凭文件时间还原，显示未分类。
+启用记录、排除基线及样本快照保存在各工作区的 `state/ledger/ledger.sqlite3`。收件早于切换的记录退出当前台账及统计，可通过原工作区或本机 `ledger detail --id` 追溯。收件及首次开工证据均需达到统计起点才能纳入常规 Benchmark。离线期间缺失的 Agent 事件显示未分类。
+
+经确认的供应商故障可在 `state/ledger/cohort-overrides.json` 的 `time_exclusions` 以确切需求 ID 登记，包含 `reason` 和 `source`。这类需求保留原始时间并计入交付量，排除于周期、预计偏差、准时率及 Benchmark 分组耗时。首次输出证据和费用不随统计排除而改变。
 
 ## 时间口径
 

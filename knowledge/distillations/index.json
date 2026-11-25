@@ -2,15 +2,69 @@
   "schema_version": 1,
   "entries": [
     {
-      "path": "knowledge/distillations/lesson-54aae227c0516b2faff2/6571cf4768f2944bf6d50cf3745e0508270f8bfab326ba423d95f6da703c1a48.json",
-      "sha256": "efbc6aa4b9d76b0bedad746012779fa66f07e4faa5b80f8c44bab46a11e9d1b3",
-      "lesson_id": "lesson-54aae227c0516b2faff2",
+      "path": "knowledge/distillations/lesson-73908f58fd1f24a79386/4c03170d3bf7d13d75a35f0febeb737943ca8491d3272dae94bcbfe7a357849d.json",
+      "sha256": "9d2f610fa8a240b80d5f14ce3cbb82e9bc35ecf9c618a789b8e8af8ac67de10a",
+      "lesson_id": "lesson-73908f58fd1f24a79386",
       "visibility": "project"
     },
     {
-      "path": "knowledge/distillations/lesson-7044a49363c02658d770/fc40de1549dec7b135aee8521586f1a604fdb4b11d8752af471a87f294a03029.json",
-      "sha256": "b1c9e2f20e947f8f26f0720f88ab9a975960100c604b401bce42a3c02429948b",
-      "lesson_id": "lesson-7044a49363c02658d770",
+      "path": "knowledge/distillations/lesson-29da858b83e1f0d5c0ef/ea8c513ce314273b401cc3409ec2abf2058c5a8a13616dd8f631ab5923998bd2.json",
+      "sha256": "8c844ac3a52458bbee32a8b30eb6629b485d57df3db3f4b05a3b939acd84ace5",
+      "lesson_id": "lesson-29da858b83e1f0d5c0ef",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-8574166794674694250b/13a9b0a070be97aab282cbd8e7451f9f9a24d5886ff5ce9a1f18218f2fff3f8e.json",
+      "sha256": "2f226acf98b92a761f591671c48db7c1c51568a18ff51f87f347c9685aa8cd70",
+      "lesson_id": "lesson-8574166794674694250b",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-6cf7a06506f99ec936b8/0d020f6a51862a0c4ab7fcf68dd8122694a723b5ef94aab6d4149e6a1710b491.json",
+      "sha256": "997fa937d70529031e862c51dad938deb56423abe13a8335e0eaf984b6da0aa7",
+      "lesson_id": "lesson-6cf7a06506f99ec936b8",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-f9f6d3e800dafc2fb9cc/10b7817b77f190148a952b22030829561533881ab82f57dfc78326e4aafee5d0.json",
+      "sha256": "fb2e7b2fa2df1ccba9c36e4c277bc80340cd70e91b14d2dd2ea25fe5d338c78c",
+      "lesson_id": "lesson-f9f6d3e800dafc2fb9cc",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-517266d560cf150db711/46e500982b61722ae607df81374c9fa7cb12c37ea19a360b5eae58953ac8b104.json",
+      "sha256": "932942cc7f719523c9273b95077820825f7861174a10e09363010b0e27bcfb12",
+      "lesson_id": "lesson-517266d560cf150db711",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-fa785c304c2ecb3827ed/d37b91dd98f737293d0cc1bea10cb94c1f4614cfc82035305ceab5b91143ef30.json",
+      "sha256": "b2c0fafb565878a0602245d67a6c4671f20480cc37f0f40f0361bf7083a70eeb",
+      "lesson_id": "lesson-fa785c304c2ecb3827ed",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-ec3e03d61fc3789892bb/4e3c63966968a5ab00e5796283afb80b88f26ddd1783c33e36548c74c26c78b1.json",
+      "sha256": "e872e61b26ae784d27e04798add89db1f1ce0781c2e19a8b28131c4aed49daec",
+      "lesson_id": "lesson-ec3e03d61fc3789892bb",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-1ee93fac232760eed79f/55d0a581c8b2f3b0f0eae6ab12b2e32009b13fff112106221b91d8abd87ae0a4.json",
+      "sha256": "95ac5c755137f3a77abed65ca6edb875012e312e56910b50c87b070aa651a5e4",
+      "lesson_id": "lesson-1ee93fac232760eed79f",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-84953e76cd236b71da33/ff8a2f37e55b004659971837bf00c38ddcabc4f49786a6171212d5c596a41cff.json",
+      "sha256": "8628df86ac6100ffe102f99c6ff623a5c6c586ebd238dd2cf0a656b5918fb8c0",
+      "lesson_id": "lesson-84953e76cd236b71da33",
+      "visibility": "project"
+    },
+    {
+      "path": "knowledge/distillations/lesson-2bef90a28dd447cd212e/f31bd5d229e47b061f5f54b80eeb8ce955b40fea8ba6ed7a3405310df1f025bc.json",
+      "sha256": "8749e8a0a451b1fc0c34e1c4bbaffb59f730bf047a36e90d11c3a4641e8f350c",
+      "lesson_id": "lesson-2bef90a28dd447cd212e",
       "visibility": "project"
     }
   ],

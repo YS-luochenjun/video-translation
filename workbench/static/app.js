@@ -16,8 +16,11 @@ const list = values => asArray(values).length ? `<ul class="list">${values.map(v
 const section = (title, body, aside='') => `<div class="section-title"><h3>${esc(title)}</h3><span class="quiet">${esc(aside)}</span></div>${body}`;
 const info = (name,value) => `<div class="info"><span>${esc(name)}</span><strong>${esc(value ?? '未记录')}</strong></div>`;
 const documentButton = (path,title='查看正文') => path ? `<button class="table-action" data-document="${esc(path)}">${esc(title)}</button>` : '';
-let snapshot = null, detail = null, catalog = null, tab = 'overview', query = '', filter = 'all', knowledgeQuery = '', knowledgeKind = 'all';
-let refreshing = false, detailSequence = 0, lastSuccess = 0;
+let snapshot = null, detail = null, catalog = null, tab = 'overview', query = '', filter = 'all', knowledgeQuery = '', knowledgeKind = 'method', knowledgeReview = 'actionable';
+let taskListOpen = true;
+let sessionUsage = null;
+let refreshing = false, pendingRefresh = false, detailSequence = 0, lastSuccess = 0;
+const refreshSeconds = 15;
 
 async function api(url) {
   const controller = new AbortController();
@@ -32,7 +35,7 @@ async function api(url) {
 
 function route() {
   const [page='ledger', id=''] = location.hash.slice(1).split('/');
-  return {page:['ledger','efficiency','tasks','knowledge','system'].includes(page) ? page : 'ledger', id:decodeURIComponent(id)};
+  return {page:['ledger','efficiency','tasks','knowledge','system','sessions','automations'].includes(page) ? page : 'ledger', id:decodeURIComponent(id)};
 }
 
 function notice(message) {
@@ -41,38 +44,70 @@ function notice(message) {
 }
 
 async function refresh(force=false) {
-  if (refreshing || (!force && (!$('auto').checked || document.hidden))) return;
+  if (refreshing) {
+    pendingRefresh ||= force;
+    return;
+  }
+  if (!force && document.hidden) return;
   refreshing = true;
   $('refresh').disabled = true;
   $('refresh').setAttribute('aria-busy','true');
   try {
+    const page = route().page;
+    if (['sessions','automations'].includes(page)) {
+      renderPage();
+      await window.ConsoleUI.refresh(force);
+      if (route().page !== page) return;
+      lastSuccess = Date.now();
+      notice('');
+      return;
+    }
+    if (['ledger','efficiency'].includes(page)) {
+      renderPage();
+      const readAt = await window.LedgerUI.refresh(force);
+      if (!readAt || route().page !== page) return;
+      lastSuccess = Date.now();
+      notice('');
+      return;
+    }
     const next = await api('/api/snapshot');
+    if (route().page !== page) return;
     const changed = !snapshot || snapshot.revision !== next.revision;
     snapshot = next; lastSuccess = Date.now();
-    $('connection').textContent = $('auto').checked ? '自动更新 · 5 秒' : '已暂停更新';
-    $('connection').dataset.state = 'ok';
-    $('read-time').textContent = `最近读取 ${date(next.read_at)}`;
     $('nav-count').textContent = next.stats.tasks;
     notice(next.warnings.length ? `有 ${next.warnings.length} 项记录暂不可读取。任务中的文件异常会单独标记，其他记录仍可查看。` : '');
     if (changed || force) renderPage();
-    if (['ledger','efficiency'].includes(route().page)) await window.LedgerUI.refresh();
     if (route().page === 'tasks') await loadDetail(false);
-    if (force && route().page === 'knowledge') await loadKnowledge();
+    if (route().page === 'knowledge') await loadKnowledge();
+    if (route().page === 'system') {
+      await loadSessionUsage();
+      if ($('console-settings')?.open) await window.ConsoleUI.refresh(force);
+    }
   } catch (error) {
-    $('connection').textContent = '连接中断'; $('connection').dataset.state = 'error';
-    notice(`${error.message}。保留最后一次读取内容${lastSuccess ? '（'+date(lastSuccess)+'）' : ''}，可点击右上角重试。`);
+    notice(`${error.message}。保留最后一次读取内容${lastSuccess ? '（'+date(lastSuccess)+'）' : ''}，可点击标题旁的刷新按钮重试。`);
   } finally {
     refreshing = false; $('refresh').disabled = false; $('refresh').removeAttribute('aria-busy');
+    if (pendingRefresh) {
+      pendingRefresh = false;
+      void refresh(true);
+    }
   }
 }
 
 function renderPage() {
-  const {page} = route();
-  const titles = {ledger:['需求台账','接单范围、语言进度、预计完成与实际输出。'],efficiency:['效率分析','按去重需求查看产出、交付周期与首次预计偏差。'],tasks:['任务与视频','查看制作进展、实际产物和仍需处理的问题。'],knowledge:['知识与调用','区分现行方法、来源案例、待验证候选和实际采用。'],system:['运行概况','查看模型分工、费用快照与维护情况。']};
+  const {page,id} = route();
+  const consolePage = ['sessions','automations'].includes(page);
+  const titles = {ledger:['需求台账','查看制作、审核上传和投放记录。'],efficiency:['效率分析','查看每条需求的总耗时和每种语言平均耗时。'],tasks:['任务与视频','查看制作进展、实际产物和仍需处理的问题。'],knowledge:['知识与调用','查找方法、同源参考和候选经验。'],system:['运行概况','查看已完成会话用量、模型分工和本机处理名额。'],sessions:['会话总览','查看项目会话、制作阶段和产物。'],automations:['自动任务','查看本项目的巡检和完成盯办。']};
   $('page-label').textContent = titles[page][0]; $('page-title').textContent = titles[page][0]; $('page-description').textContent = titles[page][1];
+  $('content').hidden = consolePage;
+  const host = $('console-host'), settings = $('console-settings');
+  settings.hidden = page !== 'system';
+  if (page === 'system' && host.parentNode !== settings) settings.append(host);
+  else if(page !== 'system' && host.parentNode === settings) settings.after(host);
+  window.ConsoleUI.show(consolePage ? page : page === 'system' && settings.open ? 'system' : '',id);
   document.querySelectorAll('[data-nav]').forEach(a=>a.setAttribute('aria-current', a.dataset.nav===page ? 'page' : 'false'));
+  if (['ledger','efficiency'].includes(page)) return window.LedgerUI.show(page,route().id);
   if (!snapshot) return;
-  if (['ledger','efficiency'].includes(page)) window.LedgerUI.show(page,route().id);
   if (page==='tasks') renderTasks();
   if (page==='knowledge') renderKnowledge();
   if (page==='system') renderSystem();
@@ -86,10 +121,28 @@ function metrics() {
 function renderTasks() {
   const body = $('content');
   if (!document.getElementById('task-list')) {
-    body.innerHTML = `<div id="metrics">${metrics()}</div><div class="toolbar"><input id="task-search" class="search" type="search" aria-label="搜索任务、语言" placeholder="搜索任务、语言或源视频" value="${esc(query)}"><select id="task-filter" aria-label="筛选任务"><option value="all">全部任务</option><option value="attention">需要关注</option><option value="outputs">已有视频</option><option value="working">尚未输出</option><option value="live">保留现场</option></select><span id="filter-count" class="quiet"></span></div><div class="task-layout"><div id="task-list" class="task-list" aria-label="任务列表"></div><article id="task-detail" class="panel">${empty('选择任务查看产物和记录')}</article></div>`;
+    body.innerHTML = `<div id="metrics">${metrics()}</div>
+      <div class="toolbar"><button id="task-list-toggle" aria-controls="task-list task-list-filters" aria-expanded="${taskListOpen}">${taskListOpen?'收起任务列表':'展开任务列表'}</button>
+        <div id="task-list-filters" class="task-list-filters" ${taskListOpen?'':'hidden'}>
+          <input id="task-search" class="search" type="search" aria-label="搜索任务、语言" placeholder="搜索任务、语言或源视频" value="${esc(query)}">
+          <select id="task-filter" aria-label="筛选任务"><option value="all">全部任务</option><option value="attention">需要关注</option><option value="outputs">已有视频</option><option value="working">尚未输出</option><option value="live">保留现场</option></select>
+          <span id="filter-count" class="quiet"></span>
+        </div>
+      </div>
+      <div class="task-layout ${taskListOpen?'':'list-collapsed'}">
+        <div id="task-list" class="task-list" role="region" aria-label="任务列表" tabindex="0" ${taskListOpen?'':'hidden'}></div>
+        <article id="task-detail" class="panel">${empty('选择任务查看产物和记录')}</article>
+      </div>`;
     $('task-filter').value = filter;
     $('task-search').addEventListener('input', e=>{query=e.target.value; renderTaskList();});
     $('task-filter').addEventListener('change',e=>{filter=e.target.value; renderTaskList();});
+    $('task-list-toggle').addEventListener('click',event=>{
+      taskListOpen = !taskListOpen;
+      $('task-list').hidden = $('task-list-filters').hidden = !taskListOpen;
+      $('task-list').parentElement.classList.toggle('list-collapsed',!taskListOpen);
+      event.currentTarget.setAttribute('aria-expanded',String(taskListOpen));
+      event.currentTarget.textContent = taskListOpen?'收起任务列表':'展开任务列表';
+    });
   } else $('metrics').innerHTML = metrics();
   renderTaskList();
 }
@@ -187,32 +240,172 @@ function setupPlayers() {
 async function loadKnowledge() {
   catalog = await api('/api/knowledge');
   if(route().page==='knowledge') renderKnowledge();
+  const schedule = await api('/api/console/automations').catch(()=>null);
+  if(route().page!=='knowledge') return;
+  const button = $('knowledge-summary-action');
+  if(!button) return;
+  const canDispatch = Boolean(schedule?.knowledge_owner_id && schedule.bridge?.online);
+  button.dataset.manualCommand = schedule?.knowledge_manual_command || '';
+  button.disabled = !canDispatch && !button.dataset.manualCommand;
+  if (canDispatch) button.dataset.consoleAction = 'summarize';
+  else delete button.dataset.consoleAction;
+  $('knowledge-summary-status').textContent = canDispatch ? '手动触发，整理后审查采纳'
+    : button.disabled ? '入口读取失败，可在项目会话提出总结请求。' : '点击复制命令，在项目终端运行';
 }
 
 function renderKnowledge() {
-  if (!catalog) { $('content').innerHTML=empty('正在读取知识索引…'); loadKnowledge().catch(e=>notice(e.message)); return; }
+  if (!catalog) { $('content').innerHTML=empty('正在读取知识索引…'); return; }
   if (!$('knowledge-list')) {
-    $('content').innerHTML = `<div class="toolbar"><input id="knowledge-search" type="search" class="search" placeholder="搜索知识名称、适用条件或路径" aria-label="搜索知识" value="${esc(knowledgeQuery)}"><select id="knowledge-kind" aria-label="知识类别"><option value="all">全部类别</option><option value="method">方法与政策</option><option value="reference">同源参考</option><option value="candidate">候选经验</option></select></div><div class="knowledge-layout"><aside class="panel knowledge-guide"><h2>从知识到结果</h2><p>检索命中</p><p>↓ 纳入工作包 / 计划</p><p>↓ Codex 声明阅读</p><p>↓ 实际采用与效果反馈</p><hr><p>候选不会自动启用；同源多语言不能算作多个独立来源。</p><p>打开任务的“知识调用”，查看该次制作的版本和回执。</p></aside><section class="panel" id="knowledge-list" aria-label="知识条目"></section></div>`;
+    $('content').innerHTML = `<div class="toolbar"><select id="knowledge-kind" aria-label="知识类别"><option value="method">现行方法与政策</option><option value="reference">现行同源案例</option><option value="candidate">待审经验</option><option value="history">历史与已审结</option></select><input id="knowledge-search" type="search" class="search" placeholder="搜索知识名称、适用条件或路径" aria-label="搜索知识" value="${esc(knowledgeQuery)}"><select id="knowledge-review" aria-label="审查状态" hidden><option value="actionable">待审查或补证</option><option value="all">全部待审</option><option value="needs_review">待审查</option><option value="needs_lesson">待提炼</option><option value="needs_evidence">待补证</option><option value="conflict">规则冲突待核对</option><option value="feedback">修复与使用反馈</option></select><span id="knowledge-count" class="quiet"></span><button id="knowledge-summary-action" type="button" data-console-action="summarize" disabled>总结新增经验</button><span id="knowledge-summary-status" class="quiet"></span></div>
+      <section class="panel bounded-list" id="knowledge-list" aria-label="知识条目" tabindex="0"></section>`;
     $('knowledge-kind').value=knowledgeKind;
     $('knowledge-search').addEventListener('input',e=>{knowledgeQuery=e.target.value;renderKnowledgeList();});
     $('knowledge-kind').addEventListener('change',e=>{knowledgeKind=e.target.value;renderKnowledgeList();});
+    $('knowledge-review').value=knowledgeReview;
+    $('knowledge-review').addEventListener('change',e=>{knowledgeReview=e.target.value;renderKnowledgeList();});
+    $('knowledge-summary-action').addEventListener('click',async event=>{
+      if(event.currentTarget.dataset.consoleAction) return;
+      const command = event.currentTarget.dataset.manualCommand;
+      const status = $('knowledge-summary-status');
+      try {
+        await navigator.clipboard.writeText(command);
+        status.textContent = `已复制到剪贴板：${command}`;
+      } catch {
+        status.textContent = `在项目终端运行：${command}`;
+      }
+    });
   }
   renderKnowledgeList();
 }
 
 function renderKnowledgeList() {
-  const rows = catalog.entries.filter(e=>(knowledgeKind==='all'||e.kind===knowledgeKind)&&JSON.stringify(e).toLowerCase().includes(knowledgeQuery.toLowerCase()));
-  const kinds={method:'方法 / 政策',reference:'同源参考',candidate:'候选'};
-  $('knowledge-list').innerHTML = rows.length ? rows.map(e=>`<div class="knowledge-entry"><div class="entry-head"><h3>${documentButton(e.path,e.title || e.id || e.hypothesis || e.path)}</h3>${badge(kinds[e.kind],e.kind==='method'?'blue':'')}</div><p class="mono">${esc(e.id || e.path)}</p><p>${esc(e.summary || e.hypothesis || (e.scope?Object.entries(e.scope).map(([k,v])=>`${k}: ${v}`).join(' · '):'查看正文了解来源、限制和反例'))}</p><div class="chips">${badge(label(e.review_status || e.status))}${e.superseded_by?badge('已被替代','warn'):''}${asArray(e.requires_features).map(f=>badge(f)).join('')}${asArray(e.requires_any_features).map(f=>badge(f)).join('')}${e.sha256?badge(short(e.sha256)):''}</div></div>`).join('') : empty('没有匹配的知识条目');
+  const candidateView = knowledgeKind==='candidate';
+  $('knowledge-review').hidden = !candidateView;
+  $('knowledge-review').querySelector('option[value="conflict"]').textContent = `规则冲突待核对 · ${catalog.conflict_count || 0}`;
+  for (const option of $('knowledge-kind').options) {
+    const label = {method:'现行方法与政策',reference:'现行同源案例',candidate:'待审经验',history:'历史与已审结'}[option.value];
+    option.textContent = `${label} · ${catalog.view_counts?.[option.value] || 0}`;
+  }
+  const rows = catalog.entries.filter(entry=>entry.view===knowledgeKind
+    && (!candidateView || knowledgeReview==='all' || (knowledgeReview==='actionable' && entry.review_state!=='needs_lesson')
+      || (knowledgeReview==='conflict' && entry.conflict_with_rules)
+      || entry.review_state===knowledgeReview || entry.source_type===knowledgeReview)
+    && JSON.stringify(entry).toLowerCase().includes(knowledgeQuery.toLowerCase()));
+  const kinds={method:'方法 / 政策',reference:'同源案例',candidate:'候选'};
+  const states={needs_review:'待审查',needs_lesson:'待提炼',needs_evidence:'待补证',closed:'已审结',archived:'已归档',unverified:'状态待核验'};
+  const groups = new Map();
+  for (const entry of rows) {
+    const key = candidateView && entry.review_group || entry.key;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(entry);
+  }
+  $('knowledge-count').textContent = candidateView && catalog.review_queue_state==='unavailable' ? '审查队列读取失败'
+    : groups.size===rows.length ? `${rows.length} 项` : `${groups.size} 组 · ${rows.length} 条记录`;
+  const node = $('knowledge-list');
+  const matched = JSON.stringify(rows);
+  if (node.dataset.query===`${knowledgeKind}:${knowledgeReview}:${knowledgeQuery}` && node.dataset.matched===matched) return;
+  node.dataset.query=`${knowledgeKind}:${knowledgeReview}:${knowledgeQuery}`;
+  node.dataset.matched=matched;
+  node.scrollTop=0;
+  const opened = new Set([...node.querySelectorAll('details[open][data-knowledge-group]')].map(group=>group.dataset.knowledgeGroup));
+  const renderEntry = (e, showSummary=true) => `<div class="knowledge-entry"><div class="entry-head"><h3>${e.path ? documentButton(e.storage_path || e.path,e.title || e.id || e.path) : esc([e.title || '本地候选', e.id].filter(Boolean).join(' · '))}</h3>${badge(states[e.review_state] || kinds[e.kind],e.kind==='method'?'blue':'')}</div>
+    ${showSummary && (e.summary || e.hypothesis) ? `<p class="knowledge-summary">${esc(e.summary || e.hypothesis)}</p>` : ''}
+    ${e.evidence_caveat ? `<p class="quiet">${esc(e.evidence_caveat)}</p>` : ''}
+    ${e.next_action ? `<p class="quiet">${esc(e.next_action)}</p>` : ''}
+    ${e.scope?.target_language ? `<p class="quiet">目标语种 ${esc(e.scope.target_language)}</p>` : ''}
+    ${e.conflict_with_rules?`<div class="chips">${badge('冲突待核对，已暂停引用','warn')}</div>`:''}
+    ${e.superseded_by?`<div class="chips">${badge('已被替代','warn')}</div>`:''}</div>`;
+  node.innerHTML = rows.length ? [...groups].map(([key, members]) => {
+    if (members.length===1) return renderEntry(members[0]);
+    const shared = members[0].summary || '同源重复观察';
+    return `<details class="knowledge-entry" data-knowledge-group="${esc(key)}" ${opened.has(key)?'open':''}>
+      <summary>同源经验 · ${members.length} 条记录</summary>
+      <p class="knowledge-summary">${esc(shared)}</p>${members.map(entry=>renderEntry(entry,false)).join('')}</details>`;
+  }).join('') : empty('没有匹配的知识条目');
 }
 
 function renderSystem() {
   const s=snapshot, roles={text_recognition:'文字识别',image_editing:'图片处理',asr:'真实音频转写',audio_analysis:'音频理解',separation:'人声 / 背景分离',tts:'目标语言配音',video:'视频编辑'};
-  const pending=s.tasks.filter(t=>t.maintenance?.blockers?.length || t.deferred?.status==='pending');
-  $('content').innerHTML = `<div class="system-grid"><section class="panel"><h2>当前模型分工</h2><div class="table-wrap"><table><tbody>${Object.entries(roles).map(([key,title])=>`<tr><td>${title}</td><td class="mono">${esc(s.routing[key] || '未配置')}</td></tr>`).join('')}</tbody></table></div><div class="block-note">${s.policy.default_delivery_mode==='fast'?'默认快速交付':'模式按任务记录'} · ${s.policy.output_policy==='best_available_required'?'达到边界仍输出最佳完整译片':'输出策略按任务记录'}。输出与质量通过分别显示。</div></section><section class="panel"><h2>本地资源</h2><div class="info-grid">${info('重任务并发上限',s.resources.max_heavy_jobs)}${info('资源锁记录',s.resources.locks.length)}</div>${list(s.resources.locks.map(l=>`${l.name} · ${l.owner}`))}<p class="quiet">${esc(s.resources.scope)}</p>${section('监控范围','<p class="quiet">自动读取 runs、outputs、state、knowledge 的规范记录。不访问 .env、不查询供应商、不运行制作、不执行维护。旧状态不是运行心跳。</p>')}</section><section class="panel"><h2>请求费用快照</h2><p class="quiet">按请求账本列出，不按语言或视频重复累加；未知费用继续保留。页面不对账。</p><div class="table-wrap"><table><thead><tr><th>请求</th><th>上限</th><th>实扣或预留</th><th>金额未知项</th></tr></thead><tbody>${s.budgets.map(b=>`<tr><td class="mono">${esc(short(b.id))}</td><td>${esc(b.limit ?? '—')}</td><td>${Number(b.reserved_or_billed).toFixed(2)}</td><td>${b.unknown}</td></tr>`).join('')}</tbody></table></div></section><section class="panel"><h2>待维护事项</h2>${pending.length?pending.map(t=>`<div class="version"><div><p>${esc(t.id)}</p><p class="quiet">${esc(label(t.maintenance?.state))} · ${esc(label(t.deferred?.status))}</p></div><button data-task="${esc(t.id)}">查看</button></div>`).join(''): '<p class="quiet">当前任务中没有读取到待维护事项。</p>'}<p class="quiet">队列持久保存，不代表存在后台执行器。已清理的现场仍可通过独立交付包查看。</p></section></div>`;
+  const localLocks=s.resources.locks.filter(lock=>/^heavy-\d+\.lock$/.test(lock.name));
+  if (!$('system-usage')) {
+    $('content').innerHTML = `<div id="system-usage-summary" class="ledger-cards">
+      <div id="system-codex-summary" class="ledger-card"><span>每个已完成会话的平均 Codex Token 用量</span><strong>—</strong><small></small></div>
+      <div id="system-kie-summary" class="ledger-card"><span>每个已完成会话的平均 KIE 花费</span><strong>—</strong><small></small></div>
+    </div><section class="panel system-usage-panel"><h2>已完成会话用量</h2>
+      <div id="system-usage" class="table-wrap bounded-table" role="region" aria-label="已完成会话用量表" tabindex="0"></div>
+      <p class="quiet">语种数按整条需求去重，用量按会话记录。缓存命中属于输入，括号内为命中率。— 表示缺少记录。</p>
+    </section><div id="system-settings" class="system-grid"></div>`;
+    renderSessionUsage();
+  }
+  const opened=new Set([...$('system-settings').querySelectorAll('details[open]')].map(node=>node.id));
+  $('system-settings').innerHTML = `<details class="panel system-box" id="system-models" ${opened.has('system-models')?'open':''}>
+    <summary>模型分工</summary><div class="table-wrap"><table><tbody>${Object.entries(roles).map(([key,title])=>`<tr><th scope="row">${title}</th><td>${esc(s.routing[key] || '未配置')}</td></tr>`).join('')}</tbody></table></div>
+    </details>
+    <details class="panel system-box" id="system-resources" ${opened.has('system-resources')?'open':''}>
+      <summary>本机渲染与混音 <span class="quiet">已占 ${localLocks.length} / ${s.resources.max_heavy_jobs}</span></summary>
+      <p class="quiet">视频翻译脚本执行抽帧、渲染、混音等本机处理时，占用一个名额，结束后释放。原片制作并发可在需求台账查看。</p>
+      ${localLocks.length?list(localLocks.map(lock=>`${lock.name} · PID ${lock.owner.trim()}`)):''}
+    </details>`;
+}
+
+async function loadSessionUsage() {
+  try {
+    const next = await api('/api/session-usage');
+    if (JSON.stringify(next)===JSON.stringify(sessionUsage)) return;
+    sessionUsage=next;
+    if ($('system-usage')) renderSessionUsage();
+  } catch (error) {
+    if ($('system-usage') && !sessionUsage) {
+      for (const status of $('system-usage-summary').querySelectorAll('small')) status.textContent='用量读取失败';
+      $('system-usage').textContent=`用量读取失败。${error.message}`;
+    }
+  }
+}
+
+function renderSessionUsage() {
+  const node=$('system-usage');
+  const {scrollTop,scrollLeft}=node;
+  const format = value => value.toLocaleString('zh-CN',{maximumFractionDigits:3});
+  const amount = value => value==null?'—':format(value);
+  const percent = new Intl.NumberFormat('zh-CN',{style:'percent',maximumFractionDigits:1});
+  const sessions=sessionUsage?.sessions || [];
+  const recordedTokens = sessions.map(session => session.codex_total).filter(Number.isFinite);
+  const totalTokens = recordedTokens.reduce((total, tokens) => total + tokens, 0);
+  const codexSummary = $('system-codex-summary');
+  codexSummary.querySelector('strong').textContent = recordedTokens.length
+    ? `${format(Math.round(totalTokens / recordedTokens.length))} Tokens` : '—';
+  const tokenSum = recordedTokens.length ? `共 ${format(totalTokens)} Tokens · ` : '';
+  codexSummary.querySelector('small').textContent = sessionUsage
+    ? `${tokenSum}${format(recordedTokens.length)} / ${format(sessions.length)} 个会话有记录`
+    : '正在读取会话用量…';
+  const confirmed=sessions.filter(({kie})=>Number.isFinite(kie?.known) && !kie.unknown && !kie.ambiguous);
+  const credits=confirmed.reduce((total,{kie})=>total+kie.known,0);
+  const summary=$('system-kie-summary');
+  summary.querySelector('strong').textContent=confirmed.length ? `${format(credits/confirmed.length)} Credits` : '—';
+  summary.querySelector('small').textContent=sessionUsage
+    ? `${format(confirmed.length)} / ${format(sessions.length)} 个会话费用已确认`
+    : '正在读取会话用量…';
+  const rows=sessions.map(({title,requirements=[],codex_total,codex_breakdown,kie})=>{
+    const cost=!kie?'—':`${format(kie.known)}${kie.unknown?` · ${kie.unknown} 笔待确认`:''}${kie.ambiguous?` · ${kie.ambiguous} 笔未归属`:''}`;
+    const {input,output,cached_input}=codex_breakdown ?? {};
+    const rate=input>0 && cached_input!=null ? ` <small class="quiet">(${percent.format(cached_input/input)})</small>` : '';
+    const languages=requirements.length===1 ? amount(requirements[0].language_count)
+      : requirements.map(row=>`<div>${esc(row.code)} · ${amount(row.language_count)}</div>`).join('') || '—';
+    return `<tr><td>${esc(title)}</td><td>${languages}</td><td>${amount(codex_total)}</td><td>${amount(input)}</td>
+      <td>${amount(output)}</td><td>${amount(cached_input)}${rate}</td><td>${cost}</td></tr>`;
+  });
+  node.innerHTML=`<table><thead><tr>${['会话','需求语种数','Codex Token 总计','输入','输出','缓存命中','KIE Credits'].map(label=>`<th scope="col">${label}</th>`).join('')}</tr></thead>
+    <tbody>${rows.join('') || `<tr><td colspan="7">${sessionUsage?'暂无符合统计条件的已完成会话':'正在读取会话用量…'}</td></tr>`}</tbody></table>`;
+  node.scrollTop=scrollTop;
+  node.scrollLeft=scrollLeft;
 }
 
 document.addEventListener('click',async e=>{
+  const consoleAction=e.target.closest('[data-console-action]');
+  if(consoleAction){
+    window.ConsoleUI.action(consoleAction.dataset.consoleAction).catch(error=>notice(error.message));
+    return;
+  }
   const task=e.target.closest('[data-task]');
   if(task){location.hash='tasks/'+encodeURIComponent(task.dataset.task);return;}
   const targetTab=e.target.closest('[data-tab]');
@@ -235,7 +428,13 @@ document.addEventListener('click',async e=>{
 
 $('close-document').addEventListener('click',()=>$('document').close());
 $('refresh').addEventListener('click',()=>refresh(true));
-$('auto').addEventListener('change',()=>{$('connection').textContent=$('auto').checked?'自动更新 · 5 秒':'已暂停更新';if($('auto').checked)refresh(true);});
-window.addEventListener('hashchange',()=>{detailSequence++;const r=route();if(r.page!=='tasks')detail=null;renderPage();if(r.page==='tasks'){renderTaskList();loadDetail(true);}});
-setInterval(()=>refresh(),5000);
+$('console-settings').addEventListener('toggle',()=>{if(route().page==='system'){renderPage();if($('console-settings').open)void refresh(true);}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)void refresh(true);});
+function normalizeHash() {
+  if (/^#requirements(?:\/|$)/.test(location.hash)) history.replaceState(null,'',location.hash.replace(/^#requirements/,'#ledger'));
+}
+window.addEventListener('hashchange',()=>{normalizeHash();detailSequence++;if(route().page!=='tasks')detail=null;renderPage();refresh(true);});
+setInterval(()=>refresh(),refreshSeconds * 1000);
+normalizeHash();
+renderPage();
 refresh(true);

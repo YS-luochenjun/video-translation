@@ -73,6 +73,26 @@ class RepositoryBoundaryTests(unittest.TestCase):
         self.put("knowledge/index.json", json.dumps({"entries": entries}))
         self.assertIn("Missing knowledge successor: missing", repository_check.check(self.root)["errors"])
 
+    def test_operative_references_cannot_point_to_superseded_knowledge(self):
+        old = "knowledge/rules/old.md"
+        current = "knowledge/rules/current.md"
+        self.put(old, "Earlier scope\n")
+        self.put(current, "Current scope\n")
+        self.put("knowledge/index.json", json.dumps({"entries": [
+            {"id": "old", "path": old, "status": "superseded", "superseded_by": "current"},
+            {"id": "current", "path": current, "status": "active"},
+        ]}))
+        self.put("docs/history.md", f"[Earlier practice](../{old})")
+        self.put("AGENTS.md", f"[Follow policy]({old})")
+        self.put("config/production.json", json.dumps({"policy": old}))
+        result = repository_check.check(self.root)
+        self.assertEqual(result["decision"], "fail")
+        self.assertEqual(len(result["errors"]), 2)
+        self.assertTrue(all(f"use {current}" in error for error in result["errors"]))
+        self.put("AGENTS.md", f"[Follow policy]({current})")
+        self.put("config/production.json", json.dumps({"policy": current}))
+        self.assertEqual(repository_check.check(self.root)["decision"], "pass")
+
 
 if __name__ == "__main__":
     unittest.main()

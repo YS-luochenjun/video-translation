@@ -298,6 +298,8 @@ def _execute(run, recipe, source, relative, folder, probe, engine, deadline=None
         linked = previous.reuse_master(folder)
         if linked is not None:
             return _result(run, recipe, relative, probe, linked, previous, 'linked_master')
+        from .resources import preflight as disk_preflight
+        disk_preflight(run.parent.parent, folder, len(times) * meta['width'] * meta['height'] * 4)
     cap = cv2.VideoCapture(str(source)); frames = []
     try:
         while True:

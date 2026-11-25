@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "lesson_id": "lesson-fa785c304c2ecb3827ed",
+  "status": "candidate",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "ce16e130593b1eceb33bed66a236bdf9f01ad4f97fd619214079e37e0f350ba7",
+    "target_languages": [
+      "th",
+      "ar"
+    ],
+    "validation_level": "single_source_sampled_frames_and_external_audio_reports"
+  },
+  "visibility": "project",
+  "method": {
+    "title": "泰语断行与阿语实际字形大小的抽帧观察",
+    "trigger": "该源泰语和阿语文字排版与短字幕取样时。",
+    "action": "检查实际词组断行、阿语墨迹大小与连写，并逐短实例检查实际中点。",
+    "failure_signature": "泰语按字符换行拆开词及元音组；全局固定抽样可能漏掉短分句。",
+    "limitations": [
+      "单源抽帧；本候选未独立打包修复前视觉对照。",
+      "无正常播放、个人听审及精确字幕配音同步验证。",
+      "Quoted observations do not prove causality or validate the proposed action; controller review required."
+    ],
+    "next_counterexample_test": "复核原始前后帧，并按每个短实例检查实际编码边界与正常播放。"
+  },
+  "sources": [
+    {
+      "path": "knowledge/candidates/APC-20261114-001-scoped-typography-observations.json",
+      "sha256": "894417b88cbb75152fbe64b9865dde1db60ad49daf3538fddb703d2fdc17c8e1",
+      "event_id": "8528cdf99db9a5201ee74b367f4d9e40dfc94b5e9bcee2eac71c9aead8ff499e",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "ce16e130593b1eceb33bed66a236bdf9f01ad4f97fd619214079e37e0f350ba7",
+        "target_languages": [
+          "th",
+          "ar"
+        ],
+        "validation_level": "single_source_sampled_frames_and_external_audio_reports"
+      },
+      "visibility": "project",
+      "record": {
+        "id": "APC-20261114-001-scoped-typography-observations",
+        "status": "candidate",
+        "created_at": "2026-11-14T12:51:14+00:00",
+        "scope": {
+          "workflow": "video-localization",
+          "source_sha256": "ce16e130593b1eceb33bed66a236bdf9f01ad4f97fd619214079e37e0f350ba7",
+          "target_languages": [
+            "th",
+            "ar"
+          ],
+          "validation_level": "single_source_sampled_frames_and_external_audio_reports"
+        },
+        "hypothesis": "On this source, Thai character-based wrapping split words and vowel groups; explicit phrase breaks produced readable whole-word lines in the reviewed final instance frames. Arabic nominal font size did not reliably express visible ink size; larger actual Arabic glyphs remained joined, RTL and unclipped in the reviewed title, dialogue and CTA frames. Inspect the actual midpoint of every short caption instance: a fixed global sampling schedule can miss a complete short second clause. These are same-source sampled observations, not continuous playback, native-speaker acceptance or cross-source causal proof. External full-audio and head/tail model reports are distinct from personal listening; the Arabic male-register difference remained disclosed rather than silently marked consistent.",
+        "company_preference": false,
+        "outcome": "sampled_typography_repair_observed_with_remaining_quality_limits",
+        "reflection_state": "observed_candidate",
+        "evidence": {
+          "case_manifest_sha256": "2e3eeb4f58eb6c8bb9943411a0dd804431558472148e122024e2266da57934f3",
+          "thai_video_sha256": "8dc7e16727e55b3493d479dbcdc7ffed8a92a5c3ec6b8343f36cfd1e7f503cf5",
+          "arabic_video_sha256": "f2c9fabfb9b1231c28bd8835d96f8fdc1a09a356fdf98042b1778b8f8bd403f0"
+        },
+        "limitations": [
+          "Single source only",
+          "Before-repair visual contrast is not independently packaged in this candidate",
+          "No personal audio listening or full normal-speed visual playback",
+          "Exact caption-to-dub sync remains unverified",
+          "Ordinary shared restoration texture differences remain"
+        ],
+        "next_action": "Review the preserved scoped evidence before any activation; obtain explicit continuous playback and listening observations before expanding the quality claim.",
+        "inbox": "knowledge/local/inbox/APC-20261114-001-scoped-typography-observations.json",
+        "knowledge_class": "project_training_candidate",
+        "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+      },
+      "related_records": []
+    }
+  ],
+  "conflict_with_rules": false,
+  "company_preference": false,
+  "activation": "Developer review required; no validated rules changed",
+  "evidence_boundary": "Embedded observations and source hashes only; no new video-quality acceptance or independent validation",
+  "analysis": {
+    "observations": [
+      {
+        "event_id": "8528cdf99db9a5201ee74b367f4d9e40dfc94b5e9bcee2eac71c9aead8ff499e",
+        "pointer": "/hypothesis",
+        "quote": "On this source, Thai character-based wrapping split words and vowel groups; explicit phrase breaks produced readable whole-word lines in the reviewed final instance frames. Arabic nominal font size did not reliably express visible ink size; larger actual Arabic glyphs remained joined, RTL and unclipped in the reviewed title, dialogue and CTA frames. Inspect the actual midpoint of every short caption instance: a fixed global sampling schedule can miss a complete short second clause. These are same-source sampled observations, not continuous playback, native-speaker acceptance or cross-source causal proof. External full-audio and head/tail model reports are distinct from personal listening; the Arabic male-register difference remained disclosed rather than silently marked consistent."
+      }
+    ],
+    "causal_hypothesis": "",
+    "action_basis": "proposed"
+  },
+  "analysis_status": "source_linked",
+  "adoption_proposal": {
+    "action": "source_case",
+    "target_ids": [
+      "text-instance-timing-v1",
+      "in-place-text-replacement-v2"
+    ],
+    "reason": "既有逐实例及实际字形检查可容纳该源限定观察。",
+    "missing_evidence": [
+      "独立打包的修复前后对照",
+      "连续播放及母语审查"
+    ]
+  },
+  "next_action": "knowledge-review: source_case: 既有逐实例及实际字形检查可容纳该源限定观察。"
+}

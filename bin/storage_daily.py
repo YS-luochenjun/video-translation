@@ -4,13 +4,15 @@ The Windows timer calls this entry with --execute. Retention, preservation and
 fingerprint gates belong to project_storage; this entry never invokes reset or AI.
 """
 import argparse
+from datetime import datetime, time, timedelta
 import json
 from pathlib import Path
 import sys
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from video_localizer import project_storage
-from video_localizer.common import WorkflowError, utc_now, write_json
+from video_localizer.common import WorkflowError, read_json, utc_now, write_json
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = "state/storage-daily-latest.json"
@@ -73,11 +75,29 @@ def run(root=PROJECT_ROOT, execute=False):
     return result
 
 
+def scheduled(root=PROJECT_ROOT, now=None):
+    timezone = ZoneInfo("Asia/Shanghai")
+    now = (now or datetime.now(timezone)).astimezone(timezone)
+    due = datetime.combine(now.date(), time(18, 30), timezone)
+    if now < due:
+        due -= timedelta(days=1)
+    location = root / RECEIPT
+    last = read_json(location) if location.exists() else {}
+    if (last.get("state") in {"executed", "no_eligible_data", "failed"}
+            and last.get("execute_requested") is True
+            and datetime.fromisoformat(last["checked_at"]) >= due):
+        return {"state": "not_due", "checked_at": utc_now(), "last": last["checked_at"]}
+    return run(root, execute=True)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--execute", action="store_true", help="Run the authorized lifecycle sweep and save its receipt")
+    parser.add_argument("--scheduled", action="store_true", help="Run the current Shanghai 18:30 sweep if due")
     args = parser.parse_args(argv)
-    result = run(execute=args.execute)
+    if args.scheduled and not args.execute:
+        parser.error("--scheduled requires --execute")
+    result = scheduled() if args.scheduled else run(execute=args.execute)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 1 if result["state"] == "failed" else 0
 

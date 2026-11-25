@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from video_localizer import maintenance
+from video_localizer import knowledge, maintenance
 from video_localizer.common import WorkflowError, file_hash, guarded, read_json, write_json
 
 
@@ -31,6 +31,64 @@ class MaintenanceTests(unittest.TestCase):
         path.write_bytes(b'rebuildable')
         maintenance.register(self.run, path.relative_to(self.root), 'Recreate from source')
         return path
+
+    def test_deferred_delivery_only_reflects_final_version_and_resumes_pending_work(self):
+        self.delivery()
+        video_sha = file_hash(self.run / 'outputs/final.mp4')
+        queue_path = self.root / 'state/deferred-delivery/example.json'
+        write_json(queue_path, {'run': 'example', 'video_sha256': video_sha,
+                                'status': 'pending', 'tasks': ['reflect', 'source-save']})
+        write_json(self.run / 'outputs/candidate.json', {'sha256': 'a' * 64})
+        with patch('video_localizer.knowledge.reflect', return_value={'status': 'no_new_knowledge'}) as reflect:
+            with patch('video_localizer.source_state.save', return_value={'id': 'saved'}) as save:
+                first = maintenance.complete_deferred(self.run, self.root)
+                self.assertEqual(first['results']['reflect']['state'], 'pending_evidence')
+                reflect.assert_not_called()
+                write_json(self.run / 'outputs/candidate.json', {'sha256': video_sha})
+                complete = maintenance.complete_deferred(self.run, self.root)
+                self.assertEqual(complete['status'], 'complete')
+                self.assertEqual(maintenance.complete_deferred(self.run, self.root), complete)
+                reflect.assert_called_once_with(self.run, self.root)
+                save.assert_called_once_with(self.run, self.root)
+
+    def test_fast_reflection_uses_receipts_for_empty_and_no_new_lessons(self):
+        self.delivery()
+        video_sha = file_hash(self.run / 'outputs/final.mp4')
+        plan = {'id': 'plan', 'mode': 'fast', 'source_sha256': 'b' * 64}
+        write_json(self.run / 'plan.json', plan)
+        write_json(self.run / 'inputs/request.json', {'target_language': 'en'})
+        write_json(self.run / 'outputs/candidate.json',
+                   {'path': 'outputs/final.mp4', 'sha256': video_sha})
+        review_path = self.run / 'review/fast-review.json'
+        review = {'plan_id': 'plan', 'video_sha256': video_sha, 'reviewer': 'synthetic test', 'method': 'fixture'}
+        quality_path = self.run / 'outputs/quality.json'
+        quality = {'plan_id': 'plan', 'video_sha256': video_sha, 'decision': 'pass'}
+        with patch('video_localizer.workflow.current_plan', return_value=plan):
+            write_json(review_path, {**review, 'knowledge_no_new_reason': 'The existing timing method covered the observed behavior.'})
+            write_json(quality_path, {**quality, 'review_sha256': file_hash(review_path)})
+            receipt = knowledge.reflect(self.run, self.root)
+            self.assertEqual(receipt['status'], 'no_new_knowledge')
+            self.assertEqual(knowledge.reflect(self.run, self.root), receipt)
+            self.assertTrue((self.root / receipt['receipt']).is_file())
+            self.assertFalse((self.root / 'knowledge').exists())
+            write_json(review_path, review)
+            with self.assertRaisesRegex(WorkflowError, 'quality binding'):
+                knowledge.reflect(self.run, self.root)
+            write_json(quality_path, {**quality, 'review_sha256': file_hash(review_path)})
+            ordinary = knowledge.reflect(self.run, self.root)
+            self.assertEqual(ordinary['status'], 'recorded_without_lesson')
+            self.assertEqual(knowledge.reflect(self.run, self.root), ordinary)
+            self.assertIsNone(ordinary['candidate'])
+            self.assertIsNone(ordinary['inbox'])
+            self.assertFalse((self.root / 'knowledge').exists())
+            write_json(review_path, {**review, 'lesson': 'Inspect transparent glyphs over footage during the first two frames.'})
+            write_json(quality_path, {**quality, 'review_sha256': file_hash(review_path)})
+            with patch('video_localizer.learning.capture_case', return_value=self.root / 'knowledge/local/fixture'):
+                with patch('video_localizer.knowledge_usage.followup', return_value={}):
+                    candidate = knowledge.reflect(self.run, self.root)
+            self.assertEqual(candidate['reflection_state'], 'observed_candidate')
+            self.assertTrue((self.root / candidate['candidate']).is_file())
+            self.assertTrue((self.root / candidate['inbox']).is_file())
 
     def test_cache_waits_for_delivery_and_is_idempotent(self):
         cache = self.scratch()

@@ -15,7 +15,10 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
+from video_localizer.common import WorkflowError
+from video_localizer.fireplay_publication import held, publication_decision
 from video_localizer.ledger import Ledger, digest, now, seconds, stamp
+from console_requirements import latest_platform_status, monitor_rows, publication
 from store import Store, clean
 
 CODE = re.compile(r'(?<![A-Za-z0-9])([A-Za-z]{2,8}-\d{8}-\d{3})(?!\d)')
@@ -30,9 +33,17 @@ def maximum(values):
     return max((v for v in map(stamp, values) if v), key=seconds, default=None)
 
 
+def publication_blocked(store, code, task):
+    version = task.get('current')
+    if not version:
+        return False
+    video_hash = version['sha256']
+    return (publication_decision(code, video_hash, store.root) == 'blocked_major_or_incomplete'
+            or version['held'] and held(code, task['source_sha256'], video_hash, store.root))
+
+
 def collect(store, ledger):
-    snapshot = store.snapshot()
-    warnings = list(snapshot['warnings'])
+    warnings = []
     aliases = store.read('config/content-features.json').get('aliases', {})
     cache, source_records = ledger.cached_records(), []
     def read_record(path):
@@ -54,7 +65,7 @@ def collect(store, ledger):
         source_records.append((path,safe))
         return value
     versions = store.versions(warnings)
-    by_run = {t['id']: t for t in snapshot['tasks']}
+    by_run = {t['id']: t for t in store.task_records(versions)}
     packages = defaultdict(list)
     for version in versions:
         packages[version['origin_run_id']].append(version)
@@ -143,18 +154,29 @@ def collect(store, ledger):
             add_video(r,'video:'+str(index),v['source_sha256'],v.get('title') or manual['code']+'-'+str(index),v['targets'],evidence=manual['reason'])
 
     # Registered Fireplay scope is authoritative even before production exists.
-    fireplay_by_code = {}
+    fireplay_by_code, verified_targets = {}, {}
+    monitored = monitor_rows(store)
     for path in paths('state/fireplay', '*/request.json'):
         f = read_record(path)
         if not f.get('requirement_id') or not f.get('code'):
             continue
         row = f.get('snapshot', {}).get('row', {})
         brief = f.get('snapshot', {}).get('brief', {})
+        platform_status, observed_at = latest_platform_status(
+            monitored, f['requirement_id'], f['code'], row.get('status'), f.get('refreshed_at'),
+        )
         r = request('fireplay:'+f['requirement_id'], f['code'], path, origin='fireplay',
                     title=brief.get('title') or row.get('title') or f['code'],
                     platform_created_at=stamp(row.get('createdAt')), received_at=stamp(f.get('created_at')),
-                    platform_refreshed_at=stamp(f.get('refreshed_at')), platform_status=row.get('status'),
+                    platform_refreshed_at=stamp(observed_at), platform_status=platform_status,
                     blockers=f.get('blockers', []), content_version=f.get('content_version'))
+        r['platform'] = publication(store, path, f)
+        if r['platform']['verified'] is not None:
+            verified_targets[r['id']] = {
+                ('video:'+str(item['video_index']), item['locale'])
+                for item in store.read(r['platform']['check_path']).get('verified', [])
+                if isinstance(item, dict) and 'video_index' in item and isinstance(item.get('locale'), str)
+            }
         fireplay_by_code[f['code'].upper()] = r
         if f.get('budget'):
             r['budget_ids'].append(f['budget'])
@@ -298,6 +320,21 @@ def collect(store, ledger):
                  first_scope_output_at=maximum([t['first_complete_at'] for t in own]) if own and all(t['first_complete_at'] for t in own) else None,
                  first_started_at=minimum([t['created_at'] for t in own]),
                  last_activity_at=maximum([t['last_activity_at'] for t in own]))
+        if r['origin'] == 'fireplay':
+            platform = r['platform']
+            if platform.get('expected') is not None and platform['expected'] != len(own):
+                platform.update(state='stale', verified=None, expected=None)
+            r['publication_blocked_count'] = 0
+            if platform['state'] not in {'verified', 'closed'}:
+                published = verified_targets.get(r['id'], set()) if platform['verified'] is not None else set()
+                for task in own:
+                    if (task['video_id'], task['locale']) in published:
+                        continue
+                    try:
+                        task['publication_blocked'] = publication_blocked(store, r['code'], task)
+                    except (OSError, ValueError, KeyError, WorkflowError):
+                        warnings.append({'path': task['id'], 'message': '发布审核证据待核对'})
+                    r['publication_blocked_count'] += bool(task.get('publication_blocked'))
         r['state'] = 'complete' if r['complete_at'] else 'partial' if r['output_count'] else 'needs_info' if r['blockers'] else 'executing' if any(t['runs'] for t in own) else 'queued' if r.get('accepted_at') else 'discovered'
         if own and all(t['states'] and all(s['state'] == 'expired' for s in t['states']) for t in own):
             r['state'] = 'expired'
@@ -380,9 +417,11 @@ class Collector:
         settings = self.store.read('config/ledger.json')
         if settings.get('auto_eta') is not True:
             return
-        current = {r['id']: r for r in self.ledger.view()['requirements']}
+        current = {r['id']: r for r in self.ledger.view(current_only=True, activity=False)['requirements']}
         for source in requirements:
-            req = current[source['id']]
+            req = current.get(source['id'])
+            if req is None:
+                continue
             if not req.get('countable') or req.get('complete_at') or req.get('state') == 'expired' or not req.get('accepted_at') or req.get('block_reason') or req.get('blockers') or not all(v.get('source_sha256') for v in req['videos']):
                 continue
             unfinished = [t for t in tasks if t['requirement_id']==req['id'] and not t['complete_at']]
@@ -424,9 +463,8 @@ class Collector:
         self.stop.set()
         if self.thread: self.thread.join(timeout=10)
 
-    def view(self):
-        result = self.ledger.view()
+    def view(self, activity=True):
+        result = self.ledger.view(current_only=True, activity=activity)
         result['collector'] = {'alive': bool(self.thread and self.thread.is_alive()), 'last_tick_at': self.last_tick, 'pid':os.getpid(),
                                'error': self.error, 'interval_seconds': self.interval}
-        result['metrics'] = self.ledger.metrics(result['requirements'])
         return result
