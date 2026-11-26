@@ -2,15 +2,26 @@
 import hashlib
 import http.client
 import json
+import sqlite3
 import sys
 import tempfile
 import threading
+import time
 import unittest
+from contextlib import closing
+from io import BytesIO
 from pathlib import Path
+from unittest.mock import Mock, patch
+from urllib.error import HTTPError
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from server import WorkbenchServer
 from store import Store
+from console_data import ConsoleData
+from retry_activity_view import cached_summary, counts_for, import_failures, import_retries, read_page, view
+from video_localizer.kie import ApiError, KieClient
+from video_localizer.ledger import Ledger
+from video_localizer.retry_activity import database, observed_job, record, timestamp
 
 
 def sha(data):
@@ -40,6 +51,154 @@ class WorkbenchTests(unittest.TestCase):
         self.put(base + '/inputs/source.mp4', b'source')
         self.put(base + '/analysis/inventory.json', {'coverage': {}, 'text_instances': []})
         return base
+
+    def test_kie_records_each_attempt_and_preserves_no_write_retry(self):
+        run = self.root / 'runs' / 'video-a'
+        opener = Mock()
+        opener.open.side_effect = [
+            HTTPError('https://api.kie.ai', 503, 'secret-message', {}, BytesIO(b'{}')),
+            TimeoutError('secret-message'),
+            BytesIO(b'{"code":200,"data":{"state":"success"}}'),
+            HTTPError('https://api.kie.ai', 503, 'secret-message', {}, BytesIO(b'{}')),
+        ]
+        client = KieClient(key='secret-key', opener=opener)
+        with patch('video_localizer.timing.current_run', return_value=run), \
+                patch('video_localizer.budgets.authorize_request'), patch('video_localizer.kie.time.sleep'):
+            self.assertEqual(client.status('secret-provider-id'), {'state': 'success'})
+            with self.assertRaises(ApiError) as raised:
+                client._request('https://api.kie.ai/api/v1/jobs/createTask', {'secret-payload': True})
+        self.assertTrue(raised.exception.ambiguous)
+        self.assertEqual(opener.open.call_count, 4)
+        with closing(database(self.root)) as connection:
+            events = read_page(connection, {}, '')['events']
+        self.assertEqual(len(events), 4)
+        self.assertNotIn('secret', json.dumps(events))
+        retries = {event['attempt']: event for event in events if event['kind'] == 'retry'}
+        self.assertEqual({index: event['outcome'] for index, event in retries.items()}, {1: 'failed', 2: 'success'})
+        self.assertEqual(retries[2]['reason'], 'transport')
+
+    def test_retry_history_paginates_and_only_imports_project_host_events(self):
+        home = self.root / 'codex-fixture'
+        home.mkdir()
+        moment = int(time.time())
+        with closing(sqlite3.connect(home / 'logs_2.sqlite')) as logs, logs:
+            logs.execute('CREATE TABLE logs(id INTEGER PRIMARY KEY, ts, ts_nanos, feedback_log_body, thread_id, level, target)')
+            for index in range(35):
+                logs.execute('INSERT INTO logs VALUES(?,?,?,?,?,?,?)', (
+                    index+1, moment, 0, 'retrying sampling request (1/5 in 0.1s) secret-message',
+                    'project-thread', 'WARN', 'codex_core::responses_retry'))
+            logs.execute("INSERT INTO logs VALUES(99,?,0,'retrying sampling request (1/5 in 0.1s)',"
+                         "'other-thread','WARN','codex_core::responses_retry')", (moment,))
+        with closing(sqlite3.connect(home / 'thread_history_1.sqlite')) as turns, turns:
+            turns.execute('CREATE TABLE thread_turns(thread_id,turn_id,status,completed_at)')
+            turns.execute("INSERT INTO thread_turns VALUES('project-thread','turn-1','failed',?)", (moment,))
+        threads = {'project-thread': '测试会话'}
+        with closing(database(self.root)) as connection:
+            for _ in range(2):
+                import_retries(home, connection, threads)
+                import_failures(home, connection, threads)
+            page = read_page(connection, threads, '')
+            older = read_page(connection, threads, page['next_cursor'])
+            self.assertEqual(read_page(connection, threads, None), {})
+        events = page['events'] + older['events']
+        self.assertEqual(len(page['events']), 30)
+        self.assertEqual(len({event['id'] for event in events}), 36)
+        self.assertEqual(sum(event['kind'] == 'failure' for event in events), 1)
+        self.assertEqual({event['session'] for event in events}, {'测试会话'})
+        self.assertNotIn('secret', json.dumps(events))
+
+    def test_kie_job_retry_updates_outcome_without_duplicating_attempt(self):
+        identifier = 'a' * 64
+        path = self.root / 'runs' / 'video-a' / 'jobs' / f'{identifier}.json'
+        job = {'id': identifier, 'created_at': '2026-11-24T08:00:00Z', 'retry_of': 'b' * 64,
+               'retry_attempt': 2, 'state': 'preparing'}
+        observed_job(path, job)
+        observed_job(path, {**job, 'state': 'submitted'})
+        with closing(database(self.root)) as connection:
+            events = read_page(connection, {}, '')['events']
+        self.assertEqual([(event['attempt'], event['outcome']) for event in events], [(2, 'submitted')])
+
+    def test_retry_counts_are_requirement_scoped_and_exclude_preparation(self):
+        first, second = 'fireplay:test-first', 'fireplay:test-second'
+        first_code, second_code = 'ABC-20261124-001', 'ABC-20261124-002'
+        ledger = Ledger(self.root)
+        with ledger.connection(write=True) as db:
+            for identifier, code, thread in ((first, first_code, 'thread-first'), (second, second_code, 'thread-second')):
+                db.execute('INSERT INTO requirements VALUES(?,?,?)', (identifier, 1, json.dumps({
+                    'code': code, 'threads': [{'threadId': thread}],
+                })))
+            db.execute('INSERT INTO tasks VALUES(?,?,?,?,?)', ('task-1', first, 'video:1', 'ja',
+                                                               json.dumps({'runs': ['run-first']})))
+        base = {'at': timestamp('2026-11-24T08:00:00Z'), 'kind': 'retry', 'attempt': 1}
+        record(self.root, [
+            {**base, 'id': 'log-one', 'source': 'codex', 'thread': 'thread-first'},
+            {**base, 'id': 'log-two', 'source': 'codex', 'thread': 'thread-second'},
+            {**base, 'id': 'log-unowned', 'source': 'codex', 'thread': 'thread-unowned'},
+            {**base, 'id': 'kie-one', 'source': 'kie', 'run': 'run-first'},
+        ])
+        directory = f'state/fireplay/{first_code}'
+        timeout = {'timeout_evidence': 'local-receipt', 'previous_operation': {
+            'dispatched_at': '2026-11-24T08:00:00Z', 'state': 'unknown'}}
+        outbox = {'requirement_id': 'test-first', 'code': first_code, 'video_index': 2,
+                  'packages': [{'locale': 'ja'}], 'upload_attempts': {'upload-1': [timeout]}, 'operations': {}}
+        self.put(directory + '/return-2.json', outbox)
+        console = ConsoleData(self.root, codex_home=self.root / 'host-fixture')
+        self.assertEqual(counts_for(cached_summary(console, ledger)[2], first),
+                         {'codex': 1, 'kie': 1, 'fireplay': 0})
+        upload = {'dispatched_at': '2026-11-24T08:01:00Z', 'attempt': 2, 'state': 'unknown'}
+        outbox['operations']['upload-1'] = upload
+        self.put(directory + '/return-revisions/return-2-old.json', outbox)
+        outbox['operations']['upload-1'] = {**upload, 'state': 'verified'}
+        self.put(directory + '/return-2.json', outbox)
+        console.cache.clear()
+        page = view(console, ledger, first)
+        self.assertEqual(page['counts'], {'codex': 1, 'kie': 1, 'fireplay': 1})
+        self.assertEqual({event['source'] for event in page['events']}, {'codex', 'kie', 'fireplay'})
+        self.assertEqual(next(event for event in page['events'] if event['source'] == 'fireplay')['outcome'], 'success')
+        self.assertEqual([event['id'] for event in view(console, ledger, second)['events']], ['log-two'])
+        with ledger.connection(write=True) as db:
+            db.execute('DELETE FROM tasks')
+        console.cache.clear()
+        self.assertEqual(view(console, ledger, first)['counts']['kie'], 1)
+
+    def test_fireplay_binding_retry_uses_verified_receipts_and_counts_the_batch_once(self):
+        requirement = 'test-first'
+        identifier = 'fireplay:' + requirement
+        directory = 'state/fireplay/ABC-20261125-001/receipts'
+        prior = f'{directory}/2-bind-{"a" * 64}.json'
+        self.put(prior, {'response': {'success': False, 'http_status': 502}})
+        prior_operation = {
+            'id': 'bind', 'tool': 'requirement_bind_materials', 'state': 'unknown',
+            'dispatched_at': '2026-11-25T08:53:23Z', 'last_observed_receipt': prior,
+            'arguments': {'items': [{'requirement_id': requirement, 'material_ids': ['existing', 'new-one', 'new-two']}]},
+        }
+        dispatch = {
+            'dispatched_at': '2026-11-25T09:03:38Z', 'prior_operation': prior_operation,
+            'prior_receipt_sha256': self.store.sha(prior),
+            'arguments': {'items': [{'requirement_id': requirement, 'material_ids': ['new-one', 'new-two']}]},
+        }
+        self.put(f'{directory}/2-bind-user-retry-dispatch.json', dispatch)
+        ledger = Ledger(self.root)
+        console = ConsoleData(self.root, codex_home=self.root / 'host-fixture')
+        self.assertEqual(view(console, ledger, identifier)['counts']['fireplay'], 0)
+        receipt = {'dispatch': dispatch, 'response': {'results': [{'success': True}]}}
+        self.put(f'{directory}/2-bind-{"b" * 64}.json', receipt)
+        console.cache.clear()
+        self.assertEqual(view(console, ledger, identifier)['events'][0]['outcome'], 'unknown')
+        receipt['verification'] = {
+            'serverTime': '2026-11-25T09:04:06Z',
+            'items': [{'id': requirement, 'materials': [{'id': value} for value in ('existing', 'new-one', 'new-two')]}],
+        }
+        self.put(f'{directory}/2-bind-{"c" * 64}.json', receipt)
+        self.put(f'{directory}/2-bind.json', receipt)
+        console.cache.clear()
+        page = view(console, ledger, identifier)
+        self.assertEqual(page['counts']['fireplay'], 1)
+        self.assertEqual(len(page['events']), 1)
+        event = page['events'][0]
+        self.assertEqual((event['operation'], event['reason'], event['outcome'], event['video_index']),
+                         ('bind', 'http_502', 'success', 2))
+        self.assertEqual(view(console, ledger, 'fireplay:test-second')['events'], [])
 
     def delivery(self, name='video-a', status='delivered_with_issues'):
         folder = 'outputs/source/es/version-' + name

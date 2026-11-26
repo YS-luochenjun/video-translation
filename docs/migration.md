@@ -1,10 +1,10 @@
 # 换机器部署
 
-项目仓库为 <https://github.com/YS-luochenjun/video-translation>。Git 同步执行器、规则、公共配置、工作台和独立项目知识；每台机器安装自己的运行环境。当前安装入口面向 Windows x64，Linux 与服务器部署尚未验证。
+Git 同步执行器、规则、公共配置、工作台、安装清单和独立项目知识。每台机器通过对应的安装入口下载自己的运行环境。Windows x64 使用 PowerShell，macOS 使用 Bash。下列命令检出优化版所在的 `codex/program-optimization` 分支。
 
 ## 新机器首次安装
 
-准备 Git、uv、FFmpeg 和 ffprobe，并加入 PATH。安装目标语言所需字体。首次安装会联网下载 Python、依赖与当前路由所需本地模型；远端音视频服务仍使用 API。
+准备 Git、uv、FFmpeg 和 ffprobe，并加入 PATH。要启用 Fireplay 本机 YouTube 下载，也将 Node.js 22 或更新版本加入 PATH。准备目标语言所需字体。安装入口联网下载 Python、项目依赖、固定版本的 `yt-dlp` 和当前路由所需的本地模型。
 
 在 PowerShell 中检查工具，再进入准备存放项目的位置：
 
@@ -13,7 +13,7 @@ git --version
 uv --version
 ffmpeg -version
 ffprobe -version
-git clone -c core.longpaths=true https://github.com/YS-luochenjun/video-translation.git
+git clone --branch codex/program-optimization -c core.longpaths=true https://github.com/YS-luochenjun/video-translation.git
 cd video-translation
 .\bin\setup.ps1
 if (-not (Test-Path -LiteralPath .env)) {
@@ -21,7 +21,7 @@ if (-not (Test-Path -LiteralPath .env)) {
 }
 ```
 
-克隆命令为该仓库开启 Windows 长路径支持，保留知识证据的原目录结构。在本机 `.env` 填写 `KIE_API_KEY`，不要将密钥发到聊天、提交 Git 或写入文档。执行检查：
+克隆命令为该仓库开启 Windows 长路径支持，保留知识证据的原目录结构。运行项目检查。
 
 ```powershell
 .\bin\va.ps1 doctor
@@ -30,6 +30,21 @@ if (-not (Test-Path -LiteralPath .env)) {
 .\.venv\Scripts\python.exe bin/check_repository.py
 .\bin\va.ps1 kie-authorization
 ```
+
+在 macOS 上进入准备存放项目的位置，运行以下命令。
+
+```bash
+git clone --branch codex/program-optimization https://github.com/YS-luochenjun/video-translation.git
+cd video-translation
+bash bin/setup.sh
+test -f .env || cp .env.example .env
+.venv/bin/python bin/va.py check
+.venv/bin/python bin/va.py knowledge-audit
+.venv/bin/python bin/check_repository.py
+.venv/bin/python bin/va.py kie-authorization
+```
+
+使用 KIE 时在本机 `.env` 填写 `KIE_API_KEY`，再检查本机授权。使用 Fireplay 时在 AI 宿主中连接有权限的 Fireplay MCP。需要定时巡检时按下文配置宿主任务。
 
 确认新机器的实际操作者、付费使用范围和预算授权。授权状态的查询不会代替新授权，也不继承另一操作者的付费权限。`doctor` 只检查本地条件；测试与知识审计通过后，真实视频仍按项目规则制作、逐项审核。
 
@@ -58,6 +73,8 @@ git pull --ff-only
 ```
 
 存在本地修改或分支分叉时先处理差异，保留已有工作后再同步。使用快速前进更新，不强制覆盖本机文件。setup 安装或复用当前依赖，按新目录重新绑定 Python；不要从旧机器直接搬运 `.venv/`。
+
+macOS 更新后再次运行 `bash bin/setup.sh`，再用 `.venv/bin/python bin/va.py check` 检查。
 
 ## 历史视频和任务另行迁移
 
@@ -100,4 +117,4 @@ Git携带config/fireplay-monitor.json、[完成盯办流程](../agent/workflows/
 2. 在目标目录或系统工具位置安装 FFmpeg、Python 依赖、模型、字体和需要的 Remotion 渲染环境。本机凭据单独配置。检查 `git rev-parse --git-common-dir`、运行时软链接和宿主任务配置指向的绝对路径。
 3. 按需求 ID、任务 ID 和平台素材 ID 核对两边的交付与账本。接续未完任务，保全未知费用、有效成片、独立知识证据及必要的 Fireplay 回执。存在同名冲突时按实际业务身份和版本核验后合并。新路径使用独立的本机存储授权。
 4. 在原目录路径不可用的环境验证 `doctor`、`knowledge-audit`、仓库检查、工作台、合成媒体回归及实际用到的语音与动效路线。随后切换应用和巡检入口，核对原有任务可以续作以及一次受控交付的真实回执。
-5. 用原版自身的存储合同预览已结案缓存，核验必要媒体与业务记录已保全后分批清理。两套项目各自核对活动锁与未结任务。整目录退役以独立验收、状态迁移和明确的删除范围为准。
+5. 生产切换完成的验收条件是新路径有独立 Git 和运行时，原路径不可用时仍能运行，并且接单和制作入口已切换。清理旧文件另行验收，按原版存储合同预览并分批清理。两套项目各自核对活动锁、未结任务和实际复用依赖。旧任务只为继续制作、费用核对或平台恢复保留必要资料，历史成本和时间用汇总记录。清理回执登记删除范围、实际释放空间与剩余依赖。

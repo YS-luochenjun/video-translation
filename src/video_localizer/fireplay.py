@@ -19,6 +19,8 @@ from .fireplay_pinterest import pin_id
 
 ATTACHMENT_HOST = 'material-library.mixberry.io'
 VIDEO_SUFFIXES = ('.mp4', '.mov', '.webm')
+REQUIREMENT_CONTENT_FIELDS = ('id', 'code', 'deptId', 'title', 'description', 'refText',
+                              'assetType', 'quantity', 'locales', 'channels')
 
 
 def payload(value):
@@ -125,8 +127,7 @@ def snapshot(code, spec):
     require(summary.get('updatedAt') and summary['updatedAt'] == brief.get('updatedAt'),
             'Requirement changed between reads; refresh both views')
     # updatedAt/status/assignees/priority may change during our own delivery.
-    content = {k: brief.get(k) for k in ('id', 'code', 'deptId', 'title', 'description',
-               'refText', 'assetType', 'quantity', 'locales', 'channels')}
+    content = {key: brief.get(key) for key in REQUIREMENT_CONTENT_FIELDS}
     text_version = object_hash(content)
     sources = _text_sources(brief, ('refText', 'description'))
     attachments = []
@@ -351,9 +352,20 @@ def can_resolve_missing_attachments(record, snap, folder):
 
 def register(code, spec, decision=None, root=ROOT):
     """Freeze real summary/brief responses; no writes to Fireplay or paid calls."""
-    snap = snapshot(code, spec)
     path = _folder(code, root) / 'request.json'
     previous = read_json(path) if path.exists() else {}
+    spec = payload(spec)
+    if 'brief' not in spec:
+        require(previous and 'summary' in spec,
+                'A new requirement needs the actual summary and brief')
+        cached = previous['snapshot']['raw']
+        current = _rows(spec['summary'], code)
+        original = _rows(cached['summary'], code)
+        require(current.get('id') == original.get('id')
+                and current.get('updatedAt') == original.get('updatedAt'),
+                'Requirement changed; refresh the actual brief and any required attachments')
+        spec = {**cached, **spec}
+    snap = snapshot(code, spec)
     decision = payload(decision) if decision else previous.get('decision', {})
     row = snap['row']
     require(row.get('assetType') == 'video', 'Phase one accepts video requirements only')
@@ -485,7 +497,7 @@ def register(code, spec, decision=None, root=ROOT):
                 previous_source = old_sources.get(source.get('youtube_video_id') or source['source_url'], {})
                 if source.get('attachment') != previous_source.get('attachment'):
                     continue
-                for key in ('resolved', 'source', 'source_detail', 'source_metadata_review', 'pin_media'):
+                for key in ('resolved', 'source', 'source_download', 'source_detail', 'source_metadata_review', 'pin_media'):
                     if previous_source.get(key):
                         source[key] = previous_source[key]
             history = [*old.get('revision_history', []), {
@@ -541,12 +553,11 @@ def _video(record, index):
     return record['videos'][index - 1]
 
 
-def _missing_youtube_source(record, video, result, root):
+def _missing_youtube_source(record, video, result, root, settings):
     folder = _folder(record['code'], root)
     evidence = folder / 'source-lookups' / f'{video["index"]}-{object_hash(result)}.json'
     if not evidence.exists():
         write_json(evidence, result)
-    settings = read_json(Path(root) / 'config/fireplay-intake.json').get('youtube_source_backup', {})
     authorized = (settings.get('authority') == 'user' and settings.get('authorization_ref')
                   and settings.get('source_quote') and not record['blockers']
                   and record['snapshot']['row'].get('status') in ('not_started', 'in_progress')
@@ -569,6 +580,7 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
     with lock(path.with_suffix('.lock')):
         record = _record(code, root)
         video = _video(record, index)
+        local_youtube = video.get('source_download', {}).get('method') == 'youtube_direct'
         if receipt:
             result = payload(receipt)
             rows = [row for row in result.get('items', [])
@@ -576,9 +588,34 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
                     and youtube_id(row.get('youtube_url') or '') == video['youtube_video_id']]
             require(video['youtube_video_id'] and len(rows) == 1 and rows[0].get('status') in ('found', 'missing'),
                     'No exact YouTube original lookup result')
+        if local_youtube:
+            local = inside(root, video['source']['path'])
+            require(local.is_file() and file_hash(local) == video['source']['sha256'],
+                    'Downloaded source changed')
+            return status(code, root)
+        if receipt:
             if rows[0]['status'] == 'missing':
                 require(not video.get('resolved'), 'Previously resolved YouTube original is missing; reconcile its material')
-                return _missing_youtube_source(record, video, result, root)
+                settings = read_json(Path(root) / 'config/fireplay-intake.json').get('youtube_source_backup', {})
+                fallback = _missing_youtube_source(record, video, result, root, settings)
+                if (fallback['state'] == 'needs_source_backup' and not video.get('source')
+                        and settings.get('try_local_first') is True):
+                    if not download:
+                        fallback.pop('host_action')
+                        fallback['state'] = 'needs_local_source_download'
+                        return fallback
+                    from .fireplay_youtube_source import download as download_youtube
+                    version = record.get('source_storage_revision', record['content_version'])
+                    folder = f'{video["title"]}-source-{version[:16]}'
+                    attempt = download_youtube(root, video['youtube_video_id'], folder)
+                    if attempt['state'] == 'downloaded':
+                        video['source'] = attempt['source']
+                        video['source_download'] = {'method': 'youtube_direct',
+                                                    'receipt': f'work/runs/{folder}/youtube-source/receipt.json'}
+                        write_json(path, record)
+                        return status(code, root)
+                    fallback['local_download'] = attempt
+                return fallback
             url = rows[0]['video_r2_url']
             public_url(url)
             old = video.get('resolved')
@@ -722,15 +759,22 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT, *, release_rese
         packet = {'title': title, 'video_index': index, 'project_path': str(Path(root).resolve()),
                   'targets': record['targets'] if per_requirement else video['targets'], 'state': 'prepared',
                   'host_actions': ['list_projects: match this workspace', 'create_thread: project/local',
-                                   'set_thread_title: exact title; record ready threadId with fireplay-chat'],
-                  'prompt': (f'承接 Fireplay 需求 {code} 的{subject}。聊天名称必须为 {title}。'
+                                   'set_thread_title: exact title; record ready threadId with fireplay-chat',
+                                   'After binding, check actual owner status and launch evidence once; if idle before start, use the existing monitor signal to resume the same chat'],
+                  'prompt': (f'你是独立视频制作及交付负责人，不是状态检查会话。你的任务是实际产出并回传 Fireplay 需求 {code} 的{subject}全部指定语种视频。聊天名称必须为 {title}。'
+                             '工作台负责检查进度；你负责完成成片。尚未制作或回传代表工作待执行，不是本轮任务结论。'
                              f'在这个聊天内管理全部目标语言 {", ".join(record["targets"] if per_requirement else video["targets"])}，不要按语言另开聊天。'
                              '各原片只制作fireplay-status中对应videos[].targets指定的语种，不将需求语言并集与全部原片交叉相乘。'
-                             f'先读 agent/workflows/fireplay-intake.md，运行 fireplay-status {code}。'
+                             f'这是立即执行的制作任务，不是咨询或等待确认。首轮先实际调用终端读取 agent/workflows/fireplay-intake.md，'
+                             f'运行 doctor，并用验证通过的Python执行 fireplay-status {code}。'
+                             '不能仅回复尚未完成、声称无工具而不实际尝试，或因为建聊回执尚在登记就结束首轮。'
                              + parallel_instruction(root, legacy=per_requirement) +
                              ('' if per_requirement else
                               f'\n只处理原片 {index}；所有带 --video 的接入和回传命令明确加 --video {index}，回传规格填 video_index={index}。'
-                              '建聊正准备登记，等实际 threadId 绑定后再 fireplay-start。有待交语种时保留本原片现场。'
+                              '工作台与本聊天并行完成真实绑定；绑定尚未登记时先执行不依赖绑定的本地检查，再读取fireplay-status确认。'
+                              f'绑定就绪后立即执行 fireplay-start {code} state/fireplay/{code}/monitor-authority.json --video {index}'
+                              '（若为人工接入则使用对应真实授权文件），沿原账本继续实际制作。'
+                              '若仍有具体启动阻塞，记录实际命令、错误及待恢复步骤，不把正常交接当制作终止。有待交语种时保留本原片现场。'
                               '其他原片由各自聊天执行，整单收口由 fireplay-status 的 coordinator_chat 推进。') +
                              '\n' + settings.get('priority_policy', {}).get('rule', '') +
                              '按现有知识、模型、预算和实际审核流程制作；审核后才回传。'
@@ -783,11 +827,12 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT, *, release_rese
 def start(code, authority, index=1, root=ROOT):
     """Create/resume language batches under one real human request, never mint retry budgets."""
     from . import budgets, workflow
+    from .fireplay_parallel import active_sources, capacity, policy as parallel_policy, slot_lock
     authority = payload(authority)
     require(authority.get('authority') == 'user' and authority.get('authorization_ref') and authority.get('user_request'),
             'Production needs the real human request and stable host reference')
     path = _folder(code, root) / 'request.json'
-    with lock(path.with_suffix('.lock')):
+    with slot_lock(root), lock(path.with_suffix('.lock')):
         record = _record(code, root)
         require(not record['blockers'], 'Resolve intake blockers first')
         _fresh(record)
@@ -805,6 +850,27 @@ def start(code, authority, index=1, root=ROOT):
         if selected_targets != video['targets']:
             require(index == 1 and len(selected_targets) == 1 and authority.get('pilot_only') is True,
                     'A restricted start requires explicit user authority for a single-locale pilot')
+        if (not video.get('chat') or video['chat'].get('owner_continuation')) and authority.get('resume_in_owner_chat') is True:
+            owner = record.get('chat', {})
+            revisions = [entry for entry in record.get('revision_history', [])
+                         if entry.get('scope') == 'append_only_sources_before_return'
+                         and video['source_url'] in entry.get('added_source_urls', [])]
+            require(owner.get('state') == 'ready' and _uuid(owner.get('threadId'))
+                    and authority.get('thread_id') == owner['threadId']
+                    and len(revisions) == 1 and revisions[0]['budget_id'] == record.get('budget'),
+                    'Only the existing owner may resume an explicitly approved appended source')
+            receipt = revisions[0]['authority']
+            require(authority.get('source_addition_receipt') == receipt['path']
+                    and file_hash(inside(root, receipt['path'])) == receipt['sha256'],
+                    'Resume needs the recorded source-addition approval')
+            active = active_sources(root)
+            per_request_limit = parallel_policy(root)['max_active_sources_per_requirement']
+            require((record['requirement_id'], index) in active or
+                    (capacity(root, active)['available_source_slots'] != 0 and
+                     (per_request_limit is None or
+                      sum(key[0] == record['requirement_id'] for key in active) < per_request_limit)),
+                    'Wait for an available original-video production slot')
+            video['chat'] = {**owner, 'owner_continuation': True}
         require(video.get('chat', {}).get('state') == 'ready', 'Create and bind the dedicated video chat before production')
         if video.get('members') and any(not (Path(root) / 'runs' / name / 'run.json').exists() for name in video['members']):
             return {**status(code, root), 'state': 'needs_resume',
@@ -889,6 +955,28 @@ def _fresh(record):
     require(record['snapshot']['row'].get('canBindMaterials') is True, 'No current material binding permission')
 
 
+def _submission_scope(record):
+    row = record['snapshot']['row']
+    return {'requirement_id': record['requirement_id'], 'content_version': record['content_version'],
+            'dept_id': row.get('deptId'), 'dept_name': row.get('deptName'),
+            'assignees': sorted(row.get('assigneeIds') or [])}
+
+
+def _submission_context(record, root, defaults):
+    path = _folder(record['code'], root) / 'submission-context.json'
+    cached = read_json(path) if path.exists() else {}
+    if cached.get('scope') != _submission_scope(record):
+        return {}
+    fields = cached.get('fields', {})
+    if 'designer_receipt' in fields:
+        from .fireplay_materials import resolve_assignees
+        try:
+            resolve_assignees(record, fields['designer_receipt'], defaults)
+        except WorkflowError:
+            fields = {key: value for key, value in fields.items() if key != 'designer_receipt'}
+    return fields
+
+
 def prepare_return(code, spec, root=ROOT):
     """Freeze reviewed deliveries; explicit partial batches retain pending locales."""
     from . import bundles
@@ -917,10 +1005,31 @@ def prepare_return(code, spec, root=ROOT):
                 defaults = {**defaults, 'publication': frozen['policy'],
                             'submission_instruction': frozen['instruction']}
         from . import fireplay_materials as material_policy
+        cached = _submission_context(record, root, defaults)
+        if 'sharing_receipt' not in spec:
+            require('sharing_receipt' in cached,
+                    'Read material_sharing_departments for this requirement; no matching cached receipt')
+            spec = {**spec, 'sharing_receipt': cached['sharing_receipt']}
+        if not spec.get('attribution') and 'designer_receipt' not in spec and 'designer_receipt' in cached:
+            spec = {**spec, 'designer_receipt': cached['designer_receipt']}
         publication = material_policy.publication(record, spec, defaults, payload(spec['sharing_receipt']))
         if 'designer_receipt' in spec:
             spec = {**spec, 'designer_receipt': payload(spec['designer_receipt'])}
         attribution, suffix = material_policy.attribution(record, spec, defaults)
+        context_fields = {**cached, 'sharing_receipt': payload(spec['sharing_receipt'])}
+        if 'designer_receipt' in spec:
+            context_fields['designer_receipt'] = spec['designer_receipt']
+        elif spec.get('attribution'):
+            context_fields.pop('designer_receipt', None)
+        context = {'scope': _submission_scope(record), 'fields': context_fields}
+        context_path = path.parent / 'submission-context.json'
+        if not context_path.exists() or read_json(context_path) != context:
+            write_json(context_path, context)
+        if prior and not metadata_upgrade and not spec.get('repair_revision'):
+            original_publication = prior['publication']
+            if {k: v for k, v in publication.items() if k != 'sharing_receipt_sha256'} == {
+                    k: v for k, v in original_publication.items() if k != 'sharing_receipt_sha256'}:
+                publication = original_publication
         packages = []
         frozen_routes = {(item['video_index'], item['locale'], item['file'], item['sha256']):
                          item.get('upload_route', 'bytes') for item in (prior or {}).get('packages', [])}
@@ -962,14 +1071,26 @@ def prepare_return(code, spec, root=ROOT):
             if not upload_route:
                 upload_route = 'presign' if movie.stat().st_size > 15 * 1024 * 1024 else 'bytes'
             require(upload_route in {'bytes', 'presign', 'web'}, 'Invalid upload route')
+            source_name = video['title']
+            if publication['policy'].get('upload_metadata') and len(record['videos']) > 1:
+                source_name = f"{record['code']}-{video['index']}"
+            old_package = next((entry for entry in (prior or {}).get('packages', [])
+                                if (entry['video_index'], entry['locale'], entry['file'], entry['sha256'])
+                                == (*key, relative_movie, meta['video_sha256'])), None)
             metadata = material_policy.upload_metadata(record, spec, defaults, publication, attribution,
-                                                      video['title'], item['locale'])
+                                                      source_name, item['locale'])
             display_name = metadata['display_name']
             packages.append({**item, 'sha256': meta['video_sha256'], 'manifest_sha256': file_hash(folder / 'manifest.json'),
                              'file': relative_movie, 'name': display_name + suffix, 'display_name': display_name,
                              **metadata,
                              **({'publication_acceptance': acceptance} if acceptance else {}),
                              **({'upload_route': upload_route} if upload_route != 'bytes' else {})})
+            if old_package and prior.get('operations') and not spec.get('repair_revision'):
+                for field in ('name', 'display_name', 'tags', 'metadata_policy_version', 'metadata_evidence_ref'):
+                    if field in old_package:
+                        packages[-1][field] = old_package[field]
+                    else:
+                        packages[-1].pop(field, None)
         require(seen and (seen == expected or spec.get('partial') is True),
                 'All requested languages for this video must have reviewed deliveries before return; use partial=true for a reviewed subset')
         pending = [lang for lang in selected_video['targets'] if (index, lang) not in seen]
@@ -996,6 +1117,16 @@ def prepare_return(code, spec, root=ROOT):
                     'An outbox already exists with different attribution; preserve and reconcile it first')
             if old['packages'] == packages:
                 return old
+            if (not old.get('operations') and not old.get('upload_attempts')
+                    and old.get('state') == 'ready' and old['pending_locales'] == pending
+                    and [(p['video_index'], p['locale'], p['file'], p['sha256'], p['manifest_sha256'])
+                         for p in old['packages']]
+                    == [(p['video_index'], p['locale'], p['file'], p['sha256'], p['manifest_sha256'])
+                        for p in packages]):
+                archive = path.parent / 'revisions' / ('return-metadata-' + object_hash(old) + '.json')
+                write_json(archive, old)
+                write_json(path, value)
+                return value
             if spec.get('unsent_transport_revision'):
                 from .fireplay_transport import reroute_unsent
                 return reroute_unsent(path, old, value, spec['unsent_transport_revision'], Path(root))
@@ -1014,21 +1145,29 @@ def prepare_return(code, spec, root=ROOT):
                              all(old['operations'].get(f'upload-{i}', {}).get('state') == 'unknown'
                                  and f'import-{i}' not in old['operations']
                                  for i in range(1, len(old['packages']) + 1)))
-            require((deferred_only or old.get('state') == 'returned' and
+            pending_import_only = (spec.get('append_pending_locales') is True
+                                   and bool(active)
+                                   and 'bind' not in old.get('operations', {})
+                                   and all(old['operations'].get(f'upload-{i}', {}).get('state') == 'verified'
+                                           and old['operations'].get(f'import-{i}', {}).get('state') == 'unknown'
+                                           for i, _ in active))
+            require((deferred_only or pending_import_only or old.get('state') == 'returned' and
                     old.get('operations', {}).get('bind', {}).get('state') == 'verified')
                     and old.get('pending_locales'),
                     'An outbox already exists for different deliverables; preserve and reconcile it first')
             previous_locales = {p['locale'] for p in old['packages']}
             require(not previous_locales.intersection(p['locale'] for p in packages),
                     'Previously submitted locales cannot be uploaded again')
-            require(all(old['operations'].get(f'{phase}-{i}', {}).get('state') == 'verified'
+            require(pending_import_only or all(old['operations'].get(f'{phase}-{i}', {}).get('state') == 'verified'
                         for i, _ in active for phase in ('upload', 'import', 'verify')),
                     'Previous partial submission is not fully verified')
             if 'bind' in old['operations']:
                 old.setdefault('binding_history', []).append(old['operations'].pop('bind'))
             old['packages'].extend(packages)
             old['pending_locales'] = [lang for lang in selected_video['targets']
-                                      if lang not in {p['locale'] for _, p in _active_packages(old)}]
+                                      if lang not in {p['locale'] for i, p in _active_packages(old)
+                                                      if not pending_import_only or
+                                                      old['operations'].get(f'verify-{i}', {}).get('state') == 'verified'}]
             old.update(state='ready', extended_at=utc_now())
             write_json(path, old)
             return old
@@ -1109,6 +1248,112 @@ def _verify_frozen_package(code, record, item, root, hashes):
         manifest = bundles.verify(folder, hashes=hashes)
         require(eligible(code, folder, manifest, root) == item['publication_acceptance'],
                 'Publication judgment changed after dispatch preparation')
+
+
+def dispatch_import_batch(code, execute=False, root=ROOT, index=1):
+    path = _folder(code, root) / f'return-{index}.json'
+    with lock(_folder(code, root) / 'request.lock'):
+        record, outbox = _record(code, root), read_json(path)
+        _video(record, index)
+        _fresh(record)
+        require(outbox['content_version'] == record['content_version'], 'Requirement content changed before dispatch')
+        from .fireplay_youtube import policy
+        require(not policy(root).get('require_requirement_group'), 'Account-specific uploads require individual dispatch')
+        operations = outbox['operations']
+        selected, items, hashes = [], [], {}
+        for number, package in _active_packages(outbox):
+            key = f'import-{number}'
+            upload = operations.get(f'upload-{number}', {})
+            if upload.get('state') != 'verified' or key in operations:
+                continue
+            _verify_frozen_package(code, record, package, root, hashes)
+            result = upload['result']
+            selected.append(key)
+            items.append({'url': result['publicUrl'], 'resource_id': result['resourceId'],
+                          'already_in_r2': True, 'type': 'video', 'source': 'MCP', 'name': package['name'],
+                          'shared_dept_id': outbox['publication']['shared_dept_id'], 'tags': package['tags']})
+        if len(selected) < 2:
+            return {'state': 'insufficient_ready_imports', 'ready': selected, 'external_call_executed': False}
+        require(len({item['resource_id'] for item in items}) == len(items), 'Batch resources must be distinct')
+        youtube = outbox['publication'].get('youtube_status', 'requested_not_verified') != 'not_requested'
+        arguments = {'VedioSouce': 'YouTube' if youtube else 'Other', 'items': items}
+        batch_id = 'import-batch-' + object_hash([outbox['content_version'], selected, arguments])[:16]
+        batch = {'id': batch_id, 'tool': 'material_upload_from_url', 'arguments': arguments,
+                 'operation_ids': selected, 'state': 'unknown', 'dispatched_at': utc_now(),
+                 'content_version': outbox['content_version']}
+        if execute:
+            for key, item in zip(selected, items):
+                operations[key] = {'id': key, 'tool': batch['tool'], 'state': 'unknown',
+                                   'arguments': {**arguments, 'items': [item]}, 'materialize': None,
+                                   'dispatched_at': batch['dispatched_at'], 'content_version': batch['content_version'],
+                                   'batch_id': batch_id}
+            outbox.setdefault('import_batches', {})[batch_id] = batch
+            write_json(path, outbox)
+        return {'state': 'dispatch_once' if execute else 'preview', 'operation': batch,
+                'external_call_executed': False}
+
+
+def receipt_import_batch(code, batch_id, spec, root=ROOT, index=1):
+    spec = payload(spec)
+    path = _folder(code, root) / f'return-{index}.json'
+    with lock(_folder(code, root) / 'request.lock'):
+        outbox = read_json(path)
+        batch = outbox.get('import_batches', {}).get(batch_id)
+        require(batch is not None, 'Batch was not dispatched')
+        observed = _folder(code, root) / 'receipts' / f'{index}-{batch_id}-{object_hash(spec)}.json'
+        write_json(observed, spec)
+        raw = payload(spec['response'])
+        rows = raw.get('results', [])
+        require(isinstance(rows, list), 'Batch receipt must contain indexed results')
+        require(not raw.get('skipped') and raw.get('success') is not False and not raw.get('error')
+                and raw.get('code') in (None, 0, 200), 'Failed batch receipt needs reconciliation')
+        slots = {}
+        material_ids = set()
+        for row in rows:
+            require(isinstance(row, dict), 'Invalid batch result')
+            slot = row.get('item_index')
+            require(type(slot) is int and 0 <= slot < len(batch['operation_ids'])
+                    and slot not in slots, 'Batch receipt has an ambiguous item index')
+            slots[slot] = row
+            if row.get('material_id'):
+                require(row['material_id'] not in material_ids, 'Batch receipt repeats a material id')
+                material_ids.add(row['material_id'])
+        batch['last_observed_receipt'] = str(observed.relative_to(root))
+        already_verified = {key: outbox['operations'][key]['result']['material_id']
+                            for key in batch['operation_ids']
+                            if outbox['operations'][key]['state'] == 'verified'}
+        write_json(path, outbox)
+    verified, unresolved = [], []
+    for slot, key in enumerate(batch['operation_ids']):
+        row = slots.get(slot, {})
+        item = batch['arguments']['items'][slot]
+        if key in already_verified:
+            require(not row.get('material_id') or row['material_id'] == already_verified[key],
+                    'Batch receipt conflicts with an already verified material')
+            verified.append(key)
+            continue
+        if (row.get('success') is not True or row.get('material_imported') is not True
+                or row.get('name', item['name']) != item['name']
+                or row.get('video_r2_url', item['url']) != item['url']
+                or row.get('resource_id', item['resource_id']) != item['resource_id']):
+            unresolved.append(key)
+            continue
+        single = {'response': {'results': [row], 'warnings': raw.get('warnings', [])},
+                  'batch_receipt': str(observed.relative_to(root))}
+        try:
+            receipt(code, key, single, root, index)
+        except WorkflowError:
+            unresolved.append(key)
+        else:
+            verified.append(key)
+    state = 'partially_verified' if unresolved else 'verified'
+    with lock(_folder(code, root) / 'request.lock'):
+        outbox = read_json(path)
+        outbox['import_batches'][batch_id]['state'] = state
+        write_json(path, outbox)
+    return {'state': state,
+            'verified': verified, 'unresolved': unresolved,
+            'batch_receipt': str(observed.relative_to(root))}
 
 
 def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
@@ -1227,11 +1472,7 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
             if phase == 'upload':
                 from .fireplay_upload_queue import acquire
                 queue_package = {**item, 'outbox': str(path.relative_to(root))}
-                slot = acquire(code, index, key, queue_package, root)
-                if not slot['acquired']:
-                    return {'state': 'upload_queued', 'queue': slot, 'operation': operation,
-                            'external_call_executed': False,
-                            'next': 'Upload capacity is busy; poll the queue and dispatch this exact operation when its slot becomes active.'}
+                acquire(code, index, key, queue_package, root)
             # Local journaling only. The authenticated HOST performs the call.
             outbox['operations'][key] = operation
             write_json(path, outbox)
@@ -1247,11 +1488,66 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
         return {'state': 'dispatch_once' if execute else 'preview', 'operation': operation,
                 'external_call_executed': False,
                 'next': ('Use the actual verified account in the supported web form; save the real material receipt and exact task/account group read-back with fireplay-receipt'
-                         if youtube_route else 'Discover current tool schema, execute with host connector under recorded authority, save real response with fireplay-receipt')}
+                         if youtube_route else 'Reuse the current tool schema already discovered in this session; discover again only if missing or changed. Execute once under recorded authority and save the real response with fireplay-receipt.')}
+
+
+def _verify_material_detail(material, material_id, package, outbox, root, youtube_status):
+    from .fireplay_materials import verify_attribution, verify_tags
+    tags = {tag.get('name') if isinstance(tag, dict) else tag for tag in material.get('tags', [])}
+    require(material.get('id') == material_id and material.get('name') == package['display_name'],
+            'Material name/identity read-back differs from the reviewed submission')
+    require(material.get('isPublic') is False and material.get('sharedDeptId') == outbox['publication']['shared_dept_id'],
+            'Material read-back does not match sharing to the requirement group')
+    verify_tags(package['tags'], tags, package['locale'], root, english_only=bool(package.get('metadata_policy_version')))
+    verify_attribution(material, outbox.get('attribution', {}),
+                       'Material read-back lost verified designer attribution',
+                       'Material read-back lost verified designer attribution')
+    return {'material_id': material_id, 'name': material['name'], 'tags': sorted(tags),
+            'shared_dept_id': material['sharedDeptId'], 'youtube_status': youtube_status}
+
+
+def _accepted_import(raw, operation, package, outbox, material_id, root, youtube_status):
+    if (operation.get('tool') != 'material_upload_from_url'
+            or outbox.get('attribution', {}).get('designer_ids')):
+        return None
+    submitted = operation['arguments'].get('items', [])
+    rows = raw.get('results', [])
+    if len(submitted) != 1 or not isinstance(rows, list) or len(rows) != 1 or not isinstance(rows[0], dict):
+        return None
+    row = rows[0]
+    if (row.get('material_id') != material_id or row.get('success') is not True
+            or row.get('material_imported') is not True or row.get('error')
+            or row.get('reused') is True or row.get('created') is False):
+        return None
+    for warnings in (raw.get('warnings'), row.get('warnings')):
+        if warnings and (not isinstance(warnings, list)
+                         or any(warning != '未识别到 DID，设计师为空' for warning in warnings)):
+            return None
+    item = submitted[0]
+    name = package['display_name']
+    department = outbox['publication']['shared_dept_id']
+    if (item.get('name') != name or item.get('shared_dept_id') != department or item.get('tags') != package['tags']
+            or row.get('name', name) != name or row.get('shared_dept_id', department) != department
+            or row.get('is_public', False) is not False):
+        return None
+    if 'tags' in row:
+        tags = row['tags']
+        if not isinstance(tags, list):
+            return None
+        try:
+            from .fireplay_materials import verify_tags
+            verify_tags(package['tags'], {tag.get('name') if isinstance(tag, dict) else tag for tag in tags},
+                        package['locale'], root, english_only=bool(package.get('metadata_policy_version')))
+        except (WorkflowError, TypeError):
+            return None
+    return {'material_id': material_id, 'submitted_name': name, 'submitted_tags': package['tags'],
+            'submitted_shared_dept_id': department, 'youtube_status': youtube_status}
 
 
 def receipt(code, operation_id, spec, root=ROOT, index=1):
     """Record real connector receipts. Binding needs a separate read-after-write proof."""
+    if operation_id.startswith('import-batch-'):
+        return receipt_import_batch(code, operation_id, spec, root, index)
     spec = payload(spec)
     _video(_record(code, root), index)
     path = _folder(code, root) / f'return-{index}.json'
@@ -1276,6 +1572,7 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
         require(not raw.get('skipped') and raw.get('success') is not False and not raw.get('error')
                 and raw.get('code') in (None, 0, 200),
                 'Failed/skipped write is not a successful receipt; reconcile before retry')
+        reused_verification = None
         if operation_id.startswith('upload-'):
             if operation.get('tool') == 'material_r2_presign_upload':
                 transfer = spec.get('transfer', {})
@@ -1294,10 +1591,18 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
         elif operation_id.startswith('import-'):
             ids = _collect(raw, 'material_id')
             require(len(ids) == 1 and _uuid(ids[0]), 'Import receipt needs one real material_id')
+            rows = raw.get('results', [])
+            if isinstance(rows, list):
+                require(not any(isinstance(row, dict) and row.get('material_id') == ids[0]
+                                and (row.get('success') is False or row.get('material_imported') is False)
+                                for row in rows), 'Failed import item is not a successful receipt; reconcile before retry')
             from .fireplay_youtube import verify_task
             verify_task(_record(code, root), operation, spec, ids[0], root)
             result = {'material_id': ids[0], 'warnings': _collect(raw, 'warnings'), 'check_url': raw.get('check_url'),
                       'youtube_status': youtube_status}
+            slot = int(operation_id.split('-')[1])
+            reused_verification = _accepted_import(raw, operation, outbox['packages'][slot - 1],
+                                                   outbox, ids[0], root, youtube_status)
             if spec.get('youtube_task_verification'):
                 from .fireplay_youtube import policy
                 field = 'youtube_task_verification' if policy(root).get('require_requirement_group') else 'youtube_task_observation'
@@ -1313,23 +1618,17 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
                                'Attribution creation type read-back differs')
             result = {'material_id': expected_id, 'designer_ids': material['designerIds'],
                       'creation_type': material.get('creationType')}
+            slot = int(operation_id.split('-')[1])
+            try:
+                reused_verification = _verify_material_detail(
+                    material, expected_id, outbox['packages'][slot - 1], outbox, root, youtube_status)
+            except (WorkflowError, TypeError):
+                pass
         elif operation_id.startswith('verify-'):
             material = raw.get('material', raw)
             package = outbox['packages'][int(operation_id.split('-')[1]) - 1]
-            tags = {t.get('name') if isinstance(t, dict) else t for t in material.get('tags', [])}
-            require(material.get('id') == operation['arguments']['material_id'] and
-                    material.get('name') == package['display_name'], 'Material name/identity read-back differs from the reviewed submission')
-            require(material.get('isPublic') is False and material.get('sharedDeptId') == outbox['publication']['shared_dept_id'],
-                    'Material read-back does not match sharing to the requirement group')
-            from .fireplay_materials import verify_tags
-            verify_tags(package['tags'], tags, package['locale'], root,
-                        english_only=bool(package.get('metadata_policy_version')))
-            from .fireplay_materials import verify_attribution
-            verify_attribution(material, outbox.get('attribution', {}),
-                               'Material read-back lost verified designer attribution',
-                               'Material read-back lost verified designer attribution')
-            result = {'material_id': material['id'], 'name': material['name'], 'tags': sorted(tags),
-                      'shared_dept_id': material['sharedDeptId'], 'youtube_status': youtube_status}
+            result = _verify_material_detail(material, operation['arguments']['material_id'],
+                                             package, outbox, root, youtube_status)
         else:
             verification = payload(spec['verification'])
             rows = [r for r in verification.get('items', []) if r.get('id') == outbox['requirement_id']]
@@ -1350,6 +1649,14 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             outbox['pending_locales'] = [lang for lang in _video(record, index)['targets'] if lang not in accepted]
         operation.update(state='verified', result=result, receipt_sha256=object_hash(spec), verified_at=utc_now())
         write_json(_folder(code, root) / 'receipts' / f'{index}-{operation_id}.json', spec)
+        if reused_verification is not None:
+            verify_key = f'verify-{slot}'
+            outbox['operations'][verify_key] = {
+                'id': verify_key, 'state': 'verified', 'verified_at': operation['verified_at'],
+                'receipt_sha256': operation['receipt_sha256'], 'evidence_operation': operation_id,
+                'result': reused_verification,
+            }
+            write_json(_folder(code, root) / 'receipts' / f'{index}-{verify_key}.json', spec)
         write_json(path, outbox)
         if operation_id.startswith('upload-'):
             from .fireplay_upload_queue import release
@@ -1392,6 +1699,10 @@ def status(code, root=ROOT):
         root, legacy=bool(record.get('chat') and record.get('thread_policy') != 'one_chat_per_source_video_all_locales'))
     result['submission_instruction'] = submission_instruction(root)
     result['submission_consent_instruction'] = submission_consent_instruction(root)
+    defaults = read_json(Path(root) / 'config/fireplay-intake.json')
+    cached = _submission_context(record, root, defaults)
+    result['return_context'] = {'reuse_sharing_receipt': 'sharing_receipt' in cached,
+                                'reuse_designer_receipt': 'designer_receipt' in cached}
     result['kie_consent'] = kie_consent(code, root=root)
     result['priority_policy'] = read_json(Path(root) / 'config/fireplay-intake.json').get('priority_policy', {})
     result['automatic_quality_approval'] = False

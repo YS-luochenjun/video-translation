@@ -5,7 +5,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from video_localizer import workflow
+from video_localizer import fast_delivery, workflow
 from video_localizer.common import WorkflowError, write_json
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -15,6 +15,20 @@ TEST_TEMP.mkdir(parents=True, exist_ok=True)
 
 
 class RevisionBudgetTests(unittest.TestCase):
+    def test_fast_full_versions_are_bounded_but_review_rebinding_is_free(self):
+        with tempfile.TemporaryDirectory(dir=TEST_TEMP) as tmp:
+            root = Path(tmp)
+            run = root / 'runs' / 'fixture'
+            write_json(root / 'config/workspace.json', {'max_revision_rounds': 2})
+            for index, digest in enumerate(['a'*64, 'a'*64, 'b'*64, 'c'*64]):
+                write_json(run / 'plans' / str(index) / 'plan.json', {
+                    'mode': 'fast', 'output_sha256': digest})
+            status = fast_delivery.revision_status(run, 'd'*64)
+            self.assertEqual(status['registered_versions'], 3)
+            self.assertEqual(status['remaining_full_revisions'], 0)
+            self.assertFalse(status['can_register'])
+            self.assertTrue(fast_delivery.revision_status(run, 'a'*64)['can_register'])
+
     def fixture(self, name, pixels="picture-a", record="original.json", target="开始"):
         asset = {"path": "master.mp4", "sha256": pixels, "record": record, "record_sha256": record}
         shot = {"id": "s001", "prepared_video": asset,

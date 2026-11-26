@@ -2,6 +2,7 @@
 from . import bundles, learning
 from .common import file_hash, guarded, inside, object_hash, read_json, require, utc_now, write_json
 from .evidence import EVIDENCE_SUFFIXES
+from .knowledge_records import placeholder_lesson
 
 
 @guarded
@@ -15,8 +16,10 @@ def close(run, relative):
             'Failure source binding changed')
     require(spec.get('stage') in {'source', 'translation', 'neutral', 'audio', 'render'}, 'Invalid failure stage')
     require(spec.get('review_type') in {'same_agent', 'independent', 'user'}, 'Explicit review attribution required')
-    for field in ('reviewer', 'reason', 'hypothesis'):
+    for field in ('reviewer', 'reason'):
         require(isinstance(spec.get(field), str) and len(spec[field].strip()) >= 3, 'Failure needs '+field)
+    lesson = spec.get('lesson')
+    require(lesson is None or isinstance(lesson, str), 'Failure lesson must be text')
     require(isinstance(spec.get('unreviewed_scope'), list) and spec['unreviewed_scope']
             and all(isinstance(v, str) and v.strip() for v in spec['unreviewed_scope']), 'Declare unreviewed scope')
     observations = spec.get('observations')
@@ -45,21 +48,31 @@ def close(run, relative):
     records.append(report_path)
     scope = {'source_sha256': source['source_sha256'], 'target_language': read_json(run / 'inputs/request.json')['target_language'],
              'stage': spec['stage'], 'workflow': 'video-localization'}
-    case = learning.capture_case(case_id, spec['hypothesis'], scope, root=root, run=run,
-                                 records=list(dict.fromkeys(records)), status='candidate')
-    bundles.verify(case)
     candidate_path = root / 'knowledge/local/candidates' / (case_id+'.json')
-    candidate = {'id': case_id, 'status': 'candidate', 'scope': scope,
-                 'case': case.relative_to(root).as_posix(), 'outcome': 'failed_preproduction',
-                 'hypothesis': spec['hypothesis'], 'company_preference': False,
-                 'limitations': spec['unreviewed_scope']}
+    case_path = root / 'knowledge/local/examples' / case_id
+    candidate = None
     if candidate_path.exists():
-        require(read_json(candidate_path) == candidate, 'Failure candidate changed')
-    else:
+        candidate = read_json(candidate_path)
+        require(candidate.get('id') == case_id and candidate.get('scope') == scope
+                and candidate.get('case') == case_path.relative_to(root).as_posix()
+                and candidate.get('hypothesis') == (lesson or spec.get('hypothesis'))
+                and candidate.get('limitations') == spec['unreviewed_scope']
+                and candidate.get('status') == 'candidate'
+                and candidate.get('outcome') == 'failed_preproduction'
+                and candidate.get('company_preference') is False, 'Failure candidate changed')
+        bundles.verify(case_path)
+    elif not placeholder_lesson(lesson):
+        case_path = learning.capture_case(case_id, lesson, scope, root=root, run=run,
+                                          records=list(dict.fromkeys(records)), status='candidate')
+        bundles.verify(case_path)
+        candidate = {'id': case_id, 'status': 'candidate', 'scope': scope,
+                     'case': case_path.relative_to(root).as_posix(), 'outcome': 'failed_preproduction',
+                     'hypothesis': lesson, 'company_preference': False,
+                     'limitations': spec['unreviewed_scope']}
         write_json(candidate_path, candidate)
-    inbox = learning.enqueue(candidate, root)
-    receipt = {'state': 'failed_preproduction', 'case': candidate['case'],
-               'candidate': candidate_path.relative_to(root).as_posix(), 'inbox': inbox,
+    receipt = {'state': 'failed_preproduction', 'case': candidate['case'] if candidate else None,
+               'candidate': candidate_path.relative_to(root).as_posix() if candidate else None,
+               'inbox': learning.enqueue(candidate, root) if candidate else None,
                'report': report_path.relative_to(run).as_posix(), 'package': None,
                'automatic_pass': False, 'budget_changed': False}
     write_json(directory / 'closure.json', receipt)

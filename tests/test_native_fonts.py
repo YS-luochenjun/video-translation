@@ -71,6 +71,16 @@ class NativeFontRenderTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'changed'):
             fonts.bind(self.run, 'Apple SD Gothic Neo', True, text)
 
+    def test_generated_face_reuses_across_runs_without_shared_write_identity(self):
+        first = fonts.bind(self.run, 'Apple SD Gothic Neo', True, '한국어')
+        other = self.root / 'runs/second'
+        write_json(other / 'run.json', {'id': 'second'})
+        second = fonts.bind(other, 'Apple SD Gothic Neo', True, '한국어')
+        self.assertEqual(first['sha256'], second['sha256'])
+        self.assertFalse((self.run / first['path']).samefile(other / second['path']))
+        (other / second['path']).write_bytes(b'changed')
+        self.assertEqual(file_hash(self.run / first['path']), first['sha256'])
+
     def test_missing_glyph_is_rejected_before_exporting_or_measuring(self):
         with self.assertRaisesRegex(WorkflowError, 'missing glyphs'):
             fonts.bind(self.run, 'Arial', False, '한글')

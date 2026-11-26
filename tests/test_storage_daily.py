@@ -93,6 +93,17 @@ class StorageDailyTests(unittest.TestCase):
         self.preview.assert_not_called()
         self.execute.assert_not_called()
 
+    def test_configured_interval_rechecks_after_a_successful_daily_sweep(self):
+        now = datetime.fromisoformat("2026-11-24T20:00:00+08:00")
+        write_json(self.root / "config/maintenance.json", {"lifecycle_check_seconds": 3600})
+        write_json(self.root / daily.RECEIPT, {
+            "state": "executed", "execute_requested": True,
+            "checked_at": "2026-11-24T11:30:00+00:00"})
+        self.assertEqual(daily.scheduled(self.root, now)["state"], "not_due")
+        self.preview.assert_not_called()
+        self.assertEqual(daily.scheduled(
+            self.root, datetime.fromisoformat("2026-11-24T20:31:00+08:00"))["state"], "executed")
+
     def test_each_lock_defers_without_touching_lock_or_media(self):
         media = self.root / "runs/closed/video.mp4"
         media.parent.mkdir(parents=True)
@@ -134,6 +145,13 @@ class StorageDailyTests(unittest.TestCase):
         result = daily.run(self.root, execute=True)
         self.assertEqual(result["state"], "failed")
         self.assertEqual(read_json(self.root / daily.RECEIPT), result)
+
+    def test_changed_selection_before_deletion_defers_to_next_scheduled_check(self):
+        self.execute.side_effect = WorkflowError("Storage preview changed; regenerate the selection")
+        result = daily.run(self.root, execute=True)
+        self.assertEqual(result["state"], "deferred")
+        self.assertEqual(result["reason"], "storage_selection_changed")
+        self.execute.assert_called_once()
 
     def test_cli_requires_explicit_execute_and_reports_failure_exit(self):
         with patch.object(daily, "run", return_value={"state": "planned"}) as run:

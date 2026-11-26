@@ -82,8 +82,18 @@ class SourceRetentionTests(unittest.TestCase):
         self.assertEqual(file_hash(original), frozen_hash)
         self.assertNotEqual(first['snapshot'], second['snapshot'])
         self.assertIn('source-observation-versions/', second['observations_asset']['path'])
+        for relative in ('inputs/source.mp4', 'analysis/shot-001.jpg', 'analysis/frames/frame-00001.jpg'):
+            first_asset = self.root / first['snapshot'] / 'payload' / relative
+            second_asset = self.root / second['snapshot'] / 'payload' / relative
+            self.assertTrue(first_asset.samefile(second_asset))
+            self.assertFalse(second_asset.samefile(self.run / relative))
         payload = self.root / second['snapshot'] / 'payload/analysis/source-observations.json'
         self.assertEqual(read_json(payload)['text_instances'][0]['start'], 2.1)
+        shutil.rmtree(self.root / first['snapshot'])
+        index_path = self.root / second['snapshot'] / '../index.json'
+        index = read_json(index_path)
+        index['entries'] = [entry for entry in index['entries'] if entry['id'] != first['id']]
+        write_json(index_path.resolve(), index)
         other = self.make_run('refined-reuse', 'es')
         source_state.restore(other, self.root)
         self.assertEqual(read_json(other/'analysis/inventory.json')['text_instances'][0]['start'], 2.1)

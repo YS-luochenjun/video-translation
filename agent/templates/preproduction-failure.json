@@ -4,7 +4,7 @@
   "reviewer": "REPLACE_WITH_ACTUAL_REVIEWER",
   "review_type": "same_agent",
   "reason": "Describe the actual blocker before a final candidate exists.",
-  "hypothesis": "State a bounded lesson, not a general quality claim.",
+  "lesson": null,
   "observations": [
     {
       "observation": "Describe the defect actually observed and its frame or audio interval.",

@@ -16,6 +16,10 @@ _active = ContextVar('stage_timer', default=None)
 _run = ContextVar('stage_run', default=None)
 
 
+def current_run():
+    return _run.get()
+
+
 def timed(stage):
     def decorate(function):
         @wraps(function)

@@ -1,4 +1,4 @@
-"""Serialize external media writes and keep blocked uploads resumable."""
+"""Track independent external media writes without limiting concurrency."""
 from pathlib import Path
 
 from .common import ROOT, lock, read_json, utc_now, write_json
@@ -9,12 +9,25 @@ def _path(root=ROOT):
 
 
 def _empty():
-    return {'schema_version': 1, 'max_active': 1, 'entries': [], 'updated_at': utc_now()}
+    return {'schema_version': 2, 'max_active': None, 'entries': [], 'updated_at': utc_now()}
 
 
 def _load(root):
     path = _path(root)
-    return read_json(path) if path.exists() else _empty()
+    data = read_json(path) if path.exists() else _empty()
+    data.update(schema_version=2, max_active=None)
+    for entry in data.get('entries', []):
+        if entry.get('state') == 'queued':
+            entry.update(state='ready', ready_reason='local_upload_limit_removed')
+    return data
+
+
+def migrate(root=ROOT):
+    path = _path(root)
+    with lock(path.with_suffix('.lock')):
+        data = _load(root)
+        data['updated_at'] = utc_now()
+        write_json(path, data)
 
 
 def _key(code, index, operation_id):
@@ -22,7 +35,7 @@ def _key(code, index, operation_id):
 
 
 def acquire(code, index, operation_id, package, root=ROOT):
-    """Join the FIFO queue and acquire the single external upload slot if free."""
+    """Register an upload and permit it independently of other operations."""
     path = _path(root)
     key = _key(code, index, operation_id)
     with lock(path.with_suffix('.lock')):
@@ -40,25 +53,16 @@ def acquire(code, index, operation_id, package, root=ROOT):
                     entry.update(state='completed', completed_at=utc_now(),
                                  completion_reason='deferred_unknown_upload')
         current = next((entry for entry in entries if entry.get('key') == key
-                        and entry.get('state') in ('queued', 'active')), None)
-        active = next((entry for entry in entries if entry.get('state') == 'active'), None)
+                        and entry.get('state') in ('ready', 'active')), None)
         if current:
             if current.get('state') == 'active':
                 return {'acquired': True, 'state': 'active', 'key': key, 'position': 0}
         else:
             current = {'key': key, 'code': code, 'index': index, 'operation_id': operation_id,
                        'package_sha256': package.get('sha256'), 'locale': package.get('locale'),
-                       'outbox': package.get('outbox', ''), 'state': 'queued',
-                       'queued_at': utc_now()}
+                       'outbox': package.get('outbox', ''), 'state': 'ready',
+                       'registered_at': utc_now()}
             entries.append(current)
-        queued = [entry for entry in entries if entry.get('state') == 'queued']
-        if active or queued[0].get('key') != key:
-            current['state'] = 'queued'
-            data['updated_at'] = utc_now()
-            write_json(path, data)
-            return {'acquired': False, 'state': 'queued', 'key': key,
-                    'position': next(i for i, entry in enumerate(queued, 1) if entry.get('key') == key),
-                    'active': active.get('key') if active else None}
         current.update(state='active', started_at=utc_now())
         data['updated_at'] = utc_now()
         write_json(path, data)
@@ -71,7 +75,7 @@ def release(code, index, operation_id, reason, root=ROOT):
     with lock(path.with_suffix('.lock')):
         data = _load(root)
         for entry in data.setdefault('entries', []):
-            if entry.get('key') == key and entry.get('state') in ('queued', 'active'):
+            if entry.get('key') == key and entry.get('state') in ('ready', 'active'):
                 entry.update(state='completed', completed_at=utc_now(), completion_reason=reason)
         data['updated_at'] = utc_now()
         write_json(path, data)
@@ -79,7 +83,8 @@ def release(code, index, operation_id, reason, root=ROOT):
 
 def status(root=ROOT):
     data = _load(root)
-    return {'max_active': data.get('max_active', 1),
+    return {'max_active': None,
             'active': [entry for entry in data.get('entries', []) if entry.get('state') == 'active'],
-            'queued': [entry for entry in data.get('entries', []) if entry.get('state') == 'queued'],
+            'queued': [],
+            'ready': [entry for entry in data.get('entries', []) if entry.get('state') == 'ready'],
             'updated_at': data.get('updated_at')}

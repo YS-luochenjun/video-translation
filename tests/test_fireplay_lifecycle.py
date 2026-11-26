@@ -125,6 +125,40 @@ class FireplayLifecycleTests(unittest.TestCase):
         self.assertEqual(fireplay.chat(CODE, root=self.root, release_reservation=True)['state'], 'reservation_released')
         self.assertEqual(fireplay_parallel.capacity(self.root)['active_source_count'], 0)
 
+    def test_finish_reuses_full_binding_read_and_confirms_with_one_delivery_read(self):
+        self.setup_sources(1)
+        self.start_platform(1)
+        self.bind_source(1, MID, RESOURCE)
+        started = self.snapshot('in_progress')
+        row = {key: started['brief']['items'][0].get(key) for key in fireplay.REQUIREMENT_CONTENT_FIELDS}
+        row.update({key: started['summary']['items'][0][key] for key in (
+            'updatedAt', 'status', 'aiMode', 'canUpdateStatus', 'canBindMaterials')})
+        row['materials'] = [{'id': MID}, {'id': RESOURCE}]
+        delivery = {'view': 'delivery', 'serverTime': started['summary']['serverTime'], 'items': [row]}
+        self.assertTrue(fireplay_submission.verify_completion(CODE, delivery, self.root)['complete'])
+        incomplete = copy.deepcopy(delivery)
+        del incomplete['items'][0]['canUpdateStatus']
+        with self.assertRaisesRegex(WorkflowError, 'incomplete for status'):
+            transition(CODE, 'finish', incomplete, True, self.root)
+        changed = copy.deepcopy(delivery)
+        changed['items'][0]['description'] += ' changed'
+        with self.assertRaisesRegex(WorkflowError, 'changed AI mode'):
+            transition(CODE, 'finish', changed, True, self.root)
+        finish = transition(CODE, 'finish', {'verification': delivery}, True, self.root)
+        self.assertEqual(finish['host_action']['arguments']['items'][0], {
+            'requirement_id': RID, 'status': 'done', 'base_updated_at': row['updatedAt']})
+        self.assertEqual(transition(CODE, 'finish', delivery, True, self.root)['state'], 'reconcile_status')
+        row['status'] = 'done'
+        delivery['serverTime'] = (datetime.fromisoformat(finish['dispatched_at']) - timedelta(seconds=1)).isoformat()
+        with self.assertRaisesRegex(WorkflowError, 'after the dispatched write'):
+            transition(CODE, 'finish', delivery, root=self.root)
+        delivery['serverTime'] = row['updatedAt'] = utc_now()
+        row['materials'].pop()
+        with self.assertRaisesRegex(WorkflowError, 'no longer contains'):
+            transition(CODE, 'finish', delivery, root=self.root)
+        row['materials'].append({'id': RESOURCE})
+        self.assertEqual(transition(CODE, 'finish', delivery, root=self.root)['state'], 'confirmed')
+
     def test_timeout_allows_only_one_retry_after_fresh_platform_read(self):
         self.setup_sources(1)
         fireplay.chat(CODE, dispatch=True, root=self.root)

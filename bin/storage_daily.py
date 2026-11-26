@@ -35,7 +35,29 @@ def run(root=PROJECT_ROOT, execute=False):
               "mode": "lifecycle"}
     try:
         reason, locks = gates(root)
-        if reason:
+        if reason != "workspace_authorization_missing" and not (root / "state/project-storage.lock").exists():
+            from video_localizer.maintenance import recover_accepted_closures
+            result["recovered_closures"] = recover_accepted_closures(root, execute=execute)
+            reason, locks = gates(root)
+        if reason == "active_locks" and "state/project-storage.lock" not in locks:
+            try:
+                plan = project_storage.scoped_preview(root)
+                result.update(mode="closed_runs", active_runs=plan["active_runs"],
+                              selected_count=len(plan["selected"]), fingerprint=plan["fingerprint"],
+                              logical_bytes_selected=sum(row["logical_bytes"] for row in plan["selected"]))
+                if not plan["selected"]:
+                    result.update(state="deferred", reason="no_independent_closed_runs", locks=locks)
+                elif execute:
+                    actual = project_storage.scoped_execute(root, plan["fingerprint"])
+                    result.update(state="executed", deleted_count=len(actual["deleted"]),
+                                  logical_bytes_removed=actual["logical_bytes_removed"],
+                                  net_free_bytes_change=actual["net_free_bytes_change"],
+                                  preserved_records=actual.get("preserved_records"))
+                else:
+                    result.update(state="planned", would_execute=True)
+            except (WorkflowError, OSError, ValueError, KeyError, TypeError) as exc:
+                result.update(state="deferred", reason="scoped_cleanup_deferred", locks=locks, error=str(exc))
+        elif reason:
             result.update(state="deferred", reason=reason, locks=locks)
         else:
             plan = project_storage.preview(root)
@@ -69,6 +91,9 @@ def run(root=PROJECT_ROOT, execute=False):
         result.update(state="deferred" if reason else "failed", error=str(exc))
         if reason:
             result.update(reason=reason, locks=locks)
+        elif str(exc) in ("Storage preview changed; regenerate the selection",
+                          "Media changed during preservation"):
+            result.update(state="deferred", reason="storage_selection_changed")
         result["scope"] = "No automatic retry; inspect lifecycle receipts for any partial execution."
     if execute:
         write_json(root / RECEIPT, result)
@@ -83,6 +108,10 @@ def scheduled(root=PROJECT_ROOT, now=None):
         due -= timedelta(days=1)
     location = root / RECEIPT
     last = read_json(location) if location.exists() else {}
+    config = root / "config/maintenance.json"
+    interval = read_json(config).get("lifecycle_check_seconds") if config.exists() else None
+    if interval:
+        due = max(due, now - timedelta(seconds=interval))
     if (last.get("state") in {"executed", "no_eligible_data", "failed"}
             and last.get("execute_requested") is True
             and datetime.fromisoformat(last["checked_at"]) >= due):

@@ -106,7 +106,8 @@ class ModelInstallationPolicyTests(unittest.TestCase):
         plan = json.loads(output.getvalue())
         self.assertEqual(plan['asr'], 'small')
         self.assertEqual([row['id'] for row in plan['models']], ['uvr-inst-hq3'])
-        self.assertEqual([row['group'] for row in plan['dependencies']], ['core', 'vision', 'asr', 'separation'])
+        self.assertEqual([row['group'] for row in plan['dependencies']],
+                         ['core', 'vision', 'asr', 'separation', 'fireplay-yt-dlp'])
         self.assertTrue(all((PROJECT / row['requirements']).is_file() for row in plan['dependencies']))
         command.assert_not_called()
         download.assert_not_called()

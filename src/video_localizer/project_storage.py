@@ -3,7 +3,10 @@
 Deletion is selected by a current fingerprint. Recovery metadata is independent
 of the selected media; no command here settles charges or claims acceptance.
 """
+import base64
+import hashlib
 import os
+import re
 import shutil
 import time
 from datetime import datetime, timezone
@@ -62,6 +65,97 @@ def _catalog(root):
     return read_json(path) if path.exists() else {'schema_version': 1, 'entries': []}
 
 
+def _active_run_sources(root):
+    active, sources, owners = set(), set(), set()
+    for path in (root / 'runs/.locks').glob('*.lock'):
+        name = path.stem
+        try:
+            owner = path.read_text().strip()
+            source = read_json(root / 'runs' / name / 'run.json')['source_sha256']
+        except FileNotFoundError:
+            if not path.exists():
+                continue
+            raise WorkflowError('Active run identity is not registered yet')
+        require(owner.isdigit() and re.fullmatch('[0-9a-f]{64}', source),
+                'Active run identity is incomplete')
+        active.add(name)
+        sources.add(source)
+        owners.add(owner)
+    for path in (root / 'state/resources').glob('*.lock'):
+        try:
+            owner = path.read_text().strip()
+        except FileNotFoundError:
+            continue
+        require(owner in owners, 'Heavy operation has no registered active run')
+    return active, sources
+
+
+def scoped_preview(root, now=None):
+    from .storage_candidates import select
+    from .storage_policy import settings
+    root = Path(root).resolve()
+    require(authorized(root), 'Workspace-bound storage authorization is missing')
+    active, sources = _active_run_sources(root)
+    limits = settings(root)
+    maintenance = read_json(root / 'config/maintenance.json')
+    transient, retained, _, _ = select(
+        root, maintenance, active | set(limits['pinned_runs']), sources | set(limits['pinned_sources']),
+        now or datetime.now(timezone.utc), closed_only=True)
+    require(not any(row['reason'] == 'unreadable_json_receipt'
+                    and Path(row['path']).name in active for row in retained),
+            'Active run dependency records are incomplete')
+    selected = []
+    for row in transient:
+        target = _safe_path(root, row['path'])
+        tree = _tree(target)
+        require(tree and not any(item['link'] for item in tree), 'Linked scoped cleanup target')
+        selected.append({**row, 'tree_fingerprint': object_hash(tree),
+                         'files': sum(not item['directory'] for item in tree),
+                         'logical_bytes': sum(item['bytes'] for item in tree if not item['directory'])})
+    boundary = {'mode': 'closed_runs', 'selected': selected,
+                'authorization_sha256': file_hash(root / 'config/storage-authorization.local.json'),
+                'maintenance_sha256': file_hash(root / 'config/maintenance.json'),
+                'capacity_policy': limits}
+    return {**boundary, 'fingerprint': object_hash(boundary), 'active_runs': sorted(active),
+            'retained': retained}
+
+
+def scoped_execute(root, expected, now=None):
+    from . import budgets, learning
+    root = Path(root).resolve()
+    with lock(root / 'state/project-storage.lock'):
+        plan = scoped_preview(root, now)
+        require(plan['fingerprint'] == expected, 'Storage preview changed; regenerate the selection')
+        if not plan['selected']:
+            return {'state': 'no_eligible_data', 'deleted': [], 'logical_bytes_removed': 0,
+                    'net_free_bytes_change': 0}
+        learning.audit(root)
+        sync_errors = []
+        for row in plan['selected']:
+            if row['reason'] == 'closed_task':
+                try:
+                    budgets.sync(inside(root, row['path']))
+                except (WorkflowError, OSError, KeyError, ValueError) as exc:
+                    sync_errors.append({'run': Path(row['path']).name, 'error': str(exc)})
+        folder = root / 'state/expired-production' / expected
+        _preserve_records(root, plan, folder / 'records')
+        require(scoped_preview(root, now)['fingerprint'] == expected, 'Media changed during preservation')
+        before = shutil.disk_usage(root).free
+        removed = []
+        for row in plan['selected']:
+            target = _safe_path(root, row['path'])
+            shutil.rmtree(target)
+            removed.append({key: row[key] for key in ('path', 'reason', 'files', 'logical_bytes')})
+        result = {'state': 'executed', 'mode': 'closed_runs', 'fingerprint': expected, 'deleted': removed,
+                  'logical_bytes_removed': sum(row['logical_bytes'] for row in removed),
+                  'net_free_bytes_change': shutil.disk_usage(root).free - before,
+                  'preserved_records': (folder / 'records').relative_to(root).as_posix(),
+                  'accounting_sync_errors': sync_errors}
+        write_json(folder / 'receipt.json', result)
+        learning.audit(root)
+        return result
+
+
 def authorized(root, reset=False):
     p = root / 'config/storage-authorization.local.json'
     if not p.exists():
@@ -89,7 +183,13 @@ def note_closed(run):
     d = read_json(path)
     video = inside(run, d['video'])
     require(video.is_file() and file_hash(video) == d['sha256'], 'Close marker requires the actual formal video')
-    write_json(root / 'state/storage-closed' / (run.name + '.json'), {
+    marker = root / 'state/storage-closed' / (run.name + '.json')
+    previous = _closed(root, run.name)
+    if previous and previous.get('run') == run.name and previous.get('video_sha256') == d['sha256']:
+        from .storage_candidates import _activity
+        if _activity(run) <= marker.stat().st_mtime:
+            return
+    write_json(marker, {
         'run': run.name, 'video_sha256': d['sha256'], 'closed_at': utc_now(),
         'authority': 'Producer called maintain --close after external submission and required records, under the workflow contract'})
 
@@ -200,22 +300,81 @@ def _preserve_records(root, plan, folder):
     from . import bundles
     sources = {}
     legacy = root / 'outputs/index.json'
-    if legacy.is_file():
+    if legacy.is_file() and plan['mode'] != 'closed_runs':
         sources['legacy-delivery-index.json'] = legacy
     from .storage_candidates import files
+    settled_uploads = None
     for row in plan['selected']:
         path = _safe_path(root, row['path'])
         for file in files(path) if path.is_dir() else [path]:
             if (file.is_file() and not file.is_symlink() and file.suffix.lower() in RECORD_SUFFIXES
                     and not any(p in {'node_modules','__pycache__','.git','test-tmp','cache'} for p in file.relative_to(root).parts)
                     and not file.name.startswith('.env')):
-                sources[file.relative_to(root).as_posix()] = file
+                relative = file.relative_to(root).as_posix()
+                if is_upload_input(relative):
+                    if settled_uploads is None:
+                        settled_uploads = settled_upload_inputs(root)
+                    if matches_settled_upload(file, settled_uploads.get(relative, [])):
+                        continue
+                sources[relative] = file
     receipt = root / 'state/storage-plans' / (plan['fingerprint'] + '.json')
     write_json(receipt, plan)
     sources['selection.json'] = receipt
     return bundles.create(folder,'expired-production-records',plan['fingerprint'],sources,{
         'scope':'Production media explicitly expires. Records, scripts, captions, plans and costs remain; this is NOT full-video recovery.',
         'no_acceptance_or_fee_settlement':True})
+
+
+def is_upload_input(relative):
+    return bool(re.fullmatch(r'work/runs/[^/]+/fireplay-upload-upload-[1-9][0-9]*\.json', relative))
+
+
+def settled_upload_inputs(root):
+    from collections import defaultdict
+    from .fireplay import _uuid
+    matches = defaultdict(list)
+    for request_path in (root/'state/fireplay').glob('*/request.json'):
+        try:
+            request = read_json(request_path)
+            for video in request['videos']:
+                index = video['index']
+                outbox = read_json(request_path.with_name(f'return-{index}.json'))
+                if outbox.get('requirement_id') != request.get('requirement_id') or outbox.get('state') != 'returned':
+                    continue
+                operations = outbox['operations']
+                bind = operations.get('bind', {})
+                if bind.get('state') != 'verified':
+                    continue
+                bound = bind.get('result', {}).get('material_ids', [])
+                owner = video.get('pilot') or f'{video["title"]}-01'
+                for slot, package in enumerate(outbox['packages'], 1):
+                    keys = [f'upload-{slot}', f'import-{slot}', f'verify-{slot}', 'bind']
+                    uploaded, imported, verified, _ = [operations.get(key, {}) for key in keys]
+                    material = imported.get('result', {}).get('material_id')
+                    if (uploaded.get('tool') != 'material_r2_upload_from_bytes' or not _uuid(material)
+                            or material not in bound or verified.get('result', {}).get('material_id') != material):
+                        continue
+                    if any(operations[key].get('state') != 'verified' or
+                           object_hash(read_json(request_path.parent/'receipts'/f'{index}-{key}.json'))
+                           != operations[key].get('receipt_sha256') for key in keys):
+                        continue
+                    relative = f'work/runs/{owner}/fireplay-upload-upload-{slot}.json'
+                    matches[relative].append((uploaded['arguments'], package['sha256']))
+        except (OSError, TypeError, KeyError, ValueError):
+            continue
+    return matches
+
+
+def matches_settled_upload(path, matches):
+    if not matches:
+        return False
+    try:
+        arguments = read_json(path)
+        payload = arguments.pop('file_base64')
+        hashes = {digest for metadata, digest in matches if arguments == metadata}
+        return bool(hashes and hashlib.sha256(base64.b64decode(payload, validate=True)).hexdigest() in hashes)
+    except (OSError, TypeError, AttributeError, KeyError, ValueError):
+        return False
 
 
 def execute(root, expected, reset=False, now=None):
@@ -316,11 +475,16 @@ def auto(root):
                 return {'state':'not_due'}
             if storage_lock.exists() or _locks(root):
                 return {'state':'deferred_or_disabled'}
+            from .maintenance import recover_accepted_closures
+            recovered = recover_accepted_closures(root, execute=True)
+            if storage_lock.exists() or _locks(root):
+                return {'state':'deferred_or_disabled', 'recovered_closures': recovered}
             plan = preview(root)
             if storage_lock.exists() or _locks(root):
                 return {'state':'deferred_or_disabled'}
             result = (execute(root, plan['fingerprint']) if plan['selected'] or plan['unavailable_entries']
                       else {'state':'no_eligible_data','pressure':plan['pressure']})
+            result['recovered_closures'] = recovered
             write_json(path, {'checked_unix':time.time(), **result})
             return result
     except WorkflowError as exc:

@@ -571,15 +571,19 @@ class MonitorTests(unittest.TestCase):
         fireplay.chat(CODE, {'title': CODE, 'threadId': THREAD}, root=self.root)
         record_path = self.root / 'state/fireplay' / CODE / 'request.json'
         record = read_json(record_path)
+        self.assertEqual(monitor.followups(self.root)[0]['production_initialization'], 'not_initialized')
         record['videos'][0].update(members=['fixture-es','fixture-ko'], source={'sha256':'a'*64})
         write_json(record_path, record)
         entries = [{'origin_run_id':'fixture-'+lang,'target_language':lang,'source_sha256':'a'*64,
                     'status':'delivered','technical_decision':'pass'} for lang in ['es','ko']]
         write_json(self.root / 'outputs/index.json', {'entries':entries})
         task = monitor.followups(self.root)[0]
+        self.assertEqual(task['production_initialization'], 'initialized')
         first = monitor.signal({'key':task['key']}, self.root)
         self.assertEqual(first['state'], 'unknown')
         self.assertIn(fireplay.continuous_execution_instruction(self.root),
+                      first['host_action']['arguments']['prompt'])
+        self.assertIn('制作和交付负责人，不是状态检查员',
                       first['host_action']['arguments']['prompt'])
         self.assertEqual(monitor.signal({'key':task['key']}, self.root), first)
         with self.assertRaisesRegex(WorkflowError, 'another chat'):
@@ -633,6 +637,18 @@ class MonitorTests(unittest.TestCase):
         write_json(self.root / 'outputs/index.json', {'entries': entries})
         write_json(folder / 'publication-reviews' / ('c'*64 + '.json'), {'decision': 'blocked'})
         self.assertEqual(monitor.followups(self.root)[0]['action'], 'resolve_delivery_blockers')
+        write_json(self.root / 'state/storage-closed/fixture-ko.json',
+                   {'run': 'fixture-ko', 'video_sha256': 'c'*64})
+        paused = monitor.followups(self.root)[0]
+        self.assertEqual(paused['action'], 'await_manual_repair')
+        self.assertEqual(paused['signal_state'], 'paused')
+        with self.assertRaisesRegex(WorkflowError, 'paused'):
+            monitor.signal({'key': paused['key']}, self.root)
+        from video_localizer.fireplay_parallel import active_sources
+        self.assertNotIn((record['requirement_id'], 1), active_sources(self.root))
+        (self.root / 'state/storage-closed/fixture-ko.json').unlink()
+        self.assertEqual(monitor.followups(self.root)[0]['action'], 'resolve_delivery_blockers')
+        self.assertIn((record['requirement_id'], 1), active_sources(self.root))
 
 
 if __name__ == '__main__':

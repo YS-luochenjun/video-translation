@@ -1,14 +1,14 @@
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
-from video_localizer.common import WorkflowError, file_hash, write_json
-from video_localizer.model_tasks import packet
+from video_localizer.common import WorkflowError, file_hash, object_hash, write_json
+from video_localizer.model_tasks import packet, submit
 
 
 class AuthorizedTurboTtsTests(unittest.TestCase):
-    def test_exact_copy_language_and_character_reservation_are_bound(self):
+    def test_retired_turbo_packet_remains_readable_without_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             run = Path(tmp) / 'runs' / 'fixture'
             source = run / 'inputs/source.mp4'
@@ -31,12 +31,20 @@ class AuthorizedTurboTtsTests(unittest.TestCase):
             write_json(run / 'inputs/tts.json', data)
             with patch('video_localizer.budgets.for_source', return_value={'id': 'budget'}):
                 self.assertEqual(packet(run, 'inputs/tts.json')['speech_ids'], ['a001'])
+                client = Mock()
+                with self.assertRaisesRegex(WorkflowError, 'needs an explicit source/request-bound'):
+                    submit(run, 'inputs/tts.json', client=client)
+                job_id = object_hash(data)
+                write_json(run / 'jobs' / (job_id + '.json'),
+                           {'state': 'success', 'task_id': 'historical-task'})
+                self.assertTrue(submit(run, 'inputs/tts.json', client=client)['reused'])
+                client.credits.assert_not_called()
+                client.create.assert_not_called()
                 data['payload']['input']['language_code'] = 'fr'
                 write_json(run / 'inputs/tts.json', data)
                 with self.assertRaisesRegex(WorkflowError, 'language must match'):
                     packet(run, 'inputs/tts.json')
-                data['payload']['input']['language_code'] = 'pt'
-                data['estimated_credits'] = .01
+                data['payload']['input'].update(language_code='pt', text='Não é a mesma fala.')
                 write_json(run / 'inputs/tts.json', data)
-                with self.assertRaisesRegex(WorkflowError, 'character price'):
+                with self.assertRaisesRegex(WorkflowError, 'copy differs'):
                     packet(run, 'inputs/tts.json')

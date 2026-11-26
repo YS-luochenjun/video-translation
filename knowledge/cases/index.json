@@ -158,35 +158,6 @@
       "knowledge_type": "source_reference"
     },
     {
-      "id": "live-photo-zh-user-approved-reference-20261019",
-      "path": "knowledge/history/cases/live-photo-zh-user-approved-reference-20261019.md",
-      "status": "superseded",
-      "scope": {
-        "workflow": "video-localization",
-        "target_language": "zh-CN",
-        "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
-      },
-      "tags": [
-        "ads",
-        "text",
-        "timing"
-      ],
-      "origin": "Explicit user overall positive feedback to the latest Chinese/Japanese pair, 2026-10-19",
-      "reviewed_by": "User direct feedback; Codex scope and hash verification",
-      "reviewed_at": "2026-10-19T08:16:56+00:00",
-      "source_run": "live-photo-zh-001",
-      "reference_video_sha256": "b286840d648ad18584e63b6c6aaf23b44409082c617426ab921e3cc0f7b87035",
-      "company_preference": false,
-      "superseded_by": "live-photo-zh-ui-user-approved-20261019",
-      "case": "knowledge/examples/live-photo-zh-user-approved-reference-20261019",
-      "method_sha256": "80f3cc04b9ca3ae1a2b7ea39718f1a61adceade52c1629def096414041f82dd5",
-      "knowledge_class": "project_training_knowledge",
-      "migration": "20261020-structure-only",
-      "case_manifest_sha256": "316985c47783486b24130347c3aa332e12a98077539cdc0164e7368bbb7a89a5",
-      "legacy_path": "knowledge/rules/live-photo-zh-user-approved-reference-20261019.md",
-      "knowledge_type": "source_reference"
-    },
-    {
       "id": "live-photo-ja-user-approved-reference-20261019",
       "path": "knowledge/cases/live-photo-ja-user-approved-reference-20261019.md",
       "status": "active",
@@ -301,96 +272,6 @@
         "source-shot-006.jpg"
       ],
       "legacy_path": "knowledge/rules/live-photo-ja-user-approved-reference-20261019.md",
-      "knowledge_type": "source_reference"
-    },
-    {
-      "id": "live-photo-shared-assets-20261019",
-      "path": "knowledge/history/cases/live-photo-shared-assets-20261019.md",
-      "status": "superseded",
-      "scope": {
-        "workflow": "video-localization",
-        "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475"
-      },
-      "tags": [
-        "ads",
-        "text",
-        "timing",
-        "reuse"
-      ],
-      "origin": "Verified existing source-bound assets plus user reuse request, 2026-10-19",
-      "reviewed_by": "Codex file/hash verification; asset availability only, not user acceptance of the new revision",
-      "reviewed_at": "2026-10-19T08:59:10+00:00",
-      "source_run": "live-photo-zh-ui-002",
-      "company_preference": false,
-      "superseded_by": "live-photo-shared-art-assets-20261019",
-      "case": "knowledge/examples/live-photo-shared-assets-20261019",
-      "method_sha256": "912ad6e58d3c197973c3744bb95f4548229e46d8ac87dd383748c7e035502b17",
-      "knowledge_class": "project_training_knowledge",
-      "migration": "20261020-structure-only",
-      "case_manifest_sha256": "74a3e4b2d503ccb73502cca3c500da785e61b0a2d999854ea205f3f0fb3cdfd1",
-      "legacy_path": "knowledge/rules/live-photo-shared-assets-20261019.md",
-      "knowledge_type": "source_reference"
-    },
-    {
-      "id": "live-photo-zh-ui-user-approved-20261019",
-      "path": "knowledge/history/cases/live-photo-zh-ui-user-approved-20261019.md",
-      "status": "superseded",
-      "scope": {
-        "workflow": "video-localization",
-        "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
-        "target_language": "zh-CN"
-      },
-      "tags": [
-        "ads",
-        "text",
-        "timing"
-      ],
-      "origin": "User explicit overall approval with dropdown correction, 2026-10-19",
-      "reviewed_by": "User direct feedback; Codex scope and hash review",
-      "reviewed_at": "2026-10-19T09:10:11+00:00",
-      "source_run": "live-photo-zh-ui-002",
-      "reference_video_sha256": "95a95ee3c17c2de8debd3b16edd6afb8127659f2c1df474fb4ccf2db63221d44",
-      "supersedes": "live-photo-zh-user-approved-reference-20261019",
-      "company_preference": false,
-      "superseded_by": "live-photo-zh-gap-final-user-approved-20261019",
-      "case": "knowledge/examples/live-photo-zh-ui-user-approved-20261019",
-      "method_sha256": "434a0797dedd15eed4884e0d80e5ac9a24d3d4707ee7a4daa7b5532da6a9a4db",
-      "knowledge_class": "project_training_knowledge",
-      "migration": "20261020-structure-only",
-      "case_manifest_sha256": "fa2347dc7752e0c5b91bd4926a6ef3285f1fbf151bf6e71ba3ef44fb3dbb5925",
-      "legacy_path": "knowledge/rules/live-photo-zh-ui-user-approved-20261019.md",
-      "knowledge_type": "source_reference"
-    },
-    {
-      "id": "live-photo-zh-gap-final-user-approved-20261019",
-      "path": "knowledge/history/cases/live-photo-zh-gap-final-user-approved-20261019.md",
-      "status": "superseded",
-      "scope": {
-        "workflow": "video-localization",
-        "source_sha256": "410dbc4cf2de2fbae9e9858130eb923fab04c9ea40d586328eedd3ea0d907475",
-        "target_language": "zh-CN"
-      },
-      "tags": [
-        "ads",
-        "text",
-        "timing",
-        "typography",
-        "reuse"
-      ],
-      "origin": "Direct overall positive feedback to the latest Chinese/Korean pair; artistic lettering separately assessed",
-      "reviewed_by": "User overall feedback; Codex same-agent hash and scope review",
-      "reviewed_at": "2026-10-19T09:41:07+00:00",
-      "source_run": "live-photo-zh-ui-gap-003",
-      "reference_video_sha256": "06881b0383858f0a86ccc75945adda4f0fcec85efd32c91db28199799dbfcc36",
-      "company_preference": false,
-      "supersedes": "live-photo-zh-ui-user-approved-20261019",
-      "superseded_by": "live-photo-zh-art-user-approved-20261019",
-      "case": "knowledge/examples/live-photo-zh-gap-final-user-approved-20261019",
-      "method_sha256": "85ffac1abf0fa58e1be6bda1791412aca4f2a2466c960ab2d48329a9a437033b",
-      "knowledge_class": "project_training_knowledge",
-      "migration": "20261020-structure-only",
-      "case_manifest_sha256": "8ab3712f8844a4a1d9abc3a637461a7f75f21585fbf42054d6aa5b00732ead40",
-      "legacy_path": "knowledge/rules/live-photo-zh-gap-final-user-approved-20261019.md",
       "knowledge_type": "source_reference"
     },
     {
@@ -949,37 +830,6 @@
         "source-shot-006.jpg"
       ],
       "legacy_path": "knowledge/rules/live-photo-shared-art-assets-20261019.md",
-      "knowledge_type": "source_reference"
-    },
-    {
-      "id": "hand-zh-CN-visual-feedback-20261019",
-      "path": "knowledge/history/cases/hand-zh-CN-visual-feedback-20261019.md",
-      "status": "superseded",
-      "scope": {
-        "workflow": "video-localization",
-        "source_sha256": "f90102a24069fcfc91ca97d3f6b5106486f8343bc7756e6f360987a752e3d2fe",
-        "target_language": "zh-CN"
-      },
-      "tags": [
-        "ads",
-        "text",
-        "timing",
-        "typography",
-        "reuse"
-      ],
-      "origin": "Direct overall positive feedback in current Chinese/Japanese preview context, explicitly excluding caption/audio sync",
-      "source_run": "hand-zh-001",
-      "reference_video_sha256": "f43da11ef4842562e1cb53f37d39334ec4541051192fb19aa59864d878d9db6c",
-      "reviewed_by": "User overall feedback; Codex source/language/hash scope review",
-      "reviewed_at": "2026-10-19T12:01:04+00:00",
-      "company_preference": false,
-      "superseded_by": "hand-zh-sync-user-approved-20261020",
-      "case": "knowledge/examples/hand-zh-CN-visual-feedback-20261019",
-      "method_sha256": "c204675aeff314c6b20dfdc6f62d40cf33d97bc2340e200312700baca63a8d26",
-      "knowledge_class": "project_training_knowledge",
-      "migration": "20261020-structure-only",
-      "case_manifest_sha256": "55146c6f2b2350e3e9b2a57838f367ce4ad97479033c6e74d143729551f03ac0",
-      "legacy_path": "knowledge/rules/hand-zh-CN-visual-feedback-20261019.md",
       "knowledge_type": "source_reference"
     },
     {
@@ -2132,38 +1982,6 @@
       "language_match": "exact"
     },
     {
-      "id": "mog044-record-control-ko-v1",
-      "path": "knowledge/history/cases/mog044-record-control-ko-v1.md",
-      "scope": {
-        "workflow": "video-localization",
-        "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
-        "target_languages": [
-          "ko"
-        ]
-      },
-      "tags": [
-        "text",
-        "ui",
-        "timing"
-      ],
-      "origin": "Actual source UI strip reviewed during user-requested project slimming; original MOG044 ko candidate retained, no new media acceptance.",
-      "reviewed_by": "Codex actual image inspection during project knowledge cleanup; no new audio/full-video acceptance",
-      "company_preference": false,
-      "status": "superseded",
-      "reviewed_at": "2026-10-27T13:49:14+00:00",
-      "method_sha256": "7b09e40b10191a9cd229ac80de230d768dd9b094c26335d9e85ba508f450cf50",
-      "case": "knowledge/examples/mog044-record-control-ko-v1",
-      "case_manifest_sha256": "0165e301e83ff699a641fe5cb20ebbdf799b67a0d06b5d65514c5d8fb49d97b3",
-      "candidate_sources": [
-        {
-          "path": "knowledge/candidates/MOG-20261027-044-05-99b04e7691.json",
-          "sha256": "6c6a3a4a7337029f9249fa5921aa2d8ae204126d6b1b12b7e4aaa9c42ba80966"
-        }
-      ],
-      "knowledge_type": "source_reference",
-      "superseded_by": "mog044-record-control-ko-v2"
-    },
-    {
       "id": "mog044-record-control-ko-v2",
       "path": "knowledge/cases/mog044-record-control-ko-v2.md",
       "scope": {
@@ -2604,45 +2422,6 @@
       "validation_level": "developer_reviewed_observation",
       "topic": "localization",
       "language_match": "exact"
-    },
-    {
-      "id": "mog044-pt-utterance-tail-v1",
-      "path": "knowledge/history/cases/mog044-pt-utterance-tail-v1.md",
-      "scope": {
-        "workflow": "video-localization",
-        "source_sha256": "bd14dc722a1939988639131466730474b6905c26ffbce53570850942703c69d3",
-        "target_language": "pt",
-        "language_match": "exact"
-      },
-      "tags": [
-        "speech",
-        "text",
-        "timing",
-        "visual"
-      ],
-      "origin": "User requested consolidation of temporary and newly added project knowledge, 2026-10-28; preserved exact-source production records.",
-      "reviewed_by": "Codex same-agent knowledge curation; review of preserved production evidence, no new audiovisual acceptance",
-      "company_preference": false,
-      "status": "superseded",
-      "reviewed_at": "2026-10-29T06:24:03+00:00",
-      "method_sha256": "d5879939229f2c0764e7697b634327bfcddaa151b32591c740fb004975cdb715",
-      "case": "knowledge/examples/mog044-pt-utterance-tail-v1",
-      "case_manifest_sha256": "2fd86f8053695aa7c1151bd4f052bf4d2f7bdba89f95632dc0c3c5b95d2b233b",
-      "candidate_sources": [
-        {
-          "path": "knowledge/candidates/MOG-20261027-044-pt-phrase-repair-20261028.json",
-          "sha256": "685aff24fc1680957b79fdacda7555523c5ee161171badb7ab951f7ebaf9b2c1"
-        },
-        {
-          "path": "knowledge/candidates/MOG-20261027-044-pt-recovery-20261027.json",
-          "sha256": "50680e8fde623cc5d9c2c4da69a9bd5ee488292239f07dcfbe4bcfc3047cd56a"
-        }
-      ],
-      "knowledge_type": "source_reference",
-      "validation_level": "developer_reviewed_observation",
-      "topic": "localization",
-      "language_match": "exact",
-      "superseded_by": "mog044-pt-utterance-tail-v2"
     },
     {
       "id": "she043-ar-shared-base-boundaries-v1",

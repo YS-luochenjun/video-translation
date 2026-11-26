@@ -1,3 +1,4 @@
+import base64
 import copy
 import json
 import shutil
@@ -8,7 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from video_localizer import delivery_layout, project_storage
-from video_localizer.common import CODE_ROOT, WorkflowError, file_hash, read_json, write_json
+from video_localizer.common import CODE_ROOT, WorkflowError, file_hash, object_hash, read_json, write_json
 
 
 class ProjectStorageTests(unittest.TestCase):
@@ -72,6 +73,41 @@ class ProjectStorageTests(unittest.TestCase):
         self.file('runs/.locks/active.lock')
         with self.assertRaisesRegex(WorkflowError,'Active'):
             project_storage.preview(self.root,reset=True)
+
+    def test_preserve_skips_exact_upload_input_with_verified_binding(self):
+        work = 'work/runs/closed'
+        disposable = self.root/work/'fireplay-upload-upload-1.json'
+        unresolved = self.root/work/'fireplay-upload-upload-2.json'
+        media = self.file('outputs/sample.mp4', b'verified input')
+        arguments = {'file_name':'sample.mp4','ext':'mp4','content_type':'video/mp4'}
+        payload = {**arguments, 'file_base64':base64.b64encode(media.read_bytes()).decode()}
+        write_json(disposable, payload)
+        write_json(unresolved, payload)
+        platform = self.root/'state/fireplay/REQ'
+        request = {'requirement_id':'request-id','videos':[{'index':1,'pilot':'closed'}]}
+        write_json(platform/'request.json', request)
+        material = '5efe2eac-f79f-4e15-aa97-36a66ef72d2e'
+        operations = {
+            'upload-1': {'tool':'material_r2_upload_from_bytes', 'arguments':arguments},
+            'import-1': {'result':{'material_id':material}},
+            'verify-1': {'result':{'material_id':material}},
+            'bind': {'result':{'material_ids':[material]}},
+        }
+        for key, operation in operations.items():
+            receipt = {'success':True,'operation':key}
+            write_json(platform/'receipts'/f'1-{key}.json', receipt)
+            operation.update(state='verified', receipt_sha256=object_hash(receipt))
+        write_json(platform/'return-1.json', {
+            'requirement_id':request['requirement_id'],'state':'returned',
+            'operations':operations,'packages':[{'sha256':file_hash(media)}]})
+        plan = {'fingerprint':'fixture', 'selected':[{'path':work}]}
+        bundle = self.root/'state/archived'
+        project_storage._preserve_records(self.root, plan, bundle)
+        self.assertFalse((bundle/work/disposable.name).exists())
+        self.assertTrue((bundle/work/unresolved.name).is_file())
+        self.assertTrue(disposable.is_file())
+        write_json(platform/'receipts/1-bind.json', {'success':False})
+        self.assertFalse(project_storage.settled_upload_inputs(self.root))
 
     def test_managed_close_does_not_create_permanent_video_backups(self):
         from video_localizer import maintenance, retention

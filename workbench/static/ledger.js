@@ -13,6 +13,8 @@ window.LedgerUI = (() => {
   const eventLabels = {reconciled:'证据同步',stage_recorded:'脚本阶段',claim:'认领',heartbeat:'Agent 心跳',release:'释放认领',stage:'阶段更新',ready:'信息齐备',block:'登记阻塞',resume:'解除阻塞',link:'任务关联','executor.started':'执行器开始','executor.heartbeat':'执行器心跳','executor.finished':'执行器结束','executor.failed':'执行器失败'};
   const tag = (v,kind='') => `<span class="badge ${kind}">${h(v)}</span>`;
   let currentPage = '', selected = '', data = null, detail = null, sequence = 0, listSequence = 0, filterTimer;
+  let retries = null;
+  const retryServices = {codex:'Codex', kie:'KIE', fireplay:'Fireplay 回传'};
   const filters = {q:'',state:'all',progress:'all',days:'14'};
   let session = sessionStorage.getItem('ledger-session');
   if (!session) {session=crypto.randomUUID();sessionStorage.setItem('ledger-session',session);}
@@ -56,6 +58,7 @@ window.LedgerUI = (() => {
   }
 
   function show(page,id='') {
+    if (page !== currentPage) retries = null;
     currentPage=page;selected=id;
     if (el('ledger-root')?.dataset.page===page) {
       if (!selected) el('ledger-detail').hidden=true;
@@ -121,7 +124,9 @@ window.LedgerUI = (() => {
           ['制作完成',productionCount,`共 ${metrics.tasks} 个语言任务`],
           ['审核上传完成',uploadCount,'已核验平台绑定']
         ]);
+        if (retries && !result.requirements.some(row => row.id === retries.id)) retries = null;
         renderTable();
+        if (retries && (force || !retries.cursor) && !retries.loading) void loadRetries(retries.cursor);
         const row=result.requirements.find(item=>item.id===selected);
         const reveal=el('ledger-detail').hidden || detail?.requirement.id!==selected;
         if(selected && (force || reveal || (row && detailState(row)!==detailState(detail.requirement)))) {
@@ -144,6 +149,19 @@ window.LedgerUI = (() => {
     const tableRows=rows.map(row=>{
       const languages = new Set((row.scope || []).flatMap(video=>video.targets)).size;
       const tasks = row.task_count !== languages ? ` · ${row.task_count} 项语言任务` : '';
+      const expanded = retries?.id === row.id;
+      const counts = row.retry_counts;
+      const retryRows = Object.entries(retryServices).map(([key, label]) => ({
+        label,
+        count: key === 'codex' && !data.retry_coverage?.codex_retries && !counts?.codex
+          ? null : counts?.[key]
+      }));
+      const retryLabel = retryRows.map(({label,count}) => `${h(label)} ${h(count ?? '—')}`).join('，');
+      const retryMetrics = retryRows.map(({label,count}) => `
+        <span class="ledger-retry-metric">
+          <span>${h(label)}</span>
+          <strong class="ledger-retry-count${count > 0 ? ' has-retries' : ''}">${h(count ?? '—')}</strong>
+        </span>`).join('');
       return `<tr data-progress="${h(row.progress_state)}" data-selected="${selected===row.id}">
       <td><button class="table-action" data-requirement="${h(row.id)}">${h(row.code)}</button>
         <span class="quiet">${row.video_count} 部原片 · ${languages || '—'} 种语言${tasks}</span></td>
@@ -157,16 +175,65 @@ window.LedgerUI = (() => {
       }).join('') || '未绑定'}</td>
       <td class="ledger-times"><div>起始 <span>${row.first_started_at?dt(row.first_started_at):'—'}</span></div>
         <div>完成 <span>${row.complete_at?dt(row.complete_at):'—'}</span></div></td>
-    </tr>`;}).join('');
+      <td><button type="button" class="ledger-retry-toggle" data-retry-demand="${h(row.id)}"
+        aria-label="${h(row.code)} 重试记录，${retryLabel}" aria-expanded="${expanded}"
+        ${expanded?'aria-controls="ledger-retry-detail"':''}>
+        <span class="ledger-retry-metrics" aria-hidden="true">${retryMetrics}</span>
+      </button></td>
+    </tr>${expanded ? `<tr class="ledger-retry-detail"><td colspan="6" id="ledger-retry-detail">${retryDetails(retries)}</td></tr>` : ''}`;}).join('');
     const markup=`<p class="ledger-caption">${rows.length} 条记录${filters.state==='unlinked'?' · <button class="table-action" data-show-unlinked>返回需求</button>':data.unlinked_total?` · <button class="table-action" data-show-unlinked>待关联 ${data.unlinked_total}</button>`:''}</p>
-      <div class="ledger-table bounded-table" role="region" aria-label="需求台账表" tabindex="0"><table><thead><tr><th scope="col">需求</th><th scope="col">状态</th><th scope="col">进度</th><th scope="col">负责会话</th><th scope="col">制作起止时间</th></tr></thead>
-      <tbody>${tableRows || '<tr><td colspan="5">没有匹配的需求</td></tr>'}</tbody></table></div>`;
+      <div class="ledger-table bounded-table" role="region" aria-label="需求台账表" tabindex="0"><table><thead><tr><th scope="col">需求</th><th scope="col">状态</th><th scope="col">进度</th><th scope="col">负责会话</th><th scope="col">制作起止时间</th><th scope="col">重试次数</th></tr></thead>
+      <tbody>${tableRows || '<tr><td colspan="6">没有匹配的需求</td></tr>'}</tbody></table></div>`;
     const body=el('ledger-body');
     if(body.innerHTML===markup)return;
     body.innerHTML=markup;
     const table=body.querySelector('.ledger-table');
     table.scrollLeft=oldTable?.scrollLeft || 0;
     table.scrollTop=oldTable?.scrollTop || 0;
+  }
+
+  function retryDetails(state) {
+    if (state.error) return `<p role="status">重试明细读取失败。${h(state.error)}</p><button type="button" data-retry-reload>重新读取</button>`;
+    if (!state.page) return '<p role="status">正在读取重试明细…</p>';
+    const operations = {balance:'余额查询',status:'状态查询',upload:'文件上传',bind:'素材绑定',model_submit:'模型提交',
+      model_request:'模型请求',model_retry:'模型重试',asset_retry:'附件恢复',
+      pre_dispatch_retry:'提交前恢复',sampling:'模型请求'};
+    const causes = {provider_failed:'供应商错误',transport:'连接或响应异常',invalid_response:'响应格式异常',
+      previous_attempt:'前次尝试失败',sampling_error:'模型请求异常',upload_timeout:'前次上传超时',
+      upload_replaced:'调整上传文件后重试'};
+    const outcomes = {started:'已开始',submitted:'已提交',success:'成功',failed:'失败',
+      unknown:'结果待核查',observed:'宿主记录重试',timeout:'超时'};
+    const items = state.page.events.map(event => {
+      const subject = event.session || event.run || `原片 ${event.video_index ?? '—'}${event.locale ? ` · ${event.locale}` : ''}`;
+      const cause = /^http_[1-5]\d\d$/.test(event.reason) ? `状态码 ${event.reason.slice(5)}` : causes[event.reason];
+      return `<tr><td>${dt(event.at)}</td><td>${h(retryServices[event.source])}</td><td>${h(subject)}</td>
+        <td>${h(operations[event.operation] || '请求')} · 第 ${h(event.attempt)} 次重试</td>
+        <td>${h(cause || '—')}</td><td>${h(outcomes[event.outcome] || '—')}</td></tr>`;
+    }).join('');
+    const table = items ? `<table class="ledger-retry-table" aria-label="需求重试明细"><thead><tr>
+      <th>时间</th><th>服务</th><th>会话、运行或语种</th><th>事件</th><th>原因</th><th>结果</th>
+      </tr></thead><tbody>${items}</tbody></table>` : '<p>暂无可关联的重试记录。</p>';
+    const pager = (state.history.length || state.page.next_cursor) ? `<div class="retry-pages">
+      <button type="button" data-retry-prev ${state.history.length && !state.loading ? '' : 'disabled'}>上一页</button>
+      <button type="button" data-retry-next ${state.page.next_cursor && !state.loading ? '' : 'disabled'}>下一页</button>
+      </div>` : '';
+    const codex = state.page.coverage.codex_retries ? 'Codex 来自宿主可见记录，首次补录最近 7 天。' : 'Codex 日志暂不可读。';
+    return `${table}${pager}<p class="quiet">${codex}${state.page.coverage.kie_history?'':'部分 KIE 历史任务暂不可读。'}</p>`;
+  }
+
+  async function loadRetries(cursor) {
+    const state = retries;
+    if (!state || state.loading) return;
+    state.loading = true;
+    state.error = null;
+    try {
+      state.page = await request('/api/retry-activity?'+new URLSearchParams({id:state.id,before:cursor}));
+    } catch(error) {
+      state.error = error.message;
+    } finally {
+      state.loading = false;
+      if (retries === state && el('ledger-root')?.dataset.page === 'ledger') renderTable();
+    }
   }
 
   async function loadDetail(id,force=false) {
@@ -282,6 +349,25 @@ window.LedgerUI = (() => {
 
   document.addEventListener('click', e=>{
     const row=e.target.closest('[data-requirement]');
+    const retryButton=e.target.closest('[data-retry-demand]');
+    if (retryButton && currentPage === 'ledger') {
+      const id=retryButton.dataset.retryDemand;
+      retries=retries?.id===id ? null : {id,cursor:'',history:[],page:null,loading:false,error:null};
+      renderTable();
+      [...el('ledger-body').querySelectorAll('[data-retry-demand]')].find(button=>button.dataset.retryDemand===id)?.focus({preventScroll:true});
+      if (retries) void loadRetries('');
+      return;
+    }
+    if (retries && !retries.loading && e.target.closest('[data-retry-next],[data-retry-prev],[data-retry-reload]')) {
+      if (e.target.closest('[data-retry-next]') && retries.page?.next_cursor) {
+        retries.history.push(retries.cursor);
+        retries.cursor = retries.page.next_cursor;
+      } else if (e.target.closest('[data-retry-prev]') && retries.history.length) {
+        retries.cursor = retries.history.pop();
+      }
+      void loadRetries(retries.cursor);
+      return;
+    }
     if(e.target.closest('[data-show-unlinked]')){
       filters.state=filters.state==='unlinked'?'all':'unlinked';
       filters.progress='all';

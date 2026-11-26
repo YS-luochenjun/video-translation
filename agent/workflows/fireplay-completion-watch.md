@@ -11,6 +11,8 @@
 
 ## 每轮推进
 
+`publication_followups` 中 `action=await_manual_repair`、`signal_state=paused` 表示当前未提交语种全部已有明确发布阻塞且对应现场已本地收口。保留未完成状态和原负责聊天，不自动发送恢复消息、不占用在制名额；未受影响的语种和原片照常执行。人工明确恢复时沿原任务及原账本核对可用资产、剩余次数和空闲名额，不能把本地收口当作平台成功或自动增加返工授权。
+
 1. 先读manifest及原授权、请求/预算/回传/parallel现场，读取status返回的owner_status_checks，分批用wait_threads(timeoutMs=0，最多8个)保存每个负责聊天的真实状态及cursor。旧manifest中的owner_running只表示历史观察，不能证明当前仍在制作。运行中不重复发送；确有need_attention、idle/error、原聊天结束但缺项时read_thread核对当前实际问题/选项、在途模型、unknown费用及具体阻塞。
 2. 普通项目提问在已授权需求、语种、额度和质量范围内，依据当前真实显示的第一个推荐选项回复原聊天，保存实际问题、顺序/推荐标记、选择依据和发送回执；只通过提供该选项的受支持工具操作，没有真实选项不得编造“已点击”。宿主强制审批/安全拒绝仍交人类，不代批不换接口；超出config/fireplay-intake.json.budget_increase_authority授权上限的加额、扩大范围、重发未知付费模型或放弃严重质量异议时不按第一项自动同意；额度不足时按该授权沿原账本有限加额。
 3. 无具体阻塞但停滞时沿原threadId恢复，按publication_followups的持久signal先unknown再实际发送、登记真实回执；unknown先对账。真实运行中只续租。租约、停滞重派上限及升级沿原配置；20分钟检查并不赋予每10分钟重复催办的权限。具体质量/预算/审批缺口定位后保留，不无限重复相同消息。

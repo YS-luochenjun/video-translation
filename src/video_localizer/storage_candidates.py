@@ -130,7 +130,7 @@ def _obsolete_neutral(root, run, rows, hash_owners):
     return selected
 
 
-def select(root, maintenance, pinned_runs, pinned_sources, now):
+def select(root, maintenance, pinned_runs, pinned_sources, now, *, closed_only=False):
     """Return exact candidates plus dependencies to bind into the sweep fingerprint."""
     root = Path(root)
     runs = {p.name: p for p in (root / 'runs').iterdir()
@@ -185,7 +185,7 @@ def select(root, maintenance, pinned_runs, pinned_sources, now):
         terminal |= any(path not in (record_path, delivery_path)
                         and data.get('state') == 'failed_preproduction' and path.stat().st_mtime_ns >= resumed_ns
                         for path, data in controls.items())
-        if terminal and _age(now, _activity(run)) >= maintenance.get('terminal_run_retention_days', 7):
+        if not closed_only and terminal and _age(now, _activity(run)) >= maintenance.get('terminal_run_retention_days', 7):
             candidates[name] = 'terminal_task_idle'
         else:
             reason = 'awaiting_close_receipt' if delivery_path in controls else 'unfinished_or_recent'
@@ -227,7 +227,7 @@ def select(root, maintenance, pinned_runs, pinned_sources, now):
     selected = [{'path': 'runs/' + name, 'reason': reason} for name, reason in sorted(candidates.items())]
     consumers = set().union(*(dependencies[name] for name in live))
     for row in retained:
-        if row['reason'] == 'closed_grace_period':
+        if not closed_only and row['reason'] == 'closed_grace_period':
             name = Path(row['path']).name
             if name not in consumers:
                 selected.extend(_obsolete_neutral(root, runs[name], records[name], hash_owners))
@@ -237,6 +237,8 @@ def select(root, maintenance, pinned_runs, pinned_sources, now):
             relative = scratch.relative_to(root).as_posix()
             if not any(relative.casefold() in text for text in texts):
                 selected.append({'path': relative, 'reason': 'closed_task_cache'})
+    if closed_only:
+        return selected, retained, None, texts
     scratch_root = root / 'work/runs'
     for scratch in scratch_root.iterdir() if scratch_root.exists() else []:
         if not scratch.is_dir() or _linked(scratch) or scratch.name in runs or scratch.name in pinned_runs:

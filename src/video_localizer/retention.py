@@ -67,7 +67,7 @@ def _run(root, run):
     return root, run
 
 
-@guarded
+@guarded(resume=False)
 def preserve(run, root=None):
     root, run = _run(root or ROOT, run)
     require(not blockers(run), "Resolve model tasks, billing and operation locks before preserving for deletion")
@@ -152,7 +152,7 @@ def inspect(run, root=None):
             "blockers": problems, "files": len(content), "dry_run": True}
 
 
-@guarded
+@guarded(resume=False)
 def delete(run, root=None, execute=False, expected=None):
     root, run = _run(root or ROOT, run)
     preview = inspect(run, root)
@@ -174,7 +174,7 @@ def delete(run, root=None, execute=False, expected=None):
             "preserved_source": receipt["recovery"], "dry_run": False}
 
 
-@guarded
+@guarded(resume=False)
 def prune(run, root=None, execute=False, expected=None):
     """Evict superseded generated pictures after the normal preservation gates.
 
@@ -269,19 +269,40 @@ def _live_references(root, exclude_run=None):
     return hashes, paths
 
 
-@guarded
+@guarded(resume=False)
 def prune_versions(run, relative, root=None, execute=False, expected=None):
     """Explicitly retire obsolete videos, retaining independent bounded error evidence."""
     root, run = _run(root or ROOT,run)
     others = sorted(p for p in (root/'runs').iterdir() if p.is_dir() and not p.name.startswith('.'))
     with ExitStack() as stack:
-        for other in others: stack.enter_context(run_operation(other))
+        for other in others:
+            stack.enter_context(run_operation(other, resume=False))
         require(not list((root/'state/resources').glob('*.lock')), 'Heavy work is active; retry cleanup when idle')
-        preservation = inspect(run,root)
-        require(preservation['decision']=='ready', '; '.join(preservation['blockers']))
         spec_path = inside(run,relative)
         spec = read_json(spec_path)
         require(isinstance(spec.get('versions'),list) and spec['versions'], 'Explicit version selection required')
+        replacement = spec.get('replacement_sha256')
+        if replacement is None:
+            preservation = inspect(run,root)
+            require(preservation['decision']=='ready', '; '.join(preservation['blockers']))
+        else:
+            from .project_storage import authorized
+            require(authorized(root), 'Workspace-bound storage authorization is missing')
+            problems = blockers(run)
+            require(not problems, '; '.join(problems))
+            learning.audit(root)
+            delivery = read_json(run/'outputs/delivery.json')
+            request = read_json(run/'inputs/request.json')
+            delivery_video = inside(run, delivery['video'])
+            require(delivery.get('sha256') == replacement and delivery_video.is_file()
+                    and file_hash(delivery_video) == replacement, 'Replacement is not the current formal video')
+            source = read_json(run/'run.json')['source_sha256']
+            package = next((entry for entry in library.find(source, request['target_language'], root)
+                            if entry['video_sha256'] == replacement and entry['origin_run_id'] == run.name
+                            and entry['delivery_eligible']), None)
+            require(package is not None, 'Replacement needs an independent, quality-passed delivery package')
+            preservation = {'fingerprint': object_hash({
+                'delivery': delivery, 'manifest': file_hash(inside(root, package['package'])/'manifest.json')})}
         hashes, paths = _live_references(root)
         sources = {'selection.json':spec_path}
         selected, evidence_hashes = [], {}
@@ -293,10 +314,19 @@ def prune_versions(run, relative, root=None, execute=False, expected=None):
                     'Version pruning only removes explicitly selected output videos')
             require(path.is_file() and file_hash(path)==version['sha256'], 'Selected version missing or changed')
             require(path not in paths and version['sha256'] not in hashes, 'Selected version is still referenced')
-            require(version.get('evidence') and version.get('records'), 'Failure evidence and repair/decision records required')
-            require(any(Path(p).suffix.lower() in {'.png','.jpg','.jpeg','.webp','.wav','.mp4','.mkv'}
-                        for p in version['evidence']), 'Actual visual/audio failure evidence required')
-            for name in version['evidence'] + version['records']:
+            evidence_paths = version.get('evidence', [])
+            record_paths = version.get('records', [])
+            require(record_paths, 'Failure and repair/decision records required')
+            if replacement is None:
+                require(any(Path(p).suffix.lower() in {'.png','.jpg','.jpeg','.webp','.wav','.mp4','.mkv'}
+                            for p in evidence_paths), 'Actual visual/audio failure evidence required')
+            else:
+                require(version['sha256'] != replacement, 'Cannot delete the replacement video')
+                require(all(Path(name).suffix.lower() in {'.json','.txt','.md'} for name in record_paths),
+                        'Replacement-backed decisions must have text records')
+                require(all(Path(name).suffix.lower() in {'.png','.jpg','.jpeg','.webp','.wav'}
+                            for name in evidence_paths), 'Keep only bounded visual/audio evidence for a replaced video')
+            for name in evidence_paths + record_paths:
                 evidence = inside(run,name)
                 require(evidence.is_file() and evidence != path, 'Required independent evidence missing')
                 require(evidence.suffix.lower() in EVIDENCE_SUFFIXES | {'.py','.mkv','.mp4'},
@@ -312,7 +342,9 @@ def prune_versions(run, relative, root=None, execute=False, expected=None):
         preview = {'run':run.name,'fingerprint':fingerprint,'videos':selected,
                    'logical_bytes':sum(v['bytes'] for v in selected),'dry_run':True,
                    'retained_bytes':sum(p.stat().st_size for p in sources.values()),
-                   'scope':'Retained evidence is a bounded error reference, not full-video recovery or quality approval.'}
+                   'scope': ('Replacement verified; prior decision records retained with optional targeted evidence.'
+                             if replacement is not None else
+                             'Retained evidence is a bounded error reference, not full-video recovery or quality approval.')}
         if not execute: return preview
         require(expected==fingerprint,'Version pruning requires the current preview fingerprint via --expect')
         directory = root/'knowledge/local/retired-versions'/run.name/fingerprint

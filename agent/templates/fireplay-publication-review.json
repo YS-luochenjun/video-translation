@@ -1,5 +1,6 @@
 {
   "package": "outputs/REPLACE_WITH_ACTUAL_VERIFIED_PACKAGE",
+  "reassess_remote_audio_outage": false,
   "assessment": {
     "reviewer": "REPLACE_WITH_REAL_REVIEWER_AND_SELF_OR_INDEPENDENT_SCOPE",
     "reason": "REPLACE_WITH_ACTUAL_OUTPUT_OBSERVATIONS",

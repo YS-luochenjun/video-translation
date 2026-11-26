@@ -36,6 +36,27 @@ def policy(root=ROOT):
     return read_json(Path(root) / 'config/fast-delivery.json')
 
 
+def revision_status(run, output_sha256=None):
+    root = run.parent.parent
+    settings_path = root / 'config/workspace.json'
+    settings = read_json(settings_path) if settings_path.exists() else read_json(ROOT / 'config/workspace.json')
+    maximum = 1 + settings['max_revision_rounds']
+    versions = set()
+    for path in (run / 'plans').glob('*/plan.json'):
+        plan = read_json(path)
+        digest = plan.get('output_sha256')
+        if plan.get('mode') == 'fast' and not digest:
+            assets = plan.get('assets', [])
+            if assets:
+                recipe = inside(run, assets[0]['path'])
+                if recipe.is_file() and file_hash(recipe) == assets[0]['sha256']:
+                    digest = read_json(recipe).get('output', {}).get('sha256')
+        versions.add(digest or 'unverified:' + path.parent.name)
+    return {'registered_versions': len(versions), 'maximum_versions': maximum,
+            'remaining_full_revisions': max(0, maximum - len(versions)),
+            'can_register': output_sha256 in versions or len(versions) < maximum}
+
+
 def validate_plan(run, plan):
     require(plan['id'] == object_hash({k: v for k, v in plan.items() if k != 'id'})[:16], 'Fast plan changed')
     for key, relative in [('request_sha256', 'inputs/request.json'),
@@ -89,6 +110,8 @@ def register(run, recipe_relative):
     require(recipe['source_sha256'] == file_hash(source_path(run)), 'Recipe source mismatch')
     output = recipe['output']
     require(file_hash(inside(run, output['path'])) == output['sha256'], 'Recipe output changed')
+    require(revision_status(run, output['sha256'])['can_register'],
+            'Full revision budget reached; finalize the best complete version and record any publication blocker')
     require(recipe.get('native_frame_mapping') is True, 'Fast composition must preserve source frame timing')
     from .knowledge import context_for, retrieve, source_references
     from .knowledge_advisories import retrieve as advisories
@@ -111,7 +134,7 @@ def register(run, recipe_relative):
     assessment = validate_routing(inventory, request, run, knowledge + references,
                                   read_json(meta_path)['duration'] if meta_path.exists() else None)
     assets = [{'path': recipe_relative, 'sha256': file_hash(recipe_path)}, *recipe['assets']]
-    plan = {'mode': 'fast', 'source_sha256': recipe['source_sha256'],
+    plan = {'mode': 'fast', 'source_sha256': recipe['source_sha256'], 'output_sha256': output['sha256'],
             'request_sha256': file_hash(run / 'inputs/request.json'),
             'inventory_sha256': file_hash(run / 'analysis/inventory.json'),
             'policy_sha256': file_hash(run.parent.parent / 'config/fast-delivery.json'),

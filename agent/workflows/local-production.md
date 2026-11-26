@@ -14,7 +14,7 @@
 bin/va.ps1 close-failure RUN inputs/preproduction-failure.json
 ```
 
-规格见 `agent/templates/preproduction-failure.json`。填写真实阶段、观察人、原因假设、逐项观察、实际文件 SHA256，以及尚未检查的范围。独立保存必要证据并建立候选与 inbox；相同输入幂等，新判断建立新案例。已有 candidate 时仍走正常 quality/reflect。不会改预算，不会把失败结案变为交付或正式知识。
+规格见 `agent/templates/preproduction-failure.json`。填写真实阶段、观察人、实际原因、逐项观察、文件 SHA256 和未审范围。普通故障保存结案回执和绑定证据。发现有证据且会改变后续做法的经验时，填写 `lesson`，系统才保存独立案例并登记候选。相同规格可重复执行，已有成片候选时走原 `quality` 和 `reflect` 流程。
 
 ## 修复与旧脚本
 

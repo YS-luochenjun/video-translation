@@ -84,15 +84,58 @@ class StorageLifecycleTests(unittest.TestCase):
                 self.plan()
 
     def test_closed_grace_period_and_matching_scratch(self):
-        self.close('recent', 12)
+        self.close('recent', 1)
         self.close('old', 25)
         (self.root / 'work/runs/old').mkdir(parents=True)
         self.assertNotIn('runs/recent', self.paths())
         self.assertIn('runs/old', self.paths())
         self.assertIn('work/runs/old', self.paths())
 
+    def test_repeating_same_close_does_not_extend_retention_clock(self):
+        run = self.run_folder('repeat')
+        video = self.file('runs/repeat/outputs/final.mp4', b'final')
+        write_json(run / 'outputs/delivery.json', {'sha256': common.file_hash(video), 'video': 'outputs/final.mp4'})
+        project_storage.note_closed(run)
+        marker = self.root / 'state/storage-closed/repeat.json'
+        original = read_json(marker)
+        stamp = marker.stat().st_mtime_ns
+        project_storage.note_closed(run)
+        self.assertEqual(read_json(marker), original)
+        self.assertEqual(marker.stat().st_mtime_ns, stamp)
+
+    def test_scoped_sweep_reclaims_only_independent_closed_run_during_production(self):
+        self.close('ready')
+        self.close('referenced')
+        self.close('same-source')
+        write_json(self.root / 'runs/same-source/run.json', {'id': 'same-source', 'source_sha256': 'c' * 64})
+        marker = self.root / 'state/storage-closed/same-source.json'
+        os.utime(marker, None)
+        active = self.run_folder('active', source='c' * 64)
+        write_json(active / 'inputs/reference.json', {'path': 'runs/referenced/inputs/asset.mp4'})
+        self.file('work/runs/ready/cache.bin', b'rebuildable scratch')
+        with common.run_operation(active):
+            plan = project_storage.scoped_preview(self.root, self.now)
+            self.assertEqual({row['path'] for row in plan['selected']}, {'runs/ready', 'work/runs/ready'})
+            result = project_storage.scoped_execute(self.root, plan['fingerprint'], self.now)
+            self.assertEqual(len(result['deleted']), 2)
+            self.assertTrue((self.root / 'runs/.locks/active.lock').exists())
+        for name in ('active', 'referenced', 'same-source'):
+            self.assertTrue((self.root / 'runs' / name).exists())
+        self.assertFalse((self.root / 'runs/ready').exists())
+        self.assertTrue((self.root / result['preserved_records'] / 'manifest.json').is_file())
+
+    def test_scoped_sweep_rechecks_new_dependency_before_deletion(self):
+        self.close('ready')
+        active = self.run_folder('active', source='c' * 64)
+        with common.run_operation(active):
+            plan = project_storage.scoped_preview(self.root, self.now)
+            write_json(active / 'inputs/reference.json', {'path': 'runs/ready/inputs/asset.mp4'})
+            with self.assertRaisesRegex(WorkflowError, 'Storage preview changed'):
+                project_storage.scoped_execute(self.root, plan['fingerprint'], self.now)
+        self.assertTrue((self.root / 'runs/ready').exists())
+
     def test_closed_neutral_cache_keeps_reviewed_replacement_and_referenced_versions(self):
-        run = self.close('recent', 12)
+        run = self.close('recent', 1)
         original = self.file('runs/recent/outputs/local-repair/first/visual-master.mkv', b'old cache')
         replacement = self.file('runs/recent/outputs/reviewed.mkv', b'new reviewed')
         os.utime(original, (1, 1))

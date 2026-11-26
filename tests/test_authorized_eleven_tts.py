@@ -2,7 +2,7 @@ import tempfile
 import sys
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from video_localizer import model_routing, model_tasks
@@ -54,7 +54,7 @@ class AuthorizedElevenTests(unittest.TestCase):
         with patch('video_localizer.budgets.for_source', return_value={'id': 'another-budget'}):
             with self.assertRaisesRegex(WorkflowError, 'request budget'): self.policy()
 
-    def test_packet_checks_exact_script_and_price_reservation(self):
+    def test_packet_checks_exact_script_and_submit_checks_price_reservation(self):
         data = {'source_sha256': self.sha, 'purpose': 'Explicit single role fixture', 'estimated_credits': .1,
                 'speech_ids': ['a001'], 'model_authorization': self.authorization, 'payload': self.payload}
         def packet():
@@ -66,8 +66,24 @@ class AuthorizedElevenTests(unittest.TestCase):
             data['estimated_credits'] = 1
             with self.assertRaisesRegex(WorkflowError, 'differs from final'): packet()
             data['payload']['input']['dialogue'][0]['text'] = 'Hola.'
+            data['payload']['input']['language_code'] = 'es'
             data['estimated_credits'] = .01
-            with self.assertRaisesRegex(WorkflowError, 'character price'): packet()
+            packet()
+            client = Mock()
+            with self.assertRaisesRegex(WorkflowError, 'character price'):
+                model_tasks.submit(self.run, 'inputs/task.json', client=client)
+            client.credits.assert_not_called()
+
+            self.grant['model'] = model_tasks.ELEVENLABS_V2
+            write_json(self.run / 'inputs/grant.json', self.grant)
+            data['model_authorization']['sha256'] = file_hash(self.run / 'inputs/grant.json')
+            data['payload'] = {'model': model_tasks.ELEVENLABS_V2, 'input': {
+                'text': 'Hola.', 'voice': '5l5f8iK3YPeGga21rQIX', 'language_code': 'es'}}
+            data['estimated_credits'] = .1
+            packet()
+            with self.assertRaisesRegex(WorkflowError, 'character price'):
+                model_tasks.submit(self.run, 'inputs/task.json', client=client)
+            client.credits.assert_not_called()
 
     def test_flash_alternative_requires_exact_model_grant_and_script(self):
         self.grant['model'] = 'google/gemini-3-1-flash-tts'

@@ -8,7 +8,7 @@ import re
 import tempfile
 import threading
 import time
-from functools import wraps
+from functools import partial, wraps
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -143,6 +143,11 @@ def run_operation(run, *, resume=True, storage_wait_seconds=0):
     """Serialize run access with sweeps; only production work revokes closure."""
     run = Path(run).resolve()
     storage_lock = run.parent.parent / 'state/project-storage.lock'
+    path = run.parent / ".locks" / (run.name + ".lock")
+    held = getattr(_operations, "held", set())
+    if path in held:
+        yield
+        return
     if storage_wait_seconds and storage_lock.exists():
         deadline = time.monotonic() + storage_wait_seconds
         while storage_lock.exists():
@@ -152,11 +157,6 @@ def run_operation(run, *, resume=True, storage_wait_seconds=0):
             time.sleep(min(1, remaining))
     require(not storage_lock.exists(),
             'Project storage maintenance is active; resume after its receipt completes')
-    path = run.parent / ".locks" / (run.name + ".lock")
-    held = getattr(_operations, "held", set())
-    if path in held:
-        yield
-        return
     with lock(path):
         # A sweep can acquire its lock between the first check and our run lock.
         require(not storage_lock.exists(),
@@ -181,7 +181,10 @@ def run_operation(run, *, resume=True, storage_wait_seconds=0):
             _operations.held = held
 
 
-def guarded(function):
+def guarded(function=None, *, resume=True):
+    if function is None:
+        return partial(guarded, resume=resume)
+
     @wraps(function)
     def invoke(run, *args, **kwargs):
         from .budgets import operation
@@ -189,7 +192,7 @@ def guarded(function):
         outermost = operation_path not in getattr(_operations, 'held', set())
         provider_operation = function.__name__ in ('submit', 'poll', 'poll_batch', 'analyze_audio')
         storage_wait_seconds = 20 if provider_operation else 0
-        with run_operation(run, storage_wait_seconds=storage_wait_seconds), operation():
+        with run_operation(run, resume=resume, storage_wait_seconds=storage_wait_seconds), operation():
             from .timing import measure
             from .resources import admission
             stage = function.__module__.rsplit('.', 1)[-1] + '.' + function.__name__

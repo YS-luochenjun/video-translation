@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261124-040-3-01-f4b1d7d09e.json",
+    "sha256": "238cb0961751c9a1d93498314415b7d3d8c37d047316b4b97de693166efe61e3"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex",
+  "origin": "逐条核对正式成片、Fireplay 绑定、实际定稿与质检哈希。",
+  "resolution": "rejected",
+  "reason": "这条候选只有自动占位和该片质检摘要。正式定稿已有实际局限记录，未提交可复用经验。",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "原定稿及质检记录可用于核对该片问题。原片、语种和审核哈希可独立核验。"
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "next_action": "historical_record_only",
+  "schema_version": 1,
+  "closed": true,
+  "retrieval_features": [],
+  "recorded_at": "2026-11-25T08:10:10+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

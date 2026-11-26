@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / 'src'))
 from video_localizer import model_cache
 from video_localizer.common import file_hash, inside, lock, read_json, require, write_json
 from video_localizer.model_routing import policy, selected
+from video_localizer.runtime import YOUTUBE_DEPENDENCY_DIR
 
 
 def registered_models(root=ROOT):
@@ -59,7 +60,8 @@ def installation_plan(root=ROOT):
     asr = selected('asr', root)
     require(asr in model_cache.SIZES, 'No installer for the configured ASR model')
     groups = [('core', core_dependency_directory(root)), ('vision', '.runtime/deps/vision'),
-              ('asr', '.runtime/deps/asr'), ('separation', '.runtime/deps/separation')]
+              ('asr', '.runtime/deps/asr'), ('separation', '.runtime/deps/separation'),
+              ('fireplay-yt-dlp', YOUTUBE_DEPENDENCY_DIR)]
     dependencies = []
     for group, directory in groups:
         requirements = f'bin/requirements/{group}.txt'

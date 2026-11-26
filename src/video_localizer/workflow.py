@@ -12,6 +12,7 @@ from .common import (ROOT, WorkflowError, file_hash, get_run, guarded, inside, l
                      read_json, require, require_number, utc_now, write_json)
 from .contracts import validate_inventory
 from .kie import ApiError, KieClient, download, result_urls
+from .retry_activity import observed_job
 from .knowledge import context_for, retrieve, source_references
 from .knowledge_advisories import retrieve as advisory_retrieve
 
@@ -62,9 +63,10 @@ def _create_run(video, target, brief, name, source_url=None):
     # Stage writers create their own parents; intake needs only the source folder.
     (run / "inputs").mkdir(parents=True, exist_ok=True)
     local = run / "inputs" / ("source" + source.suffix.lower())
-    shutil.copyfile(source, local)
+    source_digest = file_hash(source)
+    media.copy_verified_video(source, local, source_digest)
     write_json(run / "run.json", {"schema_version": 1, "id": name, "created_at": utc_now(),
-                                 "source": local.relative_to(run).as_posix(), "source_sha256": file_hash(local),
+                                 "source": local.relative_to(run).as_posix(), "source_sha256": source_digest,
                                  "source_name": source.name,
                                  "source_url": source_url, "state": "created",
                                  "visual_storage": "comparisons-v3"})
@@ -157,7 +159,7 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
     """One journaled multimodal audio analysis; never infer speech from the video captions."""
     import json
     from .kie import AUDIO_MODELS
-    from .model_routing import selected
+    from .model_routing import audio_recovery_route, selected
     model = model or selected('audio_analysis')
     require(model in AUDIO_MODELS,'Unsupported audio analysis model; select a current documented endpoint')
     from .model_routing import require_audio_analysis_model
@@ -245,7 +247,10 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
                    "Use null where the audio does not establish a claim. Audio alone does not prove visual lip sync.")
     descriptor = {"kind": "audio_analysis", "model": model, "source_sha256": file_hash(source),
                   "audio_sha256": file_hash(track), "prompt": prompt}
-    if model != selected('audio_analysis'):
+    backup = audio_recovery_route('comparative_audio_review')
+    if model == backup['model']:
+        descriptor['reasoning_effort'] = backup['reasoning_effort']
+    elif model != selected('audio_analysis'):
         descriptor['model_authorization'] = model_authorization
     if candidate_record:
         descriptor.update({"kind": "audio_candidate_transcription" if transcribe_only else "audio_review", "video_sha256": candidate_record["sha256"],
@@ -281,12 +286,13 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
                 write_json(snapshot, job)
             previous_budget = job.get('batch_budget')
             previous_attempts = [*previous_attempts, {'path': snapshot.relative_to(run).as_posix(),
-                                                     'sha256': file_hash(snapshot)}]
+                                                     'sha256': file_hash(snapshot), 'at': utc_now()}]
         else:
             require(not retry_upload, 'No failed upload to retry')
         settings = execution_limits(run)
         jobs = [read_json(path) for path in (run / "jobs").glob("*.json") if path != journal]
-        estimate = 2 if model=='gemini-3-8-flash-openai' else 20
+        estimate = 2 if model == selected('audio_analysis') else (
+            backup['estimated_credits'] if model == backup['model'] else 20)
         require(len(jobs) < settings["max_paid_jobs_per_run"], "Paid job budget reached")
         require(sum(reserved_credits(job, settings["max_estimated_credits_per_run"]) for job in jobs) + estimate
                 <= settings["max_estimated_credits_per_run"], "Estimated credit budget reached")
@@ -304,7 +310,7 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
             job['batch_budget'] = previous_budget
         else:
             job['batch_budget'] = reserve(run, digest, estimate)
-        write_json(journal, job)
+        observed_job(journal, job)
         try:
             urls = [client.upload(path) for path in tracks]
             job["state"] = "submitting"
@@ -314,10 +320,13 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
             response = client.analyze_audio(urls, prompt, model=model, **alternative)
             # Save the paid receipt BEFORE parsing model-generated JSON. A malformed
             # answer must not discard evidence or invite a second charge.
-            write_json(response_path, response)
+            receipt_path = run / 'jobs' / (digest + '-response') / 'response.json'
+            write_json(receipt_path, response)
+            if not response_path.exists():
+                write_json(response_path, response)
             job.update({'state':'response_received','response_id':response.get('id'),
                         'credits_consumed':response.get('credits_consumed',response.get('usage',{}).get('credits_consumed')),
-                        'usage':response.get('usage'),'response_path':response_path.relative_to(run).as_posix()})
+                        'usage':response.get('usage'),'response_path':receipt_path.relative_to(run).as_posix()})
             write_json(journal,job)
             text = response["choices"][0]["message"]["content"]
             if text.startswith("```"):
@@ -325,15 +334,18 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
             analysis = json.loads(text)
             require(isinstance(analysis, dict) and (isinstance(analysis.get("has_speech"), bool)
                     or analysis.get("has_speech") is None), "Invalid audio analysis structure")
-            write_json(output, {"source_sha256": file_hash(source), "audio_sha256": file_hash(track),
+            report = {"source_sha256": file_hash(source), "audio_sha256": file_hash(track),
                        **({"video_sha256": candidate_record["sha256"]} if candidate_record else {}),
                        "model": model, "response_id": response.get("id"), "analysis": analysis,
-                       "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"})
+                       "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"}
+            result_path = receipt_path.parent / output.name
+            write_json(result_path, report)
+            write_json(output, report)
             write_json(response_path, response)
             job.update({"state": "success", "response_id": response.get("id"),
                         "credits_consumed": response.get("credits_consumed", response.get("usage", {}).get("credits_consumed")),
-                        "usage": response.get("usage"), "result": output.relative_to(run).as_posix(),
-                        "result_sha256": file_hash(output)})
+                        "usage": response.get("usage"), "result": result_path.relative_to(run).as_posix(),
+                        "result_sha256": file_hash(result_path)})
         except ApiError as exc:
             job['failure_stage'] = 'upload' if job['state'] == 'preparing' else 'model_request'
             job["state"] = "ambiguous" if exc.ambiguous and job["state"] == "submitting" else "failed"
@@ -343,14 +355,14 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
                 write_json(error_path, exc.provider_response)
                 job['error_response'] = error_path.relative_to(run).as_posix()
                 job['error_response_sha256'] = file_hash(error_path)
-            write_json(journal, job)
+            observed_job(journal, job)
             raise
         except Exception:
             job["state"] = "response_invalid" if job["state"] == "response_received" else "ambiguous" if job["state"] == "submitting" else "failed"
             job["error"] = "Audio analysis response not usable; inspect saved receipt before repeating"
-            write_json(journal, job)
+            observed_job(journal, job)
             raise
-        write_json(journal, job)
+        observed_job(journal, job)
     return {"job": digest, "state": job["state"], "analysis": job["result"]}
 
 
@@ -887,7 +899,7 @@ def submit(run, segment_id, client=None, retry_failed=False):
         if retry_failed:
             job["retry_of"] = packet["retry_of"]
             job["retry_reason"] = "Bounded explicit retry after terminal provider error with zero billed credits"
-        write_json(job_path, job)
+        observed_job(job_path, job)
         try:
             job['credits_before'] = client.credits()
             write_json(job_path, job)
@@ -909,14 +921,14 @@ def submit(run, segment_id, client=None, retry_failed=False):
         except ApiError as exc:
             job["state"] = "ambiguous" if exc.ambiguous and job["state"] == "submitting" else "failed"
             job["error"] = str(exc)
-            write_json(job_path, job)
+            observed_job(job_path, job)
             raise
         except Exception:
             job["state"] = "ambiguous" if job["state"] == "submitting" else "failed"
             job["error"] = "Local failure; inspect journal before recovery"
-            write_json(job_path, job)
+            observed_job(job_path, job)
             raise
-        write_json(job_path, job)
+        observed_job(job_path, job)
     return {"job": digest, "state": job["state"], "task_id": job["task_id"]}
 
 
@@ -977,6 +989,12 @@ def _poll_job(run, job_id, wait_seconds, client, *, pending_only=False):
             job["provider_model"] = status.get("model")
             job["provider_seconds"] = status.get("costTime")
             if job["state"] == "success":
+                if job.get("task_result_kind") == "transcript":
+                    from .audio_transcription import collect
+                    write_json(path, job)
+                    collect(run, job, status)
+                    observed_job(path, job)
+                    return {key: job.get(key) for key in receipt_keys}
                 urls = result_urls(status)
                 require(bool(urls), "Successful task has no media URL")
                 # Persist the provider receipt before validating/downloading local media.
@@ -991,15 +1009,28 @@ def _poll_job(run, job_id, wait_seconds, client, *, pending_only=False):
                     media.probe(destination)
                     job["result"] = destination.relative_to(run).as_posix()
                     job["result_sha256"] = file_hash(destination)
-            write_json(path, job)
+            observed_job(path, job)
             if job["state"] in ("success", "fail", "failed") or time.monotonic() >= deadline:
                 receipt = {key: job.get(key) for key in receipt_keys}
                 if job['state'] in ('fail', 'failed'):
                     from .tts_recovery import tts_recovery_model
-                    model = tts_recovery_model(run.parent.parent, job)
-                    if model:
-                        receipt['tts_fallback'] = {'model': model, 'prepare': [
-                            'tts-fallback', run.name, job['packet'], job_id]}
+                    request_path = run / "inputs/request.json"
+                    locale = read_json(request_path).get("target_language") if request_path.is_file() else None
+                    model = tts_recovery_model(run.parent.parent, job, locale=locale)
+                    if model and job.get('packet'):
+                        previous_packet = inside(run, job['packet'])
+                        original_packet = (read_json(previous_packet).get('tts_fallback_source_packet')
+                                           if previous_packet.is_file() else None)
+                        from .model_tasks import GEMINI_TTS_MODELS
+                        if not original_packet and job.get('model') in GEMINI_TTS_MODELS:
+                            original_packet = job['packet']
+                        receipt['tts_fallback'] = {'model': model,
+                                                   'required_args': ['--voice SPEECH_ID=OFFICIAL_VOICE_ID']}
+                        if original_packet:
+                            receipt['tts_fallback']['prepare'] = [
+                                'tts-fallback', run.name, original_packet, job_id]
+                        else:
+                            receipt['tts_fallback']['required_args'].append('CURRENT_GEMINI_PACKET')
                 return receipt
             time.sleep(min(10, max(0, deadline-time.monotonic())))
 

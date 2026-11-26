@@ -23,7 +23,7 @@ class InstallDependencyPathsTests(unittest.TestCase):
         self.root = Path(self.temp.name).resolve() / 'code'
         requirements = self.root / 'bin/requirements'
         requirements.mkdir(parents=True)
-        for group in ('core', 'vision', 'asr', 'separation'):
+        for group in ('core', 'vision', 'asr', 'separation', 'fireplay-yt-dlp'):
             (requirements / f'{group}.txt').write_text(f'{group}-fixture==1.0\n', encoding='utf-8')
         for target, value in (('registered_models', []), ('selected', 'small'),
                               ('policy', {'audio_analysis': 'remote', 'tts': 'remote', 'video': 'remote'})):
@@ -49,7 +49,8 @@ class InstallDependencyPathsTests(unittest.TestCase):
                 get_path.assert_called_once_with('purelib')
                 self.assertEqual([(row['group'], row['directory']) for row in plan['dependencies'][1:]],
                                  [('vision', '.runtime/deps/vision'), ('asr', '.runtime/deps/asr'),
-                                  ('separation', '.runtime/deps/separation')])
+                                  ('separation', '.runtime/deps/separation'),
+                                  ('fireplay-yt-dlp', '.runtime/deps/fireplay-yt-dlp')])
         self.assertFalse((self.root / '.venv').exists())
         self.assertFalse((self.root / '.runtime').exists())
 
@@ -152,7 +153,7 @@ class InstallDependencyPathsTests(unittest.TestCase):
         with patch.object(installer, 'ROOT', self.root), \
                 patch.object(installer, 'installation_plan', side_effect=lambda: original_plan(self.root)), \
                 patch('sysconfig.get_path', return_value=str(directory)), \
-                patch.object(installer, 'installed', side_effect=[False, True] * 4) as installed, \
+                patch.object(installer, 'installed', side_effect=[False, True] * 5) as installed, \
                 patch.object(installer.subprocess, 'run') as command, \
                 patch.object(installer.model_cache, 'ensure', return_value=(self.root / '.runtime/model', {})), \
                 patch.object(installer, 'write_json'), \
@@ -163,10 +164,10 @@ class InstallDependencyPathsTests(unittest.TestCase):
         self.assertEqual(installed.call_args_list[0].args[1], directory)
         self.assertEqual(installed.call_args_list[1].args[1], directory)
         commands = [call.args[0] for call in command.call_args_list]
-        self.assertEqual(len(commands), 4)
+        self.assertEqual(len(commands), 5)
         self.assertNotIn('--target', commands[0])
         self.assertEqual(commands[0][commands[0].index('--python') + 1], sys.executable)
-        for group, arguments in zip(('vision', 'asr', 'separation'), commands[1:]):
+        for group, arguments in zip(('vision', 'asr', 'separation', 'fireplay-yt-dlp'), commands[1:]):
             self.assertEqual(arguments[arguments.index('--target') + 1], str(self.root / f'.runtime/deps/{group}'))
             self.assertIn('--upgrade', arguments)
 

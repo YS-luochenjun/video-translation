@@ -2,7 +2,9 @@
 from contextlib import ExitStack, contextmanager
 from contextvars import ContextVar
 from pathlib import Path
+import os
 import shutil
+import time
 
 from .common import ROOT, WorkflowError, lock, read_json, require, require_number
 
@@ -13,7 +15,7 @@ HEAVY = {'workflow.analyze', 'workflow.render', 'cli.capture', 'visual_audit.gen
 
 def settings(root):
     path = Path(root) / 'config/resources.local.json'
-    value = {'max_heavy_jobs': 1, 'minimum_free_mib': 256}
+    value = {'max_heavy_jobs': 1, 'minimum_free_mib': 256, 'heavy_wait_seconds': 120}
     if path.exists():
         configured = read_json(path)
         require(set(configured) <= set(value), 'Unknown resource setting')
@@ -21,6 +23,7 @@ def settings(root):
     require(type(value['max_heavy_jobs']) is int and 1 <= value['max_heavy_jobs'] <= 8,
             'max_heavy_jobs must be between 1 and 8')
     require_number(value['minimum_free_mib'], 'minimum_free_mib', minimum=64)
+    require_number(value['heavy_wait_seconds'], 'heavy_wait_seconds', minimum=0, maximum=600)
     return value
 
 
@@ -54,18 +57,33 @@ def heavy(run, stage, required_bytes=0):
         yield
         return
     with ExitStack() as stack:
+        config = settings(root)
+        deadline = time.monotonic() + config['heavy_wait_seconds']
         acquired = False
-        for slot in range(settings(root)['max_heavy_jobs']):
-            path = root / 'state/resources' / f'heavy-{slot}.lock'
-            try:
-                stack.enter_context(lock(path))
-                acquired = True
+        while not acquired:
+            owners = []
+            for slot in range(config['max_heavy_jobs']):
+                path = root / 'state/resources' / f'heavy-{slot}.lock'
+                try:
+                    stack.enter_context(lock(path))
+                    acquired = True
+                    break
+                except WorkflowError as error:
+                    if not isinstance(error.__cause__, FileExistsError):
+                        raise
+                    try:
+                        owners.append(path.read_text().strip())
+                    except FileNotFoundError:
+                        owners.append(None)
+            if acquired:
                 break
-            except WorkflowError:
-                if not path.exists():
-                    raise
+            remaining = deadline - time.monotonic()
+            if remaining <= 0 or all(owner == str(os.getpid()) for owner in owners):
+                break
+            time.sleep(min(1, remaining))
         require(acquired, 'Local compute busy: another heavy job owns the workspace slot; '
-                'use resources, then retry this same command. Never remove a live lock')
+                'bounded wait ended; resume the same operation later. Never remove a live lock')
+        preflight(root, run, required_bytes)
         token = _held.set(held | {str(root)})
         try:
             from .timing import measure
@@ -95,4 +113,5 @@ def status(root=ROOT):
     return {'settings': settings(root), 'free_bytes': shutil.disk_usage(root).free,
             'locks': locks, 'automatic_cleanup': False,
             'scope': 'Workspace-managed entry points only; old ad-hoc scripts are not intercepted. '
+                     'Busy jobs wait locally within heavy_wait_seconds before returning. '
                      'Locks survive process termination; verify the owner and journal before manual recovery.'}

@@ -32,11 +32,19 @@ def agenda(run, *, read_navigation=read_json):
     records = [read_json(p) for p in sorted((run / 'review/improvements').glob('*.json'))]
     policy_path = run.parent.parent / 'config/workspace.json'
     policy = read_json(policy_path) if policy_path.exists() else {}
+    from .fast_delivery import revision_status
+    revisions = revision_status(run) if policy.get('max_revision_rounds') is not None else None
+    fast_policy_path = run.parent.parent / 'config/fast-delivery.json'
+    fast_policy = read_json(fast_policy_path) if fast_policy_path.exists() else {}
     return {'workflow': 'agent/workflows/continuous-improvement.md', 'questions': questions,
             'candidate_sha256': candidate.get('sha256'), 'whole_scene_probes': probes,
             'formal_output_sha256': completion.get('video_sha256'),
             'recorded_cycles': records, 'quality_record': quality,
             'max_revision_rounds': policy.get('max_revision_rounds'),
+            'full_revision_status': revisions,
+            'pilot_policy': {'max_trials': fast_policy.get('max_route_trials'),
+                             'seconds_per_trial': fast_policy.get('trial_timebox_seconds'),
+                             'action': 'Validate the hardest affected short segment and an unaffected control before full rerender; stop after two unsuccessful pilots or the timebox.'},
             'execution_requires_existing_policy': True,
             'actions': ['Observe actual source/output and record one concrete defect',
                         'Separate observed symptom, suspected cause and why the previous review missed it',

@@ -5,7 +5,9 @@ import tempfile
 from pathlib import Path
 
 
-ASSET_PATHS = ('.runtime/deps/asr', '.runtime/deps/vision', '.runtime/deps/separation',
+YOUTUBE_DEPENDENCY_DIR = '.runtime/deps/fireplay-yt-dlp'
+
+ASSET_PATHS = ('.runtime/deps/asr', '.runtime/deps/vision', '.runtime/deps/separation', YOUTUBE_DEPENDENCY_DIR,
                '.runtime/models/asr/small', '.runtime/models/separation', 'assets/fonts',
                '.runtime/deps/remotion', '.runtime/deps/remotion-font-tools')
 
@@ -52,5 +54,5 @@ def report(root):
             'assets': assets, 'external_assets': [r['path'] for r in assets if r['exists'] and not r['project_owned']],
             'vision_dependency_path': str(vision_path(root).relative_to(root)),
             'vision_dependency_available': (vision_path(root) / 'cv2').is_dir(),
-            'install_command': 'bin/setup.ps1',
+            'install_command': 'bin/setup.ps1' if os.name == 'nt' else 'bash bin/setup.sh',
             'scope': 'Paths and installation presence only, not model inference or video acceptance'}

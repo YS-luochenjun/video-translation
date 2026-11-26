@@ -29,7 +29,7 @@ description: Localize an advertisement video into another language in this works
 
 1. `init → analyze` 后检查媒体信息、概览图、镜头帧、音频。对文字和声音建立清单，填写 `analysis/inventory.json`。原词重复出现要分成不同位置/时间实例；品牌保留也需记录。
 2. 覆盖记录必须有真实方法与证据。需要更多帧时用 FFmpeg 在边界加密；声音无法解析时保留 pending，补接转写或审过的音轨。known synthetic fixture 才能按生成规格填写，任意客户视频不能套用 fixture 注释。
-   所有任务按 `agent/contracts/audio.md` 处理声音；不能听音时用有账本的 `audio-analyze --execute` 取得模型分析，仍向视频模型明确保留背景音乐/音效、翻译对白。成片有声、语种正确和原配乐保留分别核对。
+   所有任务按 `agent/contracts/audio.md` 处理声音；正常使用有账本的 `audio-analyze --execute`，远程主备均为供应商调用故障时按合同的异常交付规则直接使用已生成 TTS，不强制本地复核、不冒称语义审核通过。仍保留配乐、音效、全部定稿与技术检查。
    有人声时读取 `agent/contracts/captions.md`：区分口播字幕与标题/UI，共用 `speech_segments[].target_text` 定稿。独立配音先按实际完整混音对齐，再用 `captions --alignment ... --apply` 生成时间片段；保留原字擦除范围，重建语言字层。
 3. 先读 `knowledge/rules/agent-method-selection-v2.md` 及 `agent/workflows/video-localization.md`，按实际条件记录首选/备选、切换及停止依据。运行 `context`，先读所有适用政策和 required 方法，再按需选择可选知识并阅读正文。由 Agent 判断每实例的动作与理由，脚本检查清单后生成计划。
 4. 调用 KIE 前读 `agent/integrations/kie.md`；`packet` 查看附件与 payload。`submit --execute` 实际上传/扣费；网络结果不明先查原 taskId，禁止盲目重复 POST。`poll` 每次最多等45秒。

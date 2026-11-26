@@ -9,11 +9,25 @@ from urllib.parse import unquote, urlparse
 from . import audio, media
 from .common import file_hash, guarded, inside, lock, object_hash, read_json, require, require_number, utc_now, write_json
 from .kie import ApiError, KieClient, download
+from .retry_activity import observed_job
 
 VIDEO_MODELS = ('wan/3-0-video', 'wan/2-7-videoedit', 'bytedance/seedance-2-fast', 'wan/2-6-flash-video-to-video', 'bytedance/seedance-2-mini')
 GEMINI_FLASH_TTS = 'google/gemini-3-8-flash-tts'
 GEMINI_38_TTS_MODELS = (GEMINI_FLASH_TTS, 'google/gemini-3-8-flash-lite-tts')
 GEMINI_TTS_MODELS = ('google/gemini-2-5-pro-tts', 'google/gemini-3-1-flash-tts', *GEMINI_38_TTS_MODELS)
+ELEVENLABS_V3 = 'elevenlabs/text-to-dialogue-v3'
+ELEVENLABS_V2 = 'elevenlabs/text-to-speech-multilingual-v2'
+ELEVENLABS_TURBO = 'elevenlabs/text-to-speech-turbo-2-5'
+TTS_MODELS = (*GEMINI_TTS_MODELS, ELEVENLABS_V3, ELEVENLABS_V2, ELEVENLABS_TURBO)
+
+
+def tts_language_code(locale):
+    return locale.replace('_', '-').split('-', 1)[0].lower()
+
+
+def elevenlabs_estimate(route, texts):
+    characters = sum(len(text.encode('utf-16-le')) // 2 for text in texts)
+    return max(.01, route.get('minimum_reservation', 0), characters * (route['credits_per_1000'] / 1000))
 
 
 def _reference_image(path):
@@ -40,7 +54,7 @@ def packet(run, relative):
     inputs = payload.get('input', {})
     model = payload.get('model')
     video_model = model in VIDEO_MODELS
-    require(video_model or model in (*GEMINI_TTS_MODELS, 'ai-music-api/separate-vocals', 'elevenlabs/text-to-speech-multilingual-v2', 'elevenlabs/text-to-dialogue-v3', 'elevenlabs/text-to-speech-turbo-2-5'), 'Unsupported model task')
+    require(video_model or model in (*TTS_MODELS, 'ai-music-api/separate-vocals'), 'Unsupported model task')
     require(set(payload) == {'model', 'input'}, 'Unexpected audio task payload fields')
     if video_model:
         from .repair_scope import validate_packed
@@ -68,21 +82,18 @@ def packet(run, relative):
         require(set(inputs) <= {'audio_url', 'type', 'stem_name'} and inputs.get('audio_url') == 'ASSET:audio', 'Separation requires a bound uploaded audio file')
         require(inputs.get('type') in ('separate_vocal', 'split_stem', 'split_stem_advanced'), 'Unknown separation type')
         require(inputs.get('type') != 'split_stem_advanced' or bool(inputs.get('stem_name')), 'Advanced separation needs a stem')
-    elif model == 'elevenlabs/text-to-speech-turbo-2-5':
-        from .model_routing import require_remote_task
-        require_remote_task(model, run=run, authorization=data.get('model_authorization'))
+    elif model in (ELEVENLABS_TURBO, ELEVENLABS_V2):
+        route_name = 'ElevenLabs Multilingual v2' if model == ELEVENLABS_V2 else 'ElevenLabs Turbo'
         require(set(inputs) <= {'text', 'voice', 'stability', 'similarity_boost', 'style', 'speed',
-                                'timestamps', 'previous_text', 'next_text', 'language_code'},
-                'Unsupported ElevenLabs Turbo input field')
+                                'language_code'} | ({'timestamps', 'previous_text', 'next_text'}
+                                                     if model == ELEVENLABS_TURBO else set()),
+                'Unsupported ' + route_name + ' input field')
         require(isinstance(inputs.get('text'), str) and bool(inputs['text'].strip())
                 and len(inputs['text']) <= 5000 and bool(inputs.get('voice')),
-                'ElevenLabs Turbo needs bounded exact text and an explicit voice')
+                route_name + ' needs bounded exact text and an explicit voice')
         request = read_json(run / 'inputs/request.json')
-        require(inputs.get('language_code') == request['target_language'],
-                'ElevenLabs Turbo language must match the target request')
-        characters = len(inputs['text'].encode('utf-16-le')) // 2
-        require(data['estimated_credits'] >= characters * .006,
-                'Reserve the documented ElevenLabs Turbo character price')
+        require(inputs.get('language_code') in (tts_language_code(request['target_language']), request['target_language']),
+                route_name + ' language must match the target request')
         for key in ('stability', 'similarity_boost', 'style'):
             if key in inputs:
                 require_number(inputs[key], 'ElevenLabs ' + key, minimum=0, maximum=1)
@@ -90,9 +101,7 @@ def packet(run, relative):
             require_number(inputs['speed'], 'ElevenLabs speed', minimum=.7, maximum=1.2)
         if 'timestamps' in inputs:
             require(isinstance(inputs['timestamps'], bool), 'ElevenLabs timestamps must be boolean')
-    elif model == 'elevenlabs/text-to-dialogue-v3':
-        from .model_routing import require_remote_task
-        require_remote_task(model, run=run, authorization=data.get('model_authorization'))
+    elif model == ELEVENLABS_V3:
         require(set(inputs) <= {'dialogue', 'stability', 'language_code'}, 'Unsupported ElevenLabs V3 input field')
         dialogue = inputs.get('dialogue')
         require(isinstance(dialogue, list) and bool(dialogue) and all(
@@ -102,14 +111,10 @@ def packet(run, relative):
             'ElevenLabs V3 needs exact dialogue text and explicit voices')
         characters = sum(len(turn['text'].encode('utf-16-le')) // 2 for turn in dialogue)
         require(characters <= 5000, 'ElevenLabs V3 dialogue exceeds 5000 characters')
-        require(data['estimated_credits'] >= characters * .014, 'Reserve the documented ElevenLabs V3 character price')
         if 'stability' in inputs:
             require_number(inputs['stability'], 'ElevenLabs stability', minimum=0, maximum=1)
     elif model in GEMINI_TTS_MODELS:
         modern = model in GEMINI_38_TTS_MODELS
-        if model != 'google/gemini-2-5-pro-tts':
-            from .model_routing import require_remote_task
-            require_remote_task(model, run=run, authorization=data.get('model_authorization'))
         allowed = ({'speakers', 'dialogue_turns', 'temperature', 'filler_words'} if modern
                    else {'speakers', 'dialogue_turns', 'scene', 'temperature', 'sample_context'})
         require(set(inputs) <= allowed,
@@ -138,10 +143,7 @@ def packet(run, relative):
         require(len(speakers) == len(inputs['speakers']), 'Duplicate Gemini TTS speaker')
         require(all(isinstance(speaker, str) and re.fullmatch(r'Speaker [1-9][0-9]*', speaker) for speaker in speakers), 'Gemini speaker_id must use Speaker N format')
         require(all(turn.get('speaker_id') in speakers and turn.get('text') for turn in inputs['dialogue_turns']), 'Unbound Gemini TTS speaker or text')
-    else:
-        require(isinstance(inputs.get('text'), str) and bool(inputs['text'].strip()) and len(inputs['text']) <= 10000, 'TTS text missing or too long')
-        require(inputs.get('voice') and inputs.get('language_code') == 'zh', 'This TTS route needs an explicit voice and Chinese language')
-    if model in (*GEMINI_TTS_MODELS, 'elevenlabs/text-to-speech-multilingual-v2', 'elevenlabs/text-to-dialogue-v3', 'elevenlabs/text-to-speech-turbo-2-5'):
+    if model in TTS_MODELS:
         from .captions import normalized, validate_spoken_copy
         inventory = read_json(run / 'analysis/inventory.json')
         ids = data.get('speech_ids', [])
@@ -149,7 +151,7 @@ def packet(run, relative):
         speeches = {item['id']: item for item in inventory.get('speech_segments', [])}
         require(all(key in speeches for key in ids), 'TTS speech_ids not found in final script')
         actual_text = (''.join(turn['text'] for turn in inputs['dialogue_turns']) if model in GEMINI_TTS_MODELS
-                       else ''.join(turn['text'] for turn in inputs['dialogue']) if model == 'elevenlabs/text-to-dialogue-v3'
+                       else ''.join(turn['text'] for turn in inputs['dialogue']) if model == ELEVENLABS_V3
                        else inputs['text'])
         require(normalized(actual_text) == normalized(''.join(speeches[key]['target_text'] for key in ids)),
                 'TTS copy differs from final speech script')
@@ -182,6 +184,25 @@ def packet(run, relative):
     return data
 
 
+def _authorize_dispatch(run, data):
+    from .model_routing import policy, require_remote_task
+    model = data['payload']['model']
+    require_remote_task(model, run=run, authorization=data.get('model_authorization'))
+    if model not in (ELEVENLABS_V2, ELEVENLABS_V3):
+        return
+    route = next(route for route in policy(run.parent.parent)['tts_recovery']['fallbacks']
+                 if route['model'] == model)
+    locale = read_json(run / 'inputs/request.json')['target_language']
+    language = tts_language_code(locale)
+    inputs = data['payload']['input']
+    require(language in route['language_codes'].split()
+            and inputs.get('language_code') in (language, locale),
+            'ElevenLabs language must match a supported target request')
+    texts = [turn['text'] for turn in inputs['dialogue']] if model == ELEVENLABS_V3 else [inputs['text']]
+    require(data['estimated_credits'] >= elevenlabs_estimate(route, texts),
+            'Reserve the configured ElevenLabs character price')
+
+
 def _authorized_rate_limit_retry(run, job):
     """An explicit 429 rejection has no accepted task; keep its old cost reservation."""
     request_path = run / 'inputs/request.json'
@@ -189,6 +210,21 @@ def _authorized_rate_limit_retry(run, job):
     return (grant.get('allow_explicit_429') is True and bool(grant.get('authorization_ref'))
             and bool(grant.get('source_quote')) and job.get('state') == 'failed'
             and not job.get('task_id') and str(job.get('error', '')).startswith('KIE code 429:'))
+
+
+def _tts_fallback_hint(run, data, job):
+    from .tts_recovery import tts_recovery_model
+    request_path = run / 'inputs/request.json'
+    if job.get('state') not in ('fail', 'failed') or not request_path.is_file():
+        return None
+    request = read_json(request_path)
+    fallback = tts_recovery_model(run.parent.parent, job, locale=request.get('target_language'))
+    if fallback:
+        return {'model': fallback,
+                'prepare': ['tts-fallback', run.name,
+                            data.get('tts_fallback_source_packet', job['packet']), job['id']],
+                'required_args': ['--voice SPEECH_ID=OFFICIAL_VOICE_ID']}
+    return None
 
 
 @guarded
@@ -222,20 +258,25 @@ def submit(run, relative, client=None, retry_failed=False, retry_upload=False):
         else:
             require(False, 'Audio task retry limit reached; preserve all attempts')
     path = run / 'jobs' / (digest + '.json')
-    client = client or KieClient()
     with lock(run / 'jobs/.submit.lock'):
         if path.exists():
             saved = read_json(path)
+            fallback = _tts_fallback_hint(run, data, saved) if data['payload']['model'] in TTS_MODELS else None
+            if fallback and not retry_upload:
+                return {'job': digest, 'state': saved['state'], 'task_id': saved.get('task_id'),
+                        'error': saved.get('error'), 'tts_fallback': fallback, 'reused': True}
             if saved['state'] == 'failed' and not saved.get('task_id'):
+                if data['payload']['model'] in TTS_MODELS:
+                    _authorize_dispatch(run, data)
                 require(not data.get('assets') or retry_upload,
                         'Asset-bearing failures require explicit upload recovery')
                 from .budgets import resume_undispatched
                 resume_undispatched(run, digest)
-                return _resume_undispatched(run, data, saved, path, client, retry_upload)
+                return _resume_undispatched(run, data, saved, path, client or KieClient(), retry_upload)
             return {'job': digest, 'state': saved['state'], 'task_id': saved.get('task_id'), 'reused': True}
         require(not retry_upload, 'No failed upload to recover')
-        from .model_routing import require_remote_task
-        require_remote_task(data['payload']['model'], run=run, authorization=data.get('model_authorization'))
+        _authorize_dispatch(run, data)
+        client = client or KieClient()
         if data['payload']['model'] in VIDEO_MODELS:
             from .cost import check_new_video_task
             check_new_video_task(data['payload']['model'], data['estimated_credits'],
@@ -262,7 +303,7 @@ def submit(run, relative, client=None, retry_failed=False, retry_upload=False):
                                    'prior billing reservation retained'
                                    if _authorized_rate_limit_retry(run, failed) else
                                    'Explicit identical-packet retry after known zero-cost terminal provider failure')
-        write_json(path, job)
+        observed_job(path, job)
         try:
             job['credits_before'] = client.credits()
             write_json(path, job)
@@ -281,16 +322,21 @@ def submit(run, relative, client=None, retry_failed=False, retry_upload=False):
                               if data.get('model_authorization') else client.create(payload))
             job['state'] = 'submitted'
         except ApiError as exc:
+            submitted = job['state'] == 'submitting'
             job['state'] = 'ambiguous' if exc.ambiguous and job['state'] == 'submitting' else 'failed'
             job['error'] = str(exc)
-            write_json(path, job)
+            observed_job(path, job)
+            fallback = _tts_fallback_hint(run, data, job) if submitted and data['payload']['model'] in TTS_MODELS else None
+            if fallback:
+                return {'job': digest, 'state': job['state'], 'task_id': None, 'error': job['error'],
+                        'tts_fallback': fallback}
             raise
         except Exception:
             job['state'] = 'ambiguous' if job['state'] == 'submitting' else 'failed'
             job['error'] = 'Local audio task failure; inspect journal before retry'
-            write_json(path, job)
+            observed_job(path, job)
             raise
-        write_json(path, job)
+        observed_job(path, job)
     return {'job': digest, 'state': job['state'], 'task_id': job['task_id']}
 
 
@@ -310,6 +356,7 @@ def _resume_undispatched(run, data, job, path, client, retry_upload=False):
                                                 'sha256': file_hash(snapshot)}]
     job.setdefault('recovery_history', []).append({'at': utc_now(), 'previous_error': job.get('error'),
                                                   'basis': 'request ledger has no dispatch'})
+    observed_job(path, job, recovering=True)
     try:
         job['credits_before'] = client.credits()
         uploaded = {name: client.upload(inside(run, asset['path']))
@@ -330,14 +377,14 @@ def _resume_undispatched(run, data, job, path, client, retry_upload=False):
     except ApiError as exc:
         job['state'] = 'ambiguous' if exc.ambiguous and job['state'] == 'submitting' else 'failed'
         job['error'] = str(exc)
-        write_json(path, job)
+        observed_job(path, job)
         raise
     except Exception:
         job['state'] = 'ambiguous' if job['state'] == 'submitting' else 'failed'
         job['error'] = 'Local model asset recovery failure; inspect journal before retry'
-        write_json(path, job)
+        observed_job(path, job)
         raise
-    write_json(path, job)
+    observed_job(path, job)
     return {'job': job['id'], 'state': job['state'], 'task_id': job['task_id'], 'resumed_before_dispatch': True}
 
 

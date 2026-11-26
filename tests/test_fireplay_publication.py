@@ -7,6 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 import test_fireplay as fixtures
 from video_localizer import bundles, fireplay, fireplay_publication as publication
 from video_localizer.common import WorkflowError, file_hash, read_json, write_json
+from video_localizer.model_routing import policy
 
 
 class PublicationTests(unittest.TestCase):
@@ -63,6 +64,49 @@ class PublicationTests(unittest.TestCase):
         value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
         self.assertEqual(value['decision'], 'blocked_major_or_incomplete')
         self.assertEqual(value['observed_visual_findings'][0]['id'], 't001')
+
+    def test_remote_audio_outage_preserves_old_rejection_and_allows_complete_tts(self):
+        spec, assessment = self.complete_output()
+        original = self.root / spec['packages'][0]['package']
+        assessment.update(required_audio_complete=False, defects=[
+            {'severity': 'minor', 'kind': 'required_audio_unverified', 'description': 'Provider outage'}])
+        prior = publication.review(fixtures.CODE, {'package': str(original.relative_to(self.root)),
+                                                   'assessment': assessment}, self.root)
+        self.assertEqual(prior['decision'], 'blocked_major_or_incomplete')
+        manifest = bundles.verify(original)
+        metadata = manifest['metadata']
+        digest = metadata['video_sha256']
+        authority = policy()['audio_analysis_recovery']['outage_delivery']
+        receipt = self.root / 'work/outage.json'
+        write_json(receipt, {
+            'source_sha256': metadata['source_sha256'], 'video_sha256': digest,
+            'authorization_ref': authority['authorization_ref'],
+            'remote_audio_review': 'skipped_provider_outage', 'semantic_review_passed': False,
+            'speech_ids': ['s1'], 'failed_models': {
+                model: {'provider_code': '502', 'state': 'ambiguous'} for model in authority['required_models']},
+            'technical': {'failures': [], 'video_sha256': digest},
+            'mix_waveform_match': {'correlation': .99, 'offset_seconds': 0}})
+        sources = {asset['path']: original / asset['path'] for asset in manifest['files']}
+        completion_path = self.root / 'work/outage-completion.json'
+        completion = read_json(sources['payload/outputs/completion.json'])
+        write_json(completion_path, {**completion, 'remote_audio_review': 'skipped_provider_outage',
+                                     'remote_audio_review_receipt_sha256': file_hash(receipt)})
+        sources['payload/outputs/completion.json'] = completion_path
+        sources[f'payload/review/{digest[:12]}/remote-audio-review-outage.json'] = receipt
+        folder = original.with_name(original.name + '-outage')
+        bundles.create(folder, manifest['kind'], manifest['identity'], sources, metadata)
+        review = {'package': str(folder.relative_to(self.root)), 'assessment': assessment,
+                  'reassess_remote_audio_outage': True}
+        severe = copy.deepcopy(review)
+        severe['assessment']['defects'].append(
+            {'severity': 'critical', 'kind': 'missing_required_audio', 'description': 'Known missing line'})
+        with self.assertRaises(WorkflowError):
+            publication.review(fixtures.CODE, severe, self.root)
+        result = publication.review(fixtures.CODE, review, self.root)
+        self.assertEqual(result['decision'], 'minor_issues_acceptable')
+        self.assertFalse(result['remote_audio_review_outage']['semantic_review_passed'])
+        self.assertEqual(read_json(self.root / result['prior_review']['path']), prior)
+        publication.eligible(fixtures.CODE, folder, bundles.verify(folder), self.root)
 
     def test_bounded_best_available_submits_ordinary_repair_artifacts(self):
         folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':True})

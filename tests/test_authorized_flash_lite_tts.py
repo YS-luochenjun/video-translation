@@ -1,14 +1,14 @@
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from video_localizer.common import WorkflowError, file_hash, write_json
-from video_localizer.model_tasks import packet
+from video_localizer.model_tasks import packet, submit
 
 
 class AuthorizedFlashLiteTtsTests(unittest.TestCase):
-    def test_scoped_authorization_exact_copy_and_provider_schema(self):
+    def test_retired_flash_lite_validates_old_copy_but_cannot_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             run = Path(tmp) / 'runs/fixture'
             source = run / 'inputs/source.mp4'
@@ -43,6 +43,8 @@ class AuthorizedFlashLiteTtsTests(unittest.TestCase):
                 with self.assertRaises(WorkflowError):
                     validate()
                 data['payload']['input']['dialogue_turns'][0]['text'] = 'Olá.'
-                data['model_authorization'] = None
+                validate()
+                client = Mock()
                 with self.assertRaises(WorkflowError):
-                    validate()
+                    submit(run, 'inputs/tts.json', client=client)
+                client.credits.assert_not_called()

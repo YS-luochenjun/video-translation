@@ -309,6 +309,10 @@ def main(argv=None):
         command.add_argument('code')
         if action in ('source', 'chat', 'start', 'dispatch', 'receipt', 'retry-upload'):
             command.add_argument('--video', type=int, default=1)
+        if action == 'dispatch':
+            selection = command.add_mutually_exclusive_group()
+            selection.add_argument('--package-index', type=int, help='Prepare or resume one frozen package without dispatching the whole batch binding')
+            selection.add_argument('--batch-import', action='store_true', help='Journal one multi-item import for all ready uploaded packages')
         if action in ('source', 'chat'):
             command.add_argument('--receipt')
         if action == 'chat':
@@ -465,18 +469,26 @@ def main(argv=None):
     command.add_argument("--execute", action="store_true")
     command.add_argument("--retry-failed", action="store_true")
     command.add_argument("--retry-upload", action="store_true", help="Recover a proven pre-dispatch asset failure using its existing reservation")
-    command = commands.add_parser("tts-fallback", help="Prepare Gemini 2.5 Pro TTS packets after a settled Gemini 3.8 provider failure")
+    command = commands.add_parser("tts-fallback", help="Prepare the next compatible TTS route after a settled provider failure")
     command.add_argument("run")
-    command.add_argument("packet", help="Current, finalized Gemini 3.8 TTS packet")
+    command.add_argument("packet", help="Current, finalized Gemini TTS packet")
     command.add_argument("failed_job")
     command.add_argument("--failed-run", help="Evidence run from the same source and original request budget")
     command.add_argument("--speech-id", action="append", help="Only prepare this missing speech line. Repeat to select several.")
+    command.add_argument("--voice", action="append", help="Use ElevenLabs with SPEECH_ID=OFFICIAL_VOICE_ID. Repeat per selected line.")
+    command.add_argument("--prefer-v3", action="store_true", help=argparse.SUPPRESS)
+    command.add_argument("--combine", action="store_true", help="Prepare contiguous speech IDs as one ElevenLabs request for later alignment.")
     command = commands.add_parser("captions", help="Compile reviewed final-mix alignment; --apply updates inventory, no paid call")
     command.add_argument("run")
     command.add_argument("--alignment", required=True, help="Run-relative reviewed alignment JSON")
     command.add_argument("--apply", action="store_true")
     command = commands.add_parser("caption-check", help="Read-only audiovisual caption gate; does not regenerate video")
     command.add_argument("run")
+    command = commands.add_parser("audio-transcribe", help="Independent KIE NVIDIA transcription with word timing; poll the recorded job")
+    command.add_argument("run")
+    command.add_argument("--candidate", action="store_true")
+    command.add_argument("--retry-failed", action="store_true", help="One bounded retry after confirmed zero-credit terminal provider failure")
+    command.add_argument("--execute", action="store_true")
     for name, label in (("init", "video"), ("ingest", "url")):
         command = commands.add_parser(name)
         command.add_argument(label)
@@ -493,7 +505,7 @@ def main(argv=None):
             command.add_argument("--retry-failed", action="store_true", help="One explicit retry of a terminal zero-cost provider failure")
         if name == "audio-analyze":
             command.add_argument('--retry-authorization', help='Run-relative explicit user grant for one additional ambiguous audio request; original reservation retained')
-            command.add_argument('--model',choices=AUDIO_MODELS,default=selected('audio_analysis'))
+            command.add_argument('--model',choices=AUDIO_MODELS,help='Explicit single model; default candidate review automatically switches on provider outage')
             command.add_argument('--model-authorization',help='Run-relative source/request-bound human grant for an alternative analysis model')
             command.add_argument('--retry-upload',action='store_true',help='Retry a journaled transport failure before model submission; preserves prior attempt and budget')
             command.add_argument('--transcribe-only',action='store_true',help='Transcribe actual candidate audio alone; does not claim comparative music/FX review')
@@ -591,7 +603,10 @@ def main(argv=None):
             elif name == 'fireplay-return':
                 result = fireplay.prepare_return(args.code, args.spec, ROOT)
             elif name == 'fireplay-dispatch':
-                result = fireplay.dispatch(args.code, args.execute, ROOT, args.video)
+                if args.batch_import:
+                    result = fireplay.dispatch_import_batch(args.code, args.execute, ROOT, args.video)
+                else:
+                    result = fireplay.dispatch(args.code, args.execute, ROOT, args.video, args.package_index)
             elif name == 'fireplay-retry-upload':
                 from .fireplay_retry import retry_upload
                 result = retry_upload(args.code, args.locale, args.spec, args.execute, ROOT, args.video)
@@ -825,7 +840,8 @@ def main(argv=None):
                 from .tts_recovery import prepare_tts_fallback
                 failed_run = inside(run.parent, args.failed_run) if args.failed_run else None
                 result = prepare_tts_fallback(run, args.packet, args.failed_job, failed_run=failed_run,
-                                              speech_ids=args.speech_id)
+                                              speech_ids=args.speech_id, elevenlabs_voices=args.voice,
+                                              combine=args.combine)
             elif name == "archive":
                 result = library.export(run, root=ROOT)
             elif name == "captions":
@@ -839,9 +855,18 @@ def main(argv=None):
                     read_json(ROOT / "config/quality.json")["caption_sync"], read_json(run / "plan.json"))
             elif name == "analyze":
                 result = workflow.analyze(run)
+            elif name == "audio-transcribe":
+                from .audio_transcription import submit
+                require(args.execute, "audio-transcribe is a paid model request; pass --execute explicitly")
+                result = submit(run, candidate=args.candidate, retry_failed=args.retry_failed)
             elif name == "audio-analyze":
                 require(args.execute, "audio-analyze is a paid model request; pass --execute explicitly")
-                result = workflow.analyze_audio(run, candidate=args.candidate, model=args.model,
+                if (args.candidate and not args.model and not args.transcribe_only and not args.voice_review
+                        and not args.retry_upload and not args.retry_authorization and not args.model_authorization):
+                    from .audio_review_outage import review_with_fallback
+                    result = review_with_fallback(run)
+                else:
+                    result = workflow.analyze_audio(run, candidate=args.candidate, model=args.model,
                                                 transcribe_only=args.transcribe_only,voice_review=args.voice_review,
                                                 retry_upload=args.retry_upload,
                                                 retry_authorization=({'path': args.retry_authorization,
@@ -906,6 +931,9 @@ def main(argv=None):
             elif name == "blind":
                 result = blind.freeze(run, args.candidates) if args.action == "freeze" else blind.verify(run) if args.action == "verify" else blind.reveal(run)
         print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+        if ((name == 'audio-analyze' and result.get('state') == 'remote_review_unavailable')
+                or (name in ('model-task', 'audio-task') and result.get('tts_fallback'))):
+            return 2
         if name in ('production', 'batch-run') and result.get('state') in ('needs_inventory', 'needs_review', 'needs_attention'):
             return 2
         return 2 if name in ("quality", "caption-check") and result["decision"] not in ("pass", "not_applicable") else 0

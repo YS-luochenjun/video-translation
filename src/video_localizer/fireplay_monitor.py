@@ -530,7 +530,15 @@ def followups(root=ROOT):
             task = {'code': record['code'], 'video_index': video['index'], 'threadId': chat['threadId'],
                     'hostId': chat.get('hostId', 'local'), 'action': action, 'artifact_identity': identity,
                     'missing_locales': progress['missing_locales']}
+            from .fireplay_parallel import paused_locales
+            paused = paused_locales(record, video, root, progress['missing_locales'], packages)
+            if paused:
+                task['paused_locales'] = paused
+                if paused == progress['missing_locales']:
+                    task['action'] = 'await_manual_repair'
             task['key'] = object_hash(task)
+            task['production_initialization'] = (
+                'initialized' if video.get('members') else 'not_initialized')
             # One ready locale is actionable even when another still needs production.
             if action not in ('reconcile_return', 'resume_return'):
                 task['available_locales'] = sorted(p['target_language'] for p in matching)
@@ -540,6 +548,8 @@ def followups(root=ROOT):
             note = _directory(root) / 'signals' / (task['key'] + '.json')
             from .fireplay_followup import state as signal_state
             task['signal_state'] = signal_state(read_json(note) if note.exists() else None, config)
+            if task['action'] == 'await_manual_repair':
+                task['signal_state'] = 'paused'
             result.append(task)
         # Batch receipts do not replace the final full platform read-back.
         if record['videos'] and all(coverage(record, v, root)['complete'] for v in record['videos']):
@@ -571,6 +581,8 @@ def signal(spec, root=ROOT):
     spec = fireplay.payload(spec)
     task = next((t for t in followups(root) if t['key'] == spec.get('key')), None)
     require(task, 'Follow-up inputs changed; refresh monitor status')
+    require(task['action'] != 'await_manual_repair',
+            'Publication-blocked closed source is paused; do not automatically redispatch')
     path = _directory(root) / 'signals' / (task['key'] + '.json')
     with lock(path.with_suffix('.lock')):
         old = read_json(path) if path.exists() else None
@@ -612,11 +624,17 @@ def signal(spec, root=ROOT):
         from .fireplay_materials import attribution_instruction
         direction = (f'按已授权项目流程协调整单 {task["code"]} 的交付核验及状态更新。'
                      if task['action'] in ('verify_completion', 'finish_requirement') else
-                     f'按已授权项目流程继续需求{task["code"]}第{task["video_index"]}个原片的回传。')
+                     f'你是视频制作和交付负责人，不是状态检查员。你的任务是实际完成需求{task["code"]}第{task["video_index"]}个原片各待交语种的成片、审核及平台回传。'
+                     '工作台负责检查进度；未完成代表继续制作，不是最终答复。'
+                     f'先实际调用终端，用doctor验证的Python运行 fireplay-status {task["code"]}；'
+                     f'若尚未开始制作，确认既有绑定与真实授权后执行 fireplay-start {task["code"]} '
+                     f'AUTHORITY --video {task["video_index"]}（使用本需求已有真实授权文件，例如巡检的monitor-authority.json）。'
+                     '已开始则沿原现场继续，不重新建账；不要只回答状态或等待已给出的授权。')
         message = (direction +
                    f'当前待办：{task["action"]}，缺少语种：{task["missing_locales"]}。复用既有run、素材ID、outbox和真实回执；未知写入先核查，不重复上传。'
                    '用户已允许有限预算/返工内做到最好的完整成品带普通不合格提交；按fireplay-publication-review记录实际影响和best_available证据，内部revise不等于禁止提交。大面积撕裂、无法观看、严重主体损坏、漏译或缺必需配音仍阻断对应版本。'
                    f'先交本次可提交语种{task.get("ready_locales", [])}，同时继续其余缺项，不等待全部制作完成。'
+                   f'已收口阻塞的语种{task.get("paused_locales", [])}保留待人工修复，不自动重做或占用制作名额。'
                    '真实文件上传超时先恢复已有ID；无可用结果时按fireplay-retry-upload的既有额外两次授权重传，不能把此权限用于重发未知付费模型。'
                    '设计师从当前执行人和Fireplay真实成员目录自行核对，可使用已核验用户ID归属；不要求用户提供DID。KIE已有持续授权，在本需求原账本和模型范围内直接使用，不再次弹项目同意问题。'
                    + kie_access_instruction(root) +
@@ -697,14 +715,16 @@ def completion_watch_status(followup_items, root=ROOT):
     restricted = manifest.get('followup_approval_required') is True
     if restricted and pending:
         action = 'observe_only' if active else 'request_followup_approval'
+    paused_threads = {item['threadId'] for item in followup_items if item['action'] == 'await_manual_repair'}
+    paused_threads -= {item['threadId'] for item in followup_items if item['action'] != 'await_manual_repair'}
     owner_status_checks = [
         {'code': member['code'], 'threadId': member['threadId'], 'hostId': member.get('hostId', 'local'),
          'required': True, 'rule': 'wait_threads first; read_thread when idle, ended, error, or needs_attention'}
-        for member in pending
+        for member in pending if member['threadId'] not in paused_threads
     ]
     seen_threads = {item['threadId'] for item in owner_status_checks}
     for item in followup_items:
-        if item['code'] in requirements and item['threadId'] not in seen_threads:
+        if item['code'] in requirements and item['threadId'] not in seen_threads and item['threadId'] not in paused_threads:
             owner_status_checks.append({'code': item['code'], 'threadId': item['threadId'],
                                         'hostId': item.get('hostId', 'local'), 'required': True,
                                         'rule': 'Inspect the dedicated source chat before dispatching follow-ups'})

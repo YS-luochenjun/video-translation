@@ -37,6 +37,26 @@ class ResourceTests(unittest.TestCase):
                     self.fail('Must not start')
         self.assertEqual(artifact.read_bytes(), b'old output')
 
+    def test_waits_locally_for_another_owner_then_acquires_slot(self):
+        owner = self.root / 'state/resources/heavy-0.lock'
+        owner.parent.mkdir(parents=True)
+        owner.write_text('999999')
+        with patch.object(resources.time, 'sleep', side_effect=lambda seconds: owner.unlink()) as wait:
+            with resources.heavy(self.run, 'test'):
+                self.assertTrue(owner.exists())
+        wait.assert_called_once()
+        self.assertFalse(owner.exists())
+
+    def test_bounded_wait_does_not_remove_foreign_lock(self):
+        owner = self.root / 'state/resources/heavy-0.lock'
+        owner.parent.mkdir(parents=True)
+        owner.write_text('999999')
+        write_json(self.root / 'config/resources.local.json', {'heavy_wait_seconds': 0})
+        with self.assertRaisesRegex(WorkflowError, 'bounded wait ended'):
+            with resources.heavy(self.run, 'test'):
+                self.fail('Must not start expensive work')
+        self.assertEqual(owner.read_text(), '999999')
+
     def test_model_resume_does_not_download_complete_model_again(self):
         def download(repo, local_dir, **kwargs):
             for name in ('model.bin', 'config.json', 'tokenizer.json', 'vocabulary.txt'):

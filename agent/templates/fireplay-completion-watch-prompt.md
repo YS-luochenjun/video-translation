@@ -10,6 +10,8 @@
 
 恢复/派发沿publication_followups持久signal：unknown→实际send_message_to_thread→真实回执；unknown先核查，不能因超时重复发送。原负责聊天继续实际制作、原账本/模型与固定提交，主控仅调度。ready先交、partial/pending继续；全原片×全语种当前哈希与平台ID、共享、语言/产品tag、编号语言命名、二创设计师归属及精确需求绑定读回匹配，且有效fireplay-completion-check与fireplay-close才算全项完成。聊天结束、sent、平台done和部分批次都不算。YouTube排队/配额/缺链接不延长全项结案，不追踪下游或为缺链接重传。
 
+`await_manual_repair` / `paused` 是已收口严重发布阻塞：不主动催办或重启；保留待补交并推进其他可执行工作。只在状态变化或需要人工决定时报告。
+
 每次准备停止前再运行新鲜status并追加新负责项；有制作中、待选项、等待模型、具体阻塞、待补交或缺结案的需求就维持同一个ACTIVE盯办。无任何未结负责需求后通过automation_update删除本10分钟任务，保存真实删除回执与COMPLETE_DELETED检查点。保留制作聊天和长期30分钟fireplay发现巡检。长期巡检发现并接入下一条需求后，必须重新创建20分钟盯办；保存新真实ID，不复用已删除ID，不因旧批次完成而停掉长期巡检。
 
 `owner_status_checks` 可包含同一需求下的多个原片会话。逐片恢复各自的制作和回传。整单状态由 `coordinator_chat` 核对，处理 `finish_requirement` 待办时按 `fireplay-intake.md` 的需求状态流程更新并读回「已完成」后结案。

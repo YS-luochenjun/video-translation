@@ -151,6 +151,12 @@ class ConsoleTests(unittest.TestCase):
             {'id': 'case', 'path': 'knowledge/cases/case.md', 'status': 'active'}]})
         private_path = 'knowledge/local/candidates/private-title.json'
         self.put(private_path, {'hypothesis': 'Needs an evidence-backed lesson', 'private_text': 'private detail'})
+        from video_localizer.common import file_hash
+        from video_localizer.knowledge_review import review
+        review({'source': {'path': private_path, 'sha256': file_hash(self.root / private_path)},
+                'review_type': 'developer_review', 'reviewed_by': 'Test reviewer', 'origin': 'Fixture',
+                'resolution': 'pending', 'reason': 'No lesson has been recorded.',
+                'adopted_parts': [], 'retained_parts': [], 'next_action': 'Read the actual result.'}, self.root)
         result = read_api(self.data, '/api/knowledge')
         self.assertEqual(result['view_counts'], {'method': 1, 'reference': 1, 'history': 1, 'candidate': 1})
         self.assertEqual(result['review_counts'], {'needs_lesson': 1})

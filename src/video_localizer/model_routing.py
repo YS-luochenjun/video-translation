@@ -28,6 +28,9 @@ def require_current(capability, model, root=None):
 def require_audio_analysis_model(model, run=None, authorization=None):
     if model == selected('audio_analysis'):
         return
+    if model in {route['model'] for route in policy().get('audio_analysis_recovery', {}).get('fallbacks', [])
+                 if route['capability'] == 'comparative_audio_review'}:
+        return
     require(model == 'gemini-3.1-pro' and run is not None and authorization,
             'Alternative audio analysis needs explicit source/request-bound user authorization')
     run = Path(run).resolve()
@@ -46,16 +49,21 @@ def require_audio_analysis_model(model, run=None, authorization=None):
             'Audio model authorization does not match this request budget')
 
 
+def audio_recovery_route(capability):
+    return next(route for route in policy()['audio_analysis_recovery']['fallbacks']
+                if route['capability'] == capability)
+
+
 def require_remote_task(model, root=None, run=None, authorization=None):
     if model in ('wan/2-6-flash-video-to-video', 'bytedance/seedance-2-mini'):
         from .video_tests import authorize
         authorize(model, run, authorization)
         return
-    current = policy(root)
+    current = policy(root or (Path(run).resolve().parent.parent if run is not None else None))
     if model in (current['video'], current['tts']):
         return
-    tts_alternatives = current.get('tts_recovery', {}).get('fallback_models', [])
-    require(model in ('elevenlabs/text-to-dialogue-v3', 'elevenlabs/text-to-speech-turbo-2-5', *tts_alternatives)
+    tts_alternatives = {route['model'] for route in current['tts_recovery']['fallbacks']}
+    require(model in tts_alternatives
             and run is not None and authorization,
             f'New remote tasks use {current["video"]} for video or {current["tts"]} for TTS; '
             f'{model} needs an explicit source/request-bound user authorization. No automatic fallback.')

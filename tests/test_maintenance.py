@@ -32,6 +32,54 @@ class MaintenanceTests(unittest.TestCase):
         maintenance.register(self.run, path.relative_to(self.root), 'Recreate from source')
         return path
 
+    def test_recover_exact_accepted_delivery_only(self):
+        from video_localizer import bundles
+        source = 'a' * 64
+        code = 'MOG-20261125-001'
+        material = '12345678-1234-1234-1234-123456789abc'
+        write_json(self.root / 'config/storage-authorization.local.json', {
+            'workspace': str(self.root.resolve()), 'automatic_cleanup': True})
+        write_json(self.run / 'run.json', {'source_sha256': source})
+        write_json(self.run / 'inputs/request.json', {'target_language': 'en'})
+        self.delivery()
+        digest = file_hash(self.run / 'outputs/final.mp4')
+        folder = 'outputs/.packages/fixture'
+        bundles.create(self.root / folder, 'delivery', digest,
+                       {'final.mp4': self.run / 'outputs/final.mp4'},
+                       {'source_sha256': source, 'target_language': 'en'})
+        write_json(self.root / 'state/delivery-index.json', {'entries': [{
+            'package': folder, 'origin_run_id': self.run.name, 'video_sha256': digest,
+            'source_sha256': source, 'target_language': 'en'}]})
+        request = {'code': code, 'requirement_id': material, 'content_version': 'v1',
+                   'videos': [{'index': 1, 'members': [self.run.name], 'targets': ['en', 'es'],
+                               'source': {'sha256': source}}]}
+        request_path = self.root / 'state/fireplay' / code / 'request.json'
+        write_json(request_path, request)
+        outbox = {'state': 'returned', 'requirement_id': material, 'content_version': 'v1',
+                  'video_index': 1, 'pending_locales': ['es'],
+                  'packages': [{'package': folder, 'locale': 'en', 'sha256': digest}],
+                  'operations': {'bind': {'state': 'verified', 'result': {'material_ids': [material]}},
+                                 'import-1': {'state': 'verified', 'result': {'material_id': material}},
+                                 'verify-1': {'state': 'verified'}}}
+        outbox_path = request_path.with_name('return-1.json')
+        write_json(outbox_path, outbox)
+        with patch.object(maintenance, 'maintain', return_value={'state': 'closed_pending_lifecycle'}) as close:
+            self.assertEqual(maintenance.recover_accepted_closures(self.root)['eligible'], ['example'])
+            close.assert_not_called()
+            self.assertEqual(maintenance.recover_accepted_closures(self.root, execute=True)['closed'], ['example'])
+            close.assert_called_once()
+            outbox['content_version'] = 'old'
+            write_json(outbox_path, outbox)
+            self.assertEqual(maintenance.recover_accepted_closures(self.root)['eligible'], [])
+            outbox['content_version'] = 'v1'
+            outbox['operations']['bind']['result']['material_ids'] = []
+            write_json(outbox_path, outbox)
+            self.assertEqual(maintenance.recover_accepted_closures(self.root)['eligible'], [])
+            outbox['operations']['bind']['result']['material_ids'] = [material]
+            write_json(outbox_path, outbox)
+            write_json(self.run / 'outputs/candidate.json', {'sha256': 'c'*64})
+            self.assertEqual(maintenance.recover_accepted_closures(self.root)['eligible'], [])
+
     def test_deferred_delivery_only_reflects_final_version_and_resumes_pending_work(self):
         self.delivery()
         video_sha = file_hash(self.run / 'outputs/final.mp4')

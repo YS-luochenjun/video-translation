@@ -104,18 +104,17 @@
       "retained": "Needs a concrete lesson and scoped evidence before activation."
     }
   },
-  "candidate_count": 61,
+  "candidate_count": 52,
   "counts_by_group": {
     "visual_repair": 18,
     "art_ui": 8,
     "phone_ui": 12,
     "timing_audio": 2,
-    "model_route": 6,
     "runtime_capture": 2,
     "synthetic": 4,
-    "hand_pause": 4,
-    "multilingual": 3,
-    "governance": 2
+    "hand_pause": 3,
+    "governance": 2,
+    "model_route": 1
   },
   "records": [
     {
@@ -451,46 +450,10 @@
       "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
     },
     {
-      "path": "knowledge/candidates/complex-av-en-zh-001-466519b59f.json",
-      "sha256": "872efaefb659536368988161a482dded8578b15b0a5bcb7c4ee52e002940c264",
-      "id": "complex-av-en-zh-001-466519b59f",
-      "group": "model_route",
-      "candidate_status_preserved": "candidate",
-      "scope_preserved": {
-        "workflow": "video-localization",
-        "target_language": "zh-CN"
-      },
-      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
-    },
-    {
       "path": "knowledge/candidates/complex-av-en-zh-001-capture-tail-followup.json",
       "sha256": "3dadab5706ae9a472046124ede2fb803d62863baaa54a5bf8571dfe6f807887e",
       "id": "complex-av-en-zh-001-capture-tail-followup",
       "group": "runtime_capture",
-      "candidate_status_preserved": "candidate",
-      "scope_preserved": {
-        "workflow": "video-localization",
-        "target_language": "zh-CN"
-      },
-      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
-    },
-    {
-      "path": "knowledge/candidates/complex-av-en-zh-002-81f60de6b3.json",
-      "sha256": "2cf81f8965f956f55af145662477939c2c069f2ddc3ba6e96415dc9ad0ec6bf0",
-      "id": "complex-av-en-zh-002-81f60de6b3",
-      "group": "model_route",
-      "candidate_status_preserved": "candidate",
-      "scope_preserved": {
-        "workflow": "video-localization",
-        "target_language": "zh-CN"
-      },
-      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
-    },
-    {
-      "path": "knowledge/candidates/complex-av-en-zh-lowcost-003-f5b1a0abd0.json",
-      "sha256": "c79818f65be9aeb58bcd4758947bfc1d0863214f9037de38c90287513e9cbd14",
-      "id": "complex-av-en-zh-lowcost-003-f5b1a0abd0",
-      "group": "model_route",
       "candidate_status_preserved": "candidate",
       "scope_preserved": {
         "workflow": "video-localization",
@@ -674,30 +637,6 @@
       "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
     },
     {
-      "path": "knowledge/candidates/hand-zh-sync-002-d2cced3bb1.json",
-      "sha256": "06f9abf5735d2b5a749b35019707efd34eb6f62d63696e9c23214079e540c0d9",
-      "id": "hand-zh-sync-002-d2cced3bb1",
-      "group": "hand_pause",
-      "candidate_status_preserved": "candidate",
-      "scope_preserved": {
-        "workflow": "video-localization",
-        "target_language": "zh-CN"
-      },
-      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
-    },
-    {
-      "path": "knowledge/candidates/live-photo-ja-001-566413b211.json",
-      "sha256": "eae6bbe33b106477a71c8859fa63f41030cd667bb68b0afe09a1649f36288c34",
-      "id": "live-photo-ja-001-566413b211",
-      "group": "multilingual",
-      "candidate_status_preserved": "candidate",
-      "scope_preserved": {
-        "workflow": "video-localization",
-        "target_language": "ja-JP"
-      },
-      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
-    },
-    {
       "path": "knowledge/candidates/live-photo-ko-001-4afed27d97.json",
       "sha256": "c4844efc6cc77d9f30ac1f529e99194be75cc33dacf1908520b91780ccf31711",
       "id": "live-photo-ko-001-4afed27d97",
@@ -706,30 +645,6 @@
       "scope_preserved": {
         "workflow": "video-localization",
         "target_language": "ko-KR"
-      },
-      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
-    },
-    {
-      "path": "knowledge/candidates/live-photo-multilingual-method-20261019.json",
-      "sha256": "033aaa7ef40b97acbe49dd209267148723bb8a5fb9cda9936c7152e675cf45dc",
-      "id": "live-photo-multilingual-method-20261019",
-      "group": "multilingual",
-      "candidate_status_preserved": "candidate",
-      "scope_preserved": {
-        "workflow": "video-localization",
-        "content_type": "live_person_photo_app_ad"
-      },
-      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
-    },
-    {
-      "path": "knowledge/candidates/live-photo-zh-001-b286840d64.json",
-      "sha256": "ca0cf0b78c66f4a62e04d04f03490c94dbc84d7a3d7c0b64e48f345e794d0eec",
-      "id": "live-photo-zh-001-b286840d64",
-      "group": "multilingual",
-      "candidate_status_preserved": "candidate",
-      "scope_preserved": {
-        "workflow": "video-localization",
-        "target_language": "zh-CN"
       },
       "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
     },
@@ -808,30 +723,6 @@
       "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
     },
     {
-      "path": "knowledge/candidates/static-veo-lite-001-6bd69f43ba.json",
-      "sha256": "e1114c85adb3500f872ccdd258f3cad6052b2cd78f0110d1c52d5d1d130b5241",
-      "id": "static-veo-lite-001-6bd69f43ba",
-      "group": "model_route",
-      "candidate_status_preserved": "candidate",
-      "scope_preserved": {
-        "workflow": "video-localization",
-        "target_language": "zh-CN"
-      },
-      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
-    },
-    {
-      "path": "knowledge/candidates/static-wan26-probe-001-3a80a9ae63.json",
-      "sha256": "3998bdff743e938a1d12ed2e8aebddaa0255a8689d934cd27672672ecb96a246",
-      "id": "static-wan26-probe-001-3a80a9ae63",
-      "group": "model_route",
-      "candidate_status_preserved": "candidate",
-      "scope_preserved": {
-        "workflow": "video-localization",
-        "target_language": "zh-CN"
-      },
-      "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
-    },
-    {
       "path": "knowledge/candidates/static-wan27-edit-001-9b6563eacd.json",
       "sha256": "936ff94d07acdf6d84043aa6eac4b80b6cdc746b73227a3a2d87f461998e581a",
       "id": "static-wan27-edit-001-9b6563eacd",
@@ -867,5 +758,6 @@
       },
       "disposition_scope": "Only the specific portions described by this group; not whole-record promotion."
     }
-  ]
+  ],
+  "compacted_closed_duplicate_count": 9
 }

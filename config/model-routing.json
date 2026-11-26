@@ -7,22 +7,69 @@
   "image_editing_preference": "ImageGen first for suitable image work. Prefer a reviewed same-shot ImageGen reference with Wan when it helps define the intended visual repair; independent Wan and other suitable routes remain available. See knowledge/rules/imagegen-first-v4.md.",
   "asr": "small",
   "audio_analysis": "gemini-3-8-flash-openai",
+  "audio_analysis_recovery": {
+    "authority": "user",
+    "authorization_ref": "user-add-two-kie-audio-review-backups-20261125",
+    "source_quote": "请你增加两个备用方案。去kie上查找，不能太贵，不能效果不够好",
+    "selection": "Remote comparative review first, then one authorized alternative. If both remote comparative requests fail with provider errors, use the owner's remote outage delivery exception; keep the generated TTS and do not require local semantic review or retry unknown requests.",
+    "outage_delivery": {
+      "authority": "user",
+      "authorization_ref": "user-remote-review-outage-skip-20261125",
+      "source_quote": "可以做成，远程复核如果都有调用模型问题，就跳过复核步骤，直接使用tts内容",
+      "enabled": true,
+      "required_models": ["gemini-3-8-flash-openai", "gemini-4-hydrogen-openai"],
+      "provider_codes": ["408", "425", "429", "500", "502", "503", "504", "524", "transport"]
+    },
+    "fallbacks": [
+      {
+        "model": "gemini-4-hydrogen-openai",
+        "validation_status": "three_short_source_probes_passed_two_comparative_provider_failures",
+        "capability": "comparative_audio_review",
+        "estimated_credits": 5,
+        "reasoning_effort": "low",
+        "input_credits_per_million_tokens": 120,
+        "output_credits_per_million_tokens": 600,
+        "documentation": "https://docs.kie.ai/market/gemini/gemini-4-hydrogen-openai",
+        "pricing": "https://kie.ai/gemini-4-hydrogen"
+      },
+      {
+        "model": "nvidia/nemotron-3-5-transcribe",
+        "validation_status": "three_terminal_provider_failures_no_valid_result",
+        "capability": "transcription_evidence",
+        "credits_per_second": 0.005,
+        "minimum_reservation": 1,
+        "language_codes": "en zh ja ko fr de es pt it ru nl pl cs sk hi bg hr da et fi hu lv lt ro sl sv th tr uk ar bn el he id mt mr tl ta te vi",
+        "documentation": "https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe",
+        "pricing": "https://kie.ai/nemotron-3-5-transcribe"
+      }
+    ]
+  },
   "separation": "uvr-inst-hq3",
   "tts": "google/gemini-3-8-flash-tts",
   "tts_recovery": {
-    "preferred_fallback": "google/gemini-2-5-pro-tts",
     "transient_provider_codes": ["500", "502", "503", "504", "524"],
-    "estimated_credits_per_line": 3,
-    "fallback_models": [
-      "google/gemini-2-5-pro-tts",
-      "google/gemini-3-1-flash-tts",
-      "google/gemini-3-8-flash-lite-tts"
-    ],
-    "selection": "After a confirmed terminal zero-credit Gemini 3.8 TTS provider failure, prefer Gemini 2.5 Pro single-speaker, single-line packets. Keep the original request ledger and reconcile in-flight or unknown TTS tasks first.",
+    "explicit_submission_rejections": ["KIE code 422: invalid decr count"],
+    "selection": "Use Gemini Flash first, then the next compatible backup after a settled zero-credit transient failure or a recorded explicit submission rejection without a task ID. Keep unknown billing reserved and verify the rejected request against its ledger dispatch before switching models. Reconcile ambiguous or active overlapping tasks. Both backups use the same KIE gateway and ElevenLabs provider.",
     "authority": "user",
-    "authorization_ref": "user-gemini-25-on-38-failure-20261123",
-    "source_quote": "在有问题时，都让调用gemini 2.5去。请你实现在项目中与智慧这三个会话制作",
-    "evidence": "KEY-20261123-043-3 Arabic production audio tasks"
+    "authorization_ref": "user-consolidate-kie-tts-routes-20261125",
+    "source_quote": "请你选择2-3个tts就好，1个主要两个作为失败链接后的备选。",
+    "fallbacks": [
+      {
+        "model": "elevenlabs/text-to-dialogue-v3",
+        "documentation": "https://docs.kie.ai/market/elevenlabs/text-to-dialogue-v3",
+        "pricing": "https://kie.ai/elevenlabs/text-to-dialogue-v3",
+        "credits_per_1000": 14,
+        "language_codes": "af ar hy as az be bn bs bg ca ceb ny hr cs da nl en et fil fi fr gl ka de el gu ha he hi hu is id ga it ja jv kn kk ky ko lv ln lt lb mk ms ml zh mr ne no ps fa pl pt pa ro ru sr sd sk sl so es sw sv ta te th tr uk ur vi cy"
+      },
+      {
+        "model": "elevenlabs/text-to-speech-multilingual-v2",
+        "documentation": "https://docs.kie.ai/market/elevenlabs/text-to-speech-multilingual-v2",
+        "pricing": "https://kie.ai/elevenlabs-tts",
+        "credits_per_1000": 12,
+        "minimum_reservation": 12,
+        "language_codes": "ar bg cs da de el en es fi fil fr hi hr id it ja ko ms nl pl pt ro ru sk sv ta tr uk zh"
+      }
+    ]
   },
   "video": "wan/3-0-video",
   "video_authority": {

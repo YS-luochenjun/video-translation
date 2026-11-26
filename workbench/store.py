@@ -419,10 +419,10 @@ class Store:
                 decision = row['decision'] or {}
                 is_feedback = relative.startswith('knowledge/local/feedback/')
                 state = 'needs_review'
-                if decision.get('resolution') in {'pending', 'partial'}:
-                    state = 'needs_evidence'
-                elif row['reflection_state'] == 'needs_lesson':
+                if row['reflection_state'] == 'needs_lesson':
                     state = 'needs_lesson'
+                elif decision.get('resolution') in {'pending', 'partial'}:
+                    state = 'needs_evidence'
                 entry.update(view='candidate', review_state=state,
                              conflict_with_rules=row['conflict_with_rules'],
                              source_type='feedback' if is_feedback else 'candidate',

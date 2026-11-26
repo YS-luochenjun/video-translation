@@ -8,7 +8,9 @@
 
 ## 安装与检查
 
-当前安装入口面向 Windows x64。准备 `uv`、FFmpeg 和 ffprobe，并加入 PATH；在项目根目录执行：
+准备 `uv`、FFmpeg 和 ffprobe，并加入 PATH。Fireplay 本机取片还需将 Node.js 22 或更新版本加入 PATH。克隆项目后，在项目根目录运行对应的安装入口。
+
+Windows x64
 
 ```powershell
 bin/setup.ps1
@@ -17,13 +19,21 @@ bin/va.ps1 check
 .venv/Scripts/python.exe bin/check_repository.py
 ```
 
-安装资产位于 `.runtime/`，Python 虚拟环境为 `.venv/`。依赖版本见 [bin/requirements/](bin/requirements)，本地模型只安装 Whisper small（含 VAD 依赖）与 UVR Inst HQ3；模型选择由 [模型路由](config/model-routing.json) 约束，UVR 来源和校验和见 [本地模型注册表](config/local-models.json)。首次安装需要联网；已有资产校验后复用。可用 `-FfmpegBin <目录>` 指定媒体工具来源，迁移项目位置后重新运行 setup。
+macOS
+
+```bash
+bash bin/setup.sh
+.venv/bin/python bin/va.py check
+.venv/bin/python bin/check_repository.py
+```
+
+首次运行安装器时会联网准备 Python、项目依赖、`yt-dlp` 和本地模型。安装资产位于 `.runtime/`，Python 虚拟环境位于 `.venv/`。已有资产校验后复用。Windows 可用 `-FfmpegBin <目录>` 指定媒体工具来源。移动项目后重新运行对应的安装入口。依赖、模型及校验来源见 [依赖清单](bin/requirements)、[模型路由](config/model-routing.json) 和 [本地模型注册表](config/local-models.json)。
 
 已有项目 Python 时，可运行 `.venv/Scripts/python.exe bin/install_dependencies.py --plan` 查看安装清单，不下载或安装。安装入口不提供旧模型选择或声音包安装。图片依赖统一安装在 `.runtime/deps/vision/`，不再从旧 OCR 目录加载；Gemini 音频分析、Gemini TTS 和 Wan 视频编辑使用远端 API，不下载权重。历史模型文件与声音产物不自动删除，但缺失旧资产时不会重新下载安装。
 
 字体从本机导入 `assets/fonts/`；缺少目标语言字体时先安装再运行 setup。模型和字体二进制不随源码分发。AI 宿主需要能读取文件、查看图片、使用图像编辑工具和执行本地命令。
 
-需要 KIE 时按 [.env.example](.env.example) 设置本机凭据，并运行 `bin/va.ps1 kie-authorization` 核对授权。新部署不继承本机拥有者的付费授权；doctor 只验证本地运行条件。
+需要 KIE 时设置本机凭据，并用项目 Python 运行 `bin/va.py kie-authorization` 核对本机授权。配置字段见 [.env.example](.env.example)。
 
 换机器安装见 [迁移与部署](docs/migration.md)，包含本项目远程仓库、首次安装、后续更新和历史任务的单独迁移方式。
 

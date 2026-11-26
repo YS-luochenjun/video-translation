@@ -145,10 +145,8 @@ async function checkScrollBoundaries(page, region) {
     await page.waitForFunction(()=>!document.querySelector('#system-usage').textContent.includes('正在读取会话用量'));
     assert.equal(await page.getByRole('heading',{name:'已完成会话用量'}).count(),1);
     assert.equal(await page.getByText('请求费用快照',{exact:false}).count(),0);
-    await page.locator('#system-resources summary').click();
-    assert(await page.locator('#system-resources').getByText('视频翻译脚本执行抽帧、渲染、混音等本机处理时',{exact:false}).isVisible());
-    await page.locator('#console-settings summary').click();
-    await page.getByText('这里记录接单、发送会话消息等工作台指令的受理情况。',{exact:false}).waitFor();
+    assert.equal(await page.locator('#system-retries,#system-resources,#console-settings').count(),0);
+    assert(await page.getByText('模型分工',{exact:true}).isVisible());
     assert.equal(await page.getByText('待维护事项').count(),0);
     await page.screenshot({path:path.join(artifacts,'system.png'),fullPage:true});
     await page.route('**/api/session-usage',route=>route.fulfill({json:{sessions:[
@@ -214,9 +212,50 @@ async function checkScrollBoundaries(page, region) {
     });
     assert.deepEqual(tableStyles,{isolated:true,edges:true,sticky:true});
     await page.locator('.ledger-table').evaluate(table=>{table.scrollTop=0;});
+    await page.getByRole('columnheader',{name:'重试次数'}).waitFor();
+    const retryToggle = page.locator('[data-retry-demand]').first();
+    const demand = await retryToggle.getAttribute('data-retry-demand');
+    const retryMetrics = retryToggle.locator('.ledger-retry-metric');
+    assert.deepEqual(await retryMetrics.locator('span').allTextContents(), ['Codex','KIE','Fireplay 回传']);
+    const retryCounts = await retryMetrics.locator('strong').evaluateAll(values => values.map(value => ({
+      count: value.textContent,
+      highlighted: value.classList.contains('has-retries'),
+      right: value.getBoundingClientRect().right,
+      top: value.getBoundingClientRect().top
+    })));
+    assert(retryCounts.every(value => value.highlighted === (Number(value.count) > 0)));
+    assert(retryCounts.every(value => value.right === retryCounts[0].right));
+    assert(retryCounts.every((value,index) => index === 0 || value.top > retryCounts[index-1].top));
+    assert.equal(await retryToggle.getAttribute('aria-expanded'),'false');
+    await page.route('**/api/retry-activity?*', route => {
+      const params = new URL(route.request().url()).searchParams;
+      assert.equal(params.get('id'),demand);
+      const older = Boolean(params.get('before'));
+      return route.fulfill({json:{
+        coverage:{kie_history:true,codex_retries:true},
+        events:[{at:'2026-11-24T08:00:00Z',source:older?'kie':'fireplay',
+          run:older?'运行示例':null,video_index:2,locale:'ja',operation:older?'status':'bind',
+          attempt:older?1:2,reason:older?'http_503':'http_502',outcome:older?'failed':'success'}],
+        next_cursor:older?null:'1795507200000:retry-fixture'
+      }});
+    });
+    await retryToggle.click();
+    const retryPanel = page.locator('#ledger-retry-detail');
+    await retryPanel.getByRole('row',{name:/Fireplay 回传.*原片 2.*素材绑定.*第 2 次重试.*502.*成功/}).waitFor();
+    assert.equal(await retryToggle.getAttribute('aria-expanded'),'true');
+    assert.equal(await retryPanel.evaluate(node=>node.parentElement.previousElementSibling.querySelector('[data-retry-demand]').dataset.retryDemand),demand);
+    await retryPanel.getByRole('button',{name:'下一页'}).click();
+    await retryPanel.getByRole('row',{name:/KIE.*运行示例.*状态码 503.*失败/}).waitFor();
+    await retryPanel.getByRole('button',{name:'上一页'}).click();
+    await retryPanel.getByRole('row',{name:/Fireplay 回传.*原片 2/}).waitFor();
+    await retryToggle.click();
+    assert.equal(await retryPanel.count(),0);
+    assert.equal(await retryToggle.getAttribute('aria-expanded'),'false');
+    await page.unroute('**/api/retry-activity?*');
     await page.screenshot({path:path.join(artifacts,'ledger.png'),fullPage:true});
     await page.setViewportSize({width:375,height:1000});
     assert(await page.locator('.ledger-table').evaluate(table=>table.scrollWidth>table.clientWidth));
+    assert(await page.evaluate(() => document.documentElement.scrollWidth === innerWidth));
     await page.setViewportSize({width:1440,height:1000});
     await page.getByRole('button',{name:'＋ 按需求号接单'}).click();
     await page.getByRole('dialog',{name:''}).waitFor();

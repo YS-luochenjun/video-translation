@@ -13,14 +13,15 @@ from urllib.parse import urlencode, urljoin, urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 from .common import WorkflowError, load_key, require
-from .model_routing import require_current, require_remote_task, selected
+from .model_routing import audio_recovery_route, require_current, require_remote_task, selected
+from .retry_activity import observe_request, reason
 
 API = "https://api.kie.ai"
 # Official upload quickstart's example uses this dedicated upload host.
 UPLOAD = "https://kieai.redpandaai.co/api/file-stream-upload"
 # Explicit current endpoints, verified against KIE's public documentation.
 # The old gemini-3-flash route repeatedly returned "channel is not supported".
-AUDIO_MODELS = (selected('audio_analysis'), 'gemini-3.1-pro')
+AUDIO_MODELS = (selected('audio_analysis'), audio_recovery_route('comparative_audio_review')['model'], 'gemini-3.1-pro')
 
 
 class ApiError(WorkflowError):
@@ -48,8 +49,20 @@ class KieClient:
         safe_read = body is None
         max_attempts = 3 if safe_read else 1
         transient_http = {408, 425, 429, 500, 502, 503, 504, 524}
+        operation = {'credit': 'balance', 'recordInfo': 'status', 'createTask': 'model_submit',
+                     'file-stream-upload': 'upload'}.get(urlparse(url).path.rsplit('/', 1)[-1], 'model_request')
+        call_id = None
+        previous_cause = None
+
+        def failure(attempt, cause, outcome='failed'):
+            nonlocal call_id, previous_cause
+            call_id = call_id or uuid.uuid4().hex
+            observe_request(call_id, attempt - 1, operation, cause, outcome)
+            previous_cause = cause
 
         for attempt in range(1, max_attempts + 1):
+            if call_id:
+                observe_request(call_id, attempt - 1, operation, previous_cause, 'started')
             request = Request(url, data=data, headers={"Authorization": f"Bearer {self.key}",
                               "Content-Type": content_type, "User-Agent": "AdLocalizer/0.1"})
             try:
@@ -59,15 +72,19 @@ class KieClient:
                         raise ValueError("Expected a KIE response object")
             except HTTPError as exc:
                 provider_response = self._error_response(exc)
+                uncertain = not safe_read and (exc.code == 408 or exc.code >= 500)
+                failure(attempt, reason(exc.code), 'unknown' if uncertain else 'failed')
                 if safe_read and exc.code in transient_http and attempt < max_attempts:
                     time.sleep(0.5 * (2 ** (attempt - 1)))
                     continue
                 detail = self._error_detail(provider_response, exc.reason).replace(self.key, '[REDACTED]')
                 raise ApiError(
                     f"KIE HTTP {exc.code}: {detail[:300]}",
-                    ambiguous=not safe_read and (exc.code == 408 or exc.code >= 500),
+                    ambiguous=uncertain,
                     provider_response=provider_response) from exc
             except (URLError, TimeoutError, OSError, ValueError) as exc:
+                failure(attempt, 'invalid_response' if isinstance(exc, ValueError) else 'transport',
+                        'failed' if safe_read else 'unknown')
                 if safe_read and attempt < max_attempts:
                     time.sleep(0.5 * (2 ** (attempt - 1)))
                     continue
@@ -77,14 +94,17 @@ class KieClient:
 
             if ((envelope or "code" in result) and result.get("code") != 200) or result.get("success") is False:
                 code = result.get('code')
+                uncertain = not safe_read and str(code).isdigit() and (int(code) == 408 or int(code) >= 500)
+                failure(attempt, reason(code), 'unknown' if uncertain else 'failed')
                 if safe_read and str(code).isdigit() and int(code) in transient_http and attempt < max_attempts:
                     time.sleep(0.5 * (2 ** (attempt - 1)))
                     continue
                 safe_response = self._redact(result)
                 detail = self._error_detail(safe_response, "request rejected")
-                uncertain = not safe_read and str(code).isdigit() and (int(code) == 408 or int(code) >= 500)
                 raise ApiError(f"KIE code {code}: {detail[:300]}", ambiguous=uncertain,
                                provider_response=safe_response)
+            if call_id:
+                observe_request(call_id, attempt - 1, operation, previous_cause, 'success')
             if not envelope:
                 return result.get("data") if "choices" not in result and isinstance(result.get("data"), dict) else result
             return result.get("data")
@@ -126,9 +146,21 @@ class KieClient:
         body = {
             "messages": [{"role": "user", "content": content}],
             "stream": False, "include_thoughts": False}
+        backup = audio_recovery_route('comparative_audio_review')
+        if model == backup['model']:
+            body['reasoning_effort'] = backup['reasoning_effort']
         result = self._request(API + f"/{model}/v1/chat/completions", body, envelope=False, timeout=180)
         require(isinstance(result, dict) and bool(result.get("choices")), "Audio analysis returned no choices")
         return result
+
+    @timed('kie.transcribe_audio')
+    def transcribe_audio(self, audio_url):
+        route = audio_recovery_route('transcription_evidence')
+        payload = {'model': route['model'], 'input': {'audio_url': audio_url, 'timestamps': True}}
+        data = self._request(API + "/api/v1/jobs/createTask", payload)
+        if not isinstance(data, dict) or not data.get('taskId'):
+            raise ApiError("KIE accepted transcription but returned no taskId; inspect provider log", ambiguous=True)
+        return data['taskId']
 
     @timed('kie.credits')
     def credits(self):

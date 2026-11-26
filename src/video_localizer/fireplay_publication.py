@@ -175,6 +175,49 @@ def _observed_findings(folder, manifest):
     return findings
 
 
+def _remote_audio_outage(folder, manifest, root):
+    meta = manifest['metadata']
+    relative = f"payload/review/{meta['video_sha256'][:12]}/remote-audio-review-outage.json"
+    if relative not in {asset['path'] for asset in manifest['files']}:
+        return None
+    from .model_routing import policy
+    authority = policy(root)['audio_analysis_recovery']['outage_delivery']
+    value = read_json(inside(folder, relative))
+    completion = read_json(folder / 'payload/outputs/completion.json')
+    inventory = read_json(folder / 'payload/analysis/inventory.json')
+    expected = sorted(line['id'] for line in inventory['speech_segments'] if line.get('action') != 'preserve')
+    from .audio_review_outage import inaccessible_audio
+    review_path = f"payload/review/{meta['video_sha256'][:12]}/audio-model-review.json"
+    review_files = {asset['path']: asset['sha256'] for asset in manifest['files']}
+    failed_models = value.get('failed_models', {})
+    unavailable_review = (review_path not in review_files or (
+        inaccessible_audio(read_json(inside(folder, review_path)))
+        and any(row.get('review_sha256') == review_files[review_path] for row in failed_models.values())))
+    require(authority['enabled'] and authority['authority'] == 'user'
+            and value.get('authorization_ref') == authority['authorization_ref']
+            and value.get('video_sha256') == meta['video_sha256']
+            and value.get('source_sha256') == meta['source_sha256']
+            and value.get('remote_audio_review') == 'skipped_provider_outage'
+            and value.get('semantic_review_passed') is False
+            and completion.get('remote_audio_review') == value['remote_audio_review']
+            and completion.get('remote_audio_review_receipt_sha256') == file_hash(inside(folder, relative))
+            and unavailable_review
+            and expected and value.get('speech_ids') == expected
+            and set(value.get('failed_models', {})) == set(authority['required_models'])
+            and all((row.get('provider_code') in authority['provider_codes']
+                     and row.get('state') in ('failed', 'fail', 'ambiguous'))
+                    or (row.get('provider_code') == 'media_unavailable' and row.get('state') == 'success'
+                        and row.get('review_sha256'))
+                    for row in value['failed_models'].values())
+            and value.get('technical', {}).get('failures') == []
+            and value['technical'].get('video_sha256') == meta['video_sha256']
+            and value.get('mix_waveform_match', {}).get('correlation', 0) >= .95
+            and abs(value['mix_waveform_match'].get('offset_seconds', 1)) <= .04,
+            'Invalid remote audio review outage receipt')
+    return {'path': relative, 'sha256': file_hash(inside(folder, relative)),
+            'authorization_ref': authority['authorization_ref'], 'semantic_review_passed': False}
+
+
 def review(code, spec, root=ROOT):
     from . import bundles, fireplay
     spec = fireplay.payload(spec)
@@ -236,7 +279,8 @@ def review(code, spec, root=ROOT):
         require(isinstance(item, str) and item in files and operation_hash(inside(folder, item), hashes) == files[item],
                 'Publication evidence must be a verified file inside the delivery package')
     observed_findings = _observed_findings(folder, manifest)
-    basic = all(assessment[k] for k in ('translation_complete', 'required_audio_complete', 'watchable'))
+    outage = _remote_audio_outage(folder, manifest, root)
+    basic = assessment['translation_complete'] and assessment['watchable'] and (assessment['required_audio_complete'] or outage is not None)
     severe = any(f['publication_impact'] == 'severe' for f in observed_findings) or any(d['severity'] == 'critical' or d.get('kind') in SEVERE_KINDS or
                  d.get('publication_impact') == 'severe' for d in defects)
     policy = read_json(Path(root) / 'config/fireplay-publication.json')
@@ -250,10 +294,25 @@ def review(code, spec, root=ROOT):
                           'minor_issues_acceptable' if acceptable else 'blocked_major_or_incomplete'),
              'policy_authorization_ref': policy.get('authorization_ref'),
              'internal_quality_unchanged': True}
+    if outage:
+        value['remote_audio_review_outage'] = outage
     if observed_findings:
         value['observed_visual_findings'] = observed_findings
     path = _path(root, code, meta['video_sha256'])
-    if spec.get('reassess_with_new_audio_evidence'):
+    if spec.get('reassess_remote_audio_outage'):
+        require(path.exists() and outage and basic and not severe and (bounded or acceptable),
+                'Remote audio outage reassessment needs an existing rejection and a valid outage receipt')
+        previous = read_json(path)
+        require(previous.get('decision') == 'blocked_major_or_incomplete'
+                and previous.get('assessment', {}).get('translation_complete') is True
+                and previous.get('assessment', {}).get('watchable') is True
+                and previous.get('assessment', {}).get('required_audio_complete') is False
+                and all(defect.get('kind') == 'required_audio_unverified'
+                        for defect in previous['assessment'].get('defects', [])),
+                'Only rejection for unavailable audio verification may use outage reassessment')
+        value['prior_review'] = {'path': str(path.relative_to(root)), 'sha256': file_hash(path)}
+        path = path.parent.parent / 'publication-reassessments' / path.name
+    elif spec.get('reassess_with_new_audio_evidence'):
         require(path.exists() and basic and not severe and (bounded or acceptable),
                 'New audio evidence needs an existing rejection and an otherwise eligible current review')
         previous = read_json(path)
@@ -316,6 +375,9 @@ def eligible(code, folder, manifest, root=ROOT):
     require(value.get('decision') in {'minor_issues_acceptable', 'bounded_best_available_acceptable'} and
             value.get('manifest_sha256') == file_hash(folder / 'manifest.json'),
             'Major/many issues, incomplete work or changed output block publication')
+    if value.get('remote_audio_review_outage'):
+        require(_remote_audio_outage(folder, manifest, root) == value['remote_audio_review_outage'],
+                'Remote audio outage receipt changed')
     require(value.get('decision') != 'bounded_best_available_acceptable' or
             policy.get('mode') == 'bounded_best_available' and value.get('policy_authorization_ref') == policy['authorization_ref'],
             'Best-available publication authority changed; review the current policy')

@@ -31,11 +31,19 @@ class VersionRetentionTests(unittest.TestCase):
         self.inspect.start(); self.addCleanup(self.inspect.stop)
 
     def test_preview_then_delete_retains_independent_failure_evidence(self):
+        other = self.root/'runs/other'
+        other.mkdir()
+        closure = {'closed_at': '2026-11-10T01:00:00+00:00', 'video_sha256': 'a' * 64}
+        markers = [self.root/'state/storage-closed'/f'{run.name}.json' for run in (self.run, other)]
+        for marker in markers:
+            write_json(marker, closure)
         preview=retention.prune_versions(self.run,'prune.json',self.root)
         self.assertTrue(self.old.exists())
+        self.assertEqual([read_json(marker) for marker in markers], [closure, closure])
         with self.assertRaisesRegex(WorkflowError,'fingerprint'):
             retention.prune_versions(self.run,'prune.json',self.root,True,'wrong')
         result=retention.prune_versions(self.run,'prune.json',self.root,True,preview['fingerprint'])
+        self.assertEqual([read_json(marker) for marker in markers], [closure, closure])
         self.assertFalse(self.old.exists())
         self.assertTrue((self.old.parent/'recipe.json').exists())
         case=self.root/result['evidence_bundle']
@@ -51,6 +59,31 @@ class VersionRetentionTests(unittest.TestCase):
         write_json(self.root/'runs/other/plan.json',{'base_sha256':file_hash(self.old)})
         with self.assertRaisesRegex(WorkflowError,'referenced'):
             retention.prune_versions(self.run,'prune.json',self.root)
+
+    def test_delivered_replacement_retires_failure_with_text_only(self):
+        final = self.run/'outputs/final.mp4'
+        final.write_bytes(b'fixed')
+        replacement = file_hash(final)
+        write_json(self.run/'outputs/delivery.json', {'video':'outputs/final.mp4','sha256':replacement})
+        write_json(self.run/'inputs/request.json', {'target_language':'ja'})
+        write_json(self.root/'config/storage-authorization.local.json', {
+            'workspace':str(self.root.resolve()),'automatic_cleanup':True})
+        package = 'outputs/.packages/fixed'
+        write_json(self.root/package/'manifest.json', {'identity':replacement})
+        self.spec['replacement_sha256'] = replacement
+        self.spec['versions'][0].pop('evidence')
+        write_json(self.run/'prune.json', self.spec)
+        entry = {'package':package,'origin_run_id':self.run.name,'video_sha256':replacement,
+                 'delivery_eligible':False}
+        with patch.object(retention.learning,'audit'), patch.object(retention.library,'find',return_value=[entry]):
+            with self.assertRaisesRegex(WorkflowError,'quality-passed'):
+                retention.prune_versions(self.run,'prune.json',self.root)
+            entry['delivery_eligible'] = True
+            preview = retention.prune_versions(self.run,'prune.json',self.root)
+            result = retention.prune_versions(self.run,'prune.json',self.root,True,preview['fingerprint'])
+        self.assertFalse(self.old.exists())
+        self.assertTrue(final.exists())
+        self.assertTrue((self.root/result['evidence_bundle']/'evidence/outputs/old/recipe.json').is_file())
 
     def test_missing_evidence_changed_preview_and_unsettled_block(self):
         preview=retention.prune_versions(self.run,'prune.json',self.root)

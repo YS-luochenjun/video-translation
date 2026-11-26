@@ -134,6 +134,11 @@ def finish(run, relative='review/finalization.json'):
     require(not original['has_audio'] or actual['has_audio'], 'Restore the soundtrack before finalizing')
     require(spec['speech_mode'] != 'dubbed' or actual['has_audio'], 'Dubbed output needs an actual audio stream')
     media.command(['ffmpeg', '-v', 'error', '-xerror', '-i', video, '-f', 'null', '-'])
+    outage = None
+    if spec.get('remote_audio_review_outage') is True:
+        require(spec['speech_mode'] == 'dubbed', 'Remote review outage requires generated target audio')
+        from .audio_review_outage import receipt
+        outage = receipt(run, video)
     output = run / 'outputs/final.mp4'
     output.parent.mkdir(parents=True, exist_ok=True)
     digest = file_hash(video)
@@ -169,6 +174,8 @@ def finish(run, relative='review/finalization.json'):
         'request_sha256': spec['request_sha256'],
         'spec': relative, 'spec_sha256': file_hash(spec_path), 'reviewer': spec['reviewer'],
         'speech_mode': spec['speech_mode'], 'limitations': spec['limitations'],
+        **({'remote_audio_review': outage['remote_audio_review'],
+            'remote_audio_review_receipt_sha256': file_hash(run / 'review' / digest[:12] / 'remote-audio-review-outage.json')} if outage else {}),
         'knowledge_selection': selection_asset,
         'decode_passed': True, 'quality_passed': False, 'user_acceptance': False,
         'completed_at': utc_now()})

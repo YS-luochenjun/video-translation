@@ -7,6 +7,7 @@ import mimetypes
 import os
 import re
 import secrets
+import sqlite3
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -21,6 +22,7 @@ from console_events import EventHub
 from console_panel import handoff, notified
 from console_requirements import add_ledger_evidence
 from source_capacity import project_capacity
+from retry_activity_view import cached_summary, counts_for, view as retry_activity
 
 STATIC = Path(__file__).resolve().parent / 'static'
 CONSOLE_STATIC = Path(__file__).resolve().parent / 'console-static'
@@ -268,6 +270,14 @@ class Handler(BaseHTTPRequestHandler):
                 days = int(arg('days') or 14)
                 if days not in {7,14,30,90}: raise ValueError('Invalid period')
                 ledger = self.server.collector.ledger
+                if view in {'', 'list'}:
+                    try:
+                        _, coverage, counts = cached_summary(self.server.console, ledger)
+                        for row in rows:
+                            row['retry_counts'] = counts_for(counts, row['id'])
+                        result['retry_coverage'] = coverage
+                    except (OSError, sqlite3.Error, ValueError, TypeError, AttributeError):
+                        result['retry_coverage'] = None
                 result.update(requirements=rows, metrics=ledger.metrics(rows,days=days),
                               total_rows=len(result['requirements']), csrf_token=self.server.ledger_token)
                 if view in {'', 'efficiency'}:
@@ -286,6 +296,15 @@ class Handler(BaseHTTPRequestHandler):
                 return self.json(200, self.server.snapshot(), head)
             if url.path == '/api/session-usage':
                 return self.json(200, self.server.console.session_usage(), head)
+            if url.path == '/api/retry-activity':
+                identifier = arg('id')
+                ledger = self.server.collector.ledger
+                with ledger.connection() as db:
+                    exists = db.execute("SELECT 1 FROM requirements WHERE id=? AND json_extract(data,'$.resolved') IS NOT 1",
+                                        (identifier,)).fetchone()
+                if not exists:
+                    raise ValueError('Unknown requirement')
+                return self.json(200, retry_activity(self.server.console, ledger, identifier, arg('before')), head)
             if url.path == '/api/task':
                 return self.json(200, store.detail(arg('id')), head)
             if url.path == '/api/knowledge':

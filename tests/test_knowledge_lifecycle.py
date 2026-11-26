@@ -211,6 +211,17 @@ class KnowledgeLifecycleTests(unittest.TestCase):
                 "evidence": [{"path": "review/observation.md", "sha256": file_hash(run / "review/observation.md")}]}
         return run, spec, plan
 
+    def test_routine_use_keeps_receipt_without_a_review_candidate(self):
+        run, spec, plan = self.make_run()
+        spec["uses"][0].update(outcome="helpful", observation="The existing boundary check worked as documented")
+        result = usage.record(run, spec, self.root)
+        self.assertEqual(result["state"], "recorded_use")
+        self.assertTrue(result["path"].startswith("state/knowledge-use/"))
+        self.assertEqual(usage.record(run, spec, self.root), result)
+        self.assertEqual(usage.followup(run, self.root)["remaining"], [])
+        self.assertEqual([row["path"] for row in reviews.queue(self.root)], [self.path])
+        self.assertNotIn(self.root / result["path"], curation.source_files(self.root))
+
     def test_actual_feedback_survives_run_and_reaches_revision_queue(self):
         run, spec, plan = self.make_run()
         self.assertEqual(usage.followup(run, self.root)["state"], "needs_use_feedback")

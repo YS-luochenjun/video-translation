@@ -111,116 +111,6 @@
       "archive_path": "da1bf5060aee1a3bfa206c16e2826428f817c13406cd6c0c5a3f10f8ad7c5d47/4-2-visual-revision-20261020-965b17b7ef.json",
       "decision_sha256": "8baa29adb655bcdf72b19cb07415d06a7162184954f2b702ce3df62e8f315491"
     },
-    "knowledge/candidates/SHE-20261026-054-01-dd6b88a60f.json": {
-      "sha256": "00487877fd7bb00c765091364ea3c708f02dcf3578eca6aa44c4946751712d5e",
-      "archive_path": "00487877fd7bb00c765091364ea3c708f02dcf3578eca6aa44c4946751712d5e/SHE-20261026-054-01-dd6b88a60f.json",
-      "decision_sha256": "749c116c1256f35ae5c23cbdbe844cd2ab5b9c2f280e02b313c66a0a15ee6f44"
-    },
-    "knowledge/candidates/SHE-20261026-054-01-e52a625b01.json": {
-      "sha256": "9f3a17eb484c7a8188334c9e0f464f4ca56e402c5a1388403ec5db585ec6723c",
-      "archive_path": "9f3a17eb484c7a8188334c9e0f464f4ca56e402c5a1388403ec5db585ec6723c/SHE-20261026-054-01-e52a625b01.json",
-      "decision_sha256": "25c27ed8b5c4e41f864f3d93cb7e432276c0ed6ca43da13f239e44997c6d1c4f"
-    },
-    "knowledge/candidates/SHE-20261026-054-02-8d02dd90ac.json": {
-      "sha256": "9e5831b812515b60f9493aa792b2092f743a1c1935dbbd16a25943a84412fe15",
-      "archive_path": "9e5831b812515b60f9493aa792b2092f743a1c1935dbbd16a25943a84412fe15/SHE-20261026-054-02-8d02dd90ac.json",
-      "decision_sha256": "468113a4127dd9e9380e2d1933ef479dad892d2355f33b399fe714a2d459625d"
-    },
-    "knowledge/candidates/SHE-20261026-054-02-b4ff18b828.json": {
-      "sha256": "267d8c2037355326680b3ed178bbd7086245a8b17f1613d717ff6b356924a20b",
-      "archive_path": "267d8c2037355326680b3ed178bbd7086245a8b17f1613d717ff6b356924a20b/SHE-20261026-054-02-b4ff18b828.json",
-      "decision_sha256": "e515c42be558ac92a66a3502053f7bd30a37bd13a2afc2028d62db71307c5cb5"
-    },
-    "knowledge/candidates/SHE-20261026-054-03-ecc048f2e7.json": {
-      "sha256": "a4b6f5a2c810456da2095bab33c2a1f0247e2c9e8e88516a1711589eccf8af0d",
-      "archive_path": "a4b6f5a2c810456da2095bab33c2a1f0247e2c9e8e88516a1711589eccf8af0d/SHE-20261026-054-03-ecc048f2e7.json",
-      "decision_sha256": "211b99158fc8b7cd63812787e1faf8e96dc79cf1010e63afaefff7641eea2bfe"
-    },
-    "knowledge/candidates/SHE-20261026-054-03-f94c6c92b2.json": {
-      "sha256": "c2b9b00b1581be12e783d23b1f5668418ef3dc27e3cbe16129f13caec7f728ef",
-      "archive_path": "c2b9b00b1581be12e783d23b1f5668418ef3dc27e3cbe16129f13caec7f728ef/SHE-20261026-054-03-f94c6c92b2.json",
-      "decision_sha256": "f28c19f6c2942ffe5407fb89d9abcf355a3b97c51266adea185c685fd7b22f56"
-    },
-    "knowledge/candidates/SHE-20261026-054-04-1936e15068.json": {
-      "sha256": "c3c82b83bf91709494ded85f360dc2e8f68893b9609b2e75c283e4ad7e823c27",
-      "archive_path": "c3c82b83bf91709494ded85f360dc2e8f68893b9609b2e75c283e4ad7e823c27/SHE-20261026-054-04-1936e15068.json",
-      "decision_sha256": "78583f110d787e271e6a3f44b8995253ac6ab05ed41919d406b9c8742bc8d028"
-    },
-    "knowledge/candidates/SHE-20261026-054-04-3101d1e1d7.json": {
-      "sha256": "8f21a1ff6925c9b27ca10b3e96fb17d139c242c974763c035020596ea9e3a451",
-      "archive_path": "8f21a1ff6925c9b27ca10b3e96fb17d139c242c974763c035020596ea9e3a451/SHE-20261026-054-04-3101d1e1d7.json",
-      "decision_sha256": "1ca18e1c488233b711f4775a7410c77382dc0337c156236dfc42e34a763401e2"
-    },
-    "knowledge/candidates/SHE-20261026-054-05-25df0651de.json": {
-      "sha256": "fa29fda45626eaad51f2d61f20b656eb2ef93261e34414ab540518614c1a8357",
-      "archive_path": "fa29fda45626eaad51f2d61f20b656eb2ef93261e34414ab540518614c1a8357/SHE-20261026-054-05-25df0651de.json",
-      "decision_sha256": "d7a117f6cda080eb7ef3010acd8ed382e23af36bbf1961d3e2b6f613c20f9747"
-    },
-    "knowledge/candidates/SHE-20261026-054-05-ef7e2e329b.json": {
-      "sha256": "93feaef47881f4c25a11df73563e109708e2b983270418456ed67c42b914520d",
-      "archive_path": "93feaef47881f4c25a11df73563e109708e2b983270418456ed67c42b914520d/SHE-20261026-054-05-ef7e2e329b.json",
-      "decision_sha256": "1155c5ed75074b1b65fe5060d3ec9e286764474c80d2d104322a6866babd6032"
-    },
-    "knowledge/candidates/SHE-20261026-054-06-7d5d37d268.json": {
-      "sha256": "950e47eca4b500f3ba11ae36472d279e78405f31ad97217fa2e9d9c37085289d",
-      "archive_path": "950e47eca4b500f3ba11ae36472d279e78405f31ad97217fa2e9d9c37085289d/SHE-20261026-054-06-7d5d37d268.json",
-      "decision_sha256": "1a617226283d822d5eb9b33c0affa795fd2e2be1d953246eb1b8647babb11f14"
-    },
-    "knowledge/candidates/SHE-20261026-054-06-9e3213384d.json": {
-      "sha256": "78108f8482ee57c98d65215168911b6637a1125710f87fe07247fe05d8998a25",
-      "archive_path": "78108f8482ee57c98d65215168911b6637a1125710f87fe07247fe05d8998a25/SHE-20261026-054-06-9e3213384d.json",
-      "decision_sha256": "7496767c3042ac152e2de63efb9d715cbbd6e2c5153a24f98644b289bca7c078"
-    },
-    "knowledge/candidates/SHE-20261026-054-07-c1940cfcda.json": {
-      "sha256": "f7c12c6306f95f93e4468d078c6a9744b5be13121795f588827067d61c8af703",
-      "archive_path": "f7c12c6306f95f93e4468d078c6a9744b5be13121795f588827067d61c8af703/SHE-20261026-054-07-c1940cfcda.json",
-      "decision_sha256": "0bbf53f5e2ee3618d440be542fa7c1a6b57ee0913d37a035be2b8a1de9e3e00c"
-    },
-    "knowledge/candidates/SHE-20261026-054-07-d13dad983d.json": {
-      "sha256": "30214d310283b3e966e741c5f7904afd9c3e8c3541c8b60769545a502ab89f94",
-      "archive_path": "30214d310283b3e966e741c5f7904afd9c3e8c3541c8b60769545a502ab89f94/SHE-20261026-054-07-d13dad983d.json",
-      "decision_sha256": "2eef8d5eb3362576eece4a049bb6009d66b768bed8ec025c01c036b84f6d37bd"
-    },
-    "knowledge/candidates/SHE-20261026-054-08-69a7628e30.json": {
-      "sha256": "c581ecdc2bb012f803985516481a069b2b57c659874a66f7b18f62e6caf243f0",
-      "archive_path": "c581ecdc2bb012f803985516481a069b2b57c659874a66f7b18f62e6caf243f0/SHE-20261026-054-08-69a7628e30.json",
-      "decision_sha256": "5487181d622e72e9c453e3e16468dcf3951ac3ce5711560e9a0399597483ca48"
-    },
-    "knowledge/candidates/SHE-20261026-054-08-7bbfd989c6.json": {
-      "sha256": "2afab5d0c9dcb335d5fd64db3288b210eab1e19c3d1bb5c4288ef2bdf574f751",
-      "archive_path": "2afab5d0c9dcb335d5fd64db3288b210eab1e19c3d1bb5c4288ef2bdf574f751/SHE-20261026-054-08-7bbfd989c6.json",
-      "decision_sha256": "ef4744a7309cc83e5711a5ce9ad5eb3349ec5699f0eccc8c53be1ca0165c7d18"
-    },
-    "knowledge/candidates/SHE-20261026-054-09-0e0beb88cf.json": {
-      "sha256": "c6dd2bd2d3343ed2ab036870a75dcb559ecb9224cd321b5ce3b4093b3aa84c41",
-      "archive_path": "c6dd2bd2d3343ed2ab036870a75dcb559ecb9224cd321b5ce3b4093b3aa84c41/SHE-20261026-054-09-0e0beb88cf.json",
-      "decision_sha256": "f5ec19fad50326ba9be87be9385e50dfa3babc1af49d57b1bd567242cf25f8ab"
-    },
-    "knowledge/candidates/SHE-20261026-054-09-f2f0c20ab5.json": {
-      "sha256": "21fc595e639f554e9871c8102e8a5c4a8ce0d88edd8240d15c517d26bd14eae5",
-      "archive_path": "21fc595e639f554e9871c8102e8a5c4a8ce0d88edd8240d15c517d26bd14eae5/SHE-20261026-054-09-f2f0c20ab5.json",
-      "decision_sha256": "11b4b15618a817f6cb5a1b189a9d6dfa8f0efbcac3807116a3fb99a876fa4850"
-    },
-    "knowledge/candidates/SHE-20261026-054-10-83115fcc67.json": {
-      "sha256": "d924e39d555c4985f26d58bbd4238a584567f4e8e32b42c400f742abfb829668",
-      "archive_path": "d924e39d555c4985f26d58bbd4238a584567f4e8e32b42c400f742abfb829668/SHE-20261026-054-10-83115fcc67.json",
-      "decision_sha256": "beb7c2222f032645a4d682dd749d81a93b88a4ca33b6a08dfb535d59d4c3f6cd"
-    },
-    "knowledge/candidates/SHE-20261026-054-10-f0060207a6.json": {
-      "sha256": "89aafe08919e925693baa6cae2060fb1eadae4cbba6a8e2d23c9151f88b7436e",
-      "archive_path": "89aafe08919e925693baa6cae2060fb1eadae4cbba6a8e2d23c9151f88b7436e/SHE-20261026-054-10-f0060207a6.json",
-      "decision_sha256": "fa69364362fc8838da42931298f76d13229b979707cefff77134f0d7af152d38"
-    },
-    "knowledge/candidates/SHE-20261026-054-11-460770bbd4.json": {
-      "sha256": "09f8e62287c0741893a4c403b12b4bc942bb40bc73aa7744a722dca112a124e6",
-      "archive_path": "09f8e62287c0741893a4c403b12b4bc942bb40bc73aa7744a722dca112a124e6/SHE-20261026-054-11-460770bbd4.json",
-      "decision_sha256": "2ff74fe370c708ff10ca6785c792b7fb0909d3ec699bdbaec0c7c4ee69bb835b"
-    },
-    "knowledge/candidates/SHE-20261026-054-11-9973d7ccd9.json": {
-      "sha256": "56191691dee1735ec4b9d9b426c4eaf597ee9c54e8134f8723ff120a3428438c",
-      "archive_path": "56191691dee1735ec4b9d9b426c4eaf597ee9c54e8134f8723ff120a3428438c/SHE-20261026-054-11-9973d7ccd9.json",
-      "decision_sha256": "4373eaa44d2e8ebcbdc40e231a7c4af9add962d8440bfb22cc597ff6da4be376"
-    },
     "knowledge/candidates/ad-019f69fb-de-20261021-ad80ac8f35.json": {
       "sha256": "180007e362b6237984d4b3b3d1207a1c1b7c16c122e90f85ab3923e56abd85e2",
       "archive_path": "180007e362b6237984d4b3b3d1207a1c1b7c16c122e90f85ab3923e56abd85e2/ad-019f69fb-de-20261021-ad80ac8f35.json",
@@ -321,30 +211,10 @@
       "archive_path": "91e9c7db497d64291e537a01b6d19f0ae8c6b404347dc45c0b249a05569e4d83/completed-final-followup-20261020.json",
       "decision_sha256": "3fc0f926f146dfae96fef927ceb5688c9aed7a556e7eed8e6b93a9ea441746f7"
     },
-    "knowledge/candidates/complex-av-en-zh-001-466519b59f.json": {
-      "sha256": "872efaefb659536368988161a482dded8578b15b0a5bcb7c4ee52e002940c264",
-      "archive_path": "872efaefb659536368988161a482dded8578b15b0a5bcb7c4ee52e002940c264/complex-av-en-zh-001-466519b59f.json",
-      "decision_sha256": "5fb49daacc4f89670b6c787c5c13ca22e097e387f4ae4ca6d23d77e302a16cdc"
-    },
     "knowledge/candidates/complex-av-en-zh-001-capture-tail-followup.json": {
       "sha256": "3dadab5706ae9a472046124ede2fb803d62863baaa54a5bf8571dfe6f807887e",
       "archive_path": "3dadab5706ae9a472046124ede2fb803d62863baaa54a5bf8571dfe6f807887e/complex-av-en-zh-001-capture-tail-followup.json",
       "decision_sha256": "10a332719b432885646510c188c9a543508f6df8b0a2bfe9572600194a7128b0"
-    },
-    "knowledge/candidates/complex-av-en-zh-002-81f60de6b3.json": {
-      "sha256": "2cf81f8965f956f55af145662477939c2c069f2ddc3ba6e96415dc9ad0ec6bf0",
-      "archive_path": "2cf81f8965f956f55af145662477939c2c069f2ddc3ba6e96415dc9ad0ec6bf0/complex-av-en-zh-002-81f60de6b3.json",
-      "decision_sha256": "798d44e5243761d1b5adc67c2714761a921908245bc9754f680791bfb7e24380"
-    },
-    "knowledge/candidates/complex-av-en-zh-lowcost-003-f5b1a0abd0.json": {
-      "sha256": "c79818f65be9aeb58bcd4758947bfc1d0863214f9037de38c90287513e9cbd14",
-      "archive_path": "c79818f65be9aeb58bcd4758947bfc1d0863214f9037de38c90287513e9cbd14/complex-av-en-zh-lowcost-003-f5b1a0abd0.json",
-      "decision_sha256": "1d1bdaa4d36fab0d7da2a13a0ce7f93f108bc05dae0c50bf46147976a46dc4ce"
-    },
-    "knowledge/candidates/de2us-en-20261021-01-ff1eec75f0.json": {
-      "sha256": "f9a3af17fd96040275be9ad6619665250059bf00afaa724d9445aa744b995cc8",
-      "archive_path": "f9a3af17fd96040275be9ad6619665250059bf00afaa724d9445aa744b995cc8/de2us-en-20261021-01-ff1eec75f0.json",
-      "decision_sha256": "c97f72072a6cb7e335f627d175b221989f0c7a45da4a1af037faf1593d816d35"
     },
     "knowledge/candidates/dropdown-neutral-bleed-korean-reuse-20261019.json": {
       "sha256": "5c0d95bd33d2f0fdb2a2b733ad0329f32432af1feaac78233e8ded08eba1ad53",
@@ -396,30 +266,10 @@
       "archive_path": "747250a536a5472c825e079a5ef1a8635d4c5d2d58a3a7e42c9863fb8df46ded/hand-zh-sync-002-57257dc8c7.json",
       "decision_sha256": "f2178accf505a3dfcbba2cb8aa88cd507d06fd9ee6fa914d0274142edc3e68be"
     },
-    "knowledge/candidates/hand-zh-sync-002-d2cced3bb1.json": {
-      "sha256": "06f9abf5735d2b5a749b35019707efd34eb6f62d63696e9c23214079e540c0d9",
-      "archive_path": "06f9abf5735d2b5a749b35019707efd34eb6f62d63696e9c23214079e540c0d9/hand-zh-sync-002-d2cced3bb1.json",
-      "decision_sha256": "b68417b5aa4767558712fba79140632099b0d213795386a9afe8fe62724baea4"
-    },
-    "knowledge/candidates/live-photo-ja-001-566413b211.json": {
-      "sha256": "eae6bbe33b106477a71c8859fa63f41030cd667bb68b0afe09a1649f36288c34",
-      "archive_path": "eae6bbe33b106477a71c8859fa63f41030cd667bb68b0afe09a1649f36288c34/live-photo-ja-001-566413b211.json",
-      "decision_sha256": "5f78d565af87e5daa2e9c7564d179f413270d72be879066058fa45e287250467"
-    },
     "knowledge/candidates/live-photo-ko-001-4afed27d97.json": {
       "sha256": "c4844efc6cc77d9f30ac1f529e99194be75cc33dacf1908520b91780ccf31711",
       "archive_path": "c4844efc6cc77d9f30ac1f529e99194be75cc33dacf1908520b91780ccf31711/live-photo-ko-001-4afed27d97.json",
       "decision_sha256": "f410b87e2bf3432e946da5e97d958079b570d5efa23c6face6f3b35934f00c69"
-    },
-    "knowledge/candidates/live-photo-multilingual-method-20261019.json": {
-      "sha256": "033aaa7ef40b97acbe49dd209267148723bb8a5fb9cda9936c7152e675cf45dc",
-      "archive_path": "033aaa7ef40b97acbe49dd209267148723bb8a5fb9cda9936c7152e675cf45dc/live-photo-multilingual-method-20261019.json",
-      "decision_sha256": "dc74ee24d5c37d77b64ef9541babdb8decbbbb3942caf72a2061fc59c5b438c5"
-    },
-    "knowledge/candidates/live-photo-zh-001-b286840d64.json": {
-      "sha256": "ca0cf0b78c66f4a62e04d04f03490c94dbc84d7a3d7c0b64e48f345e794d0eec",
-      "archive_path": "ca0cf0b78c66f4a62e04d04f03490c94dbc84d7a3d7c0b64e48f345e794d0eec/live-photo-zh-001-b286840d64.json",
-      "decision_sha256": "242e2e2b4f5a75c208ff1b039f6d5f4a5fec96746f8e8f1ede6a8f1817a12087"
     },
     "knowledge/candidates/live-photo-zh-art-004-96d77d9f27.json": {
       "sha256": "3f7ba6a47cbb4f561cac5347e6cc957a45610e293dcd911c1f408935a7ecbc84",
@@ -441,11 +291,6 @@
       "archive_path": "059734714503b44a75ed1ce31ed4835e297610737763853b323216220ab660cd/live-photo-zh-ui-gap-003-06881b0383.json",
       "decision_sha256": "7aed337f96dc89d924961ce2a69a86b042b32698c3e771d8965f261d77d6ff91"
     },
-    "knowledge/candidates/mog043-nonopaque-local-probes-20261022.json": {
-      "sha256": "d5f7dbc909030fa8eadd6bddb1f576a5d9a081587ca797000d44266311dcc158",
-      "archive_path": "d5f7dbc909030fa8eadd6bddb1f576a5d9a081587ca797000d44266311dcc158/mog043-nonopaque-local-probes-20261022.json",
-      "decision_sha256": "e1918714903344cdc85981dfde92c9ab9755b5375059d36c26dfdbab504eee6d"
-    },
     "knowledge/candidates/native-font-resolution-macos-20261026.json": {
       "sha256": "f5d10745d5bde43ffde6908ac897aefab611392b9b02b4b72ebf9a58c19df7b2",
       "archive_path": "f5d10745d5bde43ffde6908ac897aefab611392b9b02b4b72ebf9a58c19df7b2/native-font-resolution-macos-20261026.json",
@@ -455,66 +300,6 @@
       "sha256": "b5d410c679018111dc5d78da3d2e14fdf0b40e40b05a599fd85010e0ee89f2bb",
       "archive_path": "b5d410c679018111dc5d78da3d2e14fdf0b40e40b05a599fd85010e0ee89f2bb/project-owned-curation-hook-20261020.json",
       "decision_sha256": "5c0b8b58c7c0ab9bea7a4aecab66854f283fff6b2534122270bd9870406a8701"
-    },
-    "knowledge/candidates/remotion-evaluation-20261026.json": {
-      "sha256": "97abe9ee98bd74126225dc873a9efaeb1bd58641d11e7e4a8df86186efade536",
-      "archive_path": "97abe9ee98bd74126225dc873a9efaeb1bd58641d11e7e4a8df86186efade536/remotion-evaluation-20261026.json",
-      "decision_sha256": "188518587de42a1754146fdceea6b4f353fc2534b18554143933e25de120c865"
-    },
-    "knowledge/candidates/remotion-production-integration-20261027.json": {
-      "sha256": "29721668caec54fa9a9360db9dd4423dd236de31ea4cf64ecdbe6057d66a1455",
-      "archive_path": "29721668caec54fa9a9360db9dd4423dd236de31ea4cf64ecdbe6057d66a1455/remotion-production-integration-20261027.json",
-      "decision_sha256": "d0fc5567abda406b647a9f2ab840b4053f5a2424e004dceed4a93ad00d5c883e"
-    },
-    "knowledge/candidates/she-20261026-058-01-725b28dbec.json": {
-      "sha256": "dc7a62245e636473ecf661961de69f013607887e3acc3992696b9b2feee43f4a",
-      "archive_path": "dc7a62245e636473ecf661961de69f013607887e3acc3992696b9b2feee43f4a/she-20261026-058-01-725b28dbec.json",
-      "decision_sha256": "3d4fa0d96eeaeacfc5dedde9a6e73b56712e0f2647cd8bac440d185b1c5f7e07"
-    },
-    "knowledge/candidates/she-20261026-058-01-bdfaee01f8.json": {
-      "sha256": "e488276f1d4d8610aece3f542bd2503ce6e288764e1990015f8135cdc5520443",
-      "archive_path": "e488276f1d4d8610aece3f542bd2503ce6e288764e1990015f8135cdc5520443/she-20261026-058-01-bdfaee01f8.json",
-      "decision_sha256": "53eaf26e7519fd0615bcc6c77c95a0c2ce44c8595af018138fffd5962b4448f0"
-    },
-    "knowledge/candidates/she-20261026-058-02-09f909542c.json": {
-      "sha256": "d5d8ccd6d3fb66b92b01853f1f5e395b7c648c18afa1c243ea9a2342544532e4",
-      "archive_path": "d5d8ccd6d3fb66b92b01853f1f5e395b7c648c18afa1c243ea9a2342544532e4/she-20261026-058-02-09f909542c.json",
-      "decision_sha256": "35b1d144b07c1ba83d9c4ba730d0fb0500bfe42c430ac10044dbb5f38a924a8e"
-    },
-    "knowledge/candidates/she-20261026-058-02-964581953d.json": {
-      "sha256": "ba208b417416108297e058f5ce89504bd23de0f7d5284ba29d66692d43ef1e45",
-      "archive_path": "ba208b417416108297e058f5ce89504bd23de0f7d5284ba29d66692d43ef1e45/she-20261026-058-02-964581953d.json",
-      "decision_sha256": "106f1f1cac6c70ae9fd058a3b1bc98ab8ab465188c3fe97e4f8b2c251bdb3d52"
-    },
-    "knowledge/candidates/she-20261026-058-03-5203cd8a3a.json": {
-      "sha256": "0259440d29df27ede0f40be184662ada7c2918cd09fdf19735a1fdb9373cd011",
-      "archive_path": "0259440d29df27ede0f40be184662ada7c2918cd09fdf19735a1fdb9373cd011/she-20261026-058-03-5203cd8a3a.json",
-      "decision_sha256": "f139644aba474ad7707ce26cffaee8b6bb2008bde2c673440c3b497c93821714"
-    },
-    "knowledge/candidates/she-20261026-058-03-b9c650384a.json": {
-      "sha256": "e3b7867316ce67e08aa675d570acf0735ba8fe4b69768fbc77a05ea5dd45d8b0",
-      "archive_path": "e3b7867316ce67e08aa675d570acf0735ba8fe4b69768fbc77a05ea5dd45d8b0/she-20261026-058-03-b9c650384a.json",
-      "decision_sha256": "2acebed6974049737a4171545e93a6f7390f3f4055566ea5ecad7577cc6a1809"
-    },
-    "knowledge/candidates/she-20261026-058-04-762a19be3b.json": {
-      "sha256": "508d2db15355461862daf72511e8a46e7a02cae451d78e22a0ae29db515a6770",
-      "archive_path": "508d2db15355461862daf72511e8a46e7a02cae451d78e22a0ae29db515a6770/she-20261026-058-04-762a19be3b.json",
-      "decision_sha256": "adabfe9d4995a57fa9b5bc057d9e79e0234e8a6d87d096776a55791c3726c1ae"
-    },
-    "knowledge/candidates/she-20261026-058-04-819f156a27.json": {
-      "sha256": "bfd2713bd96409bfce00754ed12f057b8c78dff1c63ae2ec0ca9cc94feddab64",
-      "archive_path": "bfd2713bd96409bfce00754ed12f057b8c78dff1c63ae2ec0ca9cc94feddab64/she-20261026-058-04-819f156a27.json",
-      "decision_sha256": "cece5be4577372aac30e150cf14f1a1ef8492de7561d4180a6e1abddb42478c6"
-    },
-    "knowledge/candidates/static-veo-lite-001-6bd69f43ba.json": {
-      "sha256": "e1114c85adb3500f872ccdd258f3cad6052b2cd78f0110d1c52d5d1d130b5241",
-      "archive_path": "e1114c85adb3500f872ccdd258f3cad6052b2cd78f0110d1c52d5d1d130b5241/static-veo-lite-001-6bd69f43ba.json",
-      "decision_sha256": "662e6adfd0f38d9ad89cd4fa4aef7b2bdd47590da178244198f80b9fb26af3fe"
-    },
-    "knowledge/candidates/static-wan26-probe-001-3a80a9ae63.json": {
-      "sha256": "3998bdff743e938a1d12ed2e8aebddaa0255a8689d934cd27672672ecb96a246",
-      "archive_path": "3998bdff743e938a1d12ed2e8aebddaa0255a8689d934cd27672672ecb96a246/static-wan26-probe-001-3a80a9ae63.json",
-      "decision_sha256": "8fa1922cbb3f201434f4dc8c890d3abde4c63754558ee0c94f9fee5785b43adc"
     },
     "knowledge/candidates/static-wan27-edit-001-9b6563eacd.json": {
       "sha256": "936ff94d07acdf6d84043aa6eac4b80b6cdc746b73227a3a2d87f461998e581a",
@@ -526,45 +311,10 @@
       "archive_path": "7aea7e535efeddb1e482c64837dc3e20898055171a7dd029969bccb35dae4a1a/storage-foundation-20261020.json",
       "decision_sha256": "528d692fb1c15274a7ae7ece932626c93a79cf173d9a98fac011cb7875e6d80b"
     },
-    "knowledge/candidates/three-model-erasure-20261026.json": {
-      "sha256": "866196f9dfb256c76e2b0a898ffe4b61dc12671e316cc4d04f7a0bbdb0fddbf2",
-      "archive_path": "866196f9dfb256c76e2b0a898ffe4b61dc12671e316cc4d04f7a0bbdb0fddbf2/three-model-erasure-20261026.json",
-      "decision_sha256": "00dd059998374fa26454f662b48e7b561398cb76550fd3173193bde44a3130c0"
-    },
     "knowledge/candidates/video-1-2-es-20261020-01-46af5daaa4.json": {
       "sha256": "d3a061da70855bd99981533288df153c12b5ccbd267a9dc0b97927561ce3b3b3",
       "archive_path": "d3a061da70855bd99981533288df153c12b5ccbd267a9dc0b97927561ce3b3b3/video-1-2-es-20261020-01-46af5daaa4.json",
       "decision_sha256": "5d90f5b0f2a84f29efe4200f77736bc407c678991d3a5d5ebfee5cfe5b6fb660"
-    },
-    "knowledge/candidates/wow-20261026-052-01-718a6e9f01.json": {
-      "sha256": "9b5857d890a6ead6bc2ed8547bd944ea1b2fb1063230f351ebb446f7cfd5daba",
-      "archive_path": "9b5857d890a6ead6bc2ed8547bd944ea1b2fb1063230f351ebb446f7cfd5daba/wow-20261026-052-01-718a6e9f01.json",
-      "decision_sha256": "72ae1b28f9b5e3cbde474134f5618514450c0e4b6061c1c1a0a50be4d7ef8325"
-    },
-    "knowledge/candidates/wow-20261026-052-02-23f50be5f3.json": {
-      "sha256": "948c3eeaec5bc19437739c19e0a8bceb68c4db80b8e8c951fb284472c1afb57e",
-      "archive_path": "948c3eeaec5bc19437739c19e0a8bceb68c4db80b8e8c951fb284472c1afb57e/wow-20261026-052-02-23f50be5f3.json",
-      "decision_sha256": "446a4226c078fd100a130bb30327856aa3080be01bc2601562640a99c9f27fdc"
-    },
-    "knowledge/candidates/wow-20261026-052-03-226e172efb.json": {
-      "sha256": "d71eb13faee50fe67ae5438668bc5750e198aba62212c22eaa22b13b1bb91409",
-      "archive_path": "d71eb13faee50fe67ae5438668bc5750e198aba62212c22eaa22b13b1bb91409/wow-20261026-052-03-226e172efb.json",
-      "decision_sha256": "6be9b39490d5e78a0551b1985ccc5f718a850cd04db0e30c32cde5cb133ed1c9"
-    },
-    "knowledge/candidates/wow-20261026-052-03-402e95902c.json": {
-      "sha256": "784a9de8f2395c129a6516d72e7c6ae28ab38369d46084829933bd332f20b07d",
-      "archive_path": "784a9de8f2395c129a6516d72e7c6ae28ab38369d46084829933bd332f20b07d/wow-20261026-052-03-402e95902c.json",
-      "decision_sha256": "1cdba837584aa0f67ddf1a8ec5b7d09303b6ea5ae6212305c9f4d6c72f093d8d"
-    },
-    "knowledge/candidates/wow-20261026-052-04-934bd29b94.json": {
-      "sha256": "98e41ec79592fc5f4beffbecd01a3fe57e6fa3daa45fe017536de012ea9cff94",
-      "archive_path": "98e41ec79592fc5f4beffbecd01a3fe57e6fa3daa45fe017536de012ea9cff94/wow-20261026-052-04-934bd29b94.json",
-      "decision_sha256": "a86d9d8342b23c9273697d9fc0e0d5f7ea9c204eec81225539c775f862e15884"
-    },
-    "knowledge/candidates/wow-20261026-052-05-f6925e0950.json": {
-      "sha256": "6cea536aaf4a81f590b9be6db091fea1154afc70c6fca50353e24e718c11dc0c",
-      "archive_path": "6cea536aaf4a81f590b9be6db091fea1154afc70c6fca50353e24e718c11dc0c/wow-20261026-052-05-f6925e0950.json",
-      "decision_sha256": "0ef18772d6d918d9545d5da534b46fd5489c1ef5e85093d47cf7c0e476e8d209"
     },
     "knowledge/candidates/hand-sync-transfer-lessons-20261020.json": {
       "sha256": "ce6eaf70dfd3fd4bd7f79b230e5e08adeea025289111d301d20781cf9343422f",
@@ -611,65 +361,20 @@
       "archive_path": "06bb33683888880388b18edffc3b454df2d8da2b9a9d1bb009a9c3aed959a70e/wow042-caption-compositing-observations-20261027.json",
       "decision_sha256": "2f53d8ef98e8563e03a0012800235a7b873a838ae5893401972eabf22e14d040"
     },
-    "knowledge/candidates/MOG-20261027-044-01-cad1e6ebfa.json": {
-      "sha256": "62ff27e7e036f0a7f027e001e3c9f755b72b73d876834e00890ca62079d822d9",
-      "archive_path": "62ff27e7e036f0a7f027e001e3c9f755b72b73d876834e00890ca62079d822d9/MOG-20261027-044-01-cad1e6ebfa.json",
-      "decision_sha256": "fa4637f9d455a3868f8606bab7875f130b39b2062fc5b369669d404160262ec4"
-    },
-    "knowledge/candidates/MOG-20261027-044-02-5b61e3684c.json": {
-      "sha256": "71220ad0ff6783953583156bb79ff17c1c2fa5025a98c6e8288b042fee86e1b9",
-      "archive_path": "71220ad0ff6783953583156bb79ff17c1c2fa5025a98c6e8288b042fee86e1b9/MOG-20261027-044-02-5b61e3684c.json",
-      "decision_sha256": "b55d32b86ece3ebca46c558be0141f1f50a823b5d0562e1ce36ce5fbddab3067"
-    },
-    "knowledge/candidates/MOG-20261027-044-03-4ca6938b58.json": {
-      "sha256": "25d8bce2115257142cab1ce9976be23ef26e22388bcae48413909238c551c4af",
-      "archive_path": "25d8bce2115257142cab1ce9976be23ef26e22388bcae48413909238c551c4af/MOG-20261027-044-03-4ca6938b58.json",
-      "decision_sha256": "1f7f86fb807fa4ee58be3f6e43aea8ce81589bc9a98c541f534c7214a604a924"
-    },
-    "knowledge/candidates/MOG-20261027-044-04-e70c2a6941.json": {
-      "sha256": "e2ec43fe555788c89d534c995a2b54469b4decd1f7979707bf673f75421b2b26",
-      "archive_path": "e2ec43fe555788c89d534c995a2b54469b4decd1f7979707bf673f75421b2b26/MOG-20261027-044-04-e70c2a6941.json",
-      "decision_sha256": "0379b678efbd59c7268c8f36a7a4803d7a5f506292c95868e0fe8b8937800a27"
-    },
-    "knowledge/candidates/MOG-20261027-044-06-6095dfa7e0.json": {
-      "sha256": "adaaa74523fb17d5251aeccef2f88e08ee0467df79beb2079be5384f30ae6983",
-      "archive_path": "adaaa74523fb17d5251aeccef2f88e08ee0467df79beb2079be5384f30ae6983/MOG-20261027-044-06-6095dfa7e0.json",
-      "decision_sha256": "232df7293d346801498f426f9c631ff00a9650cab35b903ea97bb30694f1e2ba"
-    },
-    "knowledge/candidates/MOG-20261027-044-07-3d8caada5f.json": {
-      "sha256": "ec7db2c3bb3a0496f4c151355406a0ce0b9289da72e3c7c6ed8de66e327e33eb",
-      "archive_path": "ec7db2c3bb3a0496f4c151355406a0ce0b9289da72e3c7c6ed8de66e327e33eb/MOG-20261027-044-07-3d8caada5f.json",
-      "decision_sha256": "46d4cafdc15b1b56ab29388875f982b6c774fcc371b060c7286e97d0d93d80d5"
-    },
     "knowledge/candidates/MOG-20261027-044-vi-publication-20261027.json": {
       "sha256": "308eaffc121eb83d449570d54df55283b00556191304ca6d7a3e841b49f13923",
       "archive_path": "308eaffc121eb83d449570d54df55283b00556191304ca6d7a3e841b49f13923/MOG-20261027-044-vi-publication-20261027.json",
       "decision_sha256": "044d0b3b1d3a60dc840b5e5669383e39dc709648e40878ae3d0cbecf936895a8"
-    },
-    "knowledge/candidates/fireplay-native-draft-account-selection-observations-20261027.json": {
-      "sha256": "b20e46207ecf3f836279e0d75a4298ebbf406b70e9a96771e6588a576181f7cc",
-      "archive_path": "b20e46207ecf3f836279e0d75a4298ebbf406b70e9a96771e6588a576181f7cc/fireplay-native-draft-account-selection-observations-20261027.json",
-      "decision_sha256": "b8cb82e64c2112ccae3ffb94aef74c265b84605a157020a5efada36a27d2c147"
     },
     "knowledge/candidates/MOG-20261027-044-05-99b04e7691.json": {
       "sha256": "6c6a3a4a7337029f9249fa5921aa2d8ae204126d6b1b12b7e4aaa9c42ba80966",
       "archive_path": "6c6a3a4a7337029f9249fa5921aa2d8ae204126d6b1b12b7e4aaa9c42ba80966/MOG-20261027-044-05-99b04e7691.json",
       "decision_sha256": "472f30f43ddc2bf34a428abcabcd7a63ef85655f1fe544a06de33fcad11e7a7c"
     },
-    "knowledge/candidates/MOG-20261027-044-partial-return-20261027.json": {
-      "sha256": "dedf64886f14c1e1b14f7411c04496b0af91f040d966aedc52bac5987058f82a",
-      "archive_path": "dedf64886f14c1e1b14f7411c04496b0af91f040d966aedc52bac5987058f82a/MOG-20261027-044-partial-return-20261027.json",
-      "decision_sha256": "edf62555aac3130636611f3b67aee50f07083173c0b3cd1a46f4377b65127af3"
-    },
     "knowledge/candidates/mog047-independent-upload-deferral-20261027.json": {
       "sha256": "b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba",
       "archive_path": "b93eded211170800757c87a402bbcd678e9c9056b47d6bbc77bfb90a59e82fba/mog047-independent-upload-deferral-20261027.json",
       "decision_sha256": "5132fc3cc5e0af84300eb852e32ae133c0e3ab2263438c6b9daa3f04a9e3bc1e"
-    },
-    "knowledge/candidates/wan-reference-asset-validation-20261027.json": {
-      "sha256": "ff1b3b431b4fc13f1187fdf8500aca6d4c4f815ca987f5622c5e83ae5b2e9a1b",
-      "archive_path": "ff1b3b431b4fc13f1187fdf8500aca6d4c4f815ca987f5622c5e83ae5b2e9a1b/wan-reference-asset-validation-20261027.json",
-      "decision_sha256": "04f68effe70af944bf76453239954be2374c1f4dd0e7f9c1ac52ab1b4ce443db"
     },
     "knowledge/candidates/MOG-20261027-010-01-08d5f7c403.json": {
       "sha256": "a8247a150e3f271976968d3b31e342944a28b71d55419d62246d84e23952bf16",
@@ -695,16 +400,6 @@
       "sha256": "41fda9478ecaa6c0a1108abfb1e81c951e984fb36e69e0ab439f9d2c2bc6b551",
       "archive_path": "41fda9478ecaa6c0a1108abfb1e81c951e984fb36e69e0ab439f9d2c2bc6b551/MOG-20261027-010-05-f6f0cfa8b4.json",
       "decision_sha256": "1b555882615af12058073224fc699ed37e11c1014ba926faf4970b73a3efdfe5"
-    },
-    "knowledge/candidates/MOG-20261027-054-01-2b97f6e754.json": {
-      "sha256": "6bbd8761cd3bf726173fe95f8e240b8ac64a8e9c53224315c338ecbb0f37dbff",
-      "archive_path": "6bbd8761cd3bf726173fe95f8e240b8ac64a8e9c53224315c338ecbb0f37dbff/MOG-20261027-054-01-2b97f6e754.json",
-      "decision_sha256": "06974622f251974e0a068d8f9c6e37b3e2299bb2e5e05421edbbc5db746c8057"
-    },
-    "knowledge/candidates/MOG-20261027-054-02-8dece65d3b.json": {
-      "sha256": "4f7857305675e11703b862f5335e8a0ba24ed0230fcb04a17cef9e39e8a9277a",
-      "archive_path": "4f7857305675e11703b862f5335e8a0ba24ed0230fcb04a17cef9e39e8a9277a/MOG-20261027-054-02-8dece65d3b.json",
-      "decision_sha256": "90d71cd623860be37993db622905467e017157679a3fb9c4d42a9b3924675ce8"
     },
     "knowledge/candidates/MOG-20261028-005-01-5550c6d7f2.json": {
       "sha256": "43378b9e5fb642b1c0d878182e7a2bea610b9581812729c1da5983962c02dc91",
@@ -756,290 +451,20 @@
       "archive_path": "052bfe383c1f79e0e6390e98ada1510dc0922babf65989f05b496b7f5a069d5b/KEY-20261028-010-fade-envelope-observation.json",
       "decision_sha256": "eec645b78cee9d29c8084d25bc798eccfda073d2dab8067915d2bb89886935d5"
     },
-    "knowledge/candidates/WOW-20261028-045-01-2d55ddc3e2.json": {
-      "sha256": "be7622fc074aaed7109c9eea38278644a23450fdf5a368e0e61478f1a60319cc",
-      "archive_path": "be7622fc074aaed7109c9eea38278644a23450fdf5a368e0e61478f1a60319cc/WOW-20261028-045-01-2d55ddc3e2.json",
-      "decision_sha256": "8ee5c6a59178f48bb41cea998a0cf4db01bb82d1a36e406184c160691ca86c8f"
-    },
-    "knowledge/candidates/WOW-20261028-045-02-9cfce00637.json": {
-      "sha256": "ea902ee231a77ee9c50c72aa2eee7a19ac3988271ff33b416e7df37bd56287b0",
-      "archive_path": "ea902ee231a77ee9c50c72aa2eee7a19ac3988271ff33b416e7df37bd56287b0/WOW-20261028-045-02-9cfce00637.json",
-      "decision_sha256": "7ab55c5ca1627f898cc7510a6dfe12aa1b342b8ce5a9556bc6186909f40633d7"
-    },
-    "knowledge/candidates/WOW-20261028-045-03-ce8482050b.json": {
-      "sha256": "6a35c31f1727786d1578c272880511b4e5b8125dec0f1defadf4b20bae358c1e",
-      "archive_path": "6a35c31f1727786d1578c272880511b4e5b8125dec0f1defadf4b20bae358c1e/WOW-20261028-045-03-ce8482050b.json",
-      "decision_sha256": "57599d7eeeb045a04718aae622b854199eb94f8f9a60579c82e7741ff9a400fc"
-    },
-    "knowledge/candidates/WOW-20261028-045-04-274aca3267.json": {
-      "sha256": "202d0e41da3c589368bc75bc58cfb3734697ea4eb52fc5b3b4a5d2ae4dcf3c7d",
-      "archive_path": "202d0e41da3c589368bc75bc58cfb3734697ea4eb52fc5b3b4a5d2ae4dcf3c7d/WOW-20261028-045-04-274aca3267.json",
-      "decision_sha256": "a644c16381da1e9ba6b9cf311f2c9a07dae5bcf92e6215789ee2411e1389cea7"
-    },
-    "knowledge/candidates/WOW-20261028-045-05-ceba4d3633.json": {
-      "sha256": "5567e47b919bc3320ed50b009339b0652a3bce5bbdb9b7451893d87b4f2269aa",
-      "archive_path": "5567e47b919bc3320ed50b009339b0652a3bce5bbdb9b7451893d87b4f2269aa/WOW-20261028-045-05-ceba4d3633.json",
-      "decision_sha256": "bcaed55ee8d03f81ece6c8db3095307d8a6f1bc5283ac411c39bc4419344d4be"
-    },
-    "knowledge/candidates/WOW-20261028-045-06-1f08a53fbf.json": {
-      "sha256": "b6f310cfa5c38c13aabc9cd2ba9d5b94e8fd743ef17c3b8221cc4a7a7956e16e",
-      "archive_path": "b6f310cfa5c38c13aabc9cd2ba9d5b94e8fd743ef17c3b8221cc4a7a7956e16e/WOW-20261028-045-06-1f08a53fbf.json",
-      "decision_sha256": "ce55b2ac32fe74f29f89ff3ce72c8d0e4b30df5d7bde6f29b019203364acf9f0"
-    },
-    "knowledge/candidates/WOW-20261028-045-07-6da44e35c3.json": {
-      "sha256": "312f230ec820a2a523074f8d4f80119bd7728d50d4a5721e5c2f74341ec1a148",
-      "archive_path": "312f230ec820a2a523074f8d4f80119bd7728d50d4a5721e5c2f74341ec1a148/WOW-20261028-045-07-6da44e35c3.json",
-      "decision_sha256": "239872197a988019e993b25111e578a7faca85b1042bf2dc1e09eb3bec251a0a"
-    },
-    "knowledge/candidates/WOW-20261028-045-08-f8649103c9.json": {
-      "sha256": "11ca15cf0b7bc7622b2c4401f191f784ea42389529f0ab9eadf9faa4a3df3939",
-      "archive_path": "11ca15cf0b7bc7622b2c4401f191f784ea42389529f0ab9eadf9faa4a3df3939/WOW-20261028-045-08-f8649103c9.json",
-      "decision_sha256": "e162866988d2f5fbc1efe0f26a1b72a910094d0b8701156b4199923f925edbce"
-    },
-    "knowledge/candidates/APC-20261028-024-01-4a4d8608f8.json": {
-      "sha256": "91741f38bdc3d4543032432ac12f2d3d6259c23b50662f95f91660f61ec91276",
-      "archive_path": "91741f38bdc3d4543032432ac12f2d3d6259c23b50662f95f91660f61ec91276/APC-20261028-024-01-4a4d8608f8.json",
-      "decision_sha256": "450d53db5758feee52b98dadd669451584216d1942a47893d2ad9f8d8735df6c"
-    },
-    "knowledge/candidates/APC-20261028-024-02-09fc24286d.json": {
-      "sha256": "00f9d6fb007886b570fe6b0bca90c8c6f1a37f494b5eff4d6f6fcccf7e74a911",
-      "archive_path": "00f9d6fb007886b570fe6b0bca90c8c6f1a37f494b5eff4d6f6fcccf7e74a911/APC-20261028-024-02-09fc24286d.json",
-      "decision_sha256": "7a75ad261f0717d6fc6cc50154f87f7f2be938b3e9155f5c98188fa52e272075"
-    },
-    "knowledge/candidates/APC-20261028-024-03-f6ff77f439.json": {
-      "sha256": "970ea60cd85970610a8c78a17ca5efec1f9e94706953f6863d531ee622a1f152",
-      "archive_path": "970ea60cd85970610a8c78a17ca5efec1f9e94706953f6863d531ee622a1f152/APC-20261028-024-03-f6ff77f439.json",
-      "decision_sha256": "1e38bb74ddc7c0636ef10b7ce52a3958834cd876d3b662379b9095ce91128c83"
-    },
-    "knowledge/candidates/APC-20261028-024-04-a0cf9cb278.json": {
-      "sha256": "cfc178ae7fdb21aaca3e2313fa54fe66a3317b8c04a6d8e3bd1a6644d517025c",
-      "archive_path": "cfc178ae7fdb21aaca3e2313fa54fe66a3317b8c04a6d8e3bd1a6644d517025c/APC-20261028-024-04-a0cf9cb278.json",
-      "decision_sha256": "6515f16b3d37d0f7b9f9d57b999d9d5035d8808a37da8656e82abdaba73a5278"
-    },
-    "knowledge/candidates/APC-20261028-024-05-8999ab3960.json": {
-      "sha256": "9e857533bb4606ddaca68322e9b8b928f5f1bdbe57be12f2cccb3720b839524c",
-      "archive_path": "9e857533bb4606ddaca68322e9b8b928f5f1bdbe57be12f2cccb3720b839524c/APC-20261028-024-05-8999ab3960.json",
-      "decision_sha256": "b4230214cc279efae9070dc21f23e77eb028c8052c389513539893dd3e77a970"
-    },
-    "knowledge/candidates/APC-20261028-024-06-59d5dfdc9c.json": {
-      "sha256": "6a0b146cea5d1b0ff480602d3cd5373290195ab75e66b110b0a2b67b1a0f99b4",
-      "archive_path": "6a0b146cea5d1b0ff480602d3cd5373290195ab75e66b110b0a2b67b1a0f99b4/APC-20261028-024-06-59d5dfdc9c.json",
-      "decision_sha256": "720c288185a7b613085a5c9ebb8cfaa06369d4c510e9c5572ca414ab0ee61849"
-    },
-    "knowledge/candidates/APC-20261028-024-07-4bb2acb643.json": {
-      "sha256": "c44b3845f11425bd6327e425d70efdfbb2c58040fc0b5d043310871e95e9001b",
-      "archive_path": "c44b3845f11425bd6327e425d70efdfbb2c58040fc0b5d043310871e95e9001b/APC-20261028-024-07-4bb2acb643.json",
-      "decision_sha256": "98ff31beb0997a4bbeea2ee2417cb4502d2010d856663f3df0a69e6da1d3c206"
-    },
-    "knowledge/candidates/APC-20261028-024-08-a83eda8191.json": {
-      "sha256": "6c06bc0b66e1cd575b70854915e6db19858cf62f89d7ed79560b62a04ceab509",
-      "archive_path": "6c06bc0b66e1cd575b70854915e6db19858cf62f89d7ed79560b62a04ceab509/APC-20261028-024-08-a83eda8191.json",
-      "decision_sha256": "8efb41034d004584a6832a5bfa4ee8bb8a7aec82944077d9a3dd0f18418af27a"
-    },
-    "knowledge/candidates/APC-20261028-024-09-3fc59bf32c.json": {
-      "sha256": "22df168ddae1a8b196bf0e3214ae4874017fa1b9fa4420981923910cbe0dcd9a",
-      "archive_path": "22df168ddae1a8b196bf0e3214ae4874017fa1b9fa4420981923910cbe0dcd9a/APC-20261028-024-09-3fc59bf32c.json",
-      "decision_sha256": "678f23743c78445419e3e21a13112cbf92ea3c6a3770e8c583201cd52c229cf3"
-    },
-    "knowledge/candidates/APC-20261028-024-10-cfb9fcc995.json": {
-      "sha256": "d1fb213566df72002a389ead3d9b552e28d30eae29e977aeff8e403d21a3b47e",
-      "archive_path": "d1fb213566df72002a389ead3d9b552e28d30eae29e977aeff8e403d21a3b47e/APC-20261028-024-10-cfb9fcc995.json",
-      "decision_sha256": "477f364846a5b9b2cbd321de77722053ac4bf36de5ce046b71d828ba6de4fc8e"
-    },
     "knowledge/candidates/KEY-20261029-002-01-f6b1b6218a.json": {
       "sha256": "1e16b5cc9906dfa267e2b6a981aeeb7d0e89900e4dd9bbe70249cdd9830f06a0",
       "archive_path": "1e16b5cc9906dfa267e2b6a981aeeb7d0e89900e4dd9bbe70249cdd9830f06a0/KEY-20261029-002-01-f6b1b6218a.json",
       "decision_sha256": "81d8af16da3c87d9eb79eec1308fbd498377411946b30d589ed8e9cafb12dbbe"
-    },
-    "knowledge/candidates/KEY-20261029-002-02-d5623e11a3.json": {
-      "sha256": "42beb3e439dcc34da830cc18aa03569b2ff91b88e6ca340b2dfea58bc088173c",
-      "archive_path": "42beb3e439dcc34da830cc18aa03569b2ff91b88e6ca340b2dfea58bc088173c/KEY-20261029-002-02-d5623e11a3.json",
-      "decision_sha256": "ef6aaad00eaeb5bac922298789e404d8368ada0bf5e24870ce6125f0a96363ff"
-    },
-    "knowledge/candidates/KEY-20261029-002-03-efd679a8e0.json": {
-      "sha256": "7d59fabe38a59ce3c6265b4b52430817ed48e5a6673b50993b2f9feb5f2147ea",
-      "archive_path": "7d59fabe38a59ce3c6265b4b52430817ed48e5a6673b50993b2f9feb5f2147ea/KEY-20261029-002-03-efd679a8e0.json",
-      "decision_sha256": "4191105cf3c74c96db7f8a14903146282da4b353f5dd5f5f693509e80e619b87"
-    },
-    "knowledge/candidates/KEY-20261029-002-04-c3567d4f37.json": {
-      "sha256": "f1f0ff5d9301cac3cd2b27a777403df125e737dac5201a93a203166dbc0b695e",
-      "archive_path": "f1f0ff5d9301cac3cd2b27a777403df125e737dac5201a93a203166dbc0b695e/KEY-20261029-002-04-c3567d4f37.json",
-      "decision_sha256": "1c80a0fa3000ac00e29e8a515d5c1841b5cbf943a59675dd4f7d1e7c927f1208"
-    },
-    "knowledge/candidates/KEY-20261029-002-05-37a4a2c2c2.json": {
-      "sha256": "1aa8cc01918d03644f0a1aaad18b58f9bb976b5d1da3279242dcaeac291d2f73",
-      "archive_path": "1aa8cc01918d03644f0a1aaad18b58f9bb976b5d1da3279242dcaeac291d2f73/KEY-20261029-002-05-37a4a2c2c2.json",
-      "decision_sha256": "b13587fdd40cb7958a59e0db4ece25be174b951c941c0e2fba2ec49bb0478dc4"
-    },
-    "knowledge/candidates/KEY-20261029-002-06-56e4298227.json": {
-      "sha256": "cb89050499171011a256fe24f9fef570f899728293e01f35afcdefdcb3736315",
-      "archive_path": "cb89050499171011a256fe24f9fef570f899728293e01f35afcdefdcb3736315/KEY-20261029-002-06-56e4298227.json",
-      "decision_sha256": "04ac07873a08dad5a92f1cbab3005b356612c07d35de024670ac1164062ccc55"
-    },
-    "knowledge/candidates/KEY-20261029-002-07-03e78e0d8d.json": {
-      "sha256": "a6a1f5d400a6e19276594d65490b680e4c216f435755b7840764d743bad9a2b6",
-      "archive_path": "a6a1f5d400a6e19276594d65490b680e4c216f435755b7840764d743bad9a2b6/KEY-20261029-002-07-03e78e0d8d.json",
-      "decision_sha256": "d4ce8e1f2507376e5b13a2dd61a0d1af096f7f851848030fb560ff71ba2f94b8"
-    },
-    "knowledge/candidates/KEY-20261029-002-08-66e6b2319d.json": {
-      "sha256": "49ae567ba37a9131d700a55466e9bea6855359910ca322b39e4abe1151a07efa",
-      "archive_path": "49ae567ba37a9131d700a55466e9bea6855359910ca322b39e4abe1151a07efa/KEY-20261029-002-08-66e6b2319d.json",
-      "decision_sha256": "52470351af5f6a4cd658930ebf668538ee665aa59d31f5ff97c5a6a3e92a03a9"
-    },
-    "knowledge/candidates/KEY-20261029-002-09-847dfa4503.json": {
-      "sha256": "401f89a6f79264bbaef8d931764327eca42217d794c93d2189c8f1584775d7e3",
-      "archive_path": "401f89a6f79264bbaef8d931764327eca42217d794c93d2189c8f1584775d7e3/KEY-20261029-002-09-847dfa4503.json",
-      "decision_sha256": "4209b3d632962044b05a7df43645ad533b2006898e11474aba6b4061e7109794"
-    },
-    "knowledge/candidates/KEY-20261029-002-10-335867962c.json": {
-      "sha256": "2a625d398b5ca240395b3b07696febe1110610ba5950c174cf2e1ab4092f0772",
-      "archive_path": "2a625d398b5ca240395b3b07696febe1110610ba5950c174cf2e1ab4092f0772/KEY-20261029-002-10-335867962c.json",
-      "decision_sha256": "4c7ba06e89aed52a29afdfc4bf4bb01ab4cf56b3bf6c0bf431e45b24ada2900c"
-    },
-    "knowledge/candidates/KEY-20261029-002-11-28e0a78816.json": {
-      "sha256": "1d3160d15168d723e8bb6952bda928a695abbe15b75c81ff9ca559309c9fcb6f",
-      "archive_path": "1d3160d15168d723e8bb6952bda928a695abbe15b75c81ff9ca559309c9fcb6f/KEY-20261029-002-11-28e0a78816.json",
-      "decision_sha256": "8925e60d6cb1d65142dc72fc95fa591a0b26082c8a47a8865e782ffa70e2d59a"
-    },
-    "knowledge/candidates/KEY-20261029-002-12-56030ca49d.json": {
-      "sha256": "dc68cf3c1742fe8ede8e3f63f5f2b166039368b330b387c6dfa76545776eefc3",
-      "archive_path": "dc68cf3c1742fe8ede8e3f63f5f2b166039368b330b387c6dfa76545776eefc3/KEY-20261029-002-12-56030ca49d.json",
-      "decision_sha256": "4086e9d07e90e34ce02ef4051e899513c21413220c0c140d0ae98264c54e52e9"
     },
     "knowledge/candidates/KEY-20261029-005-01-2b5516f78d.json": {
       "sha256": "a7e00a6122435440d2984a408f46cca9fe8c96fda3f72416dffdc608d0b86576",
       "archive_path": "a7e00a6122435440d2984a408f46cca9fe8c96fda3f72416dffdc608d0b86576/KEY-20261029-005-01-2b5516f78d.json",
       "decision_sha256": "097678925b88ababd7906d1562a2286113923876f3684b7b0768a6923dde2d8d"
     },
-    "knowledge/candidates/KEY-20261029-005-02-e0d3c6bb44.json": {
-      "sha256": "4ca561743f0f13f7d107c9c37c8e519a8375e049e0a6adc8b838c9d67c582b9c",
-      "archive_path": "4ca561743f0f13f7d107c9c37c8e519a8375e049e0a6adc8b838c9d67c582b9c/KEY-20261029-005-02-e0d3c6bb44.json",
-      "decision_sha256": "b499d8c756f6333876e287c851802fb46defaf0277bcf452effba2f5997f448f"
-    },
-    "knowledge/candidates/KEY-20261029-005-03-590b55b214.json": {
-      "sha256": "f40ba38e67c572f2204bd26e3673356941b56d4218b51f6119f0291ce2a9da97",
-      "archive_path": "f40ba38e67c572f2204bd26e3673356941b56d4218b51f6119f0291ce2a9da97/KEY-20261029-005-03-590b55b214.json",
-      "decision_sha256": "895235b864e4749393b49bd042bd286a176aea76d74ba7b4fc3b18a75e2adb1d"
-    },
-    "knowledge/candidates/KEY-20261029-005-04-a87d9fb283.json": {
-      "sha256": "2fef97a1b735210963031bf3fde9c2d99a7207404c7cf97784861a02fb408f49",
-      "archive_path": "2fef97a1b735210963031bf3fde9c2d99a7207404c7cf97784861a02fb408f49/KEY-20261029-005-04-a87d9fb283.json",
-      "decision_sha256": "a4463fce6d2dd651f0e2a280e7d6313c7e2d196fea3d11692049e909d532967b"
-    },
-    "knowledge/candidates/KEY-20261029-005-05-64aa1afc57.json": {
-      "sha256": "ef7d9dff321220c6fc5d171076ef00bbb072276f95e93a6bf2fd00ba3d8a3e03",
-      "archive_path": "ef7d9dff321220c6fc5d171076ef00bbb072276f95e93a6bf2fd00ba3d8a3e03/KEY-20261029-005-05-64aa1afc57.json",
-      "decision_sha256": "4f37bc14da73aab0054de1a17244a5562820b85213af59f30f0be198fc051494"
-    },
-    "knowledge/candidates/KEY-20261029-005-06-83a01e5591.json": {
-      "sha256": "a870f777cfdd10d37a80f2ab3063739bb5608c9b651b3fa66743197f8fea6ca4",
-      "archive_path": "a870f777cfdd10d37a80f2ab3063739bb5608c9b651b3fa66743197f8fea6ca4/KEY-20261029-005-06-83a01e5591.json",
-      "decision_sha256": "3f821efd6ce74a3b057813fe01cf47580a6eaadda51a4f0d02fbc36e9c856beb"
-    },
-    "knowledge/candidates/KEY-20261029-005-07-2599f6286d.json": {
-      "sha256": "6f037a3b91a5189d5f71d6e0b647d80e3ccae3f9e9b9ab3a8b96938167f0abbe",
-      "archive_path": "6f037a3b91a5189d5f71d6e0b647d80e3ccae3f9e9b9ab3a8b96938167f0abbe/KEY-20261029-005-07-2599f6286d.json",
-      "decision_sha256": "838b2361ef8789e7ebe7ab3cd2ca34cd12b9832d2f582805cc4f37ea5bb5751b"
-    },
-    "knowledge/candidates/KEY-20261029-005-08-2bd5be28e5.json": {
-      "sha256": "de92dccfd55deed8ea9fbf89d37e57c5a8717e2b57eda198f62c22b88b0f85c6",
-      "archive_path": "de92dccfd55deed8ea9fbf89d37e57c5a8717e2b57eda198f62c22b88b0f85c6/KEY-20261029-005-08-2bd5be28e5.json",
-      "decision_sha256": "a8f70a870708c7f58c713566cf0547a87c60445ecddedd80483de66b08096759"
-    },
-    "knowledge/candidates/KEY-20261029-005-09-f720e5f9c1.json": {
-      "sha256": "02598fb9dc0913ecbeba0cbaaed0fac390c858ad9053aa288f9a60647f49266b",
-      "archive_path": "02598fb9dc0913ecbeba0cbaaed0fac390c858ad9053aa288f9a60647f49266b/KEY-20261029-005-09-f720e5f9c1.json",
-      "decision_sha256": "8a6bac8b8c77aaae35043afaf17e40922c1e334d27b46327fd886cf086f422b5"
-    },
-    "knowledge/candidates/KEY-20261029-005-10-e05d21e4a4.json": {
-      "sha256": "3d9f5df85a06392e17d1aea4e25429c08f3cf3cd73614e6609ddeb6b482fe68b",
-      "archive_path": "3d9f5df85a06392e17d1aea4e25429c08f3cf3cd73614e6609ddeb6b482fe68b/KEY-20261029-005-10-e05d21e4a4.json",
-      "decision_sha256": "7488573467a21b400c310b8dbe5aa9aadf781f1e46928493c8869ea0aea27381"
-    },
-    "knowledge/candidates/KEY-20261029-005-11-f7ecd9e7e9.json": {
-      "sha256": "ab188b38bf7b89d2995a1b4f113ba8f1792a952d22eb2a37d1f9fcb5ed87cd6d",
-      "archive_path": "ab188b38bf7b89d2995a1b4f113ba8f1792a952d22eb2a37d1f9fcb5ed87cd6d/KEY-20261029-005-11-f7ecd9e7e9.json",
-      "decision_sha256": "c8c5e262ec0d1441b63b173c5afd8186ccdac6e4b2ca85a414078e06ccefacec"
-    },
-    "knowledge/candidates/KEY-20261029-005-12-be6842ca0f.json": {
-      "sha256": "5f71383705c1da7e9ac61dc93f9cf51d5d72f2c67cd74e7a820abb74f868808a",
-      "archive_path": "5f71383705c1da7e9ac61dc93f9cf51d5d72f2c67cd74e7a820abb74f868808a/KEY-20261029-005-12-be6842ca0f.json",
-      "decision_sha256": "df490816aa931462e830f229383f2b59d1dfba9614c51819595709bc6c4361d0"
-    },
-    "knowledge/candidates/KEY-20261029-005-13-ea15c1cd3f.json": {
-      "sha256": "be060422fa8ce86a492ba1fbc68c7c003c314bea0c7d1f93248668fbb044572b",
-      "archive_path": "be060422fa8ce86a492ba1fbc68c7c003c314bea0c7d1f93248668fbb044572b/KEY-20261029-005-13-ea15c1cd3f.json",
-      "decision_sha256": "75ca7bde3189e82b769c0ccd590c420800f1716fdb9c69f62e0a4ecffcb2b0a1"
-    },
-    "knowledge/candidates/KEY-20261029-005-14-da86fb1d8f.json": {
-      "sha256": "e2d776f8db346767e056b61903bb37fb63ecd74aa06255d9bacb412857889c25",
-      "archive_path": "e2d776f8db346767e056b61903bb37fb63ecd74aa06255d9bacb412857889c25/KEY-20261029-005-14-da86fb1d8f.json",
-      "decision_sha256": "3eca6f3b6a2aaac9e9396b56db561bf105ded9e5d09f32540d3d98447dedc46a"
-    },
-    "knowledge/candidates/KEY-20261029-008-01-closure-9ed9ec3312.json": {
-      "sha256": "de7a1f3dea051fbdcc01ecfc27baf1fc8b45e214ea00480a804d1dac41c05183",
-      "archive_path": "de7a1f3dea051fbdcc01ecfc27baf1fc8b45e214ea00480a804d1dac41c05183/KEY-20261029-008-01-closure-9ed9ec3312.json",
-      "decision_sha256": "a95a2a225901c00611b4463b5ae6f5829939690656f2b17dd94112e9cb281b18"
-    },
-    "knowledge/candidates/KEY-20261029-008-02-closure-59218a1eb6.json": {
-      "sha256": "25bcef4855690d2bf7e9c4c333aff9b4e9fef6a9abfea154896c4d252474b238",
-      "archive_path": "25bcef4855690d2bf7e9c4c333aff9b4e9fef6a9abfea154896c4d252474b238/KEY-20261029-008-02-closure-59218a1eb6.json",
-      "decision_sha256": "6f4de39e204854d5668ecaae9e7092c05dca03fa3d9e662a99a205a2c49aa8a2"
-    },
-    "knowledge/candidates/KEY-20261029-008-03-closure-2f7658d371.json": {
-      "sha256": "e36969b799f088e89f5fe6305d9d1ffe7041aa8035d69643b7c9149768275bce",
-      "archive_path": "e36969b799f088e89f5fe6305d9d1ffe7041aa8035d69643b7c9149768275bce/KEY-20261029-008-03-closure-2f7658d371.json",
-      "decision_sha256": "a94e6ed7348a52bde29641b5edd7f6bfd9c303aaf8ba423be06516f8b2968f28"
-    },
-    "knowledge/candidates/KEY-20261029-008-04-closure-54637c0674.json": {
-      "sha256": "74c7910f35fa1b73ff021026e097457ddeedab37d2de3718ec1092a2264fa2f6",
-      "archive_path": "74c7910f35fa1b73ff021026e097457ddeedab37d2de3718ec1092a2264fa2f6/KEY-20261029-008-04-closure-54637c0674.json",
-      "decision_sha256": "ac1c44a22ceeeb67ac93da4fbe1447122d24039c4f0a5db062c9d4e242e253b0"
-    },
-    "knowledge/candidates/KEY-20261029-008-05-closure-7cb0a2ca63.json": {
-      "sha256": "880988debc0f69058108fb965c7bc50513c2c31819c02cd3f3e1ceae222aca5f",
-      "archive_path": "880988debc0f69058108fb965c7bc50513c2c31819c02cd3f3e1ceae222aca5f/KEY-20261029-008-05-closure-7cb0a2ca63.json",
-      "decision_sha256": "0b4683ac8070b84473f86c7de947bbc130c3fb5c6b8f7ce7996f36143f294b79"
-    },
     "knowledge/candidates/KEY-20261029-008-06-closure-97f8834093.json": {
       "sha256": "4ccfeb6736080226da0d67cab9a00c26fd28cc34a36842562f4118bd735cab83",
       "archive_path": "4ccfeb6736080226da0d67cab9a00c26fd28cc34a36842562f4118bd735cab83/KEY-20261029-008-06-closure-97f8834093.json",
       "decision_sha256": "1a24481da50484d2b58713de47cdcbd02de1056d38a45bd4ac2315650bb6d241"
-    },
-    "knowledge/candidates/KEY-20261029-008-07-closure-9c04cd8d52.json": {
-      "sha256": "36d3b75190de3d453485f4d579f0c009e6fb4c09d65c48bffe6fe282cd7edb59",
-      "archive_path": "36d3b75190de3d453485f4d579f0c009e6fb4c09d65c48bffe6fe282cd7edb59/KEY-20261029-008-07-closure-9c04cd8d52.json",
-      "decision_sha256": "85c8e6c7740bce363606936a1bfcf77e2f9787d03af57b56e00ee2e11a5c674d"
-    },
-    "knowledge/candidates/KEY-20261029-008-08-closure-d0a037897d.json": {
-      "sha256": "08777ea0354cdccbb6a2e8eb4c5aac9ac9c587371880839a9a32a211159c7ff8",
-      "archive_path": "08777ea0354cdccbb6a2e8eb4c5aac9ac9c587371880839a9a32a211159c7ff8/KEY-20261029-008-08-closure-d0a037897d.json",
-      "decision_sha256": "7a861029bfb90ae37505980b95d9cff9d2cb68f537f6935fab2c1ea20c926d5c"
-    },
-    "knowledge/candidates/KEY-20261029-008-09-closure-5cd376ed80.json": {
-      "sha256": "abc68910a541c05cdce7f628ead3e95d5e5f9355191ac301de89afba644519ce",
-      "archive_path": "abc68910a541c05cdce7f628ead3e95d5e5f9355191ac301de89afba644519ce/KEY-20261029-008-09-closure-5cd376ed80.json",
-      "decision_sha256": "a71dc093766221a7ccf87df08cc8f0a2f34581c2bc07c34cf65f2ea60e04eef4"
-    },
-    "knowledge/candidates/KEY-20261029-008-10-closure-1492b25667.json": {
-      "sha256": "8f12a01d267035eb868bb6a323df1396aaca2c0558edd3186eb53b49d5ed55db",
-      "archive_path": "8f12a01d267035eb868bb6a323df1396aaca2c0558edd3186eb53b49d5ed55db/KEY-20261029-008-10-closure-1492b25667.json",
-      "decision_sha256": "eeab83bb1dc334ad0fbf8568fff285bb028d0d3218491c20bef1d87c9fd9aad5"
-    },
-    "knowledge/candidates/KEY-20261029-008-11-closure-62d9c406b5.json": {
-      "sha256": "f754679322d1e8114eca6f6f48001dd7a4175fa22e6c32809a843533e4b3d582",
-      "archive_path": "f754679322d1e8114eca6f6f48001dd7a4175fa22e6c32809a843533e4b3d582/KEY-20261029-008-11-closure-62d9c406b5.json",
-      "decision_sha256": "c06c119f94c478408f46e9cf67716416033121a524cc3c61fcca7c5be081a27e"
-    },
-    "knowledge/candidates/KEY-20261029-008-12-closure-136caac4d2.json": {
-      "sha256": "d9e7a85f287df86aa5f6b4d710d57b391a0ee753464a9cf043bcdb6142b7e31e",
-      "archive_path": "d9e7a85f287df86aa5f6b4d710d57b391a0ee753464a9cf043bcdb6142b7e31e/KEY-20261029-008-12-closure-136caac4d2.json",
-      "decision_sha256": "39bf11ac123a585205b11b2ae718425eac63150d31a9d65ad3b919ad0a8b4b8a"
-    },
-    "knowledge/candidates/MOG-20261027-044-02-5b2ed8d646.json": {
-      "sha256": "9bb78ead6b62ecfa644f86a8e1fc139a2529d6caa6f8e189059e04bc113e3217",
-      "archive_path": "9bb78ead6b62ecfa644f86a8e1fc139a2529d6caa6f8e189059e04bc113e3217/MOG-20261027-044-02-5b2ed8d646.json",
-      "decision_sha256": "d66cadd9781865ffc6529db06175ffdf79f966c9af3e8a585a90feda3a9d34e0"
     },
     "knowledge/candidates/MOG-20261027-044-pt-phrase-repair-20261028.json": {
       "sha256": "685aff24fc1680957b79fdacda7555523c5ee161171badb7ab951f7ebaf9b2c1",
@@ -1051,21 +476,6 @@
       "archive_path": "50680e8fde623cc5d9c2c4da69a9bd5ee488292239f07dcfbe4bcfc3047cd56a/MOG-20261027-044-pt-recovery-20261027.json",
       "decision_sha256": "15567eb4f65b7db0dd5ffd722c9d482fcb026966d65d5786c3bc81e0a61e05c5"
     },
-    "knowledge/candidates/MOG-20261027-063-01-bc67066c35.json": {
-      "sha256": "50e16bca7360aae4576a33646945642f05b19af100f64e7dbef9dab948326c2e",
-      "archive_path": "50e16bca7360aae4576a33646945642f05b19af100f64e7dbef9dab948326c2e/MOG-20261027-063-01-bc67066c35.json",
-      "decision_sha256": "f576301508cd8c4d84513159f2f158f069147457dfde4cdb6f90b404edbc5542"
-    },
-    "knowledge/candidates/MOG-20261027-063-05-4783eda9b0.json": {
-      "sha256": "fd3dc72c91f57bc7b7b2878c3520e3682ab6702445df9498a9f169993623f4f2",
-      "archive_path": "fd3dc72c91f57bc7b7b2878c3520e3682ab6702445df9498a9f169993623f4f2/MOG-20261027-063-05-4783eda9b0.json",
-      "decision_sha256": "2ccfff60cd43a0d2ebac5c95b3cfcedb086d737ca7608b635f2b12366fe8c641"
-    },
-    "knowledge/candidates/MOG-20261027-063-08-831117b39d.json": {
-      "sha256": "34ed9a8dc517e253a7c7d26bc5fc4e6851ac37223dfa9bc753e37ec494d2bbda",
-      "archive_path": "34ed9a8dc517e253a7c7d26bc5fc4e6851ac37223dfa9bc753e37ec494d2bbda/MOG-20261027-063-08-831117b39d.json",
-      "decision_sha256": "969d78d7007cceffd9e21cdcf6a309020b7ba6b84096b3b9436b30d886797632"
-    },
     "knowledge/candidates/SHE-20261028-043-01-9b75a36a20.json": {
       "sha256": "838d6ecbc36f022af277d4ca71525bb8ae0237911e1a7e78457d61fa8c6bd2bd",
       "archive_path": "838d6ecbc36f022af277d4ca71525bb8ae0237911e1a7e78457d61fa8c6bd2bd/SHE-20261028-043-01-9b75a36a20.json",
@@ -1076,170 +486,10 @@
       "archive_path": "627e5f4a2b6f94ff31c6d8f236f9c250186c0827b4c63147d9a735a7e44d7d69/SHE-20261028-043-01-closure-9b75a36a20.json",
       "decision_sha256": "bb65343ad4c555012b4193619ae3d2239374081508431e37a636273522e2bd78"
     },
-    "knowledge/candidates/SHE-20261028-043-02-71f487755d.json": {
-      "sha256": "07fce5a872ac0642c1fcb5b4c1b6633beab3e7070faef3ffecea3b375b07b0eb",
-      "archive_path": "07fce5a872ac0642c1fcb5b4c1b6633beab3e7070faef3ffecea3b375b07b0eb/SHE-20261028-043-02-71f487755d.json",
-      "decision_sha256": "10c2b6c886a9c8bc3eb7737e52b81d4000733a86f4f93811d61b6a76f14474c1"
-    },
-    "knowledge/candidates/SHE-20261028-043-02-closure-71f487755d.json": {
-      "sha256": "ab8074179141641aa78d6503a76642985240025780467dcddb0467d17b73ee00",
-      "archive_path": "ab8074179141641aa78d6503a76642985240025780467dcddb0467d17b73ee00/SHE-20261028-043-02-closure-71f487755d.json",
-      "decision_sha256": "d6fc483f5dbb82ca9482b8f523ca3dd0e4c76b7d32025467ea9a776652833856"
-    },
-    "knowledge/candidates/SHE-20261028-043-03-28a2982cda.json": {
-      "sha256": "e6e39c819e4d3c0f7f5d226570d6fa0a3c5455322e907f0ba14564a76fcb45bd",
-      "archive_path": "e6e39c819e4d3c0f7f5d226570d6fa0a3c5455322e907f0ba14564a76fcb45bd/SHE-20261028-043-03-28a2982cda.json",
-      "decision_sha256": "86d3143c368c3b8361141e114120f2c34efc44caabbe02de7afa967437b7ea60"
-    },
-    "knowledge/candidates/SHE-20261028-043-03-closure-28a2982cda.json": {
-      "sha256": "17eb4fc9fb967800c6cd53c7ee80bc483be5ebcc9c4eaaa846d0afa4c9131ab3",
-      "archive_path": "17eb4fc9fb967800c6cd53c7ee80bc483be5ebcc9c4eaaa846d0afa4c9131ab3/SHE-20261028-043-03-closure-28a2982cda.json",
-      "decision_sha256": "45061c978ae83b48ed621c0badd2be6e2ec66709a7fbed02598e04acd3a6ece5"
-    },
-    "knowledge/candidates/SHE-20261028-043-04-332bdd6dde.json": {
-      "sha256": "4cf13e009d35348fe1ea89a602a79c6be8fcf0a6accacdefb256275507c7e433",
-      "archive_path": "4cf13e009d35348fe1ea89a602a79c6be8fcf0a6accacdefb256275507c7e433/SHE-20261028-043-04-332bdd6dde.json",
-      "decision_sha256": "749fc681ca3b92f2f7fa21067789fa3a377ac2dbcdab954d4d484220dba9eef1"
-    },
-    "knowledge/candidates/SHE-20261028-043-04-closure-332bdd6dde.json": {
-      "sha256": "892c7b7ea121bfb3b7ef7be558453a71ee03fe9631a00e379dd67b4e94566abf",
-      "archive_path": "892c7b7ea121bfb3b7ef7be558453a71ee03fe9631a00e379dd67b4e94566abf/SHE-20261028-043-04-closure-332bdd6dde.json",
-      "decision_sha256": "a236c1ddbd98414ab5ca96c5d7be67ec11b24a5a4e828b955ac29dc97d1f1306"
-    },
-    "knowledge/candidates/SHE-20261028-043-05-0d2896e27c.json": {
-      "sha256": "1d3dfe47bbb7381b75b81c2e369e4bb80f67935264d6788758959c14da3a33ad",
-      "archive_path": "1d3dfe47bbb7381b75b81c2e369e4bb80f67935264d6788758959c14da3a33ad/SHE-20261028-043-05-0d2896e27c.json",
-      "decision_sha256": "a2a798939e2bc4b7284238b9fd0305505a4e86a90280801c65ff07c2758e74b9"
-    },
-    "knowledge/candidates/SHE-20261028-043-05-closure-0d2896e27c.json": {
-      "sha256": "446742f976f7fc8caed592323187fac33c202104cb164259a7261732f0fd29b9",
-      "archive_path": "446742f976f7fc8caed592323187fac33c202104cb164259a7261732f0fd29b9/SHE-20261028-043-05-closure-0d2896e27c.json",
-      "decision_sha256": "bdb7649157650c31a35bd6e6a03a618a6df3d958923cbc5bf4f0355f50e4320b"
-    },
-    "knowledge/candidates/SHE-20261028-043-06-00097d50db.json": {
-      "sha256": "c50b48c6174f08dbeae75029eda03f9317574605449f6fd40b305a1c4b2f9379",
-      "archive_path": "c50b48c6174f08dbeae75029eda03f9317574605449f6fd40b305a1c4b2f9379/SHE-20261028-043-06-00097d50db.json",
-      "decision_sha256": "0c54964b1f3fd6bd13e3384bf7077dafca9641c6ed5b001e114b5c5ce827f18f"
-    },
-    "knowledge/candidates/SHE-20261028-043-06-closure-00097d50db.json": {
-      "sha256": "f826d7db8193d39cca7d83dde91839d036ee46bdf318bd35ec2e04b8850a75ab",
-      "archive_path": "f826d7db8193d39cca7d83dde91839d036ee46bdf318bd35ec2e04b8850a75ab/SHE-20261028-043-06-closure-00097d50db.json",
-      "decision_sha256": "6035bace25e23bf03ce3487709b924d7be6cd7cfe51cc3423494ea6089bc0f69"
-    },
-    "knowledge/candidates/SHE-20261028-043-07-90b8c4b491.json": {
-      "sha256": "7282815d90ad1874090f11342bba136ae57bd2bd6c417c62332e0af42627eb4f",
-      "archive_path": "7282815d90ad1874090f11342bba136ae57bd2bd6c417c62332e0af42627eb4f/SHE-20261028-043-07-90b8c4b491.json",
-      "decision_sha256": "d2db4bb2019abebf4b437714f55dbe305dc459aad01b8987f66dfa4a97ee1bb7"
-    },
-    "knowledge/candidates/SHE-20261028-043-07-closure-90b8c4b491.json": {
-      "sha256": "32b2a7a8cf9de853f663a31d28a90b7fa37767f825c8fa1a2fc100c0f93d4984",
-      "archive_path": "32b2a7a8cf9de853f663a31d28a90b7fa37767f825c8fa1a2fc100c0f93d4984/SHE-20261028-043-07-closure-90b8c4b491.json",
-      "decision_sha256": "12289588aa0deb1dfa95eaf3f22a1c32a9a8cb78b60f177596e6793a751942d4"
-    },
-    "knowledge/candidates/SHE-20261028-043-08-6ac857ceb4.json": {
-      "sha256": "18a814005bb99829409dfdd83ab7af50c15fc48a5f7f3dfefed2d079813076d8",
-      "archive_path": "18a814005bb99829409dfdd83ab7af50c15fc48a5f7f3dfefed2d079813076d8/SHE-20261028-043-08-6ac857ceb4.json",
-      "decision_sha256": "7bb45de33758e275aef1212375fb29a5359baf5fdc73fc1c34f5c165deaeb539"
-    },
-    "knowledge/candidates/SHE-20261028-043-08-closure-6ac857ceb4.json": {
-      "sha256": "5c9eb6e183845443652aac7e087cda2e95df9b715b84733003095656227d1c3b",
-      "archive_path": "5c9eb6e183845443652aac7e087cda2e95df9b715b84733003095656227d1c3b/SHE-20261028-043-08-closure-6ac857ceb4.json",
-      "decision_sha256": "a8c61cb3d8e73b1fc6cf08cc06c7076b37de7d7d7907318d49b78730150d9dee"
-    },
-    "knowledge/candidates/SHE-20261028-043-09-67c8693339.json": {
-      "sha256": "1adc40743fff40a526c4be444cbef88aafba5c843618e63c42f7f565c90701a4",
-      "archive_path": "1adc40743fff40a526c4be444cbef88aafba5c843618e63c42f7f565c90701a4/SHE-20261028-043-09-67c8693339.json",
-      "decision_sha256": "391f12d85cd0222f5eb79feb75e845f579df3c312b38d30888b6bc2a02e7c2a5"
-    },
-    "knowledge/candidates/SHE-20261028-043-09-closure-67c8693339.json": {
-      "sha256": "288167a9b2793a0756449c19ef3b48dd8d4d7434f78e71ec0c2c69fd4f43fb05",
-      "archive_path": "288167a9b2793a0756449c19ef3b48dd8d4d7434f78e71ec0c2c69fd4f43fb05/SHE-20261028-043-09-closure-67c8693339.json",
-      "decision_sha256": "8fce4b5ed26f0d86d7680b0c45f59b35883a1dd90578e391d2c91d694fbfd363"
-    },
-    "knowledge/candidates/SHE-20261028-043-10-1738407c32.json": {
-      "sha256": "44cb93a8a9b25138d732d50cbfff141243cc47bb4c2ec0b90cdd6d5793efd23e",
-      "archive_path": "44cb93a8a9b25138d732d50cbfff141243cc47bb4c2ec0b90cdd6d5793efd23e/SHE-20261028-043-10-1738407c32.json",
-      "decision_sha256": "abae206aa724079fbc31bc7110da8261fa0b1985aa28add4351b492a96b70df0"
-    },
-    "knowledge/candidates/SHE-20261028-043-10-closure-1738407c32.json": {
-      "sha256": "cc2744f4f889fb5bb9510619731d59ac8a336fbe82f16122868e181c7f04245c",
-      "archive_path": "cc2744f4f889fb5bb9510619731d59ac8a336fbe82f16122868e181c7f04245c/SHE-20261028-043-10-closure-1738407c32.json",
-      "decision_sha256": "ee0f211a6e90e908575b76081bf98d5d1f662a2070b249e5b116e5f3dc0e1d31"
-    },
-    "knowledge/candidates/SHE-20261028-043-11-6596830930.json": {
-      "sha256": "04cffaa0529e61cc550ca0561839216668836c188bc5c0639e027f6b5ab34a7b",
-      "archive_path": "04cffaa0529e61cc550ca0561839216668836c188bc5c0639e027f6b5ab34a7b/SHE-20261028-043-11-6596830930.json",
-      "decision_sha256": "b7b7db240a80bc8c93989f862cdd5c7c1e52a7d73ed3c051200b645806818cf7"
-    },
-    "knowledge/candidates/SHE-20261028-043-11-closure-6596830930.json": {
-      "sha256": "1e4173bbdd8d2a506de2499305c613d01489cc1af2503774690835e6a711cbc3",
-      "archive_path": "1e4173bbdd8d2a506de2499305c613d01489cc1af2503774690835e6a711cbc3/SHE-20261028-043-11-closure-6596830930.json",
-      "decision_sha256": "54098766801500fe02f771654f8e44531130793bfbb43038172221f0d1ee0660"
-    },
-    "knowledge/candidates/SHE-20261028-043-12-af81293d55.json": {
-      "sha256": "2801e4f4414b161a8fe25e279b383bb9ffb5653c115b95e7f1e4e8cf80bd4999",
-      "archive_path": "2801e4f4414b161a8fe25e279b383bb9ffb5653c115b95e7f1e4e8cf80bd4999/SHE-20261028-043-12-af81293d55.json",
-      "decision_sha256": "6b9f724e5c45fcd9a9ac268b868cf1e9add03ec2cc4af2b4fbc9437f41bb817e"
-    },
-    "knowledge/candidates/SHE-20261028-043-12-closure-af81293d55.json": {
-      "sha256": "69314e3fce95ab002215efc0865a2b4f55f259f3b4d335fa018a146a776914f2",
-      "archive_path": "69314e3fce95ab002215efc0865a2b4f55f259f3b4d335fa018a146a776914f2/SHE-20261028-043-12-closure-af81293d55.json",
-      "decision_sha256": "4349aa37f90ad8c9c855ae5ed2da6c1b06fc4c028076fe893d27a09f02b5b936"
-    },
-    "knowledge/candidates/SHE-20261028-043-13-af65c83ae5.json": {
-      "sha256": "cffab684c051ec1968f289c4714005cbd9867bf4c66d478a366a47fc65ea7359",
-      "archive_path": "cffab684c051ec1968f289c4714005cbd9867bf4c66d478a366a47fc65ea7359/SHE-20261028-043-13-af65c83ae5.json",
-      "decision_sha256": "4365182fbb21c491ce5c887b649551ae74a15b4234658e227bc9225a99c7f7f6"
-    },
-    "knowledge/candidates/SHE-20261028-043-13-closure-af65c83ae5.json": {
-      "sha256": "6e2d27e2d14a38a21981c9c726216f7b63cead6cd5631c9722824e329b1cbec8",
-      "archive_path": "6e2d27e2d14a38a21981c9c726216f7b63cead6cd5631c9722824e329b1cbec8/SHE-20261028-043-13-closure-af65c83ae5.json",
-      "decision_sha256": "8f36bc176c11bb605d8fb6e1b4b482ed114dc6a7da63db46ac6ad236135be14a"
-    },
-    "knowledge/candidates/SHE-20261028-043-14-closure-e9a0926681.json": {
-      "sha256": "05f9fcf208742c71e92b763642959c7d01c39e49b4478d988226301d4ec63c50",
-      "archive_path": "05f9fcf208742c71e92b763642959c7d01c39e49b4478d988226301d4ec63c50/SHE-20261028-043-14-closure-e9a0926681.json",
-      "decision_sha256": "e8801e391b87fbd583c8fbac0db687882a4172478d7528d82db62514f92c1b7e"
-    },
-    "knowledge/candidates/SHE-20261028-043-14-e9a0926681.json": {
-      "sha256": "94897b8d5c97c8d5d49356bb8fdf10bb6989dc1609cb58a41bbc537ec0182d58",
-      "archive_path": "94897b8d5c97c8d5d49356bb8fdf10bb6989dc1609cb58a41bbc537ec0182d58/SHE-20261028-043-14-e9a0926681.json",
-      "decision_sha256": "2d0d2efc4fd958d253584643ec51828323a6c1289da4969be50b2801276a1ff9"
-    },
-    "knowledge/candidates/SHE-20261028-043-15-closure-dfaecd8364.json": {
-      "sha256": "a119f12214392bced15727797cdbd12ea5be087f010368413ba8fa6d8f4c1271",
-      "archive_path": "a119f12214392bced15727797cdbd12ea5be087f010368413ba8fa6d8f4c1271/SHE-20261028-043-15-closure-dfaecd8364.json",
-      "decision_sha256": "b7758b06e7ee763a0ae4948684c4d155a3b4fb396a0eddc95f859e010bffdfdc"
-    },
-    "knowledge/candidates/SHE-20261028-043-15-dfaecd8364.json": {
-      "sha256": "9cd4c85b9af17e305263a3c35be0293c07c3dbe74cda4da59e73545a1e77dfc1",
-      "archive_path": "9cd4c85b9af17e305263a3c35be0293c07c3dbe74cda4da59e73545a1e77dfc1/SHE-20261028-043-15-dfaecd8364.json",
-      "decision_sha256": "04594faa927ff4c7e597876d4adf52b689d7ca8a2d9af60f413e78f188608c2c"
-    },
-    "knowledge/candidates/SHE-20261028-044-1-01-ff77d29bf0.json": {
-      "sha256": "60a9f9e754e67a255e4ce15eaf84de67394be1b09db1cc87a06b98300204d153",
-      "archive_path": "60a9f9e754e67a255e4ce15eaf84de67394be1b09db1cc87a06b98300204d153/SHE-20261028-044-1-01-ff77d29bf0.json",
-      "decision_sha256": "7a5023bff2fb89aea156834d156f77e578cdae07aaf3d9ad951b608753111d1b"
-    },
     "knowledge/candidates/SHE-20261028-044-2-01-62b08d046d.json": {
       "sha256": "2423d89eeef098ce7e8c171c733d5d9e37e715dbba7d81d29ac762e205a84f28",
       "archive_path": "2423d89eeef098ce7e8c171c733d5d9e37e715dbba7d81d29ac762e205a84f28/SHE-20261028-044-2-01-62b08d046d.json",
       "decision_sha256": "2d19aefbc3561c42657c6e08bf0daed1b08a74bfca06b9fbc4f9929b7d1b94a4"
-    },
-    "knowledge/candidates/SHE-20261028-044-3-01-5691af58b9.json": {
-      "sha256": "a52631e3651da1ea2b143e9f6fdfa06d18f78935715ac95110ad9283cd2ac2aa",
-      "archive_path": "a52631e3651da1ea2b143e9f6fdfa06d18f78935715ac95110ad9283cd2ac2aa/SHE-20261028-044-3-01-5691af58b9.json",
-      "decision_sha256": "d2529c8d42266e67dfb995276ca601f3535b57b89e65c9e672822021cc62b22f"
-    },
-    "knowledge/candidates/SHE-20261028-044-4-01-d2a52bbaa9.json": {
-      "sha256": "4f51b9f16d56f49be88162836c271738231ed5ada90f7dddaae45cf6f9b8abc4",
-      "archive_path": "4f51b9f16d56f49be88162836c271738231ed5ada90f7dddaae45cf6f9b8abc4/SHE-20261028-044-4-01-d2a52bbaa9.json",
-      "decision_sha256": "fb47b385b0d967da719bc60418eae5d6f42b5934fdc3e6da102f53e5b6570160"
-    },
-    "knowledge/candidates/fireplay-done-pending-continuation-20261028.json": {
-      "sha256": "e54512a8d3d03abeb492041b7755cd46690ecdb06b2cb22252900d118782ec7b",
-      "archive_path": "e54512a8d3d03abeb492041b7755cd46690ecdb06b2cb22252900d118782ec7b/fireplay-done-pending-continuation-20261028.json",
-      "decision_sha256": "cb462b297fec5878cf1fb354fe480ad44fe477a51276ace1a74ab6268f4ce715"
     },
     "knowledge/candidates/SHE-20261028-039-02-17dfd5f6b9.json": {
       "sha256": "4a0ec5b51e2c67c0828b3fe7d3489c5e0637c9a9be873509876bf10f04007311",
@@ -1265,11 +515,6 @@
       "sha256": "bc24ed03ea739a2b2035239eb57602eea216406e7b53ffe39e7088422694c332",
       "archive_path": "bc24ed03ea739a2b2035239eb57602eea216406e7b53ffe39e7088422694c332/native-render-evidence-guards-v1.json",
       "decision_sha256": "3da6cf445d111eb8f7cd550e2576bc98417d5f86a8a20ebee56c59b2ef71b7d8"
-    },
-    "knowledge/candidates/fireplay-youtube-quota-clarification-20261102.json": {
-      "sha256": "65cbd47c9b421a0474632c8a4e863416dc3071452ec8af113cce0bc3abd55c18",
-      "archive_path": "65cbd47c9b421a0474632c8a4e863416dc3071452ec8af113cce0bc3abd55c18/fireplay-youtube-quota-clarification-20261102.json",
-      "decision_sha256": "cf5b08904f30eb952203c295eb32b44052f0caed1cb7a4359cf7fd9bfb27535e"
     },
     "knowledge/candidates/DEV-20261104-gemini-tts-two-speaker-guard.json": {
       "sha256": "7b73d0e34b3922860169a72f5339ab5d908138ef1cef4cb6485304855091caf9",
@@ -1311,56 +556,6 @@
       "archive_path": "304fd5469664c2d084d24ed9645db50718bee94b724bb27b0419137832a1c007/APC-20261124-025-06-79eb6ef658.json",
       "decision_sha256": "5190919f5e3229eecdf47c8fb85783c0bd3a56b4deba8271992fed4ef6560c59"
     },
-    "knowledge/candidates/MOG-20261110-056-01-closure-a2265b1167.json": {
-      "sha256": "c923ced8b3de889958914003d245132ef6676997923d6c0f2d8a1db543895160",
-      "archive_path": "c923ced8b3de889958914003d245132ef6676997923d6c0f2d8a1db543895160/MOG-20261110-056-01-closure-a2265b1167.json",
-      "decision_sha256": "8e9949c2f42d2a020f292e7fae841e8e41318302ed9cbed39946f6d0c2f38719"
-    },
-    "knowledge/candidates/MOG-20261110-056-02-closure-f58421b025.json": {
-      "sha256": "6919c576de17d318c66cd6bf1ae937091a126233ace12755b94ea6bca6c81be6",
-      "archive_path": "6919c576de17d318c66cd6bf1ae937091a126233ace12755b94ea6bca6c81be6/MOG-20261110-056-02-closure-f58421b025.json",
-      "decision_sha256": "6cbdeedd1e6e76cd606eda7004ca0fa39b725d41bc62f34ac3c2a626bc57ddf8"
-    },
-    "knowledge/candidates/MOG-20261110-056-03-closure-2c37b6de50.json": {
-      "sha256": "e9865ebb4e8a1883c23024be522f823d3e9ca0f1cd52a0439279c4210fe310f6",
-      "archive_path": "e9865ebb4e8a1883c23024be522f823d3e9ca0f1cd52a0439279c4210fe310f6/MOG-20261110-056-03-closure-2c37b6de50.json",
-      "decision_sha256": "406e38af5a61b44606d1ea36dfe6fc78d1e155652a8c131afff127c5d0ed9c23"
-    },
-    "knowledge/candidates/MOG-20261110-056-04-closure-78a0d81e00.json": {
-      "sha256": "5f7c51daad432662ecd009f285ffd9b683ff38e7c08a50d9794e3b63235534d7",
-      "archive_path": "5f7c51daad432662ecd009f285ffd9b683ff38e7c08a50d9794e3b63235534d7/MOG-20261110-056-04-closure-78a0d81e00.json",
-      "decision_sha256": "b272f64e89ae7a538ecc0d80c54d0d6a57f70609ebdfe85279c250181aafc836"
-    },
-    "knowledge/candidates/MOG-20261110-056-05-closure-5e71082799.json": {
-      "sha256": "b8cd34b2c08326e56f2dfad120cb47c964bbe64811efb899c987024d577d0045",
-      "archive_path": "b8cd34b2c08326e56f2dfad120cb47c964bbe64811efb899c987024d577d0045/MOG-20261110-056-05-closure-5e71082799.json",
-      "decision_sha256": "d30ecc7e649abcd93784ee0ee4e2fe438f4d86e45e93e6a904f64f4154818870"
-    },
-    "knowledge/candidates/MOG-20261110-056-06-closure-1007377228.json": {
-      "sha256": "04c2c7930c2b8d4a3ecfe41cc62fb94458484a89736c3070f0132f43cb6b6f5e",
-      "archive_path": "04c2c7930c2b8d4a3ecfe41cc62fb94458484a89736c3070f0132f43cb6b6f5e/MOG-20261110-056-06-closure-1007377228.json",
-      "decision_sha256": "2d697f8ae7604e4f86a6d2e32b14a717959fc3ba488338d1cd8843d189f85d9a"
-    },
-    "knowledge/candidates/MOG-20261110-056-07-closure-2c0298e2e2.json": {
-      "sha256": "4899d5f6c710d9205fd4e3a05c27059c60cb5602695f8e3f01a719901c69028c",
-      "archive_path": "4899d5f6c710d9205fd4e3a05c27059c60cb5602695f8e3f01a719901c69028c/MOG-20261110-056-07-closure-2c0298e2e2.json",
-      "decision_sha256": "e3652dafcd022a9cbd55f583aac5276800ce6acb746d11524ee4923229e32e4b"
-    },
-    "knowledge/candidates/MOG-20261110-056-08-closure-e332291304.json": {
-      "sha256": "f0a7101b7aad9a8e9cd0acf13c22f8ff62595fc7469c9014e5161dd666557a40",
-      "archive_path": "f0a7101b7aad9a8e9cd0acf13c22f8ff62595fc7469c9014e5161dd666557a40/MOG-20261110-056-08-closure-e332291304.json",
-      "decision_sha256": "32f5753b9eae19921439bdd56a8ed61e2c67c746388960d9b4de90d697687b7b"
-    },
-    "knowledge/candidates/MOG-20261110-056-09-closure-5f5ee24c86.json": {
-      "sha256": "a7180b2a5728af440194c53a819dc34d9706626492180c95c7b4e973f4d6a8e1",
-      "archive_path": "a7180b2a5728af440194c53a819dc34d9706626492180c95c7b4e973f4d6a8e1/MOG-20261110-056-09-closure-5f5ee24c86.json",
-      "decision_sha256": "1b9f6713b2bbb8561659a32d7e37149bc4ebedb574fe0550ccf9afdaf56d26f0"
-    },
-    "knowledge/candidates/MOG-20261110-056-10-closure-814fd5cb8b.json": {
-      "sha256": "1a2b18ed45b84a6c75f3fe5b79c62c03738c37fbd16f18660cdc151d27451716",
-      "archive_path": "1a2b18ed45b84a6c75f3fe5b79c62c03738c37fbd16f18660cdc151d27451716/MOG-20261110-056-10-closure-814fd5cb8b.json",
-      "decision_sha256": "4408626d8886dd13d400a597d84318590d241a0684a6ed6a98ac20ad7ff52691"
-    },
     "knowledge/candidates/resumable-intake-and-audio-upload-v1.json": {
       "sha256": "3fa2d73faa6469572e05c27d255fedf56812cfc6d8172d2310bec85763c8935b",
       "archive_path": "3fa2d73faa6469572e05c27d255fedf56812cfc6d8172d2310bec85763c8935b/resumable-intake-and-audio-upload-v1.json",
@@ -1381,155 +576,10 @@
       "archive_path": "dc6d2232e11a19dfafd5f41049668b85165a0c590bb8df2c76818a0602887465/SHE-20261124-044-1-01-f737bc347f.json",
       "decision_sha256": "9d2472f7594f9a88f67695f4dd0d4d1766574e50a56211e29477021625fb9130"
     },
-    "knowledge/candidates/SHE-20261109-013-02-delivery-e12ba81327.json": {
-      "sha256": "1c864bec8722e96273eaab24e017b6c1cae6d4ff750cc08c8fe3546f9b18a589",
-      "archive_path": "1c864bec8722e96273eaab24e017b6c1cae6d4ff750cc08c8fe3546f9b18a589/SHE-20261109-013-02-delivery-e12ba81327.json",
-      "decision_sha256": "2a6b7507d3fe9d619f8993d92d1380a3b320dbcedd18fe143243284a2079343f"
-    },
-    "knowledge/candidates/SHE-20261109-013-03-delivery-519905e9da.json": {
-      "sha256": "6e9d0ae8e342055690039b1f5f0dbcea27ccb81e2fa6bd8c76bc83fbddde0cf1",
-      "archive_path": "6e9d0ae8e342055690039b1f5f0dbcea27ccb81e2fa6bd8c76bc83fbddde0cf1/SHE-20261109-013-03-delivery-519905e9da.json",
-      "decision_sha256": "67c416f19902c5a312327f95091f7182e15c5bc199c8502bc1acc7ea22163961"
-    },
-    "knowledge/candidates/SHE-20261109-013-04-delivery-2b6073b54a.json": {
-      "sha256": "c4fa79192649cc5d28846f377f3a7f32d44e61398a798d64c27fb2c170640be6",
-      "archive_path": "c4fa79192649cc5d28846f377f3a7f32d44e61398a798d64c27fb2c170640be6/SHE-20261109-013-04-delivery-2b6073b54a.json",
-      "decision_sha256": "ad61ebdb1824f9b46f82a02df349b89b56b9c3ae5fc3540a02fe9555b0cb1c5f"
-    },
-    "knowledge/candidates/SHE-20261109-013-05-delivery-5f7feaa2d1.json": {
-      "sha256": "ef36de8ecca3cee240e39350d2fcf15bc7bd4a94453715d09a9644e86c47d3bd",
-      "archive_path": "ef36de8ecca3cee240e39350d2fcf15bc7bd4a94453715d09a9644e86c47d3bd/SHE-20261109-013-05-delivery-5f7feaa2d1.json",
-      "decision_sha256": "8bae900fe113dd627cd00674aec25b6b3ce58e3696118a7a4b3b5588be50acb3"
-    },
-    "knowledge/candidates/SHE-20261109-013-06-delivery-e56dd76054.json": {
-      "sha256": "aedffd959f25d984f8c435776626d84382ce7982aada710113c62c793890555e",
-      "archive_path": "aedffd959f25d984f8c435776626d84382ce7982aada710113c62c793890555e/SHE-20261109-013-06-delivery-e56dd76054.json",
-      "decision_sha256": "f60be1a32333373e214193f7703de546a66e88e45b414259083d5cdd974b04d6"
-    },
-    "knowledge/candidates/SHE-20261109-013-07-delivery-c312cc28af.json": {
-      "sha256": "403f82eb976d02393f7fd3099e97580f8c31fb54e3bb0e0a1d7219d555cea7ae",
-      "archive_path": "403f82eb976d02393f7fd3099e97580f8c31fb54e3bb0e0a1d7219d555cea7ae/SHE-20261109-013-07-delivery-c312cc28af.json",
-      "decision_sha256": "fb684290d19b7f4fecdabccb343af596368c1fbc610aea5f91db948774a0375e"
-    },
-    "knowledge/candidates/SHE-20261109-013-08-delivery-40534ba430.json": {
-      "sha256": "c65902194bf64b189af6abee49969ea861c87b5c3fa022cd745559486dbba0b5",
-      "archive_path": "c65902194bf64b189af6abee49969ea861c87b5c3fa022cd745559486dbba0b5/SHE-20261109-013-08-delivery-40534ba430.json",
-      "decision_sha256": "a91678b265bb4daef996c3d71971ba8a352ccbabb5bae7a7b71fa3b798376ee5"
-    },
-    "knowledge/candidates/SHE-20261109-013-09-delivery-1a141a6829.json": {
-      "sha256": "247e08a8e4942fa2813edbdee0d9c4bf502fcc4910efe7a08cf493c011d2cb47",
-      "archive_path": "247e08a8e4942fa2813edbdee0d9c4bf502fcc4910efe7a08cf493c011d2cb47/SHE-20261109-013-09-delivery-1a141a6829.json",
-      "decision_sha256": "248bdb86bcaed0699ed1d2f35d5cbc4570912099f4e1d47b8d67e8163cc9409c"
-    },
-    "knowledge/candidates/SHE-20261109-013-10-delivery-c1222c3233.json": {
-      "sha256": "7dd7e405ae918ee25cab805c0f36f9e9e116badac72182ecc57314e76e5333ff",
-      "archive_path": "7dd7e405ae918ee25cab805c0f36f9e9e116badac72182ecc57314e76e5333ff/SHE-20261109-013-10-delivery-c1222c3233.json",
-      "decision_sha256": "48edb133b4def0babb0cebf5ed00fcc5240f796d0be95760b4419464a996936e"
-    },
-    "knowledge/candidates/SHE-20261109-013-13-delivery-cd1f4aec4c.json": {
-      "sha256": "fd2b40d0a25e7765fdcca3e7909abfc0eed03b005f98b64a04edaee66ffcb8ce",
-      "archive_path": "fd2b40d0a25e7765fdcca3e7909abfc0eed03b005f98b64a04edaee66ffcb8ce/SHE-20261109-013-13-delivery-cd1f4aec4c.json",
-      "decision_sha256": "2633e560de901363c67940eae06ac503360c28b6ffb4d8442ff2a2aad7856f6f"
-    },
-    "knowledge/candidates/SHE-20261109-013-14-delivery-c60fe8df8a.json": {
-      "sha256": "83a9ee56e8ec535d4f5cb7424b75426b2f5c2fd441fe08d7bf139185069450a3",
-      "archive_path": "83a9ee56e8ec535d4f5cb7424b75426b2f5c2fd441fe08d7bf139185069450a3/SHE-20261109-013-14-delivery-c60fe8df8a.json",
-      "decision_sha256": "3a455ce29d8612c4d2b97edc85242763b2bc80c60067b15b6bc76351b2736e70"
-    },
-    "knowledge/candidates/SHE-20261109-013-15-delivery-4989f35c91.json": {
-      "sha256": "dd0ccd3a99104d37a1a137001f81cfab7ed3d948a606d67082b57d9189db77e2",
-      "archive_path": "dd0ccd3a99104d37a1a137001f81cfab7ed3d948a606d67082b57d9189db77e2/SHE-20261109-013-15-delivery-4989f35c91.json",
-      "decision_sha256": "110f321df1dc8c3e10bd1b3de603da41965bef2e219ff6db909709376364a025"
-    },
-    "knowledge/candidates/SHE-20261109-013-16-delivery-995483e921.json": {
-      "sha256": "d6a391c4468e1f672c7e4b7f16de99b7b448568f5b2dde7ccc7de3573f994fab",
-      "archive_path": "d6a391c4468e1f672c7e4b7f16de99b7b448568f5b2dde7ccc7de3573f994fab/SHE-20261109-013-16-delivery-995483e921.json",
-      "decision_sha256": "7422e12439f1e1694f9abbf4c626316c47244c181f5898b50f7ac2e44db87567"
-    },
-    "knowledge/candidates/SHE-20261109-013-17-delivery-06dfc6d41f.json": {
-      "sha256": "22daf0feb5df4e09577db4472f59e5b48a50802d85482c8bee35caa76c981cee",
-      "archive_path": "22daf0feb5df4e09577db4472f59e5b48a50802d85482c8bee35caa76c981cee/SHE-20261109-013-17-delivery-06dfc6d41f.json",
-      "decision_sha256": "f2a4f1af0c677ae7f1b8615a8a3bb8a19c24a316c3fc191111d62eb45941c63b"
-    },
-    "knowledge/candidates/MOG-20261117-049-02-completion-fbe8aa00ea.json": {
-      "sha256": "83ba2e95426991bce8f302427badef32aac04488ed9d7646d9ced0da24cf56df",
-      "archive_path": "83ba2e95426991bce8f302427badef32aac04488ed9d7646d9ced0da24cf56df/MOG-20261117-049-02-completion-fbe8aa00ea.json",
-      "decision_sha256": "c1ca66ee6f20b8d6d7e038dddafa4e0b081d3c8a3432f2161ef20f5d906f3f47"
-    },
-    "knowledge/candidates/MOG-20261117-049-03-completion-a1def8b6be.json": {
-      "sha256": "444d90b596eab781ec6fe284e2c318c0eb5bd4bf225c86f2b50cfd68ecb412f1",
-      "archive_path": "444d90b596eab781ec6fe284e2c318c0eb5bd4bf225c86f2b50cfd68ecb412f1/MOG-20261117-049-03-completion-a1def8b6be.json",
-      "decision_sha256": "e8dd2de55a44faf17a6b40989c0e0802484219bbce980b8b5ad1a8322733ecbf"
-    },
-    "knowledge/candidates/MOG-20261117-049-04-completion-ea32c89329.json": {
-      "sha256": "edb130e53042e602a003584d95d6e54592dc128776314520524407750a7cb266",
-      "archive_path": "edb130e53042e602a003584d95d6e54592dc128776314520524407750a7cb266/MOG-20261117-049-04-completion-ea32c89329.json",
-      "decision_sha256": "e4b61b0669f86ba6583e28fdad74e86ad3a68ebbc9607478298f87b8feb24c77"
-    },
-    "knowledge/candidates/MOG-20261117-049-05-completion-fc8cabb002.json": {
-      "sha256": "9a40799c8a2219f82e2d80848154f570b0b2bc9b36c8a5164d87ee02e8b4f8c5",
-      "archive_path": "9a40799c8a2219f82e2d80848154f570b0b2bc9b36c8a5164d87ee02e8b4f8c5/MOG-20261117-049-05-completion-fc8cabb002.json",
-      "decision_sha256": "8fbbeee796afc351e4bcea1e6d3dc406bc9f362a9190e1601d317385c2abd533"
-    },
-    "knowledge/candidates/MOG-20261117-049-06-completion-b2648c708d.json": {
-      "sha256": "3d5cbb2165c3a542506cebd2e32bbd16ce25227fc6fde334da29d036d6728031",
-      "archive_path": "3d5cbb2165c3a542506cebd2e32bbd16ce25227fc6fde334da29d036d6728031/MOG-20261117-049-06-completion-b2648c708d.json",
-      "decision_sha256": "7819dc0bfc0b4dfe7a1d509c49837179e4ea98a32b8b9dadf73bb5753b6b48a3"
-    },
-    "knowledge/candidates/MOG-20261117-049-07-completion-28c5276926.json": {
-      "sha256": "04d4867bc67f64d1b8e15775f33382d491663718c84a7af4c34045d11d659b0a",
-      "archive_path": "04d4867bc67f64d1b8e15775f33382d491663718c84a7af4c34045d11d659b0a/MOG-20261117-049-07-completion-28c5276926.json",
-      "decision_sha256": "3bc6dc44504aceddf97097ab69c4f67406b30f42d9990675599c4ccc60d34f42"
-    },
-    "knowledge/candidates/MOG-20261117-049-08-completion-de6ae08299.json": {
-      "sha256": "0f2418a2a00a779a0d3e9b2054168858f38ab882aa726f38f0da051984aef718",
-      "archive_path": "0f2418a2a00a779a0d3e9b2054168858f38ab882aa726f38f0da051984aef718/MOG-20261117-049-08-completion-de6ae08299.json",
-      "decision_sha256": "5b8b72d5d7db992c0417d8b7a31bda1ed3545da8f5ba914141848c5b26148ea7"
-    },
     "knowledge/candidates/APC-20261117-060-asr-model-disagreement.json": {
       "sha256": "0f67334b305e7fa817c06a2043575ba32dbc6e3106719440f81cca56f12147b0",
       "archive_path": "0f67334b305e7fa817c06a2043575ba32dbc6e3106719440f81cca56f12147b0/APC-20261117-060-asr-model-disagreement.json",
       "decision_sha256": "d2a2b0838f101b265de5cbf4ff02446177f75870bbef816ac79ae83602c46f22"
-    },
-    "knowledge/candidates/KEY-20261109-006-1-02-scoped-49bb5b318d.json": {
-      "sha256": "d49084b9655daf97886dc90fa0e51cc76c89a33d32c8c01dbbb6c110a35d0ff7",
-      "archive_path": "d49084b9655daf97886dc90fa0e51cc76c89a33d32c8c01dbbb6c110a35d0ff7/KEY-20261109-006-1-02-scoped-49bb5b318d.json",
-      "decision_sha256": "dcda08803b9ddb0c17e750aab3d6fc0e2bf5f0ed82b7c296282cf2ed3eae13c9"
-    },
-    "knowledge/candidates/KEY-20261109-006-1-03-scoped-46178a2e64.json": {
-      "sha256": "b1c28a0ad5e48fd62957d013414c880e4e0db99ed8a4ef2c1fc3fa5cf8cdb426",
-      "archive_path": "b1c28a0ad5e48fd62957d013414c880e4e0db99ed8a4ef2c1fc3fa5cf8cdb426/KEY-20261109-006-1-03-scoped-46178a2e64.json",
-      "decision_sha256": "963b793c63a5a404840d3169325ca7ad12142fceec0985f0282e904406570198"
-    },
-    "knowledge/candidates/KEY-20261109-006-1-04-scoped-a7bd252180.json": {
-      "sha256": "be14df4e94a6ed4f82179b52ddc32a2f85474d6e2d2e42bbe35254a2e319838f",
-      "archive_path": "be14df4e94a6ed4f82179b52ddc32a2f85474d6e2d2e42bbe35254a2e319838f/KEY-20261109-006-1-04-scoped-a7bd252180.json",
-      "decision_sha256": "8dba3f4280f268d213ea514014038f12d1f605088782d48dbf82cc68a568c3fc"
-    },
-    "knowledge/candidates/KEY-20261109-006-1-05-scoped-4cf397fbd6.json": {
-      "sha256": "9fe5da6ec5194fe7b3748b2bbb2bef5ee7b74a545f120fbc155d51fa62e7fdb7",
-      "archive_path": "9fe5da6ec5194fe7b3748b2bbb2bef5ee7b74a545f120fbc155d51fa62e7fdb7/KEY-20261109-006-1-05-scoped-4cf397fbd6.json",
-      "decision_sha256": "3d2f3214e761f55298db4f21e9261026e209c0221d7babaf134c7bc49e7b1a3d"
-    },
-    "knowledge/candidates/KEY-20261109-006-2-02-scoped-3f97d21913.json": {
-      "sha256": "5ed3e5415dae2bb31c055907404f5c7bd7964ed0f64627cf355b08f5048853d6",
-      "archive_path": "5ed3e5415dae2bb31c055907404f5c7bd7964ed0f64627cf355b08f5048853d6/KEY-20261109-006-2-02-scoped-3f97d21913.json",
-      "decision_sha256": "2c15e773702dd95f26563b77e0e3bfe8f380b9daf1e2fb5cfe3bff43cc82ef16"
-    },
-    "knowledge/candidates/KEY-20261109-006-2-03-scoped-f638b32074.json": {
-      "sha256": "c1af65ddc14b24e821b4443614174bf5b2547751c91bc5ff3ce723ecaadbad8a",
-      "archive_path": "c1af65ddc14b24e821b4443614174bf5b2547751c91bc5ff3ce723ecaadbad8a/KEY-20261109-006-2-03-scoped-f638b32074.json",
-      "decision_sha256": "640415aa22f27ee104bc41dd269b37b7158c157faf7385f15a8710f5dfb4d034"
-    },
-    "knowledge/candidates/KEY-20261109-006-2-04-scoped-607025c148.json": {
-      "sha256": "b52a5bf618300a78463458bcf657452570d266ade301e5c02c2b83e8021392fe",
-      "archive_path": "b52a5bf618300a78463458bcf657452570d266ade301e5c02c2b83e8021392fe/KEY-20261109-006-2-04-scoped-607025c148.json",
-      "decision_sha256": "39283f78515c17f63b10cd02af092f02e570a8bf59d8021db321b8fd494639ed"
-    },
-    "knowledge/candidates/KEY-20261109-006-2-05-scoped-d458b5c785.json": {
-      "sha256": "26e37282c02adb62facc9e1c80a41ca85e1083e425687cadd6c96c1fd9be6d4c",
-      "archive_path": "26e37282c02adb62facc9e1c80a41ca85e1083e425687cadd6c96c1fd9be6d4c/KEY-20261109-006-2-05-scoped-d458b5c785.json",
-      "decision_sha256": "20bd14c6586172c0bc37a051489eb5225537350404eecd838f3c724fc7deaae5"
     },
     "knowledge/candidates/APC-20261111-004-de-bounded-b8bf61648c.json": {
       "sha256": "3315db1a541b184586c89042911631e463bbea742f5a6c5b25b22dd4e722dbb7",
@@ -1541,125 +591,40 @@
       "archive_path": "9ce3de5a02fe2ca16886970b5efa453efe2bc6ef9d676297722eff8561bd77ba/APC-20261111-004-es-bounded-49c2a72941.json",
       "decision_sha256": "5167afa10e31d69e5477f6ac1a7f4eeb9231a33d70b3249074fcb9fd8fa05ae4"
     },
-    "knowledge/candidates/APC-20261111-004-pt-bounded-cf85758019.json": {
-      "sha256": "1050f52e28aa5c2eff7d80a80d7d0728f95dd982b1c8d3d1b2da2b9450b9dc9d",
-      "archive_path": "1050f52e28aa5c2eff7d80a80d7d0728f95dd982b1c8d3d1b2da2b9450b9dc9d/APC-20261111-004-pt-bounded-cf85758019.json",
-      "decision_sha256": "81580da576a1f14d338d3bd421bbe094ced8938b8fa95579b3bbfb95b1456946"
-    },
-    "knowledge/candidates/APC-20261104-009-ja-audio-resolution-20261105.json": {
-      "sha256": "86d85e0a5c8517e6a2166ad689a4ff73b68e9b2b0ce7613c95375fccd6587a1e",
-      "archive_path": "86d85e0a5c8517e6a2166ad689a4ff73b68e9b2b0ce7613c95375fccd6587a1e/APC-20261104-009-ja-audio-resolution-20261105.json",
-      "decision_sha256": "9c1137938c0849bfcc9b3d38e1db41f9d4ce62acda39f4974197f9bf2b21a1ec"
-    },
     "knowledge/candidates/KEY-20261110-032-01-d24da44517.json": {
       "sha256": "9bbeef3bbb88c183ff38fa3f06d0a6da17042d4906a881617d5d6b89642ffd81",
       "archive_path": "9bbeef3bbb88c183ff38fa3f06d0a6da17042d4906a881617d5d6b89642ffd81/KEY-20261110-032-01-d24da44517.json",
       "decision_sha256": "848ce97675778c1e6135e56d4087503cf4db99acfb72e561dec5a119fe26c9b2"
     },
-    "knowledge/candidates/KEY-20261110-032-02-229e4660f5.json": {
-      "sha256": "07f247e506bbd953db6d3161c6f6b0f7b4c1fd37f09f6a1576f0269853b32315",
-      "archive_path": "07f247e506bbd953db6d3161c6f6b0f7b4c1fd37f09f6a1576f0269853b32315/KEY-20261110-032-02-229e4660f5.json",
-      "decision_sha256": "b336ee0a62afe0a6ed00f4eae980b1b9993b843c13dd6ce14b6c631274565413"
+    "knowledge/candidates/MOG-20261124-040-1-01-8e930095f0.json": {
+      "sha256": "e1a2a5ef39c3b07466f8e9a499e996e81e6dc77ead7538c341d3d2a1da565763",
+      "archive_path": "e1a2a5ef39c3b07466f8e9a499e996e81e6dc77ead7538c341d3d2a1da565763/MOG-20261124-040-1-01-8e930095f0.json",
+      "decision_sha256": "42f666dbc21ffb7cc8dabfae113745cb868f9c4401585f1c5bb921707bb9752d"
     },
-    "knowledge/candidates/KEY-20261110-032-03-c7c1b724f7.json": {
-      "sha256": "3c0001ae0c5b03ac6a1c4ff7d50f0b9ad9fe8fa2f4738e7b4e12ff1b7dbea4b4",
-      "archive_path": "3c0001ae0c5b03ac6a1c4ff7d50f0b9ad9fe8fa2f4738e7b4e12ff1b7dbea4b4/KEY-20261110-032-03-c7c1b724f7.json",
-      "decision_sha256": "100b8ef4a2c933e9637d7aecf876eb5c1979779c5a7dad7f997e8115296eb32d"
+    "knowledge/candidates/MOG-20261124-040-3-01-f4b1d7d09e.json": {
+      "sha256": "238cb0961751c9a1d93498314415b7d3d8c37d047316b4b97de693166efe61e3",
+      "archive_path": "238cb0961751c9a1d93498314415b7d3d8c37d047316b4b97de693166efe61e3/MOG-20261124-040-3-01-f4b1d7d09e.json",
+      "decision_sha256": "6cebdfa14f06fe07a7c34e5bea2eacf88deccdefaa17499946ece0445a32b970"
     },
-    "knowledge/candidates/KEY-20261110-032-04-96b9d928a7.json": {
-      "sha256": "6ed59917c3c1d2969aa3e669cfa88157e8ae598bb828a1f84e96d392a3c8e22b",
-      "archive_path": "6ed59917c3c1d2969aa3e669cfa88157e8ae598bb828a1f84e96d392a3c8e22b/KEY-20261110-032-04-96b9d928a7.json",
-      "decision_sha256": "af50203dc23dd9a68c53995799e80c1169883bf05d9aeac3ed871b7557622c11"
+    "knowledge/candidates/MOG-20261029-056-1-03-3570e7136c.json": {
+      "sha256": "12fbddc947beec564794d62eb7ab8e163da99f7c3b86fddc50d784ffa22f0b01",
+      "archive_path": "12fbddc947beec564794d62eb7ab8e163da99f7c3b86fddc50d784ffa22f0b01/MOG-20261029-056-1-03-3570e7136c.json",
+      "decision_sha256": "7c2ccc8d13c1ed2d05a280b19e26b5ef4ffa0b68d5231984a0fb4d2bf01ebced"
     },
-    "knowledge/candidates/KEY-20261110-032-05-d7c56dab93.json": {
-      "sha256": "223af958cd6c7ac172b4f3895f4a1da72e6fb2bff5af910eb8245ecfdacc74dc",
-      "archive_path": "223af958cd6c7ac172b4f3895f4a1da72e6fb2bff5af910eb8245ecfdacc74dc/KEY-20261110-032-05-d7c56dab93.json",
-      "decision_sha256": "835f30c4c7ebd59e7b841e357ef3e8bf951ec322dbaf82a0642d7b15e666303c"
+    "knowledge/candidates/MOG-20261029-056-2-03-4c1829421c.json": {
+      "sha256": "b413f88f025d1c90d20748f0869807fcfe2dfbd3dd939a8a4bfe3f9943a057f0",
+      "archive_path": "b413f88f025d1c90d20748f0869807fcfe2dfbd3dd939a8a4bfe3f9943a057f0/MOG-20261029-056-2-03-4c1829421c.json",
+      "decision_sha256": "3c1181d0dde29d23abe01c92ff1758435e80ae56a1c135095ebbc3e151ca1b3e"
     },
-    "knowledge/candidates/KEY-20261110-032-06-066243ecd8.json": {
-      "sha256": "945ccf73ee2a45b3ca124c794227ceeec890662bfa52a30bade86ad023279a63",
-      "archive_path": "945ccf73ee2a45b3ca124c794227ceeec890662bfa52a30bade86ad023279a63/KEY-20261110-032-06-066243ecd8.json",
-      "decision_sha256": "3abf7112a110796a1606644e9affeea073c0d87e4bfbd7cb7406d0537e636d77"
+    "knowledge/candidates/SHE-20261124-044-2-01-31c348a395.json": {
+      "sha256": "f20af1e182ba653cdaad14b6005427b2148c76d1c0099c4dea0453765c1929af",
+      "archive_path": "f20af1e182ba653cdaad14b6005427b2148c76d1c0099c4dea0453765c1929af/SHE-20261124-044-2-01-31c348a395.json",
+      "decision_sha256": "750ead9577a1108962dcef8ccedbcfcc19c4340d6d4664234d45cc37f2bb9567"
     },
-    "knowledge/candidates/KEY-20261110-032-07-a7b195b17d.json": {
-      "sha256": "0ae5683a6a949ddafa0bdf4359004410545bbf001df80d3ea36b9b18be2329e7",
-      "archive_path": "0ae5683a6a949ddafa0bdf4359004410545bbf001df80d3ea36b9b18be2329e7/KEY-20261110-032-07-a7b195b17d.json",
-      "decision_sha256": "ce42932ca7e435811fd9a4f10272770335ac5a5b2e2810dd0600b63c8c3b6d93"
-    },
-    "knowledge/candidates/KEY-20261110-032-08-b0665ce49d.json": {
-      "sha256": "79f429d18108e83902197cbd53191077519c1e7f6497b0a4612eddd7f81a226b",
-      "archive_path": "79f429d18108e83902197cbd53191077519c1e7f6497b0a4612eddd7f81a226b/KEY-20261110-032-08-b0665ce49d.json",
-      "decision_sha256": "6c6223eb8db2afbd8393e616b39a5e1db784b2a0653206bedd9e2d049b1aad74"
-    },
-    "knowledge/candidates/KEY-20261109-027-01-closure-5f0def1f0f.json": {
-      "sha256": "578716925209100473da809d093dfbf095fff948b5ee00e3fec4a56760c7fbcf",
-      "archive_path": "578716925209100473da809d093dfbf095fff948b5ee00e3fec4a56760c7fbcf/KEY-20261109-027-01-closure-5f0def1f0f.json",
-      "decision_sha256": "d1f52351f5160f589ab1bf09b93192a2a63cc2781a7b75ff8e7165306d6b25cb"
-    },
-    "knowledge/candidates/KEY-20261109-027-02-closure-a98e396e98.json": {
-      "sha256": "6179be0f31f73566e240dd1944c825cd7d3ed73c8a6c4dba31c45c1c71403d5d",
-      "archive_path": "6179be0f31f73566e240dd1944c825cd7d3ed73c8a6c4dba31c45c1c71403d5d/KEY-20261109-027-02-closure-a98e396e98.json",
-      "decision_sha256": "bdca1c98de7ee3efdafe2ec9fb7f267a76262b03237608545b6f89a1ad9d4280"
-    },
-    "knowledge/candidates/KEY-20261109-027-03-closure-53ccd2800f.json": {
-      "sha256": "4b4c93ba8014d6ec89ca799f8d3a13a140a270c90efc6a6090b8cd93a3dfbbc5",
-      "archive_path": "4b4c93ba8014d6ec89ca799f8d3a13a140a270c90efc6a6090b8cd93a3dfbbc5/KEY-20261109-027-03-closure-53ccd2800f.json",
-      "decision_sha256": "7dd3c0672897d5e7f9df89b19bdc3bc1ea488059afd3640d63091dda47beba28"
-    },
-    "knowledge/candidates/KEY-20261109-027-04-closure-e0d74c5dbe.json": {
-      "sha256": "b12f85bf54d19425c5ce61f1c5725a782fc3cbb15c3079139e58d7d3116f3371",
-      "archive_path": "b12f85bf54d19425c5ce61f1c5725a782fc3cbb15c3079139e58d7d3116f3371/KEY-20261109-027-04-closure-e0d74c5dbe.json",
-      "decision_sha256": "a8bfe1a20a56ee2932392ebfee921871618798390b9d818bba62dd930f993f0f"
-    },
-    "knowledge/candidates/KEY-20261109-027-05-closure-0e7b9fbaba.json": {
-      "sha256": "2e0cb72e07825cd3cc02a838df6033c05ba2d063d1252c64ff403766cc503c31",
-      "archive_path": "2e0cb72e07825cd3cc02a838df6033c05ba2d063d1252c64ff403766cc503c31/KEY-20261109-027-05-closure-0e7b9fbaba.json",
-      "decision_sha256": "ebc65484a34836c7a9339e8a772e1bb15e053852c54f04bf912c85c32b868770"
-    },
-    "knowledge/candidates/KEY-20261109-027-06-closure-48eae51bf9.json": {
-      "sha256": "c8dfd7634550b75397a599c5c656401f14cfb3942bb41f1705e2e6364d4d1f8d",
-      "archive_path": "c8dfd7634550b75397a599c5c656401f14cfb3942bb41f1705e2e6364d4d1f8d/KEY-20261109-027-06-closure-48eae51bf9.json",
-      "decision_sha256": "fd1e1170c02a7783db8e8957ceb690c00ff72ff5672538354210e91ac8ccb970"
-    },
-    "knowledge/candidates/KEY-20261109-027-07-closure-bbd86a03d8.json": {
-      "sha256": "2cdeacb57ac511f849d819a5a31c1af064d271506f041ac99a08c31636c2842c",
-      "archive_path": "2cdeacb57ac511f849d819a5a31c1af064d271506f041ac99a08c31636c2842c/KEY-20261109-027-07-closure-bbd86a03d8.json",
-      "decision_sha256": "fe7d82daddbb1ba1de7ea1082c8173d2daa2be23ade58d692cfcc60cb9941038"
-    },
-    "knowledge/candidates/KEY-20261109-027-08-closure-25afeecdc5.json": {
-      "sha256": "24b9b00c1c1fee18be9ba36453641282db216992b55dafe7f45b488e78419b05",
-      "archive_path": "24b9b00c1c1fee18be9ba36453641282db216992b55dafe7f45b488e78419b05/KEY-20261109-027-08-closure-25afeecdc5.json",
-      "decision_sha256": "d54a17bb542e4df5cdb3d32a4a34ab3c4faa92d3b7648c634a85b4983f0ba7d4"
-    },
-    "knowledge/candidates/KEY-20261109-027-09-closure-f1fed09ae3.json": {
-      "sha256": "bd602ffb413b49ef8174538b0421ed0ad45588afd899e1dd1710505bed132e49",
-      "archive_path": "bd602ffb413b49ef8174538b0421ed0ad45588afd899e1dd1710505bed132e49/KEY-20261109-027-09-closure-f1fed09ae3.json",
-      "decision_sha256": "471391136e3981163e8de9f08449ab3641593458e42f849d0429be3e2a6f20b0"
-    },
-    "knowledge/candidates/KEY-20261109-027-10-closure-12047597c8.json": {
-      "sha256": "741219b9a4159087347c8f7a6ac33c45d229732a8a64fd56cf56e37b47d19aa9",
-      "archive_path": "741219b9a4159087347c8f7a6ac33c45d229732a8a64fd56cf56e37b47d19aa9/KEY-20261109-027-10-closure-12047597c8.json",
-      "decision_sha256": "a3405d0725a1bc8e5aaf7816bc67e6d22aebab785ec2b4901a07841621e54802"
-    },
-    "knowledge/candidates/KEY-20261109-027-11-closure-b6a6d93263.json": {
-      "sha256": "434b2e39d80a2adc8cb61a017a55b8c9d7bd07e646703e2ba686c96403bc1815",
-      "archive_path": "434b2e39d80a2adc8cb61a017a55b8c9d7bd07e646703e2ba686c96403bc1815/KEY-20261109-027-11-closure-b6a6d93263.json",
-      "decision_sha256": "c8c988fadc1b70c375e5b363c425a8974eff861788c5b6275331f3e41143e404"
-    },
-    "knowledge/candidates/KEY-20261109-027-13-closure-83dce7356b.json": {
-      "sha256": "caee9179f90398024327bb862a72a968fd396b5db861667e9052288b28b55a7b",
-      "archive_path": "caee9179f90398024327bb862a72a968fd396b5db861667e9052288b28b55a7b/KEY-20261109-027-13-closure-83dce7356b.json",
-      "decision_sha256": "fd22abc82a3a1c0005b13fc3031ecc6fdf19fa2d1e3e1f61c2ed1d90c91a12b3"
-    },
-    "knowledge/candidates/KEY-20261109-027-14-closure-bc7232bd26.json": {
-      "sha256": "1393cf35e168e5c6888994b57cd329844531696c693fa1a5fa0ad3d67d1bfa47",
-      "archive_path": "1393cf35e168e5c6888994b57cd329844531696c693fa1a5fa0ad3d67d1bfa47/KEY-20261109-027-14-closure-bc7232bd26.json",
-      "decision_sha256": "4994f7a87b60ffebd980ec2eaa7657d79571f6affe42c79241bf935e9e549d57"
-    },
-    "knowledge/candidates/KEY-20261109-027-15-closure-649a4e24e4.json": {
-      "sha256": "ed0e2ea0f00a001140fcc1baef3e261233c839d2a80927386c0b7bf501f63c2b",
-      "archive_path": "ed0e2ea0f00a001140fcc1baef3e261233c839d2a80927386c0b7bf501f63c2b/KEY-20261109-027-15-closure-649a4e24e4.json",
-      "decision_sha256": "35bbbf2899a9bf68a536adde16bd5d382504288cf1b49843791bead337ea72a2"
+    "knowledge/candidates/SHE-20261124-044-2-01-7cbb34d2a2.json": {
+      "sha256": "cb4548a55d73b901b64f6cd194ebb6f85952cb3246705de3082d972c5b01cdc0",
+      "archive_path": "cb4548a55d73b901b64f6cd194ebb6f85952cb3246705de3082d972c5b01cdc0/SHE-20261124-044-2-01-7cbb34d2a2.json",
+      "decision_sha256": "c02c054742553c1c4a37a189a3dccadc7a06935bce967bf12239bfdeaeec0eb4"
     }
   }
 }

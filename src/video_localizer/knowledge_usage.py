@@ -3,7 +3,7 @@ from pathlib import Path
 
 from . import bundles
 from .common import ROOT, file_hash, guarded, inside, object_hash, read_json, require, write_json
-from .knowledge_records import non_use_only
+from .knowledge_records import non_use_only, placeholder_lesson
 
 AREA = "knowledge/local/feedback/knowledge-use"
 
@@ -44,21 +44,35 @@ def record(run, spec, root=None):
         files["evidence/" + item["path"]] = path
     identity = object_hash({"run": run.name, "spec": spec})
     folder = root / AREA / identity
+    target = folder / "feedback.json"
     scope = {"workflow": "video-localization", "source_sha256": plan["source_sha256"],
              "target_language": read_json(run / "inputs/request.json")["target_language"]}
+    lesson = spec.get("lesson")
+    require(lesson is None or isinstance(lesson, str), "Knowledge-use lesson must be text")
+    negative = any(use["outcome"] in {"ineffective", "counterexample"} for use in uses)
+    attribution = {"schema_version": 1, "id": identity, "scope": scope, "plan_id": plan["id"],
+                   "video_sha256": candidate["sha256"], "uses": uses,
+                   "reviewed_by": spec["reviewed_by"], "review_type": spec["review_type"]}
+    if not target.exists() and not negative and placeholder_lesson(lesson):
+        target = root / "state/knowledge-use" / (identity + ".json")
+        value = {**attribution, "state": "recorded_use", "evidence": evidence}
+        if target.exists():
+            require(read_json(target) == value, "Immutable knowledge-use receipt changed")
+        else:
+            write_json(target, value)
+        pointer = {"path": target.relative_to(root).as_posix(), "sha256": file_hash(target)}
+        write_json(run / "review/knowledge-use" / (identity + ".json"), pointer)
+        return {**pointer, "state": "recorded_non_use" if non_use_only(value) else "recorded_use",
+                "automatic_promotion": False}
     bundles.create(folder / "bundle", "knowledge-case", identity, files,
                    {"scope": scope, "video_sha256": candidate["sha256"], "review_type": spec["review_type"]})
-    negative = any(u["outcome"] in {"ineffective", "counterexample"} for u in uses)
-    value = {"schema_version": 1, "id": identity, "status": "candidate", "scope": scope,
-             "plan_id": plan["id"], "video_sha256": candidate["sha256"], "uses": uses,
+    value = {**attribution, "status": "candidate",
              "outcome": "counterexample" if negative else "observation",
-             "hypothesis": " | ".join(dict.fromkeys(u["observation"] for u in uses)),
-             "reviewed_by": spec["reviewed_by"], "review_type": spec["review_type"],
+             "hypothesis": lesson if not placeholder_lesson(lesson) else " | ".join(dict.fromkeys(u["observation"] for u in uses)),
              "case": (folder / "bundle").relative_to(root).as_posix(),
              "case_manifest_sha256": file_hash(folder / "bundle/manifest.json"),
              "limitations": ["Use report only; no automatic rule promotion, quality acceptance or cross-source proof."],
              "next_action": "Review counterexample and revise/supersede the affected method" if negative else "Review whether the method needs clarification or no change"}
-    target = folder / "feedback.json"
     if target.exists():
         previous = read_json(target)
         # Old receipts repeat identical observations for every selected rule.

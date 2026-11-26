@@ -52,6 +52,102 @@ def status(run):
             'contract': 'agent/contracts/storage.md'}
 
 
+def recover_accepted_closures(root, execute=False):
+    """Recover missing local close receipts from exact, already accepted batches."""
+    from . import fireplay, project_storage
+    from .fireplay_submission import _canonical_materials, _held_material
+    root = Path(root).resolve()
+    if not project_storage.authorized(root):
+        return {'eligible': [], 'closed': [], 'deferred': []}
+    entries = project_storage._catalog(root)['entries']
+    by_package = {entry.get('package'): entry for entry in entries if not entry.get('expired_at')}
+    result = {'eligible': [], 'closed': [], 'deferred': []}
+    seen = set()
+    for request_path in sorted((root / 'state/fireplay').glob('*/request.json')):
+        try:
+            record = read_json(request_path)
+            for video in record['videos']:
+                outbox_path = request_path.with_name(f'return-{video["index"]}.json')
+                if not outbox_path.is_file():
+                    continue
+                outbox = read_json(outbox_path)
+                if (outbox.get('state') != 'returned'
+                        or outbox.get('requirement_id') != record['requirement_id']
+                        or outbox.get('content_version') != record['content_version']
+                        or outbox.get('video_index') != video['index']):
+                    continue
+                bound = outbox.get('operations', {}).get('bind', {}).get('result', {}).get('material_ids')
+                if not isinstance(bound, list) or not bound:
+                    continue
+                accepted = {(row['locale'], row['sha256']) for row in _canonical_materials(outbox)
+                            if row['material_id'] in bound and not _held_material(video, row, root, record['code'])}
+                for _, package in fireplay._active_packages(outbox):
+                    entry = by_package.get(package.get('package'))
+                    if not entry:
+                        continue
+                    run_id = entry.get('origin_run_id')
+                    digest = entry.get('video_sha256')
+                    locale = entry.get('target_language')
+                    if (run_id not in video.get('members', []) or run_id in seen
+                            or locale not in video['targets'] or (locale, digest) not in accepted
+                            or package.get('locale') != locale or package.get('sha256') != digest
+                            or entry.get('source_sha256') != video.get('source', {}).get('sha256')
+                            or (root / 'state/storage-closed' / (run_id + '.json')).exists()):
+                        continue
+                    run = inside(root / 'runs', run_id)
+                    delivery_path = run / 'outputs/delivery.json'
+                    if not delivery_path.is_file():
+                        continue
+                    seen.add(run_id)
+                    try:
+                        delivery = read_json(delivery_path)
+                        if delivery.get('sha256') != digest:
+                            continue
+                        production_inputs = [run / relative for relative in
+                                             ('plan.json', 'analysis/inventory.json', 'inputs/request.json',
+                                              'outputs/candidate.json')]
+                        if any(path.exists() and path.stat().st_mtime_ns > delivery_path.stat().st_mtime_ns
+                               for path in production_inputs):
+                            continue
+                        activity = root / 'state/storage-activity' / (run_id + '.json')
+                        if activity.exists() and activity.stat().st_mtime_ns > delivery_path.stat().st_mtime_ns:
+                            previous = read_json(activity)
+                            if previous.get('previous_close'):
+                                continue
+                        result['eligible'].append(run_id)
+                        if execute:
+                            with run_operation(run, resume=False):
+                                require(read_json(request_path) == record and read_json(outbox_path) == outbox,
+                                        'Accepted batch changed during local closure recovery')
+                                require(read_json(delivery_path) == delivery, 'Formal delivery changed')
+                                require(not any(path.exists() and path.stat().st_mtime_ns > delivery_path.stat().st_mtime_ns
+                                                for path in production_inputs), 'Production inputs changed after formal delivery')
+                                require(read_json(run / 'run.json')['source_sha256'] == entry['source_sha256']
+                                        and read_json(run / 'inputs/request.json')['target_language'] == locale,
+                                        'Run source or locale changed')
+                                require(not _held_material(video, {'sha256': digest}, root, record['code']),
+                                        'Accepted version is now held')
+                                from . import bundles
+                                folder = inside(root, entry['package'])
+                                manifest = bundles.verify(folder)
+                                require(manifest['kind'] == 'delivery' and manifest['identity'] == digest
+                                        and (not entry.get('manifest_sha256')
+                                             or file_hash(folder / 'manifest.json') == entry['manifest_sha256'])
+                                        and manifest['metadata']['source_sha256'] == entry['source_sha256']
+                                        and manifest['metadata']['target_language'] == locale,
+                                        'Accepted package identity changed')
+                                closure = maintain(run, close=True, stage='accepted_delivery_recovery')
+                                if closure['state'] == 'closed_pending_lifecycle':
+                                    result['closed'].append(run_id)
+                                else:
+                                    result['deferred'].append({'run': run_id, 'reason': closure['state']})
+                    except (OSError, WorkflowError, ValueError, KeyError, TypeError) as exc:
+                        result['deferred'].append({'run': run_id, 'reason': str(exc)})
+        except (OSError, WorkflowError, ValueError, KeyError, TypeError) as exc:
+            result['deferred'].append({'request': request_path.parent.name, 'reason': str(exc)})
+    return result
+
+
 def complete_deferred(run, root):
     path = root / 'state/deferred-delivery' / (run.name + '.json')
     if not path.exists():
@@ -214,7 +310,8 @@ def maintain(run, close=False, stage='manual'):
         # Legacy preserve would add a permanent full-source copy in state.
         from . import learning, library
         with run_operation(run, resume=False):
-            require(not list((root / 'state/resources').glob('*.lock')), 'Heavy work is active')
+            if stage != 'accepted_delivery_recovery':
+                require(not list((root / 'state/resources').glob('*.lock')), 'Heavy work is active')
             for job in (run / 'jobs').glob('*.json'):
                 require(read_json(job).get('state') not in {'created', 'submitted', 'running', 'processing', 'queued'},
                         'Model task remains active; finish it before closing')

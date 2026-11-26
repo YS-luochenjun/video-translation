@@ -52,6 +52,29 @@ class SourceAdditionTests(unittest.TestCase):
         with self.assertRaises(WorkflowError):
             self.append()
 
+    def test_in_progress_preserves_existing_production_and_budget(self):
+        self.snapshot['row']['status'] = 'in_progress'
+        self.source['members'] = ['existing-run']
+        budget = self.root / 'state/budgets/original-pool.json'
+        budget_before = budget.read_bytes()
+        result = self.append()
+        self.assertEqual(result['videos'][0]['members'], ['existing-run'])
+        self.assertEqual(result['videos'][0]['source_scope_content_version'], 'old-version')
+        self.assertEqual(result['videos'][1]['source_scope_content_version'], 'new-version')
+        self.assertEqual(result['chat'], self.previous['chat'])
+        self.assertEqual(budget.read_bytes(), budget_before)
+
+    def test_in_progress_with_existing_return_rejected(self):
+        self.snapshot['row']['status'] = 'in_progress'
+        write_json(self.folder / 'return-1.json', {'state': 'prepared'})
+        with self.assertRaises(WorkflowError):
+            self.append()
+
+    def test_done_rejected(self):
+        self.snapshot['row']['status'] = 'done'
+        with self.assertRaises(WorkflowError):
+            self.append()
+
     def test_real_assignee_change_rejected(self):
         self.snapshot['row']['assigneeIds'] = ['alice', 'charlie']
         with self.assertRaises(WorkflowError):

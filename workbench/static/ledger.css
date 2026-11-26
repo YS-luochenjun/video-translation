@@ -37,6 +37,54 @@
 .ledger-table tr[data-selected=true] { background: transparent; }
 .ledger-table tr[data-selected=true] td:first-child { box-shadow: inset 3px 0 var(--color-accent); }
 .ledger-table td:not(:nth-child(2)) { color: var(--color-ink); }
+.ledger-retry-toggle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 4px 8px;
+  border-color: transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  text-align: start;
+  white-space: nowrap;
+}
+.ledger-retry-toggle:hover,
+.ledger-retry-toggle[aria-expanded=true] {
+  border-color: var(--color-line);
+  background: var(--color-bg);
+}
+.ledger-retry-toggle::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border: solid var(--color-muted);
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg) translateY(-2px);
+}
+.ledger-retry-toggle[aria-expanded=true]::after { transform: rotate(225deg) translateY(-2px); }
+.ledger-retry-metrics { display: grid; gap: 2px; }
+.ledger-retry-metric { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.ledger-retry-count {
+  min-width: 24px;
+  padding-inline: 4px;
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+  text-align: center;
+}
+.ledger-retry-count.has-retries {
+  background: var(--color-warn-bg);
+  color: var(--color-warn);
+  font-weight: 700;
+}
+.ledger-retry-detail > td { background: var(--color-bg); }
+.ledger-table .ledger-retry-table { min-width: 0; margin-bottom: var(--space-sm); }
+.ledger-table .ledger-retry-table th { position: static; }
+.ledger-retry-table td:first-child { white-space: nowrap; }
+.retry-pages { display: flex; justify-content: flex-end; gap: var(--space-sm); margin-bottom: var(--space-sm); }
 .ledger-row-state { white-space: nowrap; }
 .ledger-thread { display: block; overflow-wrap: anywhere; }
 .ledger-counts { white-space: nowrap; font-variant-numeric: tabular-nums; }

@@ -2,17 +2,19 @@
 
 已授权音频重试自身的上传失败，可以保留同一 `--retry-authorization` 并加 `--retry-upload` 恢复；只允许本地证据确认尚未派发的任务，保留原job、授权、预留及上传历史。实际已派发或unknown请求仍先核查，详见[接续与上传恢复](../../knowledge/rules/resumable-intake-and-audio-upload-v1.md)。
 
-新任务只使用 [模型分工](../contracts/model-routing.md) 与 `config/model-routing.json` 中的三个远端模型。文字识别、翻译和图片编辑由 Codex 执行；Whisper small 与 UVR 在项目本地运行，不通过 KIE 下载模型或分轨。
+新任务使用 [模型分工](../contracts/model-routing.md) 与 `config/model-routing.json` 的默认模型及已授权备选。文字识别、翻译和图片编辑由 Codex 执行。Whisper small 与 UVR 在项目本地运行。
 
 | 能力 | 当前模型 | 进入条件与命令 |
 | --- | --- | --- |
-| 真实音频理解与比较 | `gemini-3-8-flash-openai` | 转写存在疑点、无法直接听音，或需比较原音与成片时使用 `audio-analyze RUN --execute`；成片比较加 `--candidate` |
+| 真实音频理解与比较 | `config/model-routing.json` 的 `audio_analysis` 与 `audio_analysis_recovery` | `audio-analyze RUN --execute`，成片比较加 `--candidate`；独立实音转写用 `audio-transcribe` |
 | 目标语言配音 | 以 `config/model-routing.json` 的 `tts` 为准 | 口播定稿后用 `tts-packet` 生成请求，再用 `model-task --execute` 提交 |
 | 原视频编辑 | `wan/3-0-video` | Codex 图片处理与本地合成无法满足连续运动要求时，使用 `model_edit` 路线，先 `packet` 再 `submit --execute` |
 
-默认配音及恢复模型见 `config/model-routing.json`。Gemini 3.8 Flash／Lite TTS 出现配置中的临时错误、且 `poll` 确认原任务终态失败并实扣为零时，优先改用 Gemini 2.5 Pro TTS。`poll` 返回 `tts_fallback.prepare`。若上轮已留下回执，直接使用 `tts-fallback RUN CURRENT_PACKET FAILED_JOB` 生成逐句请求。`CURRENT_PACKET` 必须匹配当前定稿和声线。其他语种可用 `--failed-run` 引用同一原片、同一请求账本的故障证据。已有可用录音时仅用 `--speech-id` 选缺失句子。已受理的任务查原 taskId，未知费用先对账。配音包仍通过 `model-task --execute` 提交并沿原账本登记。
+主用模型失败后，按 `config/model-routing.json` 中 `tts_recovery.fallbacks` 的顺序选择兼容目标语种的备选。`poll` 确认配置中的临时错误、终态失败且实扣为零，或同一 run 收到配置列明的明确建任务拒绝且未返回 taskId 时，运行 `tts-fallback RUN CURRENT_GEMINI_PACKET FAILED_JOB --speech-id LINE_ID --voice LINE_ID=VOICE_ID`。明确拒绝须核对原请求包与账本派发指纹，旧费用未知预留继续占用原账本，直接切换下一不同模型。每句使用经官方接口核对的声线 ID。`--failed-run` 可引用同一原片、同一请求账本的已结算故障证据。已有合格录音直接复用，已受理任务查原 taskId。费用未结算时保留预留，原请求包哈希能证明句子不重叠时可继续其他句。准备回执列出预计费用，用 `model-task RUN PACKET --execute` 沿原账本提交。
 
-Gemini 2.5 Pro 的恢复包每笔绑定一个角色和一句定稿，使用顶层 `scene`。逐句检查实际发音、完整性和角色声线，混音后按原流程检查时间和首尾。
+第一备用是 [Dialogue V3](https://docs.kie.ai/market/elevenlabs/text-to-dialogue-v3)，支持一次请求指定多角色。第二备用是 [Multilingual v2](https://docs.kie.ai/market/elevenlabs/text-to-speech-multilingual-v2)，按角色分别使用固定声线。费率、观察到的单笔预留底线与支持语种维护在路由配置。可用 `--combine` 把连续缺失句合在一笔并在实际音轨上重新对齐。v2 的合并限制为同一声线，越南语和泰语由支持这两种语言的 V3 处理。繁中普通话 API 传 `zh`，保留原定稿和语种，并实际听审地区口音。先用代表句验证声音和实扣再扩批。两条备用共用 KIE 和 ElevenLabs，故障可能相关。
+
+备用录音也逐句检查发音、完整性、角色声线及新旧音色衔接，混音后检查字幕时间和首尾。旧路线保留原任务查询、账本和已经生成的可复用录音。
 
 KIE 的只读余额和 `recordInfo` 查询遇到临时 408、425、429、500、502、503、504 或 524，以及连接层超时，会做最多三次读取尝试，失败后退避。创建任务、上传附件和音频生成请求不自动重发，建任务响应不明确时保留 `ambiguous` 并先核对已保存回执，有原 taskId 时查询原任务。
 
@@ -35,6 +37,15 @@ Fireplay需求沿用[接入流程](../workflows/fireplay-intake.md)和config/fir
 ## 音频请求与结果
 
 `audio-analyze` 使用 `/gemini-3-8-flash-openai/v1/chat/completions`，音频 URL 放入媒体结构的 `image_url` 字段；比较时分别标明原音和成片。`--transcribe-only` 是单轨转写，不代表音乐、音效或字幕同步已通过。当前 Flash 请求由提示词约定 JSON；先保存原始回执、响应身份、用量和计费，再解析结构，无法解析时记为 `response_invalid`，不丢弃证据或自动重发。最长请求等待180秒不代表失败后可以另发一笔。
+
+2026-11-25 用户授权两条复核备用路线。当前 Flash 失败时，先核对原请求及原账本，有可恢复标识则优先恢复。需要另一笔独立模型证据时选择以下之一，原未知费用仍占位，沿原预算和笔数限制，重复同一指纹只返回原任务。已取得足够证据则停止。
+
+- 完整双轨比较默认使用 `audio-analyze RUN --candidate --execute`，自动复用已登记主模型请求，并在调用故障或明确无法打开媒体的全空报告时切换一次 Hydrogen。显式 `--model` 用于单路线诊断。按 KIE 官方音频结构使用低推理档，单笔预留 5 credits，实际按 token 用量结算。公开费率为输入 120、输出 600 credits/百万 tokens。该接口文档标注 chat only，实际媒体请求和质量须验证；仍可能与 Flash 同时发生供应商故障。[接口](https://docs.kie.ai/market/gemini/gemini-4-hydrogen-openai) 和 [价格](https://kie.ai/gemini-4-hydrogen)。
+- 独立语音识别用 `audio-transcribe RUN --candidate --execute`，原片去掉 `--candidate`。NVIDIA Nemotron 3.5 Transcribe 在 KIE 以真实 taskId 异步执行，按回执用 `poll RUN JOB` 取得逐词时间及说话人 JSON。确认原任务临时供应商故障、终态且实扣为零后，可用 `--retry-failed` 追加至多一次同素材转写。公开价格 0.005 credits/秒，单笔至少预留 1 credit。支持 40 种语言（含普通话），由模型自动识别，不传预期译稿。该证据用于核对疑似错词、遗漏、原语残留和句尾；音乐、音效、角色音色、地区口音、语义和实际同步仍按音频、字幕及首尾合同核验。不能以 ASR 一致代替完整音频审核。[接口](https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe) 和 [价格](https://kie.ai/nemotron-3-5-transcribe)。
+
+首次实际验证（MOG-20261125-058 繁中）中，Flash 返回业务码 502，Hydrogen 返回 500，NVIDIA 原任务及一次有界重试均取得 taskId 后返回终态 500 且实扣为零。三条路线均未得到本次有效复核内容。主备完整复核均因供应商错误不可用时，执行[音频异常交付](../contracts/audio.md#独立配音与转写)，不等待 KIE 恢复、不强制本地复核、不重发未知费用请求。正常成功报告发现内容缺陷不属于调用故障。
+
+同日独立短音频探针（中英混合、英语片段、中文片段）中，Hydrogen 三次均返回正确的测试句关键内容，实扣分别为 0.44、0.34、0.34 credits；但其对故意未翻译的双轨反例再次返回 500。Flash 单轨三次两次成功、一次 500，其中首个成功报告因旧共享路径被覆盖而不能复查；双轨反例成功并正确判定英语残留、翻译不完整，实扣 0.10 credits。Gemini 3.1 Pro 一次 500，NVIDIA 再次终态 500、实扣零。Hydrogen 可作单轨疑点补证候选，完整双轨复核稳定性未验证，NVIDIA 不作为常规生产推荐；不得因小样本成功替换当前完整质量门禁。新复核任务逐笔保存独立响应与报告，兼容的最新报告路径继续用于现有审核。
 
 用户明确允许本次素材更换复核模型时，可用 `--model gemini-3.1-pro --model-authorization inputs/授权.json`。授权绑定真实用户原话、音频分析能力、源哈希、语种和原请求预算；不改变默认模型，旧请求未知费用继续占位。该接口按官方文档接收同一 `image_url` 音频结构，单笔保守预留20 credits，成功回执再结算。
 

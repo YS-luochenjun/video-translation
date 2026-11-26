@@ -93,6 +93,7 @@ class FireplayTests(unittest.TestCase):
         response = {'items': [{'youtube_video_id': fireplay.youtube_id(URL), 'youtube_url': URL, 'status': 'missing'}]}
         result = fireplay.source(CODE, response, download=True, root=self.root)
         self.assertEqual(result['state'], 'needs_source_backup')
+        self.assertEqual(result['local_download']['state'], 'unavailable')
         self.assertEqual(result['host_action'], {'tool': 'material_upload_from_url',
                          'arguments': {'items': [{'type': 'video', 'video_url': URL}]}})
         self.assertEqual(read_json(self.root / result['lookup_evidence']), response)
@@ -103,6 +104,43 @@ class FireplayTests(unittest.TestCase):
         settings.pop('youtube_source_backup')
         write_json(config_path, settings)
         self.assertEqual(fireplay.source(CODE, response, root=self.root)['state'], 'source_missing')
+
+    def test_missing_youtube_download_binds_local_source_without_importing(self):
+        self.register()
+        video_id = fireplay.youtube_id(URL)
+        response = {'items': [{'youtube_video_id': video_id, 'youtube_url': URL, 'status': 'missing'}]}
+        destination = self.root / 'work/runs/test-source.mp4'
+        destination.parent.mkdir(parents=True)
+        destination.write_bytes(b'video')
+        source = {'path': destination.relative_to(self.root).as_posix(), 'sha256': file_hash(destination),
+                  'duration': 5, 'width': 320, 'height': 240}
+        attempt = {'state': 'downloaded', 'source': source}
+        with patch('video_localizer.fireplay_youtube_source.download', return_value=attempt) as downloader:
+            fireplay.source(CODE, response, download=True, root=self.root)
+            self.assertEqual(self.record()['videos'][0]['source'], source)
+            found = {'items': [{**response['items'][0], 'status': 'found'}]}
+            self.assertEqual(fireplay.source(CODE, found, download=True, root=self.root)['videos'][0]['source'], source)
+            self.assertNotIn('resolved', self.record()['videos'][0])
+            downloader.assert_called_once()
+            self.assertEqual(downloader.call_args.args[1], video_id)
+        destination.write_bytes(b'other')
+        with self.assertRaisesRegex(WorkflowError, 'Downloaded source changed'):
+            fireplay.source(CODE, download=True, root=self.root)
+
+    def test_failed_youtube_direct_download_keeps_fireplay_fallback(self):
+        self.register()
+        video_id = fireplay.youtube_id(URL)
+        response = {'items': [{'youtube_video_id': video_id, 'youtube_url': URL, 'status': 'missing'}]}
+        attempt = {'state': 'failed', 'reason': 'timed out'}
+        with patch('video_localizer.fireplay_youtube_source.download', return_value=attempt) as downloader:
+            preview = fireplay.source(CODE, response, root=self.root)
+            self.assertEqual(preview['state'], 'needs_local_source_download')
+            self.assertNotIn('host_action', preview)
+            downloader.assert_not_called()
+            fallback = fireplay.source(CODE, response, download=True, root=self.root)
+            self.assertEqual(fallback['local_download'], attempt)
+            self.assertEqual(fallback['host_action']['tool'], 'material_upload_from_url')
+        self.assertNotIn('source', self.record()['videos'][0])
 
     def test_pinterest_source_keeps_exact_pin_and_does_not_select_related_video(self):
         pin = '123456789'
@@ -196,6 +234,40 @@ class FireplayTests(unittest.TestCase):
             with self.assertRaises(WorkflowError):
                 fireplay._next_operation(outbox, index)
 
+    def test_batch_import_journals_once_and_recovers_partial_indexed_receipt(self):
+        self.returned_setup()
+        for number, resource in ((1, RESOURCE), (2, THREAD)):
+            fireplay.dispatch(CODE, True, self.root, package_index=number)
+            fireplay.receipt(CODE, f'upload-{number}', {'response': {
+                'publicUrl': f'https://example.com/video-{number}.mp4', 'resourceId': resource}}, self.root)
+        preview = fireplay.dispatch_import_batch(CODE, root=self.root)
+        self.assertEqual(preview['state'], 'preview')
+        batch = fireplay.dispatch_import_batch(CODE, True, self.root)['operation']
+        self.assertEqual(batch['operation_ids'], ['import-1', 'import-2'])
+        self.assertEqual(fireplay.dispatch_import_batch(CODE, True, self.root)['state'], 'insufficient_ready_imports')
+        self.assertEqual(fireplay.dispatch(CODE, True, self.root)['state'], 'needs_reconciliation')
+        rows = [{'item_index': 1, 'success': True, 'material_imported': True, 'material_id': RID},
+                {'item_index': 0, 'success': False}]
+        result = fireplay.receipt(CODE, batch['id'], {'response': {'results': rows}}, self.root)
+        self.assertEqual(result['verified'], ['import-2'])
+        self.assertEqual(result['unresolved'], ['import-1'])
+        result = fireplay.receipt(CODE, batch['id'], {'response': {'results': [
+            {'item_index': 0, 'success': True, 'material_imported': True, 'material_id': MID}]}}, self.root)
+        self.assertEqual(result['state'], 'verified')
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root)['operation']['id'], 'bind')
+
+    def test_batch_import_rejects_ambiguous_index_without_verifying_items(self):
+        self.returned_setup()
+        for number, resource in ((1, RESOURCE), (2, THREAD)):
+            fireplay.dispatch(CODE, True, self.root, package_index=number)
+            fireplay.receipt(CODE, f'upload-{number}', {'response': {
+                'publicUrl': f'https://example.com/video-{number}.mp4', 'resourceId': resource}}, self.root)
+        batch = fireplay.dispatch_import_batch(CODE, True, self.root)['operation']
+        with self.assertRaisesRegex(WorkflowError, 'ambiguous item index'):
+            fireplay.receipt(CODE, batch['id'], {'response': {'results': [
+                {'success': True, 'material_imported': True, 'material_id': MID}]}}, self.root)
+        self.assertEqual(fireplay.dispatch(CODE, True, self.root)['state'], 'needs_reconciliation')
+
     def downloaded(self):
         self.register()
         original = self.root / 'work/runs/fireplay-test/source.mp4'
@@ -235,6 +307,42 @@ class FireplayTests(unittest.TestCase):
         operation = fireplay.dispatch(CODE, root=self.root)['operation']
         self.assertEqual(operation['tool'], 'material_r2_presign_upload')
         self.assertIsNone(operation['materialize'])
+
+    def test_successful_mcp_import_reuses_receipt_without_material_detail(self):
+        self.returned_setup()
+        fireplay.dispatch(CODE, True, self.root)
+        self.verify_upload('upload-1')
+        dispatched = fireplay.dispatch(CODE, True, self.root)['operation']
+        item = dispatched['arguments']['items'][0]
+        spec = {'response': {'results': [{
+            'success': True, 'material_imported': True, 'material_id': MID,
+            'name': item['name'], 'shared_dept_id': item['shared_dept_id'], 'is_public': False,
+            'warnings': ['未识别到 DID，设计师为空'],
+        }]}}
+        imported = fireplay.receipt(CODE, 'import-1', spec, self.root)
+        batch = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        verified = read_json(batch)['operations']['verify-1']
+        self.assertEqual(verified['receipt_sha256'], imported['receipt_sha256'])
+        self.assertEqual(verified['result']['submitted_tags'], item['tags'])
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root)['operation']['id'], 'upload-2')
+
+    def test_mcp_import_with_warning_or_wrong_group_needs_targeted_detail(self):
+        self.returned_setup()
+        fireplay.dispatch(CODE, True, self.root)
+        self.verify_upload('upload-1')
+        dispatched = fireplay.dispatch(CODE, True, self.root)['operation']
+        item = dispatched['arguments']['items'][0]
+        base = {'success': True, 'material_imported': True, 'material_id': MID}
+        for anomaly in ({'warnings': ['sharing update failed']}, {'shared_dept_id': 'wrong-group'}, {'reused': True}):
+            with self.subTest(anomaly=anomaly):
+                batch = self.root / 'state/fireplay' / CODE / 'return-1.json'
+                saved = read_json(batch)
+                spec = {'response': {'results': [{**base, 'name': item['name'], **anomaly}]}}
+                fireplay.receipt(CODE, 'import-1', spec, self.root)
+                result = fireplay.dispatch(CODE, root=self.root)
+                self.assertEqual(result['state'], 'needs_material_verification')
+                self.assertEqual(result['operation']['arguments'], {'material_id': MID})
+                write_json(batch, saved)
 
     def test_library_only_brief_preserves_sharing_and_skips_youtube(self):
         self.snap['brief']['items'][0]['description'] += '\n无需传yt'
@@ -465,6 +573,11 @@ class FireplayTests(unittest.TestCase):
         self.assertIn('不重复询问是否使用KIE', packet['prompt'])
         self.assertIn('不再询问是否继续', packet['prompt'])
         self.assertIn('CLI退出码2', packet['prompt'])
+        self.assertIn('立即执行的制作任务', packet['prompt'])
+        self.assertIn('独立视频制作及交付负责人，不是状态检查会话', packet['prompt'])
+        self.assertIn('首轮先实际调用终端', packet['prompt'])
+        self.assertIn(f'fireplay-start {CODE} state/fireplay/{CODE}/monitor-authority.json --video 1', packet['prompt'])
+        self.assertIn('launch evidence', packet['host_actions'][-1])
         self.assertEqual(fireplay.status(CODE, self.root)['continuous_execution_instruction'],
                          fireplay.continuous_execution_instruction(self.root))
         self.assertIn('P1同时继续制作，不等待P0完成', packet['prompt'])
@@ -895,6 +1008,56 @@ class FireplayTests(unittest.TestCase):
         self.assertEqual(fireplay.dispatch(CODE, root=self.root)['state'], 'returned')
         self.assertEqual(len(fireplay_submission.bound_materials(record, record['videos'][0], self.root)), 2)
 
+    def test_summary_only_refresh_reuses_exact_version_brief(self):
+        self.register()
+        old = self.record()
+        summary = copy.deepcopy(self.snap['summary'])
+        summary['serverTime'] = utc_now()
+        fireplay.register(CODE, {'summary': summary}, root=self.root)
+        current = self.record()
+        self.assertEqual(current['content_version'], old['content_version'])
+        self.assertEqual(current['snapshot']['brief'], old['snapshot']['brief'])
+        self.assertEqual(current['snapshot']['server_time'], summary['serverTime'])
+        summary['items'][0]['updatedAt'] = '2026-10-28T00:00:00Z'
+        with self.assertRaisesRegex(WorkflowError, 'refresh the actual brief'):
+            fireplay.register(CODE, {'summary': summary}, root=self.root)
+
+    def test_partial_return_reuses_sharing_and_accepts_a_new_equivalent_receipt(self):
+        spec = self.partial_setup()
+        first = {**spec, 'partial': True, 'packages': spec['packages'][:1]}
+        original = fireplay.prepare_return(CODE, first, self.root)
+        self.complete_partial_locale(1, 'es', MID, [MID])
+        self.assertTrue(fireplay.status(CODE, self.root)['return_context']['reuse_sharing_receipt'])
+        replay = {key: value for key, value in first.items() if key != 'sharing_receipt'}
+        self.assertEqual(fireplay.prepare_return(CODE, replay, self.root)['state'], 'returned')
+        second = {**spec, 'partial': True, 'packages': spec['packages'][1:],
+                  'sharing_receipt': {**spec['sharing_receipt'], 'observed_at': utc_now()}}
+        extended = fireplay.prepare_return(CODE, second, self.root)
+        self.assertEqual(extended['publication'], original['publication'])
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root)['operation']['id'], 'upload-2')
+
+    def test_submission_context_reuses_only_current_scope_and_fresh_designer_directory(self):
+        spec = self.returned_setup()
+        (self.root / 'state/fireplay' / CODE / 'return-1.json').unlink()
+        spec.pop('attribution')
+        spec['designer_receipt'] = {'member_directory': {
+            'members': [{'feishuUserId': 'test', 'username': 'Synthetic Designer'}],
+            'query_meta': {'observed_at': utc_now()}}}
+        initial = fireplay.prepare_return(CODE, spec, self.root)
+        replay = {key: value for key, value in spec.items()
+                  if key not in ('sharing_receipt', 'designer_receipt')}
+        self.assertTrue(fireplay.status(CODE, self.root)['return_context']['reuse_designer_receipt'])
+        self.assertEqual(fireplay.prepare_return(CODE, replay, self.root), initial)
+        context_path = self.root / 'state/fireplay' / CODE / 'submission-context.json'
+        context = read_json(context_path)
+        context['fields']['designer_receipt']['member_directory']['query_meta']['observed_at'] = (
+            datetime.now(timezone.utc) - timedelta(minutes=11)).isoformat()
+        write_json(context_path, context)
+        self.assertFalse(fireplay.status(CODE, self.root)['return_context']['reuse_designer_receipt'])
+        context['scope']['assignees'] = ['different']
+        write_json(context_path, context)
+        self.assertFalse(fireplay.status(CODE, self.root)['return_context']['reuse_sharing_receipt'])
+
     def test_partial_return_preserves_unknown_outbox_and_rejects_empty_batch(self):
         spec = self.partial_setup()
         first = {**spec, 'partial': True, 'packages': spec['packages'][:1]}
@@ -929,6 +1092,27 @@ class FireplayTests(unittest.TestCase):
         self.complete_partial_locale(2, 'ko', MID, [MID])
         self.assertEqual(fireplay.dispatch(CODE, root=self.root)['state'], 'partially_returned')
         self.assertEqual(read_json(path)['operations']['upload-1']['state'], 'unknown')
+
+    def test_pending_import_can_append_distinct_locale_without_replaying(self):
+        spec = self.partial_setup()
+        first = {**spec, 'partial': True, 'packages': spec['packages'][:1]}
+        fireplay.prepare_return(CODE, first, self.root)
+        fireplay.dispatch(CODE, True, self.root)
+        path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        box = read_json(path)
+        box['operations']['upload-1'].update(state='verified', result={
+            'publicUrl': 'https://example.invalid/first.mp4', 'resourceId': MID})
+        write_json(path, box)
+        fireplay.dispatch(CODE, True, self.root)
+        before = read_json(path)
+        extended = fireplay.prepare_return(
+            CODE, {**spec, 'partial': True, 'append_pending_locales': True,
+                   'packages': spec['packages'][1:]}, self.root)
+        self.assertEqual(extended['operations'], before['operations'])
+        self.assertEqual(extended['packages'][0], before['packages'][0])
+        self.assertEqual(set(extended['pending_locales']), {'es', 'ko'})
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root)['state'], 'needs_reconciliation')
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root, package_index=2)['operation']['id'], 'upload-2')
 
     def test_partial_return_cannot_bypass_a_quality_hold(self):
         spec = self.partial_setup()

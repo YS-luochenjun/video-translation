@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "knowledge/candidates/SHE-20261124-044-2-01-31c348a395.json",
+    "sha256": "f20af1e182ba653cdaad14b6005427b2148c76d1c0099c4dea0453765c1929af"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project knowledge cleanup",
+  "origin": "2026-11-25 user-requested knowledge cleanup",
+  "resolution": "rejected",
+  "reason": "No actual reusable hypothesis or reviewed advisory is present. Quality limitations and evidence remain separate operational records; this is not video acceptance.",
+  "targets": [],
+  "adopted_parts": [],
+  "retained_parts": [
+    "Original quality observations, limitations and review evidence are unchanged."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-25T10:28:45+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

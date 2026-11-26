@@ -9,16 +9,17 @@ from .common import file_hash, inside, operation_hash, read_json, require, utc_n
 from .evidence_storage import catalog, resolve as asset_path
 
 
-def create(directory, kind, identity, sources, metadata=None):
+def create(directory, kind, identity, sources, metadata=None, *, shared_assets=None, hashes=None):
     """Copy bytes, never link to mutable runs. Manifest is the completion marker."""
     directory = Path(directory)
     manifest = directory / "manifest.json"
+    hashes = {} if hashes is None else hashes
     if manifest.exists():
-        result = verify(directory)
+        result = verify(directory, hashes=hashes)
         require(result["kind"] == kind and result["identity"] == identity, "Bundle identity collision")
         return result
     directory.mkdir(parents=True, exist_ok=True)
-    files, copied, hashes = [], {}, {}
+    files, copied = [], {}
     for relative, source in sorted(sources.items()):
         source = Path(source)
         require(source.is_file(), f"Bundle input missing: {relative}")
@@ -29,9 +30,11 @@ def create(directory, kind, identity, sources, metadata=None):
         target.parent.mkdir(parents=True, exist_ok=True)
         if target.exists():
             require(file_hash(target) == digest, f"Partial bundle changed: {relative}")
-        elif digest in copied:
+        elif digest in copied or digest in (shared_assets or {}):
+            reusable = copied.get(digest) or shared_assets[digest]
+            require(operation_hash(reusable, hashes) == digest, f"Shared bundle asset changed: {relative}")
             try:
-                os.link(copied[digest], target)
+                os.link(reusable, target)
             except OSError:
                 shutil.copyfile(source, target)
         else:
@@ -42,7 +45,7 @@ def create(directory, kind, identity, sources, metadata=None):
     record = {"schema_version": 1, "kind": kind, "identity": identity, "created_at": utc_now(),
               "files": files, "metadata": metadata or {}}
     write_json(manifest, record)
-    return verify(directory)
+    return verify(directory, hashes=hashes)
 
 
 def verify(directory, *, hashes=None):

@@ -46,8 +46,52 @@ def slot_lock(root):
     return lock(_path(root).with_suffix('.lock'))
 
 
+def paused_locales(record, video, root, missing, packages=None):
+    """A closed, publication-blocked version remains pending, but needs no compute."""
+    from .delivery_layout import catalog
+    from .fireplay_publication import publication_decision, ACCEPTABLE
+    root = Path(root)
+    if packages is None:
+        index = catalog(root)
+        if not index.exists():
+            index = root / 'outputs/index.json'
+        packages = read_json(index).get('entries', []) if index.exists() else []
+    outbox = root / 'state/fireplay' / record['code'] / f'return-{video["index"]}.json'
+    if outbox.exists() and read_json(outbox).get('state') != 'returned':
+        return []
+    latest = {}
+    for entry in packages:
+        if (entry.get('origin_run_id') in video.get('members', [])
+                and entry.get('source_sha256') == video.get('source', {}).get('sha256')
+                and entry.get('target_language') in missing):
+            locale = entry['target_language']
+            if locale not in latest or (entry.get('archived_at') or '') >= (latest[locale].get('archived_at') or ''):
+                latest[locale] = entry
+    paused = []
+    for locale, entry in latest.items():
+        run_id, digest = entry['origin_run_id'], entry.get('video_sha256')
+        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}', run_id) or not digest:
+            continue
+        marker = root / 'state/storage-closed' / (run_id + '.json')
+        if not marker.is_file() or (root / 'runs/.locks' / (run_id + '.lock')).exists():
+            continue
+        closed = read_json(marker)
+        if closed.get('run') != run_id or closed.get('video_sha256') != digest:
+            continue
+        decision = publication_decision(record['code'], digest, root)
+        if decision and decision not in ACCEPTABLE:
+            paused.append(locale)
+    return sorted(paused)
+
+
 def active_sources(root, registry=None):
     from .fireplay_submission import coverage
+    from .delivery_layout import catalog
+    root = Path(root)
+    index = catalog(root)
+    if not index.exists():
+        index = root / 'outputs/index.json'
+    packages = read_json(index).get('entries', []) if index.exists() else []
     if registry is None:
         registry = _state(root)['tasks']
     active = {(task['requirement_id'], task['video_index']) for task in registry.values()
@@ -62,8 +106,11 @@ def active_sources(root, registry=None):
             occupied = (chat.get('state') in {'reserved', 'unknown', 'ready'}
                         and (not inherited or video.get('members')))
             key = record['requirement_id'], video['index']
-            if occupied and key not in active and not coverage(record, video, root)['complete']:
-                active.add(key)
+            if occupied and key not in active:
+                progress = coverage(record, video, root)
+                missing = progress['missing_locales']
+                if not progress['complete'] and (not missing or paused_locales(record, video, root, missing, packages) != missing):
+                    active.add(key)
     return active
 
 

@@ -81,7 +81,6 @@ async function refresh(force=false) {
     if (route().page === 'knowledge') await loadKnowledge();
     if (route().page === 'system') {
       await loadSessionUsage();
-      if ($('console-settings')?.open) await window.ConsoleUI.refresh(force);
     }
   } catch (error) {
     notice(`${error.message}。保留最后一次读取内容${lastSuccess ? '（'+date(lastSuccess)+'）' : ''}，可点击标题旁的刷新按钮重试。`);
@@ -97,14 +96,10 @@ async function refresh(force=false) {
 function renderPage() {
   const {page,id} = route();
   const consolePage = ['sessions','automations'].includes(page);
-  const titles = {ledger:['需求台账','查看制作、审核上传和投放记录。'],efficiency:['效率分析','查看每条需求的总耗时和每种语言平均耗时。'],tasks:['任务与视频','查看制作进展、实际产物和仍需处理的问题。'],knowledge:['知识与调用','查找方法、同源参考和候选经验。'],system:['运行概况','查看已完成会话用量、模型分工和本机处理名额。'],sessions:['会话总览','查看项目会话、制作阶段和产物。'],automations:['自动任务','查看本项目的巡检和完成盯办。']};
+  const titles = {ledger:['需求台账','查看制作、审核上传、投放和重试记录。'],efficiency:['效率分析','查看每条需求的总耗时和每种语言平均耗时。'],tasks:['任务与视频','查看制作进展、实际产物和仍需处理的问题。'],knowledge:['知识与调用','查找方法、同源参考和候选经验。'],system:['运行概况','查看已完成会话用量和模型分工。'],sessions:['会话总览','查看项目会话、制作阶段和产物。'],automations:['自动任务','查看本项目的巡检和完成盯办。']};
   $('page-label').textContent = titles[page][0]; $('page-title').textContent = titles[page][0]; $('page-description').textContent = titles[page][1];
   $('content').hidden = consolePage;
-  const host = $('console-host'), settings = $('console-settings');
-  settings.hidden = page !== 'system';
-  if (page === 'system' && host.parentNode !== settings) settings.append(host);
-  else if(page !== 'system' && host.parentNode === settings) settings.after(host);
-  window.ConsoleUI.show(consolePage ? page : page === 'system' && settings.open ? 'system' : '',id);
+  window.ConsoleUI.show(consolePage ? page : '',id);
   document.querySelectorAll('[data-nav]').forEach(a=>a.setAttribute('aria-current', a.dataset.nav===page ? 'page' : 'false'));
   if (['ledger','efficiency'].includes(page)) return window.LedgerUI.show(page,route().id);
   if (!snapshot) return;
@@ -326,7 +321,6 @@ function renderKnowledgeList() {
 
 function renderSystem() {
   const s=snapshot, roles={text_recognition:'文字识别',image_editing:'图片处理',asr:'真实音频转写',audio_analysis:'音频理解',separation:'人声 / 背景分离',tts:'目标语言配音',video:'视频编辑'};
-  const localLocks=s.resources.locks.filter(lock=>/^heavy-\d+\.lock$/.test(lock.name));
   if (!$('system-usage')) {
     $('content').innerHTML = `<div id="system-usage-summary" class="ledger-cards">
       <div id="system-codex-summary" class="ledger-card"><span>每个已完成会话的平均 Codex Token 用量</span><strong>—</strong><small></small></div>
@@ -340,11 +334,6 @@ function renderSystem() {
   const opened=new Set([...$('system-settings').querySelectorAll('details[open]')].map(node=>node.id));
   $('system-settings').innerHTML = `<details class="panel system-box" id="system-models" ${opened.has('system-models')?'open':''}>
     <summary>模型分工</summary><div class="table-wrap"><table><tbody>${Object.entries(roles).map(([key,title])=>`<tr><th scope="row">${title}</th><td>${esc(s.routing[key] || '未配置')}</td></tr>`).join('')}</tbody></table></div>
-    </details>
-    <details class="panel system-box" id="system-resources" ${opened.has('system-resources')?'open':''}>
-      <summary>本机渲染与混音 <span class="quiet">已占 ${localLocks.length} / ${s.resources.max_heavy_jobs}</span></summary>
-      <p class="quiet">视频翻译脚本执行抽帧、渲染、混音等本机处理时，占用一个名额，结束后释放。原片制作并发可在需求台账查看。</p>
-      ${localLocks.length?list(localLocks.map(lock=>`${lock.name} · PID ${lock.owner.trim()}`)):''}
     </details>`;
 }
 
@@ -428,7 +417,6 @@ document.addEventListener('click',async e=>{
 
 $('close-document').addEventListener('click',()=>$('document').close());
 $('refresh').addEventListener('click',()=>refresh(true));
-$('console-settings').addEventListener('toggle',()=>{if(route().page==='system'){renderPage();if($('console-settings').open)void refresh(true);}});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)void refresh(true);});
 function normalizeHash() {
   if (/^#requirements(?:\/|$)/.test(location.hash)) history.replaceState(null,'',location.hash.replace(/^#requirements/,'#ledger'));

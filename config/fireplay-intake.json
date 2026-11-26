@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "youtube_source_backup": {
+    "try_local_first": true,
     "authority": "user",
     "authorization_ref": "user-fireplay-youtube-source-backup-20261124",
     "source_quote": "且上次的，素材库中没有，只有youtube链接的视频，可以按照上次的方式进行取得。请你把这部分都加入项目中",
@@ -114,12 +115,12 @@
   },
   "default_upload_route": "presign",
   "upload_queue": {
-    "enabled": true,
-    "max_active_external_uploads": 1,
-    "behavior_when_busy": "queue_and_poll",
+    "enabled": false,
+    "max_active_external_uploads": null,
+    "behavior_when_busy": "provider_managed",
     "same_operation": "idempotent",
     "unknown_operation": "reconcile_before_retry",
-    "rule": "Multiple owner chats may prepare uploads in parallel. Only the external media write is serialized. A busy slot keeps the exact operation queued and resumable; it does not stop production or create a duplicate upload."
+    "rule": "所有独立上传可直接并行执行，项目不设上传名额或FIFO等待。实际容量由Fireplay/MCP决定。旧排队项可直接恢复，未知操作仅核对自身回执，继续其他可执行项，保留原操作去重和历史。"
   },
   "status_update": {
     "authority": "user",

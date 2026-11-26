@@ -21,7 +21,7 @@ class FailureClosureTests(unittest.TestCase):
         write_json(self.run / 'review/observed.json', {'finding': 'Visible residual outline in sampled frame'})
         self.spec = {'source_sha256': self.sha, 'stage': 'neutral', 'reviewer': 'test reviewer',
                      'review_type': 'same_agent', 'reason': 'Neutral repair failed before final rendering',
-                     'hypothesis': 'Mask omitted the outer stroke; inspect the full envelope',
+                     'lesson': 'Mask omitted the outer stroke. Inspect the full envelope.',
                      'unreviewed_scope': ['Unsampled motion and full output audio'],
                      'observations': [{'observation': 'Residual source lettering in observed frame',
                                        'evidence': [{'path': 'review/observed.json',
@@ -52,6 +52,18 @@ class FailureClosureTests(unittest.TestCase):
         second = self.close()
         self.assertNotEqual(first['case'], second['case'])
         self.assertEqual(file_hash(self.root / first['case'] / 'manifest.json'), old)
+
+    def test_operational_failure_does_not_create_knowledge(self):
+        self.spec.pop('lesson')
+        self.spec['hypothesis'] = 'The upload timed out before a provider task was created.'
+        self.save()
+        receipt = self.close()
+        self.assertEqual(receipt, self.close())
+        self.assertIsNone(receipt['candidate'])
+        self.assertIsNone(receipt['case'])
+        self.assertIsNone(receipt['inbox'])
+        self.assertFalse((self.root / 'knowledge').exists())
+        self.assertEqual(read_json(self.run / receipt['report'])['spec'], self.spec)
 
     def test_missing_tampered_outside_evidence_and_empty_scope_reject(self):
         for changes in [{'unreviewed_scope': []}, {'observations': []}, {'source_sha256': 'wrong'}]:

@@ -30,10 +30,24 @@ def confirmed(record, action, root=ROOT):
             and value['content_version'] == record['content_version'] and value['state'] == 'confirmed')
 
 
+def _status_snapshot(code, action, spec):
+    value = fireplay.payload(spec)
+    if action != 'finish' or 'summary' in value or 'brief' in value:
+        return fireplay.snapshot(code, value), False
+    delivery = fireplay.payload(value.get('verification', value))
+    row = fireplay._rows(delivery, code)
+    fields = {*fireplay.REQUIREMENT_CONTENT_FIELDS, 'updatedAt', 'status', 'aiMode', 'canUpdateStatus',
+              'canBindMaterials', 'materials'}
+    require(delivery.get('view') == 'delivery' and fields <= row.keys()
+            and isinstance(row['materials'], list),
+            'Delivery read is incomplete for status; supply fresh summary and blind_brief (plus delivery for attachment sources)')
+    return fireplay.snapshot(code, {'summary': delivery, 'brief': delivery, 'delivery': delivery}), True
+
+
 def transition(code, action, spec, execute=False, root=ROOT, *, retry=False):
     settings = policy(root)
     require(settings and action in ('start', 'finish'), 'Unknown or disabled Fireplay status transition')
-    snap = fireplay.snapshot(code, spec)
+    snap, from_delivery = _status_snapshot(code, action, spec)
     fireplay._fresh({'snapshot': snap})
     folder = fireplay._folder(code, root)
     with lock(folder / 'request.lock'):
@@ -55,6 +69,12 @@ def transition(code, action, spec, execute=False, root=ROOT, *, retry=False):
         else:
             from .fireplay_submission import completion_gate
             require(completion_gate(record, root)['can_close'], 'Verify every video and locale binding before marking done')
+            check = read_json(folder / 'completion-check.json')
+            if from_delivery:
+                actual = {material['id'] for material in row['materials']}
+                require(row.get('materialSelection', {}).get('status') != 'waiting_selection'
+                        and {item['material_id'] for item in check['verified']} <= actual,
+                        'Delivery read no longer contains every verified binding')
             expected, target = settings['production_status'], settings['completed_status']
         current = row.get('status')
         packet = {'code': code, 'requirement_id': row['id'], 'content_version': snap['content_version'],
@@ -63,6 +83,10 @@ def transition(code, action, spec, execute=False, root=ROOT, *, retry=False):
             if action == 'start':
                 require(previous.get('requirement_id') == row['id'],
                         'The requirement was started elsewhere. Reconcile ownership before making videos')
+            if from_delivery and previous.get('dispatched_at'):
+                observed = datetime.fromisoformat(snap['server_time'].replace('Z', '+00:00'))
+                require(observed >= datetime.fromisoformat(previous['dispatched_at']),
+                        'Read the current Fireplay status after the dispatched write')
             result = {**previous, **packet, 'state': 'confirmed', 'observed_updated_at': row['updatedAt']}
             write_json(path, result)
             if action == 'start':
@@ -72,7 +96,6 @@ def transition(code, action, spec, execute=False, root=ROOT, *, retry=False):
         if current != expected:
             return {**packet, 'state': 'manual_review', 'next': 'Review the current platform status individually'}
         if action == 'finish':
-            check = read_json(folder / 'completion-check.json')
             require(check.get('platform_updated_at') == row['updatedAt'],
                     'Refresh the full delivery check after the platform row changes')
             observed = datetime.fromisoformat(check['platform_read_at'].replace('Z', '+00:00'))

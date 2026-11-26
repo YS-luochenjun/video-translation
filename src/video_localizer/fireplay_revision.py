@@ -386,8 +386,8 @@ def append_reviewed_sources(previous, snap, sources, decision, targets, folder, 
             'Source addition needs the exact previous version and explicit human review')
     require(snap['row'].get('id') == previous.get('requirement_id')
             and snap['row'].get('canBindMaterials') is True
-            and snap['row'].get('status') == 'not_started',
-            'Source addition is limited to the same writable, not-done requirement')
+            and snap['row'].get('status') in ('not_started', 'in_progress'),
+            'Source addition requires the same writable requirement in not_started or in_progress')
     require(previous.get('budget') and previous.get('chat', {}).get('state') == 'ready',
             'Preserve the existing funded owner chat')
     require(not list(folder.glob('return-*.json')),

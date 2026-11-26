@@ -8,6 +8,7 @@
   "text_ids": [],
   "speech_ids": [],
   "speech_mode": "dubbed",
+  "remote_audio_review_outage": false,
   "evidence": [{"path": "review/actual-result-observations.json", "sha256": "ACTUAL_EVIDENCE_SHA256"}],
   "assets": [],
   "limitations": ["Describe actual known defects and unverified review scope; never invent a pass"]

@@ -4,7 +4,29 @@ import sys
 import unicodedata
 import shutil
 
-from .common import CODE_ROOT, WorkflowError, file_hash, guarded, inside, read_json, require, write_json
+from .common import CODE_ROOT, WorkflowError, file_hash, guarded, inside, object_hash, read_json, require, write_json
+
+
+def _save_face(root, font, target, identity):
+    """Reuse a prior generated face without creating a permanent font duplicate."""
+    from .media import copy_verified_video
+    root, target = Path(root).resolve(), Path(target).resolve()
+    if not target.is_relative_to(root / 'runs'):
+        font.save(target)
+        return
+    key = object_hash({'version': 1, **identity})
+    index = root / 'state/font-reuse' / (key + '.json')
+    if index.exists():
+        entry = read_json(index)
+        cached = inside(root, entry['path'])
+        if cached.is_relative_to(root / 'runs') and cached.is_file() and cached != target:
+            require(file_hash(cached) == entry['sha256'], 'Cached generated font changed')
+            copy_verified_video(cached, target, entry['sha256'])
+        else:
+            font.save(target)
+    else:
+        font.save(target)
+    write_json(index, {'path': target.relative_to(root).as_posix(), 'sha256': file_hash(target)})
 
 
 def policy(root=CODE_ROOT):
@@ -83,7 +105,7 @@ def bind_file(run, path, text='', index=0):
             require(old['source_sha256'] == file_hash(source) and old['output']['sha256'] == file_hash(target),
                     'Previously bound font changed; do not overwrite it')
         else:
-            font.save(target)
+            _save_face(run.parent.parent, font, target, {'kind': 'bound', 'source_sha256': file_hash(source), 'index': index})
     asset = {'path': target.relative_to(run).as_posix(), 'sha256': file_hash(target)}
     face = inspect_asset(run, asset, text)
     write_json(provenance, {'family': face['family'], 'bold': face['bold'], 'italic': face['italic'],
@@ -110,7 +132,7 @@ def ass_asset(run, asset, directory, text, bold, italic):
             for name in list(font['name'].names):
                 if name.nameID in (1, 3, 4, 6, 16):
                     font['name'].setName(alias, name.nameID, name.platformID, name.platEncID, name.langID)
-            font.save(target)
+            _save_face(run.parent.parent, font, target, {'kind': 'ass_alias', 'source_sha256': asset['sha256'], 'alias': alias})
         write_json(receipt, {'source_sha256': asset['sha256'], 'sha256': file_hash(target),
                             'family': face['family'], 'weight': face['weight'], 'alias': alias})
     return {**face, 'ass_family': alias}
@@ -137,7 +159,8 @@ def ass_name(root, family, bold=False, directory=None):
             if path.exists():
                 require(read_json(manifest)['sha256'] == file_hash(path), 'Generated renderer font changed')
             else:
-                font.save(path)
+                _save_face(root, font, path, {'kind': 'native_ass', 'source_sha256': file_hash(face['path']),
+                                             'index': face['index']})
                 write_json(manifest, {'path': path.name, 'sha256': file_hash(path), 'source_sha256': file_hash(face['path']),
                                      'source_face_index': face['index'], 'family': family})
             # libass matches its supplied memory fonts by family, not by their
