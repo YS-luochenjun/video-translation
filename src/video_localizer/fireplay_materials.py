@@ -133,7 +133,8 @@ def attribution_instruction():
             '空目录或部分目录不表示没有设计师，继续按真实组/当前执行人查询或查看Fireplay原生页面，不要求用户提供DID/用户ID。'
             '回传spec可附designer_receipt实际成员响应，项目按feishuUserId/username核对后采用用户已授权的真实ID归属路径；'
             '标题DID、品类、PID或英文产品tag无法核验时省略该字段，继续回传；已核验的实际设计师归属仍写入。'
-            '若已有真实DID映射也可使用命名归属。归属写入必须遵守实际接口的预览/执行及权限合同，读回designerIds和二创状态，不能把预览算成功。')
+            '若已有真实DID映射也可使用命名归属。同一原片同批已入库且归属相同的素材，默认fireplay-dispatch合并归属写入并逐项读回。'
+            '归属写入遵守实际接口的预览/执行及权限合同，读回designerIds和二创状态，不能把预览算成功。')
 
 
 def publication(record, spec, defaults, sharing):

@@ -359,13 +359,19 @@ def settled_upload_inputs(root):
                     if (uploaded.get('tool') != 'material_r2_upload_from_bytes' or not _uuid(material)
                             or material not in bound or verified.get('result', {}).get('material_id') != material):
                         continue
-                    if any(operations[key].get('state') != 'verified' or
-                           object_hash(read_json(request_path.parent/'receipts'/f'{index}-{key}.json'))
-                           != operations[key].get('receipt_sha256') for key in keys):
-                        continue
-                    relative = f'work/runs/{owner}/fireplay-upload-upload-{slot}.json'
-                    matches[relative].append((uploaded['arguments'], package['sha256']))
-        except (OSError, TypeError, KeyError, ValueError):
+                    for key in keys:
+                        operation = operations[key]
+                        receipt_path = request_path.parent / 'receipts' / f'{index}-{key}.json'
+                        if operation.get('state') != 'verified':
+                            break
+                        if operation.get('last_observed_receipt') and operation.get('evidence_operation'):
+                            receipt_path = inside(root, operation['last_observed_receipt'])
+                        if object_hash(read_json(receipt_path)) != operation.get('receipt_sha256'):
+                            break
+                    else:
+                        relative = f'work/runs/{owner}/fireplay-upload-upload-{slot}.json'
+                        matches[relative].append((uploaded['arguments'], package['sha256']))
+        except (OSError, TypeError, KeyError, ValueError, WorkflowError):
             continue
     return matches
 

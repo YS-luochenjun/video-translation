@@ -5,12 +5,18 @@ from .common import ROOT, file_hash, object_hash, read_json, require, utc_now, w
 
 
 
-def _canonical_materials(value):
+def _canonical_materials(value, *, include_prior_binding=False):
     from . import fireplay
     operations = value.get('operations', {})
     bind = operations.get('bind', {})
     if value.get('state') != 'returned' or bind.get('state') != 'verified':
-        return []
+        if not include_prior_binding:
+            return []
+        bind = next((entry for entry in reversed(value.get('binding_history', []))
+                     if entry.get('state') == 'verified'
+                     and isinstance(entry.get('result', {}).get('material_ids'), list)), None)
+        if bind is None:
+            return []
     rows = []
     bound_ids = bind.get('result', {}).get('material_ids')
     for i, package in fireplay._active_packages(value):
@@ -85,7 +91,7 @@ def coverage(record, video, root=ROOT):
     materials = bound_materials(record, video, root)
     path = Path(root) / 'state/fireplay' / record['code'] / f'return-{video["index"]}.json'
     if not materials and path.exists():
-        materials = _canonical_materials(read_json(path))
+        materials = _canonical_materials(read_json(path), include_prior_binding=True)
     if not materials:
         for name in (f'user-approved-return-{video["index"]}.json', 'user-directed-submission/submission-final.json'):
             receipt = path.parent / name

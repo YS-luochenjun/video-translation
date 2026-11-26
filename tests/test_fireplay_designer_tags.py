@@ -1,8 +1,8 @@
 """Derivative attribution must reach both platform naming and visible tags."""
 import unittest
 import test_fireplay as fixtures
-from video_localizer import fireplay
-from video_localizer.common import read_json, WorkflowError
+from video_localizer import fireplay, project_storage
+from video_localizer.common import read_json, utc_now, WorkflowError
 
 
 class DesignerTagTests(unittest.TestCase):
@@ -53,8 +53,8 @@ class DesignerTagTests(unittest.TestCase):
         self.assertTrue(box['attribution']['unassigned'])
         self.assertNotIn('二创', box['packages'][0]['tags'])
 
-    def direct_ids(self, authorized=True):
-        spec = self.returned_setup()
+    def direct_ids(self, authorized=True, **options):
+        spec = self.returned_setup(**options)
         (self.root / 'state/fireplay' / fixtures.CODE / 'return-1.json').unlink()
         spec['attribution'] = {'designer_ids': ['test'], 'identity_route': 'verified_user_id',
                                'creation_type': 'derivative', 'authorization_ref': 'synthetic-user-id-route',
@@ -114,3 +114,93 @@ class DesignerTagTests(unittest.TestCase):
         response['material']['creationType'] = 'original'
         with self.assertRaisesRegex(WorkflowError, 'lost verified designer attribution'):
             fireplay.receipt(fixtures.CODE, 'verify-1', {'response': response}, self.root)
+
+    def ready_attribution_batch(self):
+        box = self.direct_ids()
+        material_ids = [fixtures.MID, fixtures.RID]
+        for number, resource in enumerate([fixtures.RESOURCE, fixtures.THREAD], 1):
+            fireplay.dispatch(fixtures.CODE, True, self.root, package_index=number)
+            fireplay.receipt(fixtures.CODE, f'upload-{number}', {'response': {
+                'publicUrl': f'https://example.com/video-{number}.mp4', 'resourceId': resource}}, self.root)
+        imported = fireplay.dispatch_import_batch(fixtures.CODE, True, self.root)['operation']
+        fireplay.receipt(fixtures.CODE, imported['id'], {'response': {'results': [
+            {'item_index': slot, 'success': True, 'material_imported': True, 'material_id': material_id}
+            for slot, material_id in enumerate(material_ids)]}}, self.root)
+        details = [{'material': {'id': material_id, 'name': package['display_name'], 'designerIds': ['test'],
+                                 'creationType': 'derivative', 'isPublic': False,
+                                 'sharedDeptId': 'test', 'tags': package['tags']}}
+                   for material_id, package in zip(material_ids, box['packages'])]
+        return material_ids, details
+
+    def test_default_attribution_batches_matching_assets_and_reuses_readback(self):
+        material_ids, details = self.ready_attribution_batch()
+        path = self.root / 'state/fireplay' / fixtures.CODE / 'return-1.json'
+        preview = fireplay.dispatch(fixtures.CODE, root=self.root)
+        self.assertEqual(preview['state'], 'preview')
+        self.assertNotIn('attribution_batches', read_json(path))
+        batch = fireplay.dispatch(fixtures.CODE, True, self.root)['operation']
+        self.assertEqual(batch['id'], preview['operation']['id'])
+        self.assertEqual(batch['operation_ids'], ['attribute-1', 'attribute-2'])
+        self.assertEqual(batch['tool'], 'material_attribution_update')
+        self.assertEqual(batch['arguments'], {'material_ids': material_ids, 'designer_ids': ['test'],
+                                              'creation_type': 'derivative'})
+        result = fireplay.receipt(fixtures.CODE, batch['id'],
+                                 {'response': {'success': True, 'updated': material_ids, 'skipped': []},
+                                  'verification': list(reversed(details))}, self.root)
+        self.assertEqual(result['state'], 'verified')
+        operations = read_json(path)['operations']
+        self.assertEqual(operations['verify-1']['last_observed_receipt'],
+                         operations['verify-2']['last_observed_receipt'])
+        bind = fireplay.dispatch(fixtures.CODE, True, self.root)['operation']
+        self.assertEqual(bind['id'], 'bind')
+        self.assertEqual(bind['arguments']['items'][0]['material_ids'], material_ids)
+        fireplay.receipt(fixtures.CODE, 'bind', {'response': {'success': True},
+                         'verification': {'serverTime': utc_now(), 'items': [
+                             {'id': fixtures.RID, 'materials': [{'id': value} for value in material_ids]}]}},
+                         self.root)
+        self.assertEqual(len(project_storage.settled_upload_inputs(self.root)), 2)
+
+    def test_partial_attribution_recovers_only_pending_material_without_repeating_write(self):
+        material_ids, details = self.ready_attribution_batch()
+        batch = fireplay.dispatch(fixtures.CODE, True, self.root)['operation']
+        with self.assertRaisesRegex(WorkflowError, 'preview'):
+            fireplay.receipt(fixtures.CODE, batch['id'],
+                             {'response': {'preview': True, 'updated': material_ids}, 'verification': details},
+                             self.root)
+        result = fireplay.receipt(fixtures.CODE, batch['id'],
+                                 {'response': {'updated': material_ids[1:], 'skipped': material_ids[:1]},
+                                  'verification': [{'isError': True}, details[1]]}, self.root)
+        self.assertEqual(result['verified'], ['attribute-2'])
+        self.assertEqual(result['pending_material_ids'], material_ids[:1])
+        pending = fireplay.dispatch(fixtures.CODE, True, self.root)
+        self.assertEqual(pending['state'], 'needs_reconciliation')
+        self.assertEqual(pending['operation']['id'], batch['id'])
+        self.assertEqual(pending['pending_material_ids'], material_ids[:1])
+        wrong_designer = {'material': {**details[0]['material'], 'designerIds': ['test', 'another']}}
+        result = fireplay.receipt(fixtures.CODE, batch['id'], {'verification': [wrong_designer]}, self.root)
+        self.assertEqual(result['pending_material_ids'], material_ids[:1])
+        result = fireplay.receipt(fixtures.CODE, batch['id'], {'verification': details[:1]}, self.root)
+        self.assertEqual(result['state'], 'verified')
+        self.assertEqual(fireplay.dispatch(fixtures.CODE, root=self.root)['operation']['id'], 'bind')
+
+    def test_ready_attribution_batch_proceeds_while_another_upload_is_unknown(self):
+        locales = ('es', 'ko', 'fr')
+        for view in ('summary', 'brief'):
+            self.snap[view]['items'][0].update(locales=list(locales), quantity=len(locales))
+        self.direct_ids(locales=locales)
+        for number in (1, 2, 3):
+            fireplay.dispatch(fixtures.CODE, True, self.root, package_index=number)
+        for number, resource in ((2, fixtures.RESOURCE), (3, fixtures.THREAD)):
+            fireplay.receipt(fixtures.CODE, f'upload-{number}', {'response': {
+                'publicUrl': f'https://example.com/video-{number}.mp4', 'resourceId': resource}}, self.root)
+        imported = fireplay.dispatch_import_batch(fixtures.CODE, True, self.root)['operation']
+        fireplay.receipt(fixtures.CODE, imported['id'], {'response': {'results': [
+            {'item_index': slot, 'success': True, 'material_imported': True, 'material_id': material_id}
+            for slot, material_id in enumerate((fixtures.MID, fixtures.RID))]}}, self.root)
+
+        dispatched = fireplay.dispatch(fixtures.CODE, True, self.root)
+        self.assertEqual(dispatched['state'], 'dispatch_once')
+        self.assertEqual(dispatched['operation']['operation_ids'], ['attribute-2', 'attribute-3'])
+        pending = fireplay.dispatch(fixtures.CODE, True, self.root)
+        self.assertEqual(pending['state'], 'needs_reconciliation')
+        self.assertEqual(pending['operation']['id'], 'upload-1')

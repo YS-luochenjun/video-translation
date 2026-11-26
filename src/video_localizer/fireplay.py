@@ -626,6 +626,8 @@ def source(code, receipt=None, index=1, download=False, root=ROOT):
             if result.get('material_detail'):
                 video['source_detail'] = result['material_detail']
             write_json(_folder(code, root) / f'source-{index}-receipt.json', result)
+            if download:
+                write_json(path, record)
         pin = pin_id(video['source_url'])
         if pin and not download:
             return {'state': 'ready_for_source_download', 'source_url': video['source_url'],
@@ -1250,6 +1252,53 @@ def _verify_frozen_package(code, record, item, root, hashes):
                 'Publication judgment changed after dispatch preparation')
 
 
+def _attribution_arguments(outbox, material_ids):
+    attribution = outbox['attribution']
+    arguments = {'material_ids': material_ids, 'designer_ids': attribution['designer_ids']}
+    if attribution.get('creation_type', 'unspecified') != 'unspecified':
+        arguments['creation_type'] = attribution['creation_type']
+    return arguments
+
+
+def _dispatch_attribution_batch(code, record, outbox, path, execute, root):
+    operations = outbox['operations']
+    ready = []
+    for number, package in _active_packages(outbox):
+        imported = operations.get(f'import-{number}', {})
+        key = f'attribute-{number}'
+        if imported.get('state') == 'verified' and key not in operations:
+            ready.append((key, package, imported['result']['material_id']))
+    ready = ready[:200]
+    if len(ready) < 2:
+        return None
+    _fresh(record)
+    require(outbox['content_version'] == record['content_version'], 'Requirement content changed before dispatch')
+    material_ids = [material_id for _, _, material_id in ready]
+    require(len({material_id.lower() for material_id in material_ids}) == len(material_ids),
+            'Attribution batch material IDs must be distinct')
+    hashes = {}
+    for _, package, _ in ready:
+        _verify_frozen_package(code, record, package, root, hashes)
+    arguments = _attribution_arguments(outbox, material_ids)
+    operation_ids = [key for key, _, _ in ready]
+    batch_id = 'attribute-batch-' + object_hash([outbox['content_version'], operation_ids, arguments])[:16]
+    batch = {'id': batch_id, 'tool': 'material_attribution_update', 'arguments': arguments,
+             'operation_ids': operation_ids, 'state': 'unknown', 'dispatched_at': utc_now(),
+             'content_version': outbox['content_version']}
+    if execute:
+        for key, _, material_id in ready:
+            operations[key] = {'id': key, 'tool': batch['tool'], 'state': 'unknown',
+                               'arguments': _attribution_arguments(outbox, [material_id]),
+                               'dispatched_at': batch['dispatched_at'], 'content_version': batch['content_version'],
+                               'batch_id': batch_id}
+        outbox.setdefault('attribution_batches', {})[batch_id] = batch
+        write_json(path, outbox)
+    return {'state': 'dispatch_once' if execute else 'preview', 'operation': batch,
+            'external_call_executed': False,
+            'next': 'Execute one attribution write under the tool contract. Save its response and exact material '
+                    'detail read-backs as a verification list with fireplay-receipt and the batch ID.'}
+
+
 def dispatch_import_batch(code, execute=False, root=ROOT, index=1):
     path = _folder(code, root) / f'return-{index}.json'
     with lock(_folder(code, root) / 'request.lock'):
@@ -1322,6 +1371,10 @@ def receipt_import_batch(code, batch_id, spec, root=ROOT, index=1):
         already_verified = {key: outbox['operations'][key]['result']['material_id']
                             for key in batch['operation_ids']
                             if outbox['operations'][key]['state'] == 'verified'}
+        display_names = {
+            key: outbox['packages'][int(key.split('-')[1]) - 1].get('display_name', item['name'])
+            for key, item in zip(batch['operation_ids'], batch['arguments']['items'])
+        }
         write_json(path, outbox)
     verified, unresolved = [], []
     for slot, key in enumerate(batch['operation_ids']):
@@ -1333,12 +1386,13 @@ def receipt_import_batch(code, batch_id, spec, root=ROOT, index=1):
             verified.append(key)
             continue
         if (row.get('success') is not True or row.get('material_imported') is not True
-                or row.get('name', item['name']) != item['name']
+                or row.get('name', item['name']) not in (item['name'], display_names[key])
                 or row.get('video_r2_url', item['url']) != item['url']
                 or row.get('resource_id', item['resource_id']) != item['resource_id']):
             unresolved.append(key)
             continue
-        single = {'response': {'results': [row], 'warnings': raw.get('warnings', [])},
+        single = {'response': {'results': [row], 'warnings': raw.get('warnings', []),
+                               'check_url': raw.get('check_url')},
                   'batch_receipt': str(observed.relative_to(root))}
         try:
             receipt(code, key, single, root, index)
@@ -1381,6 +1435,13 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
                                if youtube_requested else '')}
         youtube_requested = outbox['publication'].get('youtube_status', 'requested_not_verified') != 'not_requested'
         existing = outbox['operations'].get(key)
+        transport_unknown = (phase in ('upload', 'import') and existing
+                             and existing.get('state') == 'unknown')
+        if (package_index is None and outbox.get('attribution', {}).get('designer_ids')
+                and (phase == 'attribute' or transport_unknown)):
+            batch = _dispatch_attribution_batch(code, record, outbox, path, execute, root)
+            if batch is not None:
+                return batch
         if phase == 'verify':
             material_id = outbox['operations'][key.replace('verify', 'import')]['result']['material_id']
             operation = {'id': key, 'tool': 'material_detail', 'arguments': {'material_id': material_id},
@@ -1397,6 +1458,14 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
                 write_json(path, outbox)
                 existing = None
             else:
+                if phase == 'attribute' and existing.get('batch_id'):
+                    batch = outbox['attribution_batches'][existing['batch_id']]
+                    pending = [outbox['operations'][member]['arguments']['material_ids'][0]
+                               for member in batch['operation_ids']
+                               if outbox['operations'][member]['state'] != 'verified']
+                    return {'state': 'needs_reconciliation', 'operation': batch, 'pending_material_ids': pending,
+                            'next': 'Read the pending material IDs and save verified details with fireplay-receipt '
+                                    'using the batch ID. Do not repeat the batch write.'}
                 return {'state': 'needs_reconciliation', 'operation': existing,
                         'next': 'Read platform state/logs and record real verification; do not dispatch again'}
         if existing:
@@ -1453,9 +1522,7 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
             materialize = None
             tool = 'material_attribution_update'
             material_id = outbox['operations'][key.replace('attribute', 'import')]['result']['material_id']
-            arguments = {'material_ids': [material_id], 'designer_ids': outbox['attribution']['designer_ids']}
-            if outbox['attribution'].get('creation_type', 'unspecified') != 'unspecified':
-                arguments['creation_type'] = outbox['attribution']['creation_type']
+            arguments = _attribution_arguments(outbox, [material_id])
         else:
             tool, materialize = 'requirement_bind_materials', None
             active_packages = _active_packages(outbox)
@@ -1545,10 +1612,92 @@ def _accepted_import(raw, operation, package, outbox, material_id, root, youtube
             'submitted_shared_dept_id': department, 'youtube_status': youtube_status}
 
 
+def _verified_attribution(material, operation):
+    from .fireplay_materials import verify_attribution
+    arguments = operation['arguments']
+    expected_id = arguments['material_ids'][0]
+    require(material.get('id') == expected_id, 'Attribution material identity read-back differs')
+    verify_attribution(material, arguments, 'Attribution needs exact material designer read-back',
+                       'Attribution creation type read-back differs')
+    return {'material_id': expected_id, 'designer_ids': material['designerIds'],
+            'creation_type': material.get('creationType')}
+
+
+def receipt_attribution_batch(code, batch_id, spec, root=ROOT, index=1):
+    spec = payload(spec)
+    path = _folder(code, root) / f'return-{index}.json'
+    with lock(_folder(code, root) / 'request.lock'):
+        outbox = read_json(path)
+        batch = outbox.get('attribution_batches', {}).get(batch_id)
+        require(batch is not None, 'Attribution batch was not dispatched')
+        operations = outbox['operations']
+        members = {operations[key]['arguments']['material_ids'][0]: key for key in batch['operation_ids']}
+        receipt_hash = object_hash(spec)
+        observed = _folder(code, root) / 'receipts' / f'{index}-{batch_id}-{receipt_hash}.json'
+        write_json(observed, spec)
+        evidence = str(observed.relative_to(root))
+        batch['last_observed_receipt'] = evidence
+        write_json(path, outbox)
+        updated = set(members)
+        if 'response' in spec:
+            raw = payload(spec['response'])
+            require(not raw.get('preview') and not raw.get('isPreview') and raw.get('skipped') is not True,
+                    'Attribution preview is not an executed write')
+            reported = raw.get('updated')
+            require(isinstance(reported, list) and all(isinstance(value, str) for value in reported)
+                    and len(set(reported)) == len(reported) and set(reported) <= members.keys(),
+                    'Attribution batch receipt needs exact updated material IDs')
+            updated = set(reported)
+        reads = spec.get('verification', [])
+        require(isinstance(reads, list), 'Attribution batch verification must be a list of material details')
+        details = {}
+        for read in reads:
+            if isinstance(read, dict) and read.get('isError'):
+                continue
+            material = payload(read).get('material')
+            require(isinstance(material, dict) and isinstance(material.get('id'), str)
+                    and material['id'] in members and material['id'] not in details,
+                    'Attribution verification needs distinct material details from this batch')
+            details[material['id']] = material
+        youtube_status = outbox['publication'].get('youtube_status', 'requested_not_verified')
+        for material_id, key in members.items():
+            operation = operations[key]
+            if operation['state'] == 'verified' or material_id not in updated or material_id not in details:
+                continue
+            material = details[material_id]
+            try:
+                result = _verified_attribution(material, operation)
+                require(set(result['designer_ids']) == set(operation['arguments']['designer_ids']),
+                        'Attribution batch designer read-back differs')
+            except (WorkflowError, TypeError):
+                continue
+            operation.update(state='verified', result=result, receipt_sha256=receipt_hash,
+                             last_observed_receipt=evidence, verified_at=utc_now())
+            slot = int(key.split('-')[1])
+            try:
+                verified = _verify_material_detail(material, material_id, outbox['packages'][slot - 1],
+                                                   outbox, root, youtube_status)
+            except (WorkflowError, TypeError):
+                continue
+            operations[f'verify-{slot}'] = {
+                'id': f'verify-{slot}', 'state': 'verified', 'verified_at': operation['verified_at'],
+                'receipt_sha256': receipt_hash, 'evidence_operation': key,
+                'last_observed_receipt': evidence, 'result': verified,
+            }
+        verified = [key for key in batch['operation_ids'] if operations[key]['state'] == 'verified']
+        pending = [material_id for material_id, key in members.items() if key not in verified]
+        batch['state'] = 'partially_verified' if pending else 'verified'
+        write_json(path, outbox)
+        return {'state': batch['state'], 'verified': verified, 'pending_material_ids': pending,
+                'batch_receipt': evidence}
+
+
 def receipt(code, operation_id, spec, root=ROOT, index=1):
     """Record real connector receipts. Binding needs a separate read-after-write proof."""
     if operation_id.startswith('import-batch-'):
         return receipt_import_batch(code, operation_id, spec, root, index)
+    if operation_id.startswith('attribute-batch-'):
+        return receipt_attribution_batch(code, operation_id, spec, root, index)
     spec = payload(spec)
     _video(_record(code, root), index)
     path = _folder(code, root) / f'return-{index}.json'
@@ -1557,6 +1706,8 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
         youtube_status = outbox['publication'].get('youtube_status', 'requested_not_verified')
         require(operation_id in outbox['operations'], 'Operation was not dispatched')
         operation = outbox['operations'][operation_id]
+        require(not (operation_id.startswith('attribute-') and operation.get('batch_id')),
+                'Record attribution through its original batch ID')
         if operation['state'] == 'verified':
             require(operation['receipt_sha256'] == object_hash(spec), 'Verified receipt cannot be overwritten')
             return operation
@@ -1611,18 +1762,11 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
         elif operation_id.startswith('attribute-'):
             require(not raw.get('preview') and not raw.get('isPreview'), 'Attribution preview is not an executed write')
             material = payload(spec['verification']).get('material', {})
-            expected_id = operation['arguments']['material_ids'][0]
-            require(material.get('id') == expected_id, 'Attribution material identity read-back differs')
-            from .fireplay_materials import verify_attribution
-            verify_attribution(material, operation['arguments'],
-                               'Attribution needs exact material designer read-back',
-                               'Attribution creation type read-back differs')
-            result = {'material_id': expected_id, 'designer_ids': material['designerIds'],
-                      'creation_type': material.get('creationType')}
+            result = _verified_attribution(material, operation)
             slot = int(operation_id.split('-')[1])
             try:
                 reused_verification = _verify_material_detail(
-                    material, expected_id, outbox['packages'][slot - 1], outbox, root, youtube_status)
+                    material, result['material_id'], outbox['packages'][slot - 1], outbox, root, youtube_status)
             except (WorkflowError, TypeError):
                 pass
         elif operation_id.startswith('verify-'):

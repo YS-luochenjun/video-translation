@@ -268,6 +268,35 @@ class FireplayTests(unittest.TestCase):
                 {'success': True, 'material_imported': True, 'material_id': MID}]}}, self.root)
         self.assertEqual(fireplay.dispatch(CODE, True, self.root)['state'], 'needs_reconciliation')
 
+    def test_batch_import_accepts_frozen_display_name_after_platform_strips_attribution_suffix(self):
+        self.returned_setup(attribution={
+            'designer_dids': 'D372', 'creation_type': 'derivative',
+            'authorization_ref': 'test:attribution', 'source_quote': 'Synthetic DID fixture',
+        })
+        for number, resource in ((1, RESOURCE), (2, THREAD)):
+            fireplay.dispatch(CODE, True, self.root, package_index=number)
+            fireplay.receipt(CODE, f'upload-{number}', {'response': {
+                'publicUrl': f'https://example.com/video-{number}.mp4', 'resourceId': resource}}, self.root)
+        batch = fireplay.dispatch_import_batch(CODE, True, self.root)['operation']
+        path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        packages = read_json(path)['packages']
+        first, second = batch['arguments']['items']
+        self.assertEqual(first['name'], packages[0]['display_name'] + '_D372_#')
+        first_row = {'item_index': 0, 'success': True, 'material_imported': True, 'material_id': MID,
+                     'name': packages[0]['display_name'], 'video_r2_url': first['url'], 'resource_id': RESOURCE}
+        second_row = {'item_index': 1, 'success': True, 'material_imported': True, 'material_id': RID,
+                      'name': 'different title', 'video_r2_url': second['url'], 'resource_id': THREAD}
+        check_url = 'https://example.com/materials'
+        result = fireplay.receipt(CODE, batch['id'], {'response': {
+            'results': [first_row, second_row], 'check_url': check_url}}, self.root)
+        self.assertEqual(result['verified'], ['import-1'])
+        self.assertEqual(result['unresolved'], ['import-2'])
+        operations = read_json(path)['operations']
+        self.assertEqual(operations['import-1']['result']['check_url'], check_url)
+        self.assertNotIn('verify-1', operations)
+        self.assertEqual(operations['import-2']['state'], 'unknown')
+        self.assertEqual(fireplay.dispatch(CODE, root=self.root)['operation']['id'], 'verify-1')
+
     def downloaded(self):
         self.register()
         original = self.root / 'work/runs/fireplay-test/source.mp4'
@@ -278,11 +307,11 @@ class FireplayTests(unittest.TestCase):
         self.save(record)
         return original
 
-    def returned_setup(self, upload_route=None):
+    def returned_setup(self, upload_route=None, attribution=None, locales=('es', 'ko')):
         self.downloaded()
         packages = []
         source_sha = self.record()['videos'][0]['source']['sha256']
-        for lang in ('es', 'ko'):
+        for lang in locales:
             movie = self.root / f'work/{lang}.mp4'
             movie.write_bytes(('synthetic candidate ' + lang).encode())
             folder = self.root / f'outputs/test/{lang}/version'
@@ -294,7 +323,8 @@ class FireplayTests(unittest.TestCase):
             packages.append({'video_index': 1, 'locale': lang, 'package': str(folder.relative_to(self.root))})
         spec = {'video_index': 1, 'packages': packages,
                 'sharing_receipt': {'departments': [{'deptId': 'test', 'deptName': 'Test'}]},
-                'attribution': {'unassigned': True, 'authorization_ref': 'test:attribution', 'source_quote': 'Synthetic offline fixture'},
+                'attribution': attribution or {'unassigned': True, 'authorization_ref': 'test:attribution',
+                                               'source_quote': 'Synthetic offline fixture'},
                 'authority': {'authorization_ref': 'test:real-host-event',
                 'source_quote': '测试回执，不调用外部平台', 'actions': ['upload', 'import', 'bind']}}
         if upload_route is not None:
@@ -876,6 +906,31 @@ class FireplayTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'changed'):
             fireplay.source(CODE, download=True, root=self.root)
 
+    def test_failed_transfer_resumes_from_the_exact_saved_lookup(self):
+        self.register()
+        found = {'youtube_video_id': 'Z6AJoQe5wI0', 'youtube_url': URL, 'status': 'found',
+                 'material_id': MID, 'source_resource_id': RESOURCE,
+                 'video_r2_url': 'https://example.com/source.mp4'}
+        with patch('video_localizer.kie.download', side_effect=WorkflowError('transfer timeout')):
+            with self.assertRaisesRegex(WorkflowError, 'transfer timeout'):
+                fireplay.source(CODE, {'items': [found]}, download=True, root=self.root)
+        source = self.record()['videos'][0]
+        self.assertEqual(source['resolved'], found)
+        self.assertNotIn('source', source)
+        with self.assertRaisesRegex(WorkflowError, 'material/resource changed'):
+            fireplay.source(CODE, {'items': [{**found, 'source_resource_id': THREAD}]}, root=self.root)
+
+        def fetch(url, path):
+            self.assertEqual(url, found['video_r2_url'])
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b'original bytes')
+
+        with patch('video_localizer.kie.download', side_effect=fetch) as transfer, patch(
+                'video_localizer.media.probe', return_value={'duration': 16, 'width': 1080, 'height': 1920}):
+            fireplay.source(CODE, download=True, root=self.root)
+        transfer.assert_called_once()
+        self.assertIn('source', self.record()['videos'][0])
+
     def test_classification_only_dimensions_need_exact_resource_and_file_size(self):
         self.register()
         response = {'items': [{'youtube_video_id': 'Z6AJoQe5wI0', 'youtube_url': URL, 'status': 'found',
@@ -1002,6 +1057,10 @@ class FireplayTests(unittest.TestCase):
         self.assertEqual(extended['packages'][0], old_upload)
         self.assertEqual(extended['operations']['upload-1']['state'], 'verified')
         self.assertEqual(len(extended['binding_history']), 1)
+        progress = fireplay_submission.coverage(record, record['videos'][0], self.root)
+        self.assertEqual(progress['bound_locales'], ['es'])
+        self.assertEqual(progress['missing_locales'], ['ko'])
+        self.assertEqual(fireplay_submission.bound_materials(record, record['videos'][0], self.root), [])
         self.assertEqual(fireplay.dispatch(CODE, root=self.root)['operation']['id'], 'upload-2')
         second = '01a1396c-7410-7002-b480-4d535a387a57'
         self.complete_partial_locale(2, 'ko', second, [MID, second])
