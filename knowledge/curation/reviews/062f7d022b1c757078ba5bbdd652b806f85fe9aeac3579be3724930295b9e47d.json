@@ -1,0 +1,43 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261109-049-1-02-completion-263da04e90.json",
+    "sha256": "ae74807b832ed4500f06ff63e11605c5bf8f09c417c2ec84b55873e9a8e4f84f"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex knowledge curation historical record review",
+  "origin": "Existing recorded observations and source-specific consolidation",
+  "resolution": "adopted",
+  "reason": "Shared source observations and exact-locale limitations independently packaged in one known source reference; future quality checks follow the current production contract.",
+  "targets": [
+    {
+      "id": "mog049-source1-wall-hat-observations-v1",
+      "path": "knowledge/cases/mog049-source1-wall-hat-observations-v1.md",
+      "sha256": "11e15f81c45fee0a909ba69d32fa329c5f77525162bf3601820f455dd590fae0",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "cd0869ecbb669a82c7d503e9c90e116a46efb478d77ab0e4d0a2bdad3df59d1a"
+      },
+      "snapshot": "# MOG-20261109-049 原片1 墙面与帽子修复\n\n西语、日语、巴西葡语使用该源的共用上部修复，抽样发现墙面及帽子纹理变化，约2.267秒存在分离的帽顶虚影。复做应对照这一时点的原片、底片、译片整幅画面，并保护脸、手与身体。\n\n标题保留黄色字、黑色轮廓及原始位置，历史成片字墨高度较小、行距较紧，下一个标题重叠影响可读性。各语种重新匹配原文字视觉重量，日语实际字形需要适配。\n\n各语种历史完整编码及首尾 ASR、发音疑点和质量限制见 evidence:observations。连续正常速度视听和独立验收仍缺证据，旧 best-available 成片的内部质量结论保留。\n"
+    }
+  ],
+  "adopted_parts": [
+    "For this source, adopting locally valid repaired pixels preserves a complete original-position dub, but wall/hat texture and transition blur remain explicit limitations. Inspect full-frame motion and phrase boundaries; a completed file does not establish quality acceptance."
+  ],
+  "retained_parts": [
+    "Shared v3 upper-band Wan repair changes wall/hat texture and leaves detached repeated hat-top blur near 2.267s; no severe face/hand/body destruction observed in sampled frames.",
+    "Actual native full-frame samples show translated opening card, headline, next-title, functional key and original yellow CTA in their source regions. Headline ink is smaller/tighter than source; partial next-title overlap retained.",
+    "Japanese uses actual bound Hiragino Sans W6 bold upright glyphs, adapting source italic condensed Latin design; complete encoded tail recognizes これは. Letter U is transcribed as a Japanese homophone; pronunciation distinction remains uncertain.",
+    "Actual full encoded audio and independent head/tail ASR reviewed. Continuous normal-speed visual playback, direct listening, music fidelity and voice naturalness remain unverified; sampled evidence does not certify every frame.",
+    "Complete dubbed best-available output after two shared base repairs; quality not approved and no independent or user/company acceptance claimed.",
+    "Original outcome, source evidence, actual video hashes and any fee information are retained in the evidence bundle."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-26T03:57:11+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

@@ -2,7 +2,37 @@
 import wave
 import numpy as np
 from . import captions, media, workflow
-from .common import file_hash, guarded, inside, object_hash, read_json, require, require_number, write_json
+from .common import WorkflowError, file_hash, guarded, inside, object_hash, read_json, require, require_number, write_json
+
+
+def _source_scope(run):
+    binding = run / 'inputs/fireplay.json'
+    if not binding.exists():
+        return {'kind': 'local'} if not binding.is_symlink() else None
+    try:
+        requirement = read_json(binding)['requirement_id']
+        if isinstance(requirement, str) and requirement:
+            return {'kind': 'fireplay', 'requirement_id': requirement}
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    return None
+
+
+def _reuse_source_track(run, index, signature, path):
+    root = run.parent.parent
+    try:
+        cached = read_json(index)
+        origin = inside(root / 'runs', cached['run'])
+        if origin.parent != root / 'runs' or _source_scope(origin) != _source_scope(run):
+            return False
+        source = origin / path.relative_to(run)
+        record = read_json(source.with_name('provenance.json'))
+        if record['signature'] != signature or record['sha256'] != cached['sha256']:
+            return False
+        media.copy_verified_video(source, path, record['sha256'])
+        return True
+    except (OSError, ValueError, WorkflowError, KeyError, TypeError):
+        return False
 
 
 def source_track(run):
@@ -12,12 +42,18 @@ def source_track(run):
     directory=run/'outputs/source-audio'/object_hash(signature)[:20]
     directory.mkdir(parents=True,exist_ok=True)
     path=directory/'source-stereo.wav'; receipt=directory/'provenance.json'
+    scope = _source_scope(run)
+    index = (run.parent.parent / 'state/source-audio-cache' /
+             (object_hash({'scope': scope, 'signature': signature}) + '.json')) if scope else None
     if receipt.exists():
         record=read_json(receipt)
         require(record['signature']==signature and path.is_file() and file_hash(path)==record['sha256'],'Source audio checkpoint changed')
     else:
-        media.ffmpeg(['-i',source,'-vn','-ac','2','-ar','44100','-c:a','pcm_s16le',path])
+        if index is None or not _reuse_source_track(run, index, signature, path):
+            media.ffmpeg(['-i',source,'-vn','-ac','2','-ar','44100','-c:a','pcm_s16le',path])
         write_json(receipt,{'signature':signature,'sha256':file_hash(path)})
+    if index is not None:
+        write_json(index, {'run': run.name, 'sha256': read_json(receipt)['sha256']})
     return path
 
 

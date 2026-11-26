@@ -270,7 +270,7 @@ def _register(root, run, folder, manifest, delivery_identity, managed, existed):
     metadata = manifest['metadata']
     video_sha256 = manifest['identity']
     catalog_path = delivery_layout.catalog(root)
-    with lock(root / "outputs/.catalog.lock"):
+    with lock(root / "outputs/.catalog.lock", wait_seconds=30):
         legacy_catalog = root / 'outputs/index.json'
         catalog = (read_json(catalog_path) if catalog_path.exists() else read_json(legacy_catalog)
                    if managed and legacy_catalog.exists() else {"schema_version": 1, "entries": []})

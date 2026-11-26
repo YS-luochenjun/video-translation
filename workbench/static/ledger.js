@@ -61,7 +61,7 @@ window.LedgerUI = (() => {
     if (page !== currentPage) retries = null;
     currentPage=page;selected=id;
     if (el('ledger-root')?.dataset.page===page) {
-      if (!selected) el('ledger-detail').hidden=true;
+      if (!selected) el('ledger-detail').close();
       else if (detail?.requirement.id!==selected) el('ledger-meta-content').parentElement.open=false;
       return;
     }
@@ -75,8 +75,12 @@ window.LedgerUI = (() => {
       </div>
       <p id="ledger-health" class="ledger-warning" role="status" hidden></p>
       ${page==='ledger'?'<section id="ledger-capacity" class="panel ledger-capacity" aria-label="制作并发"><span class="quiet">正在读取制作并发…</span></section>':''}
-      <div id="ledger-metrics"></div><div id="ledger-body"></div><article id="ledger-detail" class="panel ledger-detail" hidden></article>
+      <div id="ledger-metrics"></div><div id="ledger-body"></div>
+      <dialog id="ledger-detail" class="ledger-detail" aria-labelledby="ledger-detail-title"></dialog>
     </div>`;
+    el('ledger-detail').addEventListener('close',()=>{
+      if (selected && currentPage==='ledger') location.hash='ledger';
+    });
     if (el('ledger-state')) el('ledger-state').value=filters.progress;
     if (el('ledger-days')) el('ledger-days').value=filters.days;
     el('ledger-query').addEventListener('input',event=>{
@@ -128,10 +132,9 @@ window.LedgerUI = (() => {
         renderTable();
         if (retries && (force || !retries.cursor) && !retries.loading) void loadRetries(retries.cursor);
         const row=result.requirements.find(item=>item.id===selected);
-        const reveal=el('ledger-detail').hidden || detail?.requirement.id!==selected;
+        const reveal=!el('ledger-detail').open || detail?.requirement.id!==selected;
         if(selected && (force || reveal || (row && detailState(row)!==detailState(detail.requirement)))) {
           await loadDetail(selected,force || reveal);
-          if(reveal && el('ledger-root')===root) el('ledger-detail').scrollIntoView({block:'start'});
         }
       } else renderEfficiency();
       return result.read_at;
@@ -143,9 +146,20 @@ window.LedgerUI = (() => {
     }
   }
 
-  function renderTable() {
+  function renderTable(anchorId=retries?.id) {
     const rows=data.requirements;
-    const oldTable=el('ledger-body').querySelector('.ledger-table');
+    const body=el('ledger-body');
+    const oldTable=body.querySelector('.ledger-table');
+    const scrollTop=oldTable?.scrollTop || 0;
+    const scrollLeft=oldTable?.scrollLeft || 0;
+    const findAnchor=table=>table && anchorId
+      ? [...table.querySelectorAll('[data-retry-demand]')].find(button=>button.dataset.retryDemand===anchorId)
+      : null;
+    const oldAnchor=findAnchor(oldTable);
+    const anchorTop=oldAnchor?.getBoundingClientRect().top;
+    const focused=oldTable?.contains(document.activeElement) ? document.activeElement : null;
+    const focusAttribute=focused?.hasAttribute('data-requirement') ? 'data-requirement' : 'data-retry-demand';
+    const focusId=focused?.getAttribute(focusAttribute);
     const tableRows=rows.map(row=>{
       const languages = new Set((row.scope || []).flatMap(video=>video.targets)).size;
       const tasks = row.task_count !== languages ? ` · ${row.task_count} 项语言任务` : '';
@@ -163,7 +177,7 @@ window.LedgerUI = (() => {
           <strong class="ledger-retry-count${count > 0 ? ' has-retries' : ''}">${h(count ?? '—')}</strong>
         </span>`).join('');
       return `<tr data-progress="${h(row.progress_state)}" data-selected="${selected===row.id}">
-      <td><button class="table-action" data-requirement="${h(row.id)}">${h(row.code)}</button>
+      <td><button class="table-action" data-requirement="${h(row.id)}" aria-haspopup="dialog">${h(row.code)}</button>
         <span class="quiet">${row.video_count} 部原片 · ${languages || '—'} 种语言${tasks}</span></td>
       <td><strong class="ledger-row-state">${h(progressLabels[row.progress_state])}</strong></td>
       <td class="ledger-counts"><div>制作完成 <strong>${row.output_count}/${row.task_count}</strong></div>
@@ -184,12 +198,15 @@ window.LedgerUI = (() => {
     const markup=`<p class="ledger-caption">${rows.length} 条记录${filters.state==='unlinked'?' · <button class="table-action" data-show-unlinked>返回需求</button>':data.unlinked_total?` · <button class="table-action" data-show-unlinked>待关联 ${data.unlinked_total}</button>`:''}</p>
       <div class="ledger-table bounded-table" role="region" aria-label="需求台账表" tabindex="0"><table><thead><tr><th scope="col">需求</th><th scope="col">状态</th><th scope="col">进度</th><th scope="col">负责会话</th><th scope="col">制作起止时间</th><th scope="col">重试次数</th></tr></thead>
       <tbody>${tableRows || '<tr><td colspan="6">没有匹配的需求</td></tr>'}</tbody></table></div>`;
-    const body=el('ledger-body');
     if(body.innerHTML===markup)return;
     body.innerHTML=markup;
     const table=body.querySelector('.ledger-table');
-    table.scrollLeft=oldTable?.scrollLeft || 0;
-    table.scrollTop=oldTable?.scrollTop || 0;
+    table.scrollLeft=scrollLeft;
+    table.scrollTop=scrollTop;
+    const anchor=findAnchor(table);
+    if (anchor && anchorTop!=null) table.scrollTop+=anchor.getBoundingClientRect().top-anchorTop;
+    if (focusId) [...table.querySelectorAll(`[${focusAttribute}]`)]
+      .find(button=>button.getAttribute(focusAttribute)===focusId)?.focus({preventScroll:true});
   }
 
   function retryDetails(state) {
@@ -240,7 +257,7 @@ window.LedgerUI = (() => {
     const n=++sequence;
     const value=await request('/api/ledger/detail?id='+encodeURIComponent(id));
     if(n!==sequence || id!==selected || !el('ledger-detail') || currentPage!=='ledger')return;
-    if(!force && detail?.requirement.id===id && detailState(detail.requirement)===detailState(value.requirement) && !el('ledger-detail').hidden)return;
+    if(!force && detail?.requirement.id===id && detailState(detail.requirement)===detailState(value.requirement) && el('ledger-detail').open)return;
     const row=value.requirement;
     const node=el('ledger-detail');
     const opened = new Set(detail?.requirement.id===id
@@ -266,8 +283,7 @@ window.LedgerUI = (() => {
       ].join('') : '',
     ].join('');
     const times=[['制作起始',dt(row.first_started_at)],['制作完成',dt(row.complete_at)],['审核上传完成',uploadProgress(row)]];
-    node.hidden=false;
-    node.innerHTML=`<div class="ledger-detail-header"><div><h2>${h(row.code)}</h2><p class="quiet ledger-title">${h(row.title)}</p></div><button data-close-requirement>收起</button></div>
+    node.innerHTML=`<div class="ledger-detail-header"><div><h2 id="ledger-detail-title">${h(row.code)}</h2><p class="quiet ledger-title">${h(row.title)}</p></div><button type="button" data-close-requirement autofocus>收起</button></div>
       <div class="info-grid">${times.map(([label,time])=>`<div class="info"><span>${h(label)}</span><strong>${h(time)}</strong></div>`).join('')}</div>
       ${exceptions?summary('exceptions','查看异常说明',exceptions):''}
       ${row.description?summary('brief','需求原文',`<pre>${h(row.description)}</pre>`):''}
@@ -289,6 +305,7 @@ window.LedgerUI = (() => {
         <summary>${h(eventLabels[event.kind] || event.kind)} · ${dt(event.occurred_at || event.recorded_at)}${event.run_id?' · '+h(event.run_id):''}</summary>
         <pre>${h(JSON.stringify(event.data,null,2))}</pre></details>`).join(''))}
       ${summary('actions','台账操作',`<div class="ledger-actions">${actions.map(([action,label])=>`<button data-ledger-action="${action}">${label}</button>`).join('')}</div>`)}`;
+    if (!node.open) node.showModal();
   }
 
   function renderEfficiency() {
@@ -353,8 +370,7 @@ window.LedgerUI = (() => {
     if (retryButton && currentPage === 'ledger') {
       const id=retryButton.dataset.retryDemand;
       retries=retries?.id===id ? null : {id,cursor:'',history:[],page:null,loading:false,error:null};
-      renderTable();
-      [...el('ledger-body').querySelectorAll('[data-retry-demand]')].find(button=>button.dataset.retryDemand===id)?.focus({preventScroll:true});
+      renderTable(id);
       if (retries) void loadRetries('');
       return;
     }
@@ -376,11 +392,10 @@ window.LedgerUI = (() => {
       return;
     }
     if(row){
-      if(selected===row.dataset.requirement) el('ledger-detail').scrollIntoView({block:'start'});
-      else location.hash='ledger/'+encodeURIComponent(row.dataset.requirement);
+      location.hash='ledger/'+encodeURIComponent(row.dataset.requirement);
       return;
     }
-    if(e.target.closest('[data-close-requirement]')){selected='';el('ledger-detail').hidden=true;location.hash='ledger';return;}
+    if(e.target.closest('[data-close-requirement]')){el('ledger-detail').close();return;}
     const action=e.target.closest('[data-ledger-action]');if(action)editor(action.dataset.ledgerAction);
   });
   return {show,refresh};

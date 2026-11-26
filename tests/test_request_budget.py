@@ -3,11 +3,14 @@ import json
 from pathlib import Path
 import shutil
 import tempfile
+import time
+from concurrent.futures import ThreadPoolExecutor
+from threading import Event
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 from video_localizer import budgets
-from video_localizer.common import WorkflowError, file_hash, read_json, write_json
+from video_localizer.common import WorkflowError, file_hash, lock, read_json, write_json
 from video_localizer.kie import KieClient
 
 
@@ -127,6 +130,64 @@ class RequestBudgetTests(unittest.TestCase):
         shutil.rmtree(self.run)
         with self.assertRaisesRegex(WorkflowError, 'Whole-request'):
             budgets.reserve(self.make_run('restart'), 'b'*64, 1)
+
+    def test_contended_ledger_waits_then_reserves_against_current_balance(self):
+        second = self.make_run('second')
+        budgets.bind(self.run)
+        budgets.bind(second)
+        waiting = Event()
+        original_sleep = time.sleep
+
+        def observed_sleep(seconds):
+            waiting.set()
+            original_sleep(seconds)
+
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            with patch('video_localizer.common.time.sleep', observed_sleep):
+                with lock(self.root / 'state/budgets/.lock'):
+                    future = executor.submit(budgets.reserve, second, 'b'*64, 10)
+                    self.assertTrue(waiting.wait(2))
+                    self.assertFalse(future.done())
+                    record_path = self.root / 'state/budgets' / (self.scope + '.json')
+                    record = read_json(record_path)
+                    record['reservations']['a'*64] = {
+                        'run': self.run.name, 'job': 'a'*64, 'estimate': 55,
+                        'reserved_credits': 55, 'actual_credits': None, 'state': 'reserved'}
+                    write_json(record_path, record)
+            with self.assertRaisesRegex(WorkflowError, 'Whole-request'):
+                future.result(timeout=5)
+        self.assertEqual(budgets.status(self.scope, self.root)['remaining_credits'], 5)
+
+    def test_dispatch_waits_for_ledger_without_repeating_provider_request(self):
+        budgets.reserve(self.run, 'a'*64, 5)
+        opener = Mock()
+        opener.open.return_value = io.BytesIO(json.dumps({'code': 200, 'data': {'taskId': 'fixture'}}).encode())
+        client = KieClient('synthetic-key', opener)
+        held = Event()
+        release = Event()
+        waiting = Event()
+        original_sleep = time.sleep
+
+        def hold_ledger():
+            with lock(self.root / 'state/budgets/.lock'):
+                held.set()
+                release.wait(5)
+
+        def observed_sleep(seconds):
+            waiting.set()
+            release.set()
+            original_sleep(seconds)
+
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(hold_ledger)
+            self.assertTrue(held.wait(2))
+            with patch('video_localizer.common.time.sleep', observed_sleep):
+                self.assertEqual(client.create({'model': 'wan/3-0-video'}), 'fixture')
+            self.assertTrue(waiting.is_set())
+            future.result(timeout=5)
+        with self.assertRaisesRegex(WorkflowError, 'already dispatched'):
+            client.create({'model': 'wan/3-0-video'})
+        self.assertEqual(opener.open.call_count, 1)
 
 
 if __name__ == '__main__':

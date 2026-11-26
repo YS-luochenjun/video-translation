@@ -22,6 +22,92 @@ class AudioResumeTests(unittest.TestCase):
         write_json(self.run / 'run.json', {'source': 'inputs/source.wav',
                    'source_sha256': file_hash(self.run / 'inputs/source.wav')})
 
+    def test_source_audio_reused_across_same_requirement_only(self):
+        def make_run(name, requirement):
+            run = self.root / 'runs' / name
+            source = run / 'inputs/source.wav'
+            source.parent.mkdir(parents=True)
+            source.write_bytes(b'synthetic source')
+            write_json(run / 'run.json', {'source': 'inputs/source.wav', 'source_sha256': file_hash(source)})
+            write_json(run / 'inputs/fireplay.json', {'requirement_id': requirement})
+            return run
+
+        first, second, third = (make_run(name, requirement) for name, requirement in
+                                [('first', 'A'), ('second', 'A'), ('third', 'B')])
+        with patch.object(media, 'command', return_value=SimpleNamespace(stdout='fixture ffmpeg')), \
+             patch.object(media, 'ffmpeg', side_effect=lambda args: Path(args[-1]).write_bytes(b'decoded audio')) as decode:
+            original = local_audio.source_track(first)
+            copied = local_audio.source_track(second)
+            self.assertEqual(decode.call_count, 1)
+            self.assertEqual(original.read_bytes(), copied.read_bytes())
+            original.unlink()
+            self.assertEqual(local_audio.source_track(second).read_bytes(), b'decoded audio')
+            local_audio.source_track(third)
+            self.assertEqual(decode.call_count, 2)
+
+    def test_separation_cache_copies_verified_stems(self):
+        from importlib.util import spec_from_file_location, module_from_spec
+        spec = spec_from_file_location('separation_fixture', PROJECT / 'bin/separate_local_audio.py')
+        module = module_from_spec(spec)
+        spec.loader.exec_module(module)
+        origin = self.run
+        output = origin / 'outputs/stems'
+        output.mkdir(parents=True)
+        stems = []
+        for name in ('accompaniment', 'vocals'):
+            path = output / (name + '.wav')
+            path.write_bytes(name.encode())
+            stems.append({'stem': name, 'path': path.relative_to(origin).as_posix(), 'sha256': file_hash(path)})
+        signature = {'source_sha256': 'fixture'}
+        receipt = output / 'provenance.json'
+        write_json(receipt, {'signature': signature, 'stems': stems})
+        index = self.root / 'state/cache.json'
+        module.publish_index(origin, receipt, index)
+        target = self.root / 'runs/second'
+        destination = target / 'outputs/stems'
+        destination.mkdir(parents=True)
+        saved = module.reuse_stems(target, destination, signature, index, {'kind': 'local'})
+        self.assertEqual(saved['reuse_origin']['run'], origin.name)
+        self.assertEqual((destination / 'vocals.wav').read_bytes(), b'vocals')
+        (output / 'vocals.wav').write_bytes(b'changed')
+        self.assertIsNone(module.reuse_stems(target, destination, signature, index, {'kind': 'local'}))
+        self.assertIsNone(module.reuse_stems(target, destination, signature, index,
+                                            {'kind': 'fireplay', 'requirement_id': 'B'}))
+
+    def test_separation_cache_checked_before_and_after_heavy_slot(self):
+        from importlib.util import spec_from_file_location, module_from_spec
+        from contextlib import contextmanager
+        spec = spec_from_file_location('separation_fixture', PROJECT / 'bin/separate_local_audio.py')
+        module = module_from_spec(spec)
+        spec.loader.exec_module(module)
+        model = self.root / '.runtime/models/separation/UVR-MDX-NET-Inst_HQ_3.onnx'
+        model.parent.mkdir(parents=True)
+        model.write_bytes(b'fixture model')
+        source = self.run / 'inputs/source.wav'
+        args = SimpleNamespace(output='outputs/local-separation')
+        engine = SimpleNamespace(__version__='fixture')
+        saved = {'stems': []}
+        for delayed in (False, True):
+            with self.subTest(delayed=delayed):
+                slot = Mock()
+
+                @contextmanager
+                def heavy(*args):
+                    slot()
+                    yield
+
+                with patch.object(module, 'ROOT', self.root), \
+                     patch.object(local_audio, 'source_track', return_value=source), \
+                     patch('video_localizer.model_routing.require_current'), \
+                     patch.object(module, 'reuse_stems', side_effect=[None, saved] if delayed else [saved]) as reuse, \
+                     patch('video_localizer.resources.heavy', heavy), \
+                     patch.object(module, 'infer_stems') as infer:
+                    args.output = 'outputs/delayed' if delayed else 'outputs/immediate'
+                    module.execute(args, self.run, engine)
+                    self.assertEqual(slot.call_count, int(delayed))
+                    self.assertEqual(reuse.call_count, 2 if delayed else 1)
+                    infer.assert_not_called()
+
     def test_asr_reuses_exact_audio_but_invalidates_audio_and_settings(self):
         path = self.run / 'inputs/audio.wav'; path.write_bytes(b'actual waveform fixture')
         engine = Mock()

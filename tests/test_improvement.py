@@ -97,6 +97,13 @@ class ImprovementTests(unittest.TestCase):
         self.assertIsNone(agenda['max_revision_rounds'])
         self.assertTrue(agenda['execution_requires_existing_policy'])
 
+    def test_failed_intervention_is_exposed_in_next_work_packet(self):
+        self.spec['outcome'] = 'no_improvement'
+        self.record()
+        guidance = improvement.agenda(self.run)['retry_guidance']
+        self.assertEqual(guidance['state'], 'change_route_or_stop')
+        self.assertEqual(guidance['failed_interventions'], [self.spec['intervention']])
+
     def test_earlier_candidate_probes_do_not_review_a_different_finalized_output(self):
         write_json(self.run / 'review/capture.json', {'video_sha256': self.spec['after']['sha256'],
             'review_probes': {'manifest': 'earlier-candidate'}})

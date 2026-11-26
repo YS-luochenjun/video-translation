@@ -1,0 +1,30 @@
+{
+  "id": "APC-20261126-011-01-imagegen-lettering-b2c89e8005",
+  "status": "candidate",
+  "created_at": "2026-11-26T05:57:23+00:00",
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "21f3e257e18a8f158194767c8a53aac2f358cb3d79e7b85fad96da51d88e77c8",
+    "target_language": "zh-TW"
+  },
+  "outcome": "best_available",
+  "hypothesis": "同源繁中样片的旧版首尾虽覆盖相应时段，编码后黄字字面偏窄、描边挤占字面，片尾箭头上沿有重影。以原片为视觉参考，用 ImageGen 生成透明艺术字，将片尾箭头与字层分开合成并按原时间揭示后，字面更亮、颜色层次更清楚，箭头边缘干净。遇同源返工，以正常播放尺寸对照原片与实际编码首尾，分别核对实心字面、描边层次、非文字元素，再逐帧查看原生出入场边界。",
+  "failure_signature": "文字残留及时长检查通过的局部范围仍会漏掉编码后实心字面不足、描边拥挤和非文字箭头的重影。",
+  "evidence": {
+    "run": "APC-20261126-011-01",
+    "source_sha256": "21f3e257e18a8f158194767c8a53aac2f358cb3d79e7b85fad96da51d88e77c8",
+    "previous_video_sha256": "8dca58a99aeb986699a9a734aa423dc14565059d72df7e1c665c29eaeec242f6",
+    "video_sha256": "b2c89e8005fecd74510583619d1bc4553ae0fe77ec965cc16a66035274277a95",
+    "comparison_sha256": "2847d36f2ba9dc7f195085c5ca766821f3e9e37ef9bbe761141ebe2a9cb02097",
+    "native_boundaries_sha256": "f3b960c236b91a863d348b9ce9bef1c9cfb354d2183c312aec7ae862c4c79d9a"
+  },
+  "limitations": [
+    "同一源片的繁中正式成片对照，批次九语不算九次独立复验。",
+    "字层与箭头修复同时变化，不能归因于单一变量。局部补底软化、手机入场接缝及扫光粒子差异仍存在。",
+    "本次为制作自审；所引用的 ImageGen 好评指向另一任务的输出。"
+  ],
+  "next_review_question": "核对第78帧仍有完整标题、第79帧是否干净退出，并逐帧核对片尾三箭头与CTA实际揭示时机。",
+  "company_preference": false,
+  "knowledge_class": "project_training_candidate",
+  "evidence_boundary": "Technical observation and hashes; raw private case is not needed to read this hypothesis. Activation requires independently packaged reviewed evidence."
+}

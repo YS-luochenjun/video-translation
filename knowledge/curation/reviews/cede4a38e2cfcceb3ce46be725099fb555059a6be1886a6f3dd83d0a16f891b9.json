@@ -1,0 +1,41 @@
+{
+  "source": {
+    "path": "knowledge/candidates/KEY-20261109-017-nl-delivery-d356c71860.json",
+    "sha256": "9dbe6e0ffa08fe1c8400872b518f91a34a78e292f73b12ef303364045d1f3427"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex knowledge curation historical record review",
+  "origin": "Existing recorded observations and source-specific consolidation",
+  "resolution": "adopted",
+  "reason": "Shared source observations and exact-locale limitations independently packaged in one known source reference; future quality checks follow the current production contract.",
+  "targets": [
+    {
+      "id": "key017-source-motion-restoration-v1",
+      "path": "knowledge/cases/key017-source-motion-restoration-v1.md",
+      "sha256": "52ebff77fdfb7f4be7b6408860ecb377daa3675dd8f675e985bd2256f907e976",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "4a681919237c35c889e0d0c487ae3fbf85f3700718d722057ca31b65510c525a"
+      },
+      "snapshot": "# KEY-20261109-017 原片动效与局部修复观察\n\n适用该原片。历史五个语种的成片记录指出建筑、头发和衣服区域存在修复痕迹，以及短暂的进场、UI 和引文残影。复做时应检查原片、底片、译片整幅对照和进退场边界。\n\n独立的两秒 Wan 试验去除了抽查位置的标题和水印，但第59帧的鞋、脚及溅水姿态发生变化。整体结果未采用。对该源应先核对主体运动及文字外区域，再确定可用局部。\n\n西语、荷语、葡语、泰语历史记录显示相连描边使自动分组形成整标题淡入。明确划分短语或行区域后，编码帧2–11的实际进场有所改善，仍有描边尖端裁切适配。\n\n历史低码率成片的抽查文字可读，音频比特流及解码对照一致，纹理损失仍存在。各语言的发音、字体、具体运动与质量需独立核验。泰语历史听审与识别分歧、费用和各语种成片哈希见 evidence:observations。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Single-source nl observation: actual complete source-style scene copy and genuine dub were delivered with visible architectural/hair/clothing repair traces and short source-entry/UI/quote residues. Transparent lettering and native frame count did not prove a natural clean background or fine motion. Low-bitrate encoding preserved readable inspected copy and identical AAC/full decoded PCM/separate head-tail; texture loss remained. Scope is this source and exact locale, one independent source; no company, pristine-quality or native-motion acceptance. Connected artwork outlines produced one automatic component and an actual whole-title fade; explicit phrase/line regions corrected the observed2..11-frame entry, with clipped outline-tip adaptation disclosed. Measure actual encoded entry instead of trusting segmentation metadata."
+  ],
+  "retained_parts": [
+    "Single source; all5locales are not5independent sources.",
+    "Normal-speed Codex playback/hearing and independent visual review unavailable.",
+    "Candidate observation only, not an active rule or company preference.",
+    "Original outcome, source evidence, actual video hashes and any fee information are retained in the evidence bundle."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-26T03:57:09+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

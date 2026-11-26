@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "key017-source-motion-restoration-v1",
+  "created_at": "2026-11-26T03:57:08+00:00",
+  "files": [
+    {
+      "path": "evidence/key017-source-motion-restoration-v1-observations.json",
+      "sha256": "d87a8b1a2abdfc7fca34b678580165c85156de6d5c1b8583def68417d83d90de",
+      "bytes": 14327
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "4a681919237c35c889e0d0c487ae3fbf85f3700718d722057ca31b65510c525a"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# KEY-20261109-017 原片动效与局部修复观察\n\n适用该原片。历史五个语种的成片记录指出建筑、头发和衣服区域存在修复痕迹，以及短暂的进场、UI 和引文残影。复做时应检查原片、底片、译片整幅对照和进退场边界。\n\n独立的两秒 Wan 试验去除了抽查位置的标题和水印，但第59帧的鞋、脚及溅水姿态发生变化。整体结果未采用。对该源应先核对主体运动及文字外区域，再确定可用局部。\n\n西语、荷语、葡语、泰语历史记录显示相连描边使自动分组形成整标题淡入。明确划分短语或行区域后，编码帧2–11的实际进场有所改善，仍有描边尖端裁切适配。\n\n历史低码率成片的抽查文字可读，音频比特流及解码对照一致，纹理损失仍存在。各语言的发音、字体、具体运动与质量需独立核验。泰语历史听审与识别分歧、费用和各语种成片哈希见 evidence:observations。\n",
+    "source_sha256": "4a681919237c35c889e0d0c487ae3fbf85f3700718d722057ca31b65510c525a",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/key017-source-motion-restoration-v1-observations.json"
+    }
+  }
+}

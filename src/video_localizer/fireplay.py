@@ -1458,9 +1458,10 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
                 arguments['creation_type'] = outbox['attribution']['creation_type']
         else:
             tool, materialize = 'requirement_bind_materials', None
-            for package in outbox['packages']:
+            active_packages = _active_packages(outbox)
+            for _, package in active_packages:
                 _verify_frozen_package(code, record, package, root, hashes)
-            ids = [outbox['operations'][f'import-{i}']['result']['material_id'] for i, _ in _active_packages(outbox)]
+            ids = [outbox['operations'][f'import-{i}']['result']['material_id'] for i, _ in active_packages]
             arguments = {'items': [{'requirement_id': outbox['requirement_id'], 'material_ids': ids}]}
         operation = {'id': key, 'tool': tool, 'arguments': arguments, 'materialize': materialize,
                      'state': 'unknown', 'dispatched_at': utc_now(), 'content_version': outbox['content_version']}

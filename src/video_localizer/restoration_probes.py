@@ -67,7 +67,7 @@ def sample_frames(item, times):
     return sorted(selected)
 
 
-def _write_strips(run, rows, source, target, frame_region, staging, scratch):
+def _write_strips(run, rows, source, target, frame_region, staging, scratch, reuse, folder, implementation):
     from PIL import Image
 
     groups = {}
@@ -78,11 +78,34 @@ def _write_strips(run, rows, source, target, frame_region, staging, scratch):
         for column, (movie, number) in enumerate(inputs):
             regions = groups.setdefault(movie, {}).setdefault(number, {})
             regions.setdefault(region, []).append((index, column))
-    crops = {}
+    crops, bindings, page_hashes = {}, {}, {}
     for requests_index, (movie, requests) in enumerate(groups.items()):
+        missing, keys = {}, {}
+        for number, regions in requests.items():
+            for region, placements in regions.items():
+                if region not in keys:
+                    keys[region] = reuse.identity(movie, kind='restoration-strip', region=list(region),
+                                                  implementation=implementation)
+                key = keys[region]
+                if key not in reuse.groups:
+                    pointer = reuse.directory / 'tiles' / (key + '.json')
+                    reuse.groups[key] = reuse._read(pointer, key) if pointer.exists() else {}
+                entry = reuse.groups[key].get(str(number))
+                available = entry and reuse._path(entry['path']).is_file()
+                for placement in placements:
+                    bindings[placement] = (key, number)
+                    if available:
+                        crops[placement] = entry
+                if available:
+                    reuse.stats['layer_frames_reused'] += 1
+                else:
+                    reuse.stats['layer_frames_decoded'] += 1
+                    missing.setdefault(number, {})[region] = placements
+        if not missing:
+            continue
         with TemporaryDirectory(dir=scratch) as directory:
-            frames = _extract_sparse(movie, list(requests), frame_region, Path(directory))
-            for number, regions in requests.items():
+            frames = _extract_sparse(movie, list(missing), frame_region, Path(directory))
+            for number, regions in missing.items():
                 with Image.open(frames[number]) as image:
                     for region_index, ((left, top, width, height), placements) in enumerate(regions.items()):
                         crop = scratch / f'{requests_index}-{number}-{region_index}.png'
@@ -93,10 +116,23 @@ def _write_strips(run, rows, source, target, frame_region, staging, scratch):
         width, height = row['region'][2:]
         strip = Image.new('RGB', (width * 3, height))
         for column in range(3):
-            with Image.open(crops[index, column]) as image:
-                strip.paste(image, (column * width, 0))
+            crop = crops[index, column]
+            if isinstance(crop, dict):
+                strip.paste(reuse.load(crop, (width, height)), (column * width, 0))
+            else:
+                with Image.open(crop) as image:
+                    strip.paste(image, (column * width, 0))
         row['image'] = f'{index:04}.png'
-        strip.save(staging / row['image'])
+        page = staging / row['image']
+        strip.save(page)
+        digest = file_hash(page)
+        page_hashes[row['image']] = digest
+        for column in range(3):
+            key, number = bindings[index, column]
+            reuse.pending.setdefault(key, {})[str(number)] = {
+                'path': (folder / row['image']).relative_to(reuse.root).as_posix(),
+                'sha256': digest, 'box': [column * width, 0, (column + 1) * width, height]}
+    return page_hashes
 
 
 def generate(run, candidate, plan):
@@ -165,7 +201,8 @@ def generate(run, candidate, plan):
         scratch = Path(temporary)
         staging = scratch / 'bundle'
         staging.mkdir()
-        _write_strips(run, rows, source, target, [0, 0, meta['width'], meta['height']], staging, scratch)
+        page_hashes = _write_strips(run, rows, source, target, [0, 0, meta['width'], meta['height']],
+                                    staging, scratch, reuse, folder, binding['implementation_sha256'])
         body = ''.join('<p>'+html.escape(f"{r['id']} / frame {r['source_frame']} / {r['source_pts']:.4f}s")+
                        '</p><img src="'+r['image']+'">' for r in rows)
         (staging/'index.html').write_text('<!doctype html><meta charset="utf-8"><title>去字三路对照</title>'
@@ -174,9 +211,11 @@ def generate(run, candidate, plan):
         manifest = {'binding': binding, 'rows': rows, 'automatic_pass': False,
                     'decode_reuse': reuse.stats,
                     'limitation': 'Native first/middle/last plus adjacent boundary guards for source/ghost intervals; sampling is not full playback or automatic text detection.',
-                    'files': {p.name:file_hash(p) for p in staging.iterdir() if p.is_file()}}
+                    'files': {**page_hashes, 'index.html': file_hash(staging / 'index.html')}}
         write_json(staging/'manifest.json', manifest)
+        reuse.verify_inputs()
         staging.rename(folder)
+    reuse.commit()
     return {'state': 'captured', 'manifest': manifest_path.relative_to(run).as_posix(),
             'sha256': file_hash(manifest_path), 'reused': False, 'automatic_pass': False}
 

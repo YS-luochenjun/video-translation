@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'workbench'))
-from collector import Collector
+from collector import Collector, event_files
 from store import Store
 from video_localizer.ledger import Ledger, Conflict
 
@@ -37,6 +37,17 @@ class LedgerTests(unittest.TestCase):
         path = self.root/path
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data if isinstance(data,bytes) else json.dumps(data).encode())
+
+    def test_event_file_scan_detects_changes_without_following_links(self):
+        self.put('state/timing/run/record.json', {'id': 'old'})
+        self.put('state/ledger/inbox/event.json', {'id': 'event'})
+        original = dict(event_files(self.store, 'state/timing', True))
+        self.assertEqual(set(original), {'state/timing/run/record.json'})
+        self.put('state/timing/run/record.json', {'id': 'new longer value'})
+        self.assertNotEqual(dict(event_files(self.store, 'state/timing', True)), original)
+        (self.root / 'state/ledger/inbox/linked.json').symlink_to(self.root / 'state/timing/run/record.json')
+        self.assertEqual(set(dict(event_files(self.store, 'state/ledger/inbox', False))),
+                         {'state/ledger/inbox/event.json'})
 
     def fixture(self):
         videos = []

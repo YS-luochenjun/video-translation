@@ -53,6 +53,7 @@ async function checkScrollBoundaries(page, region) {
     });
     browser=await chromium.launch({headless:true,executablePath:process.env.WORKBENCH_BROWSER || undefined});
     const page=await browser.newPage({viewport:{width:1440,height:1000}});
+    await page.clock.install();
     const errors=[];
     page.on('pageerror',error=>errors.push(error.message));
     await page.goto(base+'/#tasks');
@@ -65,9 +66,13 @@ async function checkScrollBoundaries(page, region) {
     await page.screenshot({path:path.join(artifacts,'desktop.png'),fullPage:true});
     const waitForSnapshot = timeout => page.waitForResponse(
       response => new URL(response.url()).pathname === '/api/snapshot' && response.ok(), {timeout});
-    await waitForSnapshot(18000);
+    const requests = [];
+    page.on('request', request => requests.push(new URL(request.url()).pathname));
+    await page.clock.fastForward(16000);
+    await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+    await page.clock.fastForward(3000);
+    assert(!requests.includes('/api/snapshot'), 'idle time and tab visibility do not reload the snapshot');
     await Promise.all([waitForSnapshot(5000), page.getByRole('button',{name:'立即刷新'}).click()]);
-    await Promise.all([waitForSnapshot(5000), page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')))]);
     for(const name of ['instances','knowledge','execution','versions','overview']){
       await page.locator('[data-tab='+name+']').click();
       assert.equal(await page.locator('[data-tab='+name+']').getAttribute('aria-selected'),'true');
@@ -213,8 +218,12 @@ async function checkScrollBoundaries(page, region) {
     assert.deepEqual(tableStyles,{isolated:true,edges:true,sticky:true});
     await page.locator('.ledger-table').evaluate(table=>{table.scrollTop=0;});
     await page.getByRole('columnheader',{name:'重试次数'}).waitFor();
-    const retryToggle = page.locator('[data-retry-demand]').first();
+    const retryToggle = page.locator('[data-retry-demand]').nth(8);
     const demand = await retryToggle.getAttribute('data-retry-demand');
+    const ledgerTable = page.locator('.ledger-table');
+    const scrollPosition = () => ledgerTable.evaluate(table => ({
+      top:table.scrollTop, left:table.scrollLeft, page:window.scrollY
+    }));
     const retryMetrics = retryToggle.locator('.ledger-retry-metric');
     assert.deepEqual(await retryMetrics.locator('span').allTextContents(), ['Codex','KIE','Fireplay 回传']);
     const retryCounts = await retryMetrics.locator('strong').evaluateAll(values => values.map(value => ({
@@ -239,10 +248,14 @@ async function checkScrollBoundaries(page, region) {
         next_cursor:older?null:'1795507200000:retry-fixture'
       }});
     });
+    await retryToggle.evaluate(button=>button.scrollIntoView({block:'center',inline:'center'}));
+    const desktopPosition = await scrollPosition();
+    assert(desktopPosition.top > 0);
     await retryToggle.click();
     const retryPanel = page.locator('#ledger-retry-detail');
     await retryPanel.getByRole('row',{name:/Fireplay 回传.*原片 2.*素材绑定.*第 2 次重试.*502.*成功/}).waitFor();
     assert.equal(await retryToggle.getAttribute('aria-expanded'),'true');
+    assert.deepEqual(await scrollPosition(),desktopPosition);
     assert.equal(await retryPanel.evaluate(node=>node.parentElement.previousElementSibling.querySelector('[data-retry-demand]').dataset.retryDemand),demand);
     await retryPanel.getByRole('button',{name:'下一页'}).click();
     await retryPanel.getByRole('row',{name:/KIE.*运行示例.*状态码 503.*失败/}).waitFor();
@@ -251,11 +264,32 @@ async function checkScrollBoundaries(page, region) {
     await retryToggle.click();
     assert.equal(await retryPanel.count(),0);
     assert.equal(await retryToggle.getAttribute('aria-expanded'),'false');
-    await page.unroute('**/api/retry-activity?*');
     await page.screenshot({path:path.join(artifacts,'ledger.png'),fullPage:true});
     await page.setViewportSize({width:375,height:1000});
-    assert(await page.locator('.ledger-table').evaluate(table=>table.scrollWidth>table.clientWidth));
+    assert(await ledgerTable.evaluate(table=>table.scrollWidth>table.clientWidth));
     assert(await page.evaluate(() => document.documentElement.scrollWidth === innerWidth));
+    await retryToggle.evaluate(button=>button.scrollIntoView({block:'center',inline:'center'}));
+    const narrowPosition = await scrollPosition();
+    assert(narrowPosition.top > 0 && narrowPosition.left > 0);
+    await retryToggle.click();
+    await retryPanel.getByRole('row',{name:/Fireplay 回传.*原片 2/}).waitFor();
+    assert.deepEqual(await scrollPosition(),narrowPosition);
+    await retryToggle.click();
+    assert.deepEqual(await scrollPosition(),narrowPosition);
+    await page.unroute('**/api/retry-activity?*');
+    const requirementButton = page.locator('[data-requirement]').nth(8);
+    await requirementButton.evaluate(button=>button.scrollIntoView({block:'center',inline:'center'}));
+    const requirementPosition = await scrollPosition();
+    const requirementDialog = page.locator('#ledger-detail');
+    await requirementButton.click();
+    await requirementDialog.waitFor();
+    await requirementDialog.getByText('任务与视频',{exact:true}).click();
+    assert.deepEqual(await scrollPosition(),requirementPosition);
+    await page.keyboard.press('Escape');
+    await requirementDialog.waitFor({state:'hidden'});
+    await page.waitForURL(/#ledger$/);
+    await page.locator('#refresh:not([disabled])').waitFor();
+    assert.deepEqual(await scrollPosition(),requirementPosition);
     await page.setViewportSize({width:1440,height:1000});
     await page.getByRole('button',{name:'＋ 按需求号接单'}).click();
     await page.getByRole('dialog',{name:''}).waitFor();
@@ -269,6 +303,7 @@ async function checkScrollBoundaries(page, region) {
     });
     await page.locator('[data-nav=sessions]').click();
     await page.locator('.session').first().waitFor();
+    assert(!requests.includes('/api/console/events'), 'the session page does not subscribe to background refresh events');
     assert.equal(page.url(),base+'/#sessions');
     await page.locator('.session').first().click();
     await page.locator('#chat-input').waitFor();
@@ -302,6 +337,7 @@ async function checkScrollBoundaries(page, region) {
     await dialog.waitFor({state:'hidden'});
     await page.locator('[data-nav=sessions]').click();
     await page.locator('#chat-input').waitFor();
+    await page.locator('#refresh:not([disabled])').waitFor();
     await page.unroute('**/api/console/detail?*');
     const sessionList = page.locator('#session-list');
     assert.equal(await sessionList.evaluate(list => getComputedStyle(list).overflowY), 'visible');
@@ -326,7 +362,7 @@ async function checkScrollBoundaries(page, region) {
     await page.locator('#chat-input').waitFor();
     assert.equal(await page.locator('#chat-input').inputValue(),'浏览器回归测试草稿');
     assert.equal(errors.length,0,JSON.stringify(errors));
-    fs.writeFileSync(path.join(artifacts,'result.json'),JSON.stringify({decision:'pass',viewports:[1440,768,414,375,320],checks:['real records','automatic, manual and foreground refresh','compact breadcrumb and aligned refresh button','collapsible tasks','tabs','search','video metadata and seek','knowledge text','session usage','sticky timing table and preserved scroll','timing escaping and responsive layout','scroll boundaries in tables and chat'],screenshots:artifacts},null,2));
+    fs.writeFileSync(path.join(artifacts,'result.json'),JSON.stringify({decision:'pass',viewports:[1440,768,414,375,320],checks:['real records','manual refresh without background or foreground polling','compact breadcrumb and aligned refresh button','collapsible tasks','tabs','search','video metadata and seek','knowledge text','session usage','sticky timing table and preserved scroll','timing escaping and responsive layout','scroll boundaries in tables and chat'],screenshots:artifacts},null,2));
     process.stdout.write(JSON.stringify({decision:'pass',screenshots:artifacts})+'\n');
   } finally {
     if(browser)await browser.close();

@@ -49,6 +49,81 @@ def _timestamp(value):
     return parsed.timestamp()
 
 
+def _retired_entries(root, now, maintenance, retained):
+    registry = root / 'state/maintenance/retired-work.json'
+    if not registry.is_file():
+        return []
+    eligible = []
+    reserved = {'runs', 'state', 'cache', 'tmp', 'test-tmp', 'fireplay-monitor', 'project-health', 'workbench'}
+    try:
+        entries = read_json(registry)['entries']
+        require(isinstance(entries, list), 'Invalid retired experiment registry')
+    except (OSError, ValueError, KeyError, TypeError, WorkflowError):
+        retained.append({'path': 'state/maintenance/retired-work.json', 'reason': 'invalid_experiment_registry'})
+        return []
+    for entry in entries:
+        relative = entry['path']
+        parts = Path(relative).parts
+        require(len(parts) == 2 and parts[0] == 'work' and parts[1] not in reserved
+                and not parts[1].startswith('.'), 'Invalid retired experiment path')
+        summary = inside(root, entry['summary'])
+        require(summary.is_relative_to(root / 'state') or summary.is_relative_to(root / 'docs')
+                or summary.is_relative_to(root / 'work/state'), 'Experiment summary must survive cleanup')
+        completed = _timestamp(entry['completed_at'])
+        directory = root / relative
+        if (not summary.is_file() or file_hash(summary) != entry['summary_sha256']
+                or _linked(directory)
+                or (directory.exists() and (not directory.is_dir() or _activity(directory) > completed))
+                or _age(now, completed) * 24 < maintenance.get('closed_run_retention_hours', 2)):
+            retained.append({'path': relative, 'reason': 'retired_work_not_eligible'})
+            continue
+        run_sources = entry.get('run_sources', {})
+        require(isinstance(run_sources, dict) and all(
+            isinstance(digest, str) and re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}', name)
+            and re.fullmatch(r'[0-9a-f]{64}', digest)
+            for name, digest in run_sources.items()), 'Invalid retired experiment run identities')
+        if run_sources:
+            require(read_json(summary).get('run_sources') == run_sources,
+                    'Experiment summary does not bind registered run identities')
+        eligible.append((entry, completed))
+    return eligible
+
+
+def _retired_selection(relative, entry):
+    return {'path': relative, 'reason': 'retired_experiment',
+            'summary': entry['summary'], 'summary_sha256': entry['summary_sha256']}
+
+
+def _retired_work(root, entries, texts, live, retained):
+    selected = []
+    for entry, completed in entries:
+        relative = entry['path']
+        directory = root / relative
+        if not directory.is_dir() or _linked(directory):
+            continue
+        if (_activity(directory) > completed
+                or live.intersection(entry.get('run_sources', {}))
+                or any(relative.casefold() in text for text in texts)):
+            retained.append({'path': relative, 'reason': 'retired_work_not_eligible'})
+            continue
+        selected.append(_retired_selection(relative, entry))
+    return selected
+
+
+def _retired_run_eligible(run, record, expected_source, completed, pinned_sources, delivered):
+    from .retention import blockers
+    if (expected_source in pinned_sources or run.name in delivered
+            or _activity(run) > completed
+            or (run / 'inputs/fireplay.json').exists()
+            or (run / 'outputs/delivery.json').exists()
+            or any((run / 'jobs').glob('*'))
+            or blockers(run)):
+        return False
+    if (run / 'run.json').exists():
+        return record.get('id') == run.name and record.get('source_sha256') == expected_source
+    return {path.name for path in run.iterdir()} <= {'outputs'}
+
+
 def _unresolved_job(data):
     from .budgets import TERMINAL
     if not isinstance(data, dict) or not ('state' in data or data.get('task_id')):
@@ -136,6 +211,16 @@ def select(root, maintenance, pinned_runs, pinned_sources, now, *, closed_only=F
     runs = {p.name: p for p in (root / 'runs').iterdir()
             if p.is_dir() and not p.name.startswith('.') and not _linked(p)} if (root / 'runs').exists() else {}
     candidates, retained, records = {}, [], {}
+    experiments = _retired_entries(root, now, maintenance, retained)
+    retired_runs = {}
+    for entry, completed in experiments:
+        for name, digest in entry.get('run_sources', {}).items():
+            require(name not in retired_runs, 'Experiment run registered more than once')
+            retired_runs[name] = (entry, completed, digest)
+    delivered = set()
+    if retired_runs:
+        from .project_storage import _catalog
+        delivered = {entry.get('origin_run_id') for entry in _catalog(root)['entries']}
     for name, run in sorted(runs.items()):
         rows, gaps, controls = [], [], {}
         record_path = run / 'run.json'
@@ -171,6 +256,13 @@ def select(root, maintenance, pinned_runs, pinned_sources, now, *, closed_only=F
         activity = root / 'state/storage-activity' / (name + '.json')
         resumed_ns = activity.stat().st_mtime_ns if activity.exists() else 0
         delivery = controls.get(delivery_path, {})
+        if name in retired_runs:
+            entry, completed, expected_source = retired_runs[name]
+            if (resumed_ns <= int(completed * 1_000_000_000)
+                    and _retired_run_eligible(run, record, expected_source, completed,
+                                              pinned_sources, delivered)):
+                candidates[name] = 'retired_experiment'
+                continue
         if marker and _activity(run) <= closed_path.stat().st_mtime:
             if marker.get('video_sha256') and delivery.get('sha256') == marker['video_sha256']:
                 hours = maintenance.get('closed_run_retention_hours', 24)
@@ -224,7 +316,9 @@ def select(root, maintenance, pinned_runs, pinned_sources, now, *, closed_only=F
                 for digest in re.findall(r'(?<![0-9a-f])[0-9a-f]{64}(?![0-9a-f])', text.lower()):
                     sources.add(digest)
                     hash_owners.setdefault(digest, set()).add(name)
-    selected = [{'path': 'runs/' + name, 'reason': reason} for name, reason in sorted(candidates.items())]
+    selected = [_retired_selection('runs/' + name, retired_runs[name][0])
+                if reason == 'retired_experiment' else {'path': 'runs/' + name, 'reason': reason}
+                for name, reason in sorted(candidates.items())]
     consumers = set().union(*(dependencies[name] for name in live))
     for row in retained:
         if not closed_only and row['reason'] == 'closed_grace_period':
@@ -237,6 +331,7 @@ def select(root, maintenance, pinned_runs, pinned_sources, now, *, closed_only=F
             relative = scratch.relative_to(root).as_posix()
             if not any(relative.casefold() in text for text in texts):
                 selected.append({'path': relative, 'reason': 'closed_task_cache'})
+    selected.extend(_retired_work(root, experiments, texts, live, retained))
     if closed_only:
         return selected, retained, None, texts
     scratch_root = root / 'work/runs'

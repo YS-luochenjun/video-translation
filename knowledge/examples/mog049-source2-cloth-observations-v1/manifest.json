@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog049-source2-cloth-observations-v1",
+  "created_at": "2026-11-26T03:57:12+00:00",
+  "files": [
+    {
+      "path": "evidence/mog049-source2-cloth-observations-v1-observations.json",
+      "sha256": "50895f0d005e6dd339a13fa3b59f31f3ce886b005081754fa489b2c6993fba05",
+      "bytes": 7324
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "83b5aeeeb172f87a6f875a4b73cdb2591ad50a3426cb31e74502e276fc60f252"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG-20261109-049 原片2 衣物纹理与标题切换\n\n西语、日语、巴西葡语的同源修复记录发现衣物和网点纹理的局部平滑、条纹问题，特别是约0.95、3.7、5.4、8.4秒。优先比较同镜头供体及其实际配准效果。历史图像请求曾被拒绝，保留该结果并按现行制作合同选路。\n\n约3.6秒标题切换存在时差。以原位置、字形重量和实际编码帧检查入场、退场及遮挡。各语种独立定稿，检查真实配音、角色区分及首尾。\n\n证据来自历史帧抽样及 ASR，具体音频歧义与各语言观察见 evidence:observations。正常速度视听及独立验收仍待核验。\n",
+    "source_sha256": "83b5aeeeb172f87a6f875a4b73cdb2591ad50a3426cb31e74502e276fc60f252",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/mog049-source2-cloth-observations-v1-observations.json"
+    }
+  }
+}

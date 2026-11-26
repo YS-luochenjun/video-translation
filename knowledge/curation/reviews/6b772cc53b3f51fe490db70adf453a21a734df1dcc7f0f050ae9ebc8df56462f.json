@@ -1,0 +1,43 @@
+{
+  "source": {
+    "path": "knowledge/candidates/KEY-20261109-038-04-745e416984.json",
+    "sha256": "20561cef35fc0dc5a6f2de3e5aeeb1a66e64af00bc8ca033b8b58b4859eba83b"
+  },
+  "previous_review": "4b08a23d64901d19791e7d07c55bd0865eef45216bdad9b6c4a187b6bec6e511",
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project knowledge curation, historical-record review",
+  "origin": "Prior scoped same-agent advisory and recorded quality hashes; user-requested same-source consolidation.",
+  "resolution": "adopted",
+  "reason": "Shared source constraints and locale-specific observations now have a single active source reference and independent evidence bundle. Remaining playback and pronunciation uncertainties are preserved as quality limitations to check when this source is reused.",
+  "targets": [
+    {
+      "id": "key038-grass-cta-source-observations-v1",
+      "path": "knowledge/cases/key038-grass-cta-source-observations-v1.md",
+      "sha256": "2b45c11c55c9f05412b4bb5f4d8eb4eefc32a97ca965a58972fab2fc58227cef",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "e509c6769ff438fb885cde09c1f0d9da318b0bc7ff323c0066295ce9fadb2435"
+      },
+      "snapshot": "# KEY-20261109-038：草地 CTA 与 LIVE 动效\n\n适用原片 `e509c6769ff438fb885cde09c1f0d9da318b0bc7ff323c0066295ce9fadb2435`。历史观察来自德语、西班牙语、法语、葡萄牙语四个版本，属于同一原片的重复观察。\n\n- 先验证 1.0–2.6 秒草地上的黄色描边发光 CTA。历史 Wan 结果去除了黄色 CTA，但留下红色 LIVE 字样，并改变部分无关画面。只采用经局部对照验证的去字区域，其余画面保留原片。\n- 2.6–9.23 秒 LIVE 的擦入、脉冲及淡出分别检查。历史同源供体存在草地柔化、条纹偏移和淡出残影，即使中段静帧可读也须检查进退场。\n- 重建目标语文字时绑定真实字体并按源运动制作。每种新语言单独确认字形、宽窄、布局和动效。\n- 编码成片的独立首尾 ASR 可补充语音边界证据。按现行音频合同核对实际发音、音乐和效果音。\n\n历史版本质量均为 revise。实际评审来源、各语种成片及质量哈希、原观察、待核验限制见 evidence:observations。历史同一制作方的帧抽样与 ASR 观察缺少连续正常速度视听和独立语种验收，复做时验证新的实际结果。\n"
+    }
+  ],
+  "adopted_parts": [
+    "For this exact sports source, test the difficult grass/outline/glow CTA first. The Wan video removed the yellow CTA but did not erase the red LIVE lettering; accept only the validated local grass region and preserve the original elsewhere. Replay actual source wipe/pulse with physical rounded/condensed fonts. Compare source/base/target at entry and fade extrema: a same-source donor may leave a faint word ghost despite acceptable mid-shot frames. Separate encoded head and tail ASR improves boundary coverage but does not prove voice naturalness or preserved music/FX."
+  ],
+  "retained_parts": [
+    "Original revise quality judgment, candidate and previous review hashes, and all locale-specific evidence limitations preserved in the case evidence.",
+    "Original review and quality revise decision",
+    "All source/target and head/tail hash evidence",
+    "Successful true task IDs and charges",
+    "Two real Spanish upload timeouts followed by a single successful same-byte web attempt",
+    "Normal-speed visual/audio review of the hash-bound output, especially 1.0–2.6s CTA grass and 2.6–9.23s LIVE fades."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-26T03:36:21+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

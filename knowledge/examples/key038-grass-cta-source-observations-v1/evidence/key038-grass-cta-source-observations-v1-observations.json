@@ -1,0 +1,219 @@
+{
+  "source_sha256": "e509c6769ff438fb885cde09c1f0d9da318b0bc7ff323c0066295ce9fadb2435",
+  "scope": "Historical same-agent observations, each locale individually attributed; no new media review or acceptance.",
+  "locales": [
+    {
+      "locale": "de",
+      "candidate": {
+        "path": "knowledge/candidates/KEY-20261109-038-01-b71a1dcd53.json",
+        "sha256": "a08e928c346142193bb5795453facfc3021737896f048a4a21303ecbb81f8a39"
+      },
+      "previous_review_sha256": "db6ba93d84da77bb5ae6a7d081041b65630e72f276207db3115cef8850f535e8",
+      "candidate_evidence": {
+        "run": "KEY-20261109-038-01",
+        "video_sha256": "b71a1dcd53e51fc6846e55366cb3a210658441da31bd83a6a954ec378bac138a",
+        "quality_sha256": "f1dc378ea615a76ba4a9849ca09ffdb8e903d1f7bd026b8895409a157264734a"
+      },
+      "quality_decision": "revise",
+      "evidence_digest": {
+        "quality_decision": "revise",
+        "failure_codes": [
+          "clean_base_instance_unreviewed:t001",
+          "background_reconstruction_or_unreviewed:t001",
+          "visible_coverup_or_unreviewed:t001",
+          "clean_base_instance_unreviewed:t002",
+          "background_reconstruction_or_unreviewed:t002",
+          "visible_coverup_or_unreviewed:t002",
+          "source_style_motion_unreviewed_or_failed:t001",
+          "source_style_result_evidence_changed:t001",
+          "source_style_result_evidence_changed:t001",
+          "source_style_motion_unreviewed_or_failed:t002",
+          "source_style_result_evidence_changed:t002",
+          "source_style_result_evidence_changed:t002",
+          "source_text_removed_unreviewed",
+          "native_motion_unreviewed",
+          "music_effects_unreviewed",
+          "caption_sync_unverified",
+          "audio_model_review_not_captured_or_changed"
+        ],
+        "reviewer": "Codex same-agent visual review; Gemini Flash and Whisper small attributed audio evidence",
+        "known_defect_count": null
+      },
+      "reviewer": "Codex same-agent evidence review; not independent or native-speaker approval",
+      "origin": "KEY-20261109-038 finalized full candidate and source/base/target samples, encoded full/head/tail ASR, Fireplay actual receipt chain",
+      "reason": "Single-source evidence supports local adoption of the Wan grass repair only; the full Wan output failed to remove LIVE and altered unrelated image regions. Native donor/real-font reconstruction is usable but has small grass softness/stripe offset and faint fade ghost. Direct continuous normal-speed AV and music/FX listening are still absent. No quality pass, no wider source generalization.",
+      "observations": {
+        "summary": "For this exact sports source, test the difficult grass/outline/glow CTA first. The Wan video removed the yellow CTA but did not erase the red LIVE lettering; accept only the validated local grass region and preserve the original elsewhere. Replay actual source wipe/pulse with physical rounded/condensed fonts. Compare source/base/target at entry and fade extrema: a same-source donor may leave a faint word ghost despite acceptable mid-shot frames. Separate encoded head and tail ASR improves boundary coverage but does not prove voice naturalness or preserved music/FX.",
+        "limitations": [
+          "Exact source hash and language only; no general default change",
+          "Same-agent temporal sampling, no continuous direct AV or native approval",
+          "Best available delivered; quality remains revise"
+        ],
+        "next_check": "Normal-speed visual/audio review of the hash-bound output, especially 1.0–2.6s CTA grass and 2.6–9.23s LIVE fades."
+      },
+      "retained_parts": [
+        "Original review and quality revise decision",
+        "All source/target and head/tail hash evidence",
+        "Successful true task IDs and charges",
+        "Two real Spanish upload timeouts followed by a single successful same-byte web attempt"
+      ],
+      "original_next_action": "Review this exact candidate at normal speed with actual audio; verify fade ghosts and opening/final target phonemes, then revise only the remaining bounded local defects if evidence warrants. Do not resend KIE or reupload accepted Fireplay materials."
+    },
+    {
+      "locale": "es",
+      "candidate": {
+        "path": "knowledge/candidates/KEY-20261109-038-02-fcf8bbbbc1.json",
+        "sha256": "fb06fd828cca1acc59a7e1f9c092b4ea13f7194af9ded348ebfe3f453fb70252"
+      },
+      "previous_review_sha256": "0feed8a43e39751e6109216edf638b0001f3c649eada6d46c044d0b09c06b543",
+      "candidate_evidence": {
+        "run": "KEY-20261109-038-02",
+        "video_sha256": "fcf8bbbbc141dc6242ec46e281a00fa0e5868301b1fec6daa2bc95e121a1d819",
+        "quality_sha256": "942bb18a188b21c7d4917282210cd3f9375d3172565c4c55cd796726e34606c3"
+      },
+      "quality_decision": "revise",
+      "evidence_digest": {
+        "quality_decision": "revise",
+        "failure_codes": [
+          "clean_base_instance_unreviewed:t001",
+          "background_reconstruction_or_unreviewed:t001",
+          "visible_coverup_or_unreviewed:t001",
+          "clean_base_instance_unreviewed:t002",
+          "background_reconstruction_or_unreviewed:t002",
+          "visible_coverup_or_unreviewed:t002",
+          "source_style_motion_unreviewed_or_failed:t001",
+          "source_style_motion_unreviewed_or_failed:t002",
+          "native_motion_unreviewed",
+          "music_effects_unreviewed",
+          "caption_sync_unverified",
+          "visual_finish_blocking_or_unspecified_defect"
+        ],
+        "reviewer": "Codex same_agent; actual encoded Whisper small no-VAD with explicit locale hint, not direct/native listening",
+        "known_defect_count": null
+      },
+      "reviewer": "Codex same-agent evidence review; not independent or native-speaker approval",
+      "origin": "KEY-20261109-038 finalized full candidate and source/base/target samples, encoded full/head/tail ASR, Fireplay actual receipt chain",
+      "reason": "Single-source evidence supports local adoption of the Wan grass repair only; the full Wan output failed to remove LIVE and altered unrelated image regions. Native donor/real-font reconstruction is usable but has small grass softness/stripe offset and faint fade ghost. Direct continuous normal-speed AV and music/FX listening are still absent. No quality pass, no wider source generalization.",
+      "observations": {
+        "summary": "For this exact sports source, test the difficult grass/outline/glow CTA first. The Wan video removed the yellow CTA but did not erase the red LIVE lettering; accept only the validated local grass region and preserve the original elsewhere. Replay actual source wipe/pulse with physical rounded/condensed fonts. Compare source/base/target at entry and fade extrema: a same-source donor may leave a faint word ghost despite acceptable mid-shot frames. Separate encoded head and tail ASR improves boundary coverage but does not prove voice naturalness or preserved music/FX.",
+        "limitations": [
+          "Exact source hash and language only; no general default change",
+          "Same-agent temporal sampling, no continuous direct AV or native approval",
+          "Best available delivered; quality remains revise"
+        ],
+        "next_check": "Normal-speed visual/audio review of the hash-bound output, especially 1.0–2.6s CTA grass and 2.6–9.23s LIVE fades."
+      },
+      "retained_parts": [
+        "Original review and quality revise decision",
+        "All source/target and head/tail hash evidence",
+        "Successful true task IDs and charges",
+        "Two real Spanish upload timeouts followed by a single successful same-byte web attempt"
+      ],
+      "original_next_action": "Review this exact candidate at normal speed with actual audio; verify fade ghosts and opening/final target phonemes, then revise only the remaining bounded local defects if evidence warrants. Do not resend KIE or reupload accepted Fireplay materials."
+    },
+    {
+      "locale": "fr",
+      "candidate": {
+        "path": "knowledge/candidates/KEY-20261109-038-03-88d8c01614.json",
+        "sha256": "15f9dc01dd7dc13259f416979e7537bd5a42cf0e917177b4edc936d13df8ba35"
+      },
+      "previous_review_sha256": "93395df0adcaab92be41a75324fe7b0861590e43fb7fd25cdb1bd60b21fa3c80",
+      "candidate_evidence": {
+        "run": "KEY-20261109-038-03",
+        "video_sha256": "88d8c016145f5c21e40e02a46a2f4b944e9d9f5fcc1f367c2ad81e6566c9f142",
+        "quality_sha256": "c65e4511ead1d2677ca09e1e7859681948d26005176d38e920e579cd40e89acc"
+      },
+      "quality_decision": "revise",
+      "evidence_digest": {
+        "quality_decision": "revise",
+        "failure_codes": [
+          "clean_base_instance_unreviewed:t001",
+          "background_reconstruction_or_unreviewed:t001",
+          "visible_coverup_or_unreviewed:t001",
+          "clean_base_instance_unreviewed:t002",
+          "background_reconstruction_or_unreviewed:t002",
+          "visible_coverup_or_unreviewed:t002",
+          "source_style_motion_unreviewed_or_failed:t001",
+          "source_style_motion_unreviewed_or_failed:t002",
+          "native_motion_unreviewed",
+          "music_effects_unreviewed",
+          "caption_sync_unverified",
+          "visual_finish_blocking_or_unspecified_defect"
+        ],
+        "reviewer": "Codex same_agent; actual encoded Whisper small no-VAD with explicit locale hint, not direct/native listening",
+        "known_defect_count": null
+      },
+      "reviewer": "Codex same-agent evidence review; not independent or native-speaker approval",
+      "origin": "KEY-20261109-038 finalized full candidate and source/base/target samples, encoded full/head/tail ASR, Fireplay actual receipt chain",
+      "reason": "Single-source evidence supports local adoption of the Wan grass repair only; the full Wan output failed to remove LIVE and altered unrelated image regions. Native donor/real-font reconstruction is usable but has small grass softness/stripe offset and faint fade ghost. Direct continuous normal-speed AV and music/FX listening are still absent. No quality pass, no wider source generalization.",
+      "observations": {
+        "summary": "For this exact sports source, test the difficult grass/outline/glow CTA first. The Wan video removed the yellow CTA but did not erase the red LIVE lettering; accept only the validated local grass region and preserve the original elsewhere. Replay actual source wipe/pulse with physical rounded/condensed fonts. Compare source/base/target at entry and fade extrema: a same-source donor may leave a faint word ghost despite acceptable mid-shot frames. Separate encoded head and tail ASR improves boundary coverage but does not prove voice naturalness or preserved music/FX.",
+        "limitations": [
+          "Exact source hash and language only; no general default change",
+          "Same-agent temporal sampling, no continuous direct AV or native approval",
+          "Best available delivered; quality remains revise"
+        ],
+        "next_check": "Normal-speed visual/audio review of the hash-bound output, especially 1.0–2.6s CTA grass and 2.6–9.23s LIVE fades."
+      },
+      "retained_parts": [
+        "Original review and quality revise decision",
+        "All source/target and head/tail hash evidence",
+        "Successful true task IDs and charges",
+        "Two real Spanish upload timeouts followed by a single successful same-byte web attempt"
+      ],
+      "original_next_action": "Review this exact candidate at normal speed with actual audio; verify fade ghosts and opening/final target phonemes, then revise only the remaining bounded local defects if evidence warrants. Do not resend KIE or reupload accepted Fireplay materials."
+    },
+    {
+      "locale": "pt",
+      "candidate": {
+        "path": "knowledge/candidates/KEY-20261109-038-04-745e416984.json",
+        "sha256": "20561cef35fc0dc5a6f2de3e5aeeb1a66e64af00bc8ca033b8b58b4859eba83b"
+      },
+      "previous_review_sha256": "4b08a23d64901d19791e7d07c55bd0865eef45216bdad9b6c4a187b6bec6e511",
+      "candidate_evidence": {
+        "run": "KEY-20261109-038-04",
+        "video_sha256": "745e41698460525ad5a10de694bdf91555e93cd267f8c43a5cc22e96f15bb9cb",
+        "quality_sha256": "7c52c0d7b904ac071fe1bdae208c1173c0d58ddab06a193014f6c00c80bbea38"
+      },
+      "quality_decision": "revise",
+      "evidence_digest": {
+        "quality_decision": "revise",
+        "failure_codes": [
+          "clean_base_instance_unreviewed:t001",
+          "background_reconstruction_or_unreviewed:t001",
+          "visible_coverup_or_unreviewed:t001",
+          "clean_base_instance_unreviewed:t002",
+          "background_reconstruction_or_unreviewed:t002",
+          "visible_coverup_or_unreviewed:t002",
+          "source_style_motion_unreviewed_or_failed:t001",
+          "source_style_motion_unreviewed_or_failed:t002",
+          "native_motion_unreviewed",
+          "music_effects_unreviewed",
+          "caption_sync_unverified",
+          "visual_finish_blocking_or_unspecified_defect"
+        ],
+        "reviewer": "Codex same_agent; actual encoded Whisper small no-VAD with explicit locale hint, not direct/native listening",
+        "known_defect_count": null
+      },
+      "reviewer": "Codex same-agent evidence review; not independent or native-speaker approval",
+      "origin": "KEY-20261109-038 finalized full candidate and source/base/target samples, encoded full/head/tail ASR, Fireplay actual receipt chain",
+      "reason": "Single-source evidence supports local adoption of the Wan grass repair only; the full Wan output failed to remove LIVE and altered unrelated image regions. Native donor/real-font reconstruction is usable but has small grass softness/stripe offset and faint fade ghost. Direct continuous normal-speed AV and music/FX listening are still absent. No quality pass, no wider source generalization.",
+      "observations": {
+        "summary": "For this exact sports source, test the difficult grass/outline/glow CTA first. The Wan video removed the yellow CTA but did not erase the red LIVE lettering; accept only the validated local grass region and preserve the original elsewhere. Replay actual source wipe/pulse with physical rounded/condensed fonts. Compare source/base/target at entry and fade extrema: a same-source donor may leave a faint word ghost despite acceptable mid-shot frames. Separate encoded head and tail ASR improves boundary coverage but does not prove voice naturalness or preserved music/FX.",
+        "limitations": [
+          "Exact source hash and language only; no general default change",
+          "Same-agent temporal sampling, no continuous direct AV or native approval",
+          "Best available delivered; quality remains revise"
+        ],
+        "next_check": "Normal-speed visual/audio review of the hash-bound output, especially 1.0–2.6s CTA grass and 2.6–9.23s LIVE fades."
+      },
+      "retained_parts": [
+        "Original review and quality revise decision",
+        "All source/target and head/tail hash evidence",
+        "Successful true task IDs and charges",
+        "Two real Spanish upload timeouts followed by a single successful same-byte web attempt"
+      ],
+      "original_next_action": "Review this exact candidate at normal speed with actual audio; verify fade ghosts and opening/final target phonemes, then revise only the remaining bounded local defects if evidence warrants. Do not resend KIE or reupload accepted Fireplay materials."
+    }
+  ]
+}

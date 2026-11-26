@@ -202,6 +202,75 @@ def _unexecuted_quality_repair(old, grant, root, digest):
     return True
 
 
+def _replace_untransferred_presign(path, old, value, grant, root, digest):
+    from copy import deepcopy
+    from . import bundles, quality_holds
+    from .common import inside, read_json
+
+    require(len(value['packages']) == 1 and old.get('state') == 'returned',
+            'Presign repair needs one reviewed replacement after a partial return')
+    replacement = value['packages'][0]
+    locale = replacement['locale']
+    matches = [(number, package) for number, package in enumerate(old['packages'], 1)
+               if (package['video_index'], package['locale']) == (replacement['video_index'], locale)]
+    require(len(matches) == 1, 'Presign repair must match one existing locale')
+    number, previous = matches[0]
+    operations = old['operations']
+    key = f'upload-{number}'
+    operation = operations.get(key, {})
+    deferred = old.get('deferred_uploads', {}).get(locale, {})
+    require(locale in old.get('pending_locales', []) and deferred.get('operation_id') == key
+            and deferred.get('video_sha256') == previous['sha256']
+            and operation.get('tool') == 'material_r2_presign_upload'
+            and operation.get('state') == 'unknown'
+            and not operation.get('result') and not operation.get('receipt_sha256')
+            and not old.get('upload_attempts', {}).get(key)
+            and not any(f'{phase}-{number}' in operations for phase in ('import', 'attribute', 'verify'))
+            and operations.get('bind', {}).get('state') == 'verified'
+            and all(op.get('state') == 'verified' for op_key, op in operations.items() if op_key != key),
+            'Presign repair requires the deferred upload only and verified remaining operations')
+    ref = deferred.get('authority', {}).get('evidence', {})
+    evidence = inside(root, ref.get('path', ''))
+    require(evidence.is_file() and file_hash(evidence) == ref.get('sha256'),
+            'Presign repair needs the original hash-bound deferral observation')
+    observed = read_json(evidence)
+    proof_ref = grant['untransferred_presign']
+    proof = inside(root, proof_ref['path'])
+    require(proof.is_file() and file_hash(proof) == proof_ref.get('sha256'),
+            'Presign repair needs hash-bound expiry and object lookup evidence')
+    check = read_json(proof)
+    resource = observed.get('prior_presign_resource_id')
+    require(observed.get('rejected_sha256') == previous['sha256'] and resource
+            and observed.get('transport_observation')
+            == 'Presign issued. File PUT did not occur, and no material import or binding occurred.'
+            and check.get('presign_denial', {}).get('Code') == 'ExpiredRequest'
+            and any(row.get('resource_id') == resource and row.get('transport_exit') == 0
+                    and row.get('public_head_status') == 404 for row in check.get('head_checks', [])),
+            'Presign repair requires observed non-transfer, expiry and an absent object for that resource')
+    manifest = bundles.verify(inside(root, previous['package']))
+    require(manifest['metadata']['video_sha256'] == previous['sha256']
+            and quality_holds.active(manifest['metadata']['source_sha256'], previous['sha256'], root)
+            and replacement['sha256'] != previous['sha256'],
+            'Presign repair requires an exact rejected package and new reviewed bytes')
+
+    archive = path.parent / 'return-revisions' / f'{path.stem}-{digest}.json'
+    if not archive.exists():
+        write_json(archive, old)
+    require(file_hash(archive) == digest, 'Prior return archive differs from the verified outbox')
+    result = deepcopy(old)
+    result['packages'][number - 1] = replacement
+    result['operations'].pop(key)
+    result.setdefault('binding_history', []).append(result['operations'].pop('bind'))
+    result.setdefault('upload_deferral_history', []).append(result['deferred_uploads'].pop(locale))
+    result.setdefault('revision_history', []).append({
+        'prior_outbox': str(archive.relative_to(root)), 'prior_outbox_sha256': digest,
+        'authorization': grant, 'recorded_at': utc_now(),
+        'boundary': 'Replaced only the rejected untransferred presign slot. Prior material IDs and bindings are preserved.'})
+    result['state'] = 'ready'
+    write_json(path, result)
+    return result
+
+
 def return_revision(path, old, value, grant, root):
     """Archive a settled return before an explicitly requested, reviewed repair.
 
@@ -214,6 +283,8 @@ def return_revision(path, old, value, grant, root):
     digest = file_hash(path)
     require(grant.get('previous_outbox_sha256') == digest,
             'Return revision must bind the exact previous outbox')
+    if grant.get('untransferred_presign'):
+        return _replace_untransferred_presign(path, old, value, grant, root, digest)
     operations = old.get('operations', {})
     settled = (old.get('state') == 'returned' and operations.get('bind', {}).get('state') == 'verified')
     # A defect found after import must not force binding the rejected video just

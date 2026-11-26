@@ -91,6 +91,25 @@ class StorageLifecycleTests(unittest.TestCase):
         self.assertIn('runs/old', self.paths())
         self.assertIn('work/runs/old', self.paths())
 
+    def test_retired_experiment_requires_unchanged_summary_and_no_live_reference(self):
+        experiment = self.file('work/replay/output.mp4', b'temporary test video')
+        self.age(experiment.parent, 3)
+        summary = self.file('work/state/replay-result.json', b'{"result":"complete"}')
+        write_json(self.root / 'state/maintenance/retired-work.json', {'entries': [{
+            'path': 'work/replay', 'summary': 'work/state/replay-result.json',
+            'summary_sha256': common.file_hash(summary),
+            'completed_at': (self.now - timedelta(days=2)).isoformat()}]})
+        self.file('work/unregistered/output.mp4', b'keep')
+        self.assertEqual(self.paths(), {'work/replay'})
+        self.file('runs/unrelated/analysis/incomplete.json', b'{"broken":')
+        self.assertIn('work/replay', self.paths())
+        consumer = self.run_folder('consumer')
+        write_json(consumer / 'input.json', {'asset': 'work/replay/output.mp4'})
+        self.assertNotIn('work/replay', self.paths())
+        (consumer / 'input.json').unlink()
+        summary.write_bytes(b'changed')
+        self.assertNotIn('work/replay', self.paths())
+
     def test_repeating_same_close_does_not_extend_retention_clock(self):
         run = self.run_folder('repeat')
         video = self.file('runs/repeat/outputs/final.mp4', b'final')
@@ -102,6 +121,86 @@ class StorageLifecycleTests(unittest.TestCase):
         project_storage.note_closed(run)
         self.assertEqual(read_json(marker), original)
         self.assertEqual(marker.stat().st_mtime_ns, stamp)
+
+    def test_registered_local_trial_runs_retire_with_work_after_dependencies_clear(self):
+        run = self.run_folder('trial')
+        self.file('runs/trial/outputs/candidate.mp4', b'trial')
+        orphan = self.file('runs/trial-orphan/outputs/final.mp4', b'trial orphan')
+        experiment = self.file('work/replay/output.mp4', b'trial work')
+        source_map = {'trial': 'a' * 64, 'trial-orphan': 'a' * 64}
+        summary = self.root / 'work/state/replay-result.json'
+        write_json(summary, {'run_sources': source_map})
+        for folder in (run, orphan.parent.parent, experiment.parent):
+            self.age(folder, 3)
+        write_json(self.root / 'state/maintenance/retired-work.json', {'entries': [{
+            'path': 'work/replay', 'summary': 'work/state/replay-result.json',
+            'summary_sha256': common.file_hash(summary), 'run_sources': source_map,
+            'completed_at': (self.now - timedelta(days=2)).isoformat()}]})
+        consumer = self.run_folder('consumer', source='c' * 64)
+        reference = consumer / 'inputs/reference.json'
+        write_json(reference, {'asset': 'runs/trial/outputs/candidate.mp4'})
+        self.assertEqual(self.paths(), {'runs/trial-orphan'})
+        reference.unlink()
+        with common.run_operation(consumer):
+            plan = project_storage.scoped_preview(self.root, self.now)
+            self.assertEqual({row['path'] for row in plan['selected']},
+                             {'runs/trial', 'runs/trial-orphan', 'work/replay'})
+            result = project_storage.scoped_execute(self.root, plan['fingerprint'], self.now)
+        self.assertEqual(len(result['deleted']), 3)
+        self.assertTrue(summary.is_file())
+        self.assertTrue(consumer.is_dir())
+
+    def test_registered_trials_do_not_override_production_or_unsettled_jobs(self):
+        run = self.run_folder('trial')
+        work = self.file('work/replay/output.mp4', b'trial')
+        summary = self.root / 'work/state/replay-result.json'
+        sources = {'trial': 'a' * 64}
+        write_json(summary, {'run_sources': sources})
+        registry = {'entries': [{
+            'path': 'work/replay', 'summary': 'work/state/replay-result.json',
+            'summary_sha256': common.file_hash(summary), 'run_sources': sources,
+            'completed_at': (self.now - timedelta(days=2)).isoformat()}]}
+        write_json(self.root / 'state/maintenance/retired-work.json', registry)
+        self.age(work.parent, 3)
+        self.age(run, 3)
+        work.write_bytes(b'new trial activity')
+        self.assertEqual(self.paths(), set())
+        self.age(work.parent, 3)
+        for path, receipt in [('inputs/fireplay.json', {'requirement_id': 'fixture'}),
+                              ('jobs/queued.json', {'state': 'queued'}),
+                              ('outputs/delivery.json', {'sha256': 'b' * 64})]:
+            marker = run / path
+            write_json(marker, receipt)
+            self.age(run, 3)
+            self.assertEqual(self.paths(), set())
+            marker.unlink()
+        self.age(run, 3)
+        with common.run_operation(run):
+            self.assertEqual(project_storage.scoped_preview(self.root, self.now)['selected'], [])
+
+    def test_scoped_retired_experiment_reclaimed_during_unrelated_production(self):
+        experiment = self.file('work/replay/output.mp4', b'temporary test video')
+        self.age(experiment.parent, 3)
+        summary = self.file('work/state/replay-result.json', b'{"result":"complete"}')
+        write_json(self.root / 'state/maintenance/retired-work.json', {'entries': [{
+            'path': 'work/replay', 'summary': 'work/state/replay-result.json',
+            'summary_sha256': common.file_hash(summary),
+            'completed_at': (self.now - timedelta(days=2)).isoformat()}]})
+        active = self.run_folder('active')
+        with common.run_operation(active):
+            plan = project_storage.scoped_preview(self.root, self.now)
+            self.assertEqual({row['path'] for row in plan['selected']}, {'work/replay'})
+            reference = active / 'inputs/reference.json'
+            write_json(reference, {'asset': 'work/replay/output.mp4'})
+            with self.assertRaisesRegex(WorkflowError, 'Storage preview changed'):
+                project_storage.scoped_execute(self.root, plan['fingerprint'], self.now)
+            reference.unlink()
+            plan = project_storage.scoped_preview(self.root, self.now)
+            result = project_storage.scoped_execute(self.root, plan['fingerprint'], self.now)
+            self.assertEqual([row['path'] for row in result['deleted']], ['work/replay'])
+            self.assertTrue((self.root / 'runs/.locks/active.lock').exists())
+        self.assertFalse(experiment.exists())
+        self.assertTrue(summary.is_file())
 
     def test_scoped_sweep_reclaims_only_independent_closed_run_during_production(self):
         self.close('ready')
@@ -133,6 +232,26 @@ class StorageLifecycleTests(unittest.TestCase):
             with self.assertRaisesRegex(WorkflowError, 'Storage preview changed'):
                 project_storage.scoped_execute(self.root, plan['fingerprint'], self.now)
         self.assertTrue((self.root / 'runs/ready').exists())
+
+    def test_post_deletion_knowledge_audit_does_not_block_production(self):
+        from video_localizer import learning
+        for scoped in (False, True):
+            with self.subTest(scoped=scoped):
+                run = self.close('ready')
+                lock_path = self.root / 'state/project-storage.lock'
+                preview = project_storage.scoped_preview if scoped else project_storage.preview
+                execute = project_storage.scoped_execute if scoped else project_storage.execute
+                plan = preview(self.root, now=self.now)
+                observed = []
+
+                def audit(root):
+                    observed.append((lock_path.exists(), run.exists()))
+
+                with patch.object(learning, 'audit', side_effect=audit):
+                    result = execute(self.root, plan['fingerprint'], now=self.now)
+                self.assertEqual(observed, [(True, True), (False, False)])
+                self.assertGreaterEqual(result['global_lock_seconds'], 0)
+                self.assertFalse(lock_path.exists())
 
     def test_closed_neutral_cache_keeps_reviewed_replacement_and_referenced_versions(self):
         run = self.close('recent', 1)
@@ -386,9 +505,59 @@ class StorageLifecycleTests(unittest.TestCase):
 
         with patch.object(common, 'lock', delayed):
             with self.assertRaisesRegex(WorkflowError, 'storage maintenance'):
-                with common.run_operation(run):
+                with common.run_operation(run, storage_wait_seconds=0):
                     self.fail('Producer entered during a sweep')
         self.assertFalse((self.root / 'runs/.locks/live.lock').exists())
+
+    def test_stage_waits_for_maintenance_then_runs_once_without_full_sweep(self):
+        from video_localizer import maintenance
+        run = self.run_folder('live')
+        storage_lock = self.file('state/project-storage.lock', b'synthetic')
+        run_lock = self.root / 'runs/.locks/live.lock'
+        calls = []
+
+        def finish_maintenance(_seconds):
+            self.assertFalse(run_lock.exists())
+            self.assertEqual(calls, [])
+            storage_lock.unlink()
+
+        @common.guarded
+        def stage(active_run):
+            self.assertTrue(run_lock.exists())
+            calls.append(active_run)
+            return 'stage-receipt'
+
+        with patch.object(common.time, 'sleep', side_effect=finish_maintenance) as wait, \
+                patch.object(maintenance, 'after_stage') as after_stage, \
+                patch.object(project_storage, 'preview', side_effect=AssertionError('No foreground sweep')):
+            self.assertEqual(stage(run), 'stage-receipt')
+        self.assertEqual(calls, [run])
+        wait.assert_called_once()
+        after_stage.assert_called_once()
+
+    def test_sweep_collision_releases_run_lock_before_waiting(self):
+        run = self.run_folder('live')
+        run_lock = self.root / 'runs/.locks/live.lock'
+        storage_lock = self.root / 'state/project-storage.lock'
+        original = common.lock
+
+        @contextmanager
+        def delayed(path):
+            with original(path):
+                if not attempts:
+                    self.file('state/project-storage.lock', b'synthetic')
+                attempts.append(path)
+                yield
+
+        def finish_maintenance(_seconds):
+            self.assertFalse(run_lock.exists())
+            storage_lock.unlink()
+
+        attempts = []
+        with patch.object(common, 'lock', delayed), patch.object(common.time, 'sleep', side_effect=finish_maintenance):
+            with common.run_operation(run):
+                self.assertTrue(run_lock.exists())
+        self.assertEqual(attempts, [run_lock, run_lock])
 
     def test_new_run_rechecks_sweep_lock_after_admission(self):
         from video_localizer import workflow
@@ -400,7 +569,8 @@ class StorageLifecycleTests(unittest.TestCase):
             with original(path):
                 yield
 
-        with patch.object(workflow, 'ROOT', self.root), patch.object(workflow, 'lock', delayed), patch.object(workflow, '_create_run') as create:
+        with patch.object(workflow, 'ROOT', self.root), patch.object(common, 'lock', delayed), \
+                patch.object(common, 'STORAGE_WAIT_SECONDS', 0), patch.object(workflow, '_create_run') as create:
             with self.assertRaisesRegex(WorkflowError, 'storage maintenance'):
                 workflow.create_run('unused.mp4', 'ja', '', 'new')
         create.assert_not_called()

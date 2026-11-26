@@ -80,6 +80,30 @@ class MaintenanceTests(unittest.TestCase):
             write_json(self.run / 'outputs/candidate.json', {'sha256': 'c'*64})
             self.assertEqual(maintenance.recover_accepted_closures(self.root)['eligible'], [])
 
+    def test_managed_close_can_finish_during_unrelated_render(self):
+        from video_localizer import common, delivery_layout, library, learning, project_storage
+        self.delivery()
+        write_json(self.root / 'config/storage-authorization.local.json', {
+            'workspace': str(self.root.resolve()), 'automatic_cleanup': True})
+        other = self.root / 'runs/other'
+        write_json(other / 'run.json', {'source_sha256': 'a' * 64})
+        heavy_lock = self.root / 'state/resources/heavy-0.lock'
+        with common.run_operation(other), common.lock(heavy_lock), \
+                patch.object(delivery_layout, 'settings', return_value={'enabled': True}), \
+                patch.object(maintenance, 'complete_deferred', return_value=None), \
+                patch.object(library, 'export', return_value={'package': 'fixture'}) as export, \
+                patch.object(learning, 'audit'):
+            result = maintenance.maintain(self.run, close=True)
+            self.assertEqual(result['state'], 'closed_pending_lifecycle')
+            export.assert_called_once()
+            self.assertTrue(heavy_lock.exists())
+            self.assertTrue(other.exists())
+            marker = project_storage._closed(self.root, self.run.name)
+            self.assertEqual(marker['video_sha256'], file_hash(self.run / 'outputs/final.mp4'))
+            write_json(self.run / 'jobs/active.json', {'state': 'running'})
+            with self.assertRaisesRegex(WorkflowError, 'Model task remains active'):
+                maintenance.maintain(self.run, close=True)
+
     def test_deferred_delivery_only_reflects_final_version_and_resumes_pending_work(self):
         self.delivery()
         video_sha = file_hash(self.run / 'outputs/final.mp4')
@@ -279,6 +303,16 @@ class MaintenanceTests(unittest.TestCase):
         with patch.object(maintenance, 'maintain', side_effect=WorkflowError('changed')):
             maintenance.after_stage(self.run, 'finalization.finish')
         self.assertTrue(read_json(self.root / 'state/maintenance/example/latest.json')['delivery_unaffected'])
+
+    def test_stage_hook_scans_only_at_delivery(self):
+        with patch.object(maintenance, 'maintain') as maintain:
+            for stage in ('workflow.render', 'workflow.analyze_audio', 'model_tasks.submit',
+                          'fonts.bind_file', 'cli.capture', 'asr.transcribe'):
+                maintenance.after_stage(self.run, stage)
+            maintain.assert_not_called()
+            for stage in maintenance.DELIVERY_STAGES:
+                maintenance.after_stage(self.run, stage)
+            self.assertEqual(maintain.call_count, len(maintenance.DELIVERY_STAGES))
 
     def test_intermediate_stage_does_not_delete_cache_after_old_delivery(self):
         cache = self.scratch()

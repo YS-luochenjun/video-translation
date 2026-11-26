@@ -6,10 +6,46 @@ import time
 import wave
 
 ROOT=Path(__file__).resolve().parents[1]
+INFERENCE_IMPLEMENTATION = '15b4379f9e7c5b40b66ffc55191cb1c1850d3b26a1dc7a2d920a182603998583'
 sys.path.insert(0,str(ROOT/'.runtime/deps/separation'))
 sys.path.insert(0,str(ROOT/'src'))
 import numpy as np
-from video_localizer.common import file_hash,get_run,require,run_operation,write_json
+from video_localizer.common import WorkflowError,file_hash,get_run,inside,object_hash,read_json,require,run_operation,write_json
+
+
+def reuse_stems(run, out, signature, index, scope):
+    from video_localizer.local_audio import _source_scope
+    from video_localizer.media import copy_verified_video
+    root = run.parent.parent
+    try:
+        pointer = read_json(index)
+        origin = inside(root / 'runs', pointer['run'])
+        if origin.parent != root / 'runs' or origin == run or _source_scope(origin) != scope:
+            return None
+        receipt = inside(origin, pointer['receipt'])
+        if file_hash(receipt) != pointer['sha256']:
+            return None
+        saved = read_json(receipt)
+        if saved['signature'] != signature or {stem['stem'] for stem in saved['stems']} != {'accompaniment', 'vocals'} or len(saved['stems']) != 2:
+            return None
+        stems = []
+        for stem in saved['stems']:
+            original = inside(origin, stem['path'])
+            if original.parent != receipt.parent or original.name != stem['stem'] + '.wav':
+                return None
+            destination = out / original.name
+            copy_verified_video(original, destination, stem['sha256'])
+            stems.append({**stem, 'path': destination.relative_to(run).as_posix()})
+        return {**saved, 'stems': stems, 'elapsed_seconds': 0,
+                'reuse_origin': {'run': origin.name, 'receipt_sha256': pointer['sha256']}}
+    except (OSError, ValueError, WorkflowError, KeyError, TypeError):
+        return None
+
+
+def publish_index(run, receipt, index):
+    if index is not None:
+        write_json(index, {'run': run.name, 'receipt': receipt.relative_to(run).as_posix(),
+                           'sha256': file_hash(receipt)})
 
 
 def main():
@@ -20,32 +56,51 @@ def main():
     import sherpa_onnx
     run=get_run(args.run)
     from video_localizer.timing import measure
-    from video_localizer.resources import heavy
-    with run_operation(run), heavy(run, 'audio.separation'), measure(run, 'audio.separation'):
+    with run_operation(run), measure(run, 'audio.separation'):
         return execute(args, run, sherpa_onnx)
 
 
 def execute(args, run, sherpa_onnx):
-    from video_localizer.local_audio import source_track
-    from video_localizer.common import read_json, object_hash
+    from video_localizer.local_audio import source_track, _source_scope
     from video_localizer.workflow import source_path
     from video_localizer.model_routing import require_current
     require_current('separation', 'uvr-inst-hq3')
     source=source_track(run)
     model=ROOT/'.runtime/models/separation/UVR-MDX-NET-Inst_HQ_3.onnx'
     require(model.is_file(),'Download the documented Sherpa UVR model first')
-    from video_localizer.common import inside
     out=inside(run,args.output)
     signature={'source_sha256':file_hash(source_path(run)),'source_audio_sha256':file_hash(source),
-               'model_sha256':file_hash(model),'engine':sherpa_onnx.__version__,'implementation':file_hash(__file__)}
+               'model_sha256':file_hash(model),'engine':sherpa_onnx.__version__,'implementation':INFERENCE_IMPLEMENTATION}
     out=out/object_hash(signature)[:20]
     out.mkdir(parents=True,exist_ok=True)
-    if (out/'provenance.json').exists():
-        saved=read_json(out/'provenance.json')
-        require(saved.get('signature')==signature and all(file_hash(inside(run,s['path']))==s['sha256'] for s in saved['stems']),
-                'Separation checkpoint changed; preserve and inspect it')
+    receipt = out/'provenance.json'
+    scope = _source_scope(run)
+    index = (run.parent.parent / 'state/separation-cache' /
+             (object_hash({'scope': scope, 'signature': signature}) + '.json')) if scope else None
+    def cached():
+        if receipt.exists():
+            saved = read_json(receipt)
+            require(saved.get('signature') == signature and all(file_hash(inside(run, stem['path'])) == stem['sha256'] for stem in saved['stems']),
+                    'Separation checkpoint changed; preserve and inspect it')
+        else:
+            saved = reuse_stems(run, out, signature, index, scope) if index is not None else None
+            if saved is None:
+                return False
+            write_json(receipt, saved)
+        publish_index(run, receipt, index)
         print({'stems':saved['stems'],'reused':True,'new_kie_credits':0},flush=True)
+        return True
+
+    if cached():
         return
+    from video_localizer.resources import heavy
+    with heavy(run, 'audio.separation'):
+        if cached():
+            return
+        infer_stems(run, source, model, sherpa_onnx, signature, out, receipt, index)
+
+
+def infer_stems(run, source, model, sherpa_onnx, signature, out, receipt, index):
     with wave.open(str(source),'rb') as f:
         rate=f.getframerate();channels=f.getnchannels()
         require(f.getsampwidth()==2 and channels==2,'Use 16-bit stereo source PCM')
@@ -68,11 +123,12 @@ def execute(args, run, sherpa_onnx):
         with wave.open(str(path),'wb') as f:
             f.setnchannels(data.shape[1]);f.setsampwidth(2);f.setframerate(result.sample_rate);f.writeframes(pcm.tobytes())
         records.append({'stem':name,'path':path.relative_to(run).as_posix(),'sha256':file_hash(path),'sample_rate':result.sample_rate,'samples':len(data),'float_peak':peak})
-    write_json(out/'provenance.json',{'source_sha256':file_hash(source_path(run)),'source_audio_sha256':file_hash(source),'signature':signature,
+    write_json(receipt,{'source_sha256':signature['source_sha256'],'source_audio_sha256':signature['source_audio_sha256'],'signature':signature,
         'engine':'sherpa-onnx '+sherpa_onnx.__version__,'model_path':model.relative_to(ROOT).as_posix(),'model_sha256':file_hash(model),
         'model_source':'https://github.com/k2-fsa/sherpa-onnx/releases/tag/source-separation-models',
         'elapsed_seconds':round(time.monotonic()-start,3),'stems':records,'kie_credits':0,'primary_stem':'accompaniment',
         'proof_boundary':'Actual local AI inference, not Codex imagining audio. Separation is approximate; check retained music and narration residue.'})
+    publish_index(run, receipt, index)
     print({'stems':records,'seconds':round(time.monotonic()-start,3),'new_kie_credits':0},flush=True)
 
 

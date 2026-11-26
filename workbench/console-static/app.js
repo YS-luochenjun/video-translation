@@ -107,7 +107,7 @@ async function loadList(){
     if(requested!==JSON.stringify([query,filter,page,archived])){listNeedsRefresh=true;return;}
     overview=incoming;page=overview.page;
     setText('#session-total',overview.total);
-    if(!eventSource&&!window.ConsoleHost)setText('#connection','本机数据已同步');
+    setText('#connection','本机数据已读取');
     setText('#read-time','本地同步 '+when(overview.observed_at)+' · 洛杉矶');
     if(view!=='sessions')return;
     if(!selected&&overview.sessions.length){select(overview.sessions[0].id);return;}
@@ -336,12 +336,11 @@ surface.addEventListener('click',async e=>{const b=e.target.closest('button');if
   if(b.dataset.document){const d=await api('/api/document?'+new URLSearchParams({path:b.dataset.document}));$('#artifact-title').textContent=d.path;$('#artifact-body').innerHTML=`<pre class="document-text">${esc(d.text)}</pre><p class="tiny-hash">${d.sha256}</p>`;selectedArtifact=null;if(!$('#artifact-dialog').open)$('#artifact-dialog').showModal();return;}
   if(b.dataset.action==='intake'){$('#intake-dialog').showModal();return;}
   if(b.dataset.action==='summarize'){await summarizeKnowledge();return;}
-  if(b.dataset.action==='refresh'){startEvents();await Promise.all([loadConfig(),loadList()]);if(view==='requirements')await loadRequirements();else if(view==='sessions')await loadDetail(true);else if(view==='automations')await loadAutomations();else if(view==='knowledge')await loadKnowledge();}
+  if(b.dataset.action==='refresh'){await Promise.all([loadConfig(),loadList()]);if(view==='requirements')await loadRequirements();else if(view==='sessions')await loadDetail(true);else if(view==='automations')await loadAutomations();else if(view==='knowledge')await loadKnowledge();}
 }catch(err){toast(err.message);}});
 surface.addEventListener('input',e=>{if(e.target.id==='requirement-search'){requirementQuery=e.target.value;requirementPage=1;renderRequirements(true);}if(e.target.id==='chat-input')drafts.set(selected,e.target.value);if(e.target.id==='session-search'){query=e.target.value;page=1;clearTimeout(searchTimer);searchTimer=setTimeout(()=>loadList().catch(error=>toast(error.message)),250);}if(e.target.id==='knowledge-search'){knowledgeFilter=e.target.value;knowledgePage=1;clearTimeout(searchTimer);searchTimer=setTimeout(()=>{if(view!=='knowledge')return;renderKnowledge();const input=$('#knowledge-search');input.focus();input.setSelectionRange(input.value.length,input.value.length);},250);}});
 surface.addEventListener('change',e=>{if(e.target.id==='requirement-state'){requirementFilter=e.target.value;requirementPage=1;renderRequirements(true);}if(e.target.id==='archived'){archived=e.target.checked;loadList().catch(error=>toast(error.message));}if(e.target.id==='run-select'){run=e.target.value;selectedArtifact=null;loadDetail(true);}});
 surface.addEventListener('submit',async e=>{if(!['chat-form','intake-form'].includes(e.target.id))return;e.preventDefault();const button=e.target.querySelector('button[type="submit"]');button.disabled=true;try{if(e.target.id==='chat-form'){const text=$('#chat-input').value.trim(),target=e.target.dataset.target;if(!text)return;const payload={action:'message',thread_id:target,text};if(selectedArtifact)payload.artifact={id:selectedArtifact.id,run_id:selectedArtifact.run_id,sha256:selectedArtifact.sha256};await submitCommand(payload);drafts.delete(target);selectedArtifact=null;const input=$('#chat-input');if(input&&input.closest('form').dataset.target===target)input.value='';loadDetail();}else{await submitCommand({action:'intake',code:$('#code').value.trim().toUpperCase(),note:$('#note').value.trim()});$('#intake-dialog').close();$('#intake-form').reset();}}catch{}finally{button.disabled=false;}});
-let eventSource=null,eventTimer=null,eventGeneration=0;
 async function refreshView(force=false){
   await loadConfig();
   if(view==='requirements')await loadRequirements();
@@ -349,21 +348,7 @@ async function refreshView(force=false){
   if(view==='automations')await loadAutomations();
   if(view==='knowledge')await loadKnowledge();
 }
-function changed(){if(document.hidden||eventTimer)return;eventTimer=setTimeout(()=>{eventTimer=null;refreshView().catch(error=>toast(error.message));},2500);}
-function stopEvents(){eventGeneration++;eventSource?.close();eventSource=null;clearTimeout(eventTimer);eventTimer=null;}
-async function startEvents(){stopEvents();if(document.hidden)return;const generation=eventGeneration;
-  if(window.ConsoleHost){let revision=-1;try{while(generation===eventGeneration&&!document.hidden){const result=await window.ConsoleHost.call('session_console_wait',{revision});if(generation!==eventGeneration)return;if(result.revision!==revision){revision=result.revision;changed();}$('#connection').textContent='本机事件监听 · 已连接';}}catch{$('#connection').textContent='监听不可用 · 请手动刷新';}return;}
-  eventSource=new EventSource('/api/console/events');
-  eventSource.addEventListener('ready',()=>setText('#connection','本机事件监听 · 已连接'));
-  eventSource.addEventListener('change',changed);
-  eventSource.onerror=()=>{eventSource?.close();eventSource=null;setText('#connection','监听断开 · 刷新可重连');};
-}
-document.addEventListener('visibilitychange',()=>{
-  if(document.hidden)stopEvents();
-  else if(view){changed();startEvents();}
-});
-window.addEventListener('pagehide',stopEvents);
-async function start(){if(window.ConsoleHost)await window.ConsoleHost.ready;await loadConfig();switchView(names[location.hash.slice(1)]?location.hash.slice(1):'sessions');startEvents();}
+async function start(){if(window.ConsoleHost)await window.ConsoleHost.ready;await loadConfig();switchView(names[location.hash.slice(1)]?location.hash.slice(1):'sessions');}
 if(mount){
   view='';
   window.ConsoleUI={
@@ -375,8 +360,6 @@ if(mount){
       }
       $('#main').hidden=!view;
       if(view==='sessions'&&id&&selected!==id)select(id);
-      if(!view){if(eventSource||eventTimer)stopEvents();}
-      else if(!eventSource&&!document.hidden)startEvents();
     },
     refresh:refreshView,
     async action(action){

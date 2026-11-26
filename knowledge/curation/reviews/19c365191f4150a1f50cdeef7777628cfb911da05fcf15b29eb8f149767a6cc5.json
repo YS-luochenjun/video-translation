@@ -1,0 +1,43 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261109-049-4-01-completion-f5cb3c1732.json",
+    "sha256": "50acf841d72afbd7a822aa9fee4e101af587dcc9fa724edd75c8130ed31c1618"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex knowledge curation historical record review",
+  "origin": "Existing recorded observations and source-specific consolidation",
+  "resolution": "adopted",
+  "reason": "Shared source observations and exact-locale limitations independently packaged in one known source reference; future quality checks follow the current production contract.",
+  "targets": [
+    {
+      "id": "mog049-source4-phrase-timing-observations-v1",
+      "path": "knowledge/cases/mog049-source4-phrase-timing-observations-v1.md",
+      "sha256": "9acb86d4693e55db3c594b465fe4886eac9d8045d82932250548fb296f793b85",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b382740659f1d448dfb8dc4cf5cec071b118431022af85c60173a28866cc3ada"
+      },
+      "snapshot": "# MOG-20261109-049 原片4 标题退场和配音边界\n\n该原片可以优先验证历史共用底片的适用性，各语种标题、短语时序和七句真实配音单独重建。抽样曾发现天空、红墙、头发上方纹理及标题淡出残影。\n\n第三标题在源标题消失后的第355帧仍然可见，约360–361帧有短暂退场痕迹。结合源原生帧、实际成片和音轨时间基准复核。历史记录中末帧延长四帧以保留约25.4955秒音频，复做根据新成片实际时长判断。\n\n结案中断时复用实际持久化回执，遵循当前 Fireplay 受理政策。西语、日语和巴西葡语的观察、ASR分歧及质量限制见 evidence:observations。历史完整解码和抽样证据支持该次有限观察，正常速度视听仍待核验。\n"
+    }
+  ],
+  "adopted_parts": [
+    "For this exact source, reuse verified neutral restoration but rebuild each target language title, phrase timing and real seven-turn dub independently. Complete decode plus full/head/tail encoded ASR and native sampled frames support technical coverage only; pale title flecks, softened hair/top-band transitions and tiny exit traces remain ordinary limitations. Japanese final-turn ASR differs from the authored wording and direct listening remains unverified. Finalize maintenance interruptions require checking durable package/catalog receipts before recovery. Complete upload read/hash verification can be retried read-only when a first read is incomplete, without repeating upload or import."
+  ],
+  "retained_parts": [
+    "Smooth sky/red-wall reconstruction and donor top-band texture differ from source; tiny transient flecks and soft joins remain possible. Actual translated output has no readable source-English title protruding in inspected frames.",
+    "Source phrase-pop retained with adapted bound fonts; exact source radial smear/duplicated title transition is approximated. Third title remains visible at355 after source title disappearance and exits with a tiny Spanish trace around360–361; small exit-timing mismatch retained.",
+    "Actual sampled full-frame/critical-transition review only; no normal-speed playback or direct audio listening claimed.",
+    "No-hint ASR supports all seven semantic turns and complete opening/final CTA; ASR cannot exclude faint separated English residue or certify music fidelity, accent, or voice distinction.",
+    "Four copies of final native frame extend 761 source frames to 765 frames/25.5s to retain original 25.4955s audio duration.",
+    "Original outcome, source evidence, actual video hashes and any fee information are retained in the evidence bundle."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-26T03:57:15+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

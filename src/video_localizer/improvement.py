@@ -3,6 +3,24 @@ from .common import (file_hash, guarded, inside, object_hash, read_json,
                      require, write_json)
 
 
+def _retry_guidance(run, records, selected_sha, revisions):
+    failures = []
+    for pointer in records:
+        path = inside(run.parent.parent, pointer['path'])
+        if not path.is_file() or file_hash(path) != pointer['sha256']:
+            continue
+        observation = read_json(path)
+        if (observation.get('after', {}).get('sha256') == selected_sha
+                and observation.get('outcome') in {'no_improvement', 'regressed'}):
+            failures.append(observation['intervention'])
+    if revisions and not revisions['remaining_full_revisions']:
+        return {'state': 'full_revision_limit', 'action': 'Stop full rerenders; finalize the best complete version under the delivery contract.'}
+    if failures:
+        return {'state': 'change_route_or_stop', 'failed_interventions': sorted(set(failures)),
+                'action': 'Do not repeat the recorded failed intervention. Use another evidence-backed local pilot only if within existing bounds; otherwise finalize.'}
+    return {'state': 'use_existing_bounds', 'action': 'Use an evidence-backed local pilot before registering another full revision.'}
+
+
 def agenda(run, *, read_navigation=read_json):
     """Navigation invoked by work-packet; never manufacture a review or a retry."""
     inventory_path = run / 'analysis/inventory.json'
@@ -42,6 +60,7 @@ def agenda(run, *, read_navigation=read_json):
             'recorded_cycles': records, 'quality_record': quality,
             'max_revision_rounds': policy.get('max_revision_rounds'),
             'full_revision_status': revisions,
+            'retry_guidance': _retry_guidance(run, records, selected_sha, revisions),
             'pilot_policy': {'max_trials': fast_policy.get('max_route_trials'),
                              'seconds_per_trial': fast_policy.get('trial_timebox_seconds'),
                              'action': 'Validate the hardest affected short segment and an unaffected control before full rerender; stop after two unsuccessful pilots or the timebox.'},

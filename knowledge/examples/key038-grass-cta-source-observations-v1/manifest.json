@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "key038-grass-cta-source-observations-v1",
+  "created_at": "2026-11-26T03:36:19+00:00",
+  "files": [
+    {
+      "path": "evidence/key038-grass-cta-source-observations-v1-observations.json",
+      "sha256": "de73fd33a40da41d3fd4951e4a56c655811298e6b9723ddb24cdfed163f7ce2b",
+      "bytes": 15537
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "e509c6769ff438fb885cde09c1f0d9da318b0bc7ff323c0066295ce9fadb2435"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# KEY-20261109-038：草地 CTA 与 LIVE 动效\n\n适用原片 `e509c6769ff438fb885cde09c1f0d9da318b0bc7ff323c0066295ce9fadb2435`。历史观察来自德语、西班牙语、法语、葡萄牙语四个版本，属于同一原片的重复观察。\n\n- 先验证 1.0–2.6 秒草地上的黄色描边发光 CTA。历史 Wan 结果去除了黄色 CTA，但留下红色 LIVE 字样，并改变部分无关画面。只采用经局部对照验证的去字区域，其余画面保留原片。\n- 2.6–9.23 秒 LIVE 的擦入、脉冲及淡出分别检查。历史同源供体存在草地柔化、条纹偏移和淡出残影，即使中段静帧可读也须检查进退场。\n- 重建目标语文字时绑定真实字体并按源运动制作。每种新语言单独确认字形、宽窄、布局和动效。\n- 编码成片的独立首尾 ASR 可补充语音边界证据。按现行音频合同核对实际发音、音乐和效果音。\n\n历史版本质量均为 revise。实际评审来源、各语种成片及质量哈希、原观察、待核验限制见 evidence:observations。历史同一制作方的帧抽样与 ASR 观察缺少连续正常速度视听和独立语种验收，复做时验证新的实际结果。\n",
+    "source_sha256": "e509c6769ff438fb885cde09c1f0d9da318b0bc7ff323c0066295ce9fadb2435",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/key038-grass-cta-source-observations-v1-observations.json"
+    }
+  }
+}

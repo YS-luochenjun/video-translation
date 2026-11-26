@@ -1,19 +1,63 @@
 """Copy a reviewed neutral master and its evidence without copying locale decisions."""
 from contextlib import ExitStack
 import copy
-import shutil
 
-from .common import file_hash, inside, read_json, require, run_operation, write_json
+from .common import WorkflowError, file_hash, inside, read_json, require, run_operation, write_json
 from .media import copy_verified_video
 from .prepared import verify_for_production
 from .timing import measure
+
+
+def batch_candidates(run, inventory, batch):
+    """List matching prepared shots from sibling locales before creating a new master."""
+    from .local_audio import _source_scope
+    if not batch or run.name not in batch.get('members', []):
+        return []
+    scope = _source_scope(run)
+    if scope is None:
+        return []
+    missing = [shot for shot in inventory.get('shots', []) if not shot.get('prepared_video')]
+    if not missing:
+        return []
+    source_sha = batch.get('source_sha256')
+    candidates = []
+    for member in batch['members']:
+        if member == run.name:
+            continue
+        try:
+            origin = inside(run.parent, member)
+            if origin.parent != run.parent or _source_scope(origin) != scope:
+                continue
+            if read_json(origin / 'run.json').get('source_sha256') != source_sha:
+                continue
+            sibling = read_json(origin / 'analysis/inventory.json')
+            for shot in sibling.get('shots', []):
+                asset = shot.get('prepared_video')
+                if not asset:
+                    continue
+                record_path = inside(origin, asset['record'])
+                if not record_path.is_file() or file_hash(record_path) != asset['record_sha256']:
+                    continue
+                record = read_json(record_path)
+                if record.get('approved_for_reuse') is not True or record.get('source_sha256') != source_sha:
+                    continue
+                if not inside(origin, asset['path']).is_file():
+                    continue
+                for target in missing:
+                    if (shot['start'], shot['end']) == (target['start'], target['end']):
+                        candidates.append({'source_run': member, 'source_shot': shot['id'],
+                                           'target_shot': target['id'], 'sha256': asset['sha256'],
+                                           'state': 'requires_reuse_neutral_verification'})
+        except (OSError, ValueError, KeyError, TypeError, WorkflowError):
+            continue
+    return candidates
 
 
 def neutral(target, source, source_shot, target_shot):
     require(target != source and target.parent == source.parent, 'Reuse requires two distinct runs in this workspace')
     with ExitStack() as stack:
         for run in sorted((source, target)):
-            stack.enter_context(run_operation(run))
+            stack.enter_context(run_operation(run, resume=run == target))
         stack.enter_context(measure(target, 'reuse.neutral'))
         from .workflow import source_path
         original_video = source_path(source)
@@ -44,10 +88,7 @@ def neutral(target, source, source_shot, target_shot):
                 require(file_hash(new) == digest, 'Conflicting neutral evidence; existing bytes are not overwritten')
             else:
                 new.parent.mkdir(parents=True, exist_ok=True)
-                if old.suffix.lower() in {'.mp4', '.mkv', '.mov', '.webm'}:
-                    copy_verified_video(old, new, digest)
-                else:
-                    shutil.copyfile(old, new)
+                copy_verified_video(old, new, digest)
             require(file_hash(new) == digest, 'Neutral copy changed')
             return {'path': new.relative_to(target).as_posix(), 'sha256': digest}
 

@@ -48,6 +48,15 @@ class NeutralReuseTests(unittest.TestCase):
         (self.source / 'master.mp4').write_bytes(b'later change')
         prepared.verify_for_production(self.target, result['prepared_video'], file_hash(self.target / 'source.mp4'), self.root)
 
+    def test_batch_candidates_find_only_matching_missing_shots(self):
+        inventory = read_json(self.target / 'analysis/inventory.json')
+        batch = {'members': ['source', 'target'], 'source_sha256': file_hash(self.source / 'source.mp4')}
+        candidates = reuse.batch_candidates(self.target, inventory, batch)
+        self.assertEqual([(row['source_run'], row['source_shot'], row['target_shot']) for row in candidates],
+                         [('source', 's1', 't1')])
+        write_json(self.source / 'inputs/fireplay.json', {'requirement_id': 'separate'})
+        self.assertEqual(reuse.batch_candidates(self.target, inventory, batch), [])
+
     def test_different_source_or_timeline_does_not_import(self):
         inventory = read_json(self.target / 'analysis/inventory.json')
         inventory['shots'][0]['end'] = 3

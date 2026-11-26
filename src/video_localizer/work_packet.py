@@ -271,10 +271,12 @@ def _build(run, stage=None):
         issues = [{'instance':n.get('instance_id'), 'issue':n['issue']} for n in packet.get('instances',[]) if n.get('issue')]
         if issues: observations.append({'path':path.relative_to(run).as_posix(),'issues':issues})
     from .model_routing import policy
+    from .reuse import batch_candidates
     return {'stage_focus': focus(stage, inventory, root), 'run': run.name, 'ledger_tracking': ledger_tracking, 'stage': stage, 'state_hint': current['state'], 'model_routing': policy(root),
             'text_timing': timing_diagnostics(run, inventory),
             'improvement_loop': improvement_agenda(run, read_navigation=read_navigation),
             'reusable_packages': reusable_packages, 'maintenance': maintenance,
+            'neutral_reuse_candidates': batch_candidates(run, inventory, batch) if stage in {'neutral', 'render'} else [],
             'output_policy': 'agent/workflows/always-output.md',
             'reuse_action': 'Prefer verified outputs packages before recreating assets. References and held results are not approved masters.',
             'next_action': _next_action(run, current['state'], jobs),

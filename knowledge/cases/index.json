@@ -2956,6 +2956,350 @@
       "validation_level": "single_source_observations",
       "language_match": "exact",
       "knowledge_type": "source_reference"
+    },
+    {
+      "id": "key038-grass-cta-source-observations-v1",
+      "path": "knowledge/cases/key038-grass-cta-source-observations-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "e509c6769ff438fb885cde09c1f0d9da318b0bc7ff323c0066295ce9fadb2435"
+      },
+      "tags": [
+        "text",
+        "timing",
+        "cta"
+      ],
+      "origin": "User-requested project curation of prior reviewed, hash-bound shared-source observations; only shared source constraints are recalled for other locales.",
+      "reviewed_by": "Codex project knowledge curation, review of historical records",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-26T03:36:19+00:00",
+      "method_sha256": "2b45c11c55c9f05412b4bb5f4d8eb4eefc32a97ca965a58972fab2fc58227cef",
+      "case": "knowledge/examples/key038-grass-cta-source-observations-v1",
+      "case_manifest_sha256": "45d21d7d71157d12915275b24f63d72905c0a47c575f95e4c78c5cdc9b99a842",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/KEY-20261109-038-01-b71a1dcd53.json",
+          "sha256": "a08e928c346142193bb5795453facfc3021737896f048a4a21303ecbb81f8a39"
+        },
+        {
+          "path": "knowledge/candidates/KEY-20261109-038-02-fcf8bbbbc1.json",
+          "sha256": "fb06fd828cca1acc59a7e1f9c092b4ea13f7194af9ded348ebfe3f453fb70252"
+        },
+        {
+          "path": "knowledge/candidates/KEY-20261109-038-03-88d8c01614.json",
+          "sha256": "15f9dc01dd7dc13259f416979e7537bd5a42cf0e917177b4edc936d13df8ba35"
+        },
+        {
+          "path": "knowledge/candidates/KEY-20261109-038-04-745e416984.json",
+          "sha256": "20561cef35fc0dc5a6f2de3e5aeeb1a66e64af00bc8ca033b8b58b4859eba83b"
+        }
+      ],
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "Same-agent historical frame and ASR observations with individual exact locale and output hashes; no independent normal-speed or listening review. No expansion to unrelated source.",
+      "knowledge_type": "source_reference"
+    },
+    {
+      "id": "she007-phone-ui-source-observations-v1",
+      "path": "knowledge/cases/she007-phone-ui-source-observations-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "d52157c163dadd4ccdf2250e8184c554ea79894bc5b9e3f1f1fb103bd63109ea"
+      },
+      "tags": [
+        "text",
+        "ui",
+        "cta",
+        "audio"
+      ],
+      "origin": "User-requested project curation of prior reviewed, hash-bound shared-source observations; only shared source constraints are recalled for other locales.",
+      "reviewed_by": "Codex project knowledge curation, review of historical records",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-26T03:36:21+00:00",
+      "method_sha256": "e5f686c96dcc404eeec27775f4f1619a854d1551b559032d043ee502f11fd34d",
+      "case": "knowledge/examples/she007-phone-ui-source-observations-v1",
+      "case_manifest_sha256": "206bff46c506b01e52726bea44d0d1e0445fe917f801d7ad492cd609ccefbc7b",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-01-6de34263c2.json",
+          "sha256": "8069e2a8de0d21e1de0b69c17a199b229d57498afdd2235ff5c674f1834b0737"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-02-c3ce5f7918.json",
+          "sha256": "84983344d471d8907832ebf73060a97c1a42adcc2813749b1d8a12ca3233b1fb"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-03-55d7d75e7d.json",
+          "sha256": "a78b442101dae0bcb24aee14bdb243f8af41c329217506addfaae7506c40bb0f"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-04-c7989988e2.json",
+          "sha256": "a216cd8536a8986972fab0769ac72c194f425d7d2f884c317f5a03fafd3e0398"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-05-a9086ae760.json",
+          "sha256": "dddde85c3dc395e394706500f370209803cc6931f49ed2b6b5e96e66d7f7a6fe"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-06-9105164175.json",
+          "sha256": "3840bc2a761d16de03b8194aed36a48850689e1ad3c2e0e141c0b3106cc97b96"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-07-7e1a499171.json",
+          "sha256": "23b9c9b1305f3f02d8d082102e5ff15076e7f253dccaa1d378c3700e8dd11f60"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-08-61249e7fec.json",
+          "sha256": "18e95cfc005e2c1d3834321e0d3014fe72e1d16a6b000f31eca88c2e6dbccef9"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-09-18c0a516c2.json",
+          "sha256": "40473b8027453553cde33346bdd8632d0e253573522b0fbd1cece827c6865618"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-10-ecb4f89fa7.json",
+          "sha256": "8dfae1d3ee63fe62778e2713846970b2d3f2d6646df14a082ca476079c512912"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-11-13e13a9be3.json",
+          "sha256": "cc3205c966e580aa4436d1d5b51160a3de39d6af598351dd160a96e0477e2de6"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-12-6ecb2cb369.json",
+          "sha256": "6219880542d317bd5872242a9cd8ae9bfc1a4bfee6ec4fffad7460e395ead847"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-13-c026b38791.json",
+          "sha256": "a4f7999d87f26df8cbd6a7285cef61bcbc1060e7a12c58efd9f00148b3b4053a"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-14-bdc4284141.json",
+          "sha256": "274ddeff198ee63901fbdf511e65d02394a8a7df5fa8839155d2fbfe9d8c77fa"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-15-61b586efa6.json",
+          "sha256": "ae5f5582c119fd477463efd15fd85c1162021e3eb6672c65cc0fac571a69b7c2"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-16-ac978b2c9c.json",
+          "sha256": "4aab0b8b24a348bdd769ecbec0cc1bdd9c60a220a0353667bcabb28b8138f4c9"
+        },
+        {
+          "path": "knowledge/candidates/SHE-20261118-007-17-0e759f76fc.json",
+          "sha256": "be2bd8ad79808072b88d94fab3abd7db09b5590ffb3ec31cdb1d772a20fa66ee"
+        }
+      ],
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "Same-agent historical frame and ASR observations with individual exact locale and output hashes; no independent normal-speed or listening review. No expansion to unrelated source.",
+      "knowledge_type": "source_reference"
+    },
+    {
+      "id": "key017-source-motion-restoration-v1",
+      "path": "knowledge/cases/key017-source-motion-restoration-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "4a681919237c35c889e0d0c487ae3fbf85f3700718d722057ca31b65510c525a"
+      },
+      "tags": [
+        "text",
+        "motion",
+        "audio",
+        "source-reference"
+      ],
+      "origin": "User-requested consolidation of documented historical same-source observations and exact-locale evidence records.",
+      "reviewed_by": "Codex knowledge curation historical record review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-26T03:57:08+00:00",
+      "method_sha256": "52ebff77fdfb7f4be7b6408860ecb377daa3675dd8f675e985bd2256f907e976",
+      "case": "knowledge/examples/key017-source-motion-restoration-v1",
+      "case_manifest_sha256": "ecae7be1bc35fac06bdc688e7ea91cce3316a1adfa38f9c2f137a2faa401f66b",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/KEY-20261109-017-de-delivery-e698f891e3.json",
+          "sha256": "cfba380a699840c7228d62b3a3f648028ea50c536163d518cd0e63125959ad1e"
+        },
+        {
+          "path": "knowledge/candidates/KEY-20261109-017-es-delivery-ad6a64d97f.json",
+          "sha256": "c509565c811f878c306319839bc1143d9f83ae605cd1248f05126f889e26dd06"
+        },
+        {
+          "path": "knowledge/candidates/KEY-20261109-017-nl-delivery-d356c71860.json",
+          "sha256": "9dbe6e0ffa08fe1c8400872b518f91a34a78e292f73b12ef303364045d1f3427"
+        },
+        {
+          "path": "knowledge/candidates/KEY-20261109-017-pt-delivery-426ddef4f0.json",
+          "sha256": "dc5f5963ccf48327e5b0cc078dd68dc2e1c92d5c200675943a3dea751bfde807"
+        },
+        {
+          "path": "knowledge/candidates/KEY-20261109-017-th-delivery-3d26942b37.json",
+          "sha256": "4534e234f0a0e6bb0caa521843d6f3aa189424ae7215bdb0fbad55ae6cc5908c"
+        },
+        {
+          "path": "knowledge/candidates/KEY-20261109-017-wan3-intro-2s.json",
+          "sha256": "13ccf54caaadf0bbb025ca5ed5f658e621b5e639a5a1c4db1a4ddd28eb1d5f15"
+        }
+      ],
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "Historical recorded sampled-frame and audio observations; source-specific guidance with per-locale limitations. No new viewing or acceptance.",
+      "knowledge_type": "source_reference"
+    },
+    {
+      "id": "mog049-source1-wall-hat-observations-v1",
+      "path": "knowledge/cases/mog049-source1-wall-hat-observations-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "cd0869ecbb669a82c7d503e9c90e116a46efb478d77ab0e4d0a2bdad3df59d1a"
+      },
+      "tags": [
+        "text",
+        "motion",
+        "audio",
+        "source-reference"
+      ],
+      "origin": "User-requested consolidation of documented historical same-source observations and exact-locale evidence records.",
+      "reviewed_by": "Codex knowledge curation historical record review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-26T03:57:10+00:00",
+      "method_sha256": "11e15f81c45fee0a909ba69d32fa329c5f77525162bf3601820f455dd590fae0",
+      "case": "knowledge/examples/mog049-source1-wall-hat-observations-v1",
+      "case_manifest_sha256": "b71369bef10ccf217431b860ea50621eb36e1e9bc4f81fee40eae08c94aab2ba",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-1-01-completion-68c6d6fa66.json",
+          "sha256": "5b522dd2cc0f2a9b0688055a65b0bf67582db4b5b96a0fbb3b3819a5ed0ad513"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-1-02-completion-263da04e90.json",
+          "sha256": "ae74807b832ed4500f06ff63e11605c5bf8f09c417c2ec84b55873e9a8e4f84f"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-1-03-completion-0271090beb.json",
+          "sha256": "08acc8d9611f383d5eb1d6f2ea1716e71bcd6a1a1d8cd378f03ce0fbb0e6c04d"
+        }
+      ],
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "Historical recorded sampled-frame and audio observations; source-specific guidance with per-locale limitations. No new viewing or acceptance.",
+      "knowledge_type": "source_reference"
+    },
+    {
+      "id": "mog049-source2-cloth-observations-v1",
+      "path": "knowledge/cases/mog049-source2-cloth-observations-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "83b5aeeeb172f87a6f875a4b73cdb2591ad50a3426cb31e74502e276fc60f252"
+      },
+      "tags": [
+        "text",
+        "motion",
+        "audio",
+        "source-reference"
+      ],
+      "origin": "User-requested consolidation of documented historical same-source observations and exact-locale evidence records.",
+      "reviewed_by": "Codex knowledge curation historical record review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-26T03:57:12+00:00",
+      "method_sha256": "d8dabe91901c89aa5176e62ccc6f24fb35f197cb2f6f922e0a548887583a2dde",
+      "case": "knowledge/examples/mog049-source2-cloth-observations-v1",
+      "case_manifest_sha256": "0a467789bb4833e8de8f6dd04c48bdf90a92fc4b5c1f53ee7dae6d21971a0c22",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-2-01-completion-4efc2115d5.json",
+          "sha256": "a32d4ef10c595ca86ffa163dc04e0aed8e0427a8b47d9db0932524397c880500"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-2-02-completion-ed0d0eb56e.json",
+          "sha256": "a916a5346641542a7d37aad0cc40eaaedb4b3fada9ff0eddb2dfe69c40a820e1"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-2-03-completion-c8cb38e783.json",
+          "sha256": "42e458e94fdbecd6fd4a209cf92420949c77fce75750274d170a1649d32efa7c"
+        }
+      ],
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "Historical recorded sampled-frame and audio observations; source-specific guidance with per-locale limitations. No new viewing or acceptance.",
+      "knowledge_type": "source_reference"
+    },
+    {
+      "id": "mog049-source3-frame-clock-observations-v1",
+      "path": "knowledge/cases/mog049-source3-frame-clock-observations-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "5530e87b9863dd7e3c9fefa803a5427f9b907a4052c42ceb8ac671f20d7cfc83"
+      },
+      "tags": [
+        "text",
+        "motion",
+        "audio",
+        "source-reference"
+      ],
+      "origin": "User-requested consolidation of documented historical same-source observations and exact-locale evidence records.",
+      "reviewed_by": "Codex knowledge curation historical record review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-26T03:57:13+00:00",
+      "method_sha256": "c5100f483b1b82279ac9e1f9fdb25cfbba4e23ac47b21f2cd8e8b1dcadbbff63",
+      "case": "knowledge/examples/mog049-source3-frame-clock-observations-v1",
+      "case_manifest_sha256": "05130661c3c669879a80bc2268bd959e561f0cb01c9db2c9432e62b6c8f36e72",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-3-01-completion-86593d1d15.json",
+          "sha256": "d9da37021bf21f052a287501e8789a3b6f3766542a82b52015e18726596a13b5"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-3-02-completion-958964a668.json",
+          "sha256": "6d8edc365e4f08fec3e36878d8c386af8491f20ed9806de17e1bd68fe2f92358"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-3-03-completion-9d6f8b960c.json",
+          "sha256": "cad6fed005367a5703cb94ff67ab1ca08faf19993cf03b3d713982711165acb0"
+        }
+      ],
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "Historical recorded sampled-frame and audio observations; source-specific guidance with per-locale limitations. No new viewing or acceptance.",
+      "knowledge_type": "source_reference"
+    },
+    {
+      "id": "mog049-source4-phrase-timing-observations-v1",
+      "path": "knowledge/cases/mog049-source4-phrase-timing-observations-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "b382740659f1d448dfb8dc4cf5cec071b118431022af85c60173a28866cc3ada"
+      },
+      "tags": [
+        "text",
+        "motion",
+        "audio",
+        "source-reference"
+      ],
+      "origin": "User-requested consolidation of documented historical same-source observations and exact-locale evidence records.",
+      "reviewed_by": "Codex knowledge curation historical record review",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-26T03:57:14+00:00",
+      "method_sha256": "9acb86d4693e55db3c594b465fe4886eac9d8045d82932250548fb296f793b85",
+      "case": "knowledge/examples/mog049-source4-phrase-timing-observations-v1",
+      "case_manifest_sha256": "99e45f874de1f1c6a1d4b44ea5bf580169352a29fb07b8ef764058cefcfe2207",
+      "candidate_sources": [
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-4-01-completion-f5cb3c1732.json",
+          "sha256": "50acf841d72afbd7a822aa9fee4e101af587dcc9fa724edd75c8130ed31c1618"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-4-02-completion-81714779fd.json",
+          "sha256": "ecd9b2d8e9386a7ab37542c1d3ffffa6233a11f1dc09770c9d1f08a81c98efb8"
+        },
+        {
+          "path": "knowledge/candidates/MOG-20261109-049-4-03-completion-8c58a85f3f.json",
+          "sha256": "4cf688b96ab63f08d4c7ae9c13cc1d8d9778af67545c5efa29344297c908c26a"
+        }
+      ],
+      "validation_level": "single_source_observations",
+      "evidence_caveat": "Historical recorded sampled-frame and audio observations; source-specific guidance with per-locale limitations. No new viewing or acceptance.",
+      "knowledge_type": "source_reference"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

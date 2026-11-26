@@ -403,11 +403,12 @@ class ArchiveContractTests(unittest.TestCase):
         self.assertFalse((self.run.parent / '.locks' / (self.run.name + '.lock')).exists())
 
     def test_sweep_lock_blocks_archive_before_source_reads(self):
-        from video_localizer.common import lock
-        with lock(self.root / 'state/project-storage.lock'):
-            with patch.object(library, '_export', side_effect=AssertionError('must not read source')):
-                with self.assertRaisesRegex(WorkflowError, 'storage maintenance is active'):
-                    self.export()
+        from video_localizer import common
+        with common.lock(self.root / 'state/project-storage.lock'), \
+                patch.object(common, 'STORAGE_WAIT_SECONDS', 0), \
+                patch.object(library, '_export', side_effect=AssertionError('must not read source')):
+            with self.assertRaisesRegex(WorkflowError, 'operation did not start'):
+                self.export()
         self.assertFalse((self.root / 'outputs').exists())
 
     def test_archive_preserves_closed_marker(self):
@@ -424,6 +425,29 @@ class ArchiveContractTests(unittest.TestCase):
             result = self.export()
             self.assertTrue((self.root / result['package'] / 'manifest.json').exists())
             self.assertTrue((self.run.parent / '.locks' / (self.run.name + '.lock')).exists())
+
+    def test_archive_waits_for_shared_catalog_and_reads_latest_entries(self):
+        from video_localizer import common
+        lock_path = self.root / 'outputs/.catalog.lock'
+        lock_path.parent.mkdir(parents=True, exist_ok=True)
+        lock_path.write_text('other producer')
+        previous = {'video_sha256': 'c' * 64, 'source_sha256': 'd' * 64,
+                    'target_language': 'ja', 'package': 'outputs/.packages/other',
+                    'archived_at': '2026-01-01T00:00:00+00:00', 'requirement_name': 'OTHER',
+                    'task_name': 'source-1'}
+        index = delivery_layout.catalog(self.root)
+
+        def release(_seconds):
+            self.assertTrue(lock_path.exists())
+            write_json(index, {'entries': [previous]})
+            lock_path.unlink()
+
+        with patch.object(common.time, 'sleep', side_effect=release) as wait:
+            self.export()
+        wait.assert_called_once()
+        entries = read_json(index)['entries']
+        self.assertEqual(entries[0], previous)
+        self.assertTrue(any(entry['video_sha256'] == self.sha for entry in entries))
 
 
 if __name__ == "__main__":

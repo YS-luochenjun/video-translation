@@ -12,6 +12,7 @@ from .common import ROOT, file_hash, inside, lock, object_hash, read_json, requi
 
 _permit = ContextVar('paid_request_permit', default=None)
 TERMINAL = ('success', 'fail', 'failed', 'response_received', 'response_invalid')
+BUDGET_LOCK_WAIT_SECONDS = 30
 
 
 def duration_allowance(source, root=ROOT):
@@ -138,7 +139,7 @@ def open_request(spec, root=ROOT):
     digest = file_hash(source)
     auth = object_hash({'authorization_ref': spec['authorization_ref']})
     directory = _directory(root)
-    with lock(directory / '.lock'):
+    with lock(directory / '.lock', wait_seconds=BUDGET_LOCK_WAIT_SECONDS):
         index = _index(root)
         if auth in index['authorizations']:
             existing = read_json(_record(root, index['authorizations'][auth]))
@@ -213,7 +214,7 @@ def amend_limit(scope, limit, authorization_ref, source_quote, root=ROOT, target
     """Host-only amendment from an actual user instruction; never resets spending."""
     require_number(limit, 'credit limit', minimum=.001)
     require(bool(authorization_ref) and bool(source_quote), 'User amendment attribution required')
-    with lock(_directory(root) / '.lock'):
+    with lock(_directory(root) / '.lock', wait_seconds=BUDGET_LOCK_WAIT_SECONDS):
         record = read_json(_record(root, scope))
         _refresh(record, root)
         used = sum(row['reserved_credits'] for row in record['reservations'].values())
@@ -276,7 +277,7 @@ def attach_source(scope, source, authorization_ref, root=ROOT):
     Unlike derived-run binding, this survives retirement of the first video run.
     """
     digest = file_hash(source)
-    with lock(_directory(root) / '.lock'):
+    with lock(_directory(root) / '.lock', wait_seconds=BUDGET_LOCK_WAIT_SECONDS):
         index = _index(root)
         require(index['authorizations'].get(object_hash({'authorization_ref': authorization_ref})) == scope,
                 'Source attachment needs the original registered human request')
@@ -305,7 +306,7 @@ def bind(run, parent_run=None):
     run = Path(run).resolve()
     root = run.parent.parent
     sha = _run_source(run)
-    with lock(_directory(root) / '.lock'):
+    with lock(_directory(root) / '.lock', wait_seconds=BUDGET_LOCK_WAIT_SECONDS):
         index = _index(root)
         if run.name in index['runs']:
             entry = index['runs'][run.name]
@@ -384,7 +385,7 @@ def reserve(run, job_id, estimate):
     require(re.fullmatch(r'[a-f0-9]{64}', job_id), 'Invalid request job id')
     record = bind(run)
     root = Path(run).resolve().parent.parent
-    with lock(_directory(root) / '.lock'):
+    with lock(_directory(root) / '.lock', wait_seconds=BUDGET_LOCK_WAIT_SECONDS):
         record = read_json(_record(root, record['id']))
         _refresh(record, root)
         require(record['state'] == 'open', 'Request closed')
@@ -403,7 +404,7 @@ def resume_undispatched(run, job_id):
     """Resume only a locally proven pre-dispatch failure, using the same reservation."""
     record = bind(run)
     root = Path(run).resolve().parent.parent
-    with lock(_directory(root) / '.lock'):
+    with lock(_directory(root) / '.lock', wait_seconds=BUDGET_LOCK_WAIT_SECONDS):
         record = read_json(_record(root, record['id']))
         row = record['reservations'][job_id]
         require(row['run'] == Path(run).name and not row.get('dispatch') and
@@ -421,7 +422,7 @@ def authorize_request(url, body):
     permit = _permit.get()
     require(permit, 'KIE writes require an executor reservation; direct scripts cannot bypass request budgets')
     root = Path(permit['root'])
-    with lock(_directory(root) / '.lock'):
+    with lock(_directory(root) / '.lock', wait_seconds=BUDGET_LOCK_WAIT_SECONDS):
         record = read_json(_record(root, permit['scope']))
         require(record['state'] == 'open', 'Request budget closed')
         row = record['reservations'][permit['job']]
@@ -435,7 +436,7 @@ def authorize_request(url, body):
 
 def sync(run):
     root = Path(run).resolve().parent.parent
-    with lock(_directory(root) / '.lock'):
+    with lock(_directory(root) / '.lock', wait_seconds=BUDGET_LOCK_WAIT_SECONDS):
         index = _index(root)
         entry = index['runs'].get(Path(run).name)
         if entry:
@@ -445,7 +446,7 @@ def sync(run):
 
 
 def status(scope, root=ROOT):
-    with lock(_directory(root) / '.lock'):
+    with lock(_directory(root) / '.lock', wait_seconds=BUDGET_LOCK_WAIT_SECONDS):
         record = read_json(_record(root, scope))
         _refresh(record, root)
         write_json(_record(root, scope), record)

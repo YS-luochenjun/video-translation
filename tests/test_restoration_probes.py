@@ -92,6 +92,29 @@ class RestorationProbeTests(unittest.TestCase):
         self.assertIn('clean_base_instance_unreviewed:cta',
                       text_restoration.review_failures(self.run,self.inv,review,self.candidate))
 
+    def test_new_target_reuses_source_and_base_strip_pixels(self):
+        self.fixture()
+        first, _ = self.capture()
+        first_folder = (self.run / first['manifest']).parent
+        first_manifest = read_json(self.run / first['manifest'])
+        media.ffmpeg(['-f', 'lavfi', '-i', 'color=c=white:s=80x96:r=10:d=1',
+                      '-c:v', 'libx264', '-pix_fmt', 'yuv420p', self.run / 'target2.mp4'])
+        candidate = {**self.asset('target2.mp4'), 'plan_id': 'fixture'}
+        with patch.object(probes, '_extract_sparse', wraps=probes._extract_sparse) as extract:
+            second = probes.generate(self.run, candidate, self.plan)
+        manifest = read_json(self.run / second['manifest'])
+        self.assertEqual([call.args[0] for call in extract.call_args_list], [self.run / 'target2.mp4'])
+        self.assertEqual(manifest['decode_reuse']['layer_frames_reused'], 10)
+        self.assertEqual(manifest['decode_reuse']['layer_frames_decoded'], 5)
+        from PIL import Image
+        with Image.open(first_folder / first_manifest['rows'][0]['image']) as first_image, \
+                Image.open((self.run / second['manifest']).parent / manifest['rows'][0]['image']) as second_image:
+            width = first_image.width // 3
+            self.assertEqual(first_image.crop((0, 0, 2 * width, first_image.height)).tobytes(),
+                             second_image.crop((0, 0, 2 * width, second_image.height)).tobytes())
+            self.assertNotEqual(first_image.tobytes(), second_image.tobytes())
+        self.assertFalse(second['automatic_pass'])
+
     def test_changed_strip_cannot_reuse_or_review(self):
         self.fixture()
         result,capture = self.capture()

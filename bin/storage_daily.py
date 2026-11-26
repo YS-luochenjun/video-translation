@@ -52,6 +52,7 @@ def run(root=PROJECT_ROOT, execute=False):
                     result.update(state="executed", deleted_count=len(actual["deleted"]),
                                   logical_bytes_removed=actual["logical_bytes_removed"],
                                   net_free_bytes_change=actual["net_free_bytes_change"],
+                                  global_lock_seconds=actual.get("global_lock_seconds"),
                                   preserved_records=actual.get("preserved_records"))
                 else:
                     result.update(state="planned", would_execute=True)
@@ -78,6 +79,7 @@ def run(root=PROJECT_ROOT, execute=False):
                 result.update(state="executed", deleted_count=len(actual["deleted"]),
                               logical_bytes_removed=actual["logical_bytes_removed"],
                               net_free_bytes_change=actual["net_free_bytes_change"],
+                              global_lock_seconds=actual.get("global_lock_seconds"),
                               preserved_records=actual["preserved_records"],
                               accounting_sync_error_count=len(actual.get("accounting_sync_errors", [])))
             else:

@@ -42,6 +42,29 @@ def publication_blocked(store, code, task):
             or version['held'] and held(code, task['source_sha256'], video_hash, store.root))
 
 
+def event_files(store, area, nested):
+    base = store.path(area)
+    if not base.is_dir():
+        return
+    folders = [base]
+    if nested:
+        with os.scandir(base) as entries:
+            folders = sorted(Path(entry.path) for entry in entries if entry.is_dir(follow_symlinks=False))
+    for folder in folders:
+        with os.scandir(folder) as entries:
+            for entry in entries:
+                if not entry.name.endswith('.json') or entry.name.startswith('.'):
+                    continue
+                try:
+                    if not entry.is_file(follow_symlinks=False):
+                        continue
+                    stat = entry.stat(follow_symlinks=False)
+                except FileNotFoundError:
+                    continue
+                path = Path(entry.path).relative_to(store.root).as_posix()
+                yield path, f'{stat.st_size}:{stat.st_mtime_ns}:{stat.st_ctime_ns}'
+
+
 def collect(store, ledger):
     warnings = []
     aliases = store.read('config/content-features.json').get('aliases', {})
@@ -364,10 +387,8 @@ def collect(store, ledger):
     signatures, events = [], []
     known = ledger.signatures()
     # Incremental timing import. Do not sum nested durations in dashboard KPIs.
-    for area, pattern, is_timing in [('state/timing', '*/*.json', True), ('state/ledger/inbox', '*.json', False)]:
-        for path in store.glob(area, pattern):
-            stat = store.path(path).stat()
-            signature = f'{stat.st_size}:{stat.st_mtime_ns}:{stat.st_ctime_ns}'
+    for area, is_timing in [('state/timing', True), ('state/ledger/inbox', False)]:
+        for path, signature in event_files(store, area, is_timing):
             if known.get(path) == signature: continue
             value = store.read(path, warnings=warnings)
             if not value.get('id'): continue

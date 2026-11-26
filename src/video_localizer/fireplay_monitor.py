@@ -439,7 +439,7 @@ def assess(code, spec, root=ROOT):
                 'authority_path': f'state/fireplay/{code}/monitor-authority.json' if entry['state'] in ('admitted', 'needs_information') else None}
 
 
-def followups(root=ROOT):
+def followups(root=ROOT, owner_thread_id=None):
     """Navigation only. Existing return gates still verify every actual package."""
     from .fireplay_submission import coverage, bound_materials, completion_gate
     from .fireplay_status_transition import confirmed
@@ -452,11 +452,17 @@ def followups(root=ROOT):
     result = []
     for path in (Path(root) / 'state/fireplay').glob('*/request.json'):
         record = read_json(path)
+        if owner_thread_id and not any(
+                (video.get('chat') or record.get('chat', {})).get('threadId') == owner_thread_id
+                for video in record['videos']):
+            continue
         if not _matches(record['snapshot']['row'], config):
             continue
         for video in record['videos']:
             chat = video.get('chat') or record.get('chat', {})
             if chat.get('state') != 'ready':
+                continue
+            if owner_thread_id and chat.get('threadId') != owner_thread_id:
                 continue
             # User 2026-10-27: stop after Fireplay acceptance; downstream
             # YouTube queues and retries belong to Fireplay, not this monitor.
@@ -556,7 +562,7 @@ def followups(root=ROOT):
             chat = record.get('chat') or record['videos'][0].get('chat', {})
             gate = completion_gate(record, root)
             missing_status = record.get('status_managed') and not confirmed(record, 'finish', root)
-            if chat.get('state') == 'ready' and (not gate['can_close'] or missing_status
+            if chat.get('state') == 'ready' and (not owner_thread_id or chat['threadId'] == owner_thread_id) and (not gate['can_close'] or missing_status
                                                 or (record.get('status_managed') and not
                                                     (path.parent / 'delivery-closure.json').exists())):
                 coordinator = next((video['index'] for video in record['videos']

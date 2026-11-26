@@ -1,5 +1,7 @@
 """Recovery and publication boundaries; all connector/model evidence is synthetic."""
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
+import runpy
 import unittest
 import json
 from unittest.mock import patch
@@ -132,6 +134,20 @@ class DeliveryClosureTests(unittest.TestCase):
         self.assertEqual(t['action'], 'auto_return')
         self.assertEqual(t['ready_locales'], ['es'])
         self.assertEqual(t['production_locales'], ['ko'])
+
+    def test_stop_hook_continues_only_bound_owner_once(self):
+        self.owner()
+        hook = runpy.run_path(str(Path(__file__).resolve().parents[1] / 'bin/fireplay_stop_hook.py'))['decision']
+        event = {'hook_event_name': 'Stop', 'session_id': fixtures.THREAD, 'stop_hook_active': False}
+        result = hook(event, self.root)
+        self.assertEqual(result['decision'], 'block')
+        self.assertIn(fixtures.CODE, result['reason'])
+        self.assertEqual(hook(dict(event, stop_hook_active=True), self.root), {})
+        self.assertEqual(hook(dict(event, session_id='workbench'), self.root), {})
+        self.assertEqual(hook(dict(event, permission_mode='plan'), self.root), {})
+        with patch('video_localizer.fireplay_monitor.followups', return_value=[
+                {'threadId': fixtures.THREAD, 'action': 'await_manual_repair'}]):
+            self.assertEqual(hook(event, self.root), {})
 
     def test_standing_submission_consent_reaches_chat_status_and_recovery(self):
         self.register()

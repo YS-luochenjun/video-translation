@@ -1,0 +1,44 @@
+{
+  "source": {
+    "path": "knowledge/candidates/SHE-20261118-007-12-6ecb2cb369.json",
+    "sha256": "6219880542d317bd5872242a9cd8ae9bfc1a4bfee6ec4fffad7460e395ead847"
+  },
+  "previous_review": "5e98dda1b9dbaa2371868d8bf7ef1eff3c8c0d40d2f5b52354d788581933df34",
+  "review_type": "developer_review",
+  "reviewed_by": "Codex project knowledge curation, historical-record review",
+  "origin": "Prior scoped same-agent advisory and recorded quality hashes; user-requested same-source consolidation.",
+  "resolution": "adopted",
+  "reason": "Shared source constraints and locale-specific observations now have a single active source reference and independent evidence bundle. Remaining playback and pronunciation uncertainties are preserved as quality limitations to check when this source is reused.",
+  "targets": [
+    {
+      "id": "she007-phone-ui-source-observations-v1",
+      "path": "knowledge/cases/she007-phone-ui-source-observations-v1.md",
+      "sha256": "e5f686c96dcc404eeec27775f4f1619a854d1551b559032d043ee502f11fd34d",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "d52157c163dadd4ccdf2250e8184c554ea79894bc5b9e3f1f1fb103bd63109ea"
+      },
+      "snapshot": "# SHE-20261118-007：手机 UI、免责声明与弹性 CTA\n\n适用原片 `d52157c163dadd4ccdf2250e8184c554ea79894bc5b9e3f1f1fb103bd63109ea`。历史观察来自十七个目标语种，均为同一原片。\n\n- 手机 UI 文字按各原始图标位置和手机几何运动进行原位替换，保留图标、手部和手机主体。历史画面抽样中译文位置可辨，但标签旁有浅灰修复痕迹。完整片尾 Wan 底片曾改变手机、勾号、箭头和彩屑的几何形态，复做应比对这些区域。\n- 单独检查底部免责声明及黄色主体、黑白描边的 CTA。CTA 入场高度、弹性超调及稳定位置须结合源动画验证。长译文应检查字重和视觉面积，非拉丁文字应以实际字形和可读性选择字重、斜体适配。\n- 只保留原清单明确保留的产品名称，如 FaceTime、TV、App Store。逐实例检查标签、免责声明和 CTA 的原语残留。\n- 历史多个语种的整段 ASR 漏掉开头或 CTA，独立首段、末段或对白片段提供了补充边界证据。对充电器、疑问句等存在转写分歧的对白，应按实际目标语言音频核验。\n\n精确语种观察见 evidence:observations，其中包括繁体中文实际字体与 CTA 样式、阿语连写与 RTL、印地语和泰语字形观察以及各语言的音频识别分歧。查阅时只使用相应语种记录，其他语种重新核验。\n\n历史版本品质均为 revise。历史观察由同一制作方基于实际画面抽样与成片 ASR 记录，正常速度播放、直接听审、口型、音乐效果和独立验收仍有证据限制。\n"
+    }
+  ],
+  "adopted_parts": [
+    "Actual full UI, CTA and disclaimer sheets show translated text at original positions. Faint grey/light glyph-repair smears remain beside UI labels. No readable original English copy found in inspected regions; every transient frame is not certified. Bound actual locale fonts show readable UI, CTA and disclaimer glyphs. CTA retains yellow fill, black/white outline and source placement. Long Latin/Cyrillic copy has reduced visual weight; non-Latin fonts use upright bold instead of source italic. FaceTime/TV/App Store are intentional product names. Full encoded ASR supports six turns; charger is misrecognized as xa versus sạc in generated audio, and the question has transcription disagreement. Standalone tail supports CTA. Source-specific same-agent observations; quality remains unpassed. No direct listening or normal-speed playback proof."
+  ],
+  "retained_parts": [
+    "Original revise quality judgment, candidate and previous review hashes, and all locale-specific evidence limitations preserved in the case evidence.",
+    "Actual full UI, CTA and disclaimer sheets show translated text at original positions. Faint grey/light glyph-repair smears remain beside UI labels. No readable original English copy found in inspected regions; every transient frame is not certified.",
+    "Actual native-frame samples retain icons, phone, battery and hand scene. The continuous last 51-frame Wan plate changes phone/checkmark/arrow/confetti geometry modestly; no severe destruction observed in samples.",
+    "Bound actual locale fonts show readable UI, CTA and disclaimer glyphs. CTA retains yellow fill, black/white outline and source placement. Long Latin/Cyrillic copy has reduced visual weight; non-Latin fonts use upright bold instead of source italic. FaceTime/TV/App Store are intentional product names.",
+    "Actually viewed entry frames 512,513,515,517,519: no CTA at 512; complete two-line phrase rises at 513, overshoots by 515 and settles at 517/519. This is phrase animation with simplified source squash/stretch. Frame450 battery scene is intact. Normal-speed playback was not directly observed.",
+    "Full encoded ASR supports six turns; charger is misrecognized as xa versus sạc in generated audio, and the question has transcription disagreement. Standalone tail supports CTA.",
+    "Use the exact reviewed output hash for direct listening and normal-speed playback; retain ASR disagreements until resolved."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-26T03:36:27+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

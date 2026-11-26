@@ -18,6 +18,7 @@ ROOT = Path(os.environ.get("VIDEO_LOCALIZER_WORKSPACE", str(CODE_ROOT))).expandu
 from .runtime import configure as configure_runtime
 configure_runtime(CODE_ROOT)
 _operations = threading.local()
+STORAGE_WAIT_SECONDS = 45
 
 
 class WorkflowError(Exception):
@@ -122,14 +123,26 @@ def require(condition, message):
 
 
 @contextmanager
-def lock(path):
+def lock(path, *, wait_seconds=0):
     """Cross-process exclusion. A crash intentionally leaves a visible recovery gate."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-    except FileExistsError as exc:
-        raise WorkflowError(f"Operation locked: {path.name}; inspect journal before recovery") from exc
+    deadline = None
+    while True:
+        try:
+            descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            break
+        except FileExistsError as exc:
+            if not wait_seconds:
+                raise WorkflowError(f"Operation locked: {path.name}; inspect journal before recovery") from exc
+            now = time.monotonic()
+            if deadline is None:
+                deadline = now + wait_seconds
+            remaining = deadline - now
+            if remaining <= 0:
+                raise WorkflowError(f"Operation locked: {path.name}; bounded wait ended; "
+                                    "resume the same operation after checking the owner and journal") from exc
+            time.sleep(min(1, remaining))
     try:
         os.write(descriptor, str(os.getpid()).encode())
         os.close(descriptor)
@@ -139,31 +152,39 @@ def lock(path):
 
 
 @contextmanager
-def run_operation(run, *, resume=True, storage_wait_seconds=0):
+def storage_admission(root, operation_lock, *, wait_seconds=None):
+    storage_lock = root / 'state/project-storage.lock'
+    wait_seconds = STORAGE_WAIT_SECONDS if wait_seconds is None else wait_seconds
+    deadline = None
+    while True:
+        if not storage_lock.exists():
+            with lock(operation_lock):
+                if not storage_lock.exists():
+                    yield
+                    return
+        now = time.monotonic()
+        if deadline is None:
+            deadline = now + wait_seconds
+        remaining = deadline - now
+        if remaining <= 0:
+            raise WorkflowError('Project storage maintenance is active; operation did not start. '
+                                'Resume the same command when the maintenance receipt completes')
+        time.sleep(min(1, remaining))
+
+
+@contextmanager
+def run_operation(run, *, resume=True, storage_wait_seconds=None):
     """Serialize run access with sweeps; only production work revokes closure."""
     run = Path(run).resolve()
-    storage_lock = run.parent.parent / 'state/project-storage.lock'
+    root = run.parent.parent
     path = run.parent / ".locks" / (run.name + ".lock")
     held = getattr(_operations, "held", set())
     if path in held:
         yield
         return
-    if storage_wait_seconds and storage_lock.exists():
-        deadline = time.monotonic() + storage_wait_seconds
-        while storage_lock.exists():
-            remaining = deadline - time.monotonic()
-            if remaining <= 0:
-                break
-            time.sleep(min(1, remaining))
-    require(not storage_lock.exists(),
-            'Project storage maintenance is active; resume after its receipt completes')
-    with lock(path):
-        # A sweep can acquire its lock between the first check and our run lock.
-        require(not storage_lock.exists(),
-                'Project storage maintenance is active; resume after its receipt completes')
+    with storage_admission(root, path, wait_seconds=storage_wait_seconds):
         require(run.is_dir(), "Run was removed or does not exist")
         if resume:
-            root = run.parent.parent
             closed = root / 'state/storage-closed' / (run.name + '.json')
             activity = root / 'state/storage-activity' / (run.name + '.json')
             previous = read_json(activity) if activity.exists() else {}
@@ -191,8 +212,7 @@ def guarded(function=None, *, resume=True):
         operation_path = Path(run).resolve().parent / '.locks' / (Path(run).name + '.lock')
         outermost = operation_path not in getattr(_operations, 'held', set())
         provider_operation = function.__name__ in ('submit', 'poll', 'poll_batch', 'analyze_audio')
-        storage_wait_seconds = 20 if provider_operation else 0
-        with run_operation(run, resume=resume, storage_wait_seconds=storage_wait_seconds), operation():
+        with run_operation(run, resume=resume), operation():
             from .timing import measure
             from .resources import admission
             stage = function.__module__.rsplit('.', 1)[-1] + '.' + function.__name__
@@ -212,15 +232,6 @@ def guarded(function=None, *, resume=True):
             if outermost and not stage.startswith('retention.'):
                 from .maintenance import after_stage
                 after_stage(run, stage)
-        # Return the provider receipt after settlement instead of keeping the
-        # caller waiting through a workspace-wide storage sweep.
-        if outermost and not provider_operation and Path(run).parent.name == 'runs' and not stage.startswith('retention.'):
-            from .project_storage import auto
-            try:
-                auto(Path(run).parent.parent)
-            except (OSError, WorkflowError, ValueError, KeyError, TypeError) as exc:
-                write_json(Path(run).parent.parent / 'state/storage-lifecycle-error.json',
-                           {'stage':stage,'error':str(exc),'delivery_unaffected':True})
         return result
     return invoke
 

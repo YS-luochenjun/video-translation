@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 57,
-    "no_adoption_record": 160,
+    "no_adoption_record": 161,
     "synthetic_only": 4
   },
   "entries": [
@@ -1192,6 +1192,21 @@
       "hypothesis_sha256": "9a98a0fc943699e575d1654f6ead2b207db9940fd5006cb19374f35a144741de"
     },
     {
+      "id": "APC-20261126-011-01-imagegen-lettering-b2c89e8005",
+      "path": "knowledge/candidates/APC-20261126-011-01-imagegen-lettering-b2c89e8005.json",
+      "original_sha256": "a7027e15a10a67ae703b9856f6966a9b1c945537ab62b8f2783797741a03be02",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "21f3e257e18a8f158194767c8a53aac2f358cb3d79e7b85fad96da51d88e77c8",
+        "target_language": "zh-TW"
+      },
+      "historical_outcome": "best_available",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "f30ca3460cf8e07a03dad405e6f0247294b66a21f66905bdc200df1a784e943c"
+    },
+    {
       "id": "DEV-20261104-gemini-tts-two-speaker-guard",
       "path": "knowledge/candidates/DEV-20261104-gemini-tts-two-speaker-guard.json",
       "original_sha256": "7b73d0e34b3922860169a72f5339ab5d908138ef1cef4cb6485304855091caf9",
@@ -1416,6 +1431,18 @@
       "historical_outcome": "delivered_with_issues_bound_verified",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/eb308726fd3f49e8b600f75d48879b9d36abf326a9ebb98bbb76f49bb8b87818.json",
+        "decision_sha256": "df570ceaaaeb9911c206967432d43121b60bae62b972aa09cca6ab21423b8ea3",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "key017-source-motion-restoration-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/cfba380a699840c7228d62b3a3f648028ea50c536163d518cd0e63125959ad1e/KEY-20261109-017-de-delivery-e698f891e3.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "f039d2800ba425474f67588e81784c51111d1cdf81b08eeea10fc46411cc517c"
     },
     {
@@ -1431,6 +1458,18 @@
       "historical_outcome": "delivered_with_issues_bound_verified",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/8c92ca7b84d8cad13ac2eba7a9c2f77562e15d62fabeaaf4e79add1827b27def.json",
+        "decision_sha256": "84a20a0d90333b04ece2f349d2f460dd11af33bf3457acc0f9248129a4217855",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "key017-source-motion-restoration-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/c509565c811f878c306319839bc1143d9f83ae605cd1248f05126f889e26dd06/KEY-20261109-017-es-delivery-ad6a64d97f.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "71a8b2bd748af9567bfa389c4f41c6c82513d43b7805dafd5ad3362a83eeb5b5"
     },
     {
@@ -1446,6 +1485,18 @@
       "historical_outcome": "delivered_with_issues_bound_verified",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/cede4a38e2cfcceb3ce46be725099fb555059a6be1886a6f3dd83d0a16f891b9.json",
+        "decision_sha256": "835bac38d8c3678caee845ca448f49651436934eec0e4707cef8a1dcdf8a45a3",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "key017-source-motion-restoration-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/9dbe6e0ffa08fe1c8400872b518f91a34a78e292f73b12ef303364045d1f3427/KEY-20261109-017-nl-delivery-d356c71860.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "8bcf75a5769fa986d9f6fdc421b26ecb8e9d0853f28e8a3fa57f244a856881af"
     },
     {
@@ -1461,6 +1512,18 @@
       "historical_outcome": "delivered_with_issues_bound_verified",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/693b0963097d4f80ce304b1ddf4c9748d25b9888a3c46f8dd99e3c313d803f5f.json",
+        "decision_sha256": "68c7fca21705ebaf87cbe15bd1496edc5ea4b0e4acacba792461f51512bd1a2b",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "key017-source-motion-restoration-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/dc5f5963ccf48327e5b0cc078dd68dc2e1c92d5c200675943a3dea751bfde807/KEY-20261109-017-pt-delivery-426ddef4f0.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "4549b5f6914e991ffe9042fa50ce475af0a94f74e109727d596950edbe9cc41a"
     },
     {
@@ -1476,6 +1539,18 @@
       "historical_outcome": "delivered_with_issues_bound_verified",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/a2d2297f3a36d103bbbff8907d384c55fc05bbaabc095149c27c49c971700a6d.json",
+        "decision_sha256": "f58ba66597a35f8916e8cce4497d356265554bf6c786cc52e1c65607d3d6a4d0",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "key017-source-motion-restoration-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/4534e234f0a0e6bb0caa521843d6f3aa189424ae7215bdb0fbad55ae6cc5908c/KEY-20261109-017-th-delivery-3d26942b37.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "f96eb7321811e1c53b02f556cb1d6d6a4ba29280b7a99feb25e4f25943980445"
     },
     {
@@ -1495,6 +1570,18 @@
       "historical_outcome": "not_adopted_whole_frame",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/096b462fed46522200ae0506294e156ae684ac94c4f86bf7a65692a0f764bcd1.json",
+        "decision_sha256": "88456f6c1a08bf20ceb151c49943b9cb377ea33607b8ce480e5914591345b951",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "key017-source-motion-restoration-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/13ccf54caaadf0bbb025ca5ed5f658e621b5e639a5a1c4db1a4ddd28eb1d5f15/KEY-20261109-017-wan3-intro-2s.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "b1ad627384005541ad54cb14422ad0e3670621852767232e9d30c8d0a90a02e1"
     },
     {
@@ -1526,13 +1613,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/b5d637dab35f68c348e2e9a76450a29ffd6e17f17193bf3c999632f80b6ac6b9.json",
-        "decision_sha256": "db6ba93d84da77bb5ae6a7d081041b65630e72f276207db3115cef8850f535e8",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Review this exact candidate at normal speed with actual audio; verify fade ghosts and opening/final target phonemes, then revise only the remaining bounded local defects if evidence warrants. Do not resend KIE or reupload accepted Fireplay materials."
+        "decision_path": "knowledge/curation/reviews/cf69e00ddf188780b92d39da94a2e17783d3ace039bd4bfea65576976a416d50.json",
+        "decision_sha256": "cba3e27ede0fcc239015ef78fa7dd3440cd74f03bfbb129d3acbca0269f6d71d",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "key038-grass-cta-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/a08e928c346142193bb5795453facfc3021737896f048a4a21303ecbb81f8a39/KEY-20261109-038-01-b71a1dcd53.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -1549,13 +1640,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/d6c743427cfe49b0bce4e0c3d5799fc2514b2a63ad59b783f821f92510133653.json",
-        "decision_sha256": "0feed8a43e39751e6109216edf638b0001f3c649eada6d46c044d0b09c06b543",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Review this exact candidate at normal speed with actual audio; verify fade ghosts and opening/final target phonemes, then revise only the remaining bounded local defects if evidence warrants. Do not resend KIE or reupload accepted Fireplay materials."
+        "decision_path": "knowledge/curation/reviews/0b0e2e5af08f39f74701bf90377c9660bbc706bfff9228d4b8b2751b0bb76c90.json",
+        "decision_sha256": "9bdec59cafb70645e7235d04d533448c8208edf3c6ef7e717caa3be9fd7cf885",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "key038-grass-cta-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/fb06fd828cca1acc59a7e1f9c092b4ea13f7194af9ded348ebfe3f453fb70252/KEY-20261109-038-02-fcf8bbbbc1.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -1572,13 +1667,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/c7bd9d94f83a72a1589309658221df8bf9199dff7ad519d0569fa2036b8b1387.json",
-        "decision_sha256": "93395df0adcaab92be41a75324fe7b0861590e43fb7fd25cdb1bd60b21fa3c80",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Review this exact candidate at normal speed with actual audio; verify fade ghosts and opening/final target phonemes, then revise only the remaining bounded local defects if evidence warrants. Do not resend KIE or reupload accepted Fireplay materials."
+        "decision_path": "knowledge/curation/reviews/ebc9d57f6d6c97b05e13c6a9b4821a7eb7ee162eb193f8cb0f3c2a76b2d298cd.json",
+        "decision_sha256": "25c6ae5e9ad6846c23b7994b1ca188f8a4940fbae3ab35d17dadb38e4127f9fd",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "key038-grass-cta-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/15f9dc01dd7dc13259f416979e7537bd5a42cf0e917177b4edc936d13df8ba35/KEY-20261109-038-03-88d8c01614.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -1595,13 +1694,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/732034d93f003047f9391222b1df5558478121686326240db4a75670b5e607ce.json",
-        "decision_sha256": "4b08a23d64901d19791e7d07c55bd0865eef45216bdad9b6c4a187b6bec6e511",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Review this exact candidate at normal speed with actual audio; verify fade ghosts and opening/final target phonemes, then revise only the remaining bounded local defects if evidence warrants. Do not resend KIE or reupload accepted Fireplay materials."
+        "decision_path": "knowledge/curation/reviews/6b772cc53b3f51fe490db70adf453a21a734df1dcc7f0f050ae9ebc8df56462f.json",
+        "decision_sha256": "74a6b823017a836486530ac4a1e75873828d11476308699caa86f3c030fc1c0c",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "key038-grass-cta-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/20561cef35fc0dc5a6f2de3e5aeeb1a66e64af00bc8ca033b8b58b4859eba83b/KEY-20261109-038-04-745e416984.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -2400,6 +2503,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/1efa4e90b97d2da6a4983ed4219384a34723ff0c12b021681c6a87dff91272c3.json",
+        "decision_sha256": "230327fef767513cbbf77c6a987b605d8090460dce80c93ee6c51ef56a615582",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source1-wall-hat-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/5b522dd2cc0f2a9b0688055a65b0bf67582db4b5b96a0fbb3b3819a5ed0ad513/MOG-20261109-049-1-01-completion-68c6d6fa66.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "0d4c1ae585877d0ee421a3ae8f6262c4152d5986a4bda3f34e666b7ca83e745e"
     },
     {
@@ -2415,6 +2530,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/062f7d022b1c757078ba5bbdd652b806f85fe9aeac3579be3724930295b9e47d.json",
+        "decision_sha256": "ed38972eec4c4a41d725303cc22da23c9be8743c2d17c9ef40d9bbbbf659cf3c",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source1-wall-hat-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/ae74807b832ed4500f06ff63e11605c5bf8f09c417c2ec84b55873e9a8e4f84f/MOG-20261109-049-1-02-completion-263da04e90.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "0d4c1ae585877d0ee421a3ae8f6262c4152d5986a4bda3f34e666b7ca83e745e"
     },
     {
@@ -2430,6 +2557,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/386ce6a42fe6b5f767cf67600f9709ddd2f2989056808791ef42d27def4e72b7.json",
+        "decision_sha256": "12c2c894ac6528a16f8f895aa432a38630337930ec33bee7e3932fbd12356ee4",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source1-wall-hat-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/08acc8d9611f383d5eb1d6f2ea1716e71bcd6a1a1d8cd378f03ce0fbb0e6c04d/MOG-20261109-049-1-03-completion-0271090beb.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "0d4c1ae585877d0ee421a3ae8f6262c4152d5986a4bda3f34e666b7ca83e745e"
     },
     {
@@ -2445,6 +2584,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/d1e713e9bf215eccb431fca51b5e8218e895721f8b1598d873a5c06a767654a2.json",
+        "decision_sha256": "5aaf235daa3251092d473e0b215974232e6969bf3b4a36246b751e6ae4e0a722",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source2-cloth-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/a32d4ef10c595ca86ffa163dc04e0aed8e0427a8b47d9db0932524397c880500/MOG-20261109-049-2-01-completion-4efc2115d5.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "8dd209a87c1190b694801b97b583f9fce68438346c7dc3a2455ec53c9b43bf51"
     },
     {
@@ -2460,6 +2611,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/4303c3bd7789e3cde0d7b003cc6072d3b90918e4f3005d94b3205ddea781179e.json",
+        "decision_sha256": "a575c6862afc3ec9e2c4a06ed0505bea52adc64d8ff76b878649f678b1a26e93",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source2-cloth-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/a916a5346641542a7d37aad0cc40eaaedb4b3fada9ff0eddb2dfe69c40a820e1/MOG-20261109-049-2-02-completion-ed0d0eb56e.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "8dd209a87c1190b694801b97b583f9fce68438346c7dc3a2455ec53c9b43bf51"
     },
     {
@@ -2475,6 +2638,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/b8c490d004b68229647009d859fc8eab2f03836e60fa747b42ceb9ab4cd9d1c8.json",
+        "decision_sha256": "ed772729b4509aec0f254203a86f8dec6cdc6b6df51b09b7d13942a44fc45347",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source2-cloth-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/42e458e94fdbecd6fd4a209cf92420949c77fce75750274d170a1649d32efa7c/MOG-20261109-049-2-03-completion-c8cb38e783.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "8dd209a87c1190b694801b97b583f9fce68438346c7dc3a2455ec53c9b43bf51"
     },
     {
@@ -2490,6 +2665,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/a398f0d80bd3e45b775c5f613c70b283601fadad497c54df163a3ccaf1fcffdd.json",
+        "decision_sha256": "2970692db49b95aec6d2f7522f30fdccacdf2ae0d25df59313ac7ebb11a08049",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source3-frame-clock-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/d9da37021bf21f052a287501e8789a3b6f3766542a82b52015e18726596a13b5/MOG-20261109-049-3-01-completion-86593d1d15.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "f6460c258d961e695fdf22d4526890aa9e598274bcbe8feca1900c55eaaec0ca"
     },
     {
@@ -2505,6 +2692,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/5983160fd09ccd9609ec9f9cf98f36a0043f548ff40d6325745b1cd1177ce33a.json",
+        "decision_sha256": "5eb76e0036c7e8038bcd13b5df1893e43fb69f9df93fd7752b091d72963c8ccf",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source3-frame-clock-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/6d8edc365e4f08fec3e36878d8c386af8491f20ed9806de17e1bd68fe2f92358/MOG-20261109-049-3-02-completion-958964a668.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "f6460c258d961e695fdf22d4526890aa9e598274bcbe8feca1900c55eaaec0ca"
     },
     {
@@ -2520,6 +2719,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/859e3c9718259e187dff571be793c582de10c8fd607d9070c9d66ca2b2078980.json",
+        "decision_sha256": "a0c16ffa3ee0932dadb5a0ea7fedfc66c0b5caf09630e3f0f05cbbb877b7b96e",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source3-frame-clock-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/cad6fed005367a5703cb94ff67ab1ca08faf19993cf03b3d713982711165acb0/MOG-20261109-049-3-03-completion-9d6f8b960c.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "f6460c258d961e695fdf22d4526890aa9e598274bcbe8feca1900c55eaaec0ca"
     },
     {
@@ -2535,6 +2746,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/19c365191f4150a1f50cdeef7777628cfb911da05fcf15b29eb8f149767a6cc5.json",
+        "decision_sha256": "11cc81a7d3ac364fcd1930cc06f1c3d0454ef4d8c6d504bbc26d0379ecee45dd",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source4-phrase-timing-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/50acf841d72afbd7a822aa9fee4e101af587dcc9fa724edd75c8130ed31c1618/MOG-20261109-049-4-01-completion-f5cb3c1732.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "232a0a234fe65203b7ae66f74ff378a24815a2e0fe84e5b2ab8891b1557d1397"
     },
     {
@@ -2550,6 +2773,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/8b1ff97b15fcf56188dcebe5d17865a7d28d557b7aa11cec73bc3a55c5769579.json",
+        "decision_sha256": "5a3f4d57380c31f3ae86461c8572c06561fea7c558611308fa8706dd21f00168",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source4-phrase-timing-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/ecd9b2d8e9386a7ab37542c1d3ffffa6233a11f1dc09770c9d1f08a81c98efb8/MOG-20261109-049-4-02-completion-81714779fd.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "232a0a234fe65203b7ae66f74ff378a24815a2e0fe84e5b2ab8891b1557d1397"
     },
     {
@@ -2565,6 +2800,18 @@
       "historical_outcome": "delivered_with_issues",
       "review_status": "no_adoption_record",
       "reviews": [],
+      "current_review": {
+        "decision_path": "knowledge/curation/reviews/dbc69235091bc2ddfd2a2a8031395303a8de6c0672dec49677d52756d3536026.json",
+        "decision_sha256": "6da622604292283c0a34e7813a279a67c7a4a02a345925688293008be5357556",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
+      },
+      "current_targets": [
+        "mog049-source4-phrase-timing-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/4cf688b96ab63f08d4c7ae9c13cc1d8d9778af67545c5efa29344297c908c26a/MOG-20261109-049-4-03-completion-8c58a85f3f.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "232a0a234fe65203b7ae66f74ff378a24815a2e0fe84e5b2ab8891b1557d1397"
     },
     {
@@ -3161,13 +3408,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/e32c292ff3535c1eef8dc34501d6f2eea9958c469e08c5163946e351cedfe0d7.json",
-        "decision_sha256": "fb93c608454ff091dce0127d1fb462cd1baae4e6a0592dc80566bb4567db3a8e",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/b4b8c97efb016cc9ecc5c5e0a76abf6ca0009f327c2d85a0d780ca7101b50c6c.json",
+        "decision_sha256": "91c89dfddd4453ef1ecfc2d7807203050d889f2a5e5ee9214c9d49878c6b1ea0",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/8069e2a8de0d21e1de0b69c17a199b229d57498afdd2235ff5c674f1834b0737/SHE-20261118-007-01-6de34263c2.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3184,13 +3435,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/fcb384b0e5bdf03ef3a767fbc1a553894e8d133fadfe25d711396def39cac89f.json",
-        "decision_sha256": "74f6e5a73f8b27f751972423840efab3a3e77da6b34571c6fb773ac13ffb61d2",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/b9fbba907fc6e9f867f022d0bdca2526499d84c852742dd4e6bd289ce4c1f120.json",
+        "decision_sha256": "ed0f226d04974e81d8150c4600cb289a8b8460248247fdb1e152a093f5006230",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/84983344d471d8907832ebf73060a97c1a42adcc2813749b1d8a12ca3233b1fb/SHE-20261118-007-02-c3ce5f7918.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3207,13 +3462,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/c45dbb13730a78e3d1b644f447ff95b9168188115fae19e15c9ba1ea9303b1b4.json",
-        "decision_sha256": "274a0027877772eb95c144bb27bbf5ce7846f26d5fca2c5151e7ee0b92f1a4db",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/51f2f16a47a5a38dfe5fd0349b9be3178e4e977aca4720735e2b5207f3f09e75.json",
+        "decision_sha256": "aace61f33719cc5fa65f10b9adbaaa2138456129baf5b1e52c0626e38faf306c",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/a78b442101dae0bcb24aee14bdb243f8af41c329217506addfaae7506c40bb0f/SHE-20261118-007-03-55d7d75e7d.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3230,13 +3489,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/6c82249cae458d6c5096342b97716f6c3caf42a9ab2b9d05b5b7f9e369000078.json",
-        "decision_sha256": "0def0e567e63038c9aa6e7ac188af320ff1750fa3de7194c364e33f13cf2f9a8",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/54e138de956dd6040f0b1091b4aae3f442765d0f0eb048033b0f037e231f91a0.json",
+        "decision_sha256": "bb58f35befc504565226efe81881253bc62740159459964918f933aeb1c3c759",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/a216cd8536a8986972fab0769ac72c194f425d7d2f884c317f5a03fafd3e0398/SHE-20261118-007-04-c7989988e2.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3253,13 +3516,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/37053a01a08976e554e513c7cb736969fa930c270ee96525886e8a5f819096c7.json",
-        "decision_sha256": "e1050808f059612f887ffa6c5cc7566322ea7ee67538ae9b8b14b763fbc103d0",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/2b4836b2dd08cfc93e46c69998ac2277a898071ef362e7fd6f0532a6714dbb96.json",
+        "decision_sha256": "1ab1616712790c718c2a0f427753a3ac4cb83c9a4e2c92e218bc10008d4c95a5",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/dddde85c3dc395e394706500f370209803cc6931f49ed2b6b5e96e66d7f7a6fe/SHE-20261118-007-05-a9086ae760.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3276,13 +3543,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/7d190528dec6e096733b7bd56e45c311b159464a42d5004a875cda7595898eec.json",
-        "decision_sha256": "13e57155a4da055db8cc6376064c76ff46d5fd6fa935b699aecbbd9752703bc3",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/7c9688009dd4f6cb2c22438fbf3a9c2e7a98f3abf3fcfa673c87f01b46ef5372.json",
+        "decision_sha256": "a5f6c59e417a1e83b77154d6aae3cd4f43963cda8031f8e459ce5a5ef665ee1b",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/3840bc2a761d16de03b8194aed36a48850689e1ad3c2e0e141c0b3106cc97b96/SHE-20261118-007-06-9105164175.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3299,13 +3570,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/a59b6354e641612cc7b7c676503a609aa068a6d169002d6c207661da5a9dfa08.json",
-        "decision_sha256": "e495e1d56340e38eee2dd26ac121a97a28030e59cb5e7df4ec7d9d17473f3df7",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/8e00ae181ab0e720171c4cd42ad97f255814ff6a13f8c40d6f9315540c810bf4.json",
+        "decision_sha256": "def8decea7386a86214684b02b9aa752f78b1c25a3a3738addd58701715c942a",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/23b9c9b1305f3f02d8d082102e5ff15076e7f253dccaa1d378c3700e8dd11f60/SHE-20261118-007-07-7e1a499171.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3322,13 +3597,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/444dbcee39880e273826363a28d2f22488556e271a96acd20bb3dbab58d73f0a.json",
-        "decision_sha256": "c99c4205ad67fc2b37bc52affb3b70b2799140f991149d88df8e7ecc9b46c11d",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/64d5947137c9a736130310908b6532fffdcb05635ac507b706915b0ad050cf02.json",
+        "decision_sha256": "be0f3a015af47f943c0e0b3c7964c13284de7412785c75c5ae10df5ec62ae285",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/18e95cfc005e2c1d3834321e0d3014fe72e1d16a6b000f31eca88c2e6dbccef9/SHE-20261118-007-08-61249e7fec.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3345,13 +3624,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/efd73d0001cfa02fd08d4d15a008b16485a9ee695b66dad2d1dbc83c3bd8e5fd.json",
-        "decision_sha256": "901968c0dd4c51494c0f4d7c075e7b4b4022850c0d6778f4f3a587e9cba33581",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/39291ec499f1c3465a965bfae9c5468ca6a7003fd147ae71082e3ee3b9319ddd.json",
+        "decision_sha256": "5cdf11bdaf139189996350a74e341e45ceff8a320a4aa43be6e870cdb72cbd51",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/40473b8027453553cde33346bdd8632d0e253573522b0fbd1cece827c6865618/SHE-20261118-007-09-18c0a516c2.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3368,13 +3651,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/42e4e975fa788e33385bd355371e99b9c6c6b04b3c0c0a81f5c0c8c669481c11.json",
-        "decision_sha256": "b9e83502113e8b20f7303fa7a5e3eb4d50404c0e985f8577a4ce16900e1d6805",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/92a6f117717865026c098b56911ae92719811943e24b32ed94f8261f8dfeb26f.json",
+        "decision_sha256": "cf23c432e930e335fbf1955bc7b31f492237cc37d82ead2c887c4026f8755332",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/8dfae1d3ee63fe62778e2713846970b2d3f2d6646df14a082ca476079c512912/SHE-20261118-007-10-ecb4f89fa7.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3391,13 +3678,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/954596d567aa2bb8889a1632aef0ffbb3b31879f48f6816460228ed48bf4fd4d.json",
-        "decision_sha256": "bac0b040c090d014c83cbf5a95785bfd0796bb7f6b7628b254f2ae4f505e64b2",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/2116002e31307d20dc2a7f2d14f973d2e26a37624a811c2f3370820a297685f6.json",
+        "decision_sha256": "c8198f60aeb401adc6ebd17a9158869c88bd2fad8d97337524d2156da90cebba",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/cc3205c966e580aa4436d1d5b51160a3de39d6af598351dd160a96e0477e2de6/SHE-20261118-007-11-13e13a9be3.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3414,13 +3705,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/728dc34bf0381c46324a0c84c302cb8bb3cb714e5e5840c8e2167861422c316b.json",
-        "decision_sha256": "5e98dda1b9dbaa2371868d8bf7ef1eff3c8c0d40d2f5b52354d788581933df34",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/8a6bd7792867d87753a83863dbd5f7900e79efc9be73dd73865e2a88265316c6.json",
+        "decision_sha256": "46b97d3bb83b51228cea0042a9847e46e305ffb7bca4247918545bdef1e9c20e",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/6219880542d317bd5872242a9cd8ae9bfc1a4bfee6ec4fffad7460e395ead847/SHE-20261118-007-12-6ecb2cb369.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3437,13 +3732,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/b518621721c53ca5ca0cc4cbb42c7439c71b84ad1fefa72548dd9f357f98b289.json",
-        "decision_sha256": "8f3f52cb2a2d0575f5a81d4c310adf019d7f1fc315921b9a4bcf035f3e22a036",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/b8422ab15199c28f34491afd2b0c6de8cdc8eda0a1bb6ddbade844fd1ae8e6a0.json",
+        "decision_sha256": "b0bab078a6a0fcb9aa190d7df660fff49ad36a1d7cea496bc3354ebb7449230a",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/a4f7999d87f26df8cbd6a7285cef61bcbc1060e7a12c58efd9f00148b3b4053a/SHE-20261118-007-13-c026b38791.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3460,13 +3759,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/9477899cee2f7c0a3abf91b04f0d42a38e9c62451c9a8c672782698be0ed8cfc.json",
-        "decision_sha256": "9d519b7b9de279980326ec1851a39401ee719ee6363fae70ac78b3596a050a98",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/4d57a4cbfcc0e2a239e900ef5e3eff15b9b4487740f8024a73b7d0dddbdb7648.json",
+        "decision_sha256": "7e2ff8a345eeac10ce4f76cc648b9e0464505b4bfe3b81ea3b4d21ff3e40dd7c",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/274ddeff198ee63901fbdf511e65d02394a8a7df5fa8839155d2fbfe9d8c77fa/SHE-20261118-007-14-bdc4284141.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3483,13 +3786,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/5f744ef26e4ddae774f92ef282badb4c15fcd0515db8d67f7362159f083733d4.json",
-        "decision_sha256": "fdae009035066838d646ec31987d0294b0cd4d210f94fe543800be66ebf7f67b",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/196309ebbb126ad81d40a58853ef1f9a969534437d9d34cfa315749fea57a296.json",
+        "decision_sha256": "d480f900cbc6d7dd5d01e714139f0041c9f42006366b55748ec08761b1a9dc9a",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/ae5f5582c119fd477463efd15fd85c1162021e3eb6672c65cc0fac571a69b7c2/SHE-20261118-007-15-61b586efa6.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3506,13 +3813,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/55da6137b8b325080e57cecea46e68fcf1ae28ef495b9bd4532ce404afd88fc3.json",
-        "decision_sha256": "cc88639fd3dca04b0a69d197535b84b47c242d560d33686dbbfe0ca08438e331",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/ab4264c9a87e35ab011c5cc02c062d6d21b2ca3e91e99f5ddeb741561158f396.json",
+        "decision_sha256": "c354c2e107b168e085623421782d360273effaa30b1b24572f0aeaf4abee4294",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/4aab0b8b24a348bdd769ecbec0cc1bdd9c60a220a0353667bcabb28b8138f4c9/SHE-20261118-007-16-ac978b2c9c.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {
@@ -3529,13 +3840,17 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "current_review": {
-        "decision_path": "knowledge/curation/reviews/ca69168523f36db755831532764030bc76924fa672b936ac11a44f3d0b215d55.json",
-        "decision_sha256": "df6d5cf0657393307b0c1161d4a13ce2762c17b57c48ac007048aafb0887f6ac",
-        "resolution": "pending",
-        "closed": false,
-        "next_action": "Inspect the encoded charger turn and complete opening/CTA by direct listening, then review normal-speed UI and CTA motion before claiming pronunciation or whole-video quality approval. Do not automatically regenerate or expand source/language scope."
+        "decision_path": "knowledge/curation/reviews/22926f0ea4ee9de5d313095a10736de5d8e79655c991a975c0000e9c80e4880d.json",
+        "decision_sha256": "30d0681d81a863bc9b4c833c2db92147f46ee4ab0e0a71b1fd6c848f3d1f1de0",
+        "resolution": "adopted",
+        "closed": true,
+        "next_action": "historical_record_only"
       },
-      "current_targets": [],
+      "current_targets": [
+        "she007-phone-ui-source-observations-v1"
+      ],
+      "storage_path": "knowledge/history/candidates/be2bd8ad79808072b88d94fab3abd7db09b5590ffb3ec31cdb1d772a20fa66ee/SHE-20261118-007-17-0e759f76fc.json",
+      "queue_state": "archived",
       "hypothesis_sha256": "ae090e354a331dd740b12aecc5963ad0f9981d797f5c987976f71b6d4d7dfe99"
     },
     {

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog049-source4-phrase-timing-observations-v1",
+  "created_at": "2026-11-26T03:57:14+00:00",
+  "files": [
+    {
+      "path": "evidence/mog049-source4-phrase-timing-observations-v1-observations.json",
+      "sha256": "519a7336ad12c4ae297e6a3af99504a63cc5aa0fde919655e53d961c899e8de5",
+      "bytes": 10069
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "b382740659f1d448dfb8dc4cf5cec071b118431022af85c60173a28866cc3ada"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG-20261109-049 原片4 标题退场和配音边界\n\n该原片可以优先验证历史共用底片的适用性，各语种标题、短语时序和七句真实配音单独重建。抽样曾发现天空、红墙、头发上方纹理及标题淡出残影。\n\n第三标题在源标题消失后的第355帧仍然可见，约360–361帧有短暂退场痕迹。结合源原生帧、实际成片和音轨时间基准复核。历史记录中末帧延长四帧以保留约25.4955秒音频，复做根据新成片实际时长判断。\n\n结案中断时复用实际持久化回执，遵循当前 Fireplay 受理政策。西语、日语和巴西葡语的观察、ASR分歧及质量限制见 evidence:observations。历史完整解码和抽样证据支持该次有限观察，正常速度视听仍待核验。\n",
+    "source_sha256": "b382740659f1d448dfb8dc4cf5cec071b118431022af85c60173a28866cc3ada",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/mog049-source4-phrase-timing-observations-v1-observations.json"
+    }
+  }
+}

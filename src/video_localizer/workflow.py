@@ -9,7 +9,7 @@ from .text_restoration import review_template as restoration_review_template
 
 from . import audio as audio_tools, captions, media, source_state
 from .common import (ROOT, WorkflowError, file_hash, get_run, guarded, inside, lock, object_hash,
-                     read_json, require, require_number, utc_now, write_json)
+                     read_json, require, require_number, storage_admission, utc_now, write_json)
 from .contracts import validate_inventory
 from .kie import ApiError, KieClient, download, result_urls
 from .retry_activity import observed_job
@@ -39,14 +39,11 @@ def profile_path(run):
 def create_run(video, target, brief, name, source_url=None):
     import re
     require(bool(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}", name)), "Invalid run id")
-    require(not (ROOT / 'state/project-storage.lock').exists(), 'Project storage maintenance is active')
-    with lock(ROOT / 'runs/.locks' / (name + '.lock')):
-        require(not (ROOT / 'state/project-storage.lock').exists(), 'Project storage maintenance is active')
+    with storage_admission(ROOT, ROOT / 'runs/.locks' / (name + '.lock')):
         return _create_run(video, target, brief, name, source_url)
 
 
 def _create_run(video, target, brief, name, source_url=None):
-    require(not (ROOT / 'state/project-storage.lock').exists(), 'Project storage maintenance is active')
     import re
     from .languages import resolve
     from .storage_policy import require_intake_space

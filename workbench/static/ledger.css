@@ -98,6 +98,7 @@
 .ledger-card, .ledger-table, .ledger-health { border-radius: var(--radius-md); }
 .ledger-form :is(input, select, textarea) { border-radius: var(--radius-sm); }
 .ledger-detail .table-wrap { max-height: none; }
+#ledger-detail { margin: auto; }
 @media (max-width: 650px) {
   .ledger-cards { grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); }
   .ledger-toolbar .search { max-width: none; }

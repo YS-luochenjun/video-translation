@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge-case",
+  "identity": "mog049-source1-wall-hat-observations-v1",
+  "created_at": "2026-11-26T03:57:10+00:00",
+  "files": [
+    {
+      "path": "evidence/mog049-source1-wall-hat-observations-v1-observations.json",
+      "sha256": "b547ae4145ae6d68ffa67c2600fa0cba07acbb0008d6f7820fb8775d03d44c42",
+      "bytes": 8535
+    }
+  ],
+  "metadata": {
+    "scope": {
+      "workflow": "video-localization",
+      "source_sha256": "cd0869ecbb669a82c7d503e9c90e116a46efb478d77ab0e4d0a2bdad3df59d1a"
+    },
+    "status": "reviewed_reference",
+    "lesson": "# MOG-20261109-049 原片1 墙面与帽子修复\n\n西语、日语、巴西葡语使用该源的共用上部修复，抽样发现墙面及帽子纹理变化，约2.267秒存在分离的帽顶虚影。复做应对照这一时点的原片、底片、译片整幅画面，并保护脸、手与身体。\n\n标题保留黄色字、黑色轮廓及原始位置，历史成片字墨高度较小、行距较紧，下一个标题重叠影响可读性。各语种重新匹配原文字视觉重量，日语实际字形需要适配。\n\n各语种历史完整编码及首尾 ASR、发音疑点和质量限制见 evidence:observations。连续正常速度视听和独立验收仍缺证据，旧 best-available 成片的内部质量结论保留。\n",
+    "source_sha256": "cd0869ecbb669a82c7d503e9c90e116a46efb478d77ab0e4d0a2bdad3df59d1a",
+    "video_sha256": null,
+    "origin_run_id": null,
+    "evidence_semantics": "Embedded historical records are immutable observations. Their old path strings are origin labels, not live dependencies. Use only this manifest's files.",
+    "proof_boundary": "Preserved text, feedback and actual observed image/audio evidence. Does not preserve every full-video frame or make unobserved claims pass.",
+    "observation_selection": "Native representative frames, explicit failures, declared review evidence and caption/audio boundaries; full production audits stay in delivery/recovery assets.",
+    "required_external_files": [],
+    "visibility": "project",
+    "company_preference": false,
+    "references": {
+      "observations": "evidence/mog049-source1-wall-hat-observations-v1-observations.json"
+    }
+  }
+}

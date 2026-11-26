@@ -20,7 +20,6 @@ let snapshot = null, detail = null, catalog = null, tab = 'overview', query = ''
 let taskListOpen = true;
 let sessionUsage = null;
 let refreshing = false, pendingRefresh = false, detailSequence = 0, lastSuccess = 0;
-const refreshSeconds = 15;
 
 async function api(url) {
   const controller = new AbortController();
@@ -43,12 +42,11 @@ function notice(message) {
   $('notice').textContent = message || '';
 }
 
-async function refresh(force=false) {
+async function refresh() {
   if (refreshing) {
-    pendingRefresh ||= force;
+    pendingRefresh = true;
     return;
   }
-  if (!force && document.hidden) return;
   refreshing = true;
   $('refresh').disabled = true;
   $('refresh').setAttribute('aria-busy','true');
@@ -56,7 +54,7 @@ async function refresh(force=false) {
     const page = route().page;
     if (['sessions','automations'].includes(page)) {
       renderPage();
-      await window.ConsoleUI.refresh(force);
+      await window.ConsoleUI.refresh(true);
       if (route().page !== page) return;
       lastSuccess = Date.now();
       notice('');
@@ -64,7 +62,7 @@ async function refresh(force=false) {
     }
     if (['ledger','efficiency'].includes(page)) {
       renderPage();
-      const readAt = await window.LedgerUI.refresh(force);
+      const readAt = await window.LedgerUI.refresh(true);
       if (!readAt || route().page !== page) return;
       lastSuccess = Date.now();
       notice('');
@@ -72,11 +70,10 @@ async function refresh(force=false) {
     }
     const next = await api('/api/snapshot');
     if (route().page !== page) return;
-    const changed = !snapshot || snapshot.revision !== next.revision;
     snapshot = next; lastSuccess = Date.now();
     $('nav-count').textContent = next.stats.tasks;
     notice(next.warnings.length ? `有 ${next.warnings.length} 项记录暂不可读取。任务中的文件异常会单独标记，其他记录仍可查看。` : '');
-    if (changed || force) renderPage();
+    renderPage();
     if (route().page === 'tasks') await loadDetail(false);
     if (route().page === 'knowledge') await loadKnowledge();
     if (route().page === 'system') {
@@ -88,7 +85,7 @@ async function refresh(force=false) {
     refreshing = false; $('refresh').disabled = false; $('refresh').removeAttribute('aria-busy');
     if (pendingRefresh) {
       pendingRefresh = false;
-      void refresh(true);
+      void refresh();
     }
   }
 }
@@ -416,13 +413,11 @@ document.addEventListener('click',async e=>{
 });
 
 $('close-document').addEventListener('click',()=>$('document').close());
-$('refresh').addEventListener('click',()=>refresh(true));
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)void refresh(true);});
+$('refresh').addEventListener('click',refresh);
 function normalizeHash() {
   if (/^#requirements(?:\/|$)/.test(location.hash)) history.replaceState(null,'',location.hash.replace(/^#requirements/,'#ledger'));
 }
-window.addEventListener('hashchange',()=>{normalizeHash();detailSequence++;if(route().page!=='tasks')detail=null;renderPage();refresh(true);});
-setInterval(()=>refresh(),refreshSeconds * 1000);
+window.addEventListener('hashchange',()=>{normalizeHash();detailSequence++;if(route().page!=='tasks')detail=null;renderPage();refresh();});
 normalizeHash();
 renderPage();
-refresh(true);
+refresh();

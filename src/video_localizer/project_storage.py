@@ -108,7 +108,8 @@ def scoped_preview(root, now=None):
     for row in transient:
         target = _safe_path(root, row['path'])
         tree = _tree(target)
-        require(tree and not any(item['link'] for item in tree), 'Linked scoped cleanup target')
+        require(tree and (row['reason'] == 'retired_experiment' or not any(item['link'] for item in tree)),
+                'Linked scoped cleanup target')
         selected.append({**row, 'tree_fingerprint': object_hash(tree),
                          'files': sum(not item['directory'] for item in tree),
                          'logical_bytes': sum(item['bytes'] for item in tree if not item['directory'])})
@@ -124,6 +125,7 @@ def scoped_execute(root, expected, now=None):
     from . import budgets, learning
     root = Path(root).resolve()
     with lock(root / 'state/project-storage.lock'):
+        started = time.monotonic()
         plan = scoped_preview(root, now)
         require(plan['fingerprint'] == expected, 'Storage preview changed; regenerate the selection')
         if not plan['selected']:
@@ -150,10 +152,11 @@ def scoped_execute(root, expected, now=None):
                   'logical_bytes_removed': sum(row['logical_bytes'] for row in removed),
                   'net_free_bytes_change': shutil.disk_usage(root).free - before,
                   'preserved_records': (folder / 'records').relative_to(root).as_posix(),
-                  'accounting_sync_errors': sync_errors}
+                  'accounting_sync_errors': sync_errors,
+                  'global_lock_seconds': round(time.monotonic() - started, 3)}
         write_json(folder / 'receipt.json', result)
-        learning.audit(root)
-        return result
+    learning.audit(root)
+    return result
 
 
 def authorized(root, reset=False):
@@ -305,6 +308,8 @@ def _preserve_records(root, plan, folder):
     from .storage_candidates import files
     settled_uploads = None
     for row in plan['selected']:
+        if row.get('reason') == 'retired_experiment':
+            continue
         path = _safe_path(root, row['path'])
         for file in files(path) if path.is_dir() else [path]:
             if (file.is_file() and not file.is_symlink() and file.suffix.lower() in RECORD_SUFFIXES
@@ -381,6 +386,7 @@ def execute(root, expected, reset=False, now=None):
     from . import learning
     root = Path(root).resolve()
     with lock(root / 'state/project-storage.lock'):
+        started = time.monotonic()
         plan = preview(root,reset,now)
         require(plan['fingerprint'] == expected, 'Storage preview changed; regenerate the selection')
         # A new guard cannot enter run_operation while the lifecycle lock exists.
@@ -452,42 +458,8 @@ def execute(root, expected, reset=False, now=None):
                   'free_bytes_before':before,'free_bytes_after':after,'net_free_bytes_change':after-before,
                   'preserved_records':(folder / 'records').relative_to(root).as_posix(),
                   'accounting_sync_errors':sync_errors,
+                  'global_lock_seconds':round(time.monotonic() - started, 3),
                   'scope':'Actual disk free delta can include concurrent system writes and APFS/hardlink effects; charges and old quality states unchanged.'}
         write_json(folder / 'receipt.json',result)
-        learning.audit(root)
-        return result
-
-
-def auto(root):
-    root = Path(root).resolve()
-    lifecycle_lock = root / 'state/storage-lifecycle-check.lock'
-    storage_lock = root / 'state/project-storage.lock'
-    if not authorized(root) or lifecycle_lock.exists() or storage_lock.exists() or _locks(root):
-        return {'state':'deferred_or_disabled'}
-    try:
-        # Several chats can finish a stage together. Let one run the potentially
-        # expensive preview, and check for resumed production before execution.
-        with lock(lifecycle_lock):
-            path = root / 'state/storage-lifecycle-latest.json'
-            old = read_json(path) if path.exists() else {}
-            maintenance = read_json(root / 'config/maintenance.json')
-            if time.time() - old.get('checked_unix', 0) < maintenance.get('lifecycle_check_seconds', 3600):
-                return {'state':'not_due'}
-            if storage_lock.exists() or _locks(root):
-                return {'state':'deferred_or_disabled'}
-            from .maintenance import recover_accepted_closures
-            recovered = recover_accepted_closures(root, execute=True)
-            if storage_lock.exists() or _locks(root):
-                return {'state':'deferred_or_disabled', 'recovered_closures': recovered}
-            plan = preview(root)
-            if storage_lock.exists() or _locks(root):
-                return {'state':'deferred_or_disabled'}
-            result = (execute(root, plan['fingerprint']) if plan['selected'] or plan['unavailable_entries']
-                      else {'state':'no_eligible_data','pressure':plan['pressure']})
-            result['recovered_closures'] = recovered
-            write_json(path, {'checked_unix':time.time(), **result})
-            return result
-    except WorkflowError as exc:
-        if isinstance(exc.__cause__, FileExistsError) and exc.__cause__.filename == str(lifecycle_lock):
-            return {'state':'deferred_or_disabled'}
-        raise
+    learning.audit(root)
+    return result

@@ -1,0 +1,43 @@
+{
+  "source": {
+    "path": "knowledge/candidates/MOG-20261109-049-3-01-completion-86593d1d15.json",
+    "sha256": "d9da37021bf21f052a287501e8789a3b6f3766542a82b52015e18726596a13b5"
+  },
+  "previous_review": null,
+  "review_type": "developer_review",
+  "reviewed_by": "Codex knowledge curation historical record review",
+  "origin": "Existing recorded observations and source-specific consolidation",
+  "resolution": "adopted",
+  "reason": "Shared source observations and exact-locale limitations independently packaged in one known source reference; future quality checks follow the current production contract.",
+  "targets": [
+    {
+      "id": "mog049-source3-frame-clock-observations-v1",
+      "path": "knowledge/cases/mog049-source3-frame-clock-observations-v1.md",
+      "sha256": "c5100f483b1b82279ac9e1f9fdb25cfbba4e23ac47b21f2cd8e8b1dcadbbff63",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "5530e87b9863dd7e3c9fefa803a5427f9b907a4052c42ceb8ac671f20d7cfc83"
+      },
+      "snapshot": "# MOG-20261109-049 原片3 帧时钟与装饰标题\n\n同源历史版本遇到源毫秒时间戳与编码帧时钟的核验失败。复做时保留两种实际时间基准，按现行取证合同核对映射和硬性校验。\n\n原片红色点状标题包含白、蓝、黄轮廓和快速缩放、径向切换，历史实际字体及图层仅近似这些表现。约3.6秒切换应核对相邻实际帧。小字修复也曾柔化地板和脚边纹理。\n\n西语、日语、巴西葡语历史成片为完整六句配音的 best-available 结果。各语种具体字形差异、ASR分歧及质量限制见 evidence:observations。原取证门禁结果及正常速度视听缺口保留。\n"
+    }
+  ],
+  "adopted_parts": [
+    "For this source, preserve millisecond source timestamps and exact encoded frame-clock evidence separately. A capture timestamp gate failure remains a failure even when a complete dubbed best-available output is selected; floor softening and font/outline approximation remain disclosed."
+  ],
+  "retained_parts": [
+    "Source rounded decorative face, stipple and outline thickness are approximated with real Arial Rounded glyphs and layered PNG; title is uppercase and challenge spans wider than original.",
+    "Original rapid first-title scale is reconstructed; radial-blur transition is simplified to a switch at3.6s. Actual sampled 3.5667/3.6/3.6667 frames confirm source title event order.",
+    "Tiny watermark glyph repair softens floor/feet texture locally; sampled three-column frames retain subject, hat, room and rear-view movement with no severe damage observed.",
+    "Real encoded full/head/tail no-VAD Spanish ASR recognizes all six translated turns including initial La and final Espera. ASR cannot prove zero residual English, voice naturalness or music fidelity; no direct listening or continuous normal-speed visual playback claimed.",
+    "Complete dubbed best-available output; quality not approved and no independent or user/company acceptance claimed.",
+    "Original outcome, source evidence, actual video hashes and any fee information are retained in the evidence bundle."
+  ],
+  "all_material_accounted": true,
+  "remaining_disposition": "historical_only",
+  "retrieval_features": [],
+  "schema_version": 1,
+  "closed": true,
+  "next_action": "historical_record_only",
+  "recorded_at": "2026-11-26T03:57:13+00:00",
+  "authority": "Review of specified contents only; no new video acceptance, automatic rule activation or broader source scope."
+}

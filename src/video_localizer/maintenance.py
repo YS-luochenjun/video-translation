@@ -6,6 +6,8 @@ import time
 from .common import (WorkflowError, file_hash, inside, object_hash, read_json,
                      require, run_operation, utc_now, write_json)
 
+DELIVERY_STAGES = frozenset(('workflow.deliver', 'fast_delivery.deliver', 'finalization.finish'))
+
 
 def _context(run):
     run = Path(run).absolute()
@@ -310,8 +312,6 @@ def maintain(run, close=False, stage='manual'):
         # Legacy preserve would add a permanent full-source copy in state.
         from . import learning, library
         with run_operation(run, resume=False):
-            if stage != 'accepted_delivery_recovery':
-                require(not list((root / 'state/resources').glob('*.lock')), 'Heavy work is active')
             for job in (run / 'jobs').glob('*.json'):
                 require(read_json(job).get('state') not in {'created', 'submitted', 'running', 'processing', 'queued'},
                         'Model task remains active; finish it before closing')
@@ -360,7 +360,7 @@ def maintain(run, close=False, stage='manual'):
                 if not delivered:
                     result['blockers'].append('Delivered video is missing or changed')
             registry = state / 'scratch.json'
-            terminal_stage = stage in ('manual', 'workflow.deliver', 'fast_delivery.deliver', 'finalization.finish')
+            terminal_stage = stage == 'manual' or stage in DELIVERY_STAGES
             if delivered and terminal_stage and policy.get('automatic_registered_cache_after_delivery') and registry.exists():
                 candidates = read_json(registry)['files']
                 scan_errors = []
@@ -402,7 +402,7 @@ def maintain(run, close=False, stage='manual'):
 
 def after_stage(run, stage):
     """Housekeeping may defer but can never turn a produced video into a failure."""
-    if not Path(run).exists():
+    if stage not in DELIVERY_STAGES or not Path(run).exists():
         return
     try:
         root, policy, state = _context(run)
