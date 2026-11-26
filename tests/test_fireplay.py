@@ -449,6 +449,22 @@ class FireplayTests(unittest.TestCase):
         receipt['transfer'] = {'completed': True, 'http_status': 200, 'sha256': outbox['packages'][0]['sha256']}
         self.assertEqual(fireplay.receipt(CODE, 'upload-1', receipt, self.root)['state'], 'verified')
 
+    def test_presign_recovery_requires_a_complete_read_of_the_existing_object(self):
+        self.returned_setup(upload_route='presign')
+        operation = fireplay.dispatch(CODE, True, self.root)['operation']
+        path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        digest = read_json(path)['packages'][0]['sha256']
+        url = 'https://example.com/video.mp4'
+        transfer = {'completed': True, 'http_method': 'GET', 'http_status': 200, 'url': url,
+                    'bytes': operation['arguments']['items'][0]['file_size'], 'sha256': digest}
+        response = {'publicUrl': url, 'resourceId': RESOURCE}
+        for field, wrong in (('bytes', 1), ('url', url + '.other'), ('http_status', 206), ('sha256', '0' * 64)):
+            with self.assertRaises(WorkflowError):
+                fireplay.receipt(CODE, 'upload-1', {'response': response,
+                                                    'transfer': {**transfer, field: wrong}}, self.root)
+        self.assertEqual(fireplay.receipt(CODE, 'upload-1', {'response': response, 'transfer': transfer},
+                                          self.root)['state'], 'verified')
+
     def test_exact_code_not_prefix_and_pagination_guidance(self):
         self.snap['summary']['items'][0]['code'] += '-other'
         with self.assertRaisesRegex(WorkflowError, 'Exact requirement'):

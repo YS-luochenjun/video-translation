@@ -168,16 +168,24 @@ def execute(run, relative, extension_reason=None, probe_frames=None):
                     mask[max(0,mask_top-margin):min(height,mask_top+mask_height+margin),
                          max(0,mask_left-margin):min(width,mask_left+mask_width+margin)] = 255
                     mask &= region
+                feather = row.get('donor_feather', 0)
+                require(type(feather) is int and 0 <= feather <= 160, 'Invalid donor feather radius')
+                alpha = None
+                if feather and row.get('donor') and np.any(mask):
+                    distance = cv2.distanceTransform(255-mask, cv2.DIST_L2, 5)
+                    alpha = np.clip(1-distance/feather, 0, 1)
+                    alpha = alpha*alpha*(3-2*alpha)
+                    combined |= (alpha > 0).astype(np.uint8)*255
                 combined |= mask
                 if row.get('repair_method', 'telea') == 'telea':
                     inpaint_mask |= mask
-                row_masks.append((row,mask))
+                row_masks.append((row,mask,alpha))
                 counts[row['id']] += int((mask>0).sum())
             current = base.copy()
             if np.any(inpaint_mask):
                 repaired = cv2.inpaint(base, inpaint_mask, spec.get('inpaint_radius',2), cv2.INPAINT_TELEA)
                 current[inpaint_mask>0] = repaired[inpaint_mask>0]
-            for row, mask in row_masks:
+            for row, mask, alpha in row_masks:
                 if row.get('repair_method', 'telea') != 'telea' and np.any(mask):
                     replacement = _special(original, None, {**row, 'method': row['repair_method']}, cv2, np)
                     current[mask>0] = replacement[mask>0]
@@ -189,7 +197,14 @@ def execute(run, relative, extension_reason=None, probe_frames=None):
                         blend_left, blend_top, blend_width, blend_height = cv2.boundingRect(mask)
                         replacement = cv2.seamlessClone(replacement, original, mask.copy(),
                                                        (blend_left+blend_width//2,blend_top+blend_height//2),cv2.NORMAL_CLONE)
-                    current[mask>0] = replacement[mask>0]
+                    if alpha is None:
+                        current[mask>0] = replacement[mask>0]
+                    else:
+                        affected = alpha > 0
+                        weights = alpha[affected, None]
+                        current[affected] = np.rint(
+                            replacement[affected]*weights + base[affected]*(1-weights)
+                        ).astype(np.uint8)
                 if row.get('original_panel_black_boundary'):
                     boundary = row['original_panel_black_boundary']
                     sample = row['original_panel_clean_sample']

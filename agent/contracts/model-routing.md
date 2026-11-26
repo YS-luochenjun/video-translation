@@ -22,7 +22,7 @@
 | 能力 | 调用前约束 | 返回后判断 |
 | --- | --- | --- |
 | ASR | 输入实际音轨，按需要选语种提示和片段，保留 VAD、词级时间与置信度；不把预期译稿喂成识别答案 | 核对首尾、低置信度、数字/品牌和疑似漏句；空结果不代表无人声，疑点才用音频理解补证 |
-| TTS | Codex 定稿并选声线/风格/语速；`tts-packet` 约束原样朗读、语种、顺序、无配乐/额外台词，程序核验与定稿一致 | 核对实际音频的完整性、发音、时长和衔接，再决定停顿、裁切或适度变速；字幕取实际配音时间 |
+| TTS | Codex 定稿并按[角色声线选择](audio-voice-selection.md)选声音、风格与语速；`tts-packet` 约束原样朗读、语种、顺序、无配乐/额外台词，程序核验与定稿一致 | 核对实际音频的完整性、发音、时长和衔接，再决定停顿、裁切或适度变速；字幕取实际配音时间 |
 | 音频理解/分轨 | 明确输入是原音、配音还是混音，要求带时间的观察及不确定项；只替换所需人声区间 | 分别比较人声、音乐、音效及同步；模型总体评价不替代逐项观察 |
 | Wan 3.0 | 输入真实源片段并绑定 reference_video_urls；提示词明确具体文字/区域、进出场与遮挡、保留主体/图形/镜头/时长；仅去字时不添加译文。视觉任务使用 audio:false，原音与目标配音独立保留和回混；不发送旧版 prompt_extend/audio_setting 字段 | 按源帧比较残字、主体、运动和接缝；可只采用有效局部。时长/帧率/覆盖不足时拒绝拉长或混帧凑齐 |
 
@@ -32,39 +32,21 @@ Gemini 配音和音频复核遇到供应商故障时，按 [KIE 恢复流程](..
 
 Kling、Veo、Wan 2.6、Seedance、ElevenLabs Turbo 2.5、旧 Gemini 配音路线、Suno、Gemini 音频 Pro、Piper、Whisper base 和 LaMa 保留历史证据读取/结果复用。旧任务查询、下载和已核验资产复用不重新提交模型。RapidOCR/GLM 本机安装与历史输出保留，旧 `bin/ocr.py` 入口转为 Codex 识字工作包。
 
+按当前阶段进入对应章节。各专题保留原章节正文与执行依据。
+
 ## 下载、安装与历史资产
 
-`bin/setup.ps1` 调用统一安装器。安装器先读取模型路由并校验完整清单，再安装依赖与模型；不再提供选择旧 ASR 型号或安装旧声音包的参数。已有 Python 时，`.venv/Scripts/python.exe bin/install_dependencies.py --plan` 可只读查看实际清单。
-
-- 本地权重只有 Whisper small 与 UVR Inst HQ3。Whisper 的 VAD 和 ONNX Runtime 属于必要音频依赖；UVR 下载必须与当前注册表的模型身份、路径、地址及哈希完全一致。
-- 图片依赖只有 `bin/requirements/vision.txt`，统一放在 `.runtime/deps/vision/`；不从旧 OCR 目录回退加载。基础依赖、ASR 和分轨分别使用 `core.txt`、`asr.txt`、`separation.txt`。
-- Gemini Flash、Gemini TTS、Wan 3.0 通过远端 API 调用，项目不下载它们的权重；Codex 图像能力由宿主提供。
-- 旧模型文件、旧声音和历史记录保持原样。`config/local-voices.json` 只记录历史声音身份与哈希，没有安装或新合成入口。旧文件缺失、损坏或参数不匹配时停止复用，转到当前能力，不重新下载安装旧模型。
-
-下载的完整性检查、下载锁和断点恢复继续保留。真实网络下载、当前机器安装、隔离源码检查和真实媒体质量是不同验证范围，报告分别说明。
+[阅读此章节](model-assets.md#下载安装与历史资产)。
 
 ## Codex 图像工作合同
 
-2026-10-27用户明确偏好：图片能够使用ImageGen完成时，优先用宿主ImageGen进行创作、修复、重绘与图片内文字适配，尽量不使用脚本绘制或像素处理来替代。具体执行与Wan参考图的证据边界读[ImageGen优先政策](../../knowledge/rules/imagegen-first-v4.md)。FFmpeg抽帧、视频裁切/编码、混音及必要的确定性媒体操作继续保留。
-
-1. `analyze` 后运行 `codex-packet RUN --stage recognize`。命令列出实际图片路径/哈希、任务、当前规则和命中的知识正文。逐图查看，按镜头和文字实例填写观察；原尺寸小字、遮挡和起止边界补实际帧，不用想象补齐。大量帧可用 `--spec` 指定一组图片，覆盖由 inventory 汇总。
-2. 修改图片时使用 `codex-packet RUN --stage image --spec inputs/image-task.json`。spec 只有 `images` 和自由文本 `instructions`，不要求先套图片类别。查看原图后优先使用宿主ImageGen；需要透明字层时保留 alpha。将真实工具输出复制到 run 的版本化文件，保留原图。工具不可用或精确约束无法满足时，记录实际原因再选必要的确定性处理，不把脚本默认当作图片编辑器。
-3. 先按返回的 stage_focus 查看当前检查动作和有适用范围的案例线索。修底使用 neutral，制作译文字面时在图片任务规格中填 `"focus_stage": "render"`。读取工作包里的规则和知识；参考案例只在其范围内适用。记录实际方法、逐图观察、`knowledge_read`、实际产物路径及未解决问题。运行 `codex-result RUN PACKET REPORT` 绑定输入、上下文和输出哈希。模板见 `agent/templates/codex-visual-task.json` 和 `agent/templates/codex-visual-report.json`。
-4. 将识字结果写入 `analysis/inventory.json`，把回执的 `path` 与 `sha256` 放入 `codex_source_result`，仍逐实例保留区域、时间、译文、动作、证据和未完成覆盖。图像结果可作为现有 `reference_image`、参考底图或透明字层输入；在相关 shot 的 `codex_image_result` 填返回的 `path` 与 `sha256`，计划和渲染会重新验证，交付归档保留回执、工作包、输入与图片产物。改变任务、输入图片、知识或产物会使对应工作包失效，重新建立记录。
-5. 图片产物登记只是 `needs_review`，不能自动放行底片。静态图不证明运动还原；按实际帧和音频执行原有 `visual-review → visual-release-neutral → render → capture → caption-check → quality`。配音稿不等于真实音频、ASR 空白不等于无人声、同一 Codex 自审不等于独立审查。
-
-工作包由 Python 准备，认知和编辑由当前 Codex 宿主真实执行。项目没有假装存在一个可从 Python 直接调用的 Codex 图片 API；返回工作包不是已经完成识字或编辑。知识阅读回执也不证明实际理解，最终仍靠真实证据审核。
+[阅读此章节](model-visual.md#codex-图像工作合同)。
 
 ## 保留的程序能力
 
-FFmpeg 抽帧、裁切、排版、透明字层、贴合、混音、编码、缓存及技术门禁继续提供给 Codex。现有修复配方是可选工具，不是固定图片分类或必须逐项尝试的阶梯。需要视频模型时统一 `model_edit`，计划默认映射 Wan 3.0，按Wan3.0单源参考与固定整数输出合同安排片段，输入加输出计费，实际细则见agent/integrations/kie.md。
-
-无论由 Codex 还是专用模型产生，源片、知识、定稿、图片和实际视频都须可追溯；修改 inventory 后重建计划和审核。用户未要求生成新媒体时，开发验证不提交付费模型任务。
+[阅读此章节](model-visual.md#保留的程序能力)。
 
 ## 用户授权的三模型去字测试
 
-2026-10-26用户明确授权用同一复杂片段比较Wan 2.7、Wan 2.6 Flash与Seedance Mini。`model-task`允许持有源哈希、run、请求预算、共同片段哈希、共同提示词和费用绑定的 `video_erasure_comparison` 授权测试；每模型一笔，合计有限额度。当时生产默认仍为Wan 2.7；Seedance Fast及其它模型不因此解禁。结果与实际计费审核后再决定默认，不把参考生成误写成保真编辑。当前模型按下述2026-11-09授权执行。
+[阅读此章节](model-removal-tests.md#用户授权的三模型去字测试)。
 
-Gemini2.5ProTTS角色数量按[已观察输入预检](../../knowledge/rules/gemini25-tts-speaker-preflight-v1.md)检查；该版本的本地门禁、真实供应商500与unknown费用分别记录，不能把预检回归当作收费或音频质量证明。
-
-2026-11-09用户明确将当前和在制视频处理切至Wan3.0，真实API模型为`wan/3-0-video`。新视频走单源reference编辑，audio:false与独立配音/回混；旧Wan2.7仅恢复原任务/结果，不重新提交。原位文字、运动、主体及实际时轴检查和原请求预算不变。历史三模型试验记录中的2.7身份不因此改写。

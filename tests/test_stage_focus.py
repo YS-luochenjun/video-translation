@@ -16,3 +16,16 @@ class StageFocusTests(unittest.TestCase):
         delivery = focus('delivery', inventory, root)
         self.assertEqual(delivery['inspect_intervals'], [])
         self.assertNotEqual(neutral['method'], delivery['method'])
+
+    def test_audio_contracts_are_selected_for_speech_stages(self):
+        root = Path(__file__).resolve().parents[1]
+        inventory = {'speech_segments': [{'id': 'a001'}]}
+        self.assertEqual(focus('translation', inventory, root)['audio_contracts'], [
+            'agent/contracts/audio-voice-selection.md', 'agent/contracts/audio-mixing.md'])
+        self.assertEqual(focus('neutral', inventory, root)['audio_contracts'], [])
+        self.assertEqual(focus('review', {}, root)['audio_contracts'], [])
+        self.assertIn('docs/source-typography-layout.md', focus('translation', inventory, root)['stage_contracts'])
+        self.assertNotIn('agent/contracts/storage-execution.md', focus('translation', inventory, root)['stage_contracts'])
+        for stage in ('source', 'translation', 'neutral', 'render', 'review', 'delivery'):
+            for path in focus(stage, inventory, root)['stage_contracts']:
+                self.assertTrue((root / path).is_file(), path)

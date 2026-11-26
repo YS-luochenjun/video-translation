@@ -53,8 +53,14 @@ def transition(code, action, spec, execute=False, root=ROOT, *, retry=False):
     with lock(folder / 'request.lock'):
         record = fireplay._record(code, root)
         row = snap['row']
+        content_version = record['content_version']
+        matches_content = snap['content_version'] == content_version
+        if action == 'finish' and not matches_content:
+            recovery = record['snapshot'].get('punctuation_recovery', {})
+            matches_content = (record['snapshot']['content_version'] == content_version
+                               and snap['content_version'] == recovery.get('live_content_sha256'))
         require(record.get('status_managed'), 'This requirement needs an individual status decision')
-        require(row['id'] == record['requirement_id'] and snap['content_version'] == record['content_version']
+        require(row['id'] == record['requirement_id'] and matches_content
                 and row.get('aiMode') == settings['ai_mode'], 'Review the current requirement or changed AI mode before proceeding')
         path = _path(record, action, root)
         previous = read_json(path) if path.exists() else {}
@@ -77,7 +83,7 @@ def transition(code, action, spec, execute=False, root=ROOT, *, retry=False):
                         'Delivery read no longer contains every verified binding')
             expected, target = settings['production_status'], settings['completed_status']
         current = row.get('status')
-        packet = {'code': code, 'requirement_id': row['id'], 'content_version': snap['content_version'],
+        packet = {'code': code, 'requirement_id': row['id'], 'content_version': content_version,
                   'status': current, 'target_status': target, 'platform_read_at': snap['server_time']}
         if current == target:
             if action == 'start':

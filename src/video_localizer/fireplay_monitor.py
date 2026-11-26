@@ -207,7 +207,9 @@ def scan(spec=None, root=ROOT):
         return {'state': 'needs_summary', 'scan_mode': mode,
                 'host_actions': [{'tool': 'requirement_list', 'arguments': query}],
                 'polling': status(root)['polling'], 'external_write': False,
-                'workflow': 'agent/workflows/fireplay-monitor.md'}
+                'workflow': 'agent/workflows/fireplay-monitor.md',
+                'stage_contracts': ['agent/workflows/fireplay-monitor-discovery.md',
+                                    'agent/workflows/fireplay-monitor-dispatch.md']}
     rows, cursor, hashes = _rows(spec, config, query)
     if cursor:
         return {'state': 'needs_more_pages', 'scan_mode': mode, 'host_actions': [{'tool': 'requirement_list',
@@ -606,18 +608,21 @@ def signal(spec, root=ROOT):
                 return old
             if not spec.get('owner_observation'):
                 return old
-            from .fireplay_followup import observe, settings
+            from .fireplay_followup import observe, settings, state as signal_state
             observation = observe(spec, task, root)
             if observation['status'] == 'running':
                 old.update(owner_observation=observation, owner_checked_at=utc_now())
                 write_json(path, old)
                 return old
             require(old['state'] == 'sent', 'Reconcile an unknown send before redispatching')
-            _, max_redispatches = settings(policy(root))
+            config = policy(root)
+            _, max_redispatches = settings(config)
             if old.get('attempt', 1) > max_redispatches or observation['status'] not in {'idle', 'error'}:
-                old['owner_observation'] = observation
+                old.update(owner_observation=observation, owner_checked_at=observation['checked_at'])
                 write_json(path, old)
-                return {**old, 'next_action': 'Resolve the concrete owner blocker; delivery remains incomplete'}
+                result = {key: value for key, value in old.items() if key != 'host_action'}
+                return {**result, 'signal_state': signal_state(old, config),
+                        'next_action': 'Resolve the concrete owner blocker; delivery remains incomplete'}
             # A fresh idle/error observation permits bounded recovery even within
             # the lease. The caller must first resolve concrete blockers and
             # in-flight work; this never retries a paid job or platform write.

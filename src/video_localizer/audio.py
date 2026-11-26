@@ -86,8 +86,12 @@ def model_review_check(run, candidate, source_sha256, captured):
         failures.append('foreign_speech_remaining')
     if findings.get('uncertain_intervals'):
         failures.append('audio_model_review_uncertain')
-    if 'character_voices' in findings:
-        voices = findings['character_voices']
+    if expected_speech and 'speech_audibility' in findings:
+        audibility = findings['speech_audibility']
+        if not isinstance(audibility, dict) or audibility.get('clear_over_background') is not True or audibility.get('affected_intervals'):
+            failures.append('speech_audibility_unverified_or_masked')
+    if 'character_voices' in findings or report.get('character_voice_review_version') == 2:
+        voices = findings.get('character_voices')
         if not isinstance(voices, dict) or voices.get('distinct') is not True or voices.get('consistent') is not True:
             failures.append('character_voices_unverified')
         if isinstance(voices, dict) and (voices.get('confusable_pairs') or voices.get('uncertain_intervals')):
@@ -100,6 +104,13 @@ def model_review_check(run, candidate, source_sha256, captured):
             failures.append('character_voice_gender_mismatch')
         elif gender_match is not True:
             failures.append('character_voice_gender_unverified')
+        for field, failure in (
+                ('age_matches_source_characters', 'character_voice_age'),
+                ('role_distinction_matches_source', 'character_voice_role_distinction')):
+            if report.get('character_voice_review_version') == 2 or (isinstance(voices, dict) and field in voices):
+                value = voices.get(field) if isinstance(voices, dict) else None
+                if value is not True:
+                    failures.append(f'{failure}_mismatch' if value is False else f'{failure}_unverified')
     return {'decision': 'pass' if not failures else 'revise', 'failures': failures,
             'review_sha256': digest,
             'proof_boundary': 'Existing attributed model audio observations; no automatic listening or visual lip-sync claim'}
@@ -175,6 +186,25 @@ def waveform_match(source, result):
     return best
 
 
+def replacement_continuity(source, candidate):
+    """Flag local signal changes for review, without inferring music from speech."""
+    findings = []
+    for index, (before, after) in enumerate(zip(source["windows"], candidate["windows"])):
+        if before["rms_dbfs"] > -50 and after["rms_dbfs"] < -55 and before["rms_dbfs"] - after["rms_dbfs"] >= 20:
+            findings.append({"start": after["start"], "end": after["end"], "kind": "near_silent_after_audible_source",
+                             "source_dbfs": before["rms_dbfs"], "candidate_dbfs": after["rms_dbfs"]})
+        if index:
+            previous_source = source["windows"][index - 1]["rms_dbfs"]
+            previous_candidate = candidate["windows"][index - 1]["rms_dbfs"]
+            source_change = before["rms_dbfs"] - previous_source
+            candidate_change = after["rms_dbfs"] - previous_candidate
+            if abs(candidate_change) >= 18 and abs(candidate_change - source_change) >= 15:
+                findings.append({"start": after["start"], "end": after["end"], "kind": "unexpected_level_transition",
+                                 "source_change_db": round(source_change, 2), "candidate_change_db": round(candidate_change, 2)})
+    return {"review_intervals": findings,
+            "proof_boundary": "Mixed-signal screening only; translated speech dynamics can cause flags, and music loss underneath speech can remain hidden."}
+
+
 def evaluate(source_path, candidate_path, policy, duration):
     source, source_pcm = inspect(source_path)
     actual, actual_pcm = inspect(candidate_path)
@@ -205,9 +235,11 @@ def evaluate(source_path, candidate_path, policy, duration):
             if before["rms_dbfs"] > -50 and after["rms_dbfs"] < -65:
                 failures.append("audio_dropout")
                 break
+    continuity = replacement_continuity(source, actual) if strategy in ("replace", "model") and source["has_track"] and actual["has_track"] else None
     return {"schema_version": 1, "source_sha256": file_hash(source_path),
             "video_sha256": file_hash(candidate_path), "strategy": strategy,
             "source": source, "candidate": actual, "waveform_match": match,
+            "replacement_continuity": continuity,
             "failures": list(dict.fromkeys(failures)),
             "proof_boundary": "Signal, duration and retained-waveform checks; not listening, ASR, dialogue translation or lip-sync proof"}
 
@@ -237,6 +269,7 @@ def evaluate_cached(run, source_path, candidate_path, policy, duration):
 
 def prompt(policy, language, source_has_audio, speeches, start, end):
     lines = ["AUDIO REQUIREMENTS: Preserve the source background music and sound effects, their timing and relative levels.",
+             "Keep every translated spoken line clearly intelligible above the background; prioritize voice clarity with smooth, limited music adjustment where necessary.",
              f"If intelligible dialogue or narration is present, translate it into natural {language} speech; "
              "keep speaker roles, intent, emotion and timing. Replace foreign dialogue and narration rather than layering both languages.",
              "Keep music and nonverbal effects as music/effects. Do not turn captions or music into spoken narration."]

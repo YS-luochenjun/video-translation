@@ -2147,7 +2147,7 @@
       "company_preference": false,
       "status": "active",
       "reviewed_at": "2026-11-04T11:15:17+00:00",
-      "method_sha256": "54201d9831e6127f64039b539b32d9de032b963a64035d4da83cd16460544180",
+      "method_sha256": "40eb271fb9603f1ab70bad120fa94864014dfe5c1802500266263f5db95756f3",
       "case": "knowledge/examples/in-place-text-replacement-v2",
       "case_manifest_sha256": "6615b1e3175a0c467aa39af5d9c2193816f7c9bdef25194a4cd6abda448fe085",
       "supersedes": "in-place-text-replacement-v1",

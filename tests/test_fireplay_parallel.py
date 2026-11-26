@@ -1,14 +1,16 @@
 """Coordination isolation, crash recovery and shared-budget invariants."""
 import copy
+from contextlib import ExitStack
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT / 'src'))
 from video_localizer import fireplay_parallel as parallel
-from video_localizer.common import WorkflowError, file_hash, read_json, write_json
+from video_localizer.common import WorkflowError, file_hash, lock, read_json, write_json
 
 
 CODE = 'MOG-20261105-037'
@@ -86,6 +88,17 @@ class ParallelTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkflowError, 'Requirement active source limit'):
             self.claim(3, 'subagent')
         self.assertEqual(parallel.status(CODE, self.root)['active_source_count'], 2)
+
+    def test_claim_waits_for_parallel_lock_and_reloads_current_owner(self):
+        lock_path = self.root / 'state/fireplay/parallel.lock'
+        with ExitStack() as holder:
+            holder.enter_context(lock(lock_path))
+            with patch('video_localizer.common.time.sleep', side_effect=lambda seconds: holder.close()) as wait:
+                first = self.claim()
+        wait.assert_called_once()
+        self.assertEqual(self.claim(), first)
+        with self.assertRaisesRegex(WorkflowError, 'already has an owner'):
+            self.claim(token='different-token')
 
     def test_global_cap_covers_other_requirements(self):
         self.claim(1)

@@ -132,6 +132,13 @@ class SourceStyleTests(unittest.TestCase):
             self.contract();self.item['display']=original;self.item['style_treatment']['adaptations']={}
         self.item['target_text']='Dos\nlíneas'
         with self.assertRaisesRegex(WorkflowError,'without an explained adaptation'):self.contract()
+        self.item['display']['layout_lines']=['Dos líneas']
+        self.contract()
+        self.item['target_text']='Dos líneas'
+        self.item['display']['layout_lines']=['Dos','líneas']
+        with self.assertRaisesRegex(WorkflowError,'without an explained adaptation'):self.contract()
+        self.item['style_treatment']['adaptations']['line_count']='Choose a natural phrase break within the target box'
+        self.contract()
 
     def test_no_default_font_or_fake_italic_and_no_silent_tiny_text(self):
         self.capture();self.item['display'].pop('font_asset')

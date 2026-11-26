@@ -1,0 +1,39 @@
+{
+  "id": "APC-20261126-099-audio-mix-continuity",
+  "created_at": "2026-11-26",
+  "status": "candidate",
+  "knowledge_class": "project_training_candidate",
+  "company_preference": false,
+  "scope": {
+    "workflow": "video-localization",
+    "source_sha256": "cf3c7755cb8bf7f9495724f788105d9c358eb81ffebd2c45676fa6637f4a8ff8",
+    "target_languages": ["pt", "es", "fr"],
+    "validation_level": "single_source_real_encoded_comparison_and_deterministic_regression"
+  },
+  "hypothesis": "Conservative source-voice removal windows, smooth gap transitions and voice-only peak control can reduce unwanted bed attenuation. In a source with processed sung music, using an overly broad source-removal interval or an already attenuated stem can still produce an unnatural gap even after the generic mixer improves. Restore only evidence-supported non-speech intervals and compare a moderate smooth CTA bed adjustment against the raw stem.",
+  "observations": [
+    "The Fireplay rejection APC-20261126-099 references three delivered APC-20261126-085 variants and specifically reports BGM muting and awkward transitions. Prior preparation reduced the CTA stem amplitude by up to 53 percent before the mixer applied its window-level peak gain.",
+    "In nine real before/after comparison renderings, aligned voice hashes and encoded video stream hashes remained identical. The mixer-only variant made the 8.14–8.28s bed nearly silent, so generic mixer changes alone did not resolve this source's problem.",
+    "The balanced bed variant used evidence-scoped removal boundaries and a smooth 4dB CTA adjustment. At 14.8–16.2s bed RMS improved by 4.61dB in Portuguese and 2.80dB in Spanish and French compared with previous mixes. Mixed-signal continuity review flags changed 2→0, 3→2 and 6→4 respectively; all variants passed basic encoded audio checks.",
+    "Full restoration increased masking: focused Spanish CTA ASR diverged. The balanced variant recovered Portuguese Teste agora and Spanish Pruébalo ya in focused tail ASR. French tail ASR returned Et c'est vite for the previous, balanced and isolated retained TTS, instead of the expected Essaie vite. This is unresolved recognition/pronunciation disagreement, not a verified mispronunciation or accepted repair."
+  ],
+  "evidence": {
+    "comparison_receipt_sha256": "57ee6a0ee55a04f8d80c263459f8b9f7bda3ad411960105433b16a71c9a51f7a",
+    "balanced_asr_sha256": "b2ac911e9c37e9d09febee837d4efe5f3b525dd4e0b871754d2c1ec2a4862569",
+    "french_isolated_tts_asr_sha256": "d7e99eaa6d26180b947c8bdd480125081d5a1600c891eb472e7d16ecfa158cd9",
+    "balanced_video_sha256": {
+      "pt": "7479669dc989d2cfc67ce68eb857c863d574807190b122c99a53b11ba884104f",
+      "es": "5c817573d58ac2c1c11809047ecec2ecb1d1882887831d6b5f05cba605167398",
+      "fr": "c0096348e37b7e23ec6a5080107b1262cfe309ae2010480f0f09b28cb55eddee"
+    }
+  },
+  "limitations": [
+    "One independent source; no human listening, cross-source validation or independent audio-quality acceptance.",
+    "Bed RMS and mixed-signal flags do not distinguish music from residual source speech. Narrower removal ranges require actual head/tail and word-boundary review.",
+    "The source-specific 4dB reduction is not a project-wide default; the full-restoration masking counterexample must be retained.",
+    "Comparison files are local test artifacts and were not submitted against Fireplay or used to replace formal delivery records."
+  ],
+  "outcome": "engineering_optimization_validated_single_source_media_comparison_pending_listening",
+  "reflection_state": "observed_candidate",
+  "next_action": "Review the exact-source before/after audio with native-language listening; confirm French CTA before any replacement publication. Retain a meaningful source and result audio comparison as independent evidence before broader method activation."
+}

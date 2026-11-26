@@ -57,6 +57,8 @@ bin/va.ps1 workspace-verify dist/source
 
 ## 发布前核查
 
+大型现行合同和开发说明以原入口作为主题索引，专题正文位于同一目录。制作工作包按阶段返回需要阅读的专题；视觉工作包冻结当前阶段实际提供的专题正文及哈希。维护时在对应专题更新内容，并保留旧入口的章节锚点和链接。知识规则的索引、历史正文及证据合同仍按各自既有版本流程维护。
+
 ```powershell
 .venv/Scripts/python.exe bin/check_repository.py
 bin/va.ps1 knowledge-audit

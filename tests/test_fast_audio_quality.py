@@ -177,6 +177,27 @@ class FastAudioQualityTests(unittest.TestCase):
         self.capture()
         self.assertEqual(self.quality()['audio_model_check']['decision'], 'pass')
 
+    def test_current_voice_review_requires_age_and_role_distinction(self):
+        self.model['character_voice_review_version'] = 2
+        voices = {'distinct': True, 'consistent': True,
+                  'gender_matches_source_characters': True,
+                  'age_matches_source_characters': False}
+        self.model['analysis']['character_voices'] = voices
+        write_json(self.directory / 'audio-model-review.json', self.model)
+        self.capture()
+        failures = self.quality()['failures']
+        self.assertIn('character_voice_age_mismatch', failures)
+        self.assertIn('character_voice_role_distinction_unverified', failures)
+        voices['age_matches_source_characters'] = True
+        voices['role_distinction_matches_source'] = False
+        write_json(self.directory / 'audio-model-review.json', self.model)
+        self.capture()
+        self.assertIn('character_voice_role_distinction_mismatch', self.quality()['failures'])
+        voices['role_distinction_matches_source'] = True
+        write_json(self.directory / 'audio-model-review.json', self.model)
+        self.capture()
+        self.assertEqual(self.quality()['audio_model_check']['decision'], 'pass')
+
 
 if __name__ == '__main__':
     unittest.main()

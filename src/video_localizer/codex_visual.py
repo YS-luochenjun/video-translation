@@ -7,7 +7,7 @@ from PIL import Image
 from .common import file_hash, guarded, inside, object_hash, read_json, require, write_json
 from .knowledge import context_for, retrieve, source_references, related_source_references
 from .knowledge_advisories import retrieve as advisory_retrieve
-from .stage_focus import focus
+from .stage_focus import focus, STAGE_CONTRACTS
 
 GUIDES = ('AGENTS.md', 'agent/contracts/workflow.md', 'agent/contracts/quality.md', 'agent/contracts/model-routing.md',
           'agent/workflows/video-localization.md')
@@ -69,7 +69,10 @@ def packet(run, stage='recognize', spec=None, root=None, *, context_references=F
                 and set(item['tags']) <= delivery_tags]
     deferred_paths = {item['path'] for item in deferred}
     visual_paths = [item['path'] for item in methods if item['path'] not in deferred_paths]
-    names = list(dict.fromkeys([*GUIDES, *visual_paths, *[item['path'] for item in references]]))
+    visual_contracts = [name for name in STAGE_CONTRACTS[focus_stage]
+                        if not name.startswith('agent/workflows/batch-production-')]
+    names = list(dict.fromkeys([*GUIDES, *visual_contracts,
+                                *visual_paths, *[item['path'] for item in references]]))
     for name in ('.agents/skills/video-localization/SKILL.md', 'config/model-routing.json', 'config/quality.json'):
         if (root / name).is_file():
             names.append(name)

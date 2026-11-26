@@ -170,3 +170,28 @@ class FireplayLifecycleTests(unittest.TestCase):
         self.assertEqual(transition(CODE, 'start', later, True, self.root, retry=True)['attempt'], 2)
         with self.assertRaisesRegex(WorkflowError, 'unresolved first attempt'):
             transition(CODE, 'start', self.snapshot('not_started'), True, self.root, retry=True)
+
+    def test_finish_accepts_only_the_reviewed_punctuation_content_version(self):
+        self.setup_sources(1)
+        self.start_platform(1)
+        self.bind_source(1, MID, RESOURCE)
+        corrected = self.snapshot('in_progress')
+        corrected['brief']['items'][0]['description'] += '，'
+        record = self.record()
+        record['snapshot']['punctuation_recovery'] = {
+            'live_content_sha256': fireplay.snapshot(CODE, corrected)['content_version'],
+        }
+        self.save(record)
+        row = corrected['summary']['items'][0]
+        verification = {'serverTime': utc_now(), 'items': [{'id': RID, 'updatedAt': row['updatedAt'],
+                        'materials': [{'id': MID}, {'id': RESOURCE}]}]}
+        self.assertTrue(fireplay_submission.verify_completion(CODE, verification, self.root)['complete'])
+        changed = copy.deepcopy(corrected)
+        changed['brief']['items'][0]['description'] += ' changed'
+        with self.assertRaisesRegex(WorkflowError, 'changed AI mode'):
+            transition(CODE, 'finish', changed, True, self.root)
+        finish = transition(CODE, 'finish', corrected, True, self.root)
+        self.assertEqual(finish['content_version'], record['content_version'])
+        row['status'] = 'done'
+        self.assertEqual(transition(CODE, 'finish', corrected, root=self.root)['state'], 'confirmed')
+        self.assertTrue(fireplay_submission.close_delivery(CODE, self.root)['complete'])

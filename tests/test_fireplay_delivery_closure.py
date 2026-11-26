@@ -210,9 +210,16 @@ class DeliveryClosureTests(unittest.TestCase):
         data = read_json(p)
         data['attempt'] = 3
         data['receipt_at'] = utc_now()
+        data['owner_observation'] = dict(self.observation(), checked_at=data['dispatched_at'])
         write_json(p, data)
+        self.assertEqual(monitor.followups(self.root)[0]['signal_state'], 'sent')
         result = monitor.signal({'key': t['key'], 'owner_observation': self.observation()}, self.root)
         self.assertEqual((result['state'], result['attempt']), ('sent', 3))
+        self.assertNotIn('host_action', result)
+        self.assertEqual(result['signal_state'], 'escalation_required')
+        self.assertEqual(monitor.followups(self.root)[0]['signal_state'], 'escalation_required')
+        monitor.signal({'key': t['key'], 'owner_observation': self.observation('running')}, self.root)
+        self.assertEqual(monitor.followups(self.root)[0]['signal_state'], 'sent')
 
     def test_unknown_send_cannot_be_retried_on_idle_observation(self):
         t = self.owner()

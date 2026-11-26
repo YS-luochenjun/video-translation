@@ -1,0 +1,36 @@
+# 批次创建与可恢复制作
+
+总入口见 [batch-production](batch-production.md)。
+
+## 新任务
+
+主控按 `agent/templates/budget-request.json` 填真实用户请求、原视频、targets全部目标语言及宿主消息ID，执行 `bin/va.ps1 budget-open SPEC`，取得请求总账本ID。然后用 `bin/va.ps1 batch-create demo C:/media/source.mp4 --targets ja es pt` 编排语言。第一语言是代表语言，优先选择文字长度/字体与音频风险有代表性的语言。各语言独立run，但一次请求的所有批次/run/短片/模型/返工共用60 credits×去重目标语言数的总池；3语言180、10语言600。共用底片费用只计一次，允许池内灵活调配，不对每种语言另设60硬分区；别名重复、模型、run或任务数不增额。
+
+单语言也可用此入口。旧的init及查询、下载、评审继续可用，但没有请求账本的run不能新增付费调用。同源新run自动加入现有预算；首次登记会收纳同源旧run的费用，不能换run跳过旧账。派生短片字节不同，先 `budget-bind CHILD --parent-run PARENT` 继承总预算。删除run不会返还总账本中的费用或未知占位。
+
+只有用户后续真实提出新复用需求，主控才登记另一请求：`mode: reuse`、`reuse_of: 先前账本ID`、`reuse_confirmation: new_user_request`，使用新的真实宿主消息ID。旧账需全部对账，关闭后新请求按实际去重目标语言数×60 credits 登记（首次/新复用同价），再 `batch-create ... --reused`。同一请求的失败、返工、拆片或新增worker不是新的复用额度。已结算的历史供应商回执复用不重计费用；新调用照常计入新请求总额。历史账本不自动改价；带用户来源的 budget-amend 保留费用及未知占位。任务名额按原时长/角色数有限规划，两轮返工与整请求预算同时约束。归档恢复的旧batch指针仅作来源，新部署须由自己的拥有者授权并登记请求。
+
+1. 先对代表run执行analyze/context，建立真实inventory，使用已有source-save/source-find缓存原片观察。缓存不复制目标译文或验收。
+2. 按原流程准备无字底片、音轨和字层。底片必须过原有prepared-video门禁。同源资产用交付库恢复/绑定，或 `reuse-neutral TARGET --from-run SOURCE --source-shot ID --target-shot ID` 复用同一源时间段的已审无字底片。它复制独立证据并校验哈希、质量异议与原评审；不重新编码，不复制目标语言译稿/音轨/成片审核。绑定后重建目标plan。
+3. `tts-packet RUN --voice Kore --estimate 2` 从定稿speech_segments生成源绑定请求；可用 `--speech-ids id1 id2` 选择有序子集。声音选型、风格和保守估价仍按任务判断，此命令不付费。检查后用 `model-task RUN 包路径 --execute`。听感、语义覆盖和混音后对齐必做。
+4. `production RUN` 串联计划、渲染、原尺寸视觉对照、抽证据、quality。新视觉证据默认pending；按[视觉门禁](visual-review.md)完成逐实例观察以及整片/字幕实际观测后重跑。缺inventory或实际评审时暂停对应阶段，立即补齐清单或评审，再继续该步骤；其他可执行工作同时推进。加 `--deliver` 交付通过者，已有实际finalization规格时按最终输出合同交付最佳完整版本，保留delivered_with_issues。现有build_repair_master、mix_localized_narration、OCR/ASR和分离脚本继续共用。
+5. 扩语种前执行 `work-packet RUN --stage neutral`，按 stage_focus 在整幅原片、底片和代表译片上核对困难时段，尤其看原文字框外的效果和非文字区域。严格模式仍需实际代表片评审后执行 `batch-approve demo`。快速模式在代表片已经形成完整、可解码的 best-available 输出且没有有效严重质量阻断时，系统自动记录带限制的放行证据并继续其他语种，不把它写成听审通过或用户验收。
+   有需翻译画面文字时，按[片头、标题与片尾样式要求](../../docs/source-typography.md#标题花字与艺术字优先还原)检查代表片各高视觉优先级实例，再选择最易漏检的实例（运动、遮挡、描边、淡出或 CTA），说明为何它比其他镜头难。执行 `pilot-compare RUN --instance ID --base 同时轴全长底片路径 --video 当前代表译片路径`。路径相对 run。当前候选已登记分段底片时省略 `--base`，按原有帧映射拼接该时间段。播放返回的连续全幅三联片（原片、无字底片、译片）；同时核查字框外及前后景、字号描边位置、进入与退出。复制返回的 report_template 到 `review/pilot-review.json`，填写实际观察。通过填 clear；发现共用问题先在原额度内修底并对新版本重验。到界时记录 limitation，填 best_available，用正式完整译片执行原有 finalize 和 `batch-approve --best-available`。确实没有可用全长底片时用 `--base-limit 原因` 对照原片与译片并记录无法验证项，只可走带限制放行。纯人声场景沿原配音审核。Fireplay 手动编排的多语种同样先完成这个代表片检查。
+6. 各语言自己的译稿、音轨、时轴、字层就绪后 `batch-run demo --deliver`。代表语言未放行仍停在显式检查点；已放行后，单个语言待审或异常不饿死其他语言，逐项继续并返回准确pending_runs。带瑕疵完整输出计为本地已完成，不冒称quality通过；全批本地完成且存在该类输出时为completed_with_issues。非代表语言每次仍重验当前代表版本，变化后须重新审核，各语言依然逐一quality。到界的完整fast代表片可 `batch-approve demo --best-available` 放行，明确不批准其底片或质量。批次完成不是Fireplay提交完成，外部完整矩阵另查。
+
+用户2026-11-19授权放宽代表片批次检查：完整fast代表片已按原有finalize合同生成、绑定且无有效严重质量阻断时，如尚无实际 `pilot-review.json`，可以执行 `batch-approve ID --best-available` 继续制作其他语种。系统记录代表片视听审核未验证和清单哈希，不将其称为听审、视觉通过或用户验收；已存在的审核记录仍按实际结果核验，不得删除或覆盖以规避异议。若之后新增审核记录，重新检查并放行。各语言仍须如实检查、保留未知与严重缺陷、按正式提交合同处理；此放宽不自动批准上传，也不改变预算或真实配音要求。
+
+默认串行渲染，避免编码器争用磁盘/显存；未引入并发付费提交。原命令也可逐步使用，已绑定批次的预算、渲染门禁仍有效。新场景的遮罩、跟踪、字体和布局仍需判断，本次没有把单片坐标推广为通用算法。
+
+Fireplay多原片采用[原片并行分工](fireplay-parallel.md)：原负责人及制作子代理可独立推进不同原片的分析、翻译、模型结果检查和审核；本段串行限制仍用于重编码与本需求付费提交，由负责人统一排队。子代理不另建预算、不复制未知模型任务；不同原片共享本需求原总池。
+
+## 可恢复执行
+
+同一原片有多个语言 run 等模型时，执行 `batch-status ID --poll` 一次巡查该批次。命令查询已登记供应商 ID 的待处理任务，并恢复已成功但尚未下载的结果。回执带上每个任务所属 run 和待处理异常。无法确认扣费或缺少任务 ID 时查看原日志。对单个任务可继续用 `poll RUN JOB`。轮询沿用每个 run 的原凭据、账本结算和锁。
+
+新增的 ASR / 分离 / 混音检查点、视觉片段复用和阶段导航见 [P0/P1 流程优化](../../docs/workflow-optimization.md)。优先 `work-packet RUN` 读取当前机械状态；`asr`、`audio-mix` 与旧脚本共用实现，采用返回的实际输出路径。默认同工作区一次一个重任务，资源忙时保留现场后重试，不主动删锁或重发付费任务。`production --force-render` 同时跳过整片和片段编码缓存。
+
+production编码检查点绑定计划、inputs/analysis字节、模型结果、项目字体、编码器版本与代码；各语言不复用目标成片。有效检查点仅跳过重复编码，capture、quality、质量异议仍重查。系统安装字体变化不在项目字体哈希中，改变后须 `production RUN --force-render`。返工应修改实际方案，不能反复编码同一失败方案。
+
+已有计划保留其明确路线（包括experiment）；inventory或资产改变导致计划失效时，先按原意重新执行plan，不由production偷偷换回默认算法。批次未完成前保留代表run及其评审，删除后放行证据缺失会阻断继续扩语。
+

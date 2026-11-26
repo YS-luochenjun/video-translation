@@ -32,9 +32,10 @@ def agenda(run, *, read_navigation=read_json):
         {'id': 'playback', 'question': '正常播放是否有闪烁、漂移、撕裂、动作变速或突兀补丁？静帧看不出的差异是什么？'},
         {'id': 'delivery', 'question': '全部原片×全部目标语种是否有完整正式输出和真实提交回执？局部失败是否阻塞了其他语种？'}]
     if any(i.get('action') not in {'keep', 'remove'} for i in items):
-        questions.append({'id': 'lettering', 'question': '为什么用户会觉得像直接打字贴上去？原字形粗细、斜体、字号占比、描边、行距、构图和运动分别保留或适配了什么？'})
+        questions.append({'id': 'lettering', 'question': '目标语断行、字号和落位是否自然可读？片头、主标题、片尾CTA的清晰度、字形、视觉层级和运动是否符合原片？'})
     if inventory.get('audio', {}).get('has_speech'):
-        questions.append({'id': 'listening', 'question': '完整听完目标人声及首末词了吗？对白、旁白、性别、音乐音效和字幕节奏是否与实际音轨一致？'})
+        questions.append({'id': 'listening', 'question': '完整听完目标人声及首末词了吗？角色年龄、性别、情绪和声线是否匹配，实际发声与人物动作及字幕是否同步？BGM和音效是否完整连续、口播是否清晰且没有被背景遮蔽？'})
+    questions.append({'id': 'cross_domain_review', 'question': '本次新制作或单项返工是否同时核对实际成片的文字和音频？复用的旧音轨是否有有效原片电平、口播与BGM审核证据，复用的标题、片头片尾及艺术字是否经过实际画面检查？'})
     candidate_path = run / 'outputs/candidate.json'
     candidate = read_navigation(candidate_path) if candidate_path.exists() else {}
     completion_path = run / 'outputs/completion.json'
@@ -55,6 +56,11 @@ def agenda(run, *, read_navigation=read_json):
     fast_policy_path = run.parent.parent / 'config/fast-delivery.json'
     fast_policy = read_json(fast_policy_path) if fast_policy_path.exists() else {}
     return {'workflow': 'agent/workflows/continuous-improvement.md', 'questions': questions,
+            'priority_policy': {
+                'contract': 'agent/contracts/quality.md#制作优先级',
+                'rework_review_contract': 'agent/contracts/quality.md#新制作与返工的双域审核',
+                'action': '先确保完整正确可用，再按实际信息载体、明确反馈和正常播放影响修复主要缺陷。轻微差异达到可接受效果即收口。',
+                'scope': 'All existing quality and publication gates apply. Share existing trial and revision bounds across refinements; do not restart them for each character or detail.'},
             'candidate_sha256': candidate.get('sha256'), 'whole_scene_probes': probes,
             'formal_output_sha256': completion.get('video_sha256'),
             'recorded_cycles': records, 'quality_record': quality,
@@ -63,7 +69,7 @@ def agenda(run, *, read_navigation=read_json):
             'retry_guidance': _retry_guidance(run, records, selected_sha, revisions),
             'pilot_policy': {'max_trials': fast_policy.get('max_route_trials'),
                              'seconds_per_trial': fast_policy.get('trial_timebox_seconds'),
-                             'action': 'Validate the hardest affected short segment and an unaffected control before full rerender; stop after two unsuccessful pilots or the timebox.'},
+                             'action': 'Validate the highest-impact affected short segment and an unaffected control before full rerender; stop at acceptable playback, no meaningful improvement, the configured trial limit or timebox.'},
             'execution_requires_existing_policy': True,
             'actions': ['Observe actual source/output and record one concrete defect',
                         'Separate observed symptom, suspected cause and why the previous review missed it',

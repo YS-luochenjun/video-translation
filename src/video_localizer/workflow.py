@@ -198,9 +198,12 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
                   "newly composed music? Are the original nonverbal/game/anime effects retained at the same times? "
                   f"Is ALL intelligible dialogue, monologue, narration and spoken CTA a complete faithful translation of A into {language}, without leftover foreign narration, clipped lines, "
                   "invented claims or missing endings? Source product names may remain unchanged. Sung samples belonging to the background music should remain unchanged, and are not leftover narration. "
+                  "Check throughout B that each spoken line is clearly intelligible above the background music/effects, "
+                  "especially quiet lines and loud music transitions. Report timestamps for masked speech or excessive ducking. "
                   "Return JSON: has_speech, detected_language, speech_segments [{start,end,source_text}], "
                   "background_music {same_track:true/false/null,reason}, sound_effects {preserved:true/false/null,reason}, "
                   "dialogue_translation {complete:true/false/null,reason} covering ALL spoken content including narration, foreign_speech_remaining (array), "
+                  "speech_audibility {clear_over_background:true/false/null,reason,affected_intervals}, "
                   "sync {acceptable:true/false/null,reason}, uncertain_intervals (array), summary. "
                   "Use null when unverified; do not infer success from the requested task or from the presence of sound.")
         if transcribe_only:
@@ -217,10 +220,15 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
             review_request = read_json(run / 'inputs/request.json')
             if review_request.get('production_scope', {}).get('speech') == 'advertising_narration_only':
                 prompt += explicit_review_scope(review_request, read_json(run / 'analysis/inventory.json'))
+    inventory_path = run / 'analysis/inventory.json'
+    speech_segments = (read_json(inventory_path).get('speech_segments', [])
+                       if candidate and not transcribe_only and inventory_path.exists() else [])
+    characters = {speech.get('character_id') for speech in speech_segments
+                  if speech.get('character_id') not in (None, '', 'unknown')}
+    compare_character_voices = voice_review or len(characters) > 1
     if voice_review:
-        inventory = read_json(run / 'analysis/inventory.json')
         roles = {}
-        for speech in inventory.get('speech_segments', []):
+        for speech in speech_segments:
             character = speech.get('character_id')
             voice = speech.get('voice_name')
             require(character and voice, 'Voice review needs character_id and voice_name for every speech')
@@ -238,10 +246,22 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
                    "Report gender_matches_source_characters separately: distinct/consistent voices can still have "
                    "a wrong-gender casting. Use false for any such mismatch, null when source character gender "
                    "cannot be established; do not infer it from voice preset names. "
-                   "Add character_voices {distinct:true/false/null,consistent:true/false/null,"
-                   "gender_matches_source_characters:true/false/null,"
-                   "observations:[{character,observation}],confusable_pairs:[],uncertain_intervals:[],reason}. "
                    "Use null where the audio does not establish a claim. Audio alone does not prove visual lip sync.")
+    if compare_character_voices:
+        observed_roles = [{key: speech[key] for key in ('character_id', 'speech_role', 'start', 'end')
+                           if key in speech} for speech in speech_segments]
+        prompt += (" Compare actual source and localized voices at these character windows: "
+                   + json.dumps(observed_roles, ensure_ascii=False) + ". "
+                   "Assess gender, perceived age group, timbre, emotional delivery and consistency for each character. "
+                   "Check whether children sound like children and adults sound age-appropriate, especially same-gender "
+                   "parent/child pairs. Check that an independent narrator or closing CTA voice has clear audible "
+                   "distinction from the drama characters and matches the source narrator's role and gender. "
+                   "If the source narrator is the same character, retain that identity. Different preset IDs do not prove "
+                   "audible distinction. Report affected characters and times, and use null for unsupported claims. "
+                   "Add character_voices {distinct:true/false/null,consistent:true/false/null,"
+                   "gender_matches_source_characters:true/false/null,age_matches_source_characters:true/false/null,"
+                   "role_distinction_matches_source:true/false/null,"
+                   "observations:[{character,observation}],confusable_pairs:[],uncertain_intervals:[],reason}.")
     descriptor = {"kind": "audio_analysis", "model": model, "source_sha256": file_hash(source),
                   "audio_sha256": file_hash(track), "prompt": prompt}
     backup = audio_recovery_route('comparative_audio_review')
@@ -333,6 +353,7 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
                     or analysis.get("has_speech") is None), "Invalid audio analysis structure")
             report = {"source_sha256": file_hash(source), "audio_sha256": file_hash(track),
                        **({"video_sha256": candidate_record["sha256"]} if candidate_record else {}),
+                       **({"character_voice_review_version": 2} if compare_character_voices else {}),
                        "model": model, "response_id": response.get("id"), "analysis": analysis,
                        "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence"}
             result_path = receipt_path.parent / output.name

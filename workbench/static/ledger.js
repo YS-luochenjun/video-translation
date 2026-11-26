@@ -160,7 +160,7 @@ window.LedgerUI = (() => {
     const focused=oldTable?.contains(document.activeElement) ? document.activeElement : null;
     const focusAttribute=focused?.hasAttribute('data-requirement') ? 'data-requirement' : 'data-retry-demand';
     const focusId=focused?.getAttribute(focusAttribute);
-    const tableRows=rows.map(row=>{
+    const tableRows=rows.map((row,index)=>{
       const languages = new Set((row.scope || []).flatMap(video=>video.targets)).size;
       const tasks = row.task_count !== languages ? ` · ${row.task_count} 项语言任务` : '';
       const expanded = retries?.id === row.id;
@@ -177,9 +177,10 @@ window.LedgerUI = (() => {
           <strong class="ledger-retry-count${count > 0 ? ' has-retries' : ''}">${h(count ?? '—')}</strong>
         </span>`).join('');
       return `<tr data-progress="${h(row.progress_state)}" data-selected="${selected===row.id}">
-      <td><button class="table-action" data-requirement="${h(row.id)}" aria-haspopup="dialog">${h(row.code)}</button>
+      <td class="ledger-row-number">${index+1}</td>
+      <td class="ledger-demand"><button class="table-action" data-requirement="${h(row.id)}" aria-haspopup="dialog">${h(row.code)}</button>
         <span class="quiet">${row.video_count} 部原片 · ${languages || '—'} 种语言${tasks}</span></td>
-      <td><strong class="ledger-row-state">${h(progressLabels[row.progress_state])}</strong></td>
+      <td class="ledger-status"><strong class="ledger-row-state">${h(progressLabels[row.progress_state])}</strong></td>
       <td class="ledger-counts"><div>制作完成 <strong>${row.output_count}/${row.task_count}</strong></div>
         <div>审核上传完成 <strong>${uploadProgress(row)}</strong></div>${row.launch?`<span class="quiet">${h(launchLabel(row.launch))}</span>`:''}</td>
       <td>${row.threads.map(thread=>{
@@ -194,10 +195,10 @@ window.LedgerUI = (() => {
         ${expanded?'aria-controls="ledger-retry-detail"':''}>
         <span class="ledger-retry-metrics" aria-hidden="true">${retryMetrics}</span>
       </button></td>
-    </tr>${expanded ? `<tr class="ledger-retry-detail"><td colspan="6" id="ledger-retry-detail">${retryDetails(retries)}</td></tr>` : ''}`;}).join('');
+    </tr>${expanded ? `<tr class="ledger-retry-detail"><td colspan="7" id="ledger-retry-detail">${retryDetails(retries)}</td></tr>` : ''}`;}).join('');
     const markup=`<p class="ledger-caption">${rows.length} 条记录${filters.state==='unlinked'?' · <button class="table-action" data-show-unlinked>返回需求</button>':data.unlinked_total?` · <button class="table-action" data-show-unlinked>待关联 ${data.unlinked_total}</button>`:''}</p>
-      <div class="ledger-table bounded-table" role="region" aria-label="需求台账表" tabindex="0"><table><thead><tr><th scope="col">需求</th><th scope="col">状态</th><th scope="col">进度</th><th scope="col">负责会话</th><th scope="col">制作起止时间</th><th scope="col">重试次数</th></tr></thead>
-      <tbody>${tableRows || '<tr><td colspan="6">没有匹配的需求</td></tr>'}</tbody></table></div>`;
+      <div class="ledger-table bounded-table" role="region" aria-label="需求台账表" tabindex="0"><table><thead><tr><th scope="col" class="ledger-row-number">序号</th><th scope="col">需求</th><th scope="col">状态</th><th scope="col">进度</th><th scope="col">负责会话</th><th scope="col">制作起止时间</th><th scope="col">重试次数</th></tr></thead>
+      <tbody>${tableRows || '<tr><td colspan="7">没有匹配的需求</td></tr>'}</tbody></table></div>`;
     if(body.innerHTML===markup)return;
     body.innerHTML=markup;
     const table=body.querySelector('.ledger-table');

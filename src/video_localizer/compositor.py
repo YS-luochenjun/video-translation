@@ -1,7 +1,7 @@
 """Preserve source pixels outside timed text mattes; typeset tracked native glyphs."""
 from pathlib import Path
 
-from .common import require, require_number, write_json
+from .common import require, write_json
 from . import media
 
 
@@ -78,12 +78,7 @@ def text_events(segment, items, meta, directory, run=None):
         if item['action'] in ('preserve','solid_overlay') or item.get('display',{}).get('typography_layer'):continue
         display=item.get('display',{})
         for start,end,point in spans(item,segment):
-            box=display.get('bbox',point['bbox'])
-            if 'bbox' in display:
-                require(not item.get('trajectory'), 'A fixed target bbox cannot silently replace a tracked trajectory')
-                require(isinstance(box,list) and len(box)==4,'Target display bbox needs four values')
-                bx,by,bw,bh=[require_number(v,'target display bbox') for v in box]
-                require(bw>0 and bh>0 and bx+bw<=meta['width'] and by+bh<=meta['height'],'Target display bbox exceeds frame')
+            box=layout.target_box(item,meta,point['bbox'])
             x,y,w,h=box
             size=point.get('font_size',display.get('font_size',40))
             angle=point.get('angle',display.get('angle',0))

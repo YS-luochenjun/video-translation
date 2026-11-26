@@ -6,6 +6,7 @@ from unittest.mock import patch
 from PIL import Image
 
 from video_localizer.common import WorkflowError, file_hash, read_json, write_json
+from video_localizer.stage_focus import STAGE_CONTRACTS
 
 
 class CodexVisualTests(unittest.TestCase):
@@ -22,7 +23,8 @@ class CodexVisualTests(unittest.TestCase):
         write_json(self.run / 'analysis/inventory.json', {'source_sha256': file_hash(self.run / 'source.mp4'),
                    'shots': [{'id': 's001', 'keyframe': 'frame.png'}], 'text_instances': []})
         for name in ('AGENTS.md', 'agent/contracts/workflow.md', 'agent/contracts/quality.md', 'agent/contracts/model-routing.md',
-                     'agent/workflows/video-localization.md'):
+                     'agent/workflows/video-localization.md',
+                     *(name for names in STAGE_CONTRACTS.values() for name in names)):
             path = self.root / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text('Project constraint: preserve product identity.', encoding='utf-8')
@@ -50,6 +52,9 @@ class CodexVisualTests(unittest.TestCase):
         self.assertEqual(frozen['stage'], 'recognize')
         self.assertEqual(frozen['images'][0]['sha256'], file_hash(self.run / 'frame.png'))
         self.assertTrue(frozen['context'])
+        paths = {item['path'] for item in frozen['context']}
+        self.assertIn('docs/source-typography-capture.md', paths)
+        self.assertNotIn('agent/contracts/knowledge-archive.md', paths)
         self.assertFalse(result['automatic_pass'])
 
     def test_context_references_preserve_knowledge_and_image_binding(self):
@@ -92,6 +97,10 @@ class CodexVisualTests(unittest.TestCase):
         with patch.object(codex_visual, 'retrieve', return_value=[]):
             data = codex_visual.packet(self.run, 'image', 'art.json', root=self.root)
             self.assertEqual(data['stage_focus']['stage'], 'render')
+            frozen = read_json(self.run / data['packet'])
+            paths = {item['path'] for item in frozen['context']}
+            self.assertIn('docs/source-typography-artwork.md', paths)
+            self.assertNotIn('agent/workflows/batch-production-execution.md', paths)
             with self.assertRaises(WorkflowError):
                 codex_visual.packet(self.run, 'recognize', 'art.json', root=self.root)
 

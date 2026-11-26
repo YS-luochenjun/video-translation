@@ -11,6 +11,47 @@ FOCUS = {
     'delivery': ('fireplay-complete-delivery-v3', '核对所有原片×目标语种的正式版本与提交回执，记录有界返工后的遗留问题。'),
 }
 
+STAGE_CONTRACTS = {
+    'source': (
+        'agent/contracts/workflow-source.md',
+        'agent/contracts/workflow-content-routing.md',
+        'docs/source-typography-capture.md',
+    ),
+    'translation': (
+        'agent/contracts/workflow-content-routing.md',
+        'docs/source-typography-layout.md',
+        'docs/source-typography-artwork.md',
+    ),
+    'neutral': (
+        'agent/contracts/workflow-production.md',
+        'agent/contracts/model-visual.md',
+        'agent/contracts/quality-visual.md',
+        'docs/source-typography-capture.md',
+    ),
+    'render': (
+        'agent/contracts/workflow-production.md',
+        'agent/contracts/model-visual.md',
+        'agent/contracts/quality-visual.md',
+        'docs/source-typography-layout.md',
+        'docs/source-typography-artwork.md',
+        'docs/source-typography-render.md',
+        'agent/workflows/batch-production-execution.md',
+        'agent/workflows/batch-production-reuse.md',
+    ),
+    'review': (
+        'agent/contracts/workflow-review-delivery.md',
+        'agent/contracts/quality-visual.md',
+        'docs/source-typography-layout.md',
+        'docs/source-typography-artwork.md',
+    ),
+    'delivery': (
+        'agent/contracts/workflow-review-delivery.md',
+        'agent/contracts/knowledge-curation.md',
+        'agent/contracts/knowledge-archive.md',
+        'agent/contracts/storage-execution.md',
+    ),
+}
+
 
 def focus(stage, inventory, root):
     method, action = FOCUS[stage]
@@ -44,7 +85,12 @@ def focus(stage, inventory, root):
         candidate = max(items, key=risk)
         pilot = {'suggested_instance': candidate.get('id'), 'interval': [candidate.get('start'), candidate.get('end')],
                  'action': '优先选择最难镜头执行 pilot-compare 并记录实际观察；无法完成时，完整fast代表片可按best_available放行并如实标记未验证，继续其他语种。'}
+    audio_contracts = []
+    if inventory.get('speech_segments') and stage in ('translation', 'render', 'review'):
+        audio_contracts = ['agent/contracts/audio-voice-selection.md', 'agent/contracts/audio-mixing.md']
     return {'pilot_before_expansion': pilot, 'stage': stage, 'method': 'knowledge/rules/' + method + '.md', 'check': action,
+            'stage_contracts': list(STAGE_CONTRACTS[stage]),
+            'audio_contracts': audio_contracts,
             'inspect_intervals': inspections, 'similar_cases': [
                 {k: entry.get(k) for k in ('id', 'path', 'scope')} for entry in matches[:2]],
             'case_use': '仅提示检查位置和失败方式；当前原片须独立验证，不沿用旧坐标或验收。'}

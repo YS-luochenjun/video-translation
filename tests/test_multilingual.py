@@ -51,12 +51,25 @@ class LocaleAudioTests(unittest.TestCase):
         self.assertEqual(len(urls),2)
         self.assertIn('ACTUALLY audible',prompt)
         self.assertIn('character_voices',prompt)
+        self.assertIn('age_matches_source_characters',prompt)
+        self.assertIn('role_distinction_matches_source',prompt)
         self.assertIn('heroine',prompt)
         inventory['speech_segments'][-1]['voice_name']='Puck'
         write_json(self.run/'analysis/inventory.json',inventory)
         with self.assertRaisesRegex(Exception,'conflicting assigned voices'):
             self.inspect(voice_review=True)
         self.assertEqual(len(self.calls),1)
+
+    def test_default_comparison_checks_age_and_narrator_without_extra_request(self):
+        write_json(self.run/'analysis/inventory.json', {'speech_segments': [
+            {'character_id':'child','speech_role':'dialogue','start':0,'end':1},
+            {'character_id':'mother','speech_role':'dialogue','start':1,'end':2},
+            {'character_id':'narrator','speech_role':'narration','start':2,'end':3}]})
+        result=self.inspect()
+        self.assertEqual(len(self.calls),1)
+        self.assertIn('parent/child pairs',self.calls[0][1])
+        self.assertIn('role_distinction_matches_source',self.calls[0][1])
+        self.assertEqual(json.loads((self.run/result['analysis']).read_text())['character_voice_review_version'],2)
 
     def inspect(self,**kwargs):
         with patch.object(workflow.media,'probe',return_value={'has_audio':True}),patch.object(workflow,'current_plan',return_value={'id':'fixture'}):

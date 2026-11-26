@@ -17,7 +17,7 @@
 
 1. 先读manifest及原授权、请求/预算/回传/parallel现场，读取status返回的owner_status_checks，分批用wait_threads(timeoutMs=0，最多8个)保存每个负责聊天的真实状态及cursor。旧manifest中的owner_running只表示历史观察，不能证明当前仍在制作。运行中不重复发送；确有need_attention、idle/error、原聊天结束但缺项时read_thread核对当前实际问题/选项、在途模型、unknown费用及具体阻塞。
 2. 普通项目提问在已授权需求、语种、额度和质量范围内，依据当前真实显示的第一个推荐选项回复原聊天，保存实际问题、顺序/推荐标记、选择依据和发送回执；只通过提供该选项的受支持工具操作，没有真实选项不得编造“已点击”。宿主强制审批/安全拒绝仍交人类，不代批不换接口；超出config/fireplay-intake.json.budget_increase_authority授权上限的加额、扩大范围、重发未知付费模型或放弃严重质量异议时不按第一项自动同意；额度不足时按该授权沿原账本有限加额。
-3. 无具体阻塞但停滞时沿原threadId恢复，按publication_followups的持久signal先unknown再实际发送、登记真实回执；unknown先对账。真实运行中只续租。租约、停滞重派上限及升级沿原配置；20分钟检查并不赋予每10分钟重复催办的权限。具体质量/预算/审批缺口定位后保留，不无限重复相同消息。
+3. 无具体阻塞但停滞时沿原threadId恢复，按publication_followups的持久signal先unknown再实际发送、登记真实回执；unknown先对账。真实运行中只续租。重派次数耗尽且核实会话空闲或报错时，立即显示 `escalation_required`，由工作台排查这轮有没有真实工具调用、在途操作或具体质量/预算/审批缺口，并继续其他可执行项。租约及重派上限沿原配置。
 4. 原负责聊天继续实际制作/模型/费用/固定提交；主控只调度。ready先交，partial/pending持续补齐。保持原位替换、逐版首尾音频、每需求共享池及单原片单写入者门禁。入库→共享需求组并请求YouTube自动上传→语言及产品tag→编号加语言命名→实际其他执行人二创归属→精确需求绑定，逐项实际读回。
 
 ## 结案与停止

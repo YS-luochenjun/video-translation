@@ -16,6 +16,7 @@ from .fireplay import _code, _uuid
 
 LIVE = {'active', 'dispatch_unknown', 'blocked'}
 TERMINAL = {'worker_complete', 'released'}
+SLOT_LOCK_WAIT_SECONDS = 30
 
 
 def policy(root=ROOT):
@@ -43,7 +44,7 @@ def _state(root):
 
 
 def slot_lock(root):
-    return lock(_path(root).with_suffix('.lock'))
+    return lock(_path(root).with_suffix('.lock'), wait_seconds=SLOT_LOCK_WAIT_SECONDS)
 
 
 def paused_locales(record, video, root, missing, packages=None):

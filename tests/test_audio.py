@@ -20,6 +20,16 @@ TEMP.mkdir(parents=True, exist_ok=True)
 
 @unittest.skipUnless(shutil.which("ffmpeg") and shutil.which("ffprobe"), "FFmpeg required")
 class AudioTests(unittest.TestCase):
+    def test_replacement_continuity_flags_local_silence_without_claiming_music_loss(self):
+        source = {"windows": [{"start": 0., "end": .5, "rms_dbfs": -20.},
+                              {"start": .5, "end": 1., "rms_dbfs": -21.}]}
+        candidate = {"windows": [{"start": 0., "end": .5, "rms_dbfs": -20.},
+                                 {"start": .5, "end": 1., "rms_dbfs": -70.}]}
+        report = audio.replacement_continuity(source, candidate)
+        self.assertEqual({item["kind"] for item in report["review_intervals"]},
+                         {"near_silent_after_audible_source", "unexpected_level_transition"})
+        self.assertEqual(audio.replacement_continuity(source, source)["review_intervals"], [])
+
     @classmethod
     def setUpClass(cls):
         cls.temporary = tempfile.TemporaryDirectory(dir=TEMP)
@@ -279,4 +289,15 @@ class NativeAudioContractTests(unittest.TestCase):
                                 "dialogue_translation": {"complete": True}, "sync": {"acceptable": True},
                                 "foreign_speech_remaining": []}})
         self.assertIn("background_music_not_verified_preserved", workflow.quality(self.run_dir)["failures"])
+        write_json(report_path, {"source_sha256": file_hash(source), "video_sha256": candidate["sha256"],
+                   "analysis": {"background_music": {"same_track": True}, "sound_effects": {"preserved": True},
+                                "dialogue_translation": {"complete": True}, "sync": {"acceptable": True},
+                                "foreign_speech_remaining": [],
+                                "speech_audibility": {"clear_over_background": False, "affected_intervals": [{"start": 0, "end": 1}]}}})
+        data["audio"]["has_speech"] = True
+        write_json(self.run_dir / "analysis/inventory.json", data)
+        captured = {"video_sha256": candidate["sha256"], "files": {
+            report_path.relative_to(self.run_dir).as_posix(): file_hash(report_path)}}
+        self.assertIn("speech_audibility_unverified_or_masked",
+                      audio.model_review_check(self.run_dir, candidate, file_hash(source), captured)["failures"])
 

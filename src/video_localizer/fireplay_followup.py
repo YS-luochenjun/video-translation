@@ -26,10 +26,19 @@ def state(record, config):
     if record['state'] != 'sent':
         return record['state']
     minutes, retries = settings(config)
-    anchor = record.get('owner_checked_at') or record.get('receipt_at') or record['dispatched_at']
+    dispatched_at = record['dispatched_at']
+    observation = record.get('owner_observation') or {}
+    checked_at = record.get('owner_checked_at')
+    if not checked_at and observation.get('checked_at'):
+        if _time(observation['checked_at']) > _time(dispatched_at):
+            checked_at = observation['checked_at']
+    exhausted = record.get('attempt', 1) > retries
+    if exhausted and checked_at and observation.get('status') in {'idle', 'error'}:
+        return 'escalation_required'
+    anchor = checked_at or record.get('receipt_at') or dispatched_at
     if datetime.now(timezone.utc) < _time(anchor) + timedelta(minutes=minutes):
         return 'sent'
-    return 'escalation_required' if record.get('attempt', 1) > retries else 'owner_check_required'
+    return 'escalation_required' if exhausted else 'owner_check_required'
 
 
 def observe(spec, task, root):

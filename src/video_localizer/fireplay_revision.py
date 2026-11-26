@@ -4,6 +4,39 @@ import re
 from .common import file_hash, require, utc_now, write_json
 
 
+def recover_snapshot_punctuation(previous, snap, sources, decision, targets, folder, root):
+    from .common import object_hash
+    from .fireplay import REQUIREMENT_CONTENT_FIELDS
+
+    before, after = previous['snapshot']['brief'], snap['brief']
+    original, current = before.get('description') or '', after.get('description') or ''
+    prior_recovery = previous['snapshot'].get('punctuation_recovery')
+    if prior_recovery and snap['content_version'] == prior_recovery['live_content_sha256']:
+        return {**snap, 'content_version': previous['content_version'], 'punctuation_recovery': prior_recovery}
+    damaged_spans = list(re.finditer('\ufffd+', original))
+    require(decision.get('reviewed_content_version') == previous['content_version']
+            and decision.get('revision_reason') and previous.get('budget')
+            and all(before.get(field) == after.get(field) for field in REQUIREMENT_CONTENT_FIELDS if field != 'description')
+            and not previous['snapshot'].get('attachment_fallback') and not snap.get('attachment_fallback')
+            and targets == previous['targets']
+            and [(item['source_url'], item['targets']) for item in sources]
+            == [(item['source_url'], item['targets']) for item in previous['videos']]
+            and snap['row'].get('canBindMaterials') is True
+            and snap['row'].get('assigneeIds') == previous['snapshot']['row'].get('assigneeIds')
+            and len(damaged_spans) == 1,
+            'Snapshot punctuation recovery needs unchanged funded scope and one corrupted character span')
+    span = damaged_spans[0]
+    require(any(original[:span.start()] + punctuation + original[span.end():] == current
+                for punctuation in '，。；、,.!?！？'),
+            'Snapshot recovery can only resolve one corrupted punctuation mark')
+    archive = folder / 'revisions' / (object_hash(previous) + '.json')
+    write_json(archive, previous)
+    return {**snap, 'content_version': previous['content_version'], 'punctuation_recovery': {
+        'live_content_sha256': snap['content_version'], 'prior_snapshot': archive.relative_to(root).as_posix(),
+        'reason': decision['revision_reason'], 'reviewed_at': utc_now(),
+    }}
+
+
 def accept_delivery_clarification(previous, snap, sources, decision, targets, folder, root):
     """Accept specific delivery specs without changing the inputs of funded work."""
     from .common import object_hash
@@ -271,6 +304,51 @@ def _replace_untransferred_presign(path, old, value, grant, root, digest):
     return result
 
 
+def _replace_settled_locale(path, old, value, grant, root, digest):
+    from copy import deepcopy
+    from . import fireplay, fireplay_submission
+
+    require(len(value['packages']) == 1 and not old.get('pending_locales')
+            and not old.get('deferred_uploads'), 'Settled locale repair needs one replacement and a full prior return')
+    replacement = value['packages'][0]
+    locale = replacement['locale']
+    matches = [(slot, package) for slot, package in enumerate(old['packages'], 1)
+               if (package['video_index'], package['locale']) == (replacement['video_index'], locale)]
+    require(len(matches) == 1 and matches[0][1]['sha256'] != replacement['sha256'],
+            'Settled locale repair needs new reviewed bytes for one existing locale')
+    slot, previous = matches[0]
+    rows = fireplay_submission._canonical_materials(old)
+    prior = [row for row in rows if row['locale'] == locale and row['sha256'] == previous['sha256']]
+    base_ids = [row['material_id'] for row in rows]
+    old_id = grant['replace_material_id']
+    require(fireplay._uuid(old_id) and len(prior) == 1 and prior[0]['material_id'] == old_id
+            and len(set(base_ids)) == len(old['packages']) == len(base_ids),
+            'Settled locale repair needs the exact old material and all verified prior slots')
+
+    archive = path.parent / 'return-revisions' / f'{path.stem}-{digest}.json'
+    if not archive.exists():
+        write_json(archive, old)
+    require(file_hash(archive) == digest, 'Prior return archive differs from the verified outbox')
+    result = deepcopy(old)
+    result['packages'][slot - 1] = replacement
+    for phase in ('upload', 'import', 'attribute', 'verify'):
+        result['operations'].pop(f'{phase}-{slot}', None)
+    for phase, field in (('import', 'import_batches'), ('attribute', 'attribution_batches')):
+        if field in result:
+            result[field] = {key: batch for key, batch in result[field].items()
+                             if f'{phase}-{slot}' not in batch['operation_ids']}
+    result.get('upload_attempts', {}).pop(f'upload-{slot}', None)
+    result.setdefault('binding_history', []).append(result['operations'].pop('bind'))
+    result.setdefault('revision_history', []).append({
+        'prior_outbox': str(archive.relative_to(root)), 'prior_outbox_sha256': digest,
+        'authorization': grant, 'recorded_at': utc_now(),
+        'boundary': 'Replace one verified association only; retain prior library material and other verified slots.'})
+    result.update(state='ready', pending_locales=[locale], settled_locale_repair={
+        'slot': slot, 'old_material_id': old_id, 'base_material_ids': base_ids})
+    write_json(path, result)
+    return result
+
+
 def return_revision(path, old, value, grant, root):
     """Archive a settled return before an explicitly requested, reviewed repair.
 
@@ -280,6 +358,11 @@ def return_revision(path, old, value, grant, root):
     require(grant.get('authority') == 'user' and grant.get('authorization_ref')
             and grant.get('source_quote') and grant.get('reason'),
             'Return revision needs the actual user repair instruction')
+    if grant.get('replace_material_id') and old.get('settled_locale_repair') and old.get('revision_history'):
+        repair = old['settled_locale_repair']
+        if (old['revision_history'][-1]['authorization'] == grant
+                and value['packages'] == [old['packages'][repair['slot'] - 1]]):
+            return old
     digest = file_hash(path)
     require(grant.get('previous_outbox_sha256') == digest,
             'Return revision must bind the exact previous outbox')
@@ -299,6 +382,9 @@ def return_revision(path, old, value, grant, root):
     require((settled or unbound or unsent)
             and (unsent or all(op.get('state') == 'verified' for op in operations.values())),
             'Settle all prior return operations before a repair revision')
+    if grant.get('replace_material_id'):
+        require(settled, 'Settled locale repair requires verified binding')
+        return _replace_settled_locale(path, old, value, grant, root, digest)
     previous = {(p['video_index'], p['locale']): p for p in old['packages']}
     current = {(p['video_index'], p['locale']): p for p in value['packages']}
     require(previous.keys() <= current.keys(), 'Repair revision must retain every previously submitted locale')

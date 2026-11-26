@@ -234,10 +234,12 @@ def contract(run, inventory):
             def outlines(rows):
                 values = [(r['width'],r['color'].lower()) for r in rows if r['width'] > 0]
                 return [v for index,v in enumerate(values) if not index or v != values[index-1]]
+            from .layout import typography_lines
+            lines = typography_lines(item['target_text'], display.get('layout_lines'))
             differences = {'color': display.get('color', '#FFFFFF').lower() != appearance['color'].lower(),
                            'italic': display.get('italic', False) != appearance['italic'],
                            'weight': appearance['weight'] != 'unknown' and display.get('bold', True) != (appearance['weight'] == 'bold'),
-                           'line_count': len(item['target_text'].split('\n')) != style['layout']['line_count'],
+                           'line_count': len(lines) != style['layout']['line_count'],
                            'outlines': outlines(target_outlines) != outlines(appearance['outline_layers']),
                            'layout': display.get('bbox',item['bbox']) != item['bbox'],
                            'align': display.get('align', 'center') != style['layout']['align']}

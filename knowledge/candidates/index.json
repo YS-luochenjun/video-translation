@@ -3,7 +3,7 @@
   "semantics": "Derived navigation only. Partial adoption is not whole-record promotion; no_adoption_record does not prove no review. Exact-text groups do not merge scope, sources, outcomes or quality holds. Read the hash-bound original and adoption map for retained failures and limitations.",
   "counts": {
     "partial_adoption_recorded": 57,
-    "no_adoption_record": 161,
+    "no_adoption_record": 162,
     "synthetic_only": 4
   },
   "entries": [
@@ -1205,6 +1205,26 @@
       "review_status": "no_adoption_record",
       "reviews": [],
       "hypothesis_sha256": "f30ca3460cf8e07a03dad405e6f0247294b66a21f66905bdc200df1a784e943c"
+    },
+    {
+      "id": "APC-20261126-099-audio-mix-continuity",
+      "path": "knowledge/candidates/APC-20261126-099-audio-mix-continuity.json",
+      "original_sha256": "bcde13672d0ce26f10bacd09cb71585f8baaf98a370a0084e7334a973df9879f",
+      "status": "candidate",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "cf3c7755cb8bf7f9495724f788105d9c358eb81ffebd2c45676fa6637f4a8ff8",
+        "target_languages": [
+          "pt",
+          "es",
+          "fr"
+        ],
+        "validation_level": "single_source_real_encoded_comparison_and_deterministic_regression"
+      },
+      "historical_outcome": "engineering_optimization_validated_single_source_media_comparison_pending_listening",
+      "review_status": "no_adoption_record",
+      "reviews": [],
+      "hypothesis_sha256": "c5ebb313d31e1d154ad21c32826c0cd7e5a7aa5ac26b1d842cb91196414172af"
     },
     {
       "id": "DEV-20261104-gemini-tts-two-speaker-guard",

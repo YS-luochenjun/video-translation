@@ -79,6 +79,51 @@ class RepairReturnTests(unittest.TestCase):
             fireplay.prepare_return(fixtures.CODE, mixed, self.root)
         self.assertEqual(file_hash(self.path), self.digest)
 
+    def test_settled_locale_repair_preserves_slots_and_requires_replacement_readback(self):
+        old_ids = [fixtures.MID, fixtures.RESOURCE]
+        old = copy.deepcopy(self.old)
+        old['operations']['bind']['result']['material_ids'] = old_ids
+        for slot, material_id in enumerate(old_ids, 1):
+            for phase in ('upload', 'import', 'verify'):
+                old['operations'][f'{phase}-{slot}'] = {
+                    'state': 'verified', 'result': {'material_id': material_id}}
+        old['import_batches'] = {'prior-batch': {'state': 'verified', 'operation_ids': ['import-1', 'import-2']}}
+        write_json(self.path, old)
+        spec = {**self.new, 'partial': True, 'packages': self.new['packages'][:1]}
+        spec['repair_revision'].update(previous_outbox_sha256=file_hash(self.path),
+                                       replace_material_id=old_ids[0])
+        wrong = copy.deepcopy(spec)
+        wrong['repair_revision']['replace_material_id'] = old_ids[1]
+        with self.assertRaisesRegex(WorkflowError, 'exact old material'):
+            fireplay.prepare_return(fixtures.CODE, wrong, self.root)
+        result = fireplay.prepare_return(fixtures.CODE, spec, self.root)
+        self.assertEqual(result['packages'][1], old['packages'][1])
+        self.assertEqual(result['operations'], {key: value for key, value in old['operations'].items()
+                                                if key.endswith('-2')})
+        self.assertEqual(result['pending_locales'], [self.new['packages'][0]['locale']])
+        self.assertEqual(fireplay.prepare_return(fixtures.CODE, spec, self.root), result)
+        self.assertEqual(result['binding_history'][-1], old['operations']['bind'])
+        self.assertEqual(read_json(self.root / result['revision_history'][-1]['prior_outbox']), old)
+        self.assertEqual(result['import_batches'], {})
+
+        new_id = '01a15d9f-08bd-7f3c-9de2-0c1e77ad3fde'
+        for phase in ('upload', 'import', 'verify'):
+            result['operations'][f'{phase}-1'] = {'state': 'verified', 'result': {'material_id': new_id}}
+        write_json(self.path, result)
+        operation = fireplay.dispatch(fixtures.CODE, True, self.root)['operation']
+        self.assertEqual(operation['tool'], 'requirement_replace_materials')
+        self.assertEqual(operation['arguments']['items'][0]['base_material_ids'], old_ids)
+        self.assertEqual(operation['arguments']['items'][0]['material_ids'], [new_id, old_ids[1]])
+        from datetime import datetime, timedelta, timezone
+        readback = {'response': {'success': True}, 'verification': {
+            'serverTime': (datetime.now(timezone.utc) + timedelta(seconds=1)).isoformat(),
+            'items': [{'id': self.fx.record()['requirement_id'],
+                       'materials': [{'id': material_id} for material_id in [*old_ids, new_id]]}]}}
+        with self.assertRaisesRegex(WorkflowError, 'still contains'):
+            fireplay.receipt(fixtures.CODE, 'bind', readback, self.root)
+        readback['verification']['items'][0]['materials'].pop(0)
+        self.assertTrue(fireplay.receipt(fixtures.CODE, 'bind', readback, self.root)['requirement_complete'])
+
     def test_reviewed_unbound_import_can_be_repaired_without_binding_rejected_video(self):
         old = copy.deepcopy(self.old)
         old['state'] = 'ready'

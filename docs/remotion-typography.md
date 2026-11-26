@@ -51,7 +51,7 @@ candidate.json返回`typography_assets`与`typography_fallbacks`。普通/快速
 交付库沿回执复制字层、字体、参数及准备依赖；缓存签名包含实现和环境，动态实例不复用旧分段缓存，先前回退也不被production checkpoint长期缓存。重建bundle在`work/runs/RUN`，任务收尾登记缓存并maintain --close，不删除必要回执或未知费用记录。
 # 排版候选与循环扫光
 
-`python bin/propose_typography.py RUN --instance t003` 读取已绑定字体和原文字区域，输出有界的一至三行候选、可用字号及区域占比，不修改清单。Agent根据原片、目标语言的自然短语和实际视觉大小选择，在 `display.layout_lines` 写入选中的行。换行只允许改变空白，不改定稿文字和逻辑词序；不能拆开单词。默认仍沿用原有定稿换行。候选不是审美评分；`metrics=basic` 且 `shaping_review_required=true` 时尤其不能把测量占比当成阿语实际字形占比，须看浏览器渲染并核对连写、大小和空白。
+`python bin/propose_typography.py RUN --instance t003` 读取已绑定字体及 `display.bbox`（未设置则用原文字框），输出有界的一至三行候选、可用字号及区域占比，不修改清单。Codex 按[目标语排版](source-typography.md#目标语排版由-codex-决定)选择 `display.layout_lines`、字号和落位，也可自行指定符合目标语的断点。换行不改定稿文字和逻辑词序，不拆单词；未指定分行时渲染器沿用目标定稿的显式分行，不读取源行数。候选不是审美评分；`metrics=basic` 且 `shaping_review_required=true` 时尤其不能把测量占比当成阿语实际字形占比，须看浏览器渲染并核对连写、大小和空白。
 
 观察到循环扫光的标题/CTA可在 `display.motion` 增加可组合的 `sweep`：
 

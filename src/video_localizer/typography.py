@@ -121,7 +121,7 @@ def verify_contract(run, plan, inventory):
 
 def _prepare(run, segment, items, meta, directory):
     """Hard content checks happen outside the runtime-failure fallback boundary."""
-    from .layout import measure_typography
+    from .layout import measure_typography, target_box
     fonts = _font_modules()
     policy = read_json(CODE_ROOT / 'config/typography.json')
     contract(run, {'text_instances': items})
@@ -155,7 +155,7 @@ def _prepare(run, segment, items, meta, directory):
             shutil.copyfile(font_path, dest)
             family_map[key] = 'BoundFont' + str(len(family_map))
             props['fonts'].append({'family': family_map[key], 'file': filename})
-        box = item['bbox']
+        box = target_box(item, meta, item['bbox'])
         require(len(box) == 4, 'Text box needs four values')
         x,y,w,h = [require_number(v, 'text box') for v in box]
         require(w > 0 and h > 0 and x+w <= meta['width'] and y+h <= meta['height'], 'Typography box exceeds frame')

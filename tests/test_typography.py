@@ -8,12 +8,39 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
-from video_localizer import typography, media, resources, render_cache
+from video_localizer import compositor, typography, media, resources, render_cache
 from video_localizer.common import CODE_ROOT, WorkflowError, file_hash, read_json, write_json
 
 
 FONT = next((p for p in [CODE_ROOT/'assets/fonts/arial.ttf',Path('/System/Library/Fonts/Supplemental/Arial.ttf')]
              if p.is_file()),None)
+
+
+class TypographyLineTests(unittest.TestCase):
+    def test_locale_specific_line_choices_preserve_copy_and_word_order(self):
+        from video_localizer.layout import typography_lines
+        cases = [
+            ('de', 'Entdecke deine neuen Lieblingsspiele', ['Entdecke deine neuen', 'Lieblingsspiele']),
+            ('tr', 'En sevdiğin oyunları keşfet', ['En sevdiğin', 'oyunları keşfet']),
+            ('vi', 'Thử ngay hôm nay', ['Thử ngay', 'hôm nay']),
+            ('id', 'Temukan permainan favoritmu', ['Temukan', 'permainan favoritmu']),
+            ('ar', 'جرّب الآن مع 3 أصدقاء', ['جرّب الآن', 'مع 3 أصدقاء']),
+            ('th', 'เริ่มเล่น\nกับเพื่อน', ['เริ่มเล่น', 'กับเพื่อน']),
+        ]
+        for locale, text, chosen_lines in cases:
+            with self.subTest(locale=locale):
+                self.assertEqual(typography_lines(text, chosen_lines), chosen_lines)
+                with self.assertRaises(WorkflowError):
+                    typography_lines(text, chosen_lines[::-1])
+
+    def test_cjk_layout_uses_codex_lines_without_changing_copy(self):
+        from video_localizer.layout import typography_lines
+        self.assertEqual(typography_lines('你多\n大', ['你多大']), ['你多大'])
+        self.assertEqual(typography_lines('今天出發明天抵達', ['今天出發', '明天抵達']), ['今天出發', '明天抵達'])
+        with self.assertRaises(WorkflowError):
+            typography_lines('今天 go next', ['今天 go ne', 'xt'])
+        with self.assertRaises(WorkflowError):
+            typography_lines('你多大', ['你多', '了'])
 
 
 @unittest.skipUnless(FONT and shutil.which('ffmpeg'),'Actual font and FFmpeg required')
@@ -132,6 +159,25 @@ class TypographyTests(unittest.TestCase):
         self.assertTrue(block['layoutMeasurement']['fits'])
         with patch.object(media,'ffmpeg'):typography._ffmpeg(self.run/'layout',props)
         self.assertIn('Go ',(self.run/'layout/fallback.ass').read_text(encoding='utf-8-sig'))
+
+    def test_fixed_target_box_and_size_reach_motion_and_static_without_moving_source(self):
+        self.item['bbox']=[10,20,60,35]
+        self.item['target_text']='Go next now'
+        self.item['display'].update(bbox=[24,36,180,112], min_font_size=26, bold=False,
+                                    layout_lines=['Go next','now'])
+        props,_=typography._prepare(self.run,self.segment,[self.item],self.meta,self.run/'placement')
+        block=props['blocks'][0]
+        self.assertEqual(block['box'],[24,36,180,112])
+        self.assertEqual(block['fontSize'],26)
+        self.assertEqual(block['text'],'Go next\nnow')
+        events=compositor.text_events(self.segment,[self.item],self.meta,self.run/'static',run=self.run)
+        self.assertIn(r'\pos(114.0,92.0)', events[0])
+        self.assertIn(r'\fs26', events[0])
+        self.assertIn(r'Go next\Nnow', events[0])
+        self.assertEqual(self.item['bbox'],[10,20,60,35])
+        self.item['protected_regions']=[[25,37,10,10]]
+        with self.assertRaisesRegex(WorkflowError,'covers protected content'):
+            compositor.text_events(self.segment,[self.item],self.meta,self.run/'static',run=self.run)
 
     def test_sweep_phase_survives_cuts_and_fallback_lists_only_requested_losses(self):
         self.item['start']=0

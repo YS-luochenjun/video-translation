@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import os
+import re
 import sys
 import math
 
@@ -13,6 +14,21 @@ def overlaps(a, b):
     x, y, w, h = a
     bx, by, bw, bh = b
     return max(x, bx) < min(x+w, bx+bw) and max(y, by) < min(y+h, by+bh)
+
+
+def target_box(item, meta, source_box):
+    display = item.get('display', {})
+    if 'bbox' not in display:
+        return source_box
+    box = display['bbox']
+    require(not item.get('trajectory'), 'A fixed target bbox cannot silently replace a tracked trajectory')
+    require(isinstance(box, list) and len(box) == 4, 'Target display bbox needs four values')
+    left, top, width, height = [require_number(value, 'target display bbox') for value in box]
+    require(width > 0 and height > 0 and left+width <= meta['width'] and top+height <= meta['height'],
+            'Target display bbox exceeds frame')
+    require(not any(overlaps(box, region) for region in item.get('protected_regions', [])),
+            'Target lettering covers protected content')
+    return box
 
 
 def validate(item, meta):
@@ -55,6 +71,19 @@ def default_family(text='', locale=None):
     return choose(text, locale)
 
 
+_UNSPACED_GLYPH = re.compile(r'[\u3041-\u3096\u30a1-\u30fa\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\U00020000-\U000323af]')
+
+
+def _line_pattern(lines):
+    normalized = [' '.join(line.split()) for line in lines]
+    pattern = re.escape(normalized[0])
+    for previous, following in zip(normalized, normalized[1:]):
+        separator = ' ?' if (previous and following and _UNSPACED_GLYPH.fullmatch(previous[-1])
+                             and _UNSPACED_GLYPH.fullmatch(following[0])) else ' '
+        pattern += separator + re.escape(following)
+    return pattern
+
+
 def typography_lines(text, lines=None):
     """Accept layout-only whitespace changes without changing final copy."""
     if lines is None:
@@ -62,7 +91,8 @@ def typography_lines(text, lines=None):
     require(isinstance(lines, list) and 1 <= len(lines) <= 3
             and all(isinstance(line, str) and line.strip() and '\n' not in line and '\r' not in line for line in lines),
             'layout_lines needs one to three nonempty lines')
-    require(' '.join(' '.join(lines).split()) == ' '.join(text.split()),
+    require(re.fullmatch(_line_pattern(lines), ' '.join(text.split()))
+            or re.fullmatch(_line_pattern(text.splitlines() or [text]), ' '.join(' '.join(lines).split())),
             'Layout must preserve the exact target words and logical order')
     return lines
 

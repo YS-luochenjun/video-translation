@@ -21,7 +21,7 @@ description: Localize an advertisement video into another language in this works
 
 后续画面文字采用[源视觉语言政策](../../../knowledge/rules/source-led-visual-localization-v1.md)：先保存原文字样式，按[源样式合同](../../../docs/source-typography.md)制作少量艺术字与真实字体短语，复用style-layer及既有surface/Remotion合成；按实际配音对齐并保护主体，不逐帧生图、不照搬案例坐标。按[有界改进循环](../../../agent/workflows/continuous-improvement.md)检查整幅、首末及实际运动，记录新旧版本对照与漏检原因。
 
-出现译文过小、换行僵硬或源标题循环扫光时，按[排版与动效能力](../../../docs/remotion-typography.md)读取实际字体的排版候选，结合原片选择换行；观察到扫光才设置可选参数。候选不自动决定设计，阿语不固定为单行。审核文字区域的完整循环及首末，静态降级按实例披露实际损失；不以无关Logo区域的比较证明文字动效通过。
+制作前逐语按[目标语排版](../../../docs/source-typography.md#目标语排版由-codex-决定)决定断行、字号、对齐与落位，不照搬源行数。可借助[排版与动效能力](../../../docs/remotion-typography.md)读取实际字体的候选，候选不自动决定设计；观察到扫光才设置可选参数。审核文字区域的完整循环及首末，静态降级按实例披露实际损失；不以无关Logo区域的比较证明文字动效通过。
 
 字体按[实际字面与绑定](../../../docs/fonts.md)检查。doctor.language_fonts检查目标脚本的常规/粗体；Mac使用config/fonts.json中的真实原生家族，不要求未选用的Windows专有字体。明确指定的家族缺失仍报错，不改名冒充。动态文字可用font-bind提取并绑定TTC正确字面，缺字和字体哈希变化不得作为静态降级放行。
 
@@ -33,7 +33,7 @@ description: Localize an advertisement video into another language in this works
    有人声时读取 `agent/contracts/captions.md`：区分口播字幕与标题/UI，共用 `speech_segments[].target_text` 定稿。独立配音先按实际完整混音对齐，再用 `captions --alignment ... --apply` 生成时间片段；保留原字擦除范围，重建语言字层。
 3. 先读 `knowledge/rules/agent-method-selection-v2.md` 及 `agent/workflows/video-localization.md`，按实际条件记录首选/备选、切换及停止依据。运行 `context`，先读所有适用政策和 required 方法，再按需选择可选知识并阅读正文。由 Agent 判断每实例的动作与理由，脚本检查清单后生成计划。
 4. 调用 KIE 前读 `agent/integrations/kie.md`；`packet` 查看附件与 payload。`submit --execute` 实际上传/扣费；网络结果不明先查原 taskId，禁止盲目重复 POST。`poll` 每次最多等45秒。
-5. `render → capture` 后，按 `agent/contracts/quality.md` 填 `review/review.json`。比较实际成片逐实例结果，引用成片帧/音频；标明自审或独立审查。`quality` 通过后 `deliver`。
+5. `render → capture` 后，按 `agent/contracts/quality.md` 填 `review/review.json`。新制作和单项返工均按[双域审核](../../../agent/contracts/quality.md#新制作与返工的双域审核)核验文字、音频及复用资产，优先片头、主标题、片尾艺术字和口播/BGM实际效果。比较实际成片逐实例结果，引用成片帧/音频；标明自审或独立审查。`quality` 通过后 `deliver`。
    有人声时另完成实际视频目录的 `caption-sync.json`，以成片 WAV 与字幕边界帧核对内容和起止时间，重跑 `capture` 后做 `caption-check → quality`。音频单独送审的 sync 不代表字幕通过，计划时间也不能当作实际观测。
 6. 结案与用户反馈按 `.agents/skills/knowledge-curation/SKILL.md` 保存。`deliver` 自动归档独立交付包并产生候选案例与inbox；已有候选及实际评审的失败结案运行 `reflect`，成片前失败用 `close-failure RUN SPEC` 保存真实观察与证据。候选不自动启用。盲测见 `agent/contracts/validation.md`。
 

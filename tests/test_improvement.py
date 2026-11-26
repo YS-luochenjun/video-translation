@@ -90,6 +90,17 @@ class ImprovementTests(unittest.TestCase):
         self.assertIsNone(agenda['whole_scene_probes'])
         self.assertTrue({'whole_scene', 'lettering', 'listening', 'delivery'} <= {q['id'] for q in agenda['questions']})
         self.assertEqual(agenda['max_revision_rounds'], 2)
+        self.assertEqual(agenda['priority_policy']['contract'], 'agent/contracts/quality.md#制作优先级')
+        self.assertIn('each character or detail', agenda['priority_policy']['scope'])
+        questions = {question['id']: question['question'] for question in agenda['questions']}
+        self.assertIn('断行', questions['lettering'])
+        self.assertIn('BGM', questions['listening'])
+        self.assertIn('年龄', questions['listening'])
+        self.assertIn('单项返工', questions['cross_domain_review'])
+        self.assertIn('旧音轨', questions['cross_domain_review'])
+        self.assertIn('片头片尾', questions['cross_domain_review'])
+        self.assertEqual(agenda['priority_policy']['rework_review_contract'],
+                         'agent/contracts/quality.md#新制作与返工的双域审核')
 
     def test_incomplete_workspace_navigation_does_not_create_retry_authority(self):
         (self.root / 'config/workspace.json').unlink()

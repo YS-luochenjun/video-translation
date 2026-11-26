@@ -430,6 +430,9 @@ def register(code, spec, decision=None, root=ROOT):
         blockers.append('Confirm quantity semantics: one version per source video and distinct locale')
     with lock(path.with_suffix('.lock')):
         old = read_json(path) if path.exists() else None
+        if old and old['content_version'] != snap['content_version'] and decision.get('review_snapshot_punctuation'):
+            from .fireplay_revision import recover_snapshot_punctuation
+            snap = recover_snapshot_punctuation(old, snap, sources, decision, targets, path.parent, Path(root))
         if old and decision.get('repair_continuity'):
             old = linked_repair_request(old, decision, Path(root))
         if (old and old['content_version'] != snap['content_version']
@@ -767,7 +770,9 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT, *, release_rese
                              '工作台负责检查进度；你负责完成成片。尚未制作或回传代表工作待执行，不是本轮任务结论。'
                              f'在这个聊天内管理全部目标语言 {", ".join(record["targets"] if per_requirement else video["targets"])}，不要按语言另开聊天。'
                              '各原片只制作fireplay-status中对应videos[].targets指定的语种，不将需求语言并集与全部原片交叉相乘。'
-                             f'这是立即执行的制作任务，不是咨询或等待确认。首轮先实际调用终端读取 agent/workflows/fireplay-intake.md，'
+                             f'这是立即执行的制作任务，不是咨询或等待确认。首轮先实际调用终端读取 agent/workflows/fireplay-intake.md、'
+                             'agent/workflows/fireplay-execution.md 和 agent/workflows/fireplay-production-start.md；'
+                             '按需读取原片接入专题，交付阶段读取 fireplay-publication.md 与 fireplay-publication-metadata.md，'
                              f'运行 doctor，并用验证通过的Python执行 fireplay-status {code}。'
                              '不能仅回复尚未完成、声称无工具而不实际尝试，或因为建聊回执尚在登记就结束首轮。'
                              + parallel_instruction(root, legacy=per_requirement) +
@@ -1530,6 +1535,13 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
                 _verify_frozen_package(code, record, package, root, hashes)
             ids = [outbox['operations'][f'import-{i}']['result']['material_id'] for i, _ in active_packages]
             arguments = {'items': [{'requirement_id': outbox['requirement_id'], 'material_ids': ids}]}
+            if repair := outbox.get('settled_locale_repair'):
+                tool = 'requirement_replace_materials'
+                base = repair['base_material_ids']
+                require(len(ids) == len(base) and len(set(ids)) == len(ids)
+                        and set(base) - set(ids) == {repair['old_material_id']},
+                        'Replacement binding must swap only the authorized material')
+                arguments['items'][0]['base_material_ids'] = base
         operation = {'id': key, 'tool': tool, 'arguments': arguments, 'materialize': materialize,
                      'state': 'unknown', 'dispatched_at': utc_now(), 'content_version': outbox['content_version']}
         if phase == 'upload' and outbox.get('upload_attempts', {}).get(key):
@@ -1726,11 +1738,6 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
                 'Failed/skipped write is not a successful receipt; reconcile before retry')
         reused_verification = None
         if operation_id.startswith('upload-'):
-            if operation.get('tool') == 'material_r2_presign_upload':
-                transfer = spec.get('transfer', {})
-                require(transfer.get('completed') is True and transfer.get('http_status') in (200, 201, 204)
-                        and transfer.get('sha256') == outbox['packages'][int(operation_id.split('-')[1]) - 1]['sha256'],
-                        'Presigning is not an upload; record the successful binary PUT and exact reviewed bytes')
             result = {}
             for field in ('publicUrl', 'resourceId'):
                 alias = {'publicUrl': 'public_url', 'resourceId': 'resource_id'}[field]
@@ -1740,9 +1747,28 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             from .kie import public_url
             public_url(result['publicUrl'])
             require(_uuid(result['resourceId']), 'Invalid uploaded resource id')
+            if operation.get('tool') == 'material_r2_presign_upload':
+                transfer = spec.get('transfer', {})
+                package = outbox['packages'][int(operation_id.split('-')[1]) - 1]
+                if transfer.get('http_method') == 'GET':
+                    require(transfer.get('url') == result['publicUrl']
+                            and transfer.get('http_status') == 200
+                            and transfer.get('bytes') == operation['arguments']['items'][0]['file_size'],
+                            'Presign recovery needs a complete HTTP read of the exact existing resource')
+                else:
+                    require(transfer.get('http_method', 'PUT') == 'PUT'
+                            and transfer.get('http_status') in (200, 201, 204),
+                            'Presigning is not an upload; record the successful binary PUT')
+                require(transfer.get('completed') is True and transfer.get('sha256') == package['sha256'],
+                        'Upload verification needs the exact reviewed bytes')
         elif operation_id.startswith('import-'):
             ids = _collect(raw, 'material_id')
             require(len(ids) == 1 and _uuid(ids[0]), 'Import receipt needs one real material_id')
+            repair = outbox.get('settled_locale_repair')
+            slot = int(operation_id.split('-')[1])
+            if repair and slot == repair['slot']:
+                require(ids[0] not in repair['base_material_ids'],
+                        'Repaired video import must not reuse a prior bound material ID')
             rows = raw.get('results', [])
             if isinstance(rows, list):
                 require(not any(isinstance(row, dict) and row.get('material_id') == ids[0]
@@ -1752,7 +1778,6 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             verify_task(_record(code, root), operation, spec, ids[0], root)
             result = {'material_id': ids[0], 'warnings': _collect(raw, 'warnings'), 'check_url': raw.get('check_url'),
                       'youtube_status': youtube_status}
-            slot = int(operation_id.split('-')[1])
             reused_verification = _accepted_import(raw, operation, outbox['packages'][slot - 1],
                                                    outbox, ids[0], root, youtube_status)
             if spec.get('youtube_task_verification'):
@@ -1783,6 +1808,9 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             actual = {m['id'] for m in row.get('materials', [])}
             expected = set(operation['arguments']['items'][0]['material_ids'])
             require(expected.issubset(actual), 'Platform read-back does not contain all submitted materials')
+            if operation.get('tool') == 'requirement_replace_materials':
+                require(outbox['settled_locale_repair']['old_material_id'] not in actual,
+                        'Platform read-back still contains the replaced material')
             record = _record(code, root)
             require(verification.get('serverTime') and
                     datetime.fromisoformat(verification['serverTime'].replace('Z', '+00:00')) >=

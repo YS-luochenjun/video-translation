@@ -207,11 +207,11 @@ async function checkScrollBoundaries(page, region) {
     const tableStyles=await page.locator('.ledger-table').evaluate(table=>{
       const colored=[...table.querySelectorAll('tr:is([data-progress=active],[data-progress=done],[data-progress=blocked])')];
       const clear=element=>getComputedStyle(element).backgroundColor==='rgba(0, 0, 0, 0)';
-      const header=table.querySelector('th:nth-child(2)');
+      const header=table.querySelector('th:nth-child(3)');
       table.scrollTop=150;
       return {
-        isolated:colored.length>0&&colored.every(row=>clear(row)&&[...row.cells].every((cell,index)=>clear(cell)===(index!==1))),
-        edges:[header,...colored.map(row=>row.cells[1])].every(cell=>getComputedStyle(cell).borderInlineStartWidth==='1px'),
+        isolated:colored.length>0&&colored.every(row=>clear(row)&&[...row.cells].every((cell,index)=>clear(cell)===(index!==2))),
+        edges:[header,...colored.map(row=>row.cells[2])].every(cell=>getComputedStyle(cell).borderInlineStartWidth==='1px'),
         sticky:getComputedStyle(header).position==='sticky'
       };
     });
@@ -221,6 +221,10 @@ async function checkScrollBoundaries(page, region) {
     const retryToggle = page.locator('[data-retry-demand]').nth(8);
     const demand = await retryToggle.getAttribute('data-retry-demand');
     const ledgerTable = page.locator('.ledger-table');
+    await ledgerTable.getByRole('columnheader',{name:'序号',exact:true}).waitFor();
+    const rowNumbers = () => ledgerTable.locator('tbody tr[data-progress] > td:first-child').allTextContents();
+    const serials = await rowNumbers();
+    assert.deepEqual(serials, serials.map((_,index)=>String(index+1)));
     const scrollPosition = () => ledgerTable.evaluate(table => ({
       top:table.scrollTop, left:table.scrollLeft, page:window.scrollY
     }));
@@ -255,6 +259,8 @@ async function checkScrollBoundaries(page, region) {
     const retryPanel = page.locator('#ledger-retry-detail');
     await retryPanel.getByRole('row',{name:/Fireplay 回传.*原片 2.*素材绑定.*第 2 次重试.*502.*成功/}).waitFor();
     assert.equal(await retryToggle.getAttribute('aria-expanded'),'true');
+    assert.equal(await retryPanel.getAttribute('colspan'),'7');
+    assert.deepEqual(await rowNumbers(),serials);
     assert.deepEqual(await scrollPosition(),desktopPosition);
     assert.equal(await retryPanel.evaluate(node=>node.parentElement.previousElementSibling.querySelector('[data-retry-demand]').dataset.retryDemand),demand);
     await retryPanel.getByRole('button',{name:'下一页'}).click();
