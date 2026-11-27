@@ -119,7 +119,14 @@
     "require_fresh_owner_observation": true,
     "unknown_send_requires_reconciliation": true,
     "ready_locales_first": true,
-    "close_only_after_verified_coverage": true
+    "close_only_after_verified_coverage": true,
+    "owner_handoff": {
+      "enabled": true,
+      "authority": "user",
+      "authorization_ref": "user-fireplay-owner-tool-failure-handoff-20261126",
+      "source_quote": "如果以后遇到，有会话本身问题的，例如一直无法调用终端等问题，巡查时发现后，可以允许去新开会话，进行接替原会话处理。",
+      "scope": "Already assigned, unfinished Fireplay production with a confirmed persistent chat tool failure. Reuse the existing source, runs, authority, budget and delivery records."
+    }
   },
   "schedule_history": [
     {
@@ -201,7 +208,7 @@
       "ordinary_in_scope_questions": "first_actual_recommended_option",
       "record_actual_question_options_choice_and_receipt": true,
       "running_owner": "observe_without_duplicate_message",
-      "idle_or_error_owner": "inspect_then_resume_original_thread",
+      "idle_or_error_owner": "inspect_then_resume_original_thread_unless_confirmed_tool_failure",
       "unknown_operations": "reconcile_before_retry",
       "host_forced_approval": "human_only_no_bypass",
       "budget_increase": "when_needed_up_to_one_original_limit_per_requirement_20261119",

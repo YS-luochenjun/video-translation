@@ -1,4 +1,5 @@
 """Publication judgment is separate from internal quality and actual upload."""
+from math import isfinite
 from pathlib import Path
 
 from .common import ROOT, file_hash, inside, lock, object_hash, operation_hash, read_json, require, utc_now, write_json
@@ -7,6 +8,7 @@ ACCEPTABLE = {'minor_issues_acceptable', 'bounded_best_available_acceptable', 'e
 SEVERE_KINDS = {'large_area_tearing', 'unwatchable', 'severe_subject_damage', 'corrupt_file',
                 'incomplete_translation', 'missing_required_audio', 'wrong_locale', 'unreadable_core_copy'}
 VISUAL_REPAIR_KINDS = {'visible_solid_coverup', 'hard_edged_coverup', 'unapproved_blur_coverup'}
+SECONDARY_UI_RESIDUE = 'secondary_ui_cut_residue'
 
 
 def publication_decision(code, digest, root=ROOT):
@@ -147,7 +149,28 @@ def _complete(folder, manifest):
     return value
 
 
-def _observed_findings(folder, manifest):
+def _secondary_ui_observations(folder, defects, evidence):
+    entries = [defect for defect in defects if defect.get('kind') == SECONDARY_UI_RESIDUE]
+    if not entries or 'final.mp4' not in evidence:
+        return set()
+    inventory = read_json(folder / 'payload/analysis/inventory.json')
+    instances = {item['id'] for item in inventory.get('text_instances', []) if item.get('action') != 'preserve'}
+    observed = set()
+    for defect in entries:
+        interval = defect.get('interval')
+        if (defect.get('instance_id') in instances and defect['severity'] == 'minor'
+                and defect.get('publication_impact', 'ordinary') == 'ordinary'
+                and all(defect.get(key) is True for key in (
+                    'nonessential_ui', 'momentary_at_cut', 'target_text_present_and_readable',
+                    'no_legible_source_word', 'no_normal_playback_impact'))
+                and isinstance(interval, list) and len(interval) == 2
+                and all(type(value) in (int, float) and isfinite(value) for value in interval)
+                and 0 <= interval[0] < interval[1]):
+            observed.add(defect['instance_id'])
+    return observed
+
+
+def _observed_findings(folder, manifest, secondary_ui=()):
     """Read explicit current-video findings, never classify pixels or search prose."""
     digest = manifest['metadata']['video_sha256']
     findings = []
@@ -162,7 +185,10 @@ def _observed_findings(folder, manifest):
             if isinstance(row, dict) and row.get('visible_coverup') is True:
                 findings.append({'path': path, 'id': row.get('id'), 'kind': 'visible_coverup', 'publication_impact': 'requires_bounded_stop'})
             if isinstance(row, dict) and row.get('source_text_removed') is False:
-                findings.append({'path': path, 'id': row.get('id'), 'kind': 'residual_source_lettering', 'publication_impact': 'requires_bounded_stop'})
+                ordinary = row.get('id') in secondary_ui and row.get('visible_coverup') is False
+                findings.append({'path': path, 'id': row.get('id'),
+                                 'kind': SECONDARY_UI_RESIDUE if ordinary else 'residual_source_lettering',
+                                 'publication_impact': 'ordinary' if ordinary else 'requires_bounded_stop'})
         finish = data.get('visual_finish')
         for defect in (finish.get('defects') or []) if isinstance(finish, dict) else []:
             if not isinstance(defect, dict):
@@ -278,14 +304,17 @@ def review(code, spec, root=ROOT):
     for item in evidence:
         require(isinstance(item, str) and item in files and operation_hash(inside(folder, item), hashes) == files[item],
                 'Publication evidence must be a verified file inside the delivery package')
-    observed_findings = _observed_findings(folder, manifest)
+    secondary_ui = _secondary_ui_observations(folder, defects, evidence)
+    observed_findings = _observed_findings(folder, manifest, secondary_ui)
     outage = _remote_audio_outage(folder, manifest, root)
     basic = assessment['translation_complete'] and assessment['watchable'] and (assessment['required_audio_complete'] or outage is not None)
     severe = any(f['publication_impact'] == 'severe' for f in observed_findings) or any(d['severity'] == 'critical' or d.get('kind') in SEVERE_KINDS or
                  d.get('publication_impact') == 'severe' for d in defects)
     policy = read_json(Path(root) / 'config/fireplay-publication.json')
     bounded = basic and not severe and _ordinary_best(assessment, files, policy)
-    repair_limitations = bool(observed_findings) or any(d.get('kind') in VISUAL_REPAIR_KINDS for d in defects)
+    repair_limitations = any(f['publication_impact'] != 'ordinary' for f in observed_findings) or any(
+        d.get('kind') in VISUAL_REPAIR_KINDS or
+        (d.get('kind') == SECONDARY_UI_RESIDUE and d.get('instance_id') not in secondary_ui) for d in defects)
     acceptable = (basic and not severe and not repair_limitations
                   and not assessment['too_many_issues'] and all(d['severity'] == 'minor' for d in defects))
     value = {'code': code, 'package': str(folder.relative_to(root)), 'video_sha256': meta['video_sha256'],

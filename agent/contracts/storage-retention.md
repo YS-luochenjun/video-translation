@@ -6,6 +6,8 @@
 
 交付期限由`config/delivery-policy.json`唯一配置：默认最新版，最多14天；明确request.keep_multiple_versions=true才保留多个版本，仍受14天限制。相同包重导不刷新首建时间，也不能把更旧版本重新覆盖最新版；已标记过期的同身份版本禁止重新落盘，不靠重导复活。新结果核验后原子替换展示。旧包删除后索引保留expired，不再宣称本地可恢复。
 
+跨需求复用的定位字段由 `state/fireplay-reuse/discovery.sqlite3` 保存，可从 `state/fireplay` 的原回执重建。媒体按各自期限回收。索引查空记录按短期有效期在刷新时剔除。恢复历史视频时重新检查平台的绑定、素材和使用权限。见[历史译片与原片复用](../workflows/fireplay-intake.md#历史译片与原片复用)。
+
 制作现场和缓存期限由`config/maintenance.json`配置：
 
 | 内容 | 正常回收条件 |

@@ -1,0 +1,35 @@
+{
+  "period": "2026-10-26 至 2026-11-23（洛杉矶时间）",
+  "source": "原版需求台账、KIE 预算账本、Codex 会话计数及 Fireplay 回执（清理前快照）",
+  "metrics": [
+    {"label": "收件至首轮完整出片", "unit": "duration", "n": 85, "mean": 23425.341, "median": 9100},
+    {"label": "开始制作至首轮完整出片", "unit": "duration", "n": 83, "mean": 19073.892, "median": 7908},
+    {"label": "首轮执行器占用（重叠已合并）", "unit": "duration", "n": 83, "mean": 1148.778, "median": 801.062},
+    {"label": "首轮已登记整项等待", "unit": "duration", "n": 31, "mean": 12083.226, "median": 2016},
+    {"label": "首轮后执行器占用", "unit": "duration", "n": 83, "mean": 49.408, "median": 11.965},
+    {"label": "每需求 KIE 实扣（含返工）", "unit": "credits", "n": 42, "mean": 210.917, "median": 144.005},
+    {"label": "每会话总 Token", "unit": "tokens", "n": 80, "mean": 119867515.675, "median": 102092084.5},
+    {"label": "每会话缓存输入 Token", "unit": "tokens", "n": 80, "mean": 116058515.2, "median": 99680576},
+    {"label": "每会话非缓存输入 Token", "unit": "tokens", "n": 80, "mean": 3635580.263, "median": 3309679.5},
+    {"label": "每会话输出 Token", "unit": "tokens", "n": 80, "mean": 173420.212, "median": 139818.5}
+  ],
+  "provider": {"ledger_files": 238, "known_credits": 57081.42, "unknown": 479},
+  "bound_sessions": 224,
+  "stages": [
+    {"label": "源片扫描", "n": 1425, "mean": 2.141, "median": 0.059},
+    {"label": "音频分析", "n": 1681, "mean": 36.629, "median": 30.762},
+    {"label": "本地语音识别", "n": 8605, "mean": 3.225, "median": 1.842},
+    {"label": "模型提交", "n": 6943, "mean": 1.677, "median": 1.128},
+    {"label": "单次模型轮询", "n": 9000, "mean": 2.848, "median": 1.401},
+    {"label": "模型结果取回", "n": 5706, "mean": 1.324, "median": 1},
+    {"label": "字层渲染", "n": 1001, "mean": 14.554, "median": 10.313},
+    {"label": "成片合成（单一计时入口）", "n": 36, "mean": 1.793, "median": 1.357},
+    {"label": "审核取证", "n": 4627, "mean": 24.475, "median": 9.495},
+    {"label": "快速质检", "n": 3356, "mean": 12.158, "median": 5.278},
+    {"label": "标准质检", "n": 2326, "mean": 12.017, "median": 4.19},
+    {"label": "成片定稿", "n": 3083, "mean": 10.522, "median": 11.802},
+    {"label": "上传发起至本地记入回执", "n": 2233, "mean": 171.08, "median": 51},
+    {"label": "入库发起至本地记入回执", "n": 2233, "mean": 56.816, "median": 34},
+    {"label": "绑定发起至本地记入回执", "n": 296, "mean": 66.017, "median": 44}
+  ]
+}

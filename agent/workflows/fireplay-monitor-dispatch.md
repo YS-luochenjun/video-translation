@@ -22,7 +22,18 @@ status.publication_followups逐项导航未完整交付的原片/语种。`produ
 
 sent只表示消息已送达。租约默认120分钟，到期signal_state=owner_check_required；未到期也要检查真实会话，不能用租约代替运行状态。保存真实wait_threads/read_thread回执，调用signal附owner_observation，字段为threadId、status（idle/running/needs_attention/error）、observed_at、source以及evidence:{path,sha256}。running只续租；已送达且确认idle/error时，先核对具体阻塞、在途任务与unknown，存在可执行工作才调用signal生成新unknown派发并保留历史，执行后登记真实发送回执；重派回执还须附本次attempt，防止旧回执确认新派发。最多两次停滞重派，之后定位或升级；不能假报完成、无限催同一句或自动重试付费任务。needs_attention按实际缺口处理，不从状态推断用户许可。配置见config/fireplay-monitor.json.delivery_followup。
 
-首轮或恢复轮数秒内结束且真实会话记录没有任何执行工具调用时，先区分派单措辞误解、实际工具故障和正常制作失败，不归咎于KIE或原片。用户于2026-11-25指定制作聊天使用 GPT-6.2 Sol（`codex/gpt-6.2-sol`），不再使用 GPT-6.1 Terra。新建及恢复制作聊天按此模型执行；明确制作交付角色后仍连续无工具调用时，保留真实发送和执行回执并定位宿主问题，不自行切换其他执行模型。不重新创建会话、不切换已发起的付费媒体模型、不重置账本。只有真实工具调用与制作记录可证明恢复，模型变更及聊天活跃本身不证明交付成功。
+首轮或恢复轮数秒内结束且真实会话记录没有任何执行工具调用时，先分辨派单措辞、会话工具和正常制作故障。用户于2026-11-25指定制作聊天使用 GPT-6.2 Sol（`codex/gpt-6.2-sol`）。新建及恢复制作聊天按此模型执行，已发起的付费媒体任务和账本沿用原记录。以实际工具调用及制作记录判断恢复。
+
+发现空闲轮次没有执行证据时，用 `read_thread` 读取最近两个轮次并保存完整回执，确认两轮 items 均未分页。`fireplay-monitor signal` 根据真实回执识别连续两个只有回复的已结束轮次，登记 `escalation_required` 和轮次 ID。工作台核对首个待执行命令、宿主工具和在途回执。已取得必要工具持续调用失败的实际回执时，可直接核实故障并进入接替流程。原聊天可恢复时沿原聊天继续。
+
+### 会话故障接替
+
+授权见 `config/fireplay-monitor.json.delivery_followup.owner_handoff`，适用于巡检发现的已交办、未结案需求。工作台可按该授权建一个接替聊天并派发原任务。按以下步骤完成交接。
+
+1. 按需求 UUID、原片序号和当前负责人核对待办。用最新 `wait_threads` 和 `read_thread` 查原聊天的真实状态、最近动作和回执。以持续无法执行终端或必要工具的实际错误，或明确派发实际动作后持续无工具调用的完整轮次为依据，同时检查是否有在途写入、待确认创建或发送。单次空闲、正常运行或等待、KIE 故障、预算不足、严重质量阻塞及宿主审批问题分别按现有流程处理。
+2. 确认原聊天仍停滞后，保存原负责人证据和本次建聊意图。用宿主 `create_thread` 在同一项目建候选聊天，沿用制作模型。首轮只验证该需求所需的工具和原现场读回，例如实际调用终端运行 `fireplay-status CODE`。取得真实 `threadId`、`hostId` 和成功调用证据后，再即时复查原聊天和写入领取。原聊天已恢复执行时由原聊天继续，候选聊天停在只读验证。建聊结果未知时先查历史和实际聊天，确认结果后再推进。
+3. 确认原聊天已停写，按[并行制作](fireplay-parallel.md)核对活跃领取。在 `state/fireplay/CODE/` 保存独立交接回执，记入需求 UUID、原片序号、内容版本、原负责人、新负责人、故障及停写证据、候选工具验证和原预算。沿用 `status: READY` 及 `replacements` 中 `{code, old_thread_id, new_thread_id}` 的既有回执格式。在既有项目写入锁下核对 `state/fireplay/CODE/request.json` 仍指向旧负责人且内容版本与回执一致，再将该原片 `chat` 切换至真实新聊天，记录 `state: ready`、需求原片标题、`predecessor_thread_id` 和 `migration_receipt`。原负责人兼整单协调时同步切换 `request.chat` 和完成盯办 manifest 的对应项，保留历史。旧版整单共享聊天同步交接它实际负责的原片。保留旧聊天、原片、runs、预算、授权、成片、在途任务、未知费用及回传回执，沿同一原片名额推进。
+4. 重新运行 `fireplay-monitor status`，读回新负责聊天和实际待办，按新负责人的 `signal` 派发首个实际制作或回传动作。先对账旧未知操作，沿原操作回执继续，已有素材 ID 和成片继续复用。确认接替聊天发出该需求的实际调用后交回定期巡检。新旧聊天只有当前负责人继续写入该原片。
 
 partial和pending始终保留在恢复队列；同一旧阻塞不反复通知，不等于停止执行已授权补漏。设计师由负责聊天查Fireplay真实成员/原生页面自行判断，不向用户索要DID；KIE在本需求持续授权及原额度内直接使用，不重复项目同意问题。主控只向已交办负责聊天派发恢复，不向无关聊天或第三人发消息。
 

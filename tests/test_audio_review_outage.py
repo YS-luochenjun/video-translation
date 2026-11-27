@@ -1,8 +1,12 @@
+import io
+import json
 import tempfile
 import unittest
+from contextlib import redirect_stdout, redirect_stderr
 from pathlib import Path
 from unittest.mock import patch
 
+from video_localizer import cli
 from video_localizer import audio_review_outage as outage
 from video_localizer.common import WorkflowError, file_hash, read_json, write_json
 from video_localizer.model_routing import policy
@@ -104,6 +108,25 @@ class AudioReviewOutageTests(unittest.TestCase):
         self.assertEqual(result['state'], 'remote_review_unavailable')
         self.assertEqual([call.kwargs['model'] for call in analyze.call_args_list], self.models)
 
+    def test_cli_dual_provider_outage_can_continue_the_command_chain(self):
+        write_json(self.run / 'outputs/candidate.json', {'sha256': self.video_hash})
+        with (patch.object(cli, 'get_run', return_value=self.run),
+              patch('video_localizer.workflow.analyze_audio', side_effect=[
+                  {'job': '0', 'state': 'ambiguous'}, {'job': '1', 'state': 'ambiguous'}]),
+              redirect_stdout(io.StringIO()) as stdout):
+            exit_code = cli.main(['audio-analyze', 'example', '--candidate', '--execute'])
+        result = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(result['state'], 'remote_review_unavailable')
+        self.assertFalse(result['semantic_review_passed'])
+        self.assertIn('finalize', result['next_action'])
+
+    def test_cli_missing_candidate_is_still_an_error(self):
+        with patch.object(cli, 'get_run', return_value=self.run), redirect_stderr(io.StringIO()) as stderr:
+            exit_code = cli.main(['audio-analyze', 'example', '--candidate', '--execute'])
+        self.assertEqual(exit_code, 1)
+        self.assertIn('candidate.json', json.loads(stderr.getvalue())['error'])
+
     def test_negative_review_stays_a_quality_finding(self):
         report = self.unavailable_primary()
         report['analysis']['dialogue_translation']['complete'] = False
@@ -117,6 +140,17 @@ class AudioReviewOutageTests(unittest.TestCase):
         for field in ('dialogue_translation', 'background_music', 'sound_effects', 'sync'):
             report['analysis'][field]['reason'] = "Unable to open or access Audio A and Audio B."
         self.assertTrue(outage.inaccessible_audio(report))
+
+    def test_inaccessible_audio_intervals_require_media_access_reasons(self):
+        report = self.unavailable_primary()
+        interval = {'start': 0, 'end': 3.44, 'reason': 'Audio files could not be opened'}
+        report['analysis']['character_voices'] = {
+            'reason': 'Neither Audio A nor Audio B could be opened.',
+            'uncertain_intervals': [interval],
+        }
+        self.assertTrue(outage.inaccessible_audio(report))
+        interval['reason'] = 'There is audible clipping in the second word.'
+        self.assertFalse(outage.inaccessible_audio(report))
 
     def test_model_timeout_keeps_unknown_request_without_retry(self):
         path = self.run / 'jobs/1.json'

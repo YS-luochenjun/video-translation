@@ -60,9 +60,6 @@ def source_files(source):
     source = Path(source).resolve()
     files = public_files(source)
     extras = [source / name for name in ("README.md", "pyproject.toml", ".gitignore", ".gitattributes")]
-    hook_config = source / ".codex/hooks.json"
-    if hook_config.is_file():
-        extras.append(hook_config)
     for name in SOURCE_DIRECTORIES:
         extras.extend(_tree_files(source / name))
     files.update(_checked_files(source, extras))

@@ -16,6 +16,16 @@ const list = values => asArray(values).length ? `<ul class="list">${values.map(v
 const section = (title, body, aside='') => `<div class="section-title"><h3>${esc(title)}</h3><span class="quiet">${esc(aside)}</span></div>${body}`;
 const info = (name,value) => `<div class="info"><span>${esc(name)}</span><strong>${esc(value ?? '未记录')}</strong></div>`;
 const documentButton = (path,title='查看正文') => path ? `<button class="table-action" data-document="${esc(path)}">${esc(title)}</button>` : '';
+function trimmedAverage(values) {
+  const sorted = values.filter(Number.isFinite).sort((left,right)=>left-right);
+  const trim = Math.floor(sorted.length/10);
+  const retained = sorted.slice(trim,sorted.length-trim);
+  return {
+    average: retained.length ? retained.reduce((sum,value)=>sum+value,0)/retained.length : null,
+    count: retained.length,
+    total: sorted.length,
+  };
+}
 let snapshot = null, detail = null, catalog = null, tab = 'overview', query = '', filter = 'all', knowledgeQuery = '', knowledgeKind = 'method', knowledgeReview = 'actionable';
 let taskListOpen = true;
 let sessionUsage = null;
@@ -320,11 +330,11 @@ function renderSystem() {
   const s=snapshot, roles={text_recognition:'文字识别',image_editing:'图片处理',asr:'真实音频转写',audio_analysis:'音频理解',separation:'人声 / 背景分离',tts:'目标语言配音',video:'视频编辑'};
   if (!$('system-usage')) {
     $('content').innerHTML = `<div id="system-usage-summary" class="ledger-cards">
-      <div id="system-codex-summary" class="ledger-card"><span>每个已完成会话的平均 Codex Token 用量</span><strong>—</strong><small></small></div>
-      <div id="system-kie-summary" class="ledger-card"><span>每个已完成会话的平均 KIE 花费</span><strong>—</strong><small></small></div>
+      <div id="system-codex-summary" class="ledger-card"><span>每个已完成会话的平均 Codex Token 用量（截尾）</span><strong>—</strong><small></small></div>
+      <div id="system-kie-summary" class="ledger-card"><span>每个已完成会话的平均 KIE 花费（截尾）</span><strong>—</strong><small></small></div>
     </div><section class="panel system-usage-panel"><h2>已完成会话用量</h2>
       <div id="system-usage" class="table-wrap bounded-table" role="region" aria-label="已完成会话用量表" tabindex="0"></div>
-      <p class="quiet">语种数按整条需求去重，用量按会话记录。缓存命中属于输入，括号内为命中率。— 表示缺少记录。</p>
+      <p class="quiet">截尾平均按各指标有效样本去掉最低及最高各 10%（向下取整）。不足 10 个时全量平均。语种数按整条需求去重，用量按会话记录。缓存命中属于输入，括号内为命中率。— 表示缺少记录。</p>
     </section><div id="system-settings" class="system-grid"></div>`;
     renderSessionUsage();
   }
@@ -357,19 +367,20 @@ function renderSessionUsage() {
   const sessions=sessionUsage?.sessions || [];
   const recordedTokens = sessions.map(session => session.codex_total).filter(Number.isFinite);
   const totalTokens = recordedTokens.reduce((total, tokens) => total + tokens, 0);
+  const tokenAverage = trimmedAverage(recordedTokens);
   const codexSummary = $('system-codex-summary');
-  codexSummary.querySelector('strong').textContent = recordedTokens.length
-    ? `${format(Math.round(totalTokens / recordedTokens.length))} Tokens` : '—';
+  codexSummary.querySelector('strong').textContent = tokenAverage.average != null
+    ? `${format(Math.round(tokenAverage.average))} Tokens` : '—';
   const tokenSum = recordedTokens.length ? `共 ${format(totalTokens)} Tokens · ` : '';
   codexSummary.querySelector('small').textContent = sessionUsage
-    ? `${tokenSum}${format(recordedTokens.length)} / ${format(sessions.length)} 个会话有记录`
+    ? `${tokenSum}${format(recordedTokens.length)} / ${format(sessions.length)} 个会话有记录 · ${format(tokenAverage.count)} 个参与平均`
     : '正在读取会话用量…';
   const confirmed=sessions.filter(({kie})=>Number.isFinite(kie?.known) && !kie.unknown && !kie.ambiguous);
-  const credits=confirmed.reduce((total,{kie})=>total+kie.known,0);
+  const creditAverage=trimmedAverage(confirmed.map(({kie})=>kie.known));
   const summary=$('system-kie-summary');
-  summary.querySelector('strong').textContent=confirmed.length ? `${format(credits/confirmed.length)} Credits` : '—';
+  summary.querySelector('strong').textContent=creditAverage.average != null ? `${format(creditAverage.average)} Credits` : '—';
   summary.querySelector('small').textContent=sessionUsage
-    ? `${format(confirmed.length)} / ${format(sessions.length)} 个会话费用已确认`
+    ? `${format(confirmed.length)} / ${format(sessions.length)} 个会话费用已确认 · ${format(creditAverage.count)} 个参与平均`
     : '正在读取会话用量…';
   const rows=sessions.map(({title,requirements=[],codex_total,codex_breakdown,kie})=>{
     const cost=!kie?'—':`${format(kie.known)}${kie.unknown?` · ${kie.unknown} 笔待确认`:''}${kie.ambiguous?` · ${kie.ambiguous} 笔未归属`:''}`;
@@ -389,6 +400,7 @@ function renderSessionUsage() {
 document.addEventListener('click',async e=>{
   const consoleAction=e.target.closest('[data-console-action]');
   if(consoleAction){
+    if(document.body.dataset.access==='lan') return;
     window.ConsoleUI.action(consoleAction.dataset.consoleAction).catch(error=>notice(error.message));
     return;
   }

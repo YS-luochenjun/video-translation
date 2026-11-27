@@ -126,7 +126,7 @@ def verify_completion(code, spec, root=ROOT):
         require(False, 'Completion needs a current timezone-aware platform timestamp')
     require(-60 <= age <= 600, 'Completion platform read-back is stale; refresh delivery view')
     row = rows[0]
-    actual = {m['id'] for m in row.get('materials', [])}
+    actual = {m['id']: m for m in row.get('materials', [])}
     missing, verified, seen = [], [], set()
     for video in record['videos']:
         bound = bound_materials(record, video, root)
@@ -151,7 +151,18 @@ def verify_completion(code, spec, root=ROOT):
                     reason = 'material_reused_for_different_source_locale'
                 else:
                     seen.add(mid)
-                    verified.append({'video_index': video['index'], **material})
+                    accepted = {'video_index': video['index'], **material}
+                    platform_material = actual[mid]
+                    if verification.get('view') == 'delivery' and platform_material.get('type') == 'video':
+                        url = platform_material.get('videoUrl')
+                        if isinstance(url, str):
+                            try:
+                                youtube_id = fireplay.youtube_id(url)
+                            except ValueError:
+                                youtube_id = None
+                            if youtube_id:
+                                accepted['delivery_youtube_id'] = youtube_id
+                    verified.append(accepted)
             if reason:
                 missing.append({'video_index': video['index'], 'locale': locale, 'reason': reason})
     result = {'code': code, 'requirement_id': record['requirement_id'], 'content_version': record['content_version'],

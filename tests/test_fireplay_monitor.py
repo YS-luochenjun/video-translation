@@ -581,10 +581,11 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(task['production_initialization'], 'initialized')
         first = monitor.signal({'key':task['key']}, self.root)
         self.assertEqual(first['state'], 'unknown')
-        self.assertIn(fireplay.continuous_execution_instruction(self.root),
-                      first['host_action']['arguments']['prompt'])
-        self.assertIn('制作和交付负责人，不是状态检查员',
-                      first['host_action']['arguments']['prompt'])
+        prompt = first['host_action']['arguments']['prompt']
+        self.assertIn(f'fireplay-status {CODE}', prompt)
+        self.assertIn("['es', 'ko'] 执行 fireplay-return", prompt)
+        self.assertIn('agent/workflows/fireplay-execution.md', prompt)
+        self.assertNotIn(fireplay.continuous_execution_instruction(self.root), prompt)
         self.assertEqual(monitor.signal({'key':task['key']}, self.root), first)
         with self.assertRaisesRegex(WorkflowError, 'another chat'):
             monitor.signal({'key':task['key'],'response':{'threadId':RID}}, self.root)
@@ -601,6 +602,23 @@ class MonitorTests(unittest.TestCase):
                    'state':'returned_user_approved', 'requirement_id':RID,
                    'items':[{'locale':lang,'material_id':MID,'bound_verified':True} for lang in ['es','ko']]})
         self.assertEqual(monitor.followups(self.root)[0]['action'], 'verify_completion')
+
+    def test_production_followup_prompts_for_first_actual_production_action(self):
+        from video_localizer import fireplay
+        monitor.scan(self.pages(), self.root)
+        monitor.assess(CODE, self.decision(), self.root)
+        fireplay.chat(CODE, {'title': CODE, 'threadId': THREAD}, root=self.root)
+        task = monitor.followups(self.root)[0]
+        prompt = monitor.signal({'key': task['key']}, self.root)['host_action']['arguments']['prompt']
+        self.assertIn(f'fireplay-start {CODE} AUTHORITY --video 1', prompt)
+        path = self.root / 'state/fireplay' / CODE / 'request.json'
+        record = read_json(path)
+        record['videos'][0]['members'] = ['fixture-es', 'fixture-ko']
+        write_json(path, record)
+        with patch.object(monitor, 'followups', return_value=[{**monitor.followups(self.root)[0], 'key': 'initialized'}]):
+            prompt = monitor.signal({'key': 'initialized'}, self.root)['host_action']['arguments']['prompt']
+        self.assertIn('fast-register', prompt)
+        self.assertNotIn('fireplay-start', prompt)
 
     def test_cli_and_mcp_monitor_status(self):
         r = subprocess.run([sys.executable, 'bin/va.py', 'fireplay-monitor', 'scan'],cwd=PROJECT,capture_output=True,text=True)

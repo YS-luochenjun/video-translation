@@ -9,6 +9,7 @@ import sqlite3
 import time
 
 from video_localizer.retry_activity import database, job_events, previous_job, timestamp, write_events
+from console_requirements import CODE
 
 
 PAGE_SIZE = 30
@@ -23,6 +24,7 @@ SCOPE_JOIN = """
         AND retry_owners.reference=COALESCE(json_extract(activity.data,'$.thread'),json_extract(activity.data,'$.run'))
 """
 OWNER = "COALESCE(json_extract(activity.data,'$.requirement'),retry_owners.requirement)"
+COUNTED_ACTIVITY = "activity.kind IN ('retry', 'interruption')"
 
 
 def checkpoint(connection, name, default=None):
@@ -158,6 +160,92 @@ def remember_owners(connection, console, ledger):
             WHERE retry_owners.requirement<>excluded.requirement
         """, [(source, reference, identifier) for source, reference, identifier in sorted(owners)
               if (source, reference) not in prior or prior[source, reference] not in (None, identifier)])
+    return requirements
+
+
+def codex_interruptions(store, connection, requirements):
+    events, after_upload, requests = {}, set(), {}
+
+    def add(identifier, completed_at, operation, reference, when, thread, video):
+        recorded_at = timestamp(when) if when else None
+        if recorded_at is None:
+            return
+        fingerprint = sha256(json.dumps([identifier, operation, reference]).encode()).hexdigest()
+        event_id = f'codex-interruption:{fingerprint}'
+        if completed_at is not None and recorded_at >= completed_at:
+            after_upload.add(event_id)
+            return
+        events[event_id] = {
+            'id': event_id, 'at': recorded_at, 'source': 'codex', 'requirement': identifier,
+            'thread': thread, 'video_index': video, 'kind': 'interruption', 'operation': operation,
+            'reason': operation, 'outcome': 'sent' if operation == 'owner_followup' else 'handed_off',
+        }
+
+    for identifier, row in requirements.items():
+        code = row['code']
+        if not identifier.startswith('fireplay:') or not CODE.fullmatch(code):
+            continue
+        folder = f'state/fireplay/{code}/'
+        request = store.read(folder + 'request.json')
+        if request.get('code') != code or identifier != 'fireplay:' + str(request.get('requirement_id')):
+            continue
+        check = store.read(folder + 'completion-check.json')
+        completed_at = None
+        if (check.get('complete') is True and not check.get('missing') and check.get('verified_count')
+                and check.get('verified_count') == check.get('expected_count')
+                and check.get('requirement_id') == request['requirement_id'] and check.get('code') == code
+                and check.get('content_version') == request.get('content_version')):
+            read_at = check.get('platform_read_at') or check.get('checked_at')
+            completed_at = timestamp(read_at) if read_at else None
+        owners = set()
+        for video in request.get('videos', []):
+            chat = video.get('chat') or request.get('chat') or {}
+            seen = set()
+            while chat.get('threadId') and chat['threadId'] not in seen:
+                successor = chat['threadId']
+                seen.add(successor)
+                owners.add((video['index'], successor))
+                predecessor = chat.get('predecessor_thread_id')
+                path = chat.get('migration_receipt')
+                if not predecessor or not isinstance(path, str) or not path.startswith(folder):
+                    break
+                handoff = store.read(path)
+                if (handoff.get('status') != 'READY' or handoff.get('requirement_id') != request['requirement_id']
+                        or not any(item.get('code') == code and item.get('old_thread_id') == predecessor
+                                   and item.get('new_thread_id') == successor for item in handoff.get('replacements', []))):
+                    break
+                owners.add((video['index'], predecessor))
+                cutoff = completed_at if handoff.get('content_version') == request.get('content_version') else None
+                add(identifier, cutoff, 'owner_handoff', [predecessor, successor], handoff.get('recorded_at'),
+                    successor, handoff.get('video_index') or video['index'])
+                previous = handoff.get('previous_chat') or {}
+                chat = previous if previous.get('threadId') == predecessor else {}
+        requests[code] = (identifier, request, completed_at, owners)
+
+    signal_dir = 'state/fireplay/monitor/signals'
+    files = store.glob(signal_dir, '*.json') + store.glob(signal_dir, 'history/*/*.json')
+    for path in files:
+        signal = store.read(path)
+        if not isinstance(signal, dict) or signal.get('state') != 'sent' or not signal.get('receipt'):
+            continue
+        task = signal.get('task') or {}
+        if not isinstance(task, dict):
+            continue
+        match = requests.get(task.get('code'))
+        thread, video = task.get('threadId'), task.get('video_index')
+        if not match or not task.get('missing_locales') or not thread:
+            continue
+        identifier, request, completed_at, owners = match
+        if task.get('requirement_id') not in (None, request['requirement_id']) or (video, thread) not in owners:
+            continue
+        key, attempt = task.get('key'), signal.get('attempt', 1)
+        if key and type(attempt) is int and attempt > 0:
+            cutoff = completed_at if task.get('content_version') in (None, request.get('content_version')) else None
+            add(identifier, cutoff, 'owner_followup', [key, attempt], signal.get('dispatched_at'), thread, video)
+
+    with connection:
+        write_events(connection, events.values())
+        connection.executemany('DELETE FROM activity WHERE id=?', ((event,) for event in after_upload))
 
 
 def fireplay_events(outbox, code):
@@ -307,7 +395,7 @@ def read_page(connection, threads, cursor=None, requirement=None):
     join = ''
     if requirement is not None:
         join = SCOPE_JOIN
-        conditions.extend([f'{OWNER}=?', "activity.kind='retry'"])
+        conditions.extend([f'{OWNER}=?', COUNTED_ACTIVITY])
         params.append(requirement)
     if cursor:
         match = CURSOR.fullmatch(cursor)
@@ -335,7 +423,7 @@ def cached_summary(console, ledger):
         threads = {row['id']: row['name'] or row['title'] or '未命名会话' for row in console.threads()}
         coverage = {}
         with closing(database(console.root)) as connection:
-            remember_owners(connection, console, ledger)
+            requirements = remember_owners(connection, console, ledger)
             coverage['kie_history'] = import_jobs(console.root, connection)
             for name, loader in (('codex_retries', import_retries), ('codex_failures', import_failures)):
                 try:
@@ -344,10 +432,11 @@ def cached_summary(console, ledger):
                 except (OSError, sqlite3.Error):
                     coverage[name] = False
             import_fireplay(console.store, connection)
+            codex_interruptions(console.store, connection, requirements)
             counts = {}
             for requirement, source, count in connection.execute(f"""
                 SELECT {OWNER}, json_extract(activity.data,'$.source'), count(*)
-                FROM activity {SCOPE_JOIN} WHERE activity.kind='retry' AND {OWNER} IS NOT NULL
+                FROM activity {SCOPE_JOIN} WHERE {COUNTED_ACTIVITY} AND {OWNER} IS NOT NULL
                 GROUP BY 1,2
             """):
                 counts.setdefault(requirement, {})[source] = count

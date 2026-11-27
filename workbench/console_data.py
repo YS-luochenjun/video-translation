@@ -28,7 +28,7 @@ from store import Store, clean, MEDIA
 from collector import Ledger
 from console_knowledge import project_knowledge, knowledge_document
 from console_timeline import project_timeline
-from console_requirements import add_ledger_evidence, latest_platform_status, monitor_rows, project_requirements, publication, verified_items
+from console_requirements import add_ledger_evidence, latest_platform_status, monitor_rows, project_requirements, publication, submission_evidence
 from video_localizer.ledger import delivery_complete, platform_completed, target_language_count
 
 PAGE_SIZE = 8
@@ -448,11 +448,11 @@ class ConsoleData:
             task_source = task.get('source_sha256')
             if source_sha and task_source and source_sha != task_source:
                 continue
-            platform = publication(self.store, f'state/fireplay/{code}/request.json', request)
-            for item in verified_items(self.store, platform):
-                if (item.get('video_index') == video['index'] and item.get('locale') == locale
-                        and item.get('sha256') == digest):
-                    return True
+            path = f'state/fireplay/{code}/request.json'
+            platform = publication(self.store, path, request)
+            submitted, _ = submission_evidence(self.store, path, request, platform)
+            if (submitted.get((video['index'], locale)) or {}).get('sha256') == digest:
+                return True
         return None
 
     def detail(self, identifier, run_id=None):
@@ -483,10 +483,12 @@ class ConsoleData:
         locale = next((item['locale'] for item in runs if item['id'] == selected), None)
         returned = self.run_publication(requests, selected, locale, task)
         codes = [r.get('code') for r in requests]
-        ledger = [r for r in self.ledger_rows() if r.get('code') in codes]
+        ledger = [dict(r) for r in self.ledger_rows() if r.get('code') in codes]
+        add_ledger_evidence(self.store, ledger)
         public_ledger = [clean({k: r.get(k) for k in ('id', 'code', 'title', 'state', 'stage_counts', 'blockers',
                           'received_at', 'first_started_at', 'last_activity_at', 'latest_eta', 'complete_at',
-                          'task_count', 'output_count', 'quality_count', 'claim', 'executors', 'agent_health', 'external')}) for r in ledger]
+                          'task_count', 'output_count', 'quality_count', 'claim', 'executors', 'agent_health', 'external',
+                          'progress_state', 'upload_count')}) for r in ledger]
         nodes = []
         for nid, name in NODES:
             own = [a for a in artifacts if a['node'] == nid]

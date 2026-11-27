@@ -1,6 +1,8 @@
 (() => {
 'use strict';
 const mount=document.getElementById('console-host');
+const readOnly=document.body.dataset.access==='lan';
+if(mount && readOnly) mount.dataset.readOnly='true';
 const surface=mount ? mount.attachShadow({mode:'open'}) : document;
 if(mount) surface.append(document.getElementById('console-template').content.cloneNode(true));
 const $=selector=>surface.querySelector(selector==='#main'?'#console-content':selector);
@@ -93,7 +95,16 @@ function renderTiming(){
     ${seconds>=0&&seconds!==null?`<p>制作耗时 ${duration(seconds)}（含等待）</p>`:''}
     <h3>请求费用账本</h3>${detail.budget.length?detail.budget.map(b=>`<p>额度 ${esc(b.limit??'未记录')} credits · 已知实际 ${esc(b.known_actual)} credits · 未知 ${b.unknown_count} 笔</p>`).join(''):'<p>未关联到账本。</p>'}</div>`;
 }
-function renderRecords(){return `<div class="snapshot"><h3>当前输出与质量</h3><p>任务状态：${esc(detail.task?.state_label||'未关联')}<br>质量记录：${esc(detail.task?.quality_state||'未记录')}</p>${detail.task?.output?.url?`<video controls preload="metadata" class="output-video" src="${esc(detail.task.output.url)}"></video>`:''}<p>${esc((detail.task?.limitations||[]).map(v=>typeof v==='string'?v:JSON.stringify(v)).join('\n'))}</p><h3>需求与平台记录</h3>${detail.requirements.map(r=>`<p>${esc(r.code)} · 台账 ${esc(r.state)} · 输出 ${r.output_count}/${r.task_count} · 审核记录 ${r.quality_count}</p><p>阻塞：${esc(JSON.stringify(r.blockers||[]))}</p>`).join('')||'<p>此会话没有需求台账绑定。</p>'}<p class="notice">这里读取已保存记录；平台是否全部绑定仍以最新completion-check为准，不能从聊天结束或存在文件推断整项交齐。</p></div>`;}
+function renderRecords(){
+  const requirements=detail.requirements.map(requirement=>{
+    const progress=requirementState(requirement)||'待核对';
+    const uploaded=requirement.upload_count==null?'':` · 审核上传 ${requirement.upload_count}/${requirement.task_count}`;
+    const blockers=requirement.progress_state==='blocked' && requirement.blockers?.length
+      ? `<p>阻塞 ${esc(requirement.blockers.map(reason=>typeof reason==='string'?reason:JSON.stringify(reason)).join(' · '))}</p>`:'';
+    return `<p>${esc(requirement.code)} · ${esc(progress)} · 制作完成 ${requirement.output_count}/${requirement.task_count}${uploaded}</p>${blockers}`;
+  }).join('');
+  return `<div class="snapshot"><h3>当前输出与质量</h3><p>任务状态：${esc(detail.task?.state_label||'未关联')}<br>质量记录：${esc(detail.task?.quality_state||'未记录')}</p>${detail.task?.output?.url?`<video controls preload="metadata" class="output-video" src="${esc(detail.task.output.url)}"></video>`:''}<p>${esc((detail.task?.limitations||[]).map(v=>typeof v==='string'?v:JSON.stringify(v)).join('\n'))}</p><h3>需求与平台记录</h3>${requirements||'<p>此会话没有需求台账绑定。</p>'}</div>`;
+}
 function renderChat(){
   const same=detail?.thread.id===selected,canSend=selected&&same&&!detail.thread.archived;
   return `<div class="panel-head"><h3>原会话与指令</h3>${badge(handoffLabel(),'green')}</div><div class="chat-target">发送目标<b>${esc(same?detail.thread.title:selected||'尚未选择')}</b><span>${esc(selected||'')}</span></div><div class="chat-messages" id="chat-messages">${same?(detail.messages||[]).slice(-10).map(m=>`<div class="message ${m.role==='user'?'user':''}"><div class="message-label">${m.role==='user'?'用户':'Codex'} · ${when(m.at)}</div><div class="message-body">${esc(m.text)}</div></div>`).join(''):'<p class="muted">正在读取正文…</p>'}<div id="command-receipts">${same?receiptRows(detail.commands):''}</div></div><form id="chat-form" class="composer" data-target="${esc(selected||'')}"><div class="composer-box"><textarea id="chat-input" aria-label="给选中原会话的指令" placeholder="输入给这个会话的文字…" maxlength="12000" ${canSend?'':'disabled'}>${esc(drafts.get(selected)||'')}</textarea><div class="composer-bottom"><span>固定目标 · 原会话续作</span><button class="send" type="submit" ${canSend?'':'disabled'}>保存并交办 ↑</button></div></div></form><button class="text-btn" data-action="sync-status" ${!selected?'disabled':''}>点击同步此会话桌面状态</button><p class="chat-note">用户点击才交办，不定时唤醒 Agent。插件面板可直接通知宿主；独立网页提供复制交办指令。</p>`;
@@ -170,6 +181,7 @@ async function handoffCommand(id){
   await loadConfig();
 }
 async function submitCommand(payload){
+  if(readOnly) throw new Error('局域网仅可查看记录');
   const key=JSON.stringify(payload);let id=pending.get(key);if(!id){id='ui_'+crypto.randomUUID();pending.set(key,id);}
   try{const result=await writeApi('/api/console/command',{...payload,command_id:id});pending.delete(key);await handoffCommand(result.id);await loadConfig();return result;}
   catch(e){toast(e.message+'；同样输入重试会沿用原指令ID。');throw e;}
@@ -363,6 +375,7 @@ if(mount){
     },
     refresh:refreshView,
     async action(action){
+      if(readOnly) return;
       if(action==='intake'){await loadConfig();$('#intake-dialog').showModal();return;}
       if(action==='summarize'){await loadConfig();await summarizeKnowledge();}
     },

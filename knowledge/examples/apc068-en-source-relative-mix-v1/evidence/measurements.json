@@ -1,0 +1,288 @@
+{
+  "source_sha256": "934500f095263713906e796e70864e04993362ccfb256116c4b324c944bd7aeb",
+  "locale": "en",
+  "candidate_video_sha256": "a3c86e268480c444251a205ec5332e4d838709f224481fc9af493168d7e64e52",
+  "old_balance": [
+    {
+      "id": "v001",
+      "start": 0,
+      "end": 3.24,
+      "balance": {
+        "target_voice_over_background_db": 6.0,
+        "active_speech_seconds": 2.7,
+        "before": {
+          "background": {
+            "rms_dbfs": -21.22,
+            "peak_dbfs": -0.3
+          },
+          "voice": {
+            "rms_dbfs": -18.06,
+            "peak_dbfs": -6.21
+          },
+          "voice_over_background_db": 3.16
+        },
+        "after": {
+          "background": {
+            "rms_dbfs": -21.22,
+            "peak_dbfs": -0.3
+          },
+          "voice": {
+            "rms_dbfs": -15.22,
+            "peak_dbfs": -3.37
+          },
+          "voice_over_background_db": 6.0
+        },
+        "automatic_voice_gain_db": 2.84,
+        "maximum_background_duck_db": 0.0,
+        "background_dominant_intervals": [
+          {
+            "start_seconds": 2.75,
+            "end_seconds": 3.0,
+            "voice_over_background_db": -6.79
+          },
+          {
+            "start_seconds": 3.0,
+            "end_seconds": 3.24,
+            "voice_over_background_db": -15.64
+          }
+        ],
+        "review_required": true,
+        "measurement": "Active 50ms voice blocks; stem-component RMS dBFS; engineering guidance, not perceptual intelligibility."
+      }
+    },
+    {
+      "id": "v002",
+      "start": 4.73,
+      "end": 7.23,
+      "balance": {
+        "target_voice_over_background_db": 6.0,
+        "active_speech_seconds": 1.9,
+        "before": {
+          "background": {
+            "rms_dbfs": -37.16,
+            "peak_dbfs": -5.55
+          },
+          "voice": {
+            "rms_dbfs": -18.32,
+            "peak_dbfs": -7.14
+          },
+          "voice_over_background_db": 18.84
+        },
+        "after": {
+          "background": {
+            "rms_dbfs": -37.16,
+            "peak_dbfs": -5.55
+          },
+          "voice": {
+            "rms_dbfs": -18.32,
+            "peak_dbfs": -7.14
+          },
+          "voice_over_background_db": 18.84
+        },
+        "automatic_voice_gain_db": 0.0,
+        "maximum_background_duck_db": 0.0,
+        "background_dominant_intervals": [],
+        "review_required": false,
+        "measurement": "Active 50ms voice blocks; stem-component RMS dBFS; engineering guidance, not perceptual intelligibility."
+      }
+    },
+    {
+      "id": "v003",
+      "start": 16.02,
+      "end": 17.36,
+      "balance": {
+        "target_voice_over_background_db": 6.0,
+        "active_speech_seconds": 0.75,
+        "before": {
+          "background": {
+            "rms_dbfs": -11.62,
+            "peak_dbfs": -0.5
+          },
+          "voice": {
+            "rms_dbfs": -18.27,
+            "peak_dbfs": -7.66
+          },
+          "voice_over_background_db": -6.65
+        },
+        "after": {
+          "background": {
+            "rms_dbfs": -14.82,
+            "peak_dbfs": -1.32
+          },
+          "voice": {
+            "rms_dbfs": -12.14,
+            "peak_dbfs": -0.76
+          },
+          "voice_over_background_db": 2.68
+        },
+        "automatic_voice_gain_db": 9.0,
+        "maximum_background_duck_db": 4.0,
+        "background_dominant_intervals": [
+          {
+            "start_seconds": 0.0,
+            "end_seconds": 0.25,
+            "voice_over_background_db": -1.33
+          }
+        ],
+        "review_required": true,
+        "measurement": "Active 50ms voice blocks; stem-component RMS dBFS; engineering guidance, not perceptual intelligibility."
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "interval": [
+        0,
+        0.9
+      ],
+      "previous_bed_dbfs": -24.58,
+      "preview_bed_dbfs": -24.91,
+      "preview_active_voice_over_bed_db": 11.26
+    },
+    {
+      "interval": [
+        0.9,
+        1.65
+      ],
+      "previous_bed_dbfs": -35.6,
+      "preview_bed_dbfs": -33.16,
+      "preview_active_voice_over_bed_db": 14.74
+    },
+    {
+      "interval": [
+        1.65,
+        2.9
+      ],
+      "previous_bed_dbfs": -18.37,
+      "preview_bed_dbfs": -18.73,
+      "preview_active_voice_over_bed_db": 2.57
+    },
+    {
+      "interval": [
+        4.91,
+        5.16
+      ],
+      "previous_bed_dbfs": -57.09,
+      "preview_bed_dbfs": -27.5,
+      "preview_active_voice_over_bed_db": 11.4
+    },
+    {
+      "interval": [
+        5.16,
+        5.66
+      ],
+      "previous_bed_dbfs": -31.35,
+      "preview_bed_dbfs": -28.98,
+      "preview_active_voice_over_bed_db": 10.41
+    },
+    {
+      "interval": [
+        5.66,
+        6.839
+      ],
+      "previous_bed_dbfs": -59.64,
+      "preview_bed_dbfs": -29.8,
+      "preview_active_voice_over_bed_db": 9.46
+    },
+    {
+      "interval": [
+        6.839,
+        7.29
+      ],
+      "previous_bed_dbfs": -22.91,
+      "preview_bed_dbfs": -23.27,
+      "preview_active_voice_over_bed_db": null
+    },
+    {
+      "interval": [
+        16.04,
+        16.22
+      ],
+      "previous_bed_dbfs": -11.62,
+      "preview_bed_dbfs": -15.98,
+      "preview_active_voice_over_bed_db": 2.35
+    },
+    {
+      "interval": [
+        16.22,
+        17.23
+      ],
+      "previous_bed_dbfs": -13.7,
+      "preview_bed_dbfs": -14.22,
+      "preview_active_voice_over_bed_db": 6.22
+    }
+  ],
+  "adjustments": {
+    "middle_candidate_only": {
+      "recipient": [
+        4.65,
+        6.96
+      ],
+      "same_source_instrumental_reference": [
+        9.45,
+        11.76
+      ],
+      "floor_during_voice_db_below_voice": 11
+    },
+    "opening_reference_gain_increase_seconds": [
+      0.84,
+      1.76
+    ],
+    "tail_voice_priority": [
+      [
+        15.9,
+        0.0
+      ],
+      [
+        16.04,
+        -4.0
+      ],
+      [
+        16.22,
+        -4.0
+      ],
+      [
+        16.46,
+        0.0
+      ]
+    ]
+  },
+  "validation": {
+    "complete_decode": true,
+    "duration_seconds": 18.173515,
+    "maximum_recombination_error_pcm24_steps": 2.0,
+    "mix_true_peak_db": -0.2
+  },
+  "limitations": "The isolated listening bed also includes retained source effects. Middle fill uses a different time segment of the same source and is an audition, not proven reconstruction of the exact original music timeline.",
+  "model_review": {
+    "model": "gemini-4-hydrogen-openai",
+    "proof_boundary": "External model audio perception; not direct Codex/human listening; uncertain intervals require further evidence",
+    "analysis": {
+      "background_music": {
+        "same_track": true,
+        "reason": "The same background music track, tempo, and arrangement (including the sung sample) are retained."
+      },
+      "speech_audibility": {
+        "clear_over_background": true,
+        "reason": "All spoken English lines are clearly intelligible over the background music.",
+        "affected_intervals": []
+      },
+      "dialogue_translation": {
+        "complete": true,
+        "reason": "All three Portuguese spoken lines are completely and faithfully translated into English."
+      },
+      "foreign_speech_remaining": []
+    }
+  },
+  "user_feedback": [
+    {
+      "quote": "目前很好，目前的内容我认为是合格的。",
+      "scope": "english_audio_preview_only"
+    },
+    {
+      "quote": "目前效果可以。",
+      "scope": "English candidate shown in this workbench, not full quality or all languages"
+    }
+  ],
+  "user_policy": "2026-11-27: BGM、口播、对白及混音不统一固定电平；根据原片判断大致范围，处理分离异常和高低电平。"
+}

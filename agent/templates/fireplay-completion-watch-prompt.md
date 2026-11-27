@@ -2,13 +2,15 @@
 
 在当前项目每10分钟检查并推进当前及后续新增、已合法接入负责聊天的翻译需求。先读AGENTS.md、agent/workflows/fireplay-completion-watch.md、config/fireplay-monitor.json及其中manifest，不限某三个编号或首批范围。项目路径、主控聊天和实际自动化ID由当前宿主绑定；仓库里的模板不代表已安装定时任务。
 
-用doctor验证的Python运行fireplay-monitor status，首次登记并在后续轮次保留manifest.enrollment_started_at，将全部ready负责请求、publication_followups与活动manifest合并；已完整受理的历史批次不因旧格式缺结案记录重开；人工新增并已接入的需求也加入，保留旧UUID/threadId/预算/历史。不重新接入正在制作或已完成的需求，不替换原负责聊天。持续授权见config.completion_watch.authority；先核对实际宿主更新回执与任何尚未解决的审批拒绝，不能从模板推断宿主已批准。
+用doctor验证的Python运行fireplay-monitor status，首次登记并在后续轮次保留manifest.enrollment_started_at，将全部ready负责请求、publication_followups与活动manifest合并；已完整受理的历史批次不因旧格式缺结案记录重开；人工新增并已接入的需求也加入，保留旧UUID/threadId/预算/历史。原负责聊天优先续作，确认持续会话故障时按接替流程迁移负责权。持续授权见config.completion_watch.authority；先核对实际宿主更新回执与任何尚未解决的审批拒绝，不能从模板推断宿主已批准。
 
 先读取status输出的owner_status_checks，分批wait_threads(timeoutMs=0)核对每个负责聊天的真实状态。旧manifest中的owner_running只表示历史观察，不能证明当前仍在制作，也不能把idle、completed、sent或平台done当成整项完成。必要时read_thread核查真实状态、问题、选项、在途任务和unknown。运行中不重复催办；空闲、结束或错误且未完成时沿原聊天恢复。普通项目问题在原范围/预算/质量内选择实际第一个推荐选项，使用支持的工具点击或回复原聊天，保存问题、顺序/推荐标记、实际选择和回执；没有选项不能假报点击。已获得持续授权的需求不再把继续制作、已授权KIE、审核媒体上传或固定提交当成用户问题；这些由负责聊天自行推进到完成。宿主强制审批及安全拒绝由人工处理，不代批、不绕接口，按config/fireplay-intake.json.budget_increase_authority在确有需要时有限加额、不扩大范围、不重发unknown付费模型，不豁免严重质量异议。真实问题不在此权限内时保留具体阻塞，不反复询问同一resolution_key。
 
 恢复负责聊天时明确传达完成标准：草稿、试音、代表片、候选片、模型任务成功、阶段报告和部分语种上传都是阶段成果，不是整项最终交付。每完成一阶段，逐原片和目标语种核对剩余制作、实际审核、入库、共享、标签、归属和绑定，直接继续下一项可执行工作；不要只写阶段总结就结束。确有阻塞时列明尚未完成的范围、已尝试的恢复、具体阻塞与下一步，并继续不受影响的工作。只有全部提交核验且有效结案才可称整项完成。对已在运行的聊天不为传达此要求重复发送；下一次必要恢复时纳入指令。
 
-恢复/派发沿publication_followups持久signal：unknown→实际send_message_to_thread→真实回执；unknown先核查，不能因超时重复发送。原负责聊天继续实际制作、原账本/模型与固定提交，主控仅调度。ready先交、partial/pending继续；全原片×全语种当前哈希与平台ID、共享、语言/产品tag、编号语言命名、二创设计师归属及精确需求绑定读回匹配，且有效fireplay-completion-check与fireplay-close才算全项完成。聊天结束、sent、平台done和部分批次都不算。YouTube排队/配额/缺链接不延长全项结案，不追踪下游或为缺链接重传。
+恢复/派发沿publication_followups持久signal：unknown→实际send_message_to_thread→真实回执；unknown先核查，不能因超时重复发送。当前登记的负责聊天继续实际制作、原账本/模型与固定提交，主控仅调度。ready先交、partial/pending继续；全原片×全语种当前哈希与平台ID、共享、语言/产品tag、编号语言命名、二创设计师归属及精确需求绑定读回匹配，且有效fireplay-completion-check与fireplay-close才算全项完成。聊天结束、sent、平台done和部分批次都不算。YouTube排队/配额/缺链接不延长全项结案，不追踪下游或为缺链接重传。
+
+恢复后空闲且缺少执行回执时，用 `read_thread` 读取最近两个完整轮次，把返回的线程 JSON 作为 `owner_observation` 证据交 `fireplay-monitor signal`。收到 `escalation_required` 时定位当前动作的宿主故障或生产阻塞。确认持续会话故障时，按 `agent/workflows/fireplay-monitor-dispatch.md` 的「会话故障接替」核验原聊天、验证新聊天、登记交接并沿原任务派发。只读盯办仅记录和报告。
 
 `await_manual_repair` / `paused` 是已收口严重发布阻塞：不主动催办或重启；保留待补交并推进其他可执行工作。只在状态变化或需要人工决定时报告。
 

@@ -126,6 +126,56 @@ def signal_levels(samples):
             'peak_dbfs': round(20 * np.log10(peak), 2) if peak > 0 else None}
 
 
+def background_continuity(source, bed, rate, removal_windows):
+    block = max(1, round(.25 * rate))
+    intervals = []
+    windows = []
+    for window_start, window_end in removal_windows:
+        if window_end <= window_start:
+            continue
+        current = None
+        flagged_samples = 0
+        for start in range(window_start, window_end, block):
+            end = min(window_end, start + block)
+            source_block, bed_block = source[start:end], bed[start:end]
+            levels = {
+                'source_rms_dbfs': signal_levels(source_block)['rms_dbfs'],
+                'bed_rms_dbfs': signal_levels(bed_block)['rms_dbfs'],
+                'source_side_rms_dbfs': signal_levels(source_block[:, 0] - source_block[:, 1])['rms_dbfs'],
+                'bed_side_rms_dbfs': signal_levels(bed_block[:, 0] - bed_block[:, 1])['rms_dbfs'],
+            }
+            source_rms, bed_rms, source_side, bed_side = levels.values()
+            flags = []
+            if source_rms is not None and source_rms >= -36 and (bed_rms is None or bed_rms <= -48):
+                flags.append('active_source_near_silent_bed')
+            if source_side is not None and source_side >= -48 and (bed_side is None or source_side - bed_side >= 12):
+                flags.append('stereo_component_attenuated')
+            if bed_rms is not None and (source_rms is None or bed_rms - source_rms >= 6):
+                flags.append('bed_exceeds_source_mix')
+            if not flags:
+                current = None
+                continue
+            flagged_samples += end - start
+            if current is None or current['flags'] != flags:
+                current = {'start_seconds': round(start / rate, 3), 'flags': flags, 'blocks': []}
+                intervals.append(current)
+            current['end_seconds'] = round(end / rate, 3)
+            current['blocks'].append({'start_seconds': round(start / rate, 3), **levels})
+        windows.append({
+            'start_seconds': round(window_start / rate, 3),
+            'end_seconds': round(window_end / rate, 3),
+            'source_rms_dbfs': signal_levels(source[window_start:window_end])['rms_dbfs'],
+            'bed_rms_dbfs': signal_levels(bed[window_start:window_end])['rms_dbfs'],
+            'flagged_seconds': round(flagged_samples / rate, 3),
+        })
+    return {
+        'review_required': bool(intervals),
+        'source_speech_windows': windows,
+        'review_intervals': intervals,
+        'limitation': 'Pre-dub RMS screening. Source activity may be entirely speech, and stereo differences can contain speech or effects. No interval proves music loss or retention.',
+    }
+
+
 def speech_activity(voice, rate):
     block = max(1, round(.05 * rate))
     starts = np.arange(0, len(voice), block)
@@ -145,20 +195,69 @@ def voice_margin(bed, voice, active):
     return {'background': bed_levels, 'voice': voice_levels, 'voice_over_background_db': margin}
 
 
-def balance_voice(bed, voice, rate):
-    target_margin = 6.
+def validate_level_profile(profile):
+    require(isinstance(profile, dict) and isinstance(profile.get('evidence'), str)
+            and profile['evidence'].strip(), 'Source-relative level profile requires actual evidence')
+    for key, minimum, maximum in (
+            ('voice_rms_range_dbfs', -90, 0), ('background_rms_range_dbfs', -90, 0),
+            ('voice_over_background_range_db', -90, 90)):
+        limits = profile.get(key)
+        if limits is None:
+            continue
+        require(isinstance(limits, list) and len(limits) == 2, f'{key}: expected lower and upper bounds')
+        lower = require_number(limits[0], key, minimum=minimum, maximum=maximum)
+        require_number(limits[1], key, minimum=lower, maximum=maximum)
+    require(any(profile.get(key) is not None for key in (
+        'voice_rms_range_dbfs', 'background_rms_range_dbfs', 'voice_over_background_range_db')),
+        'Level profile requires at least one measured range')
+    return profile
+
+
+def level_range_issues(levels, profile):
+    issues = []
+    for key, value in (
+            ('voice_rms_range_dbfs', levels['voice']['rms_dbfs']),
+            ('background_rms_range_dbfs', levels['background']['rms_dbfs']),
+            ('voice_over_background_range_db', levels['voice_over_background_db'])):
+        limits = profile.get(key)
+        if limits is not None and (value is None or not limits[0] <= value <= limits[1]):
+            issues.append({'range': key, 'expected': limits, 'measured': value})
+    return issues
+
+
+def balance_voice(bed, voice, rate, profile=None):
+    profile = validate_level_profile(profile) if profile is not None else None
+    margin_range = profile.get('voice_over_background_range_db') if profile is not None else None
+    target_margin = margin_range[0] if margin_range else (6. if profile is None else None)
     active = speech_activity(voice, rate)
     require(np.any(active), 'Aligned voice has no measurable active speech signal')
     before = voice_margin(bed, voice, active)
     margin = before['voice_over_background_db']
-    boost_db = min(9., max(0., target_margin - margin)) if margin is not None else 0.
+    voice_range = profile.get('voice_rms_range_dbfs') if profile is not None else None
+    bed_range = profile.get('background_rms_range_dbfs') if profile is not None else None
+    voice_db = before['voice']['rms_dbfs']
+    bed_db = before['background']['rms_dbfs']
+    gain_db = target_margin - margin if target_margin is not None and margin is not None else 0.
+    if profile is None:
+        gain_db = max(0., gain_db)
+    else:
+        gain_db = max(0., gain_db)
+        if margin_range and margin is not None and margin > margin_range[1]:
+            gain_db = margin_range[1] - margin
+        if voice_range and voice_db is not None:
+            gain_db = min(voice_range[1] - voice_db, max(voice_range[0] - voice_db, gain_db))
+        if bed_range and (bed_db is None or bed_db < bed_range[0]) and gain_db < 0:
+            gain_db = min(0., voice_range[1] - voice_db) if voice_range and voice_db is not None else 0.
+    boost_db = min(9., max(-9., gain_db))
     boosted = voice * 10**(boost_db / 20)
     mixed, limiter = voice_only_limit(bed, boosted, rate)
     after = voice_margin(bed, boosted * limiter[:, None], active)
     duck_db = 0.
     adjusted_bed = bed
-    if after['voice_over_background_db'] is not None:
+    if target_margin is not None and after['voice_over_background_db'] is not None:
         duck_db = min(4., max(0., target_margin - after['voice_over_background_db']))
+    if bed_range and bed_db is not None:
+        duck_db = min(4., max(duck_db, bed_db - bed_range[1]), max(0., bed_db - bed_range[0]))
     if duck_db > .1:
         positions = np.arange(len(bed))
         active_positions = np.flatnonzero(active)
@@ -172,8 +271,10 @@ def balance_voice(bed, voice, rate):
     else:
         duck_db = 0.
     achieved = after['voice_over_background_db']
-    review = achieved is not None and achieved < target_margin - .5
+    review = target_margin is not None and achieved is not None and achieved < target_margin - .5
+    profile_issues = level_range_issues(after, profile) if profile is not None else []
     local_risks = []
+    quiet_background = []
     block = max(1, round(.25 * rate))
     effective_voice = boosted * limiter[:, None]
     for start in range(0, len(voice), block):
@@ -181,18 +282,27 @@ def balance_voice(bed, voice, rate):
         active_block = active[start:end]
         if np.count_nonzero(active_block) < max(1, round(.05 * rate)):
             continue
-        local_margin = voice_margin(adjusted_bed[start:end], effective_voice[start:end], active_block)['voice_over_background_db']
+        local = voice_margin(adjusted_bed[start:end], effective_voice[start:end], active_block)
+        local_margin = local['voice_over_background_db']
         if local_margin is not None and local_margin < 0:
             local_risks.append({'start_seconds': round(start/rate, 3), 'end_seconds': round(end/rate, 3),
                                 'voice_over_background_db': local_margin})
+        bed_db = local['background']['rms_dbfs']
+        if bed_db is None or (bed_db <= -36 and local_margin is not None and local_margin >= 18):
+            quiet_background.append({'start_seconds': round(start/rate, 3), 'end_seconds': round(end/rate, 3),
+                                     'background_rms_dbfs': bed_db, 'voice_over_background_db': local_margin})
     return mixed, limiter, {'target_voice_over_background_db': target_margin,
+                            'level_profile': profile,
+                            'level_profile_issues_before': level_range_issues(before, profile) if profile is not None else [],
+                            'level_profile_issues_after': profile_issues,
                             'active_speech_seconds': round(float(np.count_nonzero(active)/rate), 3),
                             'before': before, 'after': after,
                             'automatic_voice_gain_db': round(boost_db, 2),
                             'maximum_background_duck_db': round(duck_db, 2),
                             'background_dominant_intervals': local_risks,
-                            'review_required': bool(review or local_risks),
-                            'measurement': 'Active 50ms voice blocks; stem-component RMS dBFS; engineering guidance, not perceptual intelligibility.'}
+                            'quiet_background_intervals': quiet_background,
+                            'review_required': bool(review or local_risks or profile_issues),
+                            'measurement': 'Active 50ms voice blocks; stem-component RMS dBFS; quiet background can be intentional and does not establish music loss.'}
 
 
 @guarded
@@ -211,6 +321,8 @@ def mix(run):
     background=background[:len(source)];require(len(background)==len(source),'Background length changed')
     for line in plan['lines']:
         require(file_hash(inside(run,line['voice']['path']))==line['voice']['sha256'],'Voice take changed')
+        if 'level_profile' in line:
+            validate_level_profile(line['level_profile'])
         require_number(line['start'],'Speech start',minimum=0)
         require_number(line['end'],'Speech end',minimum=line['start']+.001,maximum=len(source)/rate)
     windows=sorted((line['start'],line['end']) for line in plan['lines'])
@@ -241,7 +353,9 @@ def mix(run):
         saved=read_json(provenance)
         require(saved.get('signature')==signature,'Mix checkpoint inputs changed')
         require(all(file_hash(inside(run,a['path']))==a['sha256'] for a in [saved['output'],saved['source_level_baseline'],*[r['aligned'] for r in saved['lines']]]),'Mix checkpoint output changed')
-        return {**saved['output'],'reused':True,'state':'needs_review'}
+        return {**saved['output'],'reused':True,'state':'needs_review',
+                'background_continuity_review_required':saved['background_continuity_review_required'],
+                'source_level_baseline':saved['source_level_baseline']}
     source_levels = {}
     for line in plan['lines']:
         speech = speech_by_id[line['id']]
@@ -257,13 +371,15 @@ def mix(run):
             'original_mix': signal_levels(original_window),
             'background_stem': signal_levels(original_stem),
             'source_vocal_residual_estimate': signal_levels(original_window-original_stem)}
+    bed, blend, transitions = background_mix(source, background, rate, removal_windows)
+    continuity = background_continuity(source, bed, rate, removal_windows)
     baseline = {'source_sha256': plan['source_sha256'], 'source_audio_sha256': file_hash(source_audio),
                 'background': plan['background'], 'original_mix': signal_levels(source),
                 'separated_background': signal_levels(background), 'speech_windows': source_levels,
+                'background_continuity': continuity,
                 'limitation': 'Mix minus selected stem is a residual estimate, unreliable if the stem is incomplete or reconstructed.'}
     baseline_path = directory/'level-baseline.json'
     write_json(baseline_path, baseline)
-    bed, blend, transitions = background_mix(source, background, rate, removal_windows)
     result=bed.copy();records=[];affected=blend > 0
     for i,line in enumerate(plan['lines'],1):
         voice=inside(run,line['voice']['path']);require(file_hash(voice)==line['voice']['sha256'],'Voice take changed')
@@ -278,7 +394,9 @@ def mix(run):
         speed=max(1,duration/available)
         require(speed<=1.65,'Voice exceeds source window; shorten or revise the voice take')
         ready=directory/f'line-{i:02d}-aligned.wav'
-        media.ffmpeg(['-i',trimmed,'-af',f'atempo={speed},loudnorm=I=-16:LRA=7:TP=-2',
+        profile = line.get('level_profile')
+        audio_filter = f'atempo={speed}' if profile is not None else f'atempo={speed},loudnorm=I=-16:LRA=7:TP=-2'
+        media.ffmpeg(['-i',trimmed,'-af',audio_filter,
                       '-ar',rate,'-ac','2','-c:a','pcm_s16le',ready])
         data,_=pcm(ready)
         voice_gain_db=require_number(line.get('voice_gain_db',0),'Narration voice gain',minimum=-6,maximum=6)
@@ -287,7 +405,7 @@ def mix(run):
         speech=np.zeros_like(source[start:end]);offset=round(voice_offset*rate)
         require(offset+len(data)<=len(speech),'Aligned voice would be truncated')
         speech[offset:offset+len(data)]=data
-        mixed, envelope, balance = balance_voice(bed[start:end], speech, rate)
+        mixed, envelope, balance = balance_voice(bed[start:end], speech, rate, profile)
         result[start:end]=mixed;affected[start:end]=True
         active_voice = np.max(np.abs(speech), axis=1) > .002
         minimum_gain = float(np.min(envelope[active_voice])) if np.any(active_voice) else 1.
@@ -303,6 +421,7 @@ def mix(run):
         'source_audio':{'path':source_audio.relative_to(run).as_posix(),'sha256':file_hash(source_audio)},
         'background':plan['background'],'lines':records,'original_mix_outside_windows_max_float_difference':float(unchanged),
         'source_level_baseline':{'path':baseline_path.relative_to(run).as_posix(),'sha256':file_hash(baseline_path)},
+        'background_continuity_review_required':continuity['review_required'],
         'speech_balance_review_required':any(record['speech_balance']['review_required'] for record in records),
         'outside_windows_seconds':float(np.count_nonzero(~affected)/rate),'music_time_scale':1,
         'source_removal_windows_samples':removal_windows,'background_transitions':transitions,
@@ -310,4 +429,6 @@ def mix(run):
         'method':'Source mix outside source removal windows and gap transitions; UVR background inside. Gap-bounded cosine transitions never restore source speech inside removal windows. Voice-only headroom limiting preserves background gain and timing.',
         'output':{'path':output.relative_to(run).as_posix(),'sha256':file_hash(output)},
         'limitations':['UVR separation can attenuate musical vocal samples underneath narration.','No visual lip synchronization applied; source people are retained.']})
-    return {'path':output.relative_to(run).as_posix(),'sha256':file_hash(output),'reused':False,'state':'needs_review'}
+    return {'path':output.relative_to(run).as_posix(),'sha256':file_hash(output),'reused':False,'state':'needs_review',
+            'background_continuity_review_required':continuity['review_required'],
+            'source_level_baseline':{'path':baseline_path.relative_to(run).as_posix(),'sha256':file_hash(baseline_path)}}

@@ -160,15 +160,16 @@ def linked_repair_request(previous, decision, root):
     return record
 
 
-def completed_repair_pending(previous, folder, root, video_indices=None):
-    """Detect a full, newly finalized repair without reopening funding or writes.
+def completed_repair_pending(previous, folder, root, video_indices=None, repair_locale=None, repair_locales=None):
+    """Detect a newly finalized repair without reopening funding or writes.
 
     Used only with an explicit user repair decision. Settled prior receipts stay
     intact; missing/unchanged outputs and uncertain external operations do not
     qualify as a continuation of a completed requirement.
     """
     from .common import inside, read_json
-    boxes = [read_json(p) for p in folder.glob('return-*.json')]
+    boxes = [read_json(path) for path in folder.glob('return-*.json')
+             if path.stem.removeprefix('return-').isdigit()]
     if not boxes or any(b.get('state') != 'returned'
                         or b.get('operations', {}).get('bind', {}).get('state') != 'verified'
                         or any(op.get('state') != 'verified'
@@ -186,6 +187,16 @@ def completed_repair_pending(previous, folder, root, video_indices=None):
                 or not set(video_indices) <= {v['index'] for v in previous['videos']}):
             return False
         requested = {key for key in expected if key[0] in video_indices}
+    if repair_locale is not None or repair_locales is not None:
+        locales = [repair_locale] if repair_locales is None else repair_locales
+        if (repair_locale is not None and repair_locales is not None
+                or not isinstance(locales, list) or not locales
+                or any(not isinstance(locale, str) for locale in locales)
+                or len(locales) != len(set(locales))):
+            return False
+        requested = {key for key in requested if key[1] in locales}
+        if len(requested) != len(locales):
+            return False
     changed = set()
     for video in previous['videos']:
         for member in video.get('members', []):
@@ -202,7 +213,7 @@ def completed_repair_pending(previous, folder, root, video_indices=None):
                     and done.get('video_sha256') != prior[key]['sha256']
                     and done.get('video_sha256') == file_hash(final)):
                 changed.add(key)
-    return changed == requested
+    return requested <= changed if repair_locale is not None or repair_locales is not None else changed == requested
 
 
 def _unexecuted_quality_repair(old, grant, root, digest):
@@ -308,43 +319,60 @@ def _replace_settled_locale(path, old, value, grant, root, digest):
     from copy import deepcopy
     from . import fireplay, fireplay_submission
 
-    require(len(value['packages']) == 1 and not old.get('pending_locales')
-            and not old.get('deferred_uploads'), 'Settled locale repair needs one replacement and a full prior return')
-    replacement = value['packages'][0]
-    locale = replacement['locale']
-    matches = [(slot, package) for slot, package in enumerate(old['packages'], 1)
-               if (package['video_index'], package['locale']) == (replacement['video_index'], locale)]
-    require(len(matches) == 1 and matches[0][1]['sha256'] != replacement['sha256'],
-            'Settled locale repair needs new reviewed bytes for one existing locale')
-    slot, previous = matches[0]
+    replacements = value['packages']
+    require(replacements and not old.get('pending_locales') and not old.get('deferred_uploads'),
+            'Settled locale repair needs replacements and a full prior return')
+    authorization = grant.get('replace_material_ids')
+    if authorization is None and len(replacements) == 1:
+        authorization = {replacements[0]['locale']: grant.get('replace_material_id')}
+    require(isinstance(authorization, dict) and set(authorization) == {item['locale'] for item in replacements},
+            'Settled locale repair needs one authorized old material ID per replacement locale')
     rows = fireplay_submission._canonical_materials(old)
-    prior = [row for row in rows if row['locale'] == locale and row['sha256'] == previous['sha256']]
     base_ids = [row['material_id'] for row in rows]
-    old_id = grant['replace_material_id']
-    require(fireplay._uuid(old_id) and len(prior) == 1 and prior[0]['material_id'] == old_id
-            and len(set(base_ids)) == len(old['packages']) == len(base_ids),
-            'Settled locale repair needs the exact old material and all verified prior slots')
+    require(len(set(base_ids)) == len(old['packages']) == len(base_ids),
+            'Settled locale repair needs all verified prior slots')
+    selected = {}
+    old_ids = {}
+    for replacement in replacements:
+        locale = replacement['locale']
+        matches = [(slot, package) for slot, package in enumerate(old['packages'], 1)
+                   if (package['video_index'], package['locale']) == (replacement['video_index'], locale)]
+        require(len(matches) == 1 and matches[0][1]['sha256'] != replacement['sha256'],
+                'Settled locale repair needs new reviewed bytes for an existing locale')
+        slot, previous = matches[0]
+        prior = [row for row in rows if row['locale'] == locale and row['sha256'] == previous['sha256']]
+        old_id = authorization[locale]
+        require(fireplay._uuid(old_id) and len(prior) == 1 and prior[0]['material_id'] == old_id,
+                'Settled locale repair needs the exact old material for each replacement')
+        selected[slot] = replacement
+        old_ids[str(slot)] = old_id
 
     archive = path.parent / 'return-revisions' / f'{path.stem}-{digest}.json'
     if not archive.exists():
         write_json(archive, old)
     require(file_hash(archive) == digest, 'Prior return archive differs from the verified outbox')
     result = deepcopy(old)
-    result['packages'][slot - 1] = replacement
-    for phase in ('upload', 'import', 'attribute', 'verify'):
-        result['operations'].pop(f'{phase}-{slot}', None)
+    for slot, replacement in selected.items():
+        result['packages'][slot - 1] = replacement
+        for phase in ('upload', 'import', 'attribute', 'verify'):
+            result['operations'].pop(f'{phase}-{slot}', None)
+        result.get('upload_attempts', {}).pop(f'upload-{slot}', None)
     for phase, field in (('import', 'import_batches'), ('attribute', 'attribution_batches')):
         if field in result:
+            replaced_operations = {f'{phase}-{slot}' for slot in selected}
             result[field] = {key: batch for key, batch in result[field].items()
-                             if f'{phase}-{slot}' not in batch['operation_ids']}
-    result.get('upload_attempts', {}).pop(f'upload-{slot}', None)
+                             if replaced_operations.isdisjoint(batch['operation_ids'])}
     result.setdefault('binding_history', []).append(result['operations'].pop('bind'))
     result.setdefault('revision_history', []).append({
         'prior_outbox': str(archive.relative_to(root)), 'prior_outbox_sha256': digest,
         'authorization': grant, 'recorded_at': utc_now(),
-        'boundary': 'Replace one verified association only; retain prior library material and other verified slots.'})
-    result.update(state='ready', pending_locales=[locale], settled_locale_repair={
-        'slot': slot, 'old_material_id': old_id, 'base_material_ids': base_ids})
+        'boundary': 'Replace only authorized verified associations and retain prior library materials.'})
+    repair = {'base_material_ids': base_ids, 'old_material_ids': old_ids}
+    if len(selected) == 1:
+        slot = next(iter(selected))
+        repair.update(slot=slot, old_material_id=old_ids[str(slot)])
+    result.update(state='ready', pending_locales=[item['locale'] for item in replacements],
+                  settled_locale_repair=repair)
     write_json(path, result)
     return result
 
@@ -358,10 +386,12 @@ def return_revision(path, old, value, grant, root):
     require(grant.get('authority') == 'user' and grant.get('authorization_ref')
             and grant.get('source_quote') and grant.get('reason'),
             'Return revision needs the actual user repair instruction')
-    if grant.get('replace_material_id') and old.get('settled_locale_repair') and old.get('revision_history'):
+    replacement_grant = grant.get('replace_material_id') or grant.get('replace_material_ids')
+    if replacement_grant and old.get('settled_locale_repair') and old.get('revision_history'):
         repair = old['settled_locale_repair']
+        slots = [int(slot) for slot in repair['old_material_ids']] if 'old_material_ids' in repair else [repair['slot']]
         if (old['revision_history'][-1]['authorization'] == grant
-                and value['packages'] == [old['packages'][repair['slot'] - 1]]):
+                and value['packages'] == [old['packages'][slot - 1] for slot in slots]):
             return old
     digest = file_hash(path)
     require(grant.get('previous_outbox_sha256') == digest,
@@ -382,7 +412,7 @@ def return_revision(path, old, value, grant, root):
     require((settled or unbound or unsent)
             and (unsent or all(op.get('state') == 'verified' for op in operations.values())),
             'Settle all prior return operations before a repair revision')
-    if grant.get('replace_material_id'):
+    if replacement_grant:
         require(settled, 'Settled locale repair requires verified binding')
         return _replace_settled_locale(path, old, value, grant, root, digest)
     previous = {(p['video_index'], p['locale']): p for p in old['packages']}

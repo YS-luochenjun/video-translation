@@ -6,24 +6,47 @@ from .common import file_hash, inside, read_json, require, write_json
 from .model_routing import policy
 
 
+def _media_access_failure(reason):
+    return isinstance(reason, str) and bool(re.search(
+        r'\b(?:audio|files?)\b.*\b(?:could not|cannot|unable to)\b.*\b(?:open|access|load|retrieve)\w*\b'
+        r'|\b(?:could not|cannot|unable to)\b.*\b(?:open|access|load|retrieve)\w*\b'
+        r'.*\b(?:audio|files?)\b'
+        r'|\bneither\b[^.;]*\b(?:audio|files?)\b[^.;]*\bnor\b[^.;]*'
+        r'\b(?:could|can)\s+be\s+(?:opened|accessed|loaded|retrieved)\b', reason, re.I))
+
+
 def inaccessible_audio(report):
     analysis = report.get('analysis', {})
     if not isinstance(analysis, dict) or analysis.get('has_speech', True) is not None:
         return False
     if any(analysis.get(key) != [] for key in ('speech_segments', 'foreign_speech_remaining', 'uncertain_intervals')):
         return False
-    if analysis.get('character_voices'):
+    voices = analysis.get('character_voices')
+    if voices:
+        if not isinstance(voices, dict) or not _media_access_failure(voices.get('reason')):
+            return False
+        if any(voices.get(key) is not None for key in (
+            'distinct', 'consistent', 'gender_matches_source_characters',
+            'age_matches_source_characters', 'role_distinction_matches_source',
+        )) or any(voices.get(key) for key in ('observations', 'confusable_pairs')):
+            return False
+        for interval in voices.get('uncertain_intervals') or []:
+            if not isinstance(interval, dict) or not set(interval) <= {
+                'character', 'character_id', 'speech_role', 'start', 'end', 'reason',
+            } or ('reason' in interval and not _media_access_failure(interval['reason'])):
+                return False
+    audibility = analysis.get('speech_audibility')
+    if audibility and (not isinstance(audibility, dict)
+                       or audibility.get('clear_over_background') is not None
+                       or audibility.get('affected_intervals')
+                       or not _media_access_failure(audibility.get('reason'))):
         return False
     for field, decision in (('dialogue_translation', 'complete'), ('background_music', 'same_track'),
                             ('sound_effects', 'preserved'), ('sync', 'acceptable')):
         value = analysis.get(field)
         if not isinstance(value, dict) or decision not in value or value[decision] is not None:
             return False
-        reason = value.get('reason', '')
-        if not isinstance(reason, str) or not re.search(
-                r'\b(?:audio|files?)\b.*\b(?:could not|cannot|unable to)\b.*\b(?:open|access|load|retrieve)\w*\b'
-                r'|\b(?:could not|cannot|unable to)\b.*\b(?:open|access|load|retrieve)\w*\b.*\b(?:audio|files?)\b',
-                reason, re.I):
+        if not _media_access_failure(value.get('reason')):
             return False
     return True
 
@@ -48,17 +71,18 @@ def failure(run, job, authorization):
     return None
 
 
-def review_with_fallback(run):
+def review_with_fallback(run, review_candidate=None):
     from . import workflow
     from .kie import ApiError
     from .model_routing import audio_recovery_route, selected
 
-    candidate = read_json(run / 'outputs/candidate.json')
+    candidate = review_candidate if review_candidate is not None else read_json(run / 'outputs/candidate.json')
     authorization = policy(run.parent.parent)['audio_analysis_recovery']['outage_delivery']
     attempts = []
     for model in (selected('audio_analysis'), audio_recovery_route('comparative_audio_review')['model']):
         try:
-            result = workflow.analyze_audio(run, candidate=True, model=model)
+            extra = {'review_candidate': review_candidate} if review_candidate is not None else {}
+            result = workflow.analyze_audio(run, candidate=True, model=model, **extra)
         except ApiError:
             jobs = [read_json(path) for path in (run / 'jobs').glob('*.json')]
             matching = [job for job in jobs if job.get('kind') == 'audio_review'
@@ -74,8 +98,9 @@ def review_with_fallback(run):
         attempts.append({'model': model, **result})
         if not unavailable:
             return {**result, 'review_attempts': attempts}
-    return {'state': 'remote_review_unavailable', 'review_attempts': attempts,
-            'next_action': 'Use finalize with remote_audio_review_outage=true after checking complete TTS and visual evidence'}
+    return {'state': 'remote_review_unavailable', 'semantic_review_passed': False,
+            'review_attempts': attempts,
+            'next_action': 'Continue the remaining visual and technical checks, then run finalize with remote_audio_review_outage=true using the existing complete TTS'}
 
 
 def receipt(run, video):

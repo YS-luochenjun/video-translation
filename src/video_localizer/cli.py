@@ -36,8 +36,8 @@ def doctor(online=False):
 
 
 @guarded
-def capture(run):
-    candidate = read_json(run / "outputs/candidate.json")
+def capture(run, review_candidate=None):
+    candidate = review_candidate if review_candidate is not None else read_json(run / "outputs/candidate.json")
     source = inside(run, candidate["path"])
     require(file_hash(source) == candidate["sha256"], "Capture candidate video changed")
     directory = run / "review" / candidate["sha256"][:12]
@@ -91,7 +91,7 @@ def capture(run):
               "restoration_probes": restoration, "files": {path.relative_to(run).as_posix(): file_hash(path)
               for path in sorted(directory.rglob('*')) if path.is_file()},
               "sampling_fps": 2, "limitation": "Sampling can miss transient defects; inspect boundary frames/full playback as needed"}
-    write_json(run / "review/capture.json", record)
+    write_json((run / "review" if review_candidate is None else directory) / "capture.json", record)
     return {"capture": str(directory.relative_to(ROOT)), "files": len(record["files"]), "review_probes": probes}
 
 
@@ -292,9 +292,11 @@ def main(argv=None):
     command.add_argument('spec')
     command = commands.add_parser('fireplay-reuse', help='Discover, capture and prepare a reviewed historical Fireplay translation')
     command.add_argument('code')
-    command.add_argument('action', choices=['search', 'capture', 'package'])
+    command.add_argument('action', choices=['search', 'capture', 'package', 'preflight'])
     command.add_argument('--video', type=int, default=1)
     command.add_argument('--spec', help='Workspace path to the actual connector receipts or review')
+    command.add_argument('--profile', choices=['quick', 'full'], default='full',
+                         help='Search with the fast default production route or include exact YouTube link reverse lookup')
     command = commands.add_parser('fireplay-youtube-route', help='Bind an observed explicit YouTube account selection to the exact next video import')
     command.add_argument('code')
     command.add_argument('spec')
@@ -587,10 +589,11 @@ def main(argv=None):
                 result = review(args.code, args.spec, ROOT)
             elif name == 'fireplay-reuse':
                 from . import fireplay_reuse
-                require(args.spec or args.action == 'search', 'Capture and package require --spec')
+                require(args.spec or args.action == 'search', 'Capture, package and preflight require --spec')
                 operation = {'search': fireplay_reuse.search, 'capture': fireplay_reuse.capture,
-                             'package': fireplay_reuse.package}[args.action]
-                result = operation(args.code, inside(ROOT, args.spec) if args.spec else None, args.video, ROOT)
+                             'package': fireplay_reuse.package, 'preflight': fireplay_reuse.preflight}[args.action]
+                options = {'profile': args.profile} if args.action == 'search' else {}
+                result = operation(args.code, inside(ROOT, args.spec) if args.spec else None, args.video, ROOT, **options)
             elif name == 'fireplay-close':
                 from .fireplay_submission import close_delivery
                 result = close_delivery(args.code, ROOT)
@@ -942,8 +945,7 @@ def main(argv=None):
             elif name == "blind":
                 result = blind.freeze(run, args.candidates) if args.action == "freeze" else blind.verify(run) if args.action == "verify" else blind.reveal(run)
         print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
-        if ((name == 'audio-analyze' and result.get('state') == 'remote_review_unavailable')
-                or (name in ('model-task', 'audio-task') and result.get('tts_fallback'))):
+        if name in ('model-task', 'audio-task') and result.get('tts_fallback'):
             return 2
         if name in ('production', 'batch-run') and result.get('state') in ('needs_inventory', 'needs_review', 'needs_attention'):
             return 2

@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT / 'src'))
-from video_localizer import bundles, fireplay, fireplay_pinterest, fireplay_submission, workflow
+from video_localizer import bundles, fireplay, fireplay_pinterest, fireplay_reuse, fireplay_submission, workflow
 from video_localizer.common import WorkflowError, file_hash, read_json, utc_now, write_json
 
 CODE = 'APC-20261027-020'
@@ -1002,6 +1002,8 @@ class FireplayTests(unittest.TestCase):
     def test_start_resume_uses_same_budget_and_runs(self):
         self.downloaded()
         fireplay.chat(CODE, {'threadId': THREAD, 'title': CODE}, root=self.root)
+        fireplay_reuse.preflight(CODE, {'fallback': {'kind': 'platform_unavailable',
+                                                    'reason': 'Offline start/resume fixture'}}, root=self.root)
         authority = {'authority': 'user', 'authorization_ref': 'test:human', 'user_request': 'Translate', 'mode': 'first'}
         with patch.object(workflow, 'ROOT', self.root), patch('video_localizer.media.probe',
                    return_value={'duration': 16, 'width': 1080, 'height': 1920}):
@@ -1222,6 +1224,8 @@ class FireplayTests(unittest.TestCase):
         self.save(record)
         for i in (1, 2):
             fireplay.chat(CODE, {'threadId': THREAD if i == 1 else RID, 'title': f'{CODE}-{i}'}, i, root=self.root)
+            fireplay_reuse.preflight(CODE, {'fallback': {'kind': 'platform_unavailable',
+                                                        'reason': 'Offline multi-source fixture'}}, i, self.root)
         authority = {'authority': 'user', 'authorization_ref': 'test:multi-source-user', 'user_request': 'Translate both', 'mode': 'first'}
         with patch.object(workflow, 'ROOT', self.root), patch('video_localizer.media.probe',
                    return_value={'duration': 16, 'width': 1080, 'height': 1920}):

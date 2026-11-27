@@ -152,7 +152,7 @@ def execution_limits(run):
 
 @guarded
 def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only=False, voice_review=False,
-                  retry_upload=False, model_authorization=None, retry_authorization=None):
+                  retry_upload=False, model_authorization=None, retry_authorization=None, review_candidate=None):
     """One journaled multimodal audio analysis; never infer speech from the video captions."""
     import json
     from .kie import AUDIO_MODELS
@@ -161,6 +161,7 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
     require(model in AUDIO_MODELS,'Unsupported audio analysis model; select a current documented endpoint')
     from .model_routing import require_audio_analysis_model
     require_audio_analysis_model(model, run=run, authorization=model_authorization)
+    require(review_candidate is None or candidate, 'A review candidate needs comparative mode')
     require(not transcribe_only or candidate,'Candidate transcription needs --candidate')
     require(not voice_review or (candidate and not transcribe_only),
             'Character voice review needs a source/candidate comparison')
@@ -182,7 +183,8 @@ def analyze_audio(run, client=None, candidate=False, model=None, transcribe_only
               "Keep exact words only when audible. No translation is requested in this analysis step.")
     if candidate:
         plan = current_plan(run)
-        candidate_record = read_json(run / "outputs/candidate.json")
+        candidate_record = (review_candidate if review_candidate is not None
+                            else read_json(run / "outputs/candidate.json"))
         require(candidate_record["plan_id"] == plan["id"] and
                 file_hash(inside(run, candidate_record["path"])) == candidate_record["sha256"], "Candidate changed")
         directory = run / "review" / candidate_record["sha256"][:12]

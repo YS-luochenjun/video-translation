@@ -3,7 +3,6 @@
 !.env.example
 *.local.json
 /.codex/*
-!/.codex/hooks.json
 knowledge/local/
 runs/
 outputs/

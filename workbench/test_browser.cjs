@@ -99,16 +99,37 @@ async function checkScrollBoundaries(page, region) {
     await page.locator('[data-nav=efficiency]').click();
     await page.locator('#timing-table').waitFor({timeout:15000});
     assert((await page.locator('#timing-table').textContent()).includes('平均耗时'));
+    const legacyPanel=page.locator('#legacy-benchmark');
+    const legacyTitle=legacyPanel.locator(':scope > summary');
+    const legacyStages=page.locator('#legacy-stage-details');
+    assert.equal(await legacyTitle.textContent(),'原项目历史统计');
+    assert((await legacyPanel.textContent()).includes('210.92 Credits'));
+    assert.equal(await page.locator('.timing-panel + #legacy-benchmark').count(),1);
+    assert.equal(await legacyPanel.evaluate(details=>details.open),false);
+    assert.equal(await legacyPanel.locator('table').first().isVisible(),false);
+    await legacyTitle.click();
+    assert.equal(await legacyPanel.locator('table').first().isVisible(),true);
+    await legacyStages.locator('summary').click();
+    await page.evaluate(()=>window.LedgerUI.refresh());
+    assert.equal(await legacyPanel.evaluate(details=>details.open),true);
+    assert.equal(await legacyStages.evaluate(details=>details.open),true);
+    await legacyStages.locator('summary').click();
+    await legacyTitle.click();
+    await page.evaluate(()=>window.LedgerUI.refresh());
+    assert.equal(await legacyPanel.evaluate(details=>details.open),false);
     assert.equal(await page.getByText('预测与时间记录覆盖').count(),0);
     await page.route('**/api/ledger?*',async route=>{
       const response=await route.fetch();const data=await response.json();
       const request={started_at:'2026-11-01T00:00:00Z',finished_at:'2026-11-01T00:50:00Z',
         seconds:3000,task_count:20,language_count:10,seconds_per_language:300};
-      data.historical_timing={request_mean_seconds:3000,request_median_seconds:3000,
-        requests:Array.from({length:30},(_,index)=>({...request,id:`fixture-${index}`,code:'<img src=x onerror=alert(1)>'}))};
+      data.historical_timing={request_mean_seconds:6006,request_median_seconds:3000,
+        requests:Array.from({length:30},(_,index)=>({...request,id:`fixture-${index}`,code:'<img src=x onerror=alert(1)>',
+          seconds:index<24?3000:index<27?60:36000}))};
       await route.fulfill({response,json:data});
     });
     await page.evaluate(()=>window.LedgerUI.refresh());
+    assert.equal(await page.locator('#ledger-metrics .ledger-card').nth(1).locator('strong').textContent(),'50 分钟');
+    assert.equal(await page.locator('#ledger-metrics .ledger-card').nth(1).locator('small').textContent(),'24 / 30 条需求样本参与平均');
     assert.deepEqual((await page.locator('#timing-table tbody tr').first().locator('td').allTextContents()).slice(3),
       ['50 分钟', '10', '5 分钟']);
     assert.equal(await page.getByRole('button',{name:'按语种'}).count(),0);
@@ -170,10 +191,22 @@ async function checkScrollBoundaries(page, region) {
     assert.deepEqual(await page.getByRole('row',{name:/旧记录测试/}).locator('td').allTextContents(), ['旧记录测试','—','10,200','—','—','—','—']);
     const codexSummary=page.locator('#system-codex-summary');
     assert.equal(await codexSummary.locator('strong').textContent(),'6,800 Tokens');
-    assert.equal(await codexSummary.locator('small').textContent(),'共 20,400 Tokens · 3 / 5 个会话有记录');
+    assert.equal(await codexSummary.locator('small').textContent(),'共 20,400 Tokens · 3 / 5 个会话有记录 · 3 个参与平均');
     const kieSummary=page.locator('#system-kie-summary');
     assert.equal(await kieSummary.locator('strong').textContent(),'7.5 Credits');
-    assert.equal(await kieSummary.locator('small').textContent(),'2 / 5 个会话费用已确认');
+    assert.equal(await kieSummary.locator('small').textContent(),'2 / 5 个会话费用已确认 · 2 个参与平均');
+    await page.route('**/api/session-usage',route=>route.fulfill({json:{sessions:[
+      ...Array.from({length:8},(_,index)=>({title:`常规会话 ${index}`,codex_total:1000,kie:{known:10,unknown:0,ambiguous:0}})),
+      {title:'低值会话',codex_total:0,kie:{known:0,unknown:0,ambiguous:0}},
+      {title:'高值会话',codex_total:100000,kie:{known:1000,unknown:0,ambiguous:0}},
+      {title:'费用未确认',kie:{known:5000,unknown:1,ambiguous:0}}
+    ]}}));
+    await page.getByRole('button',{name:'立即刷新'}).click();
+    await page.getByRole('row',{name:/高值会话/}).waitFor();
+    assert.equal(await codexSummary.locator('strong').textContent(),'1,000 Tokens');
+    assert.equal(await codexSummary.locator('small').textContent(),'共 108,000 Tokens · 10 / 11 个会话有记录 · 8 个参与平均');
+    assert.equal(await kieSummary.locator('strong').textContent(),'10 Credits');
+    assert.equal(await kieSummary.locator('small').textContent(),'10 / 11 个会话费用已确认 · 8 个参与平均');
     await page.setViewportSize({width:375,height:1000});
     assert(await page.locator('#system-usage').evaluate(table=>table.scrollWidth>table.clientWidth));
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
@@ -217,7 +250,7 @@ async function checkScrollBoundaries(page, region) {
     });
     assert.deepEqual(tableStyles,{isolated:true,edges:true,sticky:true});
     await page.locator('.ledger-table').evaluate(table=>{table.scrollTop=0;});
-    await page.getByRole('columnheader',{name:'重试次数'}).waitFor();
+    await page.getByRole('columnheader',{name:'重试 / 中断'}).waitFor();
     const retryToggle = page.locator('[data-retry-demand]').nth(8);
     const demand = await retryToggle.getAttribute('data-retry-demand');
     const ledgerTable = page.locator('.ledger-table');

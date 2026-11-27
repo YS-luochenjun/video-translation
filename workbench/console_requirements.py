@@ -5,8 +5,8 @@ from pathlib import Path
 
 from store import clean
 from video_localizer.common import WorkflowError
-from video_localizer.fireplay_submission import completion_gate
-from video_localizer.ledger import Ledger, platform_completed, progress_state
+from video_localizer.fireplay_submission import _canonical_materials, _held_material, completion_gate
+from video_localizer.ledger import Ledger, platform_completed, progress_state, stamp
 
 CODE = re.compile(r'[A-Za-z]{2,8}-\d{8}-\d{3}')
 
@@ -106,6 +106,64 @@ def verified_material_ids(store, platform):
     return {item['material_id'] for item in verified_items(store, platform)}
 
 
+def submission_evidence(store, path, request, platform):
+    targets = {(video['index'], locale) for video in request.get('videos', [])
+               for locale in video.get('targets') or request.get('targets') or []}
+    items = {}
+    for item in verified_items(store, platform):
+        index, locale, video_hash = item.get('video_index'), item.get('locale'), item.get('sha256')
+        if (type(index) is int and isinstance(locale, str) and (index, locale) in targets
+                and isinstance(video_hash, str) and re.fullmatch(r'[a-f0-9]{64}', video_hash)):
+            items[index, locale] = item
+    whole_scope_verified = platform.get('state') in {'closed', 'verified'}
+    folder = Path(path).parent
+    reuses = []
+    for video in request.get('videos', []):
+        index = video['index']
+        outbox = store.read(str(folder / f'return-{index}.json'))
+        if (not isinstance(outbox, dict) or not request.get('content_version')
+                or (outbox.get('requirement_id'), outbox.get('content_version'), outbox.get('video_index'))
+                != (request['requirement_id'], request['content_version'], index)):
+            continue
+        packages, operations = outbox.get('packages'), outbox.get('operations')
+        deferred = outbox.get('deferred_uploads', {})
+        if not isinstance(packages, list) or not isinstance(operations, dict) or not isinstance(deferred, dict):
+            continue
+        if not whole_scope_verified:
+            try:
+                binding = operations.get('bind', {})
+                current_binding = outbox.get('state') == 'returned' and binding.get('state') == 'verified'
+                bound = _canonical_materials(outbox, include_prior_binding=True) if (
+                    not current_binding or isinstance((binding.get('result') or {}).get('material_ids'), list)
+                ) else []
+                for material in bound:
+                    key = index, material['locale']
+                    video_hash = material.get('sha256')
+                    if (key in targets and isinstance(video_hash, str) and re.fullmatch(r'[a-f0-9]{64}', video_hash)
+                            and not _held_material(video, material, store.root, request['code'])):
+                        items.setdefault(key, {**material, 'video_index': index})
+            except (OSError, WorkflowError, ValueError, KeyError, TypeError, AttributeError):
+                pass
+        counted = set()
+        for slot, package in enumerate(packages, 1):
+            reuse = package.get('historical_reuse') if isinstance(package, dict) else None
+            if not isinstance(reuse, dict) or reuse.get('mode') != 'fireplay_translation_reuse':
+                continue
+            locale = package.get('locale')
+            item = items.get((index, locale)) if isinstance(locale, str) else None
+            source = reuse.get('old_requirement_code')
+            if (not item or locale in counted or locale in deferred or package.get('video_index') != index
+                    or not isinstance(source, str) or not CODE.fullmatch(source)):
+                continue
+            imported = operations.get(f'import-{slot}')
+            result = imported.get('result') if isinstance(imported, dict) and imported.get('state') == 'verified' else None
+            if (package.get('sha256') == item['sha256'] and isinstance(result, dict)
+                    and result.get('material_id') == item['material_id']):
+                reuses.append({'video_id': f'video:{index}', 'locale': locale, 'source_requirement_code': source})
+                counted.add(locale)
+    return items, reuses
+
+
 def material_launch_summary(material_ids, observations):
     if not material_ids:
         return None
@@ -118,7 +176,7 @@ def material_launch_summary(material_ids, observations):
             'observed_at': min(timestamps, key=epoch, default=None)}
 
 
-def add_ledger_evidence(store, rows, *, include_description=False):
+def add_ledger_evidence(store, rows, *, include_description=False, tasks=()):
     monitored = monitor_rows(store)
     observations = store.read('state/fireplay/monitor/material-launch.json').get('materials', {})
     for row in rows:
@@ -136,7 +194,19 @@ def add_ledger_evidence(store, rows, *, include_description=False):
             platform = publication(store, path, request)
             if platform.get('expected') in (None, row['task_count']):
                 row['platform'] = platform
-                row['launch'] = material_launch_summary(verified_material_ids(store, platform), observations)
+                items, row['reuses'] = submission_evidence(store, path, request, platform)
+                row['upload_count'] = max(len(items), platform.get('verified') or 0) if items else platform.get('verified')
+                row['launch'] = material_launch_summary({item['material_id'] for item in items.values()}, observations)
+                if platform['state'] in {'verified', 'closed'}:
+                    closed_at = stamp(platform.get('closed_at'))
+                    row['delivery_at'] = closed_at or stamp(platform.get('platform_read_at'))
+                    row['delivery_time_label'] = '结案' if closed_at else '平台核验'
+                if tasks:
+                    uploaded = {(f'video:{index}', locale): item['sha256'] for (index, locale), item in items.items()}
+                    for task in tasks:
+                        key = task['video_id'], task['locale']
+                        if task['requirement_id'] == row['id'] and key in uploaded:
+                            task['uploaded_sha256'] = uploaded[key]
             else:
                 row['platform'] = {**platform, 'state': 'stale', 'verified': None, 'expected': None, 'closed_at': None}
         else:

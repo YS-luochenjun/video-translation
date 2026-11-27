@@ -88,7 +88,9 @@ def paused_locales(record, video, root, missing, packages=None):
 def active_sources(root, registry=None):
     from .fireplay_submission import coverage
     from .delivery_layout import catalog
+    from .fireplay_monitor import _platform_rejected, _state as monitor_state
     root = Path(root)
+    platform_status = monitor_state(root)
     index = catalog(root)
     if not index.exists():
         index = root / 'outputs/index.json'
@@ -101,8 +103,11 @@ def active_sources(root, registry=None):
         record = read_json(path)
         shared = record.get('chat', {}).get('threadId')
         shared_policy = record.get('thread_policy') != 'one_chat_per_source_video_all_locales'
+        rejected = _platform_rejected(record, platform_status)
         for video in record['videos']:
             chat = video.get('chat', {})
+            if rejected and chat.get('state') == 'ready':
+                continue
             inherited = shared_policy and chat.get('threadId') == shared and video['index'] != 1
             occupied = (chat.get('state') in {'reserved', 'unknown', 'ready'}
                         and (not inherited or video.get('members')))

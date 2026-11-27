@@ -8,6 +8,11 @@
 .timing-panel h2 { margin-bottom: 8px; }
 .timing-panel table { min-width: 660px; }
 .timing-note { margin-top: 8px; }
+.legacy-benchmark { margin-top: 16px; min-width: 0; }
+.legacy-benchmark-title { font-size: var(--text-lg); font-weight: 650; }
+.legacy-benchmark table { min-width: 480px; }
+.legacy-benchmark .table-wrap { margin-top: 10px; }
+.legacy-benchmark details { margin-top: 14px; }
 .ledger-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 #ledger-root summary { cursor: pointer; }
 .ledger-toolbar .search { max-width: 340px; }

@@ -16,6 +16,16 @@ TEMP.mkdir(parents=True, exist_ok=True)
 
 
 class StorageTests(unittest.TestCase):
+    def test_delivery_final_uses_independent_verified_copy(self):
+        source = self.run / "outputs/result.mp4"
+        folder = self.root / "outputs/delivery"
+        bundles.create(folder, "delivery", self.video_sha, {"final.mp4": source})
+        archived = folder / "final.mp4"
+        self.assertFalse(source.samefile(archived))
+        source.write_bytes(b"later run output")
+        self.assertEqual(file_hash(archived), self.video_sha)
+        self.assertEqual(bundles.verify(folder)["identity"], self.video_sha)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(dir=TEMP)
         self.root = Path(self.temp.name)

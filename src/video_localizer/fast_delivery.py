@@ -194,7 +194,8 @@ def register(run, recipe_relative):
                 'visual_finish': {'score': None, 'normal_speed_observation': '', 'evidence': [], 'defects': []}}
     write_json(run / 'review/fast-template.json', template)
     write_json(run / 'outputs/reuse-assets.json', {'source_sha256': plan['source_sha256'], 'assets': assets})
-    return {'state': 'needs_review', 'template': 'review/fast-template.json', 'plan_id': plan['id']}
+    return {'state': 'needs_review', 'template': 'review/fast-template.json', 'plan_id': plan['id'],
+            'next_action': f'Run capture {run.name} to collect review evidence for the registered candidate'}
 
 
 def review_failures(review, candidate, inventory, run, checks):

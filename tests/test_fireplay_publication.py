@@ -46,7 +46,7 @@ class PublicationTests(unittest.TestCase):
                       'defects':[{'severity':severity,'description':'Synthetic observed defect'}],'evidence':['final.mp4']}
         return spec, assessment
 
-    def output_with_restoration_review(self, row, *, same_video=True, defects=None):
+    def output_with_restoration_review(self, row, *, same_video=True, defects=None, instances=None):
         spec, assessment = self.complete_output()
         original = self.root/spec['packages'][0]['package']
         manifest = bundles.verify(original)
@@ -55,6 +55,10 @@ class PublicationTests(unittest.TestCase):
                             'text_restoration_review': [row], 'visual_finish': {'defects': defects or []}})
         sources = {a['path']: original/a['path'] for a in manifest['files']}
         sources['payload/review/fast-review.json'] = review
+        if instances is not None:
+            inventory = self.root / 'work/visual-inventory.json'
+            write_json(inventory, {'text_instances': instances, 'speech_segments': [{'id': 's1'}]})
+            sources['payload/analysis/inventory.json'] = inventory
         folder = original.with_name(original.name+'-observations')
         bundles.create(folder, manifest['kind'], manifest['identity'], sources, manifest['metadata'])
         return str(folder.relative_to(self.root)), assessment
@@ -124,6 +128,25 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(value['observed_visual_findings'][0]['kind'], 'residual_source_lettering')
         self.assertTrue(value['assessment']['translation_complete'])
 
+    def test_brief_secondary_ui_residue_is_ordinary_with_current_evidence(self):
+        folder, assessment = self.output_with_restoration_review(
+            {'id': 't001', 'visible_coverup': False, 'source_text_removed': False},
+            instances=[{'id': 't001', 'action': 'model_edit'}])
+        defect = {'kind': 'secondary_ui_cut_residue', 'severity': 'minor', 'instance_id': 't001',
+                  'interval': [5.9, 6.0], 'description': 'Faint menu edge at the cut'}
+        defect.update(dict.fromkeys(('nonessential_ui', 'momentary_at_cut', 'target_text_present_and_readable',
+                                     'no_legible_source_word', 'no_normal_playback_impact'), True))
+        spec = {'package': folder, 'assessment': {**assessment, 'defects': [defect]}}
+        invalid = {**defect, 'nonessential_ui': False}
+        self.assertEqual(publication._secondary_ui_observations(
+            self.root / folder, [invalid], ['final.mp4']), set())
+        self.assertEqual(publication._secondary_ui_observations(
+            self.root / folder, [defect], ['payload/review/fast-review.json']), set())
+        value = publication.review(fixtures.CODE, spec, self.root)
+        self.assertEqual(value['decision'], 'minor_issues_acceptable')
+        self.assertEqual(value['observed_visual_findings'][0]['publication_impact'], 'ordinary')
+        self.assertTrue(value['internal_quality_unchanged'])
+
     def test_real_missing_translation_still_blocks_at_bounded_stop(self):
         folder, assessment = self.output_with_restoration_review({'id':'t001', 'visible_coverup':True})
         write_json(self.root/'config/fireplay-publication.json', {'mode':'bounded_best_available'})
@@ -138,6 +161,21 @@ class PublicationTests(unittest.TestCase):
         write_json(self.root/'config/fireplay-publication.json', {'mode':'bounded_best_available'})
         assessment['best_available'] = {'stop_condition':'budget_limit','reason':'Actual bounded stop', 'evidence':['final.mp4']}
         value = publication.review(fixtures.CODE, {'package':folder,'assessment':assessment}, self.root)
+        self.assertEqual(value['decision'], 'blocked_major_or_incomplete')
+
+    def test_unreadable_title_blocks_best_available_with_minor_label(self):
+        spec, assessment = self.complete_output()
+        write_json(self.root / 'config/fireplay-publication.json', {'mode': 'bounded_best_available'})
+        assessment['defects'] = [{
+            'kind': 'unreadable_core_copy', 'severity': 'minor', 'publication_impact': 'ordinary',
+            'description': 'Misaligned outline makes the main title unreadable at normal playback',
+        }]
+        assessment['best_available'] = {
+            'stop_condition': 'budget_limit', 'reason': 'Bounded stop', 'evidence': ['final.mp4'],
+        }
+        value = publication.review(fixtures.CODE, {
+            'package': spec['packages'][0]['package'], 'assessment': assessment,
+        }, self.root)
         self.assertEqual(value['decision'], 'blocked_major_or_incomplete')
 
     def test_cosmetic_residue_submits_at_bound_without_rewriting_initial_review(self):

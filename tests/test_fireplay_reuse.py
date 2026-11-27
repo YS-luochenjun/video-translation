@@ -1,13 +1,14 @@
 from hashlib import md5
 from pathlib import Path
 import shutil
+import sqlite3
 import tempfile
 import unittest
 from unittest.mock import patch
 
 from test_fireplay import CODE, MID, PROJECT, RESOURCE, RID, THREAD, URL, fixture
-from video_localizer import bundles, fireplay, fireplay_reuse, fireplay_submission, library, media, workflow
-from video_localizer.common import WorkflowError, file_hash, read_json, utc_now, write_json
+from video_localizer import bundles, fireplay, fireplay_reuse, fireplay_reuse_index, fireplay_submission, library, media, workflow
+from video_localizer.common import WorkflowError, file_hash, object_hash, read_json, utc_now, write_json
 
 
 OLD_CODE = 'WOW-20261026-001'
@@ -34,7 +35,7 @@ class HistoricalFireplayTests(unittest.TestCase):
         self.original.parent.mkdir()
         self.original.write_bytes(b'Test source identity')
 
-    def register(self, locales=None):
+    def register(self, locales=None, *, dedicated=False):
         snapshot = fixture()
         if locales:
             for view in ('summary', 'brief'):
@@ -44,7 +45,31 @@ class HistoricalFireplayTests(unittest.TestCase):
         record = read_json(path)
         record['videos'][0]['source'] = {'path': 'work/source.mp4', 'sha256': file_hash(self.original)}
         record['videos'][0]['chat'] = {'state': 'ready', 'threadId': THREAD}
+        if dedicated:
+            record['thread_policy'] = 'one_chat_per_source_video_all_locales'
         write_json(path, record)
+
+    def test_new_batch_waits_for_scoped_preflight_and_records_candidate_outcomes(self):
+        self.register(dedicated=True)
+        self.assertEqual(fireplay.start(CODE, AUTHORITY, root=self.root)['state'], 'reuse_preflight_required')
+        self.assertFalse((self.root / 'state/batches').exists())
+        self.assertFalse((self.root / 'state/budgets').exists())
+        with self.assertRaisesRegex(WorkflowError, 'saved for this source'):
+            fireplay_reuse.preflight(CODE, {'search_sha256s': ['0' * 64]}, root=self.root)
+        report = self.search()
+        spec = {'search_sha256s': [report['search_sha256']],
+                'fallback': {'kind': 'lookup_incomplete', 'reason': 'Fixture omitted the keyword query'},
+                'candidate_dispositions': [{'candidate_id': report['candidates'][0]['id'], 'locale': 'es',
+                                            'decision': 'unsuitable', 'reason': 'Fixture has another edit'}]}
+        result = fireplay_reuse.preflight(CODE, spec, root=self.root)
+        self.assertEqual(result['production_locales'], ['es', 'ko'])
+        self.assertEqual(result['candidate_dispositions'], spec['candidate_dispositions'])
+        with patch.object(workflow, 'ROOT', self.root), patch.object(media, 'probe',
+                return_value={'duration': 1, 'width': 160, 'height': 288}):
+            first = fireplay.start(CODE, AUTHORITY, root=self.root)
+            self.assertEqual(fireplay.start(CODE, AUTHORITY, root=self.root)['budget'], first['budget'])
+        batch = read_json(self.root / 'state/batches' / f'{CODE}.json')
+        self.assertIn('reuse_preflight_sha256', batch)
 
     def search(self, *, keyword=False, relation='source', description=URL, tags=None, delivered_url=None,
                status='done', selection=None):
@@ -154,10 +179,170 @@ class HistoricalFireplayTests(unittest.TestCase):
         self.assertIn('按驳回原因及问题素材确认本次返工范围', prompt)
         self.assertNotIn('fireplay-reuse', prompt)
 
+    def index_history(self, *, state='verified'):
+        folder = fireplay._folder(OLD_CODE, self.root)
+        write_json(folder / 'request.json', {
+            'code': OLD_CODE, 'requirement_id': OLD_REQUIREMENT, 'content_version': 'old',
+            'snapshot': {'row': {'status': 'done'}}, 'videos': [{
+                'index': 1, 'targets': ['es'], 'youtube_video_id': 'uPStream001',
+                'source': {'sha256': file_hash(self.original), 'path': 'runs/expired/source.mp4'},
+            }],
+        })
+        write_json(folder / 'return-1.json', {
+            'requirement_id': OLD_REQUIREMENT, 'content_version': 'old', 'video_index': 1,
+            'state': 'returned', 'packages': [{'locale': 'es', 'sha256': 'b' * 64}],
+            'operations': {'bind': {'state': state, 'result': {'material_ids': [MID]}},
+                           'import-1': {'state': 'verified', 'result': {'material_id': MID}},
+                           'verify-1': {'state': 'verified'}},
+        })
+        self.assertTrue(fireplay_reuse_index.refresh_request(OLD_CODE, self.root))
+
+    def indexed_delivery(self, *, status='done', materials=None, selection=None):
+        return {'view': 'delivery', 'serverTime': utc_now(),
+                'query_meta': {'filters_applied': {'scope': 'all', 'requirement_ids': [OLD_REQUIREMENT]}},
+                'items': [{'id': OLD_REQUIREMENT, 'code': OLD_CODE, 'status': status,
+                           'materials': materials if materials is not None else [
+                               {'id': MID, 'type': 'video', 'tagNames': ['ES']}],
+                           'materialSelection': selection or {}}]}
+
+    def test_local_index_survives_media_expiry_and_uses_current_binding_and_selection(self):
+        self.register()
+        self.index_history()
+        plan = fireplay_reuse.search(CODE, root=self.root, profile='quick')
+        self.assertEqual(plan['state'], 'local_match')
+        self.assertEqual(plan['queries'], {})
+        self.assertEqual(plan['local_delivery_query']['requirement_ids'], [OLD_REQUIREMENT])
+        receipt = self.indexed_delivery()
+        result = fireplay_reuse.search(CODE, {'local_deliveries': [receipt]}, root=self.root, profile='quick')
+        self.assertEqual(result['state'], 'local_candidates')
+        self.assertEqual(result['candidates'][0]['material_id'], MID)
+        self.assertEqual(result['candidates'][0]['indexed_locale'], 'es')
+        for changed in (self.indexed_delivery(status='rejected'), self.indexed_delivery(materials=[]),
+                        self.indexed_delivery(selection={'status': 'waiting_selection'})):
+            with self.subTest(row=changed['items'][0]):
+                result = fireplay_reuse.search(CODE, {'local_deliveries': [changed]}, root=self.root)
+                self.assertEqual(result['state'], 'local_match_unavailable')
+                self.assertEqual(result['candidates'], [])
+        self.index_history(state='unknown')
+        self.assertEqual(fireplay_reuse.search(CODE, root=self.root)['state'], 'search_ready')
+
+    def test_local_index_finds_original_from_delivered_hash(self):
+        self.register(['en'])
+        self.index_history()
+        path = fireplay._folder(CODE, self.root) / 'request.json'
+        record = read_json(path)
+        record['videos'][0]['source']['sha256'] = 'b' * 64
+        write_json(path, record)
+        report = fireplay_reuse.search(CODE, {'local_deliveries': [self.indexed_delivery()]}, root=self.root)
+        self.assertEqual(report['candidates'], [])
+        self.assertEqual(report['original_candidates'][0]['source_youtube_id'], 'uPStream001')
+        self.assertEqual(report['original_candidates'][0]['input_material_id'], MID)
+
+    def test_delivery_youtube_id_migrates_and_rechecks_current_binding(self):
+        self.register(['en'])
+        self.index_history()
+        folder = fireplay._folder(OLD_CODE, self.root)
+        box_path = folder / 'return-1.json'
+        box = read_json(box_path)
+        material = {'id': MID, 'type': 'video', 'tagNames': ['ES'], 'videoUrl': URL}
+        delivery = self.indexed_delivery(materials=[material])
+        receipt = {'verification': delivery}
+        box['operations']['bind']['receipt_sha256'] = object_hash(receipt)
+        box['operations']['bind']['result']['verification_sha256'] = object_hash(delivery)
+        receipt_path = folder / 'receipts/1-bind.json'
+        write_json(receipt_path, receipt)
+        write_json(box_path, box)
+        with sqlite3.connect(fireplay_reuse_index.database_path(self.root)) as database:
+            database.execute('DROP INDEX assets_delivery_youtube')
+            database.execute('ALTER TABLE assets DROP COLUMN delivery_youtube_id')
+            database.execute("INSERT OR REPLACE INTO checkpoints VALUES ('all_requests', 9999999999)")
+        path = fireplay._folder(CODE, self.root) / 'request.json'
+        record = read_json(path)
+        record['videos'][0]['source']['sha256'] = 'a' * 64
+        write_json(path, record)
+        self.assertEqual(fireplay_reuse.search(CODE, root=self.root)['state'], 'local_match')
+        result = fireplay_reuse.search(CODE, {'local_deliveries': [delivery]}, root=self.root)
+        original = result['original_candidates'][0]
+        self.assertEqual(original['input_youtube_video_id'], fireplay.youtube_id(URL))
+        self.assertEqual(original['source_youtube_id'], 'uPStream001')
+        changed = self.indexed_delivery(materials=[{**material, 'videoUrl': 'https://youtu.be/sOmEvid0001'}])
+        self.assertEqual(fireplay_reuse.search(CODE, {'local_deliveries': [changed]}, root=self.root)
+                         ['original_candidates'], [])
+        write_json(receipt_path, {'verification': delivery, 'different_receipt': True})
+        self.assertTrue(fireplay_reuse_index.refresh_request(OLD_CODE, self.root))
+        self.assertEqual(fireplay_reuse.search(CODE, root=self.root)['state'], 'search_ready')
+
+    def test_completion_readback_indexes_video_published_after_binding(self):
+        self.register(['en'])
+        self.index_history()
+        path = fireplay._folder(CODE, self.root) / 'request.json'
+        record = read_json(path)
+        record['videos'][0]['source']['sha256'] = 'a' * 64
+        write_json(path, record)
+        self.assertEqual(fireplay_reuse.search(CODE, root=self.root)['state'], 'search_ready')
+        delivery = self.indexed_delivery(materials=[
+            {'id': MID, 'type': 'video', 'tagNames': ['ES'], 'videoUrl': URL}])
+        result = fireplay_submission.verify_completion(OLD_CODE, delivery, self.root)
+        self.assertTrue(result['complete'])
+        self.assertEqual(result['verified'][0]['delivery_youtube_id'], fireplay.youtube_id(URL))
+        self.assertTrue(fireplay_reuse_index.refresh_request(OLD_CODE, self.root))
+        report = fireplay_reuse.search(CODE, {'local_deliveries': [delivery]}, root=self.root)
+        self.assertEqual(report['original_candidates'][0]['source_youtube_id'], 'uPStream001')
+
+    def test_quick_miss_reuses_only_complete_scope_for_five_minutes(self):
+        self.register()
+        path = fireplay._folder(CODE, self.root) / 'request.json'
+        record = read_json(path)
+        record['snapshot']['raw']['summary']['operator'] = 'fixture owner'
+        write_json(path, record)
+        quick = fireplay_reuse.search(CODE, root=self.root, profile='quick')
+        full = fireplay_reuse.search(CODE, root=self.root, profile='full')
+        self.assertEqual(set(quick['queries']), {'keyword'})
+        self.assertEqual(set(full['queries']), {'keyword', 'youtube'})
+        usage = {'items': [{'videoId': fireplay.youtube_id(URL), 'materialCount': 0, 'materialRecords': []}]}
+        response = {'view': 'summary', 'operator': 'fixture owner', 'serverTime': utc_now(),
+                    'total': 0, 'items': [], 'query_meta': {'total_exact': True, 'offset': 0, 'filters_applied': {
+                        'scope': 'all', 'asset_type': 'video', 'keyword': fireplay.youtube_id(URL)}}}
+        trace = {'material_usage': usage, 'searches': {'keyword': {
+            'arguments': quick['queries']['keyword'], 'response': response}}}
+        rows = response.pop('items')
+        result = fireplay_reuse.search(CODE, trace, root=self.root, profile='quick')
+        self.assertEqual(result['state'], 'lookup_incomplete')
+        response['items'] = rows
+        result = fireplay_reuse.search(CODE, {'searches': trace['searches']}, root=self.root, profile='quick')
+        self.assertEqual(result['failed_or_truncated_searches'], ['material_usage'])
+        response['next_offset'] = 20
+        result = fireplay_reuse.search(CODE, trace, root=self.root, profile='quick')
+        self.assertEqual(result['state'], 'lookup_incomplete')
+        self.assertEqual(fireplay_reuse.search(CODE, root=self.root, profile='quick')['state'], 'search_ready')
+        response.pop('next_offset')
+        with patch.object(fireplay_reuse_index, 'time', return_value=1000):
+            miss = fireplay_reuse.search(CODE, trace, root=self.root, profile='quick')
+            self.assertEqual(miss['state'], 'no_quick_match')
+            ready = fireplay_reuse.preflight(CODE, {'search_sha256s': [miss['search_sha256']]}, root=self.root)
+            self.assertEqual(ready['production_locales'], ['es', 'ko'])
+            self.assertIsNone(ready['fallback'])
+            self.assertEqual(fireplay_reuse.search(CODE, root=self.root, profile='quick')['state'], 'cached_no_match')
+            second_code = 'APC-20261027-021'
+            write_json(fireplay._folder(second_code, self.root) / 'request.json', {
+                **record, 'code': second_code, 'requirement_id': NEW_MATERIAL})
+            self.assertEqual(fireplay_reuse.search(second_code, root=self.root, profile='quick')['state'],
+                             'cached_no_match')
+            self.assertEqual(fireplay_reuse.search(second_code, root=self.root, profile='full')['state'],
+                             'search_ready')
+            self.assertEqual(fireplay_reuse.search(second_code, {'refresh': True}, root=self.root,
+                                                   profile='quick')['state'], 'search_ready')
+            record['snapshot']['raw']['summary']['operator'] = 'different fixture owner'
+            write_json(path, record)
+            self.assertEqual(fireplay_reuse.search(CODE, root=self.root, profile='quick')['state'], 'search_ready')
+        with patch.object(fireplay_reuse_index, 'time', return_value=1301):
+            self.assertEqual(fireplay_reuse.search(second_code, root=self.root, profile='quick')['state'],
+                             'search_ready')
+
     @unittest.skipUnless(media.tools_available(), 'FFmpeg and ffprobe required for real media fixtures')
     def test_linked_rework_blocks_earlier_reuse_evidence_and_start_produces_target(self):
         self.fixture_media()
-        self.register(['es'])
+        self.register(['es'], dedicated=True)
         captured = self.capture()
         review = self.fixture_review(captured)
         package = fireplay_reuse.package(CODE, review, root=self.root)
@@ -292,7 +477,7 @@ class HistoricalFireplayTests(unittest.TestCase):
     @unittest.skipUnless(media.tools_available(), 'FFmpeg and ffprobe required for real media fixtures')
     def test_partial_reuse_only_creates_missing_locale_and_preserves_budget(self):
         self.fixture_media()
-        self.register()
+        self.register(dedicated=True)
         captured = self.capture(distinct_backup=True)
         self.assertEqual(captured['byte_identity']['verified_by'], 'md5')
         self.assertTrue(captured['byte_identity']['url'].endswith('/ingest.mp4'))
@@ -302,6 +487,10 @@ class HistoricalFireplayTests(unittest.TestCase):
         outbox = self.prepare(package, partial=True)
         self.assertEqual(outbox['pending_locales'], ['ko'])
         self.assertEqual(outbox['packages'][0]['historical_reuse']['old_material_id'], MID)
+        report = self.search()
+        fireplay_reuse.preflight(CODE, {'search_sha256s': [report['search_sha256']],
+                                       'fallback': {'kind': 'lookup_incomplete', 'reason': 'Fixture only queried YouTube'}},
+                                 root=self.root)
         with patch.object(workflow, 'ROOT', self.root):
             first = fireplay.start(CODE, AUTHORITY, root=self.root)
             second = fireplay.start(CODE, AUTHORITY, root=self.root)
@@ -330,7 +519,7 @@ class HistoricalFireplayTests(unittest.TestCase):
     @unittest.skipUnless(media.tools_available(), 'FFmpeg and ffprobe required for real media fixtures')
     def test_complete_reuse_skips_production_and_verifies_new_binding(self):
         self.fixture_media()
-        self.register(['es'])
+        self.register(['es'], dedicated=True)
         captured = self.capture()
         package = fireplay_reuse.package(CODE, self.fixture_review(captured), root=self.root)
         archived = library.find(file_hash(self.original), 'es', self.root)[0]
@@ -338,6 +527,8 @@ class HistoricalFireplayTests(unittest.TestCase):
         self.assertFalse(archived['production_eligible'])
         self.assertTrue((self.root / archived['presentation']).is_file())
         self.prepare(package)
+        result = fireplay_reuse.preflight(CODE, {}, root=self.root)
+        self.assertEqual(result['prepared_reuse_locales'], ['es'])
         status = fireplay.start(CODE, AUTHORITY, root=self.root)
         self.assertEqual(status['state'], 'reuse_ready')
         self.assertIsNone(status['budget'])

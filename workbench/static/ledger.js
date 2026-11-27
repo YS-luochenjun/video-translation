@@ -16,8 +16,9 @@ window.LedgerUI = (() => {
   let retries = null;
   const retryServices = {codex:'Codex', kie:'KIE', fireplay:'Fireplay 回传'};
   const filters = {q:'',state:'all',progress:'all',days:'14'};
+  const readOnly = document.body.dataset.access === 'lan';
   let session = sessionStorage.getItem('ledger-session');
-  if (!session) {session=crypto.randomUUID();sessionStorage.setItem('ledger-session',session);}
+  if (!session && !readOnly) {session=crypto.randomUUID();sessionStorage.setItem('ledger-session',session);}
   let owner = sessionStorage.getItem('ledger-owner') || '';
   const request = async (url, options={}) => {
     const res = await fetch(url,{cache:'no-store',...options});
@@ -27,11 +28,12 @@ window.LedgerUI = (() => {
   };
   const cards = values => `<div class="ledger-cards">${values.map(([title,value,note])=>`<div class="ledger-card"><span>${h(title)}</span><strong>${h(value)}</strong><small>${h(note)}</small></div>`).join('')}</div>`;
   const uploadProgress = row => {
-    if (row.platform?.verified != null) return `${row.platform.verified}/${row.task_count}`;
+    const uploads = row.upload_count ?? row.platform?.verified;
+    if (uploads != null) return `${uploads}/${row.task_count}`;
     return row.platform?.state === 'stale' || ['done','completed'].includes(row.platform_status) ? '待更新核验' : '—';
   };
   const detailState = row => JSON.stringify([row.revision, row.progress_state, row.platform_status,
-    row.platform_refreshed_at, row.platform, row.launch]);
+    row.platform_refreshed_at, row.platform, row.upload_count, row.launch, row.reuses]);
   const launchLabel = launch => launch.checked ? `有投放记录 ${launch.launched}/${launch.checked}`
     + (launch.materials>launch.checked ? ` · ${launch.materials-launch.checked} 项待核对` : '') : '投放待核对';
 
@@ -71,7 +73,7 @@ window.LedgerUI = (() => {
     el('content').innerHTML = `<div id="ledger-root" data-page="${page}">
       <div class="toolbar ledger-toolbar">${search}${page==='ledger'?status:days}
         <details class="ledger-meta"><summary>记录说明</summary><div id="ledger-meta-content">正在读取台账…</div></details>
-        ${page==='ledger'?'<button type="button" data-console-action="intake">＋ 按需求号接单</button>':''}
+        ${page==='ledger'&&!readOnly?'<button type="button" data-console-action="intake">＋ 按需求号接单</button>':''}
       </div>
       <p id="ledger-health" class="ledger-warning" role="status" hidden></p>
       ${page==='ledger'?'<section id="ledger-capacity" class="panel ledger-capacity" aria-label="制作并发"><span class="quiet">正在读取制作并发…</span></section>':''}
@@ -122,11 +124,12 @@ window.LedgerUI = (() => {
         renderCapacity(result.source_capacity);
         const counted=result.requirements.filter(row=>row.countable);
         const productionCount=counted.reduce((total,row)=>total+row.output_count,0);
-        const uploadCount=counted.reduce((total,row)=>total+(row.platform?.verified ?? 0),0);
+        const uploadCount=counted.reduce((total,row)=>total+(row.upload_count ?? row.platform?.verified ?? 0),0);
+        const reuseCount=counted.reduce((total,row)=>total+(row.reuses?.length ?? 0),0);
         el('ledger-metrics').innerHTML=cards([
           ['已登记需求',metrics.requirements,`${metrics.tasks} 个语言任务`],
           ['制作完成',productionCount,`共 ${metrics.tasks} 个语言任务`],
-          ['审核上传完成',uploadCount,'已核验平台绑定']
+          ['审核上传完成',uploadCount,reuseCount?`已核验平台绑定 · 含复用 ${reuseCount} 个`:'已核验平台绑定']
         ]);
         if (retries && !result.requirements.some(row => row.id === retries.id)) retries = null;
         renderTable();
@@ -181,7 +184,8 @@ window.LedgerUI = (() => {
       <td class="ledger-demand"><button class="table-action" data-requirement="${h(row.id)}" aria-haspopup="dialog">${h(row.code)}</button>
         <span class="quiet">${row.video_count} 部原片 · ${languages || '—'} 种语言${tasks}</span></td>
       <td class="ledger-status"><strong class="ledger-row-state">${h(progressLabels[row.progress_state])}</strong></td>
-      <td class="ledger-counts"><div>制作完成 <strong>${row.output_count}/${row.task_count}</strong></div>
+      <td class="ledger-counts"><div>制作完成 <strong>${row.output_count}/${row.task_count}</strong>
+        ${row.reuses?.length?` · 复用 <strong>${row.reuses.length}</strong>`:''}</div>
         <div>审核上传完成 <strong>${uploadProgress(row)}</strong></div>${row.launch?`<span class="quiet">${h(launchLabel(row.launch))}</span>`:''}</td>
       <td>${row.threads.map(thread=>{
         const name=h(thread.title?.trim() || '会话名称未记录');
@@ -189,15 +193,16 @@ window.LedgerUI = (() => {
         return identifier ? `<a class="ledger-thread" href="#sessions/${encodeURIComponent(identifier)}">${name}</a>` : `<span class="quiet">${name}</span>`;
       }).join('') || '未绑定'}</td>
       <td class="ledger-times"><div>起始 <span>${row.first_started_at?dt(row.first_started_at):'—'}</span></div>
-        <div>完成 <span>${row.complete_at?dt(row.complete_at):'—'}</span></div></td>
+        <div>${row.complete_at ? '制作完成' : row.delivery_at ? h(row.delivery_time_label) : '制作完成'}
+          <span>${row.complete_at || row.delivery_at ? dt(row.complete_at || row.delivery_at) : '—'}</span></div></td>
       <td><button type="button" class="ledger-retry-toggle" data-retry-demand="${h(row.id)}"
-        aria-label="${h(row.code)} 重试记录，${retryLabel}" aria-expanded="${expanded}"
+        aria-label="${h(row.code)} 重试与中断记录，${retryLabel}" aria-expanded="${expanded}"
         ${expanded?'aria-controls="ledger-retry-detail"':''}>
         <span class="ledger-retry-metrics" aria-hidden="true">${retryMetrics}</span>
       </button></td>
     </tr>${expanded ? `<tr class="ledger-retry-detail"><td colspan="7" id="ledger-retry-detail">${retryDetails(retries)}</td></tr>` : ''}`;}).join('');
     const markup=`<p class="ledger-caption">${rows.length} 条记录${filters.state==='unlinked'?' · <button class="table-action" data-show-unlinked>返回需求</button>':data.unlinked_total?` · <button class="table-action" data-show-unlinked>待关联 ${data.unlinked_total}</button>`:''}</p>
-      <div class="ledger-table bounded-table" role="region" aria-label="需求台账表" tabindex="0"><table><thead><tr><th scope="col" class="ledger-row-number">序号</th><th scope="col">需求</th><th scope="col">状态</th><th scope="col">进度</th><th scope="col">负责会话</th><th scope="col">制作起止时间</th><th scope="col">重试次数</th></tr></thead>
+      <div class="ledger-table bounded-table" role="region" aria-label="需求台账表" tabindex="0"><table><thead><tr><th scope="col" class="ledger-row-number">序号</th><th scope="col">需求</th><th scope="col">状态</th><th scope="col">进度</th><th scope="col">负责会话</th><th scope="col">起止时间</th><th scope="col">重试 / 中断</th></tr></thead>
       <tbody>${tableRows || '<tr><td colspan="7">没有匹配的需求</td></tr>'}</tbody></table></div>`;
     if(body.innerHTML===markup)return;
     body.innerHTML=markup;
@@ -215,27 +220,29 @@ window.LedgerUI = (() => {
     if (!state.page) return '<p role="status">正在读取重试明细…</p>';
     const operations = {balance:'余额查询',status:'状态查询',upload:'文件上传',bind:'素材绑定',model_submit:'模型提交',
       model_request:'模型请求',model_retry:'模型重试',asset_retry:'附件恢复',
-      pre_dispatch_retry:'提交前恢复',sampling:'模型请求'};
+      pre_dispatch_retry:'提交前恢复',sampling:'模型请求',owner_followup:'督促处理',owner_handoff:'新会话接替'};
     const causes = {provider_failed:'供应商错误',transport:'连接或响应异常',invalid_response:'响应格式异常',
       previous_attempt:'前次尝试失败',sampling_error:'模型请求异常',upload_timeout:'前次上传超时',
-      upload_replaced:'调整上传文件后重试'};
+      upload_replaced:'调整上传文件后重试',owner_followup:'上传完成前督促',owner_handoff:'原会话执行中断'};
     const outcomes = {started:'已开始',submitted:'已提交',success:'成功',failed:'失败',
-      unknown:'结果待核查',observed:'宿主记录重试',timeout:'超时'};
+      unknown:'结果待核查',observed:'宿主记录重试',timeout:'超时',sent:'已发送',handed_off:'已接替'};
     const items = state.page.events.map(event => {
       const subject = event.session || event.run || `原片 ${event.video_index ?? '—'}${event.locale ? ` · ${event.locale}` : ''}`;
       const cause = /^http_[1-5]\d\d$/.test(event.reason) ? `状态码 ${event.reason.slice(5)}` : causes[event.reason];
+      const operation = operations[event.operation] || '请求';
+      const action = event.kind === 'interruption' ? operation : `${operation} · 第 ${event.attempt} 次重试`;
       return `<tr><td>${dt(event.at)}</td><td>${h(retryServices[event.source])}</td><td>${h(subject)}</td>
-        <td>${h(operations[event.operation] || '请求')} · 第 ${h(event.attempt)} 次重试</td>
+        <td>${h(action)}</td>
         <td>${h(cause || '—')}</td><td>${h(outcomes[event.outcome] || '—')}</td></tr>`;
     }).join('');
-    const table = items ? `<table class="ledger-retry-table" aria-label="需求重试明细"><thead><tr>
+    const table = items ? `<table class="ledger-retry-table" aria-label="需求重试与中断明细"><thead><tr>
       <th>时间</th><th>服务</th><th>会话、运行或语种</th><th>事件</th><th>原因</th><th>结果</th>
-      </tr></thead><tbody>${items}</tbody></table>` : '<p>暂无可关联的重试记录。</p>';
+      </tr></thead><tbody>${items}</tbody></table>` : '<p>暂无可关联的重试或中断记录。</p>';
     const pager = (state.history.length || state.page.next_cursor) ? `<div class="retry-pages">
       <button type="button" data-retry-prev ${state.history.length && !state.loading ? '' : 'disabled'}>上一页</button>
       <button type="button" data-retry-next ${state.page.next_cursor && !state.loading ? '' : 'disabled'}>下一页</button>
       </div>` : '';
-    const codex = state.page.coverage.codex_retries ? 'Codex 来自宿主可见记录，首次补录最近 7 天。' : 'Codex 日志暂不可读。';
+    const codex = state.page.coverage.codex_retries ? 'Codex 宿主重试首次补录最近 7 天。' : 'Codex 宿主重试日志暂不可读。';
     return `${table}${pager}<p class="quiet">${codex}${state.page.coverage.kie_history?'':'部分 KIE 历史任务暂不可读。'}</p>`;
   }
 
@@ -266,15 +273,26 @@ window.LedgerUI = (() => {
     detail=value;
     const summary=(key,title,body)=>`<details class="ledger-source" data-section="${key}" ${opened.has(key)?'open':''}><summary>${title}</summary>${body}</details>`;
     const actions=[['claim','认领'],['heartbeat','上报心跳'],['stage','更新阶段'],['release','释放认领'],['ready','信息齐备'],['block','登记阻塞'],['resume','解除阻塞'],['link','关联任务']];
-    const taskRows=value.tasks.filter(task=>row.scope.some(video=>video.video_id===task.video_id&&video.targets.includes(task.locale))).map(task=>`<tr>
+    const taskRows=value.tasks.filter(task=>row.scope.some(video=>video.video_id===task.video_id&&video.targets.includes(task.locale))).map(task=>{
+      const reuse = row.reuses?.find(item=>item.video_id===task.video_id && item.locale===task.locale);
+      const runs = task.runs.map(run=>`<a href="#tasks/${encodeURIComponent(run)}">${h(run)}</a>`).join('<br>');
+      const differentUpload = task.uploaded_sha256 && task.current?.sha256 && task.uploaded_sha256 !== task.current.sha256;
+      const uploadLabel = reuse ? '已复用 · 上传已核验'
+        : differentUpload ? '另一版本上传已核验' : task.uploaded_sha256 ? '上传已核验' : '';
+      const outputState = task.complete_at ? dt(task.complete_at) : task.active_revision ? '新版制作中' : '待完整输出';
+      const output = task.current?.url
+        ? `<a href="${h(task.current.url)}" target="_blank" rel="noopener">播放成片</a>
+          <span class="quiet mono">${h(task.current.sha256.slice(0,12))}</span>`
+        : task.uploaded_sha256 ? '无本地成片记录' : '未核验交付包';
+      return `<tr>
       <td>${h(row.videos.find(video=>video.id===task.video_id)?.title || task.video_id)}<br>${h(task.locale)}</td>
-      <td>${task.runs.map(run=>`<a href="#tasks/${encodeURIComponent(run)}">${h(run)}</a>`).join('<br>') || '未开始'}</td>
-      <td>${task.complete_at?dt(task.complete_at):task.active_revision?'新版制作中':'待完整输出'}
+      <td>${reuse?'复用历史成片':runs || '未开始'}</td>
+      <td>${uploadLabel || outputState}
+        ${!reuse && uploadLabel && (task.complete_at || task.active_revision) ? `<span class="quiet">${outputState}</span>` : ''}
         ${row.progress_state==='blocked' && task.publication_blocked?`<span class="quiet">${tag('严重问题阻塞上传','bad')}</span>`:''}</td>
-      <td>${task.current?.url?`<a href="${h(task.current.url)}" target="_blank" rel="noopener">播放成片</a>
-        <span class="quiet mono">${h(task.current.sha256.slice(0,12))}</span>`:'未核验交付包'}
-        <span class="quiet">${task.versions.length} 个输出版本</span></td>
-    </tr>`).join('');
+      <td>${reuse?`来源需求 ${h(reuse.source_requirement_code)}`:
+        `${output}<span class="quiet">${task.versions.length} 个输出版本</span>`}</td>
+    </tr>`;}).join('');
     const actualSeconds = row.received_at && row.first_complete_at ? (new Date(row.first_complete_at)-new Date(row.received_at))/1000 : null;
     const exceptions = [
       row.time_exclusion ? `<p><strong>耗时异常 · 已剔除效率统计</strong><br>${h(row.time_exclusion.reason)}<br>实际收件至完整输出 ${duration(actualSeconds)}。${h(row.time_exclusion.source)}</p>` : '',
@@ -283,20 +301,23 @@ window.LedgerUI = (() => {
         ...[row.block_reason,...(row.blockers || [])].filter(Boolean).map(reason=>`<p>${h(typeof reason==='string'?reason:JSON.stringify(reason))}</p>`),
       ].join('') : '',
     ].join('');
-    const times=[['制作起始',dt(row.first_started_at)],['制作完成',dt(row.complete_at)],['审核上传完成',uploadProgress(row)]];
+    const finish = row.complete_at ? ['制作完成',dt(row.complete_at)]
+      : row.delivery_at ? [row.delivery_time_label,dt(row.delivery_at)] : ['制作完成',dt(null)];
+    const times=[['制作起始',dt(row.first_started_at)],finish,['审核上传完成',uploadProgress(row)]];
     node.innerHTML=`<div class="ledger-detail-header"><div><h2 id="ledger-detail-title">${h(row.code)}</h2><p class="quiet ledger-title">${h(row.title)}</p></div><button type="button" data-close-requirement autofocus>收起</button></div>
       <div class="info-grid">${times.map(([label,time])=>`<div class="info"><span>${h(label)}</span><strong>${h(time)}</strong></div>`).join('')}</div>
       ${exceptions?summary('exceptions','查看异常说明',exceptions):''}
       ${row.description?summary('brief','需求原文',`<pre>${h(row.description)}</pre>`):''}
-      ${summary('tasks','任务与视频',`<div class="table-wrap"><table><thead><tr><th>原片 / 语言</th><th>执行记录</th><th>当前输出</th><th>版本</th></tr></thead>
+      ${summary('tasks',row.reuses?.length?`任务与视频 · 复用 ${row.reuses.length} 个`:'任务与视频',`<div class="table-wrap"><table><thead><tr><th>原片 / 语言</th><th>执行记录</th><th>当前输出</th><th>版本</th></tr></thead>
       <tbody>${taskRows || '<tr><td colspan="4">暂无关联任务</td></tr>'}</tbody></table></div>`)}
       ${summary('tracking','原片与会话',`
         <p class="ledger-caption">${h(healthLabels[row.agent_health])}${row.executors.some(executor=>executor.health==='recent')?' · 执行器近期有上报':''} · 最近产物 ${dt(row.last_activity_at)}</p>
-        <p class="ledger-caption">${Object.entries(row.stage_counts || {}).map(([stage,count])=>`${h(stages[stage] || stage)} ${count}`).join(' · ')}</p>
+        ${row.progress_state==='done'?'':`<p class="ledger-caption">本地制作 · ${Object.entries(row.stage_counts || {}).map(([stage,count])=>`${h(stages[stage] || stage)} ${count}`).join(' · ')}</p>`}
         ${row.videos.map(video=>`<p class="ledger-caption">${h(video.title)} · ${h(video.id)} · ${h(video.source_sha256?.slice(0,12) || '原片尚未绑定')}
           ${video.thread?` · ${h(video.thread.title || '已绑定会话')}`:''}</p>`).join('')}`)}
       ${summary('evidence','平台状态与采集依据',`
         <p>平台状态 ${h(platformLabels[row.platform_status] || row.platform_status || '未记录')} · 审核上传完成 ${uploadProgress(row)} · 状态记录 ${dt(row.platform_refreshed_at)}</p>
+        ${row.delivery_at?`<p>${h(row.delivery_time_label)} ${dt(row.delivery_at)}</p>`:''}
         ${row.launch?`<p>${h(launchLabel(row.launch))} · 素材库最早核对 ${dt(row.launch.observed_at)}</p>`:''}
         <p>平台创建 ${dt(row.platform_created_at)} · 信息齐备 ${dt(row.ready_at)} · 首次发现 ${dt(row.first_seen_at)}</p>
         ${row.external.length?`<pre>${h(JSON.stringify(row.external,null,2))}</pre>`:'<p>暂无结构化提交回执。</p>'}
@@ -305,15 +326,53 @@ window.LedgerUI = (() => {
       ${summary('events','阶段与等待记录',value.events.filter(event=>event.kind!=='eta').map(event=>`<details class="ledger-event">
         <summary>${h(eventLabels[event.kind] || event.kind)} · ${dt(event.occurred_at || event.recorded_at)}${event.run_id?' · '+h(event.run_id):''}</summary>
         <pre>${h(JSON.stringify(event.data,null,2))}</pre></details>`).join(''))}
-      ${summary('actions','台账操作',`<div class="ledger-actions">${actions.map(([action,label])=>`<button data-ledger-action="${action}">${label}</button>`).join('')}</div>`)}`;
+      ${readOnly?'':summary('actions','台账操作',`<div class="ledger-actions">${actions.map(([action,label])=>`<button data-ledger-action="${action}">${label}</button>`).join('')}</div>`)}`;
     if (!node.open) node.showModal();
+  }
+
+  function renderLegacyBenchmark(snapshot, expanded, stagesExpanded) {
+    if (!snapshot) return '';
+    const number = (value, digits=0) => value.toLocaleString('zh-CN', {
+      minimumFractionDigits:digits, maximumFractionDigits:digits
+    });
+    const elapsed = seconds => {
+      const rounded = Math.round(seconds);
+      const totalMinutes = Math.round(seconds/60);
+      const hours = Math.floor(totalMinutes/60);
+      const minutes = Math.floor(rounded%3600/60);
+      return hours ? `${hours} 小时 ${totalMinutes%60} 分` :
+        minutes ? `${minutes} 分 ${rounded%60} 秒` : `${rounded} 秒`;
+    };
+    const format = (value, unit) => {
+      if (unit==='duration') return elapsed(value);
+      if (unit==='credits') return `${number(value,2)} Credits`;
+      return `${number(value/10000,2)} 万`;
+    };
+    const table = (rows, formatter, label) => `<div class="table-wrap" role="region" aria-label="${h(label)}" tabindex="0">
+      <table><thead><tr><th scope="col">指标</th><th scope="col">平均</th><th scope="col">中位数</th><th scope="col">样本数</th></tr></thead>
+      <tbody>${rows.map(row=>`<tr><td>${h(row.label)}</td><td>${h(formatter(row.mean,row.unit))}</td><td>${h(formatter(row.median,row.unit))}</td><td>${number(row.n)}</td></tr>`).join('')}</tbody></table>
+    </div>`;
+    return `<details id="legacy-benchmark" class="panel timing-panel legacy-benchmark" ${expanded?'open':''}>
+      <summary class="legacy-benchmark-title">原项目历史统计</summary>
+      <p class="quiet timing-note">${h(snapshot.period)} · 清理前固定快照 · 普通平均（未截尾）</p>
+      ${table(snapshot.metrics,format,'原项目历史指标')}
+      <p class="quiet timing-note">历史耗时和 Credits 按需求统计。Token 按会话统计（${number(snapshot.metrics.find(row=>row.unit==='tokens').n)} / ${number(snapshot.bound_sessions)} 个绑定会话有稳定记录，可能包含续作），缓存输入已计入总量。各指标样本范围不同。</p>
+      <p class="quiet timing-note">${number(snapshot.provider.ledger_files)} 本旧预算账本累计已知实扣 ${number(snapshot.provider.known_credits,2)} Credits，另有 ${number(snapshot.provider.unknown)} 笔费用或状态未明。</p>
+      <details id="legacy-stage-details" ${stagesExpanded?'open':''}>
+        <summary>查看原项目各阶段耗时</summary>
+        ${table(snapshot.stages,value=>`${number(value,1)} 秒`,'原项目各阶段耗时')}
+        <p class="quiet timing-note">单次成功脚本调用或平台回执计时，可能包含重复调用和调度时间。阶段均值不可相加，分阶段 Token 与费用缺少统一计量。</p>
+      </details>
+      <p class="quiet timing-note">来源：${h(snapshot.source)}。上方时间筛选仅作用于当前项目。</p>
+    </details>`;
   }
 
   function renderEfficiency() {
     const timing = data.historical_timing;
     const totals = [['首次完整输出',data.metrics.completed_in_period,`最近 ${data.metrics.days} 天`]];
+    const average = trimmedAverage(timing.requests.map(row=>row.seconds));
     if (timing.requests.length) totals.push(
-      ['需求平均制作耗时',duration(timing.request_mean_seconds),`${timing.requests.length} 条需求样本`],
+      ['需求平均制作耗时（截尾）',duration(average.average),`${average.count} / ${average.total} 条需求样本参与平均`],
       ['需求制作耗时中位数',duration(timing.request_median_seconds),`${timing.requests.length} 条需求样本`]
     );
     el('ledger-metrics').innerHTML = cards(totals);
@@ -322,6 +381,8 @@ window.LedgerUI = (() => {
     const scrollTop=oldTable?.scrollTop || 0;
     const scrollLeft=oldTable?.scrollLeft || 0;
     const tableFocused=oldTable===document.activeElement;
+    const legacyExpanded=el('legacy-benchmark')?.open;
+    const stagesExpanded=el('legacy-stage-details')?.open;
     const headings=['需求','开始','首次完整输出','总耗时','语种数','每种语言平均耗时'];
     const rows=timing.requests.map(row=>`<tr><td><a href="#ledger/${encodeURIComponent(row.id)}">${h(row.code)}</a></td>
       <td>${dt(row.started_at)}</td><td>${dt(row.finished_at)}</td><td>${duration(row.seconds)}</td>
@@ -332,8 +393,8 @@ window.LedgerUI = (() => {
         <table><thead><tr>${headings.map(name=>`<th scope="col">${name}</th>`).join('')}</tr></thead>
         <tbody>${rows.join('') || `<tr><td colspan="${headings.length}">所选时段暂无符合条件的耗时样本。</td></tr>`}</tbody></table>
       </div>
-      <p class="quiet timing-note">每种语言平均耗时 = 需求总耗时 ÷ 去重后的目标语种数。总耗时从开始制作到首次完整输出，包含等待。时间为洛杉矶时间。</p>
-    </section>`;
+      <p class="quiet timing-note">截尾平均去掉最快及最慢各 10% 的有效需求样本（向下取整），不足 10 条时全量平均。每种语言平均耗时 = 需求总耗时 ÷ 去重后的目标语种数。总耗时从开始制作到首次完整输出，包含等待。时间为洛杉矶时间。</p>
+    </section>${renderLegacyBenchmark(data.legacy_benchmark,legacyExpanded,stagesExpanded)}`;
     const table=el('timing-table');
     table.scrollTop=scrollTop;
     table.scrollLeft=scrollLeft;

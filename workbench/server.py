@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import ipaddress
 import json
 import mimetypes
 import os
@@ -16,7 +17,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from store import Store
 from collector import Collector
-from video_localizer.ledger import Conflict
+from video_localizer.ledger import Conflict, seconds
 from console_data import ConsoleData
 from console_events import EventHub
 from console_panel import handoff, notified
@@ -31,7 +32,9 @@ CONSOLE_STATIC = Path(__file__).resolve().parent / 'console-static'
 class WorkbenchServer(ThreadingHTTPServer):
     daemon_threads = True
 
-    def __init__(self, address, root, collect=True):
+    def __init__(self, address, root, collect=True, lan_interface=None, lan_allow=()):
+        self.lan_interface = lan_interface
+        self.lan_networks = (lan_interface.network, *lan_allow) if lan_interface else ()
         self.store = Store(root)
         self.cache = None
         self.cache_at = 0
@@ -94,6 +97,18 @@ class Handler(BaseHTTPRequestHandler):
     def do_HEAD(self):
         self.route(head=True)
 
+    def access_mode(self):
+        peer = ipaddress.ip_address(self.client_address[0])
+        host = self.headers.get('Host')
+        port = self.server.server_port
+        if peer.is_loopback and host in {f'127.0.0.1:{port}', f'localhost:{port}'}:
+            return 'local'
+        interface = self.server.lan_interface
+        if interface and host == f'{interface.ip}:{port}' and any(
+                peer in network for network in self.server.lan_networks):
+            return 'lan'
+        return None
+
     def console_event_stream(self):
         hub = self.server.console_events
         try: revision = hub.subscribe()
@@ -126,6 +141,9 @@ class Handler(BaseHTTPRequestHandler):
             hub.unsubscribe()
 
     def do_POST(self):
+        if self.access_mode() != 'local':
+            self.close_connection = True
+            return self.json(403, {'error': '局域网只读访问，管理操作请在本机进行。'})
         if urlsplit(self.path).path in {'/api/console/command', '/api/console/handoff', '/api/console/notified'}:
             return self.console_command()
         if urlsplit(self.path).path == '/api/ledger/action':
@@ -205,11 +223,12 @@ class Handler(BaseHTTPRequestHandler):
 
     def route(self, head=False):
         try:
-            expected = {f'127.0.0.1:{self.server.server_port}', f'localhost:{self.server.server_port}'}
-            if self.headers.get('Host') not in expected:
-                return self.json(403, {'error': '只接受本机访问'}, head)
+            mode = self.access_mode()
+            if mode is None:
+                return self.json(403, {'error': '只接受本机或已配置局域网访问'}, head)
+            remote = mode == 'lan'
             origin = self.headers.get('Origin')
-            if origin and origin not in {'http://' + host for host in expected}:
+            if origin and origin != 'http://' + self.headers['Host']:
                 return self.json(403, {'error': '跨站请求不允许'}, head)
             url = urlsplit(self.path)
             args = parse_qs(url.query)
@@ -231,6 +250,8 @@ class Handler(BaseHTTPRequestHandler):
             if url.path == '/api/console/automations':
                 return self.json(200, self.server.console.automations(), head)
             if url.path == '/api/console/config':
+                if remote:
+                    return self.json(200, {'read_only': True, 'page_size': 8, 'commands': []}, head)
                 return self.json(200, {'csrf_token': self.server.ledger_token, 'page_size': 8, 'pid': os.getpid(),
                                       'events': self.server.console_events.status(),
                                       'bridge': self.server.console.dispatch_status(), 'commands': self.server.console.commands()}, head)
@@ -271,6 +292,10 @@ class Handler(BaseHTTPRequestHandler):
                 if days not in {7,14,30,90}: raise ValueError('Invalid period')
                 ledger = self.server.collector.ledger
                 if view in {'', 'list'}:
+                    rows.sort(key=lambda row: (
+                        seconds(row.get('platform_created_at')) or seconds(row.get('received_at'))
+                        or seconds(row.get('first_started_at')) or 0, row['code'],
+                    ), reverse=True)
                     try:
                         _, coverage, counts = cached_summary(self.server.console, ledger)
                         for row in rows:
@@ -284,13 +309,21 @@ class Handler(BaseHTTPRequestHandler):
                     result['benchmark'] = ledger.benchmark(rows)
                 if view == 'history':
                     result['historical_timing'] = ledger.historical_timing(rows, result['metrics'], result['read_at'])
+                    try:
+                        result['legacy_benchmark'] = json.loads(
+                            (store.root / 'workbench/legacy-benchmark.json').read_text(encoding='utf-8'))
+                    except (OSError, ValueError):
+                        result['legacy_benchmark'] = None
                 from store import clean
                 token = result.pop('csrf_token')
-                return self.json(200, {**clean(result), 'csrf_token': token}, head)
+                result = clean(result)
+                if not remote:
+                    result['csrf_token'] = token
+                return self.json(200, result, head)
             if url.path == '/api/ledger/detail':
                 from store import clean
                 value = self.server.collector.ledger.detail(arg('id'))
-                add_ledger_evidence(store, [value['requirement']], include_description=True)
+                add_ledger_evidence(store, [value['requirement']], include_description=True, tasks=value['tasks'])
                 return self.json(200, clean(value), head)
             if url.path == '/api/snapshot':
                 return self.json(200, self.server.snapshot(), head)
@@ -315,7 +348,11 @@ class Handler(BaseHTTPRequestHandler):
                 return self.file(store.media(arg('path')), head)
             if url.path == '/':
                 body = (STATIC/'index.html').read_text().replace(
-                    '<!-- console-dialogs -->', (CONSOLE_STATIC/'dialogs.html').read_text()).encode('utf-8')
+                    '<!-- console-dialogs -->', (CONSOLE_STATIC/'dialogs.html').read_text())
+                if remote:
+                    body = body.replace('<body>', '<body data-access="lan">').replace(
+                        '本机 · 台账与制作记录', '局域网 · 只读访问')
+                body = body.encode('utf-8')
                 self.send_headers(200, len(body), 'text/html; charset=utf-8')
                 if not head:
                     self.wfile.write(body)
@@ -380,11 +417,25 @@ def main():
     parser.add_argument('--port', type=int, default=8768)
     parser.add_argument('--workspace', type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument('--console-only', action='store_true', help='Read existing records without starting a second ledger collector')
+    parser.add_argument('--lan-network', type=ipaddress.IPv4Interface, help='Enable read-only LAN access, e.g. 192.168.1.10/24')
+    parser.add_argument('--lan-allow', type=ipaddress.IPv4Network, action='append', default=[],
+                        help='Allow read-only access from an additional private IPv4 subnet. Repeat for more subnets.')
     args = parser.parse_args()
     if not (args.workspace / 'AGENTS.md').is_file():
         parser.error('Workspace must contain AGENTS.md')
-    with WorkbenchServer(('127.0.0.1', args.port), args.workspace, collect=not args.console_only) as server:
+    if args.lan_allow and not args.lan_network:
+        parser.error('--lan-allow requires --lan-network')
+    if args.lan_network:
+        private_networks = [ipaddress.ip_network(value) for value in ('10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16')]
+        for allowed_network in (args.lan_network.network, *args.lan_allow):
+            if not any(allowed_network.subnet_of(network) for network in private_networks):
+                parser.error('LAN networks must be within private IPv4 ranges')
+    bind = '0.0.0.0' if args.lan_network else '127.0.0.1'
+    with WorkbenchServer((bind, args.port), args.workspace, collect=not args.console_only,
+                         lan_interface=args.lan_network, lan_allow=args.lan_allow) as server:
         print(f'Workbench ready: http://127.0.0.1:{server.server_port}', flush=True)
+        if args.lan_network:
+            print(f'LAN read-only: http://{args.lan_network.ip}:{server.server_port}', flush=True)
         try:
             server.serve_forever(poll_interval=.5)
         except KeyboardInterrupt:

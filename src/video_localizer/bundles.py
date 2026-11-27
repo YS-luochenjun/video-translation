@@ -37,6 +37,9 @@ def create(directory, kind, identity, sources, metadata=None, *, shared_assets=N
                 os.link(reusable, target)
             except OSError:
                 shutil.copyfile(source, target)
+        elif kind == 'delivery' and relative == 'final.mp4':
+            from .media import copy_verified_video
+            copy_verified_video(source, target, digest)
         else:
             shutil.copyfile(source, target)
         copied[digest] = target

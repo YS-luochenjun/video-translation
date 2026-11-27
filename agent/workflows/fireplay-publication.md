@@ -8,9 +8,11 @@
 
 远程主备音频复核均因模型调用故障失败时，按[音频异常交付](../contracts/audio.md#独立配音与转写)使用已生成的完整 TTS 并正式归档、继续回传；不等待模型恢复或强制本地复核。
 
-新需求及驳回返工（包括直接修复旧附件和自定义合成）在代表片扩语种前、实际成片发布审核时执行[新制作与返工的双域审核](../contracts/quality.md#新制作与返工的双域审核)。原有声音及文字可在证据充分时复用；本次异议仅针对字体或配乐时，仍须核对另一域与最新制作合同的适用要求。实际发现的缺陷按影响优先级、有界返工和既有发布政策处理。
+新需求及驳回返工（包括直接修复旧附件和自定义合成）在代表片扩语种前、实际成片发布审核时执行[新制作与返工的双域审核](../contracts/quality.md#新制作与返工的双域审核)及[标题与转场审核](../contracts/quality-visual.md#标题与转场审核)。驳回返工的声音和画面按[局部返工与素材复用](quality-feedback.md#局部返工与素材复用)处理。实际发现的缺陷按影响优先级、有界返工和既有发布政策处理。
 
 质量通过的完整正式 outputs 直接回传。有限预算、返工次数或能力内已做到最好的完整成品，普通瑕疵也可提交。用同一成片已有的实际视听观察填写 `fireplay-publication-review CODE SPEC`，记录完整翻译、必需配音、可观看判断、缺陷影响和 `best_available` 的停止原因及包内证据。成片哈希和审核依据未变且无新增异议时，沿用该次观察。内部 revise、评分低或普通瑕疵数量不单独阻断。大面积撕裂、无法观看、严重主体损坏、漏译、缺必需配音或有效质量异议仍阻断对应版本。旧普通问题否决可用 `reassess_under_current_policy` 追加裁定并保留原决定。不能重编码伪造新版本来绕过旧判断。模板见 `agent/templates/fireplay-publication-review.json`。共用底片的共同缺陷集中修复，每个语种的配音、译字和排版都需检查。
+
+次要界面切镜残影按[视觉标准](../contracts/quality-visual.md#默认实用视觉标准)审核。符合容差时在 `assessment.defects` 写 `kind:"secondary_ui_cut_residue"`、`severity:"minor"`、`instance_id`、秒数 `interval:[起点,终点]` 和实际观察 `description`。逐项确认 `nonessential_ui`、`momentary_at_cut`、`target_text_present_and_readable`、`no_legible_source_word`、`no_normal_playback_impact` 均为 `true`，在 `assessment.evidence` 引用包内 `final.mp4`。有对应去字观察时，仍按实际填写 `source_text_removed` 和 `visible_coverup`。无可见遮盖的该类残影可走普通瑕疵发布，并保留内部质量结论。
 
 固定提交持续授权及用户原话统一维护于config/fireplay-publication.json.submission_consent，由fireplay-chat、fireplay-status和巡检恢复消息带入。它包括对应需求组共享，不逐成片、批次或需求再问是否上传/共享。调用时附真实授权来源及当前精确成片/组范围，不新增确认表单。宿主明确拒绝或要求本次人工确认时仍须保留真实拒绝，说明具体操作与原因，不换工具绕过；请求人类处理前先核对当前及原负责聊天是否已有人类明确确认相同范围。项目持续授权不冒充宿主批准或成片质量通过。
 

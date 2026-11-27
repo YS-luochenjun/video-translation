@@ -160,7 +160,9 @@ class FastKnowledgeTests(unittest.TestCase):
         write_json(self.run/'analysis/inventory.json',inv)
         with self.assertRaisesRegex(WorkflowError,'assessment is required'):self.register()
         write_json(self.run/'analysis/inventory.json',self.inv)
-        self.register()
+        result = self.register()
+        self.assertEqual(result['state'], 'needs_review')
+        self.assertIn(f'capture {self.run.name}', result['next_action'])
         plan=read_json(self.run/'plan.json')
         self.assertEqual(read_json(self.run/'plans'/plan['id']/'plan.json'),plan)
         budgets.open_request({'authority':'user','authorization_ref':'synthetic-event','user_request':'fixture',

@@ -15,10 +15,15 @@ def main():
     parser.add_argument('--background',action='store_true')
     parser.add_argument('--open',action='store_true')
     parser.add_argument('--console-only',action='store_true')
+    parser.add_argument('--lan-network',help='Enable read-only LAN access for this IPv4 address and subnet')
+    parser.add_argument('--lan-allow',action='append',default=[],help='Allow an additional private IPv4 subnet. Repeat for more subnets.')
     args=parser.parse_args()
     root=Path(__file__).resolve().parents[1]
     command=[sys.executable,'-B',str(root/'workbench/server.py'),'--port',str(args.port),'--workspace',str(root)]
     if args.console_only: command.append('--console-only')
+    if args.lan_network: command.extend(['--lan-network',args.lan_network])
+    for network in args.lan_allow:
+        command.extend(['--lan-allow',network])
     if not args.background:
         return subprocess.call(command,cwd=root)
     folder=root/'work/workbench'
@@ -31,9 +36,9 @@ def main():
         if process.poll() is not None:
             raise SystemExit(f'Workbench did not start; see {folder}. Existing services were not stopped.')
         try:
-            with urllib.request.urlopen(url+('/api/console/config' if args.console_only else '/api/ledger'),timeout=2) as response:
+            with urllib.request.urlopen(url+'/api/console/config',timeout=2) as response:
                 result=json.load(response)
-            if (result.get('pid') if args.console_only else result.get('collector',{}).get('pid'))!=process.pid:
+            if result.get('pid') != process.pid:
                 time.sleep(.1)
                 continue
             break

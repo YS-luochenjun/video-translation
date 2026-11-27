@@ -5,10 +5,11 @@ from hashlib import md5
 from pathlib import Path
 import re
 from tempfile import TemporaryDirectory
+from time import perf_counter
 from urllib.error import URLError
 from urllib.parse import urlsplit
 
-from . import bundles, delivery_layout, fireplay, languages, media
+from . import bundles, delivery_layout, fireplay, fireplay_reuse_index, languages, media
 from .common import ROOT, WorkflowError, file_hash, inside, lock, object_hash, read_json, require, utc_now, write_json
 from .fireplay_publication import publication_decision, require_clear
 
@@ -52,7 +53,7 @@ def _fresh(response):
     require(-60 <= age <= 600, 'Historical discovery requires a fresh requirement read')
 
 
-def _queries(video, material_usage=None):
+def _queries(video, material_usage=None, *, profile='full'):
     queries = {}
     video_id = video.get('youtube_video_id')
     material_id = (video.get('resolved') or {}).get('material_id')
@@ -73,7 +74,8 @@ def _queries(video, material_usage=None):
     if material_ids:
         queries['material'] = {'material_ids': sorted(material_ids)}
     if video_id:
-        queries['youtube'] = {'youtube_urls': [f'https://youtu.be/{video_id}']}
+        if profile == 'full':
+            queries['youtube'] = {'youtube_urls': [f'https://youtu.be/{video_id}']}
         queries['keyword'] = {'keyword': video_id}
     return {kind: {'scope': 'all', 'view': 'summary', 'asset_type': 'video', 'limit': 20, **args}
             for kind, args in queries.items()}
@@ -107,10 +109,14 @@ def _candidates(record, video, trace, queries, root):
         expected = [video['youtube_video_id']] if kind == 'youtube' else queries[kind][field]
         require(response.get('view') == 'summary' and filters.get(field) == expected,
                 'Search response does not echo the exact source filter')
+        items = response.get('items')
+        if not isinstance(items, list) or not all(isinstance(row, dict) for row in items):
+            incomplete.append(kind)
+            continue
         if (response.get('next_offset') is not None or response.get('next_cursor')
                 or meta.get('source_limit_reached') or meta.get('total_exact') is False):
             incomplete.append(kind)
-        for row in response.get('items', []):
+        for row in items:
             if row.get('id') == record['requirement_id'] or not fireplay._uuid(row.get('id')):
                 continue
             relations = [] if kind == 'keyword' else row.get('matched_relations', [])
@@ -199,7 +205,93 @@ def _candidates(record, video, trace, queries, root):
             'platform_selection': selection, 'rejected_requirements': rejected_requirements}
 
 
-def search(code, spec=None, index=1, root=ROOT):
+def _local_delivery_queries(matches):
+    return {'scope': 'all', 'view': 'delivery', 'requirement_ids': sorted({
+        item['requirement_id'] for item in matches})[:20], 'limit': 20}
+
+
+def _local_report(matches, receipts, root):
+    wanted = set(_local_delivery_queries(matches)['requirement_ids'])
+    rows = {}
+    for raw in receipts:
+        response = fireplay.payload(raw)
+        _fresh(response)
+        filters = response.get('query_meta', {}).get('filters_applied', {})
+        require(response.get('view') == 'delivery' and filters.get('scope') == 'all'
+                and filters.get('requirement_ids') and set(filters['requirement_ids']) <= wanted,
+                'Read the current delivery view by exact indexed requirement IDs')
+        for row in response.get('items', []):
+            require(row.get('id') in filters['requirement_ids'] and row['id'] not in rows,
+                    'Local delivery receipt needs unique indexed requirements')
+            rows[row['id']] = row
+    candidates, originals = {}, {}
+    selection = {}
+    for item in matches:
+        requirement_id = item['requirement_id']
+        row = rows.get(requirement_id)
+        if row is None or row.get('code') != item['code'] or row.get('status') in {'rejected', 'ai_rejected'}:
+            continue
+        if row.get('materialSelection', {}).get('status') == 'waiting_selection':
+            selection[requirement_id] = {'requirement_id': requirement_id, **row['materialSelection']}
+            continue
+        material = next((asset for asset in row.get('materials', [])
+                         if asset.get('id') == item['material_id'] and asset.get('type') == 'video'), None)
+        if material is None:
+            continue
+        candidate = {'old_requirement_id': requirement_id, 'old_requirement_code': item['code'],
+                     'material_id': item['material_id'], 'indexed_delivery_sha256': item['delivery_sha256']}
+        if item['relation'] == 'source':
+            tags = material.get('tagNames', [])
+            candidate.update(name=material.get('name'), tags=tags,
+                             indexed_locale=item['locale'],
+                             locales_from_tags=[item['locale']] if item['locale'] in _tags(tags, root) else [])
+            digest = object_hash(candidate)
+            candidates[digest] = {'id': digest, **candidate}
+        else:
+            input_youtube_id = item.get('matched_delivery_youtube_id')
+            if input_youtube_id:
+                live_url = material.get('videoUrl')
+                if not isinstance(live_url, str) or fireplay.youtube_id(live_url) != input_youtube_id:
+                    continue
+                candidate['input_youtube_video_id'] = input_youtube_id
+            url = f"https://youtu.be/{item['source_youtube_id']}"
+            candidate.update(origin='upstream_original', input_material_id=candidate.pop('material_id'),
+                             source_youtube_id=item['source_youtube_id'], source_url=url,
+                             material_lookup={'tool': 'material_query_youtube_usage', 'arguments': {'urls': [url]}})
+            digest = object_hash(candidate)
+            originals[digest] = {'id': digest, **candidate}
+    return {'candidates': list(candidates.values()), 'original_candidates': list(originals.values()),
+            'platform_selection': list(selection.values()), 'unread_requirement_ids': sorted(wanted - rows.keys())}
+
+
+def _cacheable_miss(record, video, trace, queries, operator):
+    if not operator or not queries or (video.get('youtube_video_id') and 'material_usage' not in trace):
+        return False
+    for kind in queries:
+        response = fireplay.payload(trace['searches'][kind]['response'])
+        meta = response.get('query_meta', {})
+        filters = meta.get('filters_applied', {})
+        items = response.get('items')
+        narrowed = any(filters.get(key) for key in ('dept_id', 'requirement_ids', 'requester_ids', 'assignee_ids',
+                       'status', 'ai_mode', 'date_from', 'date_to', 'only_with_materials'))
+        if (response.get('operator') != operator or filters.get('scope') != 'all' or narrowed
+                or filters.get('asset_type') != 'video' or meta.get('offset') != 0
+                or not isinstance(items, list)
+                or meta.get('total_exact') is not True or response.get('total') != len(items)
+                or any(row.get('id') != record['requirement_id'] for row in items)):
+            return False
+    return True
+
+
+def _save_search(code, scope, trace, report, root, *, profile, state):
+    digest = object_hash(trace)
+    write_json(_state(code, scope, root) / f'{digest}.json',
+               {'scope': scope, 'trace': trace, 'report': report, 'profile': profile, 'state': state})
+    return digest
+
+
+def search(code, spec=None, index=1, root=ROOT, *, profile='full'):
+    require(profile in fireplay_reuse_index.MISS_LIFETIME, 'Unknown historical lookup profile')
     record = fireplay._record(code, root)
     if is_linked_rework(record):
         return {'requirement_id': record['requirement_id'], 'content_version': record['content_version'],
@@ -208,26 +300,145 @@ def search(code, spec=None, index=1, root=ROOT):
     video = fireplay._video(record, index)
     scope = _scope(record, video)
     trace = fireplay.payload(spec) if spec is not None else {}
-    queries = _queries(video, trace.get('material_usage'))
-    result = {**scope, 'targets': video['targets'], 'tool': 'requirement_list', 'queries': queries,
+    continuing_remote = 'searches' in trace or 'material_usage' in trace
+    started = perf_counter()
+    matches, index_state = ([], 'bypassed') if continuing_remote or trace.get('skip_local') is True else (
+        fireplay_reuse_index.discover(record, video, root))
+    local = {'local_index_state': index_state, 'local_lookup_ms': round((perf_counter() - started) * 1000, 2)}
+    if 'local_deliveries' in trace:
+        require(matches, 'Local delivery receipts need an indexed match')
+        report = _local_report(matches, trace['local_deliveries'], root)
+        found = report['candidates'] or report['original_candidates']
+        state = 'local_candidates' if found else 'local_match_unavailable'
+        digest = _save_search(code, scope, trace, report, root, profile=profile, state=state)
+        return {**scope, **local, **report, 'profile': profile, 'search_sha256': digest,
+                'state': state}
+    if matches:
+        return {**scope, **local, 'profile': profile, 'state': 'local_match', 'queries': {},
+                'local_match_count': len(matches), 'local_delivery_query': _local_delivery_queries(matches)}
+    queries = _queries(video, trace.get('material_usage'), profile=profile)
+    identity, operator = fireplay_reuse_index.miss_identity(record, video, profile)
+    if not continuing_remote and not trace.get('refresh'):
+        expires = fireplay_reuse_index.cached_miss(identity, root)
+        if expires:
+            expiry = datetime.fromtimestamp(expires, timezone.utc).isoformat()
+            digest = _save_search(code, scope, {'miss_identity': identity, 'expires_at': expiry}, {}, root,
+                                  profile=profile, state='cached_no_match')
+            return {**scope, **local, 'profile': profile, 'state': 'cached_no_match', 'queries': {},
+                    'expires_at': expiry, 'search_sha256': digest}
+    result = {**scope, **local, 'profile': profile, 'targets': video['targets'], 'tool': 'requirement_list', 'queries': queries,
               'state': 'search_ready' if queries else 'no_search_identity'}
     if video.get('youtube_video_id'):
         result['material_usage_query'] = {'tool': 'material_query_youtube_usage',
-                                          'arguments': {'urls': queries['youtube']['youtube_urls']}}
-    if spec is None or (trace.get('material_usage') is not None and 'searches' not in trace):
+                                          'arguments': {'urls': [f"https://youtu.be/{video['youtube_video_id']}"]}}
+    if 'searches' not in trace:
+        if not queries:
+            result['search_sha256'] = _save_search(code, scope, {'no_search_identity': profile}, {}, root,
+                                                   profile=profile, state='no_search_identity')
         return result
     require(trace.get('searches'), 'Record at least one actual lookup response or error')
     report = _candidates(record, video, trace, queries, root)
-    folder = _state(code, scope, root)
-    digest = object_hash(trace)
-    write_json(folder / f'{digest}.json', {'scope': scope, 'trace': trace, 'report': report})
+    if profile == 'quick' and video.get('youtube_video_id') and 'material_usage' not in trace:
+        report['failed_or_truncated_searches'].append('material_usage')
     unresolved = any(report[key] for key in ('unread_requirement_ids', 'unverified_delivery_requirement_ids',
                                              'failed_or_truncated_searches', 'platform_selection'))
     state = ('historical_delivery_found' if report['historical_deliveries'] else
              'candidates' if report['candidates'] else
              'lookup_incomplete' if unresolved else
              'rejected_history_only' if report['rejected_requirements'] else 'no_visible_match')
+    if state == 'no_visible_match':
+        if identity and _cacheable_miss(record, video, trace, queries, operator):
+            fireplay_reuse_index.remember_miss(identity, profile, root)
+        if profile == 'quick':
+            state = 'no_quick_match'
+    digest = _save_search(code, scope, trace, report, root, profile=profile, state=state)
     return {**result, **report, 'state': state, 'search_sha256': digest}
+
+
+def _preflight_path(code, scope, root):
+    return _state(code, scope, root) / 'preflight.json'
+
+
+def preflight(code, spec, index=1, root=ROOT):
+    spec = fireplay.payload(spec)
+    with lock(fireplay._folder(code, root) / 'request.lock'):
+        record = fireplay._record(code, root)
+        _require_reuse_allowed(record)
+        video = fireplay._video(record, index)
+        scope = _scope(record, video)
+        require(not (Path(root) / 'state/batches' / f"{video['title']}.json").exists()
+                and not video.get('members'), 'Existing production continues from its original batch')
+        reused = prepared_locales(code, record, video, root)
+        missing = set(video['targets']) - set(reused)
+        digests = spec.get('search_sha256s', [])
+        require(isinstance(digests, list), 'List the saved historical search SHA256 values')
+        fallback = spec.get('fallback')
+        if fallback is not None:
+            require(isinstance(fallback, dict) and fallback.get('kind') in
+                    ('platform_unavailable', 'lookup_incomplete', 'candidate_review_limit')
+                    and isinstance(fallback.get('reason'), str) and fallback['reason'].strip(),
+                    'Record the actual lookup or review limitation')
+        searches, candidates = [], {}
+        final_lookup = False
+        for digest in dict.fromkeys(_digest(item) for item in digests):
+            path = _state(code, scope, root) / f'{digest}.json'
+            require(path.is_file(), 'Historical search receipt was not saved for this source')
+            receipt = read_json(path)
+            require(receipt['scope'] == scope and object_hash(receipt['trace']) == digest and receipt.get('state'),
+                    'Historical search receipt changed or has no recorded outcome')
+            state = receipt['state']
+            if state == 'cached_no_match':
+                identity, _ = fireplay_reuse_index.miss_identity(record, video, receipt['profile'])
+                require(identity == receipt['trace']['miss_identity']
+                        and datetime.fromisoformat(receipt['trace']['expires_at']) > datetime.now(timezone.utc),
+                        'Cached search outcome expired or belongs to another operator')
+            if state not in {'local_candidates', 'local_match_unavailable', 'lookup_incomplete'}:
+                report = receipt['report']
+                final_lookup |= not any(report.get(key) for key in (
+                    'unread_requirement_ids', 'unverified_delivery_requirement_ids',
+                    'failed_or_truncated_searches', 'platform_selection'))
+            for key in ('candidates', 'original_candidates'):
+                for candidate in receipt['report'].get(key, []):
+                    candidates[candidate['id']] = candidate
+            searches.append({'sha256': digest, 'profile': receipt['profile'], 'state': state})
+        require(not missing or final_lookup or fallback,
+                'Finish the quick platform lookup or record the actual bounded fallback')
+        require(not missing or searches or (fallback and fallback['kind'] == 'platform_unavailable'),
+                'Use real saved lookup receipts or record why platform lookup could not run')
+        dispositions = spec.get('candidate_dispositions', [])
+        require(isinstance(dispositions, list), 'Candidate dispositions must be a list')
+        for entry in dispositions:
+            require(isinstance(entry, dict) and entry.get('candidate_id') in candidates
+                    and entry.get('locale') in video['targets']
+                    and entry.get('decision') in ('unsuitable', 'not_reviewed')
+                    and isinstance(entry.get('reason'), str) and entry['reason'].strip(),
+                    'Record a known candidate, target locale and actual reason')
+        decided = {(entry['candidate_id'], entry['locale']) for entry in dispositions}
+        likely = {(candidate['id'], locale) for candidate in candidates.values()
+                  for locale in (missing if candidate.get('origin') == 'upstream_original'
+                                 else missing.intersection(candidate.get('locales_from_tags', [])))}
+        require(likely <= decided or fallback, 'Record dispositions for relevant candidates or the review limit')
+        decision = {**scope, 'targets': video['targets'], 'prepared_reuse_locales': reused,
+                    'production_locales': [locale for locale in video['targets'] if locale in missing],
+                    'searches': searches, 'candidate_dispositions': dispositions, 'fallback': fallback,
+                    'recorded_at': utc_now()}
+        path = _preflight_path(code, scope, root)
+        write_json(path, decision)
+        return {'state': 'reuse_preflight_recorded', **decision,
+                'next': f'fireplay-start {code} AUTHORITY --video {index}'}
+
+
+def preflight_digest(code, record, video, reused, root):
+    scope = _scope(record, video)
+    path = _preflight_path(code, scope, root)
+    if not path.is_file():
+        return None
+    decision = read_json(path)
+    if (all(decision.get(key) == value for key, value in scope.items())
+            and decision.get('targets') == video['targets']
+            and set(decision['prepared_reuse_locales']) <= set(reused)):
+        return file_hash(path)
+    return None
 
 
 def _digest(value):
@@ -342,7 +553,7 @@ def capture(code, spec, index=1, root=ROOT):
     require(trace['scope'] == scope and object_hash(trace['trace']) == spec['search_sha256'],
             'Historical search receipt changed')
     report = trace['report']
-    candidates = [row for row in (*report['candidates'], *report.get('original_candidates', []))
+    candidates = [row for row in (*report.get('candidates', []), *report.get('original_candidates', []))
                   if row['id'] == spec['candidate_id']]
     require(len(candidates) == 1, 'Select an exact historical candidate')
     candidate = candidates[0]

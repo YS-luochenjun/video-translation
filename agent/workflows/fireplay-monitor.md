@@ -34,3 +34,7 @@
 
 [阅读此章节](fireplay-monitor-dispatch.md#补交与经验收尾)。
 
+## 会话故障接替
+
+[核实原制作聊天的工具故障并接替](fireplay-monitor-dispatch.md#会话故障接替)。
+

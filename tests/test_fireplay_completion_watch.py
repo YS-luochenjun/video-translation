@@ -2,7 +2,7 @@
 import unittest
 import test_fireplay as fixtures
 import test_fireplay_submission as submission_fixtures
-from video_localizer import fireplay_monitor as monitor, fireplay_submission as submission
+from video_localizer import fireplay_monitor as monitor, fireplay_parallel as parallel, fireplay_submission as submission
 from video_localizer.common import read_json, write_json
 
 
@@ -88,6 +88,51 @@ class CompletionWatchTests(unittest.TestCase):
         self.assertEqual(value['host_action'], 'ensure_active')
         self.assertEqual(value['scheduler_action'], 'create')
         self.assertEqual(value['pending'][0]['threadId'], fixtures.THREAD)
+
+    def test_newer_platform_rejection_suppresses_old_followups_and_watch(self):
+        self.manifest()
+        record = self.record()
+        saved_row = record['snapshot']['row']
+        saved_row.update(status='in_progress', updatedAt='2026-11-27T04:00:00Z')
+        self.save(record)
+        cached_followups = monitor.followups(self.root)
+        self.assertTrue(cached_followups)
+        platform_row = dict(saved_row, id=fixtures.RID, code=fixtures.CODE,
+                            status='rejected', updatedAt='2026-11-27T07:00:00Z')
+        state_path = self.root / 'state/fireplay/monitor/state.json'
+        write_json(state_path, {'requirements': {fixtures.RID: {'row': platform_row, 'state': 'registered'}}})
+
+        self.assertEqual(monitor.followups(self.root), [])
+        value = monitor.completion_watch_status(cached_followups, self.root)
+        self.assertEqual(value['host_action'], 'delete_completion_watch')
+        self.assertEqual(value['requirements'], [])
+        self.assertEqual(value['owner_status_checks'], [])
+        self.assertEqual(self.record(), record)
+
+        platform_row.update(updatedAt='2026-11-27T03:00:00Z')
+        write_json(state_path, {'requirements': {fixtures.RID: {'row': platform_row, 'state': 'registered'}}})
+        self.assertTrue(monitor.followups(self.root))
+
+    def test_rejected_history_releases_inferred_capacity_and_preserves_explicit_claim(self):
+        record = self.record()
+        row = record['snapshot']['row']
+        row.update(status='in_progress', updatedAt='2026-11-27T04:00:00Z')
+        record['videos'][0]['chat'] = dict(record['chat'])
+        self.save(record)
+        source = (fixtures.RID, 1)
+        self.assertEqual(parallel.active_sources(self.root, {}), {source})
+
+        platform_row = dict(row, id=fixtures.RID, code=fixtures.CODE,
+                            status='rejected', updatedAt='2026-11-27T07:00:00Z')
+        write_json(self.root / 'state/fireplay/monitor/state.json',
+                   {'requirements': {fixtures.RID: {'row': platform_row}}})
+        self.assertEqual(parallel.active_sources(self.root, {}), set())
+        claim = {'state': 'dispatch_unknown', 'requirement_id': fixtures.RID, 'video_index': 1}
+        self.assertEqual(parallel.active_sources(self.root, {'ticket': claim}), {source})
+
+        record['videos'][0]['chat']['state'] = 'unknown'
+        self.save(record)
+        self.assertEqual(parallel.active_sources(self.root, {}), {source})
 
     def test_new_owner_restarts_deleted_watch_without_old_automation_id(self):
         self.manifest(status='COMPLETE_DELETED')

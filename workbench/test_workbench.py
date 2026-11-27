@@ -161,6 +161,41 @@ class WorkbenchTests(unittest.TestCase):
         console.cache.clear()
         self.assertEqual(view(console, ledger, first)['counts']['kie'], 1)
 
+    def test_codex_counts_sent_followups_and_applied_handoffs_before_upload(self):
+        code, requirement = 'ABC-20261124-001', 'fixture-requirement'
+        identifier = 'fireplay:' + requirement
+        folder = f'state/fireplay/{code}'
+        predecessor, successor = 'old-thread', 'new-thread'
+        handoff = folder + '/chat-handoff.json'
+        identity = {'code': code, 'requirement_id': requirement, 'content_version': 'version'}
+        chat = {'threadId': successor, 'predecessor_thread_id': predecessor, 'migration_receipt': handoff}
+        self.put(folder + '/request.json', {**identity, 'chat': chat, 'videos': [{'index': 1, 'chat': chat}]})
+        self.put(handoff, {**identity, 'status': 'READY', 'recorded_at': '2026-11-24T08:03:00Z',
+                           'replacements': [{'code': code, 'old_thread_id': predecessor, 'new_thread_id': successor}]})
+        self.put(folder + '/completion-check.json', {**identity, 'complete': True, 'expected_count': 1,
+                                                      'verified_count': 1, 'platform_read_at': '2026-11-24T08:05:00Z'})
+        task = {'code': code, 'video_index': 1, 'threadId': predecessor, 'key': 'original', 'missing_locales': ['ja']}
+        confirmed = {'task': task, 'state': 'sent', 'dispatched_at': '2026-11-24T08:01:00Z',
+                     'receipt': {'threadId': predecessor}}
+        signals = 'state/fireplay/monitor/signals'
+        self.put(signals + '/original.json', confirmed)
+        self.put(signals + '/history/original/1.json', confirmed)
+        self.put(signals + '/unknown.json', {**confirmed, 'state': 'unknown', 'task': {**task, 'key': 'unknown'}})
+        self.put(signals + '/check.json', {**confirmed, 'task': {**task, 'key': 'check', 'missing_locales': []}})
+        self.put(signals + '/late.json', {**confirmed, 'dispatched_at': '2026-11-24T08:06:00Z',
+                                        'task': {**task, 'key': 'late'}})
+        ledger = Ledger(self.root)
+        with ledger.connection(write=True) as connection:
+            connection.execute('INSERT INTO requirements VALUES(?,?,?)',
+                               (identifier, 1, json.dumps({'code': code, 'threads': [{'threadId': successor}]})))
+        console = ConsoleData(self.root, codex_home=self.root / 'host-fixture')
+        page = view(console, ledger, identifier)
+        self.assertEqual(page['counts'], {'codex': 2, 'kie': 0, 'fireplay': 0})
+        self.assertEqual([(event['operation'], event['thread']) for event in page['events']],
+                         [('owner_handoff', successor), ('owner_followup', predecessor)])
+        console.cache.clear()
+        self.assertEqual(view(console, ledger, identifier), page)
+
     def test_fireplay_binding_retry_uses_verified_receipts_and_counts_the_batch_once(self):
         requirement = 'test-first'
         identifier = 'fireplay:' + requirement

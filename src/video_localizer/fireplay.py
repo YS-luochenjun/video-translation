@@ -403,7 +403,8 @@ def register(code, spec, decision=None, root=ROOT):
                     and decision.get('repair_authorization_ref') and decision.get('repair_source_quote'),
                     'Completed-request repair needs the explicit user repair instruction')
             pending = pending or completed_repair_pending(
-                previous, path.parent, Path(root), decision.get('repair_video_indices'))
+                previous, path.parent, Path(root), decision.get('repair_video_indices'),
+                decision.get('repair_locale'), decision.get('repair_locales'))
         if decision.get('continue_unsubmitted_outputs') is True:
             boxes = {p.name: read_json(p) for p in path.parent.glob('return-*.json')}
             pending = pending or any(
@@ -771,9 +772,11 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT, *, release_rese
                              '跳过历史成片复用，交付已修正并实际复审的版本。'
                              if linked_rework else '')
         if not linked_rework and settings.get('historical_translation_reuse', {}).get('enabled') is True:
-            reuse_instruction = (f'新原片在付费制作前按工作流运行 fireplay-reuse {code} search --video {index}。'
+            reuse_instruction = (f'新原片先按工作流运行 fireplay-reuse {code} search --profile quick --video {index}。'
+                                 '先核验本地索引给出的旧交付，缺项走快速平台查询。有明确参考链接线索时再按工作流深查。'
                                  '若来片是旧译片且需求语言就是旧原片语言，优先核验旧原片并准备回传。'
-                                 '有界核验候选，先准备和提交可复用成品；查不到、超时或不合用的语种照常制作。')
+                                 f'有界核验候选，先准备可复用成品，再用 fireplay-reuse {code} preflight --spec FILE --video {index} 登记结果。'
+                                 '查不到、超时或不合用的语种照常制作。')
         packet = {'title': title, 'video_index': index, 'project_path': str(Path(root).resolve()),
                   'targets': record['targets'] if per_requirement else video['targets'], 'state': 'prepared',
                   'host_actions': ['list_projects: match this workspace', 'create_thread: project/local',
@@ -794,7 +797,7 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT, *, release_rese
                               f'\n只处理原片 {index}；所有带 --video 的接入和回传命令明确加 --video {index}，回传规格填 video_index={index}。'
                               '工作台与本聊天并行完成真实绑定；绑定尚未登记时先执行不依赖绑定的本地检查，再读取fireplay-status确认。'
                               + reuse_instruction +
-                              f'绑定就绪后立即执行 fireplay-start {code} state/fireplay/{code}/monitor-authority.json --video {index}'
+                              f'绑定及适用的复用核验就绪后执行 fireplay-start {code} state/fireplay/{code}/monitor-authority.json --video {index}'
                               '（若为人工接入则使用对应真实授权文件），沿原账本继续实际制作。'
                               '若仍有具体启动阻塞，记录实际命令、错误及待恢复步骤，不把正常交接当制作终止。有待交语种时保留本原片现场。'
                               '其他原片由各自聊天执行，整单收口由 fireplay-status 的 coordinator_chat 推进。') +
@@ -902,12 +905,23 @@ def start(code, authority, index=1, root=ROOT):
         require(file_hash(original) == video['source']['sha256'], 'Source changed before batch creation')
         batch_id = video['title']
         batch_path = Path(root) / 'state/batches' / (batch_id + '.json')
+        reuse_preflight = None
         if authority.get('pilot_targets') is None:
-            from .fireplay_reuse import prepared_locales
+            from .fireplay_reuse import is_linked_rework, preflight_digest, prepared_locales
             if batch_path.exists():
                 reused = read_json(batch_path).get('historical_reuse_locales', [])
             else:
                 reused = prepared_locales(code, record, video, root)
+                if (not video.get('members') and record.get('thread_policy') == 'one_chat_per_source_video_all_locales'
+                        and not is_linked_rework(record)):
+                    settings = read_json(Path(root) / 'config/fireplay-intake.json')
+                    if settings.get('historical_translation_reuse', {}).get('enabled') is True:
+                        reuse_preflight = preflight_digest(code, record, video, reused, root)
+                        if reuse_preflight is None:
+                            return {'code': code, 'video_index': index, 'state': 'reuse_preflight_required',
+                                    'targets': video['targets'], 'prepared_reuse_locales': reused,
+                                    'next': f'Follow agent/workflows/fireplay-intake.md and record fireplay-reuse {code} '
+                                            f'preflight --spec FILE --video {index} before starting this batch'}
             selected_targets = [locale for locale in selected_targets if locale not in reused]
             if not selected_targets:
                 return {**status(code, root), 'state': 'reuse_ready',
@@ -951,7 +965,8 @@ def start(code, authority, index=1, root=ROOT):
                      'created_at': utc_now(), 'credit_limit': budget['credit_limit'], 'reused_budget': budget['mode'] == 'reuse',
                      'pilot': members[0], 'members': members, 'targets': selected_targets,
                      'request_budget': record['budget'], 'state': 'initializing',
-                     **({'historical_reuse_locales': reused} if reused else {})}
+                     **({'historical_reuse_locales': reused} if reused else {}),
+                     **({'reuse_preflight_sha256': reuse_preflight} if reuse_preflight else {})}
             write_json(batch_path, batch)
         # Checkpoint each complete run; partial create_run failures remain visible.
         for name, language in zip(members, selected_targets):
@@ -1025,6 +1040,20 @@ def prepare_return(code, spec, root=ROOT):
         record = _record(code, root)
         require(not record['blockers'], 'Resolve requirement blockers before delivery')
         _fresh(record)
+        decision = record.get('decision', {})
+        repair_locales = decision.get('repair_locales')
+        if decision.get('repair_locale') is not None:
+            repair_locales = [decision['repair_locale']]
+        if decision.get('continue_user_requested_repair') and repair_locales is not None:
+            grant = spec.get('repair_revision') or {}
+            packages = spec.get('packages', [])
+            require(isinstance(repair_locales, list) and len(packages) == len(repair_locales)
+                    and {package.get('locale') for package in packages} == set(repair_locales)
+                    and index in decision.get('repair_video_indices', [])
+                    and (grant.get('replace_material_id') or grant.get('replace_material_ids'))
+                    and grant.get('authorization_ref') == decision.get('repair_authorization_ref')
+                    and grant.get('source_quote') == decision.get('repair_source_quote'),
+                    'Completed locale continuation needs the matching authorized settled replacement')
         authority = spec['authority']
         require(authority.get('authorization_ref') and authority.get('source_quote') and
                 set(authority.get('actions', [])) >= {'upload', 'import', 'bind'}, 'Need attributed authority to upload, import and bind after review')
@@ -1250,6 +1279,14 @@ def defer_unknown_upload(code, locale, spec, root=ROOT, index=1):
         from .fireplay_upload_queue import release
         release(code, index, f'upload-{number}', 'deferred_unknown_upload', root)
         return decision
+
+
+def _settled_repair_materials(repair):
+    if not repair:
+        return {}
+    if 'old_material_ids' in repair:
+        return repair['old_material_ids']
+    return {str(repair['slot']): repair['old_material_id']}
 
 
 def _active_packages(outbox):
@@ -1570,15 +1607,29 @@ def dispatch(code, execute=False, root=ROOT, index=1, package_index=None):
         else:
             tool, materialize = 'requirement_bind_materials', None
             active_packages = _active_packages(outbox)
-            for _, package in active_packages:
-                _verify_frozen_package(code, record, package, root, hashes)
+            repair = outbox.get('settled_locale_repair')
+            replaced = _settled_repair_materials(repair)
+            for number, package in active_packages:
+                if repair and str(number) not in replaced and not inside(root, package['package']).exists():
+                    from .fireplay_publication import require_clear
+                    imported = outbox['operations'][f'import-{number}']
+                    verified = outbox['operations'][f'verify-{number}']
+                    material_id = imported['result']['material_id']
+                    require(imported['state'] == verified['state'] == 'verified'
+                            and verified['result']['material_id'] == material_id
+                            and material_id in repair['base_material_ids'],
+                            'Expired carried package needs its original verified material binding')
+                    require_clear(code, _video(record, package['video_index'])['source']['sha256'],
+                                  package['sha256'], root)
+                else:
+                    _verify_frozen_package(code, record, package, root, hashes)
             ids = [outbox['operations'][f'import-{i}']['result']['material_id'] for i, _ in active_packages]
             arguments = {'items': [{'requirement_id': outbox['requirement_id'], 'material_ids': ids}]}
-            if repair := outbox.get('settled_locale_repair'):
+            if repair:
                 tool = 'requirement_replace_materials'
                 base = repair['base_material_ids']
                 require(len(ids) == len(base) and len(set(ids)) == len(ids)
-                        and set(base) - set(ids) == {repair['old_material_id']},
+                        and set(base) - set(ids) == set(replaced.values()),
                         'Replacement binding must swap only the authorized material')
                 arguments['items'][0]['base_material_ids'] = base
         operation = {'id': key, 'tool': tool, 'arguments': arguments, 'materialize': materialize,
@@ -1805,7 +1856,7 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             require(len(ids) == 1 and _uuid(ids[0]), 'Import receipt needs one real material_id')
             repair = outbox.get('settled_locale_repair')
             slot = int(operation_id.split('-')[1])
-            if repair and slot == repair['slot']:
+            if str(slot) in _settled_repair_materials(repair):
                 require(ids[0] not in repair['base_material_ids'],
                         'Repaired video import must not reuse a prior bound material ID')
             rows = raw.get('results', [])
@@ -1848,7 +1899,8 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
             expected = set(operation['arguments']['items'][0]['material_ids'])
             require(expected.issubset(actual), 'Platform read-back does not contain all submitted materials')
             if operation.get('tool') == 'requirement_replace_materials':
-                require(outbox['settled_locale_repair']['old_material_id'] not in actual,
+                replaced = _settled_repair_materials(outbox['settled_locale_repair'])
+                require(actual == expected and actual.isdisjoint(replaced.values()),
                         'Platform read-back still contains the replaced material')
             record = _record(code, root)
             require(verification.get('serverTime') and
@@ -1889,9 +1941,11 @@ def receipt(code, operation_id, spec, root=ROOT, index=1):
                             'status': 'bound_verified', 'requirement_status_changed': False, 'at': utc_now()})
         if operation_id == 'bind':
             from .fireplay_submission import verify_completion
+            from .fireplay_reuse_index import refresh_request
             completion = verify_completion(code, spec['verification'], root)
             operation['requirement_complete'] = completion['complete']
             write_json(path, outbox)
+            refresh_request(code, root)
         return operation
 
 

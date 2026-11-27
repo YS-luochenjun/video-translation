@@ -65,6 +65,11 @@
   background: var(--paper);
 }
 .handoff-records .empty { min-height: 0; padding: 12px 0 0; text-align: left; }
+:host([data-read-only]) #chat-form,
+:host([data-read-only]) [data-action="sync-status"],
+:host([data-read-only]) [data-action="intake"],
+:host([data-read-only]) [data-action="summarize"],
+:host([data-read-only]) [data-handoff] { display: none !important; }
 @media (max-width: 1320px) {
   :host .console-grid { grid-template-columns: 220px minmax(0, 1fr); }
   :host .console-grid > .chat { grid-column: 1 / -1; }

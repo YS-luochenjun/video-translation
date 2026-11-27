@@ -3300,6 +3300,31 @@
       "validation_level": "single_source_observations",
       "evidence_caveat": "Historical recorded sampled-frame and audio observations; source-specific guidance with per-locale limitations. No new viewing or acceptance.",
       "knowledge_type": "source_reference"
+    },
+    {
+      "id": "apc068-en-source-relative-mix-v1",
+      "path": "knowledge/cases/apc068-en-source-relative-mix-v1.md",
+      "scope": {
+        "workflow": "video-localization",
+        "source_sha256": "934500f095263713906e796e70864e04993362ccfb256116c4b324c944bd7aeb",
+        "target_language": "en"
+      },
+      "tags": [
+        "audio",
+        "bgm",
+        "speech",
+        "mixing"
+      ],
+      "origin": "APC-20261127-068-01 actual old mix and reviewed English candidate; direct user feedback 2026-11-27. Candidate and source hashes reverified separately; single-source evidence.",
+      "reviewed_by": "Workbench Codex: hash, measurements, model report and direct English feedback; not independent listening",
+      "company_preference": false,
+      "status": "active",
+      "reviewed_at": "2026-11-27T10:01:49+00:00",
+      "method_sha256": "3c15db45034cfe02a7ff5a955c9d22ff50d6fb00c4cb5302df1d52fd3625e090",
+      "case": "knowledge/examples/apc068-en-source-relative-mix-v1",
+      "case_manifest_sha256": "ccfbabd89210bbde9820063cd4f48aa816cc013103e4c6a539892998fd17f684",
+      "reference_video_sha256": "a3c86e268480c444251a205ec5332e4d838709f224481fc9af493168d7e64e52",
+      "knowledge_type": "source_reference"
     }
   ],
   "purpose": "Historical source-specific reference records, separate from reusable methods; no source scope is broadened"

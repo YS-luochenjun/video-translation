@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import test_fireplay
 from test_fireplay import CODE, MID, RESOURCE, RID, THREAD
-from video_localizer import fireplay, fireplay_parallel, fireplay_submission, workflow
+from video_localizer import fireplay, fireplay_parallel, fireplay_reuse, fireplay_submission, workflow
 from video_localizer.fireplay_status_transition import transition
 from video_localizer.common import WorkflowError, file_hash, utc_now, write_json
 
@@ -62,6 +62,8 @@ class FireplayLifecycleTests(unittest.TestCase):
             self.assertIn(f'只处理原片 {index}', packet['prompt'])
             self.assertEqual(fireplay.chat(CODE, index=index, dispatch=True, root=self.root)['state'], 'unknown')
             fireplay.chat(CODE, {'threadId': thread_id, 'title': packet['title']}, index, root=self.root)
+            fireplay_reuse.preflight(CODE, {'fallback': {'kind': 'platform_unavailable',
+                                                        'reason': 'Offline lifecycle test'}}, index, self.root)
         self.assertEqual(self.record()['chat']['threadId'], THREAD)
         authority = {'authority': 'user', 'authorization_ref': 'test:split', 'user_request': 'Translate both', 'mode': 'first'}
         with patch.object(workflow, 'ROOT', self.root), patch('video_localizer.media.probe',

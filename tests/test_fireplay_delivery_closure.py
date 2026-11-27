@@ -1,7 +1,8 @@
 """Recovery and publication boundaries; all connector/model evidence is synthetic."""
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-import runpy
+import subprocess
+import sys
 import unittest
 import json
 from unittest.mock import patch
@@ -135,19 +136,15 @@ class DeliveryClosureTests(unittest.TestCase):
         self.assertEqual(t['ready_locales'], ['es'])
         self.assertEqual(t['production_locales'], ['ko'])
 
-    def test_stop_hook_continues_only_bound_owner_once(self):
+    def test_retired_stop_hook_exits_silently(self):
         self.owner()
-        hook = runpy.run_path(str(Path(__file__).resolve().parents[1] / 'bin/fireplay_stop_hook.py'))['decision']
+        project = Path(__file__).resolve().parents[1]
+        self.assertFalse((project / '.codex/hooks.json').exists())
         event = {'hook_event_name': 'Stop', 'session_id': fixtures.THREAD, 'stop_hook_active': False}
-        result = hook(event, self.root)
-        self.assertEqual(result['decision'], 'block')
-        self.assertIn(fixtures.CODE, result['reason'])
-        self.assertEqual(hook(dict(event, stop_hook_active=True), self.root), {})
-        self.assertEqual(hook(dict(event, session_id='workbench'), self.root), {})
-        self.assertEqual(hook(dict(event, permission_mode='plan'), self.root), {})
-        with patch('video_localizer.fireplay_monitor.followups', return_value=[
-                {'threadId': fixtures.THREAD, 'action': 'await_manual_repair'}]):
-            self.assertEqual(hook(event, self.root), {})
+        result = subprocess.run([sys.executable, str(project / 'bin/fireplay_stop_hook.py')],
+                                input=json.dumps(event), text=True, capture_output=True, check=True)
+        self.assertEqual(json.loads(result.stdout), {})
+        self.assertEqual(result.stderr, '')
 
     def test_standing_submission_consent_reaches_chat_status_and_recovery(self):
         self.register()
@@ -235,6 +232,53 @@ class DeliveryClosureTests(unittest.TestCase):
         self.assertEqual(monitor.followups(self.root)[0]['signal_state'], 'escalation_required')
         r = monitor.signal({'key': t['key'], 'owner_observation': self.observation()}, self.root)
         self.assertEqual(r['attempt'], 3)
+
+    def test_two_complete_tool_free_turns_escalate_before_retry_limit(self):
+        task, signal_path = self.expired_signal()
+        host_path = self.root / 'work/owner-thread.json'
+        reply = {'type': 'agentMessage', 'phase': 'final_answer'}
+        started_at = int(datetime.fromisoformat(read_json(signal_path)['dispatched_at']).timestamp())
+        turns = [
+            {'id': 'resumed', 'startedAt': started_at, 'status': 'completed', 'items': [
+                {'type': 'functionCallOutput', 'namespace': 'codex_app', 'name': 'send_message_to_thread'}, reply]},
+            {'id': 'previous', 'startedAt': started_at - 20, 'status': 'completed', 'items': [reply]},
+        ]
+        host_receipt = {'thread': {'id': fixtures.THREAD, 'status': {'type': 'idle'}},
+                        'page': {'order': 'newest_first'}, 'turns': turns}
+        write_json(host_path, host_receipt)
+        observation = {**self.observation(), 'source': 'read_thread',
+                       'evidence': {'path': 'work/owner-thread.json', 'sha256': file_hash(host_path)}}
+        result = monitor.signal({'key': task['key'], 'owner_observation': observation}, self.root)
+        self.assertEqual(result['owner_empty_turns'], ['resumed', 'previous'])
+        self.assertEqual(result['signal_state'], 'escalation_required')
+        self.assertEqual(result['attempt'], 1)
+        self.assertNotIn('host_action', result)
+        self.assertIn('#会话故障接替', result['next_action'])
+        coarse = monitor.signal({'key': task['key'], 'owner_observation': self.observation()}, self.root)
+        self.assertEqual(coarse['signal_state'], 'escalation_required')
+        self.assertNotIn('#会话故障接替', coarse['next_action'])
+        manifest = self.root / monitor.policy(self.root)['completion_watch']['manifest']
+        write_json(manifest, {'status': 'ACTIVE', 'mode': 'read_only', 'followup_approval_required': True})
+        restricted = monitor.signal({'key': task['key'], 'owner_observation': observation}, self.root)
+        self.assertNotIn('#会话故障接替', restricted['next_action'])
+        config_path = self.root / 'config/fireplay-monitor.json'
+        config = read_json(config_path)
+        config['delivery_followup'].pop('owner_handoff')
+        write_json(config_path, config)
+        manifest.unlink()
+        legacy = monitor.signal({'key': task['key'], 'owner_observation': observation}, self.root)
+        self.assertNotIn('#会话故障接替', legacy['next_action'])
+        turns[0]['nextItemCursor'] = 'more-items'
+        write_json(host_path, host_receipt)
+        observation['evidence']['sha256'] = file_hash(host_path)
+        partial = monitor.signal({'key': task['key'], 'owner_observation': observation}, self.root)
+        self.assertEqual(partial['signal_state'], 'escalation_required')
+        turns[0].pop('nextItemCursor')
+        turns[0]['items'].insert(1, {'type': 'commandExecution'})
+        write_json(host_path, host_receipt)
+        observation['evidence']['sha256'] = file_hash(host_path)
+        recovered = monitor.signal({'key': task['key'], 'owner_observation': observation}, self.root)
+        self.assertEqual((recovered['state'], recovered['attempt']), ('unknown', 2))
 
     def test_designer_ids_resolved_from_platform_without_extra_human_id_approval(self):
         spec = self.returned_setup()
