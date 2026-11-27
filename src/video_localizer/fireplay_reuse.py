@@ -10,7 +10,7 @@ from urllib.error import URLError
 from urllib.parse import urlsplit
 
 from . import bundles, delivery_layout, fireplay, fireplay_reuse_index, languages, media
-from .common import ROOT, WorkflowError, file_hash, inside, lock, object_hash, read_json, require, utc_now, write_json
+from .common import ROOT, WorkflowError, file_hash, inside, lock, object_hash, read_json, require, require_number, utc_now, write_json
 from .fireplay_publication import publication_decision, require_clear
 
 
@@ -305,6 +305,10 @@ def search(code, spec=None, index=1, root=ROOT, *, profile='full'):
     matches, index_state = ([], 'bypassed') if continuing_remote or trace.get('skip_local') is True else (
         fireplay_reuse_index.discover(record, video, root))
     local = {'local_index_state': index_state, 'local_lookup_ms': round((perf_counter() - started) * 1000, 2)}
+    if index_state != 'bypassed' and 'local_deliveries' not in trace:
+        observation = _state(code, scope, root) / 'first-local-lookup.json'
+        if not observation.is_file():
+            write_json(observation, {**scope, **local, 'local_index_match': bool(matches)})
     if 'local_deliveries' in trace:
         require(matches, 'Local delivery receipts need an indexed match')
         report = _local_report(matches, trace['local_deliveries'], root)
@@ -375,7 +379,7 @@ def preflight(code, spec, index=1, root=ROOT):
         fallback = spec.get('fallback')
         if fallback is not None:
             require(isinstance(fallback, dict) and fallback.get('kind') in
-                    ('platform_unavailable', 'lookup_incomplete', 'candidate_review_limit')
+                    ('platform_unavailable', 'platform_timeout', 'lookup_incomplete', 'candidate_review_limit')
                     and isinstance(fallback.get('reason'), str) and fallback['reason'].strip(),
                     'Record the actual lookup or review limitation')
         searches, candidates = [], {}
@@ -403,7 +407,7 @@ def preflight(code, spec, index=1, root=ROOT):
             searches.append({'sha256': digest, 'profile': receipt['profile'], 'state': state})
         require(not missing or final_lookup or fallback,
                 'Finish the quick platform lookup or record the actual bounded fallback')
-        require(not missing or searches or (fallback and fallback['kind'] == 'platform_unavailable'),
+        require(not missing or searches or (fallback and fallback['kind'] in ('platform_unavailable', 'platform_timeout')),
                 'Use real saved lookup receipts or record why platform lookup could not run')
         dispositions = spec.get('candidate_dispositions', [])
         require(isinstance(dispositions, list), 'Candidate dispositions must be a list')
@@ -418,10 +422,21 @@ def preflight(code, spec, index=1, root=ROOT):
                   for locale in (missing if candidate.get('origin') == 'upstream_original'
                                  else missing.intersection(candidate.get('locales_from_tags', [])))}
         require(likely <= decided or fallback, 'Record dispositions for relevant candidates or the review limit')
+        measured = spec.get('timing', {})
+        require(isinstance(measured, dict) and measured.keys() <= {'platform_ms', 'preflight_ms'},
+                'Timing supports only measured platform_ms and preflight_ms')
+        timing = {key: require_number(value, key) for key, value in measured.items()}
+        require(not {'platform_ms', 'preflight_ms'} <= timing.keys()
+                or timing['platform_ms'] <= timing['preflight_ms'], 'Platform wait exceeds measured preflight duration')
+        observation = _state(code, scope, root) / 'first-local-lookup.json'
+        if observation.is_file():
+            local = read_json(observation)
+            if all(local.get(key) == value for key, value in scope.items()):
+                timing.update({key: local[key] for key in ('local_index_state', 'local_index_match', 'local_lookup_ms')})
         decision = {**scope, 'targets': video['targets'], 'prepared_reuse_locales': reused,
                     'production_locales': [locale for locale in video['targets'] if locale in missing],
                     'searches': searches, 'candidate_dispositions': dispositions, 'fallback': fallback,
-                    'recorded_at': utc_now()}
+                    'timing': timing, 'recorded_at': utc_now()}
         path = _preflight_path(code, scope, root)
         write_json(path, decision)
         return {'state': 'reuse_preflight_recorded', **decision,
@@ -439,6 +454,17 @@ def preflight_digest(code, record, video, reused, root):
             and set(decision['prepared_reuse_locales']) <= set(reused)):
         return file_hash(path)
     return None
+
+
+def record_reuse_only_start(code, record, video, preflight, locales, root):
+    path = _state(code, _scope(record, video), root) / f'reuse-only-start-{preflight}.json'
+    value = {'reuse_preflight_sha256': preflight, 'historical_reuse_locales': sorted(locales)}
+    if path.is_file():
+        previous = read_json(path)
+        require(all(previous.get(key) == item for key, item in value.items()),
+                'Reuse-only start already has a different frozen decision')
+        return
+    write_json(path, {**value, 'created_at': utc_now()})
 
 
 def _digest(value):

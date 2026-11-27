@@ -292,8 +292,8 @@ def main(argv=None):
     command.add_argument('spec')
     command = commands.add_parser('fireplay-reuse', help='Discover, capture and prepare a reviewed historical Fireplay translation')
     command.add_argument('code')
-    command.add_argument('action', choices=['search', 'capture', 'package', 'preflight'])
-    command.add_argument('--video', type=int, default=1)
+    command.add_argument('action', choices=['search', 'capture', 'package', 'preflight', 'audit'])
+    command.add_argument('--video', type=int, help='Default: 1, or all sources for audit')
     command.add_argument('--spec', help='Workspace path to the actual connector receipts or review')
     command.add_argument('--profile', choices=['quick', 'full'], default='full',
                          help='Search with the fast default production route or include exact YouTube link reverse lookup')
@@ -589,11 +589,18 @@ def main(argv=None):
                 result = review(args.code, args.spec, ROOT)
             elif name == 'fireplay-reuse':
                 from . import fireplay_reuse
-                require(args.spec or args.action == 'search', 'Capture, package and preflight require --spec')
-                operation = {'search': fireplay_reuse.search, 'capture': fireplay_reuse.capture,
-                             'package': fireplay_reuse.package, 'preflight': fireplay_reuse.preflight}[args.action]
-                options = {'profile': args.profile} if args.action == 'search' else {}
-                result = operation(args.code, inside(ROOT, args.spec) if args.spec else None, args.video, ROOT, **options)
+                if args.action == 'audit':
+                    from .fireplay_reuse_audit import audit
+                    require(not args.spec and not (args.code == 'ALL' and args.video is not None),
+                            'Audit uses CODE with an optional --video, or ALL without --video or --spec')
+                    result = audit(args.code, args.video, ROOT)
+                else:
+                    require(args.spec or args.action == 'search', 'Capture, package and preflight require --spec')
+                    operation = {'search': fireplay_reuse.search, 'capture': fireplay_reuse.capture,
+                                 'package': fireplay_reuse.package, 'preflight': fireplay_reuse.preflight}[args.action]
+                    options = {'profile': args.profile} if args.action == 'search' else {}
+                    result = operation(args.code, inside(ROOT, args.spec) if args.spec else None,
+                                       args.video if args.video is not None else 1, ROOT, **options)
             elif name == 'fireplay-close':
                 from .fireplay_submission import close_delivery
                 result = close_delivery(args.code, ROOT)

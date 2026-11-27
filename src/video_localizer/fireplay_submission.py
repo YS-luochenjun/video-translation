@@ -5,7 +5,7 @@ from .common import ROOT, file_hash, object_hash, read_json, require, utc_now, w
 
 
 
-def _canonical_materials(value, *, include_prior_binding=False):
+def _canonical_materials(value, *, include_prior_binding=False, require_bound_ids=False):
     from . import fireplay
     operations = value.get('operations', {})
     bind = operations.get('bind', {})
@@ -19,6 +19,8 @@ def _canonical_materials(value, *, include_prior_binding=False):
             return []
     rows = []
     bound_ids = bind.get('result', {}).get('material_ids')
+    if require_bound_ids and not isinstance(bound_ids, list):
+        return []
     for i, package in fireplay._active_packages(value):
         imported = operations.get(f'import-{i}', {})
         verified = operations.get(f'verify-{i}', {})

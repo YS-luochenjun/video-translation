@@ -907,7 +907,7 @@ def start(code, authority, index=1, root=ROOT):
         batch_path = Path(root) / 'state/batches' / (batch_id + '.json')
         reuse_preflight = None
         if authority.get('pilot_targets') is None:
-            from .fireplay_reuse import is_linked_rework, preflight_digest, prepared_locales
+            from .fireplay_reuse import is_linked_rework, preflight_digest, prepared_locales, record_reuse_only_start
             if batch_path.exists():
                 reused = read_json(batch_path).get('historical_reuse_locales', [])
             else:
@@ -924,6 +924,8 @@ def start(code, authority, index=1, root=ROOT):
                                             f'preflight --spec FILE --video {index} before starting this batch'}
             selected_targets = [locale for locale in selected_targets if locale not in reused]
             if not selected_targets:
+                if reuse_preflight:
+                    record_reuse_only_start(code, record, video, reuse_preflight, reused, root)
                 return {**status(code, root), 'state': 'reuse_ready',
                         'next': 'Continue the ordinary Fireplay return and verify the actual binding'}
         else:

@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from test_fireplay import CODE, MID, PROJECT, RESOURCE, RID, THREAD, URL, fixture
-from video_localizer import bundles, fireplay, fireplay_reuse, fireplay_reuse_index, fireplay_submission, library, media, workflow
+from video_localizer import bundles, fireplay, fireplay_reuse, fireplay_reuse_audit, fireplay_reuse_index, fireplay_submission, library, media, workflow
 from video_localizer.common import WorkflowError, file_hash, object_hash, read_json, utc_now, write_json
 
 
@@ -70,6 +70,25 @@ class HistoricalFireplayTests(unittest.TestCase):
             self.assertEqual(fireplay.start(CODE, AUTHORITY, root=self.root)['budget'], first['budget'])
         batch = read_json(self.root / 'state/batches' / f'{CODE}.json')
         self.assertIn('reuse_preflight_sha256', batch)
+
+    def test_audit_distinguishes_timeout_from_missing_timing(self):
+        self.register(dedicated=True)
+        fireplay_reuse.search(CODE, root=self.root, profile='quick')
+        spec = {'fallback': {'kind': 'platform_timeout', 'reason': 'Offline timeout fixture'},
+                'timing': {'platform_ms': 120000, 'preflight_ms': 120030}}
+        with self.assertRaisesRegex(WorkflowError, 'exceeds'):
+            fireplay_reuse.preflight(CODE, {**spec, 'timing': {'platform_ms': 120000, 'preflight_ms': 1}},
+                                    root=self.root)
+        decision = fireplay_reuse.preflight(CODE, spec, root=self.root)
+        self.assertIn('local_lookup_ms', decision['timing'])
+        result = fireplay_reuse_audit.audit('ALL', root=self.root)
+        self.assertEqual(result['outcomes'], {'platform_timeout': 1})
+        self.assertEqual(result['timing_by_outcome']['platform_timeout']['platform_ms'],
+                         {'samples': 1, 'median_ms': 120000})
+        fireplay_reuse.preflight(CODE, {'fallback': spec['fallback']}, root=self.root)
+        result = fireplay_reuse_audit.audit(CODE, root=self.root)
+        self.assertNotIn('platform_ms', result['timing_by_outcome']['platform_timeout'])
+        self.assertEqual(result['sources_with_verified_skip_and_bind'], 0)
 
     def search(self, *, keyword=False, relation='source', description=URL, tags=None, delivered_url=None,
                status='done', selection=None):
@@ -499,6 +518,17 @@ class HistoricalFireplayTests(unittest.TestCase):
         self.assertEqual(read_json(self.root / 'state/budgets' / (first['budget'] + '.json'))['credit_limit'], 120)
         self.assertFalse((self.root / 'runs' / f'{CODE}-01').exists())
         self.accept_return(1, NEW_MATERIAL, [NEW_MATERIAL])
+        audit = fireplay_reuse_audit.audit(CODE, root=self.root)
+        self.assertEqual(audit['sources'][0]['verified_skip_and_bind_locales'], ['es'])
+        self.assertEqual(audit['outcomes'], {'partial_reuse': 1})
+        self.assertEqual(audit['sources'][0]['fallback'], 'lookup_incomplete')
+        batch_path = self.root / 'state/batches' / f'{CODE}.json'
+        batch = read_json(batch_path)
+        write_json(batch_path, {**batch, 'reuse_preflight_sha256': '0' * 64})
+        audit = fireplay_reuse_audit.audit(CODE, root=self.root)
+        self.assertEqual(audit['sources'][0]['bound_reuse_locales'], ['es'])
+        self.assertEqual(audit['sources_with_verified_skip_and_bind'], 0)
+        write_json(batch_path, batch)
         self.assertFalse(fireplay.status(CODE, self.root)['completion_gate']['can_close'])
         fresh_video = self.root / 'work/fresh.mp4'
         fresh_video.write_bytes(b'Synthetic already reviewed Korean cut')
@@ -534,6 +564,18 @@ class HistoricalFireplayTests(unittest.TestCase):
         self.assertIsNone(status['budget'])
         self.assertFalse(status['completion_gate']['can_close'])
         self.accept_return(1, NEW_MATERIAL, [NEW_MATERIAL])
+        audit = fireplay_reuse_audit.audit(CODE, root=self.root)
+        self.assertEqual(audit['sources'][0]['verified_skip_and_bind_locales'], ['es'])
+        self.assertEqual(audit['outcomes'], {'full_reuse': 1})
+        return_path = self.root / 'state/fireplay' / CODE / 'return-1.json'
+        outbox = read_json(return_path)
+        unverified = read_json(return_path)
+        del unverified['operations']['bind']['result']['material_ids']
+        write_json(return_path, unverified)
+        audit = fireplay_reuse_audit.audit(CODE, root=self.root)
+        self.assertEqual(audit['sources'][0]['bound_reuse_locales'], [])
+        self.assertEqual(audit['sources_with_verified_skip_and_bind'], 0)
+        write_json(return_path, outbox)
         self.assertTrue(fireplay_submission.close_delivery(CODE, self.root)['complete'])
 
     @unittest.skipUnless(media.tools_available(), 'FFmpeg and ffprobe required for real media fixtures')
