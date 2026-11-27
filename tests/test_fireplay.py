@@ -891,6 +891,13 @@ class FireplayTests(unittest.TestCase):
         self.snap['brief']['items'][0]['description'] += '\nhttps://youtu.be/Z6AJoQe5wI0'
         self.assertEqual(len(self.register()['videos']), 1)
 
+    def test_bare_youtube_id_in_requirement(self):
+        self.snap['brief']['items'][0]['description'] = 'YouTube-ID: YtFixture01\nhttps://youtu.be/YtFixture01'
+        videos = self.register()['videos']
+        self.assertEqual(len(videos), 1)
+        self.assertEqual(videos[0]['youtube_video_id'], 'YtFixture01')
+        self.assertEqual(videos[0]['source_url'], 'https://www.youtube.com/watch?v=YtFixture01')
+
     def test_multiple_videos_have_numbered_titles_with_all_languages(self):
         self.snap['brief']['items'][0]['description'] += '\nhttps://youtu.be/OqVXEjB8tRs'
         self.snap['brief']['items'][0]['quantity'] = 4

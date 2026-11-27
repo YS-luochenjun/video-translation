@@ -65,7 +65,7 @@ def youtube_id(url):
     if host in ('youtube.com', 'www.youtube.com', 'm.youtube.com'):
         parts = parsed.path.strip('/').split('/')
         video = parse_qs(parsed.query).get('v', [None])[0] if parsed.path == '/watch' else (
-            parts[1] if len(parts) == 2 and parts[0] in ('shorts', 'embed') else None)
+            parts[1] if len(parts) == 2 and parts[0] in ('shorts', 'embed', 'live') else None)
     elif host == 'youtu.be':
         video = parsed.path.strip('/')
     return video if video and re.fullmatch(r'[A-Za-z0-9_-]{11}', video) else None
@@ -80,7 +80,11 @@ def _rows(response, code):
 def _text_sources(brief, fields):
     text = '\n'.join(str(brief.get(field) or '') for field in fields)
     sources, seen = [], set()
-    for url in re.findall(r'https://[^\s<>"\]】）)]+', text):
+    pattern = (r'https://[^\s<>"\]】）)]+'
+               r'|(?im:^[ \t]*(?:youtube[ \t_-]*id[ \t]*[:：][ \t]*)?'
+               r'(?P<bare_id>[A-Za-z0-9_-]{11})[ \t]*$)')
+    for match in re.finditer(pattern, text):
+        url = f"https://www.youtube.com/watch?v={match['bare_id']}" if match['bare_id'] else match.group()
         url = url.rstrip('.,;，。；')
         video_id = youtube_id(url)
         pinterest_id = pin_id(url)
@@ -713,6 +717,7 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT, *, release_rese
     from .fireplay_parallel import active_sources, slot_lock, capacity, policy as parallel_policy
     from .fireplay_status_transition import confirmed, policy as status_policy
     from .fireplay_submission import coverage
+    from .fireplay_reuse import is_linked_rework
     with slot_lock(root), lock(path.with_suffix('.lock')):
         record = _record(code, root)
         video = _video(record, index)
@@ -761,6 +766,14 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT, *, release_rese
         from .fireplay_youtube import instruction as youtube_instruction
         from .fireplay_materials import attribution_instruction
         from .fireplay_parallel import instruction as parallel_instruction
+        linked_rework = is_linked_rework(record)
+        reuse_instruction = ('这是原需求驳回后创建的返工单。按驳回原因及问题素材确认本次返工范围，'
+                             '跳过历史成片复用，交付已修正并实际复审的版本。'
+                             if linked_rework else '')
+        if not linked_rework and settings.get('historical_translation_reuse', {}).get('enabled') is True:
+            reuse_instruction = (f'新原片在付费制作前按工作流运行 fireplay-reuse {code} search --video {index}。'
+                                 '若来片是旧译片且需求语言就是旧原片语言，优先核验旧原片并准备回传。'
+                                 '有界核验候选，先准备和提交可复用成品；查不到、超时或不合用的语种照常制作。')
         packet = {'title': title, 'video_index': index, 'project_path': str(Path(root).resolve()),
                   'targets': record['targets'] if per_requirement else video['targets'], 'state': 'prepared',
                   'host_actions': ['list_projects: match this workspace', 'create_thread: project/local',
@@ -776,9 +789,11 @@ def chat(code, receipt=None, index=1, dispatch=False, root=ROOT, *, release_rese
                              f'运行 doctor，并用验证通过的Python执行 fireplay-status {code}。'
                              '不能仅回复尚未完成、声称无工具而不实际尝试，或因为建聊回执尚在登记就结束首轮。'
                              + parallel_instruction(root, legacy=per_requirement) +
+                             (reuse_instruction if per_requirement and linked_rework else '') +
                              ('' if per_requirement else
                               f'\n只处理原片 {index}；所有带 --video 的接入和回传命令明确加 --video {index}，回传规格填 video_index={index}。'
                               '工作台与本聊天并行完成真实绑定；绑定尚未登记时先执行不依赖绑定的本地检查，再读取fireplay-status确认。'
+                              + reuse_instruction +
                               f'绑定就绪后立即执行 fireplay-start {code} state/fireplay/{code}/monitor-authority.json --video {index}'
                               '（若为人工接入则使用对应真实授权文件），沿原账本继续实际制作。'
                               '若仍有具体启动阻塞，记录实际命令、错误及待恢复步骤，不把正常交接当制作终止。有待交语种时保留本原片现场。'
@@ -885,6 +900,20 @@ def start(code, authority, index=1, root=ROOT):
         require(video.get('source'), 'Download and probe the original first')
         original = inside(root, video['source']['path'])
         require(file_hash(original) == video['source']['sha256'], 'Source changed before batch creation')
+        batch_id = video['title']
+        batch_path = Path(root) / 'state/batches' / (batch_id + '.json')
+        if authority.get('pilot_targets') is None:
+            from .fireplay_reuse import prepared_locales
+            if batch_path.exists():
+                reused = read_json(batch_path).get('historical_reuse_locales', [])
+            else:
+                reused = prepared_locales(code, record, video, root)
+            selected_targets = [locale for locale in selected_targets if locale not in reused]
+            if not selected_targets:
+                return {**status(code, root), 'state': 'reuse_ready',
+                        'next': 'Continue the ordinary Fireplay return and verify the actual binding'}
+        else:
+            reused = []
         budget_source_index = record.get('budget_source_index', 1)
         if record.get('budget'):
             budget = budgets.status(record['budget'], root)
@@ -900,7 +929,7 @@ def start(code, authority, index=1, root=ROOT):
                 root, _video(record, budget_source_index)['source']['path'])
             budget = budgets.open_request({**authority, 'scope_requirement': code,
                                            'source': str(budget_source),
-                                           'targets': record['targets'] if dedicated and len(record['videos']) > 1
+                                           'targets': record['targets'] if reused or (dedicated and len(record['videos']) > 1)
                                            else selected_targets}, root)
             record['budget'] = budget['id']
         record['funded_targets'] = budget.get('budget_basis', {}).get('targets', record['targets'])
@@ -908,8 +937,6 @@ def start(code, authority, index=1, root=ROOT):
         kie_consent(code, authority, root)
         if index != budget_source_index:
             budgets.attach_source(record['budget'], original, authority['authorization_ref'], root)
-        batch_id = video['title']
-        batch_path = Path(root) / 'state/batches' / (batch_id + '.json')
         members = [f'{batch_id}-{video["targets"].index(lang) + 1:02d}' for lang in selected_targets]
         if batch_path.exists():
             batch = read_json(batch_path)
@@ -923,7 +950,8 @@ def start(code, authority, index=1, root=ROOT):
             batch = {'schema_version': 1, 'id': batch_id, 'source_sha256': video['source']['sha256'],
                      'created_at': utc_now(), 'credit_limit': budget['credit_limit'], 'reused_budget': budget['mode'] == 'reuse',
                      'pilot': members[0], 'members': members, 'targets': selected_targets,
-                     'request_budget': record['budget'], 'state': 'initializing'}
+                     'request_budget': record['budget'], 'state': 'initializing',
+                     **({'historical_reuse_locales': reused} if reused else {})}
             write_json(batch_path, batch)
         # Checkpoint each complete run; partial create_run failures remain visible.
         for name, language in zip(members, selected_targets):
@@ -988,6 +1016,7 @@ def prepare_return(code, spec, root=ROOT):
     """Freeze reviewed deliveries; explicit partial batches retain pending locales."""
     from . import bundles
     from .fireplay_publication import require_clear
+    from .fireplay_reuse import PACKAGE_KIND, eligibility as reuse_eligibility
     spec = payload(spec)
     index = spec.get('video_index', 1)
     require(isinstance(index, int) and not isinstance(index, bool) and index > 0, 'Invalid return video index')
@@ -1045,6 +1074,7 @@ def prepare_return(code, spec, root=ROOT):
         seen = set()
         hashes = {}
         for item in spec['packages']:
+            require('historical_reuse' not in item, 'Historical provenance is read from the verified package')
             key = (item['video_index'], item['locale'])
             require(key in expected and key not in seen, 'Duplicate or unexpected deliverable')
             seen.add(key)
@@ -1060,17 +1090,20 @@ def prepare_return(code, spec, root=ROOT):
             quality_records = [read_json(inside(folder, asset['path'])) for asset in manifest['files']
                                if asset['path'] == 'payload/outputs/quality.json' or
                                (asset['path'].startswith('payload/outputs/quality-history/') and asset['path'].endswith('.json'))]
-            if record.get('delivery_specifications'):
+            reused = (reuse_eligibility(code, record, video, item, folder, manifest, root)
+                      if manifest['kind'] == PACKAGE_KIND else None)
+            if record.get('delivery_specifications') and not reused:
                 from .fireplay_revision import verify_delivery_specifications
                 verify_delivery_specifications(record['delivery_specifications'], movie, quality_records,
                                                meta['video_sha256'])
             acceptance = None
-            if manifest['kind'] == 'delivery' and meta['status'] == 'delivered' and meta['technical_decision'] == 'pass':
-                require(any(q.get('decision') == 'pass' and q.get('video_sha256') == meta['video_sha256'] for q in quality_records),
-                        'Delivery package needs its video-hash-bound quality record, not only a metadata pass label')
-            else:
-                from .fireplay_publication import eligible
-                acceptance = eligible(code, folder, manifest, root)
+            if not reused:
+                if manifest['kind'] == 'delivery' and meta['status'] == 'delivered' and meta['technical_decision'] == 'pass':
+                    require(any(q.get('decision') == 'pass' and q.get('video_sha256') == meta['video_sha256'] for q in quality_records),
+                            'Delivery package needs its video-hash-bound quality record, not only a metadata pass label')
+                else:
+                    from .fireplay_publication import eligible
+                    acceptance = eligible(code, folder, manifest, root)
             require_clear(code, meta['source_sha256'], meta['video_sha256'], root)
             relative_movie = str(movie.relative_to(root))
             frozen_route = frozen_routes.get((*key, relative_movie, meta['video_sha256']))
@@ -1090,6 +1123,7 @@ def prepare_return(code, spec, root=ROOT):
             packages.append({**item, 'sha256': meta['video_sha256'], 'manifest_sha256': file_hash(folder / 'manifest.json'),
                              'file': relative_movie, 'name': display_name + suffix, 'display_name': display_name,
                              **metadata,
+                             **({'historical_reuse': reused} if reused else {}),
                              **({'publication_acceptance': acceptance} if acceptance else {}),
                              **({'upload_route': upload_route} if upload_route != 'bytes' else {})})
             if old_package and prior.get('operations') and not spec.get('repair_revision'):
@@ -1249,6 +1283,11 @@ def _verify_frozen_package(code, record, item, root, hashes):
             'Reviewed deliverable changed')
     video = _video(record, item['video_index'])
     require_clear(code, video['source']['sha256'], item['sha256'], root)
+    if item.get('historical_reuse'):
+        from . import bundles
+        from .fireplay_reuse import eligibility
+        require(eligibility(code, record, video, item, folder, bundles.verify(folder, hashes=hashes), root)
+                == item['historical_reuse'], 'Historical reuse evidence changed after return preparation')
     if item.get('publication_acceptance'):
         from . import bundles
         from .fireplay_publication import eligible
@@ -1887,6 +1926,11 @@ def status(code, root=ROOT):
     result['returns'] = {index: ('partially_returned' if box['state'] == 'returned'
                                 and box.get('pending_locales') else box['state']) for index, box in boxes.items()}
     result['return_pending_locales'] = {index: box.get('pending_locales', []) for index, box in boxes.items()}
+    result['historical_translation_reuse'] = {
+        index: [{'locale': item['locale'], **item['historical_reuse']} for item in box['packages']
+                if item.get('historical_reuse')] for index, box in boxes.items()
+        if box.get('content_version') == record['content_version']
+        and any(item.get('historical_reuse') for item in box['packages'])}
     from .fireplay_submission import coverage, completion_gate
     result['delivery_coverage'] = {v['index']: coverage(record, v, root) for v in record['videos']}
     result['submission_complete'] = all(v['complete'] for v in result['delivery_coverage'].values())

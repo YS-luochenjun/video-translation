@@ -290,6 +290,11 @@ def main(argv=None):
     command = commands.add_parser('fireplay-publication-review', help='Record actual minor/major output review without changing internal quality')
     command.add_argument('code')
     command.add_argument('spec')
+    command = commands.add_parser('fireplay-reuse', help='Discover, capture and prepare a reviewed historical Fireplay translation')
+    command.add_argument('code')
+    command.add_argument('action', choices=['search', 'capture', 'package'])
+    command.add_argument('--video', type=int, default=1)
+    command.add_argument('--spec', help='Workspace path to the actual connector receipts or review')
     command = commands.add_parser('fireplay-youtube-route', help='Bind an observed explicit YouTube account selection to the exact next video import')
     command.add_argument('code')
     command.add_argument('spec')
@@ -580,6 +585,12 @@ def main(argv=None):
             elif name == 'fireplay-publication-review':
                 from .fireplay_publication import review
                 result = review(args.code, args.spec, ROOT)
+            elif name == 'fireplay-reuse':
+                from . import fireplay_reuse
+                require(args.spec or args.action == 'search', 'Capture and package require --spec')
+                operation = {'search': fireplay_reuse.search, 'capture': fireplay_reuse.capture,
+                             'package': fireplay_reuse.package}[args.action]
+                result = operation(args.code, inside(ROOT, args.spec) if args.spec else None, args.video, ROOT)
             elif name == 'fireplay-close':
                 from .fireplay_submission import close_delivery
                 result = close_delivery(args.code, ROOT)

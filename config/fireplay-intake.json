@@ -1,5 +1,8 @@
 {
   "schema_version": 1,
+  "historical_translation_reuse": {
+    "enabled": true
+  },
   "youtube_source_backup": {
     "try_local_first": true,
     "authority": "user",

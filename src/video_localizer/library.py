@@ -265,6 +265,10 @@ def _export(run, root, video_sha256=None, reuse_manifests=()):
 
 
 def _register(root, run, folder, manifest, delivery_identity, managed, existed):
+    return register_package(root, folder, manifest, delivery_identity, managed, existed)
+
+
+def register_package(root, folder, manifest, delivery_identity, managed, existed):
     """Keep first archive identity/order; only the newest entry owns the final view."""
     from . import delivery_layout
     metadata = manifest['metadata']
